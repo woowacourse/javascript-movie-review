@@ -1,7 +1,7 @@
-import { DEFAULT_BACK_DROP_URL } from "../constants";
-import { MovieResult } from "../types";
+import { DEFAULT_BACK_DROP_URL } from "@/lib/constants";
+import { MovieResult } from "@/lib/types";
 
-import { html } from "../utils";
+import { html } from "@/lib/utils";
 import Component from "./core/Component";
 
 interface ThumbnailListProps {

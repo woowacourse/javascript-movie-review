@@ -1,8 +1,8 @@
-import { getMovieByName, getMovies } from "../apis/MovieApi";
-import MovieListSkeleton from "../components/MovieListSkeleton";
-import { DEFAULT_BACK_DROP_URL, MAX_MOVIE_PAGE } from "../constants";
-import { store } from "../store";
-import { $, createElement } from "../utils";
+import { getMovieByName, getMovies } from "@/apis/MovieApi";
+import MovieListSkeleton from "@/components/MovieListSkeleton";
+import { DEFAULT_BACK_DROP_URL, MAX_MOVIE_PAGE } from "@/lib/constants";
+import { store } from "@/store";
+import { $, createElement } from "@/lib/utils";
 
 const renderTotalList = async () => {
   const moviesResponse = await getMovies({ page: store.page });

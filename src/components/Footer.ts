@@ -1,4 +1,4 @@
-import { html } from "../utils";
+import { html } from "@/lib/utils";
 import Component from "./core/Component";
 
 export default class Footer extends Component {

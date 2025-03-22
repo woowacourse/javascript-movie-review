@@ -1,12 +1,8 @@
-import { MovieResult, MoviesResponse } from "@/types";
-import { html, isElement, isHTMLFormElement } from "../utils";
-import Movies from "./Movies";
-import Component from "./core/Component";
-import Footer from "./Footer";
-import Header from "./Header";
 import { getMovies } from "@/apis/MovieApi";
-import { store } from "@/store";
-import { renderMoviesList } from "@/domains/renderMoviesList";
+import { MovieResult, MoviesResponse } from "@/lib/types";
+import { html, isElement } from "./lib/utils";
+import { Component } from "./components/core";
+import { Footer, Header, Movies } from "./components";
 
 interface AppState {
   page: number;

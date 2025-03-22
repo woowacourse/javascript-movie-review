@@ -1,5 +1,5 @@
-import App from "./components/App";
-import { $ } from "./utils";
+import App from "./App";
+import { $ } from "./lib/utils";
 
 addEventListener("load", async () => {
   $("#app").appendChild(new App().render());

@@ -1,5 +1,5 @@
-import { MoviesResponse } from "../types";
-import { DOMAIN_TMDB } from "../constants";
+import { MoviesResponse } from "@/lib/types";
+import { DOMAIN_TMDB } from "@/lib/constants";
 
 const options = {
   method: "GET",

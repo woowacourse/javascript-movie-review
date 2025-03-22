@@ -1,5 +1,5 @@
-import { MovieResult, MoviesResponse } from "@/types";
-import { html } from "@/utils";
+import { MovieResult, MoviesResponse } from "@/lib/types";
+import { html } from "@/lib/utils";
 import Component from "./core/Component";
 import ThumbnailList from "./ThumbnailList";
 
