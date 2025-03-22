@@ -41,7 +41,7 @@ class MovieGrid {
     this.#listElement = $({ root: this.#container, selector: '.thumbnail-list' }) as HTMLElement | null;
     newItems.forEach((movieItem) => {
       const item = new MovieItem({ data: movieItem });
-      if (!this.#listElement) throw new Error('listElement아 존재하지 않습니다.');
+      if (!this.#listElement) throw new Error('listElement가 존재하지 않습니다.');
       this.#listElement.insertAdjacentHTML('beforeend', item.element.outerHTML);
     });
   }
