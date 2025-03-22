@@ -1,7 +1,7 @@
 import { SYSTEM_CONSTANTS } from '../constants/systemConstants';
 import { redirectToPage } from '../route/router';
 
-interface MovieListJSON {
+interface MovieItem {
   id: number;
   title: string;
   original_title: string;
@@ -20,7 +20,7 @@ interface MovieListJSON {
 
 export async function extractedeData(url: string) {
   const movieJSON = await fetchMovieList(url);
-  const movieListData = movieJSON.results.map((movieItem: MovieListJSON) => ({
+  const movieListData = movieJSON.results.map((movieItem: MovieItem) => ({
     title: movieItem.title,
     imgUrl: `${SYSTEM_CONSTANTS.BASE_IMG_URL}${movieItem.poster_path}`,
     score: Number(movieItem.vote_average.toFixed(1)),
