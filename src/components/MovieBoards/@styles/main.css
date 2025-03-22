@@ -1,4 +1,4 @@
-@import "./colors.css";
+/* @import "./colors.css"; */
 
 * {
   box-sizing: border-box;
@@ -12,18 +12,33 @@ a {
 body {
   font-size: 16px;
   color: var(--color-white);
-  background-color: var(--color-bluegray-80);
-}
-
-#wrap,
-section {
+  background-color: var(--color-bluegray-100);
+  height: 100dvh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+}
+
+#wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-bluegray-100);
+}
+
+.search-movie-list-container {
+  padding-top: 100px;
+}
+
+.movie-list-container {
+  width: min(1440px, 100%);
+  margin: auto;
+  display: flex;
+  flex-direction: column;
 }
 
 main {
-  margin: 64px 0;
+  margin-bottom: 64px;
+  flex: 1;
 }
 
 .star {
@@ -41,22 +56,6 @@ button.primary {
   font-weight: bold;
   background-color: var(--color-lightblue-90);
   border-radius: 4px;
-}
-
-#wrap {
-  min-width: 1440px;
-  background-color: var(--color-bluegray-100);
-}
-
-#wrap h2 {
-  font-size: 1.4rem;
-  font-weight: bold;
-  margin-bottom: 32px;
-}
-
-.container {
-  max-width: 1280px;
-  margin: 0 auto;
 }
 
 .background-container {
@@ -80,27 +79,29 @@ button.primary {
 .top-rated-container {
   user-select: none;
   position: relative;
-  z-index: 2;
-  max-width: 1280px;
   margin: 0 auto;
+}
+.movie-list-container h2 {
+  font-size: 2rem;
+  font-weight: 900;
+  margin-block: 60px;
 }
 
 .top-rated-movie {
-  margin-top: 64px;
+  position: absolute;
+  z-index: 2;
+  margin-top: 100px;
 }
 
 .top-rated-movie > *:not(:last-child) {
   margin-bottom: 8px;
 }
 
-h1.logo {
-  font-size: 2rem;
-}
-
 .rate {
   display: flex;
   align-items: baseline;
   color: var(--color-yellow);
+  z-index: 100;
 }
 
 .rate > img {
@@ -119,16 +120,16 @@ span.rate-value {
   font-weight: bold;
 }
 
-footer.footer {
-  min-height: 180px;
-  background-color: var(--color-bluegray-80);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  text-align: center;
-  font-size: 1.1rem;
+.more-movies-button {
+  background-color: var(--color-lightblue-90);
+  color: var(--color-white);
+  font-weight: 600;
+  font-size: 24px;
+  width: 100%;
+  border-radius: 10px;
 }
 
-footer.footer p:not(:last-child) {
-  margin-bottom: 8px;
+.more-movies-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
