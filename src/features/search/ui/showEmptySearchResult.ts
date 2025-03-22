@@ -1,3 +1,4 @@
+import MoreMoviesButton from "../../../shared/ui/components/MoreMoviesButton";
 import EmptySearchResult from "./components/EmptySearchResult";
 
 export function showEmptySearchResult() {
@@ -10,6 +11,6 @@ export function showEmptySearchResult() {
     $movieContainer?.appendChild(EmptySearchResult());
   }
 
-  const $moreMoviesButton = document.getElementById("more-movies-button");
+  const $moreMoviesButton = MoreMoviesButton();
   $moreMoviesButton?.classList.add("disabled");
 }

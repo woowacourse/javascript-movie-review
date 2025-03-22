@@ -1,6 +1,7 @@
 import MovieCard from "../../features/movie/ui/components/MovieCard";
 import { showEmptySearchResult } from "../../features/search/ui/showEmptySearchResult";
 import { IMovie } from "../types/movies";
+import MoreMoviesButton from "./components/MoreMoviesButton";
 
 export function addMovieCard(
   movieList: IMovie[],
@@ -15,7 +16,7 @@ export function addMovieCard(
   const $emptySearchResult = document.querySelector(
     ".empty-search-result-container"
   );
-  const $moreMoviesButton = document.getElementById("more-movies-button");
+  const $moreMoviesButton = MoreMoviesButton();
 
   if ($emptySearchResult) {
     $emptySearchResult.remove();

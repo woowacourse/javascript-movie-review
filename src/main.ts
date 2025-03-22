@@ -2,10 +2,11 @@ import { getMovieList } from "./features/movie/api/getMovieList";
 import Header from "./shared/ui/components/Header";
 import { CustomButton } from "./shared/ui/components/CustomButton";
 import { showSkeletons } from "./shared/ui/showSkeletons";
-import { addMovieCard } from "./shared/ui/addMovieCard";
 import { addMoreMovies } from "./shared/domain/addMoreMovies";
 import { searchFormSubmitHandler } from "./features/search/ui/searchFormSubmitHandler";
 import { removeSkeletons } from "./shared/ui/removeSkeletons";
+import { addMovieCard } from "./shared/ui/addMovieCard";
+import MoreMoviesButton from "./shared/ui/components/MoreMoviesButton";
 
 addEventListener("DOMContentLoaded", async () => {
   const $movieList = document.querySelector(".thumbnail-list") as HTMLElement;
@@ -29,7 +30,7 @@ addEventListener("DOMContentLoaded", async () => {
   addMoreMoviesButton.id = "more-movies-button";
   $movieContainer?.appendChild(addMoreMoviesButton);
 
-  const $moreMoviesButton = document.getElementById("more-movies-button");
+  const $moreMoviesButton = MoreMoviesButton();
   $moreMoviesButton?.addEventListener("click", async () => {
     showSkeletons($movieList);
     if ($movieList) {
