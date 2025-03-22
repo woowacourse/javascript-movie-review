@@ -2,7 +2,6 @@
 
 describe("메인 화면 테스트", () => {
   beforeEach(() => {
-    // https://docs.cypress.io/api/commands/intercept
     cy.intercept(
       {
         method: "GET",
@@ -16,11 +15,10 @@ describe("메인 화면 테스트", () => {
 
   it("영화 목록 API를 호출하면 한 번에 20개씩 목록에 나열되어야 한다", () => {
     cy.wait("@getPopularMovies").then((interception) => {
-      const popularMovies = interception.response.body.results;
+      const popularMovies = interception.response?.body.results;
       cy.wrap(popularMovies).should("have.length", 20);
 
       const popularMovieItems = cy.get(".thumbnail-list > li");
-      // expect(popularMovieItems.should("have.length", 20));
       expect(popularMovies.length).to.equal(20);
     });
   });
@@ -29,7 +27,7 @@ describe("메인 화면 테스트", () => {
     cy.get(".load-more").click();
 
     cy.wait("@getPopularMovies").then((interception) => {
-      const popularMovies = interception.response.body.results;
+      const popularMovies = interception.response?.body.results;
       cy.wrap(popularMovies).should("have.length", 20);
 
       const popularMovieItems = cy.get(".thumbnail-list > li");
@@ -39,7 +37,7 @@ describe("메인 화면 테스트", () => {
 
   it("헤더에 인기순 첫번째 영화의 포스터, 제목, 별점을 보여준다.", () => {
     cy.wait("@getPopularMovies").then((interception) => {
-      const popularMovies = interception.response.body.results;
+      const popularMovies = interception.response?.body.results;
       const topMovie = popularMovies[0];
 
       cy.get(".overlay-img")
