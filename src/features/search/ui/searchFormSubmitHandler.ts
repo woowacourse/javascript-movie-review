@@ -1,5 +1,6 @@
 import { addMovieCard } from "../../../shared/ui/addMovieCard";
 import { showSkeletons } from "../../../shared/ui/showSkeletons";
+import { getUrlParams } from "../../../shared/utils/getUrlParams";
 import { getSearchedMovie } from "../api/getSearchedMovie";
 
 export const searchFormSubmitHandler = async (e: Event) => {
@@ -30,7 +31,7 @@ export const searchFormSubmitHandler = async (e: Event) => {
     $movieListTitle.textContent = `"${searchQuery}" 검색 결과`;
   }
 
-  const params = new URLSearchParams(window.location.search);
+  const params = getUrlParams();
   const page = params.get("page");
 
   if (!page) {
