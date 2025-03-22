@@ -7,6 +7,6 @@ export const SYSTEM_CONSTANTS = Object.freeze({
 });
 
 export const IMAGE_URL = Object.freeze({
-  LOGO: 'https://h0ngju.github.io/javascript-movie-review/logo.png',
-  WOOWA_LOGO: 'https://h0ngju.github.io/javascript-movie-review/woowacourse_logo.png',
+  LOGO: `${import.meta.env.BASE_URL}logo.png`,
+  WOOWA_LOGO: `${import.meta.env.BASE_URL}woowacourse_logo.png`,
 });
