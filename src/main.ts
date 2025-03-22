@@ -1,35 +1,44 @@
-import image from "../templates/images/star_filled.png";
+/// <reference types="vite/client" />
 
-console.log("npm run dev 명령어를 통해 영화 리뷰 미션을 시작하세요");
+import Toast from "./components/Toast/Toast";
+import createMovieLoader from "./service/loaderService.ts";
+import {
+  URLS,
+  defaultOptions,
+  defaultQueryObject,
+} from "./setting/settings.ts";
 
-console.log(
-  "%c" +
-    " _____ ______   ________  ___      ___ ___  _______                \n" +
-    "|\\   _ \\  _   \\|\\   __  \\|\\  \\    /  /|\\  \\|\\  ___ \\               \n" +
-    "\\ \\  \\\\\\__\\ \\  \\ \\  \\|\\  \\ \\  \\  /  / | \\  \\ \\   __/|              \n" +
-    " \\ \\  \\\\|__| \\  \\ \\  \\\\\\  \\ \\  \\/  / / \\ \\  \\ \\  \\_|/__            \n" +
-    "  \\ \\  \\    \\ \\  \\ \\  \\\\\\  \\ \\    / /   \\ \\  \\ \\  \\_|\\ \\           \n" +
-    "   \\ \\__\\    \\ \\__\\ \\_______\\ \\__/ /     \\ \\__\\ \\_______\\          \n" +
-    "    \\|__|     \\|__|\\|_______|\\|__|/       \\|__|\\|_______|          \n" +
-    "                                                                   \n" +
-    "                                                                   \n" +
-    "                                                                   \n" +
-    " ________  _______   ___      ___ ___  _______   ___       __      \n" +
-    "|\\   __  \\|\\  ___ \\ |\\  \\    /  /|\\  \\|\\  ___ \\ |\\  \\     |\\  \\    \n" +
-    "\\ \\  \\|\\  \\ \\   __/|\\ \\  \\  /  / | \\  \\ \\   __/|\\ \\  \\    \\ \\  \\   \n" +
-    " \\ \\   _  _\\ \\  \\_|/_\\ \\  \\/  / / \\ \\  \\ \\  \\_|/_\\ \\  \\  __\\ \\  \\  \n" +
-    "  \\ \\  \\\\  \\\\ \\  \\_|\\ \\ \\    / /   \\ \\  \\ \\  \\_|\\ \\ \\  \\|\\__\\_\\  \\ \n" +
-    "   \\ \\__\\\\ _\\\\ \\_______\\ \\__/ /     \\ \\__\\ \\_______\\ \\____________\\\n" +
-    "    \\|__|\\|__|\\|_______|\\|__|/       \\|__|\\|_______|\\|____________|",
-  "color: #d81b60; font-size: 14px; font-weight: bold;"
-);
+import state from "./state/state.ts";
+import type { StateTypes } from "./state/state.ts";
 
-addEventListener("load", () => {
-  const app = document.querySelector("#app");
-  const buttonImage = document.createElement("img");
-  buttonImage.src = image;
+import {
+  renderHeaderAndHero,
+  renderLoadMoreButton,
+  renderMovieList,
+} from "./view/MovieView.ts";
 
-  if (app) {
-    app.appendChild(buttonImage);
-  }
+const initMovies = () =>
+  createMovieLoader(
+    URLS.popularMovieUrl,
+    defaultQueryObject,
+    defaultOptions,
+    (error) => Toast.showToast(error.message, "error", 5000)
+  );
+
+const initState = () => ({
+  loadMovies: initMovies(),
 });
+
+const renderApp = (state: StateTypes) => {
+  if (!state.loadMovies) return;
+  renderHeaderAndHero();
+  renderMovieList(state.loadMovies);
+  renderLoadMoreButton(state);
+};
+
+const main = () => {
+  Object.assign(state, initState());
+  renderApp(state);
+};
+
+main();
