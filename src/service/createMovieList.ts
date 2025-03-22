@@ -8,8 +8,12 @@ export default async function createMovieList(
   reset?: boolean
 ) {
   const skeleton = document.querySelector(".skeleton-list");
+
+  const loadMore = document.getElementById("load-more");
   showElement(skeleton);
+  hideElement(loadMore);
   const { results, isLastPage } = await loadMovies();
+  showElement(loadMore);
   hideElement(skeleton);
 
   if (isLastPage) {
