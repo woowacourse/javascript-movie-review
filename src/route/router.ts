@@ -3,13 +3,11 @@ import SearchPage from '../pages/search-page/SearchPage';
 import ErrorPage from '../pages/error-page/ErrorPage';
 import { $ } from '../utils/selector';
 
-function routes(): Record<string, () => HTMLElement> {
-  return {
-    '/': () => new MainPage().element,
-    '/search': () => new SearchPage().element,
-    '/error': () => new ErrorPage().element,
-  };
-}
+const routes: Record<string, () => HTMLElement> = {
+  '/': () => new MainPage().element,
+  '/search': () => new SearchPage().element,
+  '/error': () => new ErrorPage().element,
+};
 
 export async function renderInnerContentsByRoute() {
   const base = '/javascript-movie-review';
@@ -25,7 +23,7 @@ export async function renderInnerContentsByRoute() {
     currentPath = '/search';
   }
 
-  return routes()[currentPath]();
+  return routes[currentPath]();
 }
 
 export async function redirectToPage(url: string) {
