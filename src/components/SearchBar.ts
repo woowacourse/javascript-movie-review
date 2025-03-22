@@ -30,7 +30,6 @@ class SearchBar {
 
     this.#changeTitleStyle(query);
     toggleVisibility(DOM.$noThumbnail, "hidden");
-    toggleVisibility(DOM.$skeletonUlElement, "show");
 
     thumbnailList?.replaceChildren();
 
@@ -92,16 +91,18 @@ class SearchBar {
     const thumbnailList = document.querySelector("ul.thumbnail-list");
     const itemCount = document.querySelectorAll("ul.thumbnail-list li").length;
     const pageNumber = itemCount / MOVIE_AMOUNT_IN_PAGE + 1;
+    const seeMoreButton = document.querySelector("#seeMore");
+    const skeletonUlElement = document.querySelector(".skeleton-list");
 
-    toggleVisibility(DOM.$skeletonUlElement, "show");
-    toggleVisibility(DOM.$seeMoreButton, "hidden");
+    toggleVisibility(skeletonUlElement, "show");
+    toggleVisibility(seeMoreButton, "hidden");
 
     const searchResult = await this.#getSearchResult(pageNumber, query);
     if (pageNumber < searchResult.total_pages)
-      toggleVisibility(DOM.$seeMoreButton, "show");
+      toggleVisibility(seeMoreButton, "show");
     if (searchResult.total_results === 0)
       toggleVisibility(DOM.$noThumbnail, "show");
-    toggleVisibility(DOM.$skeletonUlElement, "hidden");
+    toggleVisibility(skeletonUlElement, "hidden");
 
     searchResult.results.forEach(({ title, poster_path, vote_average }) => {
       const movieItem = new MovieItem({
