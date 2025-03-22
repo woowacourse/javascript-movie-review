@@ -1,3 +1,10 @@
+.skeleton {
+  margin: 0 auto 56px;
+  display: grid;
+  grid-template-columns: repeat(5, 200px);
+  gap: 70px;
+}
+
 .skeleton-item {
   animation: skeleton-loading 1.5s infinite;
 }
