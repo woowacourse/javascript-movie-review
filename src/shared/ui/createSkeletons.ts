@@ -1,13 +1,14 @@
 import { MovieSkeleton } from "../../features/movie/ui/components/MovieSkeleton";
 
 export const createSkeletons = (count: number = 10) => {
-  const fragment = document.createDocumentFragment();
+  const skeleton = document.createElement("div");
+  skeleton.classList.add("skeleton");
 
   for (let i = 0; i < count; i++) {
-    fragment.appendChild(MovieSkeleton());
+    skeleton.appendChild(MovieSkeleton());
   }
 
-  return fragment;
+  return skeleton;
 };
 
 export default MovieSkeleton;

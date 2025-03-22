@@ -5,6 +5,7 @@ import { showSkeletons } from "./shared/ui/showSkeletons";
 import { addMoviePost } from "./shared/ui/addMoviePost";
 import { addMoreMovies } from "./shared/domain/addMoreMovies";
 import { searchFormSubmitHandler } from "./features/search/ui/searchFormSubmitHandler";
+import { removeSkeletons } from "./shared/ui/removeSkeletons";
 
 addEventListener("DOMContentLoaded", async () => {
   const $movieList = document.querySelector(".thumbnail-list") as HTMLElement;
@@ -16,7 +17,7 @@ addEventListener("DOMContentLoaded", async () => {
   if (movies && $movieList) {
     Header(movies.results[0]);
 
-    $movieList.innerHTML = "";
+    removeSkeletons();
     addMoviePost(movies.results, $movieList);
   }
 
@@ -30,8 +31,11 @@ addEventListener("DOMContentLoaded", async () => {
 
   const $moreMoviesButton = document.getElementById("more-movies-button");
   $moreMoviesButton?.addEventListener("click", async () => {
-    if (!$movieList) return;
-    await addMoreMovies($movieList);
+    showSkeletons($movieList);
+    if ($movieList) {
+      removeSkeletons();
+      await addMoreMovies($movieList);
+    }
   });
 
   const searchForm = document.querySelector(".search-form");
