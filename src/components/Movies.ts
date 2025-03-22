@@ -1,4 +1,4 @@
-import { MoviesResponse } from "@/types";
+import { MovieResult, MoviesResponse } from "@/types";
 import { html } from "@/utils";
 import Component from "./core/Component";
 import ThumbnailList from "./ThumbnailList";
@@ -6,7 +6,7 @@ import ThumbnailList from "./ThumbnailList";
 const TAB_LIST = ["상영 중", "인기순", "평점순", "상영 예정"];
 
 interface MoviesProps {
-  moviesResponse: MoviesResponse | null;
+  movies: MovieResult[];
   page: number;
 }
 
@@ -46,7 +46,7 @@ export default class Movies extends Component<MoviesProps> {
   async onRender() {
     this.fillSlot(
       new ThumbnailList({
-        movies: this.props.moviesResponse?.results ?? [],
+        movies: this.props.movies,
       }).render(),
       "thumbnail-list"
     );
