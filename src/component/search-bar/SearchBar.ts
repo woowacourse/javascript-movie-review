@@ -50,7 +50,6 @@ class SearchBar {
     const params = new URLSearchParams(window.location.search);
     params.set('query', this.#searchValue);
     const searchUrl = `/search?${params.toString()}`;
-    window.history.pushState({}, '', searchUrl);
     redirectToPage(searchUrl);
   }
 
