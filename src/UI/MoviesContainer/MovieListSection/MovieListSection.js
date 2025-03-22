@@ -51,7 +51,7 @@ class MovieListSection {
   }
 
   renderMovieItemByArray(movies, $ul) {
-    return movies.forEach((movie) => {
+    movies.forEach((movie) => {
       const $item = new MovieItem(movie, this.isLoading).render();
       $ul.appendChild($item);
     });
