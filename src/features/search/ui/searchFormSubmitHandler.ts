@@ -46,7 +46,7 @@ export const searchFormSubmitHandler = async (e: Event) => {
     parseInt(params.get("page")!)
   );
 
-  if ($thumbnailList) {
+  if ($thumbnailList && searchedMovies) {
     $thumbnailList.innerHTML = "";
     addMovieCard(searchedMovies.results, $thumbnailList);
   }
