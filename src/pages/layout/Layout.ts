@@ -23,7 +23,7 @@ class Layout {
     this.#container.appendChild(this.#contentContainer);
     this.#container.appendChild(this.#footer.element);
 
-    $({ selector: 'body' })?.appendChild(this.#container);
+    $({ selector: 'body' })!.appendChild(this.#container);
 
     this.render();
   }

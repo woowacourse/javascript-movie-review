@@ -43,9 +43,7 @@ export class MainPage {
 
   renderDynamicSection() {
     const $loadMoreButton = $({ selector: '.button--medium' });
-    if ($loadMoreButton) {
-      $loadMoreButton.remove();
-    }
+    if ($loadMoreButton) $loadMoreButton.remove();
     this.#container.appendChild(this.#movieGridElement());
     this.#container.appendChild(this.#loadMoreButtonElement());
   }

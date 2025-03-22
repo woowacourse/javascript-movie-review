@@ -26,7 +26,8 @@ class SearchBar {
 
   #bindInputEvent() {
     const $input = $({ root: this.#container, selector: '.searchbar__input' });
-    $input?.addEventListener('input', (event: Event) => {
+    if (!$input) throw new Error('검색창의 input 요소가 존재하지 않습니다.');
+    $input.addEventListener('input', (event: Event) => {
       if (!(event.target instanceof HTMLInputElement)) return;
       this.#searchValue = event.target.value;
     });
@@ -34,7 +35,8 @@ class SearchBar {
 
   #bindFromEvent() {
     const $form = $({ root: this.#container, selector: '.searchbar__form' });
-    $form?.addEventListener('submit', (event) => {
+    if (!$form) throw new Error('검색창의 form 요소가 존재하지 않습니다.');
+    $form.addEventListener('submit', (event) => {
       event.preventDefault();
       this.#search();
     });

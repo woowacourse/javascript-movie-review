@@ -39,11 +39,17 @@ export async function renderContent() {
       $oldContent.remove();
     }
 
-    const newContent = await renderInnerContentsByRoute();
+    try {
+      const newContent = await renderInnerContentsByRoute();
 
-    if (newContent) {
-      newContent.classList.add('render-content');
-      $layoutContainer.appendChild(newContent);
+      if (newContent) {
+        newContent.classList.add('render-content');
+        $layoutContainer.appendChild(newContent);
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error(error.message);
+      }
     }
   }
 }

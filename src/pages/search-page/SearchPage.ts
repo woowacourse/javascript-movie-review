@@ -51,9 +51,7 @@ class SearchPage {
 
   renderDynamicSection() {
     const $loadMoreButton = $({ selector: '.button--medium' });
-    if ($loadMoreButton) {
-      $loadMoreButton.remove();
-    }
+    if ($loadMoreButton) $loadMoreButton.remove();
     this.#container.appendChild(this.#movieGridElement());
     if (this.#currentPage !== this.#totalPage) this.#container.appendChild(this.#loadMoreButtonElement());
   }
