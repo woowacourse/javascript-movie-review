@@ -228,6 +228,12 @@ input:-webkit-autofill {
   gap: 8px;
 }
 
+.skeleton-animation {
+  border-radius: 8px;
+  animation: skeleton-gradient 1.5s infinite;
+  background-color: rgb(165, 165, 165);
+}
+
 .w-full {
   width: 100%;
 }
