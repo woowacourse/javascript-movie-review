@@ -8,7 +8,7 @@ import { removeSkeletons } from "./shared/ui/removeSkeletons";
 import { addMovieCard } from "./shared/ui/addMovieCard";
 import MoreMoviesButton from "./shared/ui/components/MoreMoviesButton";
 
-addEventListener("DOMContentLoaded", async () => {
+async function init() {
   const $movieList = document.querySelector(".thumbnail-list") as HTMLElement;
 
   if ($movieList) showSkeletons($movieList);
@@ -45,4 +45,10 @@ addEventListener("DOMContentLoaded", async () => {
     e.preventDefault();
     searchFormSubmitHandler(e);
   });
-});
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", init);
+} else {
+  init();
+}
