@@ -1,4 +1,4 @@
-import { MovieResult } from "../types";
+import { MovieResult } from "./types";
 export const store = {
   page: 1,
   totalPages: 1,

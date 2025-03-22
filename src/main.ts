@@ -1,6 +1,5 @@
 import Button from "./components/Button";
 import { renderMoviesList } from "./domains/renderMoviesList";
-import "./event/index";
 import { $ } from "./utils";
 
 addEventListener("load", async () => {
