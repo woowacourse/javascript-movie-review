@@ -1,6 +1,6 @@
 /// <reference types="vite/client" />
 
-import Toast from "./components/Toast/Toast.js";
+import Toast from "./components/Toast/Toast";
 import createMovieLoader from "./service/createMovieLoader";
 import { URLS, defaultOptions, defaultQueryObject } from "./setting/settings";
 
