@@ -1,7 +1,7 @@
 import Footer from "./components/Footer";
 import Header from "./components/Header";
-import PopularMovieBoard from "./components/MoviesScreen/PopularMovieBoard";
-import SearchMovieBoard from "./components/MoviesScreen/SearchMovieBoard";
+import PopularMovieBoard from "./components/MovieBoards/PopularMovieBoard";
+import SearchMovieBoard from "./components/MovieBoards/SearchMovieBoard";
 import { isHTMLElement } from "./utils/typeGuards";
 
 interface AppContract {
