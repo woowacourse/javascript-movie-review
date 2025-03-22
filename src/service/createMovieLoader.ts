@@ -8,8 +8,8 @@ export default function createMovieLoader(
   url: string,
   queryObj: URLSearchParams,
   options: FetchOptions,
-  searchTerm?: string,
-  onError?: (error: Error) => void
+  onError: (error: Error) => void,
+  searchTerm?: string
 ) {
   let page = 1;
 

@@ -12,24 +12,19 @@ import {
   renderLoadMoreButton,
 } from "./view/MovieView.ts";
 
-function init() {
+function main() {
   state.loadMovies = createMovieLoader(
     URLS.popularMovieUrl,
     defaultQueryObject,
     defaultOptions,
-    undefined,
     (error) => {
       Toast.showToast(error.message, "error", 5000);
     }
   );
-}
 
-init();
-
-function render() {
   renderHeaderAndHero();
   updateMovieList(state.loadMovies);
   renderLoadMoreButton(state);
 }
 
-render();
+main();
