@@ -1,7 +1,7 @@
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import { MovieInfo } from "../types/movieType.ts";
-import ContentsContainer from "./components/ContentsContainer.ts";
+import {ContentsContainer} from "./components/ContentsContainer.ts";
 import MovieService from "./services/MovieService.ts";
 import LogoSearchBar from "./components/LogoSearchBar.js";
 import EVENT_HANDLER from "./components/EventHandler.js";
