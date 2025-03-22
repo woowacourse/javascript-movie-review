@@ -19,14 +19,14 @@ interface MovieItem {
 }
 
 export async function extractedData(url: string) {
-  const movieJSON = await fetchMovieList(url);
-  const movieListData = movieJSON.results.map((movieItem: MovieItem) => ({
+  const movieList = await fetchMovieList(url);
+  const movieListData = movieList.results.map((movieItem: MovieItem) => ({
     title: movieItem.title,
     imgUrl: `${SYSTEM_CONSTANTS.BASE_IMG_URL}${movieItem.poster_path}`,
     score: Number(movieItem.vote_average.toFixed(1)),
   }));
 
-  const totalPage = movieJSON.total_pages;
+  const totalPage = movieList.total_pages;
 
   return { movieListData, totalPage };
 }
