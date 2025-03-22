@@ -2,12 +2,14 @@ import { MovieResult, MoviesResponse } from "@/lib/types";
 import { html } from "@/lib/utils";
 import Component from "./core/Component";
 import ThumbnailList from "./ThumbnailList";
+import MovieListSkeleton from "./MovieListSkeleton";
 
 const TAB_LIST = ["상영 중", "인기순", "평점순", "상영 예정"];
 
 interface MoviesProps {
   movies: MovieResult[];
   page: number;
+  search: string;
 }
 
 export default class Movies extends Component<MoviesProps> {
@@ -27,8 +29,10 @@ export default class Movies extends Component<MoviesProps> {
         </ul>
         <main>
           <section>
-            <h2 class="thumbnail-title">지금 인기 있는 영화</h2>
-            <slot name="thumbnail-list"></slot>
+            <h2 class="thumbnail-title">
+              ${this.props.search || "지금 인기 있는 영화"}
+            </h2>
+            <slot name="thumbnail-list"> </slot>
 
             <slot name="error"></slot>
 

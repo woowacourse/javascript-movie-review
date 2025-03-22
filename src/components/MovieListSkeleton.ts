@@ -3,7 +3,7 @@ import { $, createElement } from "@/lib/utils";
 import Skeleton from "./Skeleton";
 
 export default function MovieListSkeleton() {
-  const $movieListSkeleton = $(".thumbnail-list");
+  const $movieListSkeleton = document.createElement("ul");
 
   for (let i = 0; i < MOVIE_ITEM_PER_PAGE; i++) {
     const $li = createElement(`

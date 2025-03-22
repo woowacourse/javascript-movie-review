@@ -1,6 +1,6 @@
-import { getMovies } from "@/apis/MovieApi";
+import { getMovieByName, getMovies } from "@/apis/MovieApi";
 import { MovieResult, MoviesResponse } from "@/lib/types";
-import { html, isElement } from "./lib/utils";
+import { html, isElement, isHTMLFormElement } from "./lib/utils";
 import { Component } from "./components/core";
 import { Footer, Header, Movies } from "./components";
 
@@ -9,7 +9,7 @@ interface AppState {
   totalPages: number;
   moviesResponse: MoviesResponse | null;
   movies: MovieResult[];
-  searchKeyword: string;
+  search: string;
 }
 
 export default class App extends Component<null, AppState> {
@@ -23,11 +23,12 @@ export default class App extends Component<null, AppState> {
       totalPages: 1,
       moviesResponse: null,
       movies: [],
-      searchKeyword: "",
+      search: "",
     };
   }
 
   override template() {
+    console.log(this.state.movies);
     return html`
       <div id="movie-review-wrap">
         <slot name="header"></slot>
@@ -38,11 +39,18 @@ export default class App extends Component<null, AppState> {
   }
 
   onRender() {
-    this.fillSlot(new Header().render(), "header");
+    this.fillSlot(
+      new Header({
+        search: this.state.search,
+        backgroundImage: this.state.movies.at(0)?.backdrop_path,
+      }).render(),
+      "header"
+    );
     this.fillSlot(
       new Movies({
         movies: this.state.movies,
         page: this.state.page,
+        search: this.state.search,
       }).render(),
       "movies"
     );
@@ -50,7 +58,15 @@ export default class App extends Component<null, AppState> {
   }
 
   async dataFetchAsync() {
-    const moviesResponse = await getMovies({ page: this.state.page });
+    let moviesResponse;
+
+    if (this.state.search)
+      moviesResponse = await getMovieByName({
+        name: this.state.search,
+        page: this.state.page,
+      });
+    else moviesResponse = await getMovies({ page: this.state.page });
+
     this.setState({
       moviesResponse,
       movies: [...this.state.movies, ...moviesResponse.results],
@@ -64,7 +80,6 @@ export default class App extends Component<null, AppState> {
 
       if (target.closest(".show-more")) {
         const moviesResponse = await getMovies({ page: this.state.page + 1 });
-        console.log(moviesResponse);
         this.setState({
           moviesResponse,
           movies: [...this.state.movies, ...moviesResponse.results],
@@ -73,34 +88,22 @@ export default class App extends Component<null, AppState> {
       }
     });
 
-    //   window.addEventListener("submit", async (event) => {
-    //     event.preventDefault();
-    //     const { target } = event;
+    window.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const { target } = event;
 
-    //     if (!isHTMLFormElement(target)) return;
+      if (!isHTMLFormElement(target)) return;
 
-    //     if (target.closest(".top-rated-search")) {
-    //       const formData = new FormData(target);
-    //       const modalInput = Object.fromEntries(formData);
+      if (target.closest(".top-rated-search")) {
+        const formData = new FormData(target);
+        const modalInput = Object.fromEntries(formData);
 
-    //       const value = modalInput.search.toString();
+        const value = modalInput.search.toString();
 
-    //       store.searchKeyword = value;
-    //       store.page = 1;
+        this.setState({ search: value, page: 1, movies: [] });
 
-    //       const $title = $(".thumbnail-title");
-    //       if ($title) $title.textContent = `"${store.searchKeyword}" 검색 결과`;
-
-    //       const $thumbnailList = $(".thumbnail-list");
-    //       if ($thumbnailList) $thumbnailList.innerHTML = "";
-
-    //       $(".top-rated-container")?.classList.add("close");
-    //       $(".overlay")?.classList.add("close");
-
-    //       store.movies = [];
-
-    //       await renderMoviesList();
-    //     }
-    //   });
+        this.dataFetchAsync();
+      }
+    });
   }
 }
