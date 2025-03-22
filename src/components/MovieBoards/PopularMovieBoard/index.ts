@@ -9,9 +9,10 @@ import TopRatedMovie from "./TopRatedMovie";
 class PopularMovieBoard {
   private static readonly MAX_PAGE = 500;
 
-  #parentElement;
+  #parentElement: HTMLElement;
   #page;
   #api;
+  #moreMoviesButton: MoreMoviesButton | null = null;
 
   constructor(parentElement: HTMLElement) {
     this.#parentElement = parentElement;
@@ -85,10 +86,12 @@ class PopularMovieBoard {
   }
 
   async #loadMoreMovies(): Promise<void> {
+    this.#moreMoviesButton?.setLoading(true);
     this.#page += 1;
     const { movies: newMovies, total_pages } = await this.#movieData();
     if (!newMovies) return;
 
+    this.#moreMoviesButton?.setLoading(false);
     this.#renderMovies(newMovies);
 
     if (this.#page >= PopularMovieBoard.MAX_PAGE || this.#page >= total_pages) {
@@ -99,10 +102,11 @@ class PopularMovieBoard {
 
   #initMoreMoviesButton(): void {
     const $moreMoviesButton = document.querySelector(".more-button-container");
-    if (isHTMLElement($moreMoviesButton))
-      new MoreMoviesButton($moreMoviesButton, {
-        refetchMovies: () => this.#loadMoreMovies(),
-      });
+    if (!isHTMLElement($moreMoviesButton)) return;
+
+    this.#moreMoviesButton = new MoreMoviesButton($moreMoviesButton, {
+      refetchMovies: () => this.#loadMoreMovies(),
+    });
   }
 
   #hideMoreMoviesButton(): void {

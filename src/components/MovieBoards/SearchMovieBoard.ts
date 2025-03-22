@@ -16,6 +16,7 @@ class SearchMovieBoard {
   #props;
   #page;
   #api;
+  #moreMoviesButton: MoreMoviesButton | null = null;
 
   constructor(parentElement: HTMLElement, props: Props) {
     this.#parentElement = parentElement;
@@ -78,9 +79,11 @@ class SearchMovieBoard {
   }
 
   async #loadMoreMovies(): Promise<void> {
+    this.#moreMoviesButton?.setLoading(true);
     this.#page += 1;
     const { movies: newMovies, total_pages } = await this.#movieData();
 
+    this.#moreMoviesButton?.setLoading(false);
     this.#renderMovies(newMovies);
 
     if (
@@ -109,10 +112,10 @@ class SearchMovieBoard {
 
   #initMoreMoviesButton(): void {
     const $moreMoviesButton = document.querySelector(".more-button-container");
-    if (isHTMLElement($moreMoviesButton))
-      new MoreMoviesButton($moreMoviesButton, {
-        refetchMovies: () => this.#loadMoreMovies(),
-      });
+    if (!isHTMLElement($moreMoviesButton)) return;
+    this.#moreMoviesButton = new MoreMoviesButton($moreMoviesButton, {
+      refetchMovies: () => this.#loadMoreMovies(),
+    });
   }
 
   #hideMoreMoviesButton(): void {

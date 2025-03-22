@@ -128,3 +128,8 @@ span.rate-value {
   width: 100%;
   border-radius: 10px;
 }
+
+.more-movies-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
