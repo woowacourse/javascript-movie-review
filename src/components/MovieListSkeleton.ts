@@ -7,21 +7,21 @@ export default function MovieListSkeleton() {
 
   for (let i = 0; i < MOVIE_ITEM_PER_PAGE; i++) {
     const $li = document.createElement("li");
-    const $item = document.createElement("div");
-    $item.className = "item";
+
+    $li.innerHTML = `
+      <div class="item">
+        <div class="item-desc"></div>
+      </div>
+    `;
 
     const $imageSkeleton = Skeleton({ width: 200, height: 300 });
     const $voteAverageSkeleton = Skeleton({ width: 60, height: 15 });
     const $titleSkeleton = Skeleton({ width: 150, height: 20 });
 
-    const $itemDesc = document.createElement("div");
-    $itemDesc.className = "item-desc";
-
-    $itemDesc.append($voteAverageSkeleton, $titleSkeleton);
-    $item.append($imageSkeleton);
-    $item.append($itemDesc);
-
-    $li.append($item);
+    $li.querySelector(".item")?.append($imageSkeleton);
+    $li
+      .querySelector(".item-desc")
+      ?.append($voteAverageSkeleton, $titleSkeleton);
     $movieListSkeleton?.append($li);
   }
   return $movieListSkeleton;
