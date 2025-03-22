@@ -11,7 +11,7 @@ import MoreMoviesButton from "./shared/ui/components/MoreMoviesButton";
 async function init() {
   const $movieList = document.querySelector(".thumbnail-list") as HTMLElement;
 
-  if ($movieList) showSkeletons($movieList);
+  showSkeletons($movieList);
 
   const movies = await getMovieList({ page: 1 });
 
@@ -43,7 +43,7 @@ async function init() {
 
   searchForm?.addEventListener("submit", async (e) => {
     e.preventDefault();
-    searchFormSubmitHandler(e);
+    await searchFormSubmitHandler(e);
   });
 }
 
