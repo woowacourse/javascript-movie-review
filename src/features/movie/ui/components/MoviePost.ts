@@ -1,15 +1,14 @@
 import { IMovie } from "../../../../shared/types/movies";
+import { toElement } from "../../../../shared/utils/toElement";
 
-const MoviePost = (movie: IMovie) => {
-  const moviePost = document.createElement("li");
-
+export default function MoviePost(movie: IMovie) {
   const movieTitle = movie.name ? movie.name : movie.title;
   const movieImgPath = movie.poster_path
     ? `https://media.themoviedb.org/t/p/w440_and_h660_face${movie.poster_path}`
     : "images/nullImage.png";
 
-  moviePost.innerHTML = /*html*/ `
-    <div class="item">
+  return toElement(`
+    <li class="item">
       <img
         class="thumbnail"
         src=${movieImgPath}
@@ -23,10 +22,6 @@ const MoviePost = (movie: IMovie) => {
         </p>
         <strong>${movieTitle}</strong>
       </div>
-    </div>
-  `;
-
-  return moviePost;
-};
-
-export default MoviePost;
+    </li>
+  `);
+}
