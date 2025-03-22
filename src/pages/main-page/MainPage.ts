@@ -9,9 +9,10 @@ import mainPageLoadingTemplate from './loadingTemplate';
 
 export class MainPage {
   #container;
-  #movieListData = [];
+  #movieListData: MovieData[] = [];
   #currentPage = 1;
   #isLoading: boolean = true;
+  #movieGrid: MovieGrid | null = null;
 
   constructor() {
     this.#container = document.createElement('div');
@@ -44,7 +45,8 @@ export class MainPage {
   renderDynamicSection() {
     const $loadMoreButton = $({ selector: '.button--medium' });
     if ($loadMoreButton) $loadMoreButton.remove();
-    this.#container.appendChild(this.#movieGridElement());
+    this.#movieGrid = new MovieGrid({ movieItems: this.#movieListData });
+    this.#container.appendChild(this.#movieGrid.element);
     this.#container.appendChild(this.#loadMoreButtonElement());
   }
 
@@ -56,10 +58,6 @@ export class MainPage {
     return new MainBanner({ data: this.#movieListData[0] }).element;
   }
 
-  #movieGridElement() {
-    return new MovieGrid({ movieItems: this.#movieListData }).element;
-  }
-
   #loadMoreButtonElement() {
     return new Button({ cssType: 'medium', innerText: '더보기', onClick: this.#loadMoreData }).element;
   }
@@ -67,8 +65,9 @@ export class MainPage {
   #loadMoreData = async () => {
     this.#currentPage += 1;
     const { movieListData } = await extractedData(SYSTEM_CONSTANTS.MAIN_URL(this.#currentPage));
-    this.#movieListData = movieListData;
-    this.renderDynamicSection();
+    this.#movieListData = [...this.#movieListData, ...movieListData];
+    if (!this.#movieGrid) throw new Error('movieGrid가 존재하지 않습니다.');
+    this.#movieGrid.appendMovies(movieListData);
   };
 
   get element() {

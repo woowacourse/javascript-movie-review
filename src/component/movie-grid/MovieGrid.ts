@@ -9,6 +9,7 @@ interface MovieGridProps {
 class MovieGrid {
   #container;
   #movieItems;
+  #listElement: HTMLElement | null = null;
 
   constructor({ movieItems = [] }: MovieGridProps) {
     this.#container = document.createElement('main');
@@ -24,6 +25,7 @@ class MovieGrid {
       </ul>`;
       return;
     }
+    this.#listElement = this.#container.querySelector('.thumbnail-list');
     this.#container.innerHTML = this.#emptyListElement();
   }
 
@@ -33,6 +35,14 @@ class MovieGrid {
 
   #movieItemElements() {
     return this.#movieItems.map((movieItem) => new MovieItem({ data: movieItem }).element.outerHTML).join('');
+  }
+
+  appendMovies(newItems: MovieData[]) {
+    newItems.forEach((movieItem) => {
+      const item = new MovieItem({ data: movieItem });
+      if (!this.#listElement) throw new Error('listElement아 존재하지 않습니다.');
+      this.#listElement.insertAdjacentHTML('beforeend', item.element.outerHTML);
+    });
   }
 
   get element() {
