@@ -2,24 +2,21 @@ import createMovieLoader from "./createMovieLoader";
 import state from "../state/state.ts";
 import { URLS, defaultOptions, defaultQueryObject } from "../setting/settings";
 import { hideElement, showElement } from "../view/InputView";
-import createMovieList from "./createMovieList";
 import Toast from "../components/Toast/Toast";
+import { updateMovieList } from "../view/MovieView.ts";
 
 export default async function handleSearch(searchValue: string) {
   updateSearchDescription(searchValue);
   prepareUIForSearch();
-  try {
-    state.loadMovies = createMovieLoader(
-      URLS.searchMovieUrl,
-      defaultQueryObject,
-      defaultOptions,
-      searchValue
-    );
-    await createMovieList(state.loadMovies, true);
-    finalizeUISuccess();
-  } catch (error) {
-    handleSearchError(error);
-  }
+  state.loadMovies = createMovieLoader(
+    URLS.searchMovieUrl,
+    defaultQueryObject,
+    defaultOptions,
+    searchValue,
+    (error) => handleSearchError(error)
+  );
+  await updateMovieList(state.loadMovies, true);
+  finalizeUISuccess();
 }
 
 function updateSearchDescription(searchValue: string): void {
