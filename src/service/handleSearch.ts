@@ -30,7 +30,7 @@ function updateSearchDescription(searchValue: string): void {
 }
 
 function prepareUIForSearch(): void {
-  const $fallback = document.getElementById("fallback-div");
+  const $fallback = document.getElementById("fallback");
   const $hero = document.getElementById("hero");
   const $thumbnailList = document.getElementById("thumbnail-list");
 
@@ -49,7 +49,7 @@ function finalizeUISuccess(): void {
 
 function handleSearchError(error: unknown): void {
   const $thumbnailContainer = document.getElementById("thumbnail-container");
-  const $fallback = document.getElementById("fallback-div");
+  const $fallback = document.getElementById("fallback");
 
   if (error instanceof Error) {
     Toast.showToast(error.message, "error", 5000);

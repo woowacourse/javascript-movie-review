@@ -2,7 +2,7 @@ import { createElement } from "../../util/dom";
 export default function Fallback() {
   const $div = createElement("div", {
     className: "fallback-div",
-    id: "fallback-div",
+    id: "fallback",
   });
   $div.innerHTML = `
       <img src="./images/fallback_no_movies.png" alt="머리 아픈 행성이" />

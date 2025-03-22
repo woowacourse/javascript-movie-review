@@ -26,9 +26,7 @@ describe("fallback 테스트", () => {
     const searchValue = "없는 영화";
     cy.get(".search-bar").type(`${searchValue}{enter}`);
 
-    cy.get("#fallback-div")
-      .should("be.visible")
-      .contains("검색 결과가 없습니다.");
+    cy.get("#fallback").should("be.visible").contains("검색 결과가 없습니다.");
     cy.get(".toast-container")
       .should("be.visible")
       .contains(ERROR_MESSAGE.NO_DATA);
