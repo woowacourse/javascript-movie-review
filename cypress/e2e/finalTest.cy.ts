@@ -35,7 +35,7 @@ describe("홈 화면 테스트", () => {
   // 그러나 계속해서 직접 사용자가 테스트 하듯이 이렇게 테스트 하면 귀찮으니, 추가 했습니다.
   // 코스트가 크니 기본값은 스킵입니다.
 
-  it("파이널 테스트(코스트가 크니 기본값은 스킵)", () => {
+  it.skip("파이널 테스트(코스트가 크니 기본값은 스킵)", () => {
     const firstIllegalSearchValue = "미친 오토바이 삼인방";
     cy.get(".search-bar").type(`${firstIllegalSearchValue}{enter}`);
 
