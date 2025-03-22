@@ -3,7 +3,7 @@ import MainBanner from '../../component/main-banner/MainBanner';
 import MovieGrid from '../../component/movie-grid/MovieGrid';
 import { Title } from '../../component/title/Title';
 import { SYSTEM_CONSTANTS } from '../../constants/systemConstants';
-import { extractedeData } from '../../domain/APIManager';
+import { extractedData } from '../../domain/APIManager';
 import mainPageLoadingTemplate from './loadingTemplate';
 
 export class MainPage {
@@ -23,7 +23,7 @@ export class MainPage {
     this.#isLoading = true;
     this.render();
 
-    const { movieListData } = await extractedeData(SYSTEM_CONSTANTS.MAIN_URL(this.#currentPage));
+    const { movieListData } = await extractedData(SYSTEM_CONSTANTS.MAIN_URL(this.#currentPage));
     this.#movieListData = movieListData;
     this.#isLoading = false;
     this.render();
@@ -67,7 +67,7 @@ export class MainPage {
 
   #loadMoreData = async () => {
     this.#currentPage += 1;
-    const { movieListData } = await extractedeData(SYSTEM_CONSTANTS.MAIN_URL(this.#currentPage));
+    const { movieListData } = await extractedData(SYSTEM_CONSTANTS.MAIN_URL(this.#currentPage));
     this.#movieListData = movieListData;
     this.renderDynamicSection();
   };

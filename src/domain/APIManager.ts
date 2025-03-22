@@ -18,7 +18,7 @@ interface MovieItem {
   adult: boolean;
 }
 
-export async function extractedeData(url: string) {
+export async function extractedData(url: string) {
   const movieJSON = await fetchMovieList(url);
   const movieListData = movieJSON.results.map((movieItem: MovieItem) => ({
     title: movieItem.title,
