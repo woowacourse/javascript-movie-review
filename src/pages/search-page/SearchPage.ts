@@ -68,7 +68,7 @@ class SearchPage {
 
   #loadMoreData = async () => {
     this.#currentPage += 1;
-    const { movieListData } = await extractedData(SYSTEM_CONSTANTS.MAIN_URL(this.#currentPage));
+    const { movieListData } = await extractedData(SYSTEM_CONSTANTS.SEARCH_URL(this.#query, this.#currentPage));
     this.#movieListData = movieListData;
     this.renderDynamicSection();
   };
