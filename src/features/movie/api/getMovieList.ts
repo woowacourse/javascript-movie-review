@@ -1,26 +1,15 @@
 import ErrorPage from "../../../shared/ui/components/ErrorPage";
-
-const url = (page: number) =>
-  `https://api.themoviedb.org/3/tv/popular?page=${page}`;
-const options = {
-  method: "GET",
-  headers: {
-    accept: "application/json",
-    Authorization: `Bearer ${import.meta.env.VITE_TMDB_API_KEY}`,
-  },
-};
+import { apiClient } from "../../../shared/utils/apiClient";
 
 export const getMovieList = async ({ page }: { page: number }) => {
   try {
-    const response = await fetch(url(page), options);
-
-    if (!response.ok) {
-      throw new Error("Failed to fetch movie list");
-    }
-
-    return response.json();
+    return await apiClient("GET", `/tv/popular?page=${page}`);
   } catch (error) {
-    const $container = document.querySelector(".container");
-    $container!.replaceChildren(ErrorPage());
+    if (error instanceof Error) {
+      const $container = document.querySelector(".container");
+      $container!.replaceChildren(
+        ErrorPage("영화 리스트를 불러오는데 실패하였습니다.")
+      );
+    }
   }
 };
