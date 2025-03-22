@@ -9,7 +9,7 @@ export default function Header() {
 
   const $header = createElement("header", { className: "header" });
 
-  const $logo = createElement("h1", { className: "logo" });
+  const $logo = createElement("h1", { className: "logo", id: "logo" });
 
   const $logoImg = createElement("img", {
     src: paths.logo,
