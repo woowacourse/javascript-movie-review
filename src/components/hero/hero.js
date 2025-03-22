@@ -1,3 +1,4 @@
+import { paths } from "../../setting/settings";
 import { createElement } from "../../util/dom";
 
 export default function Hero() {
@@ -12,7 +13,7 @@ export default function Hero() {
        <div class="top-rated-container">
             <div class="top-rated-movie">
                <div class="rate">
-                 <img src="./images/star_empty.png" class="star" />
+                 <img src="${paths.star_empty}" class="star" />
                  <span class="rate-value">9.5</span>
                </div>
                <div class="title">인사이드 아웃2</div>

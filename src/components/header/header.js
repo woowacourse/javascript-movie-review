@@ -1,5 +1,6 @@
 import { createElement } from "../../util/dom";
 import handleSearch from "../../service/handleSearch";
+import { paths } from "../../setting/settings";
 
 export default function Header() {
   const $headerContainer = createElement("div", {
@@ -11,7 +12,7 @@ export default function Header() {
   const $logo = createElement("h1", { className: "logo" });
 
   const $logoImg = createElement("img", {
-    src: "./images/logo.png",
+    src: paths.logo,
     alt: "MovieList",
   });
 
@@ -24,7 +25,7 @@ export default function Header() {
   });
 
   const $searchImg = createElement("img", {
-    src: "./images/Search.png",
+    src: paths.search,
     alt: "돋보기",
   });
 
