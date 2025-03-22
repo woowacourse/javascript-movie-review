@@ -1,5 +1,6 @@
-import { isHTMLElement } from "../utils/typeGuards";
+import { isHTMLElement } from "../../utils/typeGuards";
 import SearchBar from "./SearchBar";
+
 interface Props {
   onSearchSubmitted: (params: string) => void;
   onLogoClicked: () => void;

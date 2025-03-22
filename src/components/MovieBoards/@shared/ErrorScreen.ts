@@ -1,4 +1,4 @@
-import { isHTMLElement } from "../utils/typeGuards";
+import { isHTMLElement } from "../../../utils/typeGuards";
 
 interface ErrorScreenContract {
   render: () => void;

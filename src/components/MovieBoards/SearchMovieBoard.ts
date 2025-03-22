@@ -1,8 +1,8 @@
-import { Movie } from "../types/movie";
-import { isHTMLElement } from "../utils/typeGuards";
-import ErrorScreen from "./ErrorScreen";
-import MoreMoviesButton from "./MoreMoviesButton";
-import MovieList from "./MovieList";
+import { Movie } from "../../types/movie";
+import { isHTMLElement } from "../../utils/typeGuards";
+import ErrorScreen from "./@shared/ErrorScreen";
+import MoreMoviesButton from "./@shared/MoreMoviesButton";
+import MovieList from "./@shared/MovieList";
 
 interface Props {
   searchParams: string;

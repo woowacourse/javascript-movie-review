@@ -1,4 +1,4 @@
-import { Movie } from "../types/movie";
+import { Movie } from "../../../types/movie";
 
 interface TopRatedMovieContract {
   skeleton: string;

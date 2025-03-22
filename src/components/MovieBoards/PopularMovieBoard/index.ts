@@ -1,8 +1,8 @@
-import { Movie } from "../types/movie";
-import { isHTMLElement } from "../utils/typeGuards";
-import ErrorScreen from "./ErrorScreen";
-import MoreMoviesButton from "./MoreMoviesButton";
-import MovieList from "./MovieList";
+import { Movie } from "../../../types/movie";
+import { isHTMLElement } from "../../../utils/typeGuards";
+import ErrorScreen from "../@shared/ErrorScreen";
+import MoreMoviesButton from "../@shared/MoreMoviesButton";
+import MovieList from "../@shared/MovieList";
 import TopRatedMovie from "./TopRatedMovie";
 
 class PopularMovieBoard {
@@ -33,7 +33,7 @@ class PopularMovieBoard {
       </section>
       <section class="movie-list-container">
           <h2>지금 인기 있는 영화</h2>
-          <ul class='thumbnail-list'>${new MovieList([]).ui}</ul>
+          <ul class='thumbnail-list'>${new MovieList([]).ui}</ul> 
           <div class="more-button-container"></div>
       </section>
     `;

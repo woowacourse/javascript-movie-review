@@ -1,4 +1,4 @@
-@import "./colors.css";
+/* @import "./colors.css"; */
 
 * {
   box-sizing: border-box;
@@ -127,18 +127,4 @@ span.rate-value {
   font-size: 24px;
   width: 100%;
   border-radius: 10px;
-}
-
-footer.footer {
-  min-height: 180px;
-  background-color: var(--color-bluegray-80);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  text-align: center;
-  font-size: 1.1rem;
-}
-
-footer.footer p:not(:last-child) {
-  margin-bottom: 8px;
 }
