@@ -15,32 +15,27 @@ class SearchBar {
 
   render() {
     this.#container.innerHTML = `
+    <form class="searchbar__form">
       <input placeholder="검색어를 입력하세요" class="text-placeholder searchbar__input" />
-      <img src="https://h0ngju.github.io/javascript-movie-review/search-icon.png" class="searchbar__icon"/>
+      <button type="submit" class="searchbar__button">
+        <img src="https://h0ngju.github.io/javascript-movie-review/search-icon.png" class="searchbar__icon" alt="검색" />
+      </button>
+    </form>
   `;
   }
 
   #bindInputEvent() {
     const $input = $({ root: this.#container, selector: '.searchbar__input' });
     $input?.addEventListener('input', (event: Event) => {
-      if (event.target instanceof HTMLInputElement) {
-        this.#searchValue = event.target.value;
-      }
+      if (!(event.target instanceof HTMLInputElement)) return;
+      this.#searchValue = event.target.value;
     });
   }
 
-  #bindEnterEvent() {
-    const $input = $({ root: this.#container, selector: '.searchbar__input' });
-    $input?.addEventListener('keydown', (event) => {
-      if (event instanceof KeyboardEvent && event.key === 'Enter' && event.target instanceof HTMLInputElement) {
-        this.#search();
-      }
-    });
-  }
-
-  #bindSearchIconEvent() {
-    const $icon = $({ root: this.#container, selector: '.searchbar__icon' });
-    $icon?.addEventListener('click', () => {
+  #bindFromEvent() {
+    const $form = $({ root: this.#container, selector: '.searchbar__form' });
+    $form?.addEventListener('submit', (event) => {
+      event.preventDefault();
       this.#search();
     });
   }
@@ -56,8 +51,7 @@ class SearchBar {
 
   #bindEvent() {
     this.#bindInputEvent();
-    this.#bindSearchIconEvent();
-    this.#bindEnterEvent();
+    this.#bindFromEvent();
   }
 
   get element() {
