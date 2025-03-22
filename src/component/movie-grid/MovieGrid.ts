@@ -1,6 +1,7 @@
 import MovieItem from '../movie-item/MovieItem';
 import { ERROR_MESSAGE } from '../../constants/errorMessage';
 import ErrorMessage from '../error-message/ErrorMessage';
+import { $ } from '../../utils/selector';
 
 interface MovieGridProps {
   movieItems: MovieData[];
@@ -21,11 +22,10 @@ class MovieGrid {
     if (this.#movieItems.length !== 0) {
       this.#container.innerHTML = `
       <ul class="thumbnail-list">
-      ${this.#movieItemElements()};
+      ${this.#movieItemElements()}
       </ul>`;
       return;
     }
-    this.#listElement = this.#container.querySelector('.thumbnail-list');
     this.#container.innerHTML = this.#emptyListElement();
   }
 
@@ -38,6 +38,7 @@ class MovieGrid {
   }
 
   appendMovies(newItems: MovieData[]) {
+    this.#listElement = $({ root: this.#container, selector: '.thumbnail-list' }) as HTMLElement | null;
     newItems.forEach((movieItem) => {
       const item = new MovieItem({ data: movieItem });
       if (!this.#listElement) throw new Error('listElement아 존재하지 않습니다.');

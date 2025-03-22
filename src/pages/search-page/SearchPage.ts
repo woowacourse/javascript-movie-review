@@ -8,11 +8,13 @@ import searchPageLoadingTemplate from './loadingTemplate';
 
 class SearchPage {
   #container;
-  #movieListData = [];
+  #movieListData: MovieData[] = [];
   #isLoading: boolean = true;
   #query: string;
   #currentPage = 1;
   #totalPage = 0;
+  #movieGrid: MovieGrid | null = null;
+  #loadMoreButton: Button | null = null;
 
   constructor() {
     this.#container = document.createElement('div');
@@ -52,23 +54,24 @@ class SearchPage {
   renderDynamicSection() {
     const $loadMoreButton = $({ selector: '.button--medium' });
     if ($loadMoreButton) $loadMoreButton.remove();
-    this.#container.appendChild(this.#movieGridElement());
-    if (this.#currentPage !== this.#totalPage) this.#container.appendChild(this.#loadMoreButtonElement());
-  }
-
-  #movieGridElement() {
-    return new MovieGrid({ movieItems: this.#movieListData }).element;
-  }
-
-  #loadMoreButtonElement() {
-    return new Button({ cssType: 'medium', innerText: '더보기', onClick: this.#loadMoreData }).element;
+    this.#movieGrid = new MovieGrid({ movieItems: this.#movieListData });
+    this.#container.appendChild(this.#movieGrid.element);
+    if (this.#currentPage !== this.#totalPage) {
+      this.#loadMoreButton = new Button({ cssType: 'medium', innerText: '더보기', onClick: this.#loadMoreData });
+      this.#container.appendChild(this.#loadMoreButton.element);
+    }
   }
 
   #loadMoreData = async () => {
     this.#currentPage += 1;
     const { movieListData } = await extractedData(SYSTEM_CONSTANTS.SEARCH_URL(this.#query, this.#currentPage));
-    this.#movieListData = movieListData;
-    this.renderDynamicSection();
+    this.#movieListData = [...this.#movieListData, ...movieListData];
+    if (!this.#movieGrid) throw new Error('movieGrid가 존재하지 않습니다.');
+    this.#movieGrid.appendMovies(movieListData);
+    if (this.#loadMoreButton) {
+      this.#loadMoreButton.element.remove();
+      this.#loadMoreButton = null;
+    }
   };
 
   #titleElement() {
