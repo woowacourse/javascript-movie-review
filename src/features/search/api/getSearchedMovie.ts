@@ -1,7 +1,7 @@
 import ErrorPage from "../../../shared/ui/components/ErrorPage";
 import { apiClient } from "../../../shared/utils/apiClient";
 
-export const getSearchedPost = async (query: string, page: number) => {
+export const getSearchedMovie = async (query: string, page: number) => {
   try {
     return await apiClient(
       "GET",

@@ -1,6 +1,6 @@
 import { addMoviePost } from "../../../shared/ui/addMoviePost";
 import { showSkeletons } from "../../../shared/ui/showSkeletons";
-import { getSearchedPost } from "../api/getSearchedPost";
+import { getSearchedMovie } from "../api/getSearchedMovie";
 
 export const searchFormSubmitHandler = async (e: Event) => {
   const $thumbnailList = document.querySelector(
@@ -41,7 +41,7 @@ export const searchFormSubmitHandler = async (e: Event) => {
     params.set("query", searchQuery as string);
   }
 
-  const searchedMovies = await getSearchedPost(
+  const searchedMovies = await getSearchedMovie(
     searchQuery as string,
     parseInt(params.get("page")!)
   );

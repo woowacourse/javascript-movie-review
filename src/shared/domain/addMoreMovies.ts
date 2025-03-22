@@ -1,5 +1,5 @@
 import { getMovieList } from "../../features/movie/api/getMovieList";
-import { getSearchedPost } from "../../features/search/api/getSearchedPost";
+import { getSearchedMovie } from "../../features/search/api/getSearchedMovie";
 import { addMoviePost } from "../ui/addMoviePost";
 import { disableMoreButton } from "../ui/disabledMoreButton";
 
@@ -15,7 +15,7 @@ export async function addMoreMovies($movieList: HTMLElement) {
   }
 
   if (query) {
-    const searchedMovies = await getSearchedPost(
+    const searchedMovies = await getSearchedMovie(
       query as string,
       parseInt(params.get("page")!)
     );
