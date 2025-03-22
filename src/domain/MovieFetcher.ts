@@ -33,13 +33,13 @@ class MovieFetcher {
   ): Promise<MovieResponse | undefined> {
     this.isLoading = true;
     this.error = null;
+
     movieFetcherEvent.notify();
-
     const response = await this.movieFetcher.get<MovieResponse>(url);
-    await delay(3000);
+    await delay(1000);
 
-    this.updateMovieData(response);
     this.isLoading = false;
+    this.updateMovieData(response);
     movieFetcherEvent.notify();
 
     return response;
@@ -67,11 +67,15 @@ class MovieFetcher {
     page: number,
     query: string,
   ): Promise<MovieResponse | undefined> {
-    this.movieResult = [];
+    if (page === 1) {
+      this.movieResult = [];
+    }
+
     this.isSearch = true;
     this.currentPage = page;
     this.query = query;
 
+    movieFetcherEvent.notify();
     const url = `${API_PATH.SEARCH}?query=${query}&page=${page}`;
     return await this.fetchMovieData(url);
   }

@@ -111,18 +111,13 @@ const handleMoreButtonClick = async () => {
 
   updateMoreButton(moreBtn, response.page, response.total_pages, true);
 
-  const isSearchMode = movieFetcher.isSearchState;
-
-  await (isSearchMode
+  await (movieFetcher.isSearchState
     ? movieFetcher.getNextPageSearchMovies()
     : movieFetcher.getNextPagePopularMovies());
 };
 
-const renderLoadingState = (itemCount: number, append: boolean) => {
+const renderMoreLoadingState = (itemCount: number) => {
   const skeletons = createSkeletonItems(itemCount);
-  if (!append) {
-    movieUl.innerHTML = '';
-  }
   movieUl.append(...skeletons);
 };
 
@@ -145,7 +140,7 @@ const renderMovies = (movies: MovieItemType[], response: MovieResponse) => {
 
 const renderMovieList = () => {
   const {
-    movies: results = [],
+    movies: results,
     queryText: query,
     currentMovieResponse: response,
     isLoadingState: isLoading,
@@ -156,8 +151,8 @@ const renderMovieList = () => {
   updateListTitle(titleText, isSearch, query);
 
   if (error) return renderErrorState();
-  if (isLoading) return renderLoadingState(20, !isSearch);
-  if (results.length === 0) return renderEmptyState();
+  if (isLoading) return renderMoreLoadingState(20);
+  if (!isSearch && results.length === 0) return renderEmptyState();
 
   renderMovies(results, response);
 };
@@ -168,7 +163,7 @@ export const MovieList = async (): Promise<HTMLElement> => {
     app.insertBefore(mainElement, app.firstChild.nextSibling);
   }
 
-  renderLoadingState(20, false);
+  renderMoreLoadingState(20);
   await movieFetcher.getPopularMovies(1);
 
   renderMovieList();
