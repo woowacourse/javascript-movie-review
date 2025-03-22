@@ -152,7 +152,7 @@ const renderMovieList = () => {
 
   if (error) return renderErrorState();
   if (isLoading) return renderMoreLoadingState(20);
-  if (isSearch && results.length === 0) {
+  if (isSearch && results.length === 0 && !isLoading) {
     return renderEmptyState();
   }
 

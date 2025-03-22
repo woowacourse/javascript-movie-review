@@ -2,59 +2,93 @@ import { MovieItem, MovieResponse } from '../types/Movie.types';
 import { ENV } from '../api/env';
 import Fetcher from '../api/Fetcher';
 import { movieFetcherEvent } from './MovieFetcherEvent';
+import { delay } from '../utils/delay';
 
 export const API_PATH = {
   MOVIE: 'movie/popular',
   SEARCH: 'search/movie',
 } as const;
 
+type MovieFetcherState = {
+  isLoading: boolean;
+  isSearch: boolean;
+  movieResponse: MovieResponse;
+  movieResult: MovieItem[];
+};
+
 class MovieFetcher {
   private movieFetcher: Fetcher;
-  private isLoading: boolean = false;
-  private isSearch: boolean = false;
+
+  private state: MovieFetcherState;
+
   private query: string = '';
   private currentPage: number = 1;
-  private movieResponse: MovieResponse = {
-    page: 0,
-    results: [],
-    total_pages: 0,
-    total_results: 0,
-  };
-  private movieResult: MovieItem[] = [];
   private error: Error | null = null;
 
   constructor() {
     this.movieFetcher = new Fetcher(ENV.VITE_API_URL);
+    const initialState: MovieFetcherState = {
+      isLoading: false,
+      isSearch: false,
+      movieResponse: {
+        page: 0,
+        results: [],
+        total_pages: 0,
+        total_results: 0,
+      },
+      movieResult: [],
+    };
+
+    this.state = this.createStateProxy(initialState);
+  }
+
+  private createStateProxy(initialState: MovieFetcherState): MovieFetcherState {
+    return new Proxy(initialState, {
+      set: <K extends keyof MovieFetcherState>(
+        obj: MovieFetcherState,
+        prop: K,
+        value: MovieFetcherState[K],
+      ): boolean => {
+        const oldValue = obj[prop];
+        obj[prop] = value;
+
+        if (oldValue !== value) {
+          movieFetcherEvent.notify();
+        }
+
+        return true;
+      },
+    });
   }
 
   private async fetchMovieData(
     url: string,
   ): Promise<MovieResponse | undefined> {
-    this.isLoading = true;
+    this.state.isLoading = true;
     this.error = null;
 
-    movieFetcherEvent.notify();
     const response = await this.movieFetcher.get<MovieResponse>(url);
 
-    this.isLoading = false;
+    this.state.isLoading = false;
     this.updateMovieData(response);
-    movieFetcherEvent.notify();
 
     return response;
   }
 
   private updateMovieData(response: MovieResponse): void {
-    this.movieResponse = response;
-    this.movieResult = [...this.movieResult, ...response.results];
+    this.state.movieResponse = response;
+    this.state.movieResult = [...this.state.movieResult, ...response.results];
   }
 
   public async getPopularMovies(
     page: number,
   ): Promise<MovieResponse | undefined> {
-    this.isSearch = false;
     this.currentPage = page;
     const url = `${API_PATH.MOVIE}?page=${page}`;
-    return await this.fetchMovieData(url);
+    const res = await this.fetchMovieData(url);
+
+    await delay(1000);
+    return res;
   }
 
   public async getNextPagePopularMovies() {
@@ -65,10 +99,13 @@ class MovieFetcher {
     page: number,
     query: string,
   ): Promise<MovieResponse | undefined> {
+    this.state.isLoading = true;
+    this.state.isSearch = true;
+
     if (page === 1) {
-      this.movieResult = [];
+      this.state.movieResult = [];
     }
-    this.isSearch = true;
+
     this.currentPage = page;
     this.query = query;
 
@@ -81,19 +118,19 @@ class MovieFetcher {
   }
 
   get movies(): MovieItem[] {
-    return this.movieResult ?? [];
+    return this.state.movieResult ?? [];
   }
 
   get isLoadingState(): boolean {
-    return this.isLoading;
+    return this.state.isLoading;
   }
 
   get isSearchState(): boolean {
-    return this.isSearch;
+    return this.state.isSearch;
   }
 
   get currentMovieResponse(): MovieResponse {
-    return this.movieResponse;
+    return this.state.movieResponse;
   }
 
   get queryText(): string {
