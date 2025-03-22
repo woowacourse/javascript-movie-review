@@ -1,5 +1,5 @@
 import { MOVIE_ITEM_PER_PAGE } from "@/lib/constants";
-import { $, createElement } from "@/lib/utils";
+import { createElement } from "@/lib/utils";
 import Skeleton from "./Skeleton";
 
 export default function MovieListSkeleton() {

@@ -1,14 +1,14 @@
-import { MovieResult, MoviesResponse } from "@/lib/types";
+import { MovieResult } from "@/lib/types";
 import { html } from "@/lib/utils";
 import Component from "./core/Component";
 import ThumbnailList from "./ThumbnailList";
-import MovieListSkeleton from "./MovieListSkeleton";
 
 const TAB_LIST = ["상영 중", "인기순", "평점순", "상영 예정"];
 
 interface MoviesProps {
   movies: MovieResult[];
   page: number;
+  totalPages: number;
   search: string;
 }
 
@@ -42,12 +42,17 @@ export default class Movies extends Component<MoviesProps> {
             </div>
           </section>
         </main>
-        <button class="primary show-more">더 보기</button>
+        ${this.props.movies.length > 0 &&
+        this.props.totalPages > this.props.page
+          ? '<button class="primary show-more">더 보기</button>'
+          : ""}
       </div>
     `;
   }
 
   async onRender() {
+    // if(this.props.movies.length === 0)
+
     this.fillSlot(
       new ThumbnailList({
         movies: this.props.movies,

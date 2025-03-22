@@ -28,7 +28,6 @@ export default class App extends Component<null, AppState> {
   }
 
   override template() {
-    console.log(this.state.movies);
     return html`
       <div id="movie-review-wrap">
         <slot name="header"></slot>
@@ -49,6 +48,7 @@ export default class App extends Component<null, AppState> {
     this.fillSlot(
       new Movies({
         movies: this.state.movies,
+        totalPages: this.state.moviesResponse?.total_pages ?? 1,
         page: this.state.page,
         search: this.state.search,
       }).render(),
@@ -79,7 +79,15 @@ export default class App extends Component<null, AppState> {
       if (!isElement(target)) return;
 
       if (target.closest(".show-more")) {
-        const moviesResponse = await getMovies({ page: this.state.page + 1 });
+        let moviesResponse;
+
+        if (this.state.search)
+          moviesResponse = await getMovieByName({
+            name: this.state.search,
+            page: this.state.page + 1,
+          });
+        else moviesResponse = await getMovies({ page: this.state.page + 1 });
+
         this.setState({
           moviesResponse,
           movies: [...this.state.movies, ...moviesResponse.results],

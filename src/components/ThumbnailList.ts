@@ -10,6 +10,13 @@ interface ThumbnailListProps {
 
 export default class ThumbnailList extends Component<ThumbnailListProps> {
   template() {
+    if (this.props.movies.length === 0)
+      return html`
+        <div class="error">
+          <img src="./images/woowawa_planet.svg" alt="woowawa_planet" />
+          <h2>검색 결과가 없습니다.</h2>
+        </div>
+      `;
     return html`
       <ul class="thumbnail-list">
         ${this.props.movies
