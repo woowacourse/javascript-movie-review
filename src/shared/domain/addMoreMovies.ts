@@ -1,6 +1,6 @@
 import { getMovieList } from "../../features/movie/api/getMovieList";
 import { getSearchedMovie } from "../../features/search/api/getSearchedMovie";
-import { addMoviePost } from "../ui/addMoviePost";
+import { addMovieCard } from "../ui/addMovieCard";
 import { disableMoreButton } from "../ui/disabledMoreButton";
 
 export async function addMoreMovies($movieList: HTMLElement) {
@@ -20,7 +20,7 @@ export async function addMoreMovies($movieList: HTMLElement) {
       parseInt(params.get("page")!)
     );
 
-    addMoviePost(searchedMovies.results, $movieList);
+    addMovieCard(searchedMovies.results, $movieList);
     disableMoreButton(
       searchedMovies.total_pages,
       parseInt(params.get("page")!)
@@ -28,7 +28,7 @@ export async function addMoreMovies($movieList: HTMLElement) {
   } else {
     const movies = await getMovieList({ page: parseInt(params.get("page")!) });
 
-    addMoviePost(movies.results, $movieList);
+    addMovieCard(movies.results, $movieList);
     disableMoreButton(movies.total_pages, parseInt(params.get("page")!));
   }
 

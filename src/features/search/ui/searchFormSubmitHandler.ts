@@ -1,4 +1,4 @@
-import { addMoviePost } from "../../../shared/ui/addMoviePost";
+import { addMovieCard } from "../../../shared/ui/addMovieCard";
 import { showSkeletons } from "../../../shared/ui/showSkeletons";
 import { getSearchedMovie } from "../api/getSearchedMovie";
 
@@ -48,7 +48,7 @@ export const searchFormSubmitHandler = async (e: Event) => {
 
   if ($thumbnailList) {
     $thumbnailList.innerHTML = "";
-    addMoviePost(searchedMovies.results, $thumbnailList);
+    addMovieCard(searchedMovies.results, $thumbnailList);
   }
 
   const newUrl = `${window.location.pathname}?${params.toString()}`;

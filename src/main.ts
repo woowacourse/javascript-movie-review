@@ -2,7 +2,7 @@ import { getMovieList } from "./features/movie/api/getMovieList";
 import Header from "./shared/ui/components/Header";
 import { CustomButton } from "./shared/ui/components/CustomButton";
 import { showSkeletons } from "./shared/ui/showSkeletons";
-import { addMoviePost } from "./shared/ui/addMoviePost";
+import { addMovieCard } from "./shared/ui/addMovieCard";
 import { addMoreMovies } from "./shared/domain/addMoreMovies";
 import { searchFormSubmitHandler } from "./features/search/ui/searchFormSubmitHandler";
 import { removeSkeletons } from "./shared/ui/removeSkeletons";
@@ -18,7 +18,7 @@ addEventListener("DOMContentLoaded", async () => {
     Header(movies.results[0]);
 
     removeSkeletons();
-    addMoviePost(movies.results, $movieList);
+    addMovieCard(movies.results, $movieList);
   }
 
   const $movieContainer = document.getElementById("movie-container");

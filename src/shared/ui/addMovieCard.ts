@@ -1,8 +1,8 @@
-import MoviePost from "../../features/movie/ui/components/MoviePost";
+import MovieCard from "../../features/movie/ui/components/MovieCard";
 import { showEmptySearchResult } from "../../features/search/ui/showEmptySearchResult";
 import { IMovie } from "../types/movies";
 
-export function addMoviePost(movieList: IMovie[], $movieList: HTMLElement) {
+export function addMovieCard(movieList: IMovie[], $movieList: HTMLElement) {
   if (movieList.length === 0) {
     showEmptySearchResult();
 
@@ -20,6 +20,6 @@ export function addMoviePost(movieList: IMovie[], $movieList: HTMLElement) {
   }
 
   movieList.forEach((movie: IMovie) => {
-    $movieList.appendChild(MoviePost(movie));
+    $movieList.appendChild(MovieCard(movie));
   });
 }
