@@ -1,35 +1,79 @@
-import image from "../templates/images/star_filled.png";
+import { Movie, PaginatedMovies } from "../types/domain";
+import api from "./api/api";
+import MovieItem from "./components/MovieItem";
+import SearchBar from "./components/SearchBar";
+import SkeletonUl from "./components/SkeletonUl";
+import TextButton from "./components/TextButton";
+import { BACKDROP_IMG_PREFIX, MOVIE_AMOUNT_IN_PAGE } from "./constants/movie";
+import { toggleVisibility } from "./utils/Render";
 
-console.log("npm run dev 명령어를 통해 영화 리뷰 미션을 시작하세요");
+const thumbnailList = document.querySelector("ul.thumbnail-list");
+const mainSection = document.querySelector("main section");
+const skeletonUl = new SkeletonUl();
 
-console.log(
-  "%c" +
-    " _____ ______   ________  ___      ___ ___  _______                \n" +
-    "|\\   _ \\  _   \\|\\   __  \\|\\  \\    /  /|\\  \\|\\  ___ \\               \n" +
-    "\\ \\  \\\\\\__\\ \\  \\ \\  \\|\\  \\ \\  \\  /  / | \\  \\ \\   __/|              \n" +
-    " \\ \\  \\\\|__| \\  \\ \\  \\\\\\  \\ \\  \\/  / / \\ \\  \\ \\  \\_|/__            \n" +
-    "  \\ \\  \\    \\ \\  \\ \\  \\\\\\  \\ \\    / /   \\ \\  \\ \\  \\_|\\ \\           \n" +
-    "   \\ \\__\\    \\ \\__\\ \\_______\\ \\__/ /     \\ \\__\\ \\_______\\          \n" +
-    "    \\|__|     \\|__|\\|_______|\\|__|/       \\|__|\\|_______|          \n" +
-    "                                                                   \n" +
-    "                                                                   \n" +
-    "                                                                   \n" +
-    " ________  _______   ___      ___ ___  _______   ___       __      \n" +
-    "|\\   __  \\|\\  ___ \\ |\\  \\    /  /|\\  \\|\\  ___ \\ |\\  \\     |\\  \\    \n" +
-    "\\ \\  \\|\\  \\ \\   __/|\\ \\  \\  /  / | \\  \\ \\   __/|\\ \\  \\    \\ \\  \\   \n" +
-    " \\ \\   _  _\\ \\  \\_|/_\\ \\  \\/  / / \\ \\  \\ \\  \\_|/_\\ \\  \\  __\\ \\  \\  \n" +
-    "  \\ \\  \\\\  \\\\ \\  \\_|\\ \\ \\    / /   \\ \\  \\ \\  \\_|\\ \\ \\  \\|\\__\\_\\  \\ \n" +
-    "   \\ \\__\\\\ _\\\\ \\_______\\ \\__/ /     \\ \\__\\ \\_______\\ \\____________\\\n" +
-    "    \\|__|\\|__|\\|_______|\\|__|/       \\|__|\\|_______|\\|____________|",
-  "color: #d81b60; font-size: 14px; font-weight: bold;"
-);
-
-addEventListener("load", () => {
-  const app = document.querySelector("#app");
-  const buttonImage = document.createElement("img");
-  buttonImage.src = image;
-
-  if (app) {
-    app.appendChild(buttonImage);
-  }
+const seeMoreButton = new TextButton({
+  id: "seeMore",
+  title: "더보기",
+  onClick: renderMovieData,
+  type: "primary",
 });
+
+const searchBar = new SearchBar();
+const logo = document.querySelector(".logo");
+const logoImage = document.querySelector(".logo img");
+
+renderTitleMovie();
+logoImage?.addEventListener("click", () => {
+  window.location.reload();
+});
+logo?.appendChild(searchBar.create());
+mainSection?.appendChild(skeletonUl.create());
+mainSection?.appendChild(seeMoreButton.create());
+renderMovieData();
+
+async function getMovieData() {
+  const itemCount = document.querySelectorAll("ul.thumbnail-list li").length;
+  const pageNumber = itemCount / MOVIE_AMOUNT_IN_PAGE + 1;
+
+  try {
+    return (await api.getMovieData(pageNumber)) as PaginatedMovies;
+  } catch (error) {
+    if (error instanceof Error) alert(error.message);
+  }
+}
+
+async function renderTitleMovie() {
+  const topMovieData = (await getMovieData())?.results[0] as Movie;
+  const movieTitle = topMovieData.title;
+  const movieRate = topMovieData.vote_average;
+  const movieBackdropUrl = BACKDROP_IMG_PREFIX + topMovieData.backdrop_path;
+
+  const topMovieTitle = document.querySelector(
+    ".top-rated-movie .title"
+  ) as HTMLDivElement;
+  const topMovieRateValue = document.querySelector(
+    ".top-rated-movie .rate-value"
+  ) as HTMLSpanElement;
+  const backgroundOverlay = document.querySelector(
+    ".background-container .overlay"
+  ) as HTMLDivElement;
+
+  topMovieTitle.textContent = movieTitle;
+  topMovieRateValue.textContent = String(movieRate);
+  backgroundOverlay.style.backgroundImage = `url("${movieBackdropUrl}")`;
+}
+
+async function renderMovieData() {
+  const skeletonUlElement = document.querySelector(".skeleton-list");
+  toggleVisibility(skeletonUlElement, "show");
+
+  const movieData = (await getMovieData())?.results as Movie[];
+
+  movieData.forEach(({ title, poster_path, vote_average }) => {
+    const movieItem = new MovieItem({ title, vote_average, poster_path });
+    const movieItemElement = movieItem.create();
+    thumbnailList?.appendChild(movieItemElement);
+  });
+
+  toggleVisibility(skeletonUlElement, "hidden");
+}

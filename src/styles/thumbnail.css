@@ -38,3 +38,14 @@ p.rate > span {
   width: 16px;
   top: 1px;
 }
+
+.no-thumbnail {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+}
+
+.hidden {
+  display: none !important;
+}
