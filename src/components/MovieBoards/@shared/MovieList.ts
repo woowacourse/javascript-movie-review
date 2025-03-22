@@ -26,7 +26,7 @@ class MovieList implements MovieListContract {
         </div>
       </li>
     `
-      .repeat(20)
+      .repeat(10)
       .trim();
   }
 
