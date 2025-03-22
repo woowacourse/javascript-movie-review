@@ -18,6 +18,7 @@ class TitleSearchBar {
 
     const $button = document.createElement("button");
     $button.classList.add("search-button");
+    $button.type = "submit";
 
     const $img = document.createElement("img");
     $img.setAttribute("src", "./images/Search.png");
