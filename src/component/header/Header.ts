@@ -4,14 +4,10 @@ import SearchBar from '../search-bar/SearchBar';
 
 class Header {
   #container;
-  #searchBar;
 
   constructor() {
     this.#container = document.createElement('header');
     this.#container.className = 'header';
-
-    this.#searchBar = new SearchBar();
-
     this.render();
   }
 
@@ -29,7 +25,7 @@ class Header {
 
     const searchBarWrapper = document.createElement('div');
     searchBarWrapper.className = 'header__searchbar';
-    searchBarWrapper.appendChild(this.#searchBar.element);
+    searchBarWrapper.appendChild(new SearchBar().element);
 
     this.#container.appendChild(searchBarWrapper);
   }
