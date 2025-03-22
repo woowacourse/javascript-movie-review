@@ -1,6 +1,7 @@
 import { fetchUrl } from "../util/fetch";
 import { validateResponse } from "../util/validation";
-import type { TMDBResponse } from "../../types/TMDB";
+import type { TMDBResponse } from "../../types/tmdb.types";
+import type { FetchOptions } from "../../types/fetch.types";
 
 export async function fetchMovies(
   url: string,

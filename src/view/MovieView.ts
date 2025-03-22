@@ -2,9 +2,9 @@ import Header from "../components/header/header";
 import Hero from "../components/hero/hero";
 import Button from "../components/button/button";
 import MovieItem from "../components/moveItem/movieItem";
-import type { Result } from "../../types/TMDB";
+import type { Result } from "../../types/tmdb.types";
 import { createElementsFragment } from "../util/dom";
-
+import type { StateTypes } from "../state/state";
 export function showElement(element: Element | null) {
   element?.classList.remove("hide");
 }
@@ -82,14 +82,16 @@ export function renderHeaderAndHero() {
   }
 }
 
-export function renderLoadMoreButton(state: { loadMovies: any }) {
+export function renderLoadMoreButton(state: StateTypes) {
   const $thumbnailContainer = document.getElementById("thumbnail-container");
   if ($thumbnailContainer) {
     const loadMoreButton = Button({
       className: ["primary", "width-100"],
       placeholder: "더보기",
       id: "load-more",
-      onClick: () => renderMovieList(state.loadMovies),
+      onClick: () => {
+        if (state.loadMovies) renderMovieList(state.loadMovies);
+      },
     });
     $thumbnailContainer.append(loadMoreButton);
   }

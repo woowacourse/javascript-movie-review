@@ -1,5 +1,5 @@
 import { ERROR_MESSAGE } from "../setting/ErrorMessage.ts";
-import type { TMDBResponse } from "../../types/TMDB";
+import type { TMDBResponse } from "../../types/tmdb.types.ts";
 
 export function validateResponse(response: TMDBResponse): void {
   if (!response || !response.results) {
