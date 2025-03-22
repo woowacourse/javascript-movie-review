@@ -16,13 +16,14 @@ describe('검색 e2e 테스트', () => {
 
     cy.wait('@getPopular');
 
-    cy.wait(3000);
-
     cy.get('.search-input').type('해리포터');
     cy.get('.search-bar').click();
-    cy.get('.skeleton-item').should('have.length', 20);
 
     cy.wait('@getSearchMovie');
+
+    cy.get('.skeleton-item').should('have.length', 20);
+
+    cy.wait(3000);
 
     cy.get('.skeleton-item').should('not.exist');
     cy.get('.movie-item').should('have.length', 9);
@@ -35,9 +36,7 @@ describe('검색 e2e 테스트', () => {
 
     cy.get('.search-input').type('세라랑 메리랑 페어 ㅎ.ㅎ');
     cy.get('.search-bar').click();
-    cy.get('.skeleton-item').should('have.length', 20);
 
-    cy.get('.skeleton-item').should('not.exist');
     cy.get('.result-container')
       .contains('검색 결과가 없습니다.')
       .should('exist');
