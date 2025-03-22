@@ -25,6 +25,7 @@ describe("비동기 API 테스트 ", () => {
     cy.get("@popularMovies").its("body.results").should("have.length", 20);
   });
 
+
   it("영화를 검색하면 한 번에 20개씩 목록에 나열되어야 한다.", () => {
     const searchWord = "사랑";
 
@@ -61,12 +62,9 @@ describe("Fixture 테스트 ", () => {
 
   it("영화 목록 API 를 호출하면 한 번에 20개씩 목록에 나열되어야 한다.", () => {
     cy.wait("@getPopularMovies").then((interception) => {
-      // interception으로 fixture가 잘 불러와졌는지 확인하는 코드 샘플
       const popularMovies = interception.response?.body.results;
-      console.log(popularMovies);
       expect(popularMovies.length).to.equal(20);
 
-      // 제대로 렌더링이 되었는지 테스트하는 코드 샘플
       const popularMovieItems = cy.get(".thumbnail-list > li");
       expect(popularMovieItems.should("have.length", 20));
     });
