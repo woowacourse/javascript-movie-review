@@ -1,0 +1,27 @@
+.header {
+  max-width: 1280px;
+  width: 100%;
+  height: 100px;
+  position: relative;
+}
+
+.logo {
+  display: block;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 120;
+  cursor: pointer;
+}
+
+.header__searchbar {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
