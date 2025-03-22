@@ -1,43 +1,35 @@
 /// <reference types="vite/client" />
 
+import Toast from "./components/Toast/Toast.js";
 import createMovieLoader from "./service/createMovieLoader";
 import { URLS, defaultOptions, defaultQueryObject } from "./setting/settings";
-import Header from "./components/header/header";
-import Hero from "./components/hero/hero";
-import Button from "./components/button/button";
+
 import state from "./state/state.ts";
-import createMovieList from "./service/createMovieList";
+
+import {
+  updateMovieList,
+  renderHeaderAndHero,
+  renderLoadMoreButton,
+} from "./view/MovieView.ts";
 
 function init() {
   state.loadMovies = createMovieLoader(
     URLS.popularMovieUrl,
     defaultQueryObject,
-    defaultOptions
+    defaultOptions,
+    undefined,
+    (error) => {
+      Toast.showToast(error.message, "error", 5000);
+    }
   );
-  renderHeaderAndHero();
-  createMovieList(state.loadMovies);
-  renderLoadMoreButton();
-}
-
-function renderHeaderAndHero() {
-  const $wrap = document.getElementById("wrap");
-  if ($wrap) {
-    $wrap.prepend(Header());
-    $wrap.prepend(Hero());
-  }
-}
-
-function renderLoadMoreButton() {
-  const $thumbnailContainer = document.getElementById("thumbnail-container");
-  if ($thumbnailContainer) {
-    const loadMoreButton = Button({
-      className: ["primary", "width-100"],
-      placeholder: "더보기",
-      id: "load-more",
-      onClick: () => createMovieList(state.loadMovies),
-    });
-    $thumbnailContainer.append(loadMoreButton);
-  }
 }
 
 init();
+
+function render() {
+  renderHeaderAndHero();
+  updateMovieList(state.loadMovies);
+  renderLoadMoreButton(state);
+}
+
+render();
