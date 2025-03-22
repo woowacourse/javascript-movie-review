@@ -1,35 +1,95 @@
-import image from "../templates/images/star_filled.png";
+import Footer from "./components/Footer/Footer.js";
+import Header from "./components/Header/Header.js";
+import { MovieInfo } from "../types/movieType.ts";
+import ContentsContainer from "./components/Main/ContentsContainer.ts";
+import MovieService from "./services/MovieService.ts";
+import LogoSearchBar from "./components/Header/LogoSearchBar.js";
+import HeaderSkeleton from "./components/Skeleton/HeaderSkeleton.js";
+import {
+  hideSkeleton,
+  showSkeleton,
+} from "./components/Skeleton/showSkeleton.ts";
 
-console.log("npm run dev 명령어를 통해 영화 리뷰 미션을 시작하세요");
-
-console.log(
-  "%c" +
-    " _____ ______   ________  ___      ___ ___  _______                \n" +
-    "|\\   _ \\  _   \\|\\   __  \\|\\  \\    /  /|\\  \\|\\  ___ \\               \n" +
-    "\\ \\  \\\\\\__\\ \\  \\ \\  \\|\\  \\ \\  \\  /  / | \\  \\ \\   __/|              \n" +
-    " \\ \\  \\\\|__| \\  \\ \\  \\\\\\  \\ \\  \\/  / / \\ \\  \\ \\  \\_|/__            \n" +
-    "  \\ \\  \\    \\ \\  \\ \\  \\\\\\  \\ \\    / /   \\ \\  \\ \\  \\_|\\ \\           \n" +
-    "   \\ \\__\\    \\ \\__\\ \\_______\\ \\__/ /     \\ \\__\\ \\_______\\          \n" +
-    "    \\|__|     \\|__|\\|_______|\\|__|/       \\|__|\\|_______|          \n" +
-    "                                                                   \n" +
-    "                                                                   \n" +
-    "                                                                   \n" +
-    " ________  _______   ___      ___ ___  _______   ___       __      \n" +
-    "|\\   __  \\|\\  ___ \\ |\\  \\    /  /|\\  \\|\\  ___ \\ |\\  \\     |\\  \\    \n" +
-    "\\ \\  \\|\\  \\ \\   __/|\\ \\  \\  /  / | \\  \\ \\   __/|\\ \\  \\    \\ \\  \\   \n" +
-    " \\ \\   _  _\\ \\  \\_|/_\\ \\  \\/  / / \\ \\  \\ \\  \\_|/_\\ \\  \\  __\\ \\  \\  \n" +
-    "  \\ \\  \\\\  \\\\ \\  \\_|\\ \\ \\    / /   \\ \\  \\ \\  \\_|\\ \\ \\  \\|\\__\\_\\  \\ \n" +
-    "   \\ \\__\\\\ _\\\\ \\_______\\ \\__/ /     \\ \\__\\ \\_______\\ \\____________\\\n" +
-    "    \\|__|\\|__|\\|_______|\\|__|/       \\|__|\\|_______|\\|____________|",
-  "color: #d81b60; font-size: 14px; font-weight: bold;"
-);
-
-addEventListener("load", () => {
-  const app = document.querySelector("#app");
-  const buttonImage = document.createElement("img");
-  buttonImage.src = image;
-
-  if (app) {
-    app.appendChild(buttonImage);
+function renderHeader({ title, poster_path, vote_average }: MovieInfo) {
+  const $container = document.querySelector("#wrap");
+  const $header = Header({ title, poster_path, vote_average });
+  const $logoSearchBar = LogoSearchBar();
+  $header.querySelector(".top-rated-container")?.prepend($logoSearchBar);
+  const $headerSkeleton = document
+    .querySelector("header .skeleton-background")
+    ?.closest("header");
+  if ($headerSkeleton) {
+    $headerSkeleton.remove();
   }
-});
+  $container?.prepend($header);
+}
+
+async function renderContent(movieService: MovieService, results: MovieInfo[]) {
+  ContentsContainer(results, "지금 인기 있는 영화");
+
+  // 이벤트 등록
+  const $input = document.querySelector(".search-input") as HTMLInputElement;
+  const $button = document.querySelector(".search-button") as HTMLButtonElement;
+  const $section = document.querySelector("section") as HTMLDivElement;
+
+  $input?.addEventListener("keypress", async (event) => {
+    const keyboardEvent = event as KeyboardEvent;
+    if (keyboardEvent.key === "Enter") {
+      const inputValue = (event.target as HTMLInputElement).value;
+      showSkeleton(20, "section");
+      if (inputValue === "") {
+        alert("검색어를 입력해주세요.");
+      } else {
+        const searchResult = await movieService.getSearchResult(inputValue);
+        if ($section) {
+          $section.innerHTML = "";
+        }
+
+        ContentsContainer(searchResult.results, `"${inputValue}" 검색 결과`);
+      }
+    }
+  });
+
+  $button?.addEventListener("click", async () => {
+    const inputValue = $input?.value;
+    showSkeleton(20, "section");
+    if (inputValue === "") {
+      alert("검색어를 입력해주세요.");
+    } else {
+      const searchResult = await movieService.getSearchResult(inputValue);
+      if ($section) {
+        $section.innerHTML = "";
+      }
+
+      ContentsContainer(searchResult.results, `"${inputValue}" 검색 결과`);
+    }
+  });
+}
+
+function renderFooter() {
+  const $container = document.querySelector("#wrap");
+  const $footer = Footer();
+  $container?.appendChild($footer);
+}
+
+async function main() {
+  const movieService = new MovieService();
+  const $container = document.querySelector("#wrap");
+
+  const $headerSkeleton = HeaderSkeleton();
+  $container?.prepend($headerSkeleton);
+
+  showSkeleton(20, "section");
+
+  const data = await movieService.getPopularMovies();
+
+  renderHeader(data.results[0]);
+
+  hideSkeleton();
+
+  renderContent(movieService, data.results);
+
+  renderFooter();
+}
+
+main();
