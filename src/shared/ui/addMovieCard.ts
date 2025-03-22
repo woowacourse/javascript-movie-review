@@ -2,7 +2,10 @@ import MovieCard from "../../features/movie/ui/components/MovieCard";
 import { showEmptySearchResult } from "../../features/search/ui/showEmptySearchResult";
 import { IMovie } from "../types/movies";
 
-export function addMovieCard(movieList: IMovie[], $movieList: HTMLElement) {
+export function addMovieCard(
+  movieList: IMovie[],
+  $movieListContainer: HTMLElement
+) {
   if (movieList.length === 0) {
     showEmptySearchResult();
 
@@ -19,7 +22,24 @@ export function addMovieCard(movieList: IMovie[], $movieList: HTMLElement) {
     $moreMoviesButton?.classList.remove("disabled");
   }
 
-  movieList.forEach((movie: IMovie) => {
-    $movieList.appendChild(MovieCard(movie));
-  });
+  addMoreMovies($movieListContainer, movieList);
+}
+
+function addMoreMovies($movieListContainer: HTMLElement, movieList: IMovie[]) {
+  const fragment = document.createDocumentFragment();
+
+  if (movieList[0].title) {
+    fragment.append(
+      ...movieList.map((movie) => MovieCard(movie.title as string, movie))
+    );
+
+    $movieListContainer.appendChild(fragment);
+    return;
+  }
+
+  fragment.append(
+    ...movieList.map((movie) => MovieCard(movie.name as string, movie))
+  );
+
+  $movieListContainer.appendChild(fragment);
 }
