@@ -21,3 +21,10 @@ export interface MovieResult {
   vote_average: number;
   vote_count: number;
 }
+
+export type HTMLType = "HTMLType";
+
+export interface StrictObject {
+  [key: string]: any;
+  length?: never;
+}
