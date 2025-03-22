@@ -35,7 +35,7 @@ class Header {
   }
 
   #bindLogoClickEvent() {
-    const $logo = $({ root: this.#container, selector: '.logo img' });
+    const $logo = $({ root: this.#container, selector: '.logo' });
     if ($logo) {
       $logo.addEventListener('click', () => {
         redirectToPage('/');
