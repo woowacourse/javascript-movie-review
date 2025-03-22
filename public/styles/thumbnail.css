@@ -1,0 +1,92 @@
+@import "./colors.css";
+
+.error-box {
+  padding: 5rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+}
+
+.movie-list-box {
+  padding: 0 5rem;
+  width: 1440px;
+  margin: 4rem auto;
+}
+
+.thumbnail-list {
+  margin: 0 auto 56px;
+  display: grid;
+  grid-template-columns: repeat(5, 200px);
+  justify-content: space-between;
+  gap: 70px;
+}
+
+.empty-box {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+}
+
+.empty-planet {
+  width: 4.5rem;
+  height: 3.88356rem;
+}
+
+.item {
+  user-select: none;
+  cursor: pointer;
+}
+
+.thumbnail {
+  width: 200px;
+  height: 300px;
+  border-radius: 8px;
+}
+
+.item-desc {
+  margin-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.item-desc > *:not(:last-child) {
+  position: relative;
+  margin-bottom: 4px;
+  line-height: 1.2rem;
+}
+
+.item-desc > strong {
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+p.rate {
+  display: flex;
+  align-items: baseline;
+  color: var(--color-yellow);
+}
+
+p.rate > span {
+  margin-left: 4px;
+}
+
+.item .star {
+  width: 16px;
+  top: 1px;
+}
+
+.more-button {
+  width: 100%;
+  height: 3.0625rem;
+  border-radius: 8px;
+  background: var(--color-lightblue-90);
+  color: var(--color-white);
+  font-size: 1.25rem;
+  font-weight: 600;
+}
