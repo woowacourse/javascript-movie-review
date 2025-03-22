@@ -6,11 +6,6 @@ import TopRatedMovie from "../components/TopRatedMovie";
 import { DEFAULT_BACK_DROP_URL, MAX_MOVIE_PAGE } from "../constants";
 import { $ } from "../utils";
 
-const $mainSection = $("main section");
-const $ul = $(".thumbnail-list");
-const $error = $(".error");
-const $h2 = $error.querySelector("h2");
-
 const changeHeaderBackground = () => {
   const $backgroundContainer = $(".background-container");
 
@@ -45,6 +40,11 @@ const renderTotalList = async () => {
 };
 
 const renderSearchList = async () => {
+  const $mainSection = $("main section");
+  const $ul = $(".thumbnail-list");
+  const $error = $(".error");
+  const $h2 = $error.querySelector("h2");
+
   changeHeaderBackground();
 
   const moviesResponse = await getMovieByName({
@@ -65,6 +65,11 @@ const renderSearchList = async () => {
 };
 
 export const renderMoviesList = async () => {
+  const $mainSection = $("main section");
+  const $ul = $(".thumbnail-list");
+  const $error = $(".error");
+  const $h2 = $error.querySelector("h2");
+
   const $skeleton = MovieListSkeleton();
   if ($skeleton) $mainSection.appendChild($skeleton);
 
