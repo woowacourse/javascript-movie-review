@@ -1,6 +1,6 @@
 import { renderMoviesList } from "./domains/renderMoviesList";
 import { store } from "./store";
-import { $, isElement } from "./utils";
+import { $, isElement, isHTMLFormElement } from "./utils";
 
 window.addEventListener("click", async (event) => {
   const { target } = event;
@@ -15,10 +15,10 @@ window.addEventListener("submit", async (event) => {
   event.preventDefault();
   const { target } = event;
 
-  if (!isElement(target)) return;
+  if (!isHTMLFormElement(target)) return;
 
   if (target.closest(".top-rated-search")) {
-    const formData = new FormData(target as HTMLFormElement);
+    const formData = new FormData(target);
     const modalInput = Object.fromEntries(formData);
 
     const value = modalInput.search.toString();
