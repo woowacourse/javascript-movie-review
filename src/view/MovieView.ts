@@ -55,9 +55,7 @@ async function handleMovieList(
   showElement(loadMore);
   hideElement(skeleton);
 
-  if (isLastPage) {
-    loadMore?.classList.add("hide");
-  }
+  if (isLastPage) hideElement(loadMore);
 
   renderMovieItems(results, reset);
 }
