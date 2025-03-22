@@ -1,4 +1,3 @@
-const apiKey = Cypress.env("TMDB_API_KEY");
 const localHostUrl = Cypress.env("LOCAL_HOST_URL");
 
 describe("홈 화면 테스트", () => {
