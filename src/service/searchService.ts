@@ -1,4 +1,4 @@
-import createMovieLoader from "./createMovieLoader";
+import createMovieLoader from "./loaderService.ts";
 import state from "../state/state.ts";
 import {
   URLS,
@@ -6,7 +6,7 @@ import {
   defaultQueryObject,
 } from "../setting/settings.ts";
 import { hideElement, showElement } from "../view/MovieView.ts";
-import Toast from "../components/Toast/Toast";
+import Toast from "../components/Toast/Toast.ts";
 import { renderMovieList } from "../view/MovieView.ts";
 
 export default async function handleSearch(searchValue: string) {

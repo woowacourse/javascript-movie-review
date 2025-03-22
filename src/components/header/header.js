@@ -1,5 +1,5 @@
 import { createElement } from "../../util/dom";
-import handleSearch from "../../service/handleSearch";
+import handleSearch from "../../service/searchService.ts";
 import { paths } from "../../setting/settings.ts";
 
 export default function Header() {

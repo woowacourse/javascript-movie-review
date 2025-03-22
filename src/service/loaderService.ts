@@ -1,8 +1,8 @@
-import type { FetchOptions } from "../util/fetch";
+import type { FetchOptions } from "../util/fetch.ts";
 
 import { TOTAL_PAGE } from "../setting/settings.ts";
-import { getPlainQuery, buildQuery } from "../util/query";
-import { fetchMovies } from "./movieService";
+import { getPlainQuery, buildQuery } from "../util/query.ts";
+import { fetchMovies } from "./movieService.ts";
 
 export default function createMovieLoader(
   url: string,

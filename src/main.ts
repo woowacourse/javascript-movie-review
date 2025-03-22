@@ -1,7 +1,7 @@
 /// <reference types="vite/client" />
 
 import Toast from "./components/Toast/Toast";
-import createMovieLoader from "./service/createMovieLoader";
+import createMovieLoader from "./service/loaderService.ts";
 import {
   URLS,
   defaultOptions,
