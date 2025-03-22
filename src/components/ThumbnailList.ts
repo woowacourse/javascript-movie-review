@@ -1,35 +1,44 @@
-import { MovieResult } from "../types";
 import { DEFAULT_BACK_DROP_URL } from "../constants";
-import { $ } from "../utils";
+import { MovieResult } from "../types";
 
-export default function ThumbnailList(moviesResult: MovieResult[]) {
-  const $thumbnailList = $(".thumbnail-list");
-  moviesResult.forEach((movieResult) => {
-    const $li = document.createElement("li");
+import { html } from "../utils";
+import Component from "./core/Component";
 
-    const backgroundImage = movieResult.backdrop_path
-      ? `${DEFAULT_BACK_DROP_URL}${movieResult.backdrop_path}`
-      : "./images/default_thumbnail.jpeg";
+interface ThumbnailListProps {
+  movies: MovieResult[];
+}
 
-    $li.innerHTML = /*html*/ `
-        <div class="item">
-          <img
-            class="thumbnail"
-            src="${backgroundImage}"
-            alt="${movieResult.title}"
-          />
-          <div class="item-desc">
-            <p class="rate loading">
-              <img src="./images/star_empty.png" class="star" /><span
-                >${movieResult.vote_average}</span
-              >
-            </p>
-            <strong>${movieResult.title}</strong>
-          </div>
-        </div>
+export default class ThumbnailList extends Component<ThumbnailListProps> {
+  template() {
+    return html`
+      <ul class="thumbnail-list">
+        ${this.props.movies
+          .map((movie) => {
+            const backgroundImage = movie.backdrop_path
+              ? `${DEFAULT_BACK_DROP_URL}${movie.backdrop_path}`
+              : "./images/default_thumbnail.jpeg";
+            return `
+            <li>
+              <div class="item">
+                <img
+                  class="thumbnail"
+                  src="${backgroundImage}"
+                  alt="${movie.title}"
+                />
+                <div class="item-desc">
+                  <p class="rate loading">
+                    <img src="./images/star_empty.png" class="star" /><span
+                      >${movie.vote_average}</span
+                    >
+                  </p>
+                  <strong>${movie.title}</strong>
+                </div>
+              </div>
+            </li>
+          `;
+          })
+          .join("")}
+      </section>
     `;
-
-    $thumbnailList?.appendChild($li);
-  });
-  return $thumbnailList;
+  }
 }

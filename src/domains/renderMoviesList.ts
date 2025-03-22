@@ -1,12 +1,26 @@
-import { store } from "../store";
 import { getMovieByName, getMovies } from "../apis/MovieApi";
-import MovieList from "../components/ThumbnailList";
 import MovieListSkeleton from "../components/MovieListSkeleton";
-import TopRatedMovie from "../components/TopRatedMovie";
 import { DEFAULT_BACK_DROP_URL, MAX_MOVIE_PAGE } from "../constants";
-import { $ } from "../utils";
+import { store } from "../store";
+import { $, createElement } from "../utils";
 
-const changeHeaderBackground = () => {
+const renderTotalList = async () => {
+  const moviesResponse = await getMovies({ page: store.page });
+  store.movies = [...store.movies, ...moviesResponse.results];
+  store.totalPages = moviesResponse.total_pages;
+
+  $(".top-rated-container").append(
+    createElement(`  
+        <div class="top-rated-movie">
+          <div class="rate">
+            <img src="./images/star_empty.png" class="star" />
+            <span class="rate-value">${store.movies[0].vote_average}</span>
+          </div>
+          <div class="title">${store.movies[0].title}</div>
+          <button class="primary detail">자세히 보기</button>
+        </div>
+    `)
+  );
   const $backgroundContainer = $(".background-container");
 
   if (!store.searchKeyword) {
@@ -19,32 +33,21 @@ const changeHeaderBackground = () => {
   }
 };
 
-const renderHeaderBackground = () => {
-  if (!$(".top-rated-movie")) {
-    $(".top-rated-container").append(
-      TopRatedMovie({
-        title: store.movies[0].title,
-        voteAverage: store.movies[0].vote_average,
-      })
-    );
-  }
-};
-
-const renderTotalList = async () => {
-  const moviesResponse = await getMovies({ page: store.page });
-  store.movies = [...store.movies, ...moviesResponse.results];
-  store.totalPages = moviesResponse.total_pages;
-
-  renderHeaderBackground();
-  changeHeaderBackground();
-};
-
 const renderSearchList = async () => {
   const $ul = $(".thumbnail-list");
   const $error = $(".error");
   const $h2 = $error.querySelector("h2");
 
-  changeHeaderBackground();
+  const $backgroundContainer = $(".background-container");
+
+  if (!store.searchKeyword) {
+    const backgroundImage = store.movies[0].backdrop_path
+      ? `${DEFAULT_BACK_DROP_URL}${store.movies[0].backdrop_path}`
+      : "./images/default_thumbnail.jpeg";
+    $backgroundContainer.style.backgroundImage = `url(${backgroundImage})`;
+  } else {
+    $backgroundContainer.style.backgroundImage = "";
+  }
 
   const moviesResponse = await getMovieByName({
     name: store.searchKeyword,
@@ -94,6 +97,6 @@ export const renderMoviesList = async () => {
   else $showMore?.classList.remove("open");
 
   if ($ul) $ul.innerHTML = "";
-  const $movies = MovieList(store.movies);
-  if ($movies) $mainSection.appendChild($movies);
+  // const $movies = MovieList(store.movies);
+  // if ($movies) $mainSection.appendChild($movies);
 };

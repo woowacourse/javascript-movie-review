@@ -16,7 +16,11 @@ export default abstract class Component<
 
     this.render();
     this.addEventListener();
+
+    this.dataFetchAsync();
   }
+
+  dataFetchAsync() {}
 
   setup() {}
 
@@ -51,6 +55,14 @@ export default abstract class Component<
   addEventListener() {}
 
   onRender() {}
+
+  fillSlot(element: HTMLElement, slotName: string) {
+    const targetSlot = this.element.querySelector(`slot[name=${slotName}]`);
+    if (!targetSlot)
+      throw new Error(`name=${slotName} 속성을 가진 slot 요소를 만들어주세요.`);
+
+    targetSlot.replaceWith(element);
+  }
 
   get element() {
     return this.#element!;

@@ -1,14 +1,18 @@
+import { createElement } from "../utils";
+
 interface SkeletonProps {
   width: number;
   height: number;
 }
 
 export default function Skeleton({ width, height }: SkeletonProps) {
-  const $skeletonContainer = document.createElement("div");
+  const $skeleton = createElement(`
+      <div class="skeleton"></div>
+    `);
 
-  $skeletonContainer.className = "skeleton";
-  $skeletonContainer.style.width = `${width}px`;
-  $skeletonContainer.style.height = `${height}px`;
+  $skeleton.style.width = `${width}px`;
+  $skeleton.style.height = `${height}px`;
 
-  return $skeletonContainer;
+  return $skeleton;
 }
+``;
