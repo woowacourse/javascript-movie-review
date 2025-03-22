@@ -37,6 +37,7 @@ export default class Container extends Component {
             </div>
           </section>
         </main>
+        <button class="primary show-more">더 보기</button>
       </div>
     `;
   }
