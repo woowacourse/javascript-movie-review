@@ -1,4 +1,5 @@
 import { redirectToPage } from '../../route/router';
+import { $ } from '../../utils/selector';
 import SearchBar from '../search-bar/SearchBar';
 
 class Header {
@@ -34,9 +35,9 @@ class Header {
   }
 
   #bindLogoClickEvent() {
-    const logo = this.#container.querySelector('.logo img');
-    if (logo) {
-      logo.addEventListener('click', () => {
+    const $logo = $({ root: this.#container, selector: '.logo img' });
+    if ($logo) {
+      $logo.addEventListener('click', () => {
         redirectToPage('/');
       });
     }

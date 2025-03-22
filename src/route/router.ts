@@ -34,11 +34,11 @@ export async function redirectToPage(url: string) {
 }
 
 export async function renderContent() {
-  const $layoutContainer = $('.content');
+  const $layoutContainer = $({ selector: '.content' });
   if ($layoutContainer) {
-    const oldContent = $layoutContainer.querySelector('.render-content');
-    if (oldContent) {
-      oldContent.remove();
+    const $oldContent = $({ root: $layoutContainer, selector: '.render-content' });
+    if ($oldContent) {
+      $oldContent.remove();
     }
 
     const newContent = await renderInnerContentsByRoute();

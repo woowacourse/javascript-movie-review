@@ -42,7 +42,7 @@ export class MainPage {
   }
 
   renderDynamicSection() {
-    const $loadMoreButton = $('.button--medium');
+    const $loadMoreButton = $({ selector: '.button--medium' });
     if ($loadMoreButton) {
       $loadMoreButton.remove();
     }

@@ -1,4 +1,5 @@
 import { redirectToPage } from '../../route/router';
+import { $ } from '../../utils/selector';
 
 class SearchBar {
   #container: HTMLElement;
@@ -20,8 +21,8 @@ class SearchBar {
   }
 
   #bindInputEvent() {
-    const input = this.#container.querySelector('.searchbar__input');
-    input?.addEventListener('input', (event: Event) => {
+    const $input = $({ root: this.#container, selector: '.searchbar__input' });
+    $input?.addEventListener('input', (event: Event) => {
       if (event.target instanceof HTMLInputElement) {
         this.#searchValue = event.target.value;
       }
@@ -29,8 +30,8 @@ class SearchBar {
   }
 
   #bindEnterEvent() {
-    const input = this.#container.querySelector('.searchbar__input');
-    input?.addEventListener('keydown', (event) => {
+    const $input = $({ root: this.#container, selector: '.searchbar__input' });
+    $input?.addEventListener('keydown', (event) => {
       if (event instanceof KeyboardEvent && event.key === 'Enter' && event.target instanceof HTMLInputElement) {
         this.#search();
       }
@@ -38,8 +39,8 @@ class SearchBar {
   }
 
   #bindSearchIconEvent() {
-    const icon = this.#container.querySelector('.searchbar__icon');
-    icon?.addEventListener('click', () => {
+    const $icon = $({ root: this.#container, selector: '.searchbar__icon' });
+    $icon?.addEventListener('click', () => {
       this.#search();
     });
   }
