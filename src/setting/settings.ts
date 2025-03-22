@@ -19,5 +19,5 @@ export const TOTAL_PAGE = 500 as const;
 export const paths = {
   logo: "./images/logo.png",
   search: "./images/Search.png",
-  star_empty: "/images/star_empty.png",
+  star_empty: "./images/star_empty.png",
 } as const;
