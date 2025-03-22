@@ -1,6 +1,7 @@
 import { MainPage } from '../pages/main-page/MainPage';
 import SearchPage from '../pages/search-page/SearchPage';
 import ErrorPage from '../pages/error-page/ErrorPage';
+import { $ } from '../utils/selector';
 
 function routes(): Record<string, () => HTMLElement> {
   return {
@@ -33,9 +34,9 @@ export async function redirectToPage(url: string) {
 }
 
 export async function renderContent() {
-  const layoutContainer = document.querySelector('.content');
-  if (layoutContainer) {
-    const oldContent = layoutContainer.querySelector('.render-content');
+  const $layoutContainer = $('.content');
+  if ($layoutContainer) {
+    const oldContent = $layoutContainer.querySelector('.render-content');
     if (oldContent) {
       oldContent.remove();
     }
@@ -44,7 +45,7 @@ export async function renderContent() {
 
     if (newContent) {
       newContent.classList.add('render-content');
-      layoutContainer.appendChild(newContent);
+      $layoutContainer.appendChild(newContent);
     }
   }
 }

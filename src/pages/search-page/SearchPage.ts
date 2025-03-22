@@ -3,6 +3,7 @@ import MovieGrid from '../../component/movie-grid/MovieGrid';
 import { Title } from '../../component/title/Title';
 import { SYSTEM_CONSTANTS } from '../../constants/systemConstants';
 import { extractedData } from '../../domain/APIManager';
+import { $ } from '../../utils/selector';
 import searchPageLoadingTemplate from './loadingTemplate';
 
 class SearchPage {
@@ -49,9 +50,9 @@ class SearchPage {
   }
 
   renderDynamicSection() {
-    const loadMoreButton = document.querySelector('.button--medium');
-    if (loadMoreButton) {
-      loadMoreButton.remove();
+    const $loadMoreButton = $('.button--medium');
+    if ($loadMoreButton) {
+      $loadMoreButton.remove();
     }
     this.#container.appendChild(this.#movieGridElement());
     if (this.#currentPage !== this.#totalPage) this.#container.appendChild(this.#loadMoreButtonElement());

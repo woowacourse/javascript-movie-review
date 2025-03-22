@@ -4,6 +4,7 @@ import MovieGrid from '../../component/movie-grid/MovieGrid';
 import { Title } from '../../component/title/Title';
 import { SYSTEM_CONSTANTS } from '../../constants/systemConstants';
 import { extractedData } from '../../domain/APIManager';
+import { $ } from '../../utils/selector';
 import mainPageLoadingTemplate from './loadingTemplate';
 
 export class MainPage {
@@ -41,9 +42,9 @@ export class MainPage {
   }
 
   renderDynamicSection() {
-    const loadMoreButton = document.querySelector('.button--medium');
-    if (loadMoreButton) {
-      loadMoreButton.remove();
+    const $loadMoreButton = $('.button--medium');
+    if ($loadMoreButton) {
+      $loadMoreButton.remove();
     }
     this.#container.appendChild(this.#movieGridElement());
     this.#container.appendChild(this.#loadMoreButtonElement());

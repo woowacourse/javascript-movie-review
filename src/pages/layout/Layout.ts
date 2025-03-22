@@ -1,6 +1,7 @@
 import Footer from '../../component/footer/Footer';
 import Header from '../../component/header/Header';
 import { renderContent } from '../../route/router';
+import { $ } from '../../utils/selector';
 
 class Layout {
   #container;
@@ -22,7 +23,7 @@ class Layout {
     this.#container.appendChild(this.#contentContainer);
     this.#container.appendChild(this.#footer.element);
 
-    document.querySelector('body')?.appendChild(this.#container);
+    $('body')?.appendChild(this.#container);
 
     this.render();
   }
