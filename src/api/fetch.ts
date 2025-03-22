@@ -19,12 +19,12 @@ export interface TMDBResponse {
 
 
 export async function fetchPopularMovies(pageIndex:number) {
-    const popularMovieUrl = `https://api.themoviedb.org/3/movie/popular?language=ko-Kr&page=${pageIndex}`;
+    const popularMovieUrl = `${import.meta.env.VITE_BASE_URL}movie/popular?language=ko-Kr&page=${pageIndex}`;
     return await fetchUtil(popularMovieUrl)
   }
 
 export async function fetchSearchMovies(searchKeyword: string, pageIndex:number) {
-  const searchMovieUrl = `https://api.themoviedb.org/3/search/movie?query=${searchKeyword}&include_adult=false&language=en-US&page=${pageIndex}`;
+  const searchMovieUrl = `${import.meta.env.VITE_BASE_URL}search/movie?query=${searchKeyword}&include_adult=false&language=en-US&page=${pageIndex}`;
   return await fetchUtil(searchMovieUrl);
 }
   
