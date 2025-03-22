@@ -1,31 +1,22 @@
 import { html } from "../utils";
 import Component from "./core/Component";
 
+const TAB_LIST = ["상영 중", "인기순", "평점순", "상영 예정"];
+
 export default class Container extends Component {
   template() {
     return html`
       <div class="container">
         <ul class="tab">
-          <li>
-            <a href="#">
-              <div class="tab-item selected"><h3>상영 중</h3></div>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <div class="tab-item"><h3>인기순</h3></div>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <div class="tab-item"><h3>평점순</h3></div>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <div class="tab-item"><h3>상영 예정</h3></div>
-            </a>
-          </li>
+          ${TAB_LIST.map(
+            (tab) => `
+              <li>
+                <a href="#">
+                  <div class="tab-item"><h3>${tab}</h3></div>
+                </a>
+              </li>
+            `
+          ).join("")}
         </ul>
         <main>
           <section>

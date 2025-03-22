@@ -40,7 +40,6 @@ const renderTotalList = async () => {
 };
 
 const renderSearchList = async () => {
-  const $mainSection = $("main section");
   const $ul = $(".thumbnail-list");
   const $error = $(".error");
   const $h2 = $error.querySelector("h2");
