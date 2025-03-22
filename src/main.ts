@@ -11,9 +11,9 @@ import {
 import state from "./state/state.ts";
 
 import {
-  updateMovieList,
   renderHeaderAndHero,
   renderLoadMoreButton,
+  renderMovieList,
 } from "./view/MovieView.ts";
 
 const initMovies = () =>
@@ -30,7 +30,7 @@ const initState = () => ({
 
 const renderApp = (state) => {
   renderHeaderAndHero();
-  updateMovieList(state.loadMovies);
+  renderMovieList(state.loadMovies);
   renderLoadMoreButton(state);
 };
 

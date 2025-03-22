@@ -7,7 +7,7 @@ import {
 } from "../setting/settings.ts";
 import { hideElement, showElement } from "../view/MovieView.ts";
 import Toast from "../components/Toast/Toast";
-import { updateMovieList } from "../view/MovieView.ts";
+import { renderMovieList } from "../view/MovieView.ts";
 
 export default async function handleSearch(searchValue: string) {
   setSearchResultTitle(searchValue);
@@ -19,7 +19,7 @@ export default async function handleSearch(searchValue: string) {
     (error) => handleSearchError(error),
     searchValue
   );
-  await updateMovieList(state.loadMovies, true);
+  await renderMovieList(state.loadMovies, true);
   displaySearchResults();
 }
 
