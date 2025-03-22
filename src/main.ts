@@ -4,7 +4,6 @@ import { MovieInfo } from "../types/movieType.ts";
 import ContentsContainer from "./components/Main/ContentsContainer.ts";
 import MovieService from "./services/MovieService.ts";
 import LogoSearchBar from "./components/Header/LogoSearchBar.js";
-import Skeleton from "./components/Skeleton/Skeleton.js";
 import HeaderSkeleton from "./components/Skeleton/HeaderSkeleton.js";
 import {
   hideSkeleton,
@@ -37,7 +36,7 @@ async function renderContent(movieService: MovieService, results: MovieInfo[]) {
     const keyboardEvent = event as KeyboardEvent;
     if (keyboardEvent.key === "Enter") {
       const inputValue = (event.target as HTMLInputElement).value;
-
+      showSkeleton(20, "section");
       if (inputValue === "") {
         alert("검색어를 입력해주세요.");
       } else {
@@ -45,6 +44,7 @@ async function renderContent(movieService: MovieService, results: MovieInfo[]) {
         if ($section) {
           $section.innerHTML = "";
         }
+
         ContentsContainer(searchResult.results, `"${inputValue}" 검색 결과`);
       }
     }
@@ -52,6 +52,7 @@ async function renderContent(movieService: MovieService, results: MovieInfo[]) {
 
   $button?.addEventListener("click", async () => {
     const inputValue = $input?.value;
+    showSkeleton(20, "section");
     if (inputValue === "") {
       alert("검색어를 입력해주세요.");
     } else {
@@ -59,6 +60,7 @@ async function renderContent(movieService: MovieService, results: MovieInfo[]) {
       if ($section) {
         $section.innerHTML = "";
       }
+
       ContentsContainer(searchResult.results, `"${inputValue}" 검색 결과`);
     }
   });
@@ -73,7 +75,6 @@ function renderFooter() {
 async function main() {
   const movieService = new MovieService();
   const $container = document.querySelector("#wrap");
-  // const $section = document.querySelector("section") as HTMLDivElement;
 
   const $headerSkeleton = HeaderSkeleton();
   $container?.prepend($headerSkeleton);
