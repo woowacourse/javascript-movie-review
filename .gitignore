@@ -23,5 +23,8 @@ dist-ssr
 *.sln
 *.sw?
 
+cypress/screenshots
+cypress/videos
+
 .env
 cypress.env.json
