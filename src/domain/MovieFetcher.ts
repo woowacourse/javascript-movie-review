@@ -2,6 +2,7 @@ import { MovieItem, MovieResponse } from '../types/Movie.types';
 import { ENV } from '../api/env';
 import Fetcher from '../api/Fetcher';
 import { movieFetcherEvent } from './MovieFetcherEvent';
+import { delay } from '../utils/delay';
 
 export const API_PATH = {
   MOVIE: 'movie/popular',
@@ -14,9 +15,13 @@ class MovieFetcher {
   private isSearch: boolean = false;
   private query: string = '';
   private currentPage: number = 1;
-  private movieResponse: MovieResponse = {} as MovieResponse;
+  private movieResponse: MovieResponse = {
+    page: 0,
+    results: [],
+    total_pages: 0,
+    total_results: 0,
+  };
   private movieResult: MovieItem[] = [];
-
   private error: Error | null = null;
 
   constructor() {
@@ -30,34 +35,19 @@ class MovieFetcher {
     this.error = null;
     movieFetcherEvent.notify();
 
-    try {
-      const response = await this.movieFetcher.get<MovieResponse>(url);
-      await this.delay(3000);
+    const response = await this.movieFetcher.get<MovieResponse>(url);
+    await delay(3000);
 
-      this.updateMovieData(response);
+    this.updateMovieData(response);
+    this.isLoading = false;
+    movieFetcherEvent.notify();
 
-      this.isLoading = false;
-      movieFetcherEvent.notify();
-
-      return response;
-    } catch (error) {
-      this.isLoading = false;
-      this.error = error as Error;
-      movieFetcherEvent.notify();
-    }
+    return response;
   }
 
   private updateMovieData(response: MovieResponse): void {
     this.movieResponse = response;
     this.movieResult = [...this.movieResult, ...response.results];
-  }
-
-  private async fetchMovies(url: string): Promise<MovieResponse | undefined> {
-    return await this.fetchMovieData(url);
-  }
-
-  private delay(ms: number) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
   public async getPopularMovies(
@@ -66,7 +56,7 @@ class MovieFetcher {
     this.isSearch = false;
     this.currentPage = page;
     const url = `${API_PATH.MOVIE}?page=${page}`;
-    return await this.fetchMovies(url);
+    return await this.fetchMovieData(url);
   }
 
   public async getNextPagePopularMovies() {
@@ -83,7 +73,7 @@ class MovieFetcher {
     this.query = query;
 
     const url = `${API_PATH.SEARCH}?query=${query}&page=${page}`;
-    return await this.fetchMovies(url);
+    return await this.fetchMovieData(url);
   }
 
   public async getNextPageSearchMovies() {
