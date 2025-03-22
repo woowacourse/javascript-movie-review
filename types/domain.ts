@@ -1,11 +1,11 @@
-export interface IPage {
+export interface PaginatedMovies {
   page: number;
-  results: IMovie[];
+  results: Movie[];
   total_pages: number;
   total_results: number;
 }
 
-export interface IMovie {
+export interface Movie {
   adult: boolean;
   backdrop_path: null | string;
   genre_ids: number[];

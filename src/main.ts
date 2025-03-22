@@ -1,4 +1,4 @@
-import { IPage } from "../types/domain";
+import { PaginatedMovies } from "../types/domain";
 import api from "./api/api";
 import MovieItem from "./components/MovieItem";
 import SearchBar from "./components/SearchBar";
@@ -11,7 +11,7 @@ const getMovieData = async () => {
   const itemCount = document.querySelectorAll("ul.thumbnail-list li").length;
   const pageNumber = itemCount / 20 + 1;
 
-  return (await api.getMovieData(pageNumber)) as IPage;
+  return (await api.getMovieData(pageNumber)) as PaginatedMovies;
 };
 
 const renderTitleMovie = async () => {

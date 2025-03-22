@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-import { IMovie } from "../../types/domain";
+import { Movie } from "../../types/domain";
 
 describe("비동기 API 테스트", () => {
   it("영화 목록 API를 호출하면 한 번에 20개씩 목록에 나열되어야 한다.", () => {
@@ -48,7 +48,7 @@ describe("비동기 API 테스트", () => {
       .its("body.results")
       .then((results) => {
         expect(
-          results.some((movie: IMovie) => movie.title.includes("해리 포터"))
+          results.some((movie: Movie) => movie.title.includes("해리 포터"))
         ).to.be.true;
       });
   });

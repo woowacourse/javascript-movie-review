@@ -1,4 +1,4 @@
-interface ITextButton {
+interface TextButtonProps {
   id: string;
   title: string;
   onClick(): void;
@@ -11,7 +11,7 @@ class TextButton {
   #onClick;
   #type;
 
-  constructor({ id, title, onClick, type }: ITextButton) {
+  constructor({ id, title, onClick, type }: TextButtonProps) {
     this.#id = id;
     this.#title = title;
     this.#onClick = onClick;

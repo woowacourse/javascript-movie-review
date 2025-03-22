@@ -1,6 +1,6 @@
 import { IMG_PREFIX } from "../constants/movie";
 
-interface IMovieItem {
+interface MovieItemProps {
   title: string;
   vote_average: number;
   poster_path: string;
@@ -11,7 +11,7 @@ class MovieItem {
   #rate: number;
   #posterPath: string;
 
-  constructor({ title, vote_average, poster_path }: IMovieItem) {
+  constructor({ title, vote_average, poster_path }: MovieItemProps) {
     this.#title = title;
     this.#rate = vote_average;
     this.#posterPath = poster_path;
