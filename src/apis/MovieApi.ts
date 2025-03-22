@@ -1,4 +1,4 @@
-import { MoviesResponse } from "../../types/movieApiType";
+import { MoviesResponse } from "../types";
 import { DOMAIN_TMDB } from "../constants";
 
 const options = {

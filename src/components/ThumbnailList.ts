@@ -1,4 +1,4 @@
-import { MovieResult } from "../../types/movieApiType";
+import { MovieResult } from "../types";
 import { DEFAULT_BACK_DROP_URL } from "../constants";
 import { $ } from "../utils";
 
