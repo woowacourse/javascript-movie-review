@@ -1,6 +1,6 @@
 function ThumbnailImage({ title, poster_path }) {
   if (!poster_path) {
-    const $titleElement = document.createElement("p");
+    const $titleElement = document.createElement("div");
     $titleElement.classList.add("thumbnail-title");
     $titleElement.textContent = title;
     return $titleElement;
