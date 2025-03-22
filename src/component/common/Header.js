@@ -1,4 +1,5 @@
 import SearchForm from './SearchForm.js'
+import { getElement } from '../../util/utils.js'
 
 function Header() {
   function template() {
@@ -15,7 +16,7 @@ function Header() {
   }
 
   function render() {
-    document.querySelector('header').innerHTML = template()
+    getElement('header').innerHTML = template()
   }
   render()
 }

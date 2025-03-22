@@ -1,5 +1,6 @@
 import { fetchSearchMovies } from "../api/fetch.js";
 import MovieLayout from "../component/feature/MovieLayout";
+import { getElement } from "../util/utils.js";
 
 async function submitEvent(this:void, movieLayout: MovieLayout) {
   document.addEventListener("submit", onSubmit.bind(this));
@@ -23,7 +24,7 @@ async function submitEvent(this:void, movieLayout: MovieLayout) {
         await getSearchData(event, form);
     }
 
-    document.getElementById('bannerSection')?.setAttribute('style','display: none');
+    getElement('#bannerSection')?.setAttribute('style','display: none');
 
     window.scrollTo({ top: 0, behavior: "smooth" });
 

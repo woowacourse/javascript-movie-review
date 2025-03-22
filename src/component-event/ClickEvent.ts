@@ -2,6 +2,7 @@ import { fetchPopularMovies } from "../api/fetch.js";
 import { fetchSearchMovies } from "../api/fetch.js";
 import hideskeleton from "../util/hideskeleton.ts";
 import { MovieLayout } from "../../types/movieDataType";
+import { getElement } from "../util/utils.ts";
 
 function removeButton(movieLayout:MovieLayout, total_pages:number, pageIndex:number){
   if(total_pages<pageIndex){
@@ -42,7 +43,7 @@ async function clickEvent(movieLayout:MovieLayout) {
     const readMoreSearchList = (function () {
       let pageIndex = 2;
       async function loadMovieData() {
-        const layoutTitleText = document.getElementById("movieListTitle")?.innerText;
+        const layoutTitleText = getElement("#movieListTitle")?.innerText;
 
         const regex = /"([^"]*)"/;
         const match = layoutTitleText?.match(regex);

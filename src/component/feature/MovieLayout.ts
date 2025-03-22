@@ -3,6 +3,7 @@ import Button from "../common/Button.js";
 import hideskeleton from "../../util/hideskeleton.js";
 import {MovieData,MovieState} from "../../../types/movieDataType";
 import createSkeletonData from "../../util/createSkeletonData.js";
+import { getElement } from "../../util/utils.js";
 
 class MovieLayout {
     #state:MovieState;
@@ -29,7 +30,7 @@ class MovieLayout {
             ${MovieList(createSkeletonData).template().outerHTML}
         </div>
     `
-    const movieSectionEl = document.getElementById('MovieSection')
+    const movieSectionEl = getElement('#MovieSection')
     if (movieSectionEl) movieSectionEl.innerHTML = skeletonTemplate;
         
     }
@@ -53,14 +54,14 @@ class MovieLayout {
         `}
     
     render(){
-        const movieSectionEl = document.getElementById('MovieSection')
+        const movieSectionEl = getElement('#MovieSection')
         if(movieSectionEl) movieSectionEl.innerHTML = this.template();
         hideskeleton();
     }
 
     newMovieListRender(dataList:MovieData[]) {
         const ul = MovieList(dataList).template();
-        document.getElementById('movieListContainer')?.appendChild(ul);
+        getElement('#movieListContainer')?.appendChild(ul);
     }
 
 }
