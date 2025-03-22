@@ -57,6 +57,7 @@ button.primary {
 .container {
   max-width: 1280px;
   margin: 0 auto;
+  width: 100%;
 }
 
 .background-container {
@@ -91,10 +92,6 @@ button.primary {
 
 .top-rated-movie > *:not(:last-child) {
   margin-bottom: 8px;
-}
-
-h1.logo {
-  font-size: 2rem;
 }
 
 .rate {
