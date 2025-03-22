@@ -1,10 +1,7 @@
 import { PaginatedMovies } from "../../types/domain";
 import api from "../api/api";
-import {
-  toggleNoThumbnail,
-  toggleSeeMoreButton,
-  toggleSkeletonList,
-} from "../utils/Render";
+import DOM from "../utils/DOM";
+import { toggleVisibility } from "../utils/Render";
 import MovieItem from "./MovieItem";
 
 class SearchBar {
@@ -31,8 +28,8 @@ class SearchBar {
     ) as HTMLButtonElement;
 
     this.#changeTitleStyle(query);
-    toggleNoThumbnail("hidden");
-    toggleSkeletonList("show");
+    toggleVisibility(DOM.$noThumbnail, "hidden");
+    toggleVisibility(DOM.$skeletonUlElement, "show");
 
     thumbnailList?.replaceChildren();
 
@@ -95,13 +92,15 @@ class SearchBar {
     const itemCount = document.querySelectorAll("ul.thumbnail-list li").length;
     const pageNumber = itemCount / 20 + 1;
 
-    toggleSkeletonList("show");
-    toggleSeeMoreButton("hidden");
+    toggleVisibility(DOM.$skeletonUlElement, "show");
+    toggleVisibility(DOM.$seeMoreButton, "hidden");
 
     const searchResult = await this.#getSearchResult(pageNumber, query);
-    if (pageNumber < searchResult.total_pages) toggleSeeMoreButton("show");
-    if (searchResult.total_results === 0) toggleNoThumbnail("show");
-    toggleSkeletonList("hidden");
+    if (pageNumber < searchResult.total_pages)
+      toggleVisibility(DOM.$seeMoreButton, "show");
+    if (searchResult.total_results === 0)
+      toggleVisibility(DOM.$noThumbnail, "show");
+    toggleVisibility(DOM.$skeletonUlElement, "hidden");
 
     searchResult.results.forEach(({ title, poster_path, vote_average }) => {
       const movieItem = new MovieItem({
