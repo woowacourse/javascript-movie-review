@@ -1,4 +1,4 @@
-export interface ButtonField {
+interface ButtonField {
   type: "button" | "submit";
   className: string;
   content: string;

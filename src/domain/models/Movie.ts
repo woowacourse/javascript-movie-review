@@ -1,4 +1,4 @@
-export interface MovieDTO {
+interface MovieDTO {
   id: number;
   title: string;
   posterPath: string;
@@ -19,8 +19,8 @@ export default class Movie {
   }
 
   getPosterUrl(): string {
-    if(this.posterPath === "") {
-      return './images/nullImage.png';
+    if (this.posterPath === "") {
+      return "./images/nullImage.png";
     }
     return `https://image.tmdb.org/t/p/w500/${this.posterPath}`;
   }
@@ -30,17 +30,15 @@ export default class Movie {
   }
 
   render(): HTMLElement {
-    const movieElement = document.createElement('div');
-    movieElement.classList.add('movie-item');
-    
+    const movieElement = document.createElement("div");
+    movieElement.classList.add("movie-item");
+
     movieElement.innerHTML = `
       <img src="${this.getPosterUrl()}" alt="${this.title}">
       <h3>${this.title}</h3>
       <p>평점: ${this.getVoteAverage()}</p>
     `;
-    
+
     return movieElement;
   }
 }
-
-
