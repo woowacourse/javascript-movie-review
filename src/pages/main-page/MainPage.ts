@@ -62,7 +62,7 @@ export class MainPage {
   }
 
   #loadMoreButtonElement() {
-    return new Button({ cssType: 'medium', innerText: '더보기', onClick: this.#loadMoreData }).element;
+    return new Button({ size: 'medium', innerText: '더보기', onClick: this.#loadMoreData }).element;
   }
 
   #loadMoreData = async () => {

@@ -1,5 +1,5 @@
 interface ButtonProps {
-  cssType: string;
+  size: 'small' | 'medium';
   innerText: string;
   onClick: Function;
 }
@@ -8,10 +8,10 @@ class Button {
   #button;
   #onClick;
 
-  constructor({ cssType, innerText, onClick }: ButtonProps) {
+  constructor({ size, innerText, onClick }: ButtonProps) {
     this.#button = document.createElement('button');
-    this.#button.classList.add(`button--${cssType}`);
-    this.#button.classList.add(`text-button--${cssType}`);
+    this.#button.classList.add(`button--${size}`);
+    this.#button.classList.add(`text-button--${size}`);
     this.#button.innerText = innerText;
 
     this.#onClick = onClick;
