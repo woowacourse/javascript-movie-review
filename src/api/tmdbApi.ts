@@ -70,7 +70,7 @@ export default class TmdbApi {
   ): Promise<APIResponse<MovieResponse>> {
     const endpoint = "/search/movie";
     const params = {
-      query,
+      query: query || "",
       page: page.toString(),
     };
     return this.fetchData<APIResponse<MovieResponse>>(endpoint, params);
