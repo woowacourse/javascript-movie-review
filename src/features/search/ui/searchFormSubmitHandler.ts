@@ -1,6 +1,6 @@
 import { addMovieCard } from "../../../shared/ui/addMovieCard";
 import ErrorPage from "../../../shared/ui/components/ErrorPage";
-import { showSkeletons } from "../../../shared/ui/showSkeletons";
+import { withSkeleton } from "../../../shared/ui/withSkeleton";
 import { getUrlParams } from "../../../shared/utils/getUrlParams";
 import { updateUrl } from "../../../shared/utils/updateUrl";
 import { getSearchedMovie } from "../api/getSearchedMovie";
@@ -8,11 +8,10 @@ import { getSearchedMovie } from "../api/getSearchedMovie";
 export const searchFormSubmitHandler = async (e: Event) => {
   const $thumbnailList = document.querySelector(
     ".thumbnail-list"
-  ) as HTMLElement | null;
+  ) as HTMLElement;
 
   if ($thumbnailList) {
     $thumbnailList.innerHTML = "";
-    showSkeletons($thumbnailList);
   }
 
   disableElements();
@@ -29,13 +28,12 @@ export const searchFormSubmitHandler = async (e: Event) => {
   updateUrlParams(params, searchQuery as string);
 
   try {
-    const searchedMovies = await getSearchedMovie(
-      searchQuery as string,
-      parseInt(params.get("page")!)
+    const searchedMovies = await withSkeleton(
+      $thumbnailList,
+      getSearchedMovie(searchQuery as string, 1)
     );
 
-    if ($thumbnailList && searchedMovies) {
-      $thumbnailList.innerHTML = "";
+    if (searchedMovies) {
       addMovieCard(searchedMovies.results, $thumbnailList);
     }
   } catch (error) {

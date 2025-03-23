@@ -1,34 +1,30 @@
 import { getMovieList } from "./features/movie/api/getMovieList";
 import Header from "./shared/ui/components/Header";
 import { CustomButton } from "./shared/ui/components/CustomButton";
-import { showSkeletons } from "./shared/ui/showSkeletons";
 import { addMoreMovies } from "./shared/domain/addMoreMovies";
 import { searchFormSubmitHandler } from "./features/search/ui/searchFormSubmitHandler";
-import { removeSkeletons } from "./shared/ui/removeSkeletons";
 import { addMovieCard } from "./shared/ui/addMovieCard";
 import MoreMoviesButton from "./shared/ui/components/MoreMoviesButton";
 import ErrorPage from "./shared/ui/components/ErrorPage";
+import { withSkeleton } from "./shared/ui/withSkeleton";
 
 async function init() {
   const $movieList = document.querySelector(".thumbnail-list") as HTMLElement;
 
   if (!$movieList) {
     ErrorPage("영화 리스트를 불러오는데 실패하였습니다.");
+    return;
   }
 
-  showSkeletons($movieList);
-
   try {
-    const movies = await getMovieList({ page: 1 });
+    const movies = await withSkeleton($movieList, getMovieList({ page: 1 }));
     if (movies) {
       Header(movies.results[0]);
-
-      removeSkeletons();
       addMovieCard(movies.results, $movieList);
     }
   } catch (error) {
     if (error instanceof Error) {
-      ErrorPage(error.message);
+      ErrorPage("영화 리스트를 불러오는데 실패하였습니다.");
     }
   }
 
@@ -42,11 +38,7 @@ async function init() {
 
   const $moreMoviesButton = MoreMoviesButton();
   $moreMoviesButton?.addEventListener("click", async () => {
-    showSkeletons($movieList);
-    if ($movieList) {
-      removeSkeletons();
-      await addMoreMovies($movieList);
-    }
+    withSkeleton($movieList, addMoreMovies($movieList));
   });
 
   const searchForm = document.querySelector(".search-form");
