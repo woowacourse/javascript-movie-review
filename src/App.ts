@@ -2,7 +2,13 @@ import { MovieResult, MoviesResponse } from "@/lib/types";
 import { MovieApiClient } from "./apis";
 import { Footer, Header, Movies } from "./components";
 import { Component } from "./components/core";
-import { html, isElement, isHTMLFormElement } from "./lib/utils";
+import {
+  html,
+  isElement,
+  isError,
+  isHTMLFormElement,
+  isString,
+} from "./lib/utils";
 
 export interface AppState {
   page: number;
@@ -10,6 +16,7 @@ export interface AppState {
   moviesResponse: MoviesResponse | null;
   movies: MovieResult[] | null;
   search: string;
+  error: Error | null;
 }
 
 export default class App extends Component<null, AppState> {
@@ -23,6 +30,7 @@ export default class App extends Component<null, AppState> {
       totalPages: 1,
       moviesResponse: null,
       movies: null,
+      error: null,
       search: "",
     };
   }
@@ -51,6 +59,7 @@ export default class App extends Component<null, AppState> {
         totalPages: this.state.moviesResponse?.total_pages ?? 1,
         page: this.state.page,
         search: this.state.search,
+        error: this.state.error,
       }).element,
       "movies"
     );
@@ -60,12 +69,18 @@ export default class App extends Component<null, AppState> {
   async getMovie(search: string, page: number) {
     let moviesResponse;
 
-    if (search)
-      moviesResponse = await MovieApiClient.get({
-        query: search,
-        page,
-      });
-    else moviesResponse = await MovieApiClient.getAll({ page });
+    try {
+      if (search)
+        moviesResponse = await MovieApiClient.get({
+          query: search,
+          page,
+        });
+      else moviesResponse = await MovieApiClient.getAll({ page });
+    } catch (error) {
+      if (isError(error)) this.setState({ error });
+      else if (isString(error)) this.setState({ error: new Error(error) });
+      else this.setState({ error: new Error("에러 발생") });
+    }
 
     if (this.state.movies)
       this.setState({

@@ -10,10 +10,13 @@ interface MoviesProps {
   page: AppState["page"];
   totalPages: AppState["totalPages"];
   search: AppState["search"];
+  error: AppState["error"];
 }
 
 export default class Movies extends Component<MoviesProps> {
   template() {
+    if (this.props.error)
+      return html`<div class="error">${this.props.error.message}</div>`;
     return html`
       <div class="container">
         <ul class="tab">

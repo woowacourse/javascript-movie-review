@@ -25,7 +25,16 @@ export default class ApiClient {
       });
       const data = await response.json();
 
-      if (!response.ok) throw new Error(data.message || "에러 발생");
+      console.log({ data, response });
+
+      if (!response.ok) {
+        switch (response.status) {
+          case 401:
+            throw new Error("사용자 정보가 잘못되었습니다.");
+          case 400:
+            throw new Error("페이지를 초과했습니다.");
+        }
+      }
 
       return data;
     } catch (error) {
