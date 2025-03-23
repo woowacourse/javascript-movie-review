@@ -4,7 +4,7 @@ import { apiClient } from "../../../shared/utils/apiClient";
 export const getSearchedMovie = async (
   query: string,
   page: number
-): Promise<IMovieList | void> => {
+): Promise<IMovieList | null> => {
   try {
     return await apiClient(
       "GET",
