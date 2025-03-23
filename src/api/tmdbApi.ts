@@ -27,7 +27,7 @@ export default class TmdbApi {
   private baseUrl: string;
 
   constructor(apiKey: string, baseUrl: string) {
-    this.apiKey = apiKey;
+    this.apiKey =  apiKey;
     this.baseUrl = baseUrl;
   }
 
