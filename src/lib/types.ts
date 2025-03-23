@@ -22,7 +22,7 @@ export interface MovieResult {
   vote_count: number;
 }
 
-export type HTMLType = "HTMLType";
+export type HTMLType = 'HTMLType';
 
 export interface StrictObject {
   [key: string]: any;

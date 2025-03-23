@@ -1,14 +1,8 @@
-import { MovieResult, MoviesResponse } from "@/lib/types";
-import { MovieApiClient } from "./apis";
-import { Footer, Header, Movies } from "./components";
-import { Component } from "./components/core";
-import {
-  html,
-  isElement,
-  isError,
-  isHTMLFormElement,
-  isString,
-} from "./lib/utils";
+import { MovieResult, MoviesResponse } from '@/lib/types';
+import { MovieApiClient } from './apis';
+import { Footer, Header, Movies } from './components';
+import { Component } from './components/core';
+import { html, isElement, isError, isHTMLFormElement, isString } from './lib/utils';
 
 export interface AppState {
   page: number;
@@ -31,7 +25,7 @@ export default class App extends Component<null, AppState> {
       moviesResponse: null,
       movies: null,
       error: null,
-      search: "",
+      search: '',
     };
   }
 
@@ -51,7 +45,7 @@ export default class App extends Component<null, AppState> {
         search: this.state.search,
         backgroundImage: this.state.movies?.at(0)?.backdrop_path,
       }).element,
-      "header"
+      'header',
     );
     this.fillSlot(
       new Movies({
@@ -61,9 +55,9 @@ export default class App extends Component<null, AppState> {
         search: this.state.search,
         error: this.state.error,
       }).element,
-      "movies"
+      'movies',
     );
-    this.fillSlot(new Footer().element, "footer");
+    this.fillSlot(new Footer().element, 'footer');
   }
 
   async getMovie(search: string, page: number) {
@@ -79,7 +73,7 @@ export default class App extends Component<null, AppState> {
     } catch (error) {
       if (isError(error)) this.setState({ error });
       else if (isString(error)) this.setState({ error: new Error(error) });
-      else this.setState({ error: new Error("에러 발생") });
+      else this.setState({ error: new Error('에러 발생') });
     }
 
     if (this.state.movies)
@@ -101,22 +95,22 @@ export default class App extends Component<null, AppState> {
   }
 
   addEventListener() {
-    window.addEventListener("click", async (event) => {
+    window.addEventListener('click', async (event) => {
       const { target } = event;
       if (!isElement(target)) return;
 
-      if (target.closest(".show-more")) {
+      if (target.closest('.show-more')) {
         this.getMovie(this.state.search, this.state.page + 1);
       }
     });
 
-    window.addEventListener("submit", async (event) => {
+    window.addEventListener('submit', async (event) => {
       event.preventDefault();
       const { target } = event;
 
       if (!isHTMLFormElement(target)) return;
 
-      if (target.closest(".top-rated-search")) {
+      if (target.closest('.top-rated-search')) {
         const formData = new FormData(target);
         const modalInput = Object.fromEntries(formData);
 

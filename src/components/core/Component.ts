@@ -1,9 +1,9 @@
-import { HTMLType, StrictObject } from "@/lib/types";
-import { html } from "@/lib/utils";
+import { HTMLType, StrictObject } from '@/lib/types';
+import { html } from '@/lib/utils';
 
 export default abstract class Component<
   Props extends StrictObject | null = {},
-  State extends StrictObject | null = {}
+  State extends StrictObject | null = {},
 > {
   state = {} as State;
 
@@ -25,7 +25,7 @@ export default abstract class Component<
   setup() {}
 
   render() {
-    const element = document.createElement("div");
+    const element = document.createElement('div');
     element.innerHTML = this.template();
 
     const elementFirstChild = element.firstElementChild as HTMLElement;
@@ -58,8 +58,7 @@ export default abstract class Component<
 
   fillSlot(element: HTMLElement, slotName: string) {
     const targetSlot = this.element.querySelector(`slot[name=${slotName}]`);
-    if (!targetSlot)
-      throw new Error(`name=${slotName} 속성을 가진 slot 요소를 만들어주세요.`);
+    if (!targetSlot) throw new Error(`name=${slotName} 속성을 가진 slot 요소를 만들어주세요.`);
 
     targetSlot.replaceWith(element);
   }

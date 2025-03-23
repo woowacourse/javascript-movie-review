@@ -1,22 +1,21 @@
-import { AppState } from "@/App";
-import { html } from "@/lib/utils";
-import Component from "./core/Component";
-import ThumbnailList from "./ThumbnailList";
+import { AppState } from '@/App';
+import { html } from '@/lib/utils';
+import Component from './core/Component';
+import ThumbnailList from './ThumbnailList';
 
-const TAB_LIST = ["상영 중", "인기순", "평점순", "상영 예정"];
+const TAB_LIST = ['상영 중', '인기순', '평점순', '상영 예정'];
 
 interface MoviesProps {
-  movies: AppState["movies"];
-  page: AppState["page"];
-  totalPages: AppState["totalPages"];
-  search: AppState["search"];
-  error: AppState["error"];
+  movies: AppState['movies'];
+  page: AppState['page'];
+  totalPages: AppState['totalPages'];
+  search: AppState['search'];
+  error: AppState['error'];
 }
 
 export default class Movies extends Component<MoviesProps> {
   template() {
-    if (this.props.error)
-      return html`<div class="error">${this.props.error.message}</div>`;
+    if (this.props.error) return html`<div class="error">${this.props.error.message}</div>`;
     return html`
       <div class="container">
         <ul class="tab">
@@ -27,14 +26,12 @@ export default class Movies extends Component<MoviesProps> {
                   <div class="tab-item"><h3>${tab}</h3></div>
                 </a>
               </li>
-            `
-          ).join("")}
+            `,
+          ).join('')}
         </ul>
         <main>
           <section>
-            <h2 class="thumbnail-title">
-              ${this.props.search || "지금 인기 있는 영화"}
-            </h2>
+            <h2 class="thumbnail-title">${this.props.search || '지금 인기 있는 영화'}</h2>
             <slot name="thumbnail-list"> </slot>
 
             <slot name="error"></slot>
@@ -45,11 +42,9 @@ export default class Movies extends Component<MoviesProps> {
             </div>
           </section>
         </main>
-        ${this.props.movies &&
-        this.props.movies.length > 0 &&
-        this.props.totalPages > this.props.page
+        ${this.props.movies && this.props.movies.length > 0 && this.props.totalPages > this.props.page
           ? '<button class="primary show-more">더 보기</button>'
-          : ""}
+          : ''}
       </div>
     `;
   }
@@ -59,7 +54,7 @@ export default class Movies extends Component<MoviesProps> {
       new ThumbnailList({
         movies: this.props.movies,
       }).element,
-      "thumbnail-list"
+      'thumbnail-list',
     );
   }
 }
