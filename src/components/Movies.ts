@@ -56,7 +56,7 @@ export default class Movies extends Component<MoviesProps> {
     this.fillSlot(
       new ThumbnailList({
         movies: this.props.movies,
-      }).render(),
+      }).element,
       "thumbnail-list"
     );
   }

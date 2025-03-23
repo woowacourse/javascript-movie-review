@@ -42,7 +42,7 @@ export default class App extends Component<null, AppState> {
       new Header({
         search: this.state.search,
         backgroundImage: this.state.movies.at(0)?.backdrop_path,
-      }).render(),
+      }).element,
       "header"
     );
     this.fillSlot(
@@ -51,10 +51,10 @@ export default class App extends Component<null, AppState> {
         totalPages: this.state.moviesResponse?.total_pages ?? 1,
         page: this.state.page,
         search: this.state.search,
-      }).render(),
+      }).element,
       "movies"
     );
-    this.fillSlot(new Footer().render(), "footer");
+    this.fillSlot(new Footer().element, "footer");
   }
 
   async dataFetchAsync() {
