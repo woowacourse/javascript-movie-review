@@ -7,15 +7,20 @@ import { searchFormSubmitHandler } from "./features/search/ui/searchFormSubmitHa
 import { removeSkeletons } from "./shared/ui/removeSkeletons";
 import { addMovieCard } from "./shared/ui/addMovieCard";
 import MoreMoviesButton from "./shared/ui/components/MoreMoviesButton";
+import ErrorPage from "./shared/ui/components/ErrorPage";
 
 async function init() {
   const $movieList = document.querySelector(".thumbnail-list") as HTMLElement;
+
+  if (!$movieList) {
+    ErrorPage("영화 리스트를 불러오는데 실패하였습니다.");
+  }
 
   showSkeletons($movieList);
 
   const movies = await getMovieList({ page: 1 });
 
-  if (movies && $movieList) {
+  if (movies) {
     Header(movies.results[0]);
 
     removeSkeletons();
