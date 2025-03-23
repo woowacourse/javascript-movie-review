@@ -1,4 +1,5 @@
 import { addMovieCard } from "../../../shared/ui/addMovieCard";
+import ErrorPage from "../../../shared/ui/components/ErrorPage";
 import { showSkeletons } from "../../../shared/ui/showSkeletons";
 import { getUrlParams } from "../../../shared/utils/getUrlParams";
 import { updateUrl } from "../../../shared/utils/updateUrl";
@@ -27,14 +28,20 @@ export const searchFormSubmitHandler = async (e: Event) => {
   const params = getUrlParams();
   updateUrlParams(params, searchQuery as string);
 
-  const searchedMovies = await getSearchedMovie(
-    searchQuery as string,
-    parseInt(params.get("page")!)
-  );
+  try {
+    const searchedMovies = await getSearchedMovie(
+      searchQuery as string,
+      parseInt(params.get("page")!)
+    );
 
-  if ($thumbnailList && searchedMovies) {
-    $thumbnailList.innerHTML = "";
-    addMovieCard(searchedMovies.results, $thumbnailList);
+    if ($thumbnailList && searchedMovies) {
+      $thumbnailList.innerHTML = "";
+      addMovieCard(searchedMovies.results, $thumbnailList);
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      ErrorPage(error.message);
+    }
   }
 
   updateUrl(params);

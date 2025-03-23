@@ -18,13 +18,18 @@ async function init() {
 
   showSkeletons($movieList);
 
-  const movies = await getMovieList({ page: 1 });
+  try {
+    const movies = await getMovieList({ page: 1 });
+    if (movies) {
+      Header(movies.results[0]);
 
-  if (movies) {
-    Header(movies.results[0]);
-
-    removeSkeletons();
-    addMovieCard(movies.results, $movieList);
+      removeSkeletons();
+      addMovieCard(movies.results, $movieList);
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      ErrorPage(error.message);
+    }
   }
 
   const $movieContainer = document.getElementById("movie-container");

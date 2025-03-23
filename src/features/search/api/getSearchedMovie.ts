@@ -1,5 +1,4 @@
 import { IMovieList } from "../../../shared/types/movies";
-import ErrorPage from "../../../shared/ui/components/ErrorPage";
 import { apiClient } from "../../../shared/utils/apiClient";
 
 export const getSearchedMovie = async (
@@ -12,8 +11,6 @@ export const getSearchedMovie = async (
       `/search/movie?query=${query}&include_adult=true&language=ko-KR&page=${page}`
     );
   } catch (error) {
-    if (error instanceof Error) {
-      ErrorPage("검색 결과를 불러오는데 실패하였습니다.");
-    }
+    throw new Error("검색 결과를 불러오는데 실패하였습니다.");
   }
 };
