@@ -39,6 +39,11 @@ jobs:
       - name: Type Check
         run: npm run type-check
 
+      - name: setting environment variables
+        run: |
+          echo "${{ secrets.VITE_BASE_URL }}" >> .env
+          echo WEB_URL=${{ secrets.VITE_TMDB_TOKEN }} >> .env
+
       - name: Build
         run: npm run build
 
@@ -46,11 +51,20 @@ jobs:
         uses: cypress-io/github-action@v6
         env:
           VITE_BASE_URL: ${{ secrets.VITE_BASE_URL }}
+          VITE_TMDB_TOKEN: ${{ secrets.VITE_TMDB_TOKEN }}
         with:
           start: npm run preview
 
+      - name: Upload screenshots
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
