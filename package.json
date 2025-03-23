@@ -58,6 +58,7 @@
     "node": ">=20.17.0"
   },
   "dependencies": {
-    "@fxts/core": "^1.6.0"
+    "@fxts/core": "^1.6.0",
+    "dotenv": "^16.4.7"
   }
 }
