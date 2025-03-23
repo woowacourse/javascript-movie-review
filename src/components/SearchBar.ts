@@ -50,6 +50,10 @@ class SearchBar {
     searchInput.placeholder = "검색어를 입력하세요";
 
     const handleEnterKeyDown = (event: KeyboardEvent) => {
+      if (event.isComposing) {
+        return;
+      }
+
       if (event.key === "Enter") {
         this.onSearchClick();
         searchInput.blur();
