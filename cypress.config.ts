@@ -5,8 +5,11 @@ dotenv.config();
 
 export default defineConfig({
   e2e: {
-    viewportHeight: 1000,
     experimentalStudio: true,
-    baseUrl: process.env.VITE_BASE_URL ?? 'http://localhost:4173',
+    baseUrl: process.env.VITE_BASE_URL ?? 'http://localhost:5173',
+    video: true,
+    env: {
+      VITE_TMDB_TOKEN: process.env.VITE_TMDB_TOKEN,
+    },
   },
 });
