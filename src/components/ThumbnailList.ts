@@ -1,16 +1,15 @@
-import { DEFAULT_BACK_DROP_URL } from "@/lib/constants";
+import { DEFAULT_BACK_DROP_URL } from '@/lib/constants';
 
-import { AppState } from "@/App";
-import { html } from "@/lib/utils";
-import Component from "./core/Component";
+import { AppState } from '@/App';
+import { html } from '@/lib/utils';
+import Component from './core/Component';
 
 interface ThumbnailListProps {
-  movies: AppState["movies"];
+  movies: AppState['movies'];
 }
 
 export default class ThumbnailList extends Component<ThumbnailListProps> {
   template() {
-    console.log(this.props.movies);
     if (!this.props.movies)
       return html`
         <ul class="thumbnail-list">
@@ -18,16 +17,16 @@ export default class ThumbnailList extends Component<ThumbnailListProps> {
             .fill(null)
             .map(
               (_) => `<li>
-          <div class="item">
-            <div class="skeleton" style="width:200px; height:300px"></div>
-            <div class="item-desc">
-              <div class="skeleton" style="width:60px; height:16px"></div>
-              <div class="skeleton" style="width:150px; height:16px"></div>
-            </div>
-          </div>
-        </li>`
+                <div class="item">
+                  <div class="skeleton" style="width:200px; height:300px"></div>
+                  <div class="item-desc">
+                    <div class="skeleton" style="width:60px; height:16px"></div>
+                    <div class="skeleton" style="width:150px; height:16px"></div>
+                  </div>
+                </div>
+              </li>`,
             )
-            .join("")}
+            .join('')}
         </ul>
       `;
     if (this.props.movies.length === 0)
@@ -43,7 +42,7 @@ export default class ThumbnailList extends Component<ThumbnailListProps> {
           .map((movie) => {
             const backgroundImage = movie.backdrop_path
               ? `${DEFAULT_BACK_DROP_URL}${movie.backdrop_path}`
-              : "./images/default_thumbnail.jpeg";
+              : './images/default_thumbnail.jpeg';
             return `
               <li>
                 <div class="item">
@@ -63,7 +62,7 @@ export default class ThumbnailList extends Component<ThumbnailListProps> {
               </li>
           `;
           })
-          .join("")}
+          .join('')}
       </section>
     `;
   }
