@@ -13,8 +13,8 @@ class MovieListSection {
   render() {
     const $section = document.createElement("section");
     const $title = document.createElement("h2");
-
     $title.textContent = this.getTitle();
+    $section.appendChild($title);
 
     const $ul = document.createElement("ul");
     $ul.classList.add("thumbnail-list");
@@ -26,7 +26,17 @@ class MovieListSection {
     }
 
     const totalMovie = this.movies.length;
-    const startIndex = Math.max(0, totalMovie - 20);
+
+    if (this.isLoading && totalMovie === 0) {
+      this.renderMovieItemByArray(
+        Array(MOVIE.MAX_MOVIES_PER_PAGE).fill(0),
+        $ul,
+        this.isLoading
+      );
+      $section.appendChild($ul);
+
+      return $section;
+    }
 
     if (totalMovie === 0) {
       const $div = new EmptyView("검색 결과가 없습니다.").render();
@@ -36,21 +46,14 @@ class MovieListSection {
       return $section;
     }
 
-    $section.appendChild($title);
-
-    if (totalMovie <= MOVIE.MAX_MOVIES_PER_PAGE) {
-      this.renderMovieItemByArray(this.movies, $ul, false);
-
-      $section.appendChild($ul);
-      return $section;
+    this.renderMovieItemByArray(this.movies, $ul, false);
+    if (this.isLoading) {
+      this.renderMovieItemByArray(
+        Array(MOVIE.MAX_MOVIES_PER_PAGE).fill(0),
+        $ul,
+        this.isLoading
+      );
     }
-
-    this.renderMovieItemByArray(this.movies.slice(0, startIndex), $ul, false);
-    this.renderMovieItemByArray(
-      this.movies.slice(startIndex),
-      $ul,
-      this.isLoading
-    );
 
     $section.append($title, $ul);
     return $section;

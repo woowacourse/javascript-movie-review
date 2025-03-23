@@ -104,10 +104,8 @@ class App {
 
     const $header = new TitleSearchBar(this.onSubmit).render();
 
-    if (this.hasMovies()) {
-      const $thumbnail = new Thumbnail(this.#movies[0]).render();
-      $wrap.append($thumbnail);
-    }
+    const $thumbnail = new Thumbnail(this.#movies[0]).render();
+    $wrap.append($thumbnail);
 
     const $container = document.createElement("div");
     $container.classList.add("container");
