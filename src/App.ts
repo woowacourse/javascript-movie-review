@@ -4,11 +4,11 @@ import { html, isElement, isHTMLFormElement } from "./lib/utils";
 import { Component } from "./components/core";
 import { Footer, Header, Movies } from "./components";
 
-interface AppState {
+export interface AppState {
   page: number;
   totalPages: number;
   moviesResponse: MoviesResponse | null;
-  movies: MovieResult[];
+  movies: MovieResult[] | null;
   search: string;
 }
 
@@ -22,7 +22,7 @@ export default class App extends Component<null, AppState> {
       page: 1,
       totalPages: 1,
       moviesResponse: null,
-      movies: [],
+      movies: null,
       search: "",
     };
   }
@@ -41,7 +41,7 @@ export default class App extends Component<null, AppState> {
     this.fillSlot(
       new Header({
         search: this.state.search,
-        backgroundImage: this.state.movies.at(0)?.backdrop_path,
+        backgroundImage: this.state.movies?.at(0)?.backdrop_path,
       }).element,
       "header"
     );
@@ -67,10 +67,16 @@ export default class App extends Component<null, AppState> {
       });
     else moviesResponse = await getMovies({ page: this.state.page });
 
-    this.setState({
-      moviesResponse,
-      movies: [...this.state.movies, ...moviesResponse.results],
-    });
+    if (this.state.movies)
+      this.setState({
+        moviesResponse,
+        movies: [...this.state.movies, ...moviesResponse.results],
+      });
+    else
+      this.setState({
+        moviesResponse,
+        movies: moviesResponse.results,
+      });
   }
 
   addEventListener() {
@@ -88,11 +94,16 @@ export default class App extends Component<null, AppState> {
           });
         else moviesResponse = await getMovies({ page: this.state.page + 1 });
 
-        this.setState({
-          moviesResponse,
-          movies: [...this.state.movies, ...moviesResponse.results],
-          page: this.state.page + 1,
-        });
+        if (this.state.movies)
+          this.setState({
+            moviesResponse,
+            movies: [...this.state.movies, ...moviesResponse.results],
+          });
+        else
+          this.setState({
+            moviesResponse,
+            movies: moviesResponse.results,
+          });
       }
     });
 

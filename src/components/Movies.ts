@@ -1,4 +1,4 @@
-import { MovieResult } from "@/lib/types";
+import { AppState } from "@/App";
 import { html } from "@/lib/utils";
 import Component from "./core/Component";
 import ThumbnailList from "./ThumbnailList";
@@ -6,10 +6,10 @@ import ThumbnailList from "./ThumbnailList";
 const TAB_LIST = ["상영 중", "인기순", "평점순", "상영 예정"];
 
 interface MoviesProps {
-  movies: MovieResult[];
-  page: number;
-  totalPages: number;
-  search: string;
+  movies: AppState["movies"];
+  page: AppState["page"];
+  totalPages: AppState["totalPages"];
+  search: AppState["search"];
 }
 
 export default class Movies extends Component<MoviesProps> {
@@ -42,7 +42,8 @@ export default class Movies extends Component<MoviesProps> {
             </div>
           </section>
         </main>
-        ${this.props.movies.length > 0 &&
+        ${this.props.movies &&
+        this.props.movies.length > 0 &&
         this.props.totalPages > this.props.page
           ? '<button class="primary show-more">더 보기</button>'
           : ""}
@@ -51,8 +52,6 @@ export default class Movies extends Component<MoviesProps> {
   }
 
   async onRender() {
-    // if(this.props.movies.length === 0)
-
     this.fillSlot(
       new ThumbnailList({
         movies: this.props.movies,
