@@ -1,8 +1,6 @@
-const URL = 'http://localhost:5173';
-
 describe('E2E테스트', () => {
   beforeEach(() => {
-    cy.visit(URL);
+    cy.visit('/');
   });
 
   describe('목록', () => {

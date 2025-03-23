@@ -45,7 +45,7 @@ jobs:
       - name: E2E
         uses: cypress-io/github-action@v6
         env:
-          BASE_URL: ${{ secrets.BASE_URL }}
+          VITE_BASE_URL: ${{ secrets.VITE_BASE_URL }}
         with:
           start: npm run preview
 
