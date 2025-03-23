@@ -1,3 +1,4 @@
+import { MovieData } from '../../../types/movie';
 import Button from '../button/Button';
 
 interface MovieBannerProps {

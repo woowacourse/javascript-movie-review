@@ -1,6 +1,7 @@
 import MovieItem from '../movie-item/MovieItem';
 import { ERROR_MESSAGE } from '../../constants/errorMessage';
 import ErrorMessage from '../error-message/ErrorMessage';
+import { MovieData } from '../../../types/movie';
 
 interface MovieGridProps {
   movieItems: MovieData[];
