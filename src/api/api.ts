@@ -1,4 +1,4 @@
-import { TMDB_TOKEN } from "../constants/api.ts";
+import { TMDB_TOKEN, BASE_URL, OPTION } from "../constants/api.ts";
 import ERROR from "../constants/error.ts";
 
 const options = {
@@ -19,12 +19,12 @@ const GETWithAuth = async (url: string) => {
 
 const api = {
   getMovieData(pageNumber: number) {
-    const url = `https://api.themoviedb.org/3/movie/popular?language=ko-KR&region=KR&page=${pageNumber}`;
+    const url = `${BASE_URL}/movie/popular?language=${OPTION.language}&region=${OPTION.region}&page=${pageNumber}`;
     return GETWithAuth(url);
   },
 
   getSearchData(pageNumber: number, query: string) {
-    const url = `https://api.themoviedb.org/3/search/movie?page=${pageNumber}&query=${query}&language=ko-KR`;
+    const url = `${BASE_URL}/search/movie?page=${pageNumber}&query=${query}&language=${OPTION.language}`;
     return GETWithAuth(url);
   },
 };
