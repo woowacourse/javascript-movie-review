@@ -80,7 +80,7 @@ describe("오류 테스트", () => {
     cy.get(".search-bar input").type("짱구");
     cy.get(".search-bar button").click();
 
-    cy.wait("@getSearchMovies").then((interception) => {
+    cy.wait("@getSearchMovies").then(() => {
       cy.get(".no-result h2")
         .invoke("text")
         .should("eq", "영화 목록을 가져오는 데 실패했습니다.");

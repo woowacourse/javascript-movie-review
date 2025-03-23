@@ -33,7 +33,7 @@ const SearchBar = () => {
 
 const searchMovie = async (input: string) => {
   $(".thumbnail-list").replaceChildren();
-  $(".load-more").remove();
+  $(".load-more")?.remove();
   $("#caption").innerText = `"${input}" 검색 결과`;
 
   try {
