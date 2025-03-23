@@ -18,8 +18,8 @@ const MovieResults = () => {
     getMovieList: () => [...movieList],
     getPage: () => page,
     hasMore: () => page !== maxPage,
-    addMovieList: addMovieList,
-    initialTotalPage: initialTotalPage,
+    addMovieList,
+    initialTotalPage,
   };
 };
 
