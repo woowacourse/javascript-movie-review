@@ -22,13 +22,13 @@ const MovieListSection = ({
       }),
       createDOMElement({
         tag: "ul",
-        class: "thumbnail-list",
+        className: "thumbnail-list",
         children: movieList.map((movie) => MovieItem(movie)),
       }),
       hasMore
         ? createDOMElement({
             tag: "div",
-            class: "see-more",
+            className: "see-more",
             textContent: "더 보기",
           })
         : null,

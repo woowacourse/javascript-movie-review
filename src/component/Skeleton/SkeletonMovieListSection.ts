@@ -7,11 +7,11 @@ const SkeletonMovieListSection = () => {
     children: [
       createDOMElement({
         tag: "h2",
-        class: "skeleton list-title",
+        className: "skeleton list-title",
       }),
       createDOMElement({
         tag: "ul",
-        class: "thumbnail-list",
+        className: "thumbnail-list",
         children: Array.from({ length: 20 }).map(() => SkeletonMovieItem()),
       }),
     ],

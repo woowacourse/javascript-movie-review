@@ -4,49 +4,49 @@ import createDOMElement from "../util/createDomElement";
 const BackgroundThumbnailSection = (movie: MovieItemType) => {
   return createDOMElement({
     tag: "div",
-    class: "background-container",
+    className: "background-container",
     children: [
       createDOMElement({
         tag: "img",
-        class: "background-thumbnail",
+        className: "background-thumbnail",
         src: `https://media.themoviedb.org/t/p/w440_and_h660_face${movie.backdrop_path}`,
       }),
       createDOMElement({
         tag: "div",
-        class: "overlay",
+        className: "overlay",
         "aria-hidden": "true",
       }),
       createDOMElement({
         tag: "div",
-        class: "top-rated-container",
+        className: "top-rated-container",
         children: createDOMElement({
           tag: "div",
-          class: "top-rated-movie",
+          className: "top-rated-movie",
           children: [
             createDOMElement({
               tag: "div",
-              class: "rate",
+              className: "rate",
               children: [
                 createDOMElement({
                   tag: "img",
-                  class: "star",
+                  className: "star",
                   src: "./images/star_empty.png",
                 }),
                 createDOMElement({
                   tag: "span",
-                  class: "rate-value",
+                  className: "rate-value",
                   textContent: movie.vote_average,
                 }),
               ],
             }),
             createDOMElement({
               tag: "div",
-              class: "title",
+              className: "title",
               textContent: movie.title,
             }),
             createDOMElement({
               tag: "button",
-              class: "primary detail",
+              className: "primary detail",
               textContent: "자세히 보기",
             }),
           ],

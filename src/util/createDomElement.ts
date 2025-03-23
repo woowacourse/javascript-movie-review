@@ -14,7 +14,7 @@ const createDOMElement = ({
   const element = document.createElement(tag);
 
   Object.entries(props).forEach(([key, value]) => {
-    if (key === "class") {
+    if (key === "className") {
       if (Array.isArray(value)) {
         value.forEach((className) => {
           element.classList.add(className);

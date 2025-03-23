@@ -8,11 +8,11 @@ const MovieItem = (movie: MovieItemType) => {
     children: [
       createDOMElement({
         tag: "div",
-        class: "item",
+        className: "item",
         children: [
           createDOMElement({
             tag: "img",
-            class: "thumbnail",
+            className: "thumbnail",
             src: movie.poster_path
               ? `https://media.themoviedb.org/t/p/w440_and_h660_face${movie.poster_path}`
               : defaultImage,
@@ -20,15 +20,15 @@ const MovieItem = (movie: MovieItemType) => {
           }),
           createDOMElement({
             tag: "div",
-            class: "item-desc",
+            className: "item-desc",
             children: [
               createDOMElement({
                 tag: "p",
-                class: "rate",
+                className: "rate",
                 children: [
                   createDOMElement({
                     tag: "img",
-                    class: "star",
+                    className: "star",
                     src: "./images/star_empty.png",
                   }),
                   createDOMElement({

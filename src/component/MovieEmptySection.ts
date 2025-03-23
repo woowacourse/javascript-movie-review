@@ -10,7 +10,7 @@ const MovieEmptySection = (title: string) => {
       }),
       createDOMElement({
         tag: "div",
-        class: "empty-wrapper",
+        className: "empty-wrapper",
         children: [
           createDOMElement({
             tag: "img",
