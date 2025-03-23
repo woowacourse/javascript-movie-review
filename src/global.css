@@ -28,10 +28,7 @@ input {
 button {
   border: none;
   background: none;
-  background-color: var(--color-lightblue-90);
-  color: var(--color-white);
   border-radius: 8px;
-  padding: 10px 0;
   cursor: pointer;
 }
 

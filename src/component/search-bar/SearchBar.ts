@@ -1,11 +1,12 @@
 import { redirectToPage } from '../../route/router';
+//@TODO 버튼을 먼저 확장성 좋게 리팩토링 한 후 사용 할 것
 
 class SearchBar {
   #container: HTMLElement;
   #searchValue: string = '';
 
   constructor() {
-    this.#container = document.createElement('div');
+    this.#container = document.createElement('form');
     this.#container.classList.add('searchbar');
     this.render();
 
@@ -15,7 +16,9 @@ class SearchBar {
   render() {
     this.#container.innerHTML = `
       <input placeholder="검색어를 입력하세요" class="text-placeholder searchbar__input" />
-      <img src="./search-icon.png" class="searchbar__icon"/>
+      <button class="searchbar__button" type="submit">
+        <img src="./search-icon.png" class="searchbar__icon"/>
+      </button>
   `;
   }
 
@@ -28,18 +31,9 @@ class SearchBar {
     });
   }
 
-  #bindEnterEvent() {
-    const input = this.#container.querySelector('.searchbar__input');
-    input?.addEventListener('keydown', (event) => {
-      if (event instanceof KeyboardEvent && event.key === 'Enter' && event.target instanceof HTMLInputElement) {
-        this.#search();
-      }
-    });
-  }
-
-  #bindSearchIconEvent() {
-    const icon = this.#container.querySelector('.searchbar__icon');
-    icon?.addEventListener('click', () => {
+  #bindSubmitEvent() {
+    this.#container.addEventListener('submit', (event) => {
+      event.preventDefault();
       this.#search();
     });
   }
@@ -56,8 +50,7 @@ class SearchBar {
 
   #bindEvent() {
     this.#bindInputEvent();
-    this.#bindSearchIconEvent();
-    this.#bindEnterEvent();
+    this.#bindSubmitEvent();
   }
 
   get element() {

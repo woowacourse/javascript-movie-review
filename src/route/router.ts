@@ -1,6 +1,7 @@
 import { MainPage } from '../pages/main-page/MainPage';
 import SearchPage from '../pages/search-page/SearchPage';
 import ErrorPage from '../pages/error-page/ErrorPage';
+import { SYSTEM_CONSTANTS } from '../constants/systemConstants';
 
 function routes(): Record<string, () => HTMLElement> {
   return {
@@ -26,7 +27,8 @@ export async function renderInnerContentsByRoute() {
 }
 
 export async function redirectToPage(url: string) {
-  history.pushState({}, '', url);
+  const redirectUrl = `${SYSTEM_CONSTANTS.BASE_URL}${url}`;
+  history.pushState({}, '', redirectUrl);
   await renderContent();
 }
 
