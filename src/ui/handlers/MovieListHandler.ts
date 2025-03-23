@@ -22,8 +22,6 @@ export default class MovieListHandler {
     this.updateMovieList(moviesData);
     this.handleMoreClickButton(query);
     this.movieList?.updateMovieListTitle(query);
-    console.log(this.movieList?.currentPage);
-    console.log(this.movieList?.totalPage);
   }
 
   private updateMovieList(moviesData: APIResponse<MovieResponse>) {
@@ -58,7 +56,6 @@ export default class MovieListHandler {
   async handleLoadMore(query: string | undefined) {
     const pageNumber = this.movieList?.currentPage + 1;
     this.movieList?.addPageNumber();
-    console.log(`pageNumber: ${pageNumber}`);
 
     const skeletonCards: HTMLElement[] = [];
     for (let i = 0; i < 5; i++) {
@@ -92,7 +89,6 @@ export default class MovieListHandler {
         this.movieList &&
         this.movieList.currentPage >= this.movieList.totalPage
       ) {
-        console.log("remove load more button");
         const loadMoreButton = document.querySelector(".add-movie");
         loadMoreButton?.remove();
       }
