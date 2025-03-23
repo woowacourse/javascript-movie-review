@@ -41,7 +41,7 @@ export default class MovieListHandler {
     this.movieList.init();
   }
 
-  async handleMoreClickButton(query: string | undefined) {
+  async handleMoreClickButton(query?: string) {
     const loadMoreButton = document.querySelector(".add-movie");
     if (!loadMoreButton) return;
 
@@ -53,7 +53,7 @@ export default class MovieListHandler {
     });
   }
 
-  async handleLoadMore(query: string | undefined) {
+  async handleLoadMore(query?: string) {
     const pageNumber = this.movieList?.currentPage + 1;
     this.movieList?.addPageNumber();
 
@@ -70,7 +70,7 @@ export default class MovieListHandler {
         newMoviesData = await this.movieService.searchMovies(query, pageNumber);
       }
 
-      this.movieList?.container.querySelectorAll(".skeleton-card").forEach((skeleton) => skeleton.remove());
+      this.movieList?.container.querySelectorAll(".skeleton-card").forEach((skeleton: HTMLElement) => skeleton.remove());
 
       newMoviesData.results.forEach((movieData) => {
         const movie = new Movie({

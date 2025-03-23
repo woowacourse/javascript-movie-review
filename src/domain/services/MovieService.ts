@@ -24,7 +24,7 @@ export default class MovieService {
   }
 
   async searchMovies(
-    query: string | undefined,
+    query?: string,
     page: number = 1
   ): Promise<APIResponse<MovieResponse>> {
     try {
