@@ -19,5 +19,9 @@ window.addEventListener("load", async () => {
     movieListHandler.handleLogoClick();
   });
 
-  await movieListHandler.initMovieList();
+ try {
+    await movieListHandler.initMovieList();
+  } catch (error) {
+    console.error("초기 영화 목록 로드 실패:", error);
+  }
 });

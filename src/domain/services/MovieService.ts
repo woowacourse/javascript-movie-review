@@ -1,4 +1,4 @@
-import TmdbApi from "../../api/tmdbApi";
+import TmdbApi, { TmdbApiError } from "../../api/tmdbApi";
 import Movie from "../models/Movie";
 
 export default class MovieService {
@@ -29,7 +29,13 @@ export default class MovieService {
       };
     } catch (error) {
       console.error("영화 목록 가져오기 실패:", error);
-      alert("영화 목록 가져오기 실패");
+      let errorMessage = "영화 목록 가져오기 실패";
+      if(error instanceof TmdbApiError) {
+        errorMessage = error.message;
+      }else if(error instanceof Error){
+        errorMessage = error.message;
+      }
+      alert(errorMessage);
       throw error;
     }
   }
@@ -59,7 +65,14 @@ export default class MovieService {
       };
     } catch (error) {
       console.error("영화 검색 실패", error);
-      alert("영화 검색 실패");
+      let errorMessage = "영화 검색 실패";
+      if (error instanceof TmdbApiError) {
+        errorMessage = error.message;
+      } else if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+      
+      alert(errorMessage);
       throw error;
     }
   }

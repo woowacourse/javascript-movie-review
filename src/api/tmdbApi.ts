@@ -22,6 +22,17 @@ export interface MovieResponse {
   original_language: string;
 }
 
+export class TmdbApiError extends Error {
+  statusCode: number;
+  apiErrorCode: number;
+
+  constructor(message: string, statusCode: number, apiErrorCode: number) {
+    super(message);
+    this.statusCode = statusCode;
+    this.apiErrorCode = apiErrorCode;
+  }
+}
+
 export default class TmdbApi {
   private apiToken: string;
   private baseUrl: string;
@@ -53,11 +64,47 @@ export default class TmdbApi {
       }
       const response = await fetch(url.toString(), option);
       if (!response.ok) {
-        throw new Error(`HTTP 오류! 상태: ${response.status}`);
+        const errorData = await response.json();
+        let errorMessage = errorData.status_message || "알수없는 오류가 발생했습니다.";
+        switch (response.status) {
+          case 401:
+            if (errorData.status_code === 7) {
+              errorMessage = '유효하지 않은 API 키입니다.';
+            } else if (errorData.status_code === 10) {
+              errorMessage = 'API 키가 정지되었습니다. TMDB에 문의하세요.';
+            } else {
+              errorMessage = '인증에 실패했습니다.';
+            }
+            break;
+          case 404:
+            errorMessage = '요청한 리소스를 찾을 수 없습니다.';
+            break;
+          case 429:
+            errorMessage = '요청 횟수가 제한을 초과했습니다. 잠시 후 다시 시도해주세요.';
+            break;
+          case 503:
+            errorMessage = '서비스가 일시적으로 오프라인 상태입니다. 나중에 다시 시도해주세요.';
+            break;
+          case 500:
+          case 502:
+          case 504:
+            errorMessage = '서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.';
+            break;
+        }
+        throw new TmdbApiError(errorMessage, response.status, errorData.status_code);
       }
       return response.json();
     } catch (error) {
-      console.error("API 호출 오류:", error);
+      if (error instanceof TmdbApiError) {
+        throw error;
+      } else {
+        console.error("API 호출 오류:", error);
+        throw new TmdbApiError(
+          '네트워크 오류가 발생했습니다. 인터넷 연결을 확인해주세요.',
+          0,
+          0
+        );
+      }
       throw error;
     }
   }
