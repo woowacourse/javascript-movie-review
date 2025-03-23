@@ -1,7 +1,7 @@
 import Movie from "../../domain/models/Movie.js";
 import MovieList from "../components/MovieList.js";
 import MovieService from "../../domain/services/MovieService.js";
-import MovieCard from "../components/Movie.js";
+import MovieCard from "../components/MovieCard.js";
 import { store } from "../../store/store.js";
 import { APIResponse, MovieResponse } from "../../api/tmdbApi.js";
 

@@ -1,5 +1,5 @@
 import Movie from "../../domain/models/Movie.ts";
-import MovieCard from "./Movie.js";
+import MovieCard from "./MovieCard.js";
 import CustomButton from "./CustomButton.js";
 import { ADD_MOVIE_BUTTON } from "../../shared/CustomButton.ts";
 import NoResultsMessage from "./NoResultsMessage.js";
