@@ -10,6 +10,11 @@ export const isHTMLFormElement = (
 ): target is HTMLFormElement => {
   return target instanceof HTMLFormElement;
 };
+export const isError = (error: Error | unknown): error is Error =>
+  error instanceof Error;
+
+export const isString = (str: string | unknown): str is string =>
+  typeof str === "string";
 
 export const $ = (selector: string) => {
   return document.querySelector(selector) as HTMLElement;

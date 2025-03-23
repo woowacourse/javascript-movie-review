@@ -1,8 +1,8 @@
-import { getMovieByName, getMovies } from "@/apis/MovieApi";
 import { MovieResult, MoviesResponse } from "@/lib/types";
-import { html, isElement, isHTMLFormElement } from "./lib/utils";
-import { Component } from "./components/core";
+import { MovieApiClient } from "./apis";
 import { Footer, Header, Movies } from "./components";
+import { Component } from "./components/core";
+import { html, isElement, isHTMLFormElement } from "./lib/utils";
 
 export interface AppState {
   page: number;
@@ -61,11 +61,12 @@ export default class App extends Component<null, AppState> {
     let moviesResponse;
 
     if (this.state.search)
-      moviesResponse = await getMovieByName({
-        name: this.state.search,
+      moviesResponse = await MovieApiClient.get({
+        query: this.state.search,
         page: this.state.page,
       });
-    else moviesResponse = await getMovies({ page: this.state.page });
+    else
+      moviesResponse = await MovieApiClient.getAll({ page: this.state.page });
 
     if (this.state.movies)
       this.setState({
@@ -88,11 +89,14 @@ export default class App extends Component<null, AppState> {
         let moviesResponse;
 
         if (this.state.search)
-          moviesResponse = await getMovieByName({
-            name: this.state.search,
+          moviesResponse = await MovieApiClient.get({
+            query: this.state.search,
             page: this.state.page + 1,
           });
-        else moviesResponse = await getMovies({ page: this.state.page + 1 });
+        else
+          moviesResponse = await MovieApiClient.getAll({
+            page: this.state.page + 1,
+          });
 
         if (this.state.movies)
           this.setState({
