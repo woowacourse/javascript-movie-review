@@ -1,8 +1,6 @@
 import { getPopularMovieResult } from "../api/getPopularMovieResult";
-import BackgroundThumbnailSection from "../component/BackgroundThumbnailSection";
 import MovieItem from "../component/MovieItem";
 import MovieListSection from "../component/MovieListSection";
-import SkeletonBackgroundThumbnailSection from "../component/Skeleton/SkeletonBackgroundThumbnailSection";
 import SkeletonMovieItem from "../component/Skeleton/SkeletonMovieItem";
 import SkeletonMovieListSection from "../component/Skeleton/SkeletonMovieListSection";
 import MovieResults from "../domain/MovieResults";
@@ -11,18 +9,23 @@ import { MovieItemType, MovieResultType } from "../types/movieResultType";
 class MovieListController {
   movieResults;
   mainElement;
-  openModal;
 
-  constructor({
-    mainElement,
-    openModal,
-  }: {
-    mainElement: HTMLElement;
-    openModal: (text: string) => void;
-  }) {
+  constructor(mainElement: HTMLElement) {
     this.movieResults = MovieResults();
     this.mainElement = mainElement;
-    this.openModal = openModal;
+  }
+
+  async render() {
+    this.renderSkeleton();
+    const { movieList, hasMore } = await this.fetchAndStoreMovies();
+    this.renderMovieList({
+      movieList,
+      hasMore,
+    });
+
+    this.bindEvents();
+
+    return movieList[0];
   }
 
   bindEvents() {
@@ -45,68 +48,25 @@ class MovieListController {
     return { movieList, hasMore: newPage !== totalPage };
   }
 
-  async render() {
-    const skeletonBackgroundElement = this.renderSkeleton();
-
-    const { movieList, hasMore } = await this.fetchAndStoreMovies();
-    this.renderMovieList({
-      movieList,
-      hasMore,
-      skeletonBackgroundElement,
-    });
-
-    this.bindEvents();
-  }
-
   renderSkeleton() {
     const skeletonSectionElement = SkeletonMovieListSection();
     this.mainElement.replaceChildren(skeletonSectionElement);
-    const skeletonBackgroundElement = SkeletonBackgroundThumbnailSection();
-    this.mainElement?.insertAdjacentElement(
-      "beforebegin",
-      skeletonBackgroundElement,
-    );
-
-    return skeletonBackgroundElement;
   }
 
   renderMovieList({
     movieList,
     hasMore,
-    skeletonBackgroundElement,
   }: {
     movieList: MovieItemType[];
     hasMore: boolean;
-    skeletonBackgroundElement: HTMLElement;
   }) {
     const sectionElement = MovieListSection({
       title: "지금 인기 있는 영화",
       movieList,
       hasMore,
     });
+
     this.mainElement.replaceChildren(sectionElement);
-
-    const backgroundThumbnailSectionElement = BackgroundThumbnailSection(
-      movieList[0],
-    );
-    skeletonBackgroundElement.replaceWith(backgroundThumbnailSectionElement);
-
-    const detailButtonElement = backgroundThumbnailSectionElement.querySelector(
-      "button.detail",
-    ) as HTMLButtonElement;
-    detailButtonElement.addEventListener("click", () =>
-      this.openModal("아직 지원되지 않은 기능입니다."),
-    );
-  }
-
-  renderBackgroundSection() {
-    const skeletonBackgroundElement = SkeletonBackgroundThumbnailSection();
-    this.mainElement?.insertAdjacentElement(
-      "beforebegin",
-      skeletonBackgroundElement,
-    );
-
-    return skeletonBackgroundElement;
   }
 
   async renderExistingMovieList() {
