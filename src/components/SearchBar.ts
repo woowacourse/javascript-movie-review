@@ -1,5 +1,6 @@
 import { IPage } from "../../types/domain";
 import api from "../api/api";
+import { selectElement, selectElementAll } from "../utils/dom.ts";
 import {
   toggleNoThumbnail,
   toggleSeeMoreButton,
@@ -23,12 +24,10 @@ class SearchBar {
   }
 
   async onSearchClick() {
-    const searchBar = document.querySelector(".search-bar") as HTMLInputElement;
-    const thumbnailList = document.querySelector("ul.thumbnail-list");
+    const searchBar = selectElement<HTMLInputElement>(".search-bar");
+    const thumbnailList = selectElement<HTMLUListElement>("ul.thumbnail-list");
     const query = searchBar.value;
-    const seeMoreButton = document.querySelector(
-      "#seeMore"
-    ) as HTMLButtonElement;
+    const seeMoreButton = selectElement<HTMLButtonElement>("#seeMore");
 
     this.#changeTitleStyle(query);
     toggleNoThumbnail("hidden");
@@ -82,14 +81,12 @@ class SearchBar {
   }
 
   #changeTitleStyle(query: string) {
-    const overlay = document.querySelector(".overlay") as HTMLDivElement;
-    const topRatedContainer = document.querySelector(
-      ".top-rated-movie"
-    ) as HTMLDivElement;
-    const backgroundContainer = document.querySelector(
+    const overlay = selectElement<HTMLDivElement>(".overlay");
+    const topRatedContainer = selectElement<HTMLDivElement>(".top-rated-movie");
+    const backgroundContainer = selectElement<HTMLDivElement>(
       ".background-container"
-    ) as HTMLDivElement;
-    const subTitle = document.querySelector(".subTitle") as HTMLHeadingElement;
+    );
+    const subTitle = selectElement<HTMLHeadingElement>(".subTitle");
 
     subTitle.textContent = `"${query}" 검색 결과`;
     overlay.style.display = "none";
@@ -98,8 +95,10 @@ class SearchBar {
   }
 
   async #renderSearchResult(query: string) {
-    const thumbnailList = document.querySelector("ul.thumbnail-list");
-    const itemCount = document.querySelectorAll("ul.thumbnail-list li").length;
+    const thumbnailList = selectElement<HTMLUListElement>("ul.thumbnail-list");
+    const itemCount = selectElementAll<HTMLLIElement>(
+      "ul.thumbnail-list li"
+    ).length;
     const pageNumber = itemCount / 20 + 1;
 
     toggleSkeletonList("show");
