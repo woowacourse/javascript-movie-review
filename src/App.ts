@@ -108,9 +108,10 @@ export default class App extends Component<null, AppState> {
         this.setState({
           search: String(modalInput.search),
           page: 1,
-          movies: [],
+          movies: null,
         });
 
+        await this.dataFetchAsync();
       }
     });
   }
