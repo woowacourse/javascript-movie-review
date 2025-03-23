@@ -8,28 +8,24 @@ const options = {
   },
 };
 
-const GETWithAuth = async (url: string, errorMessage: string) => {
+const GETWithAuth = async (url: string) => {
   try {
     const response = await fetch(url, options);
     return await response.json();
   } catch (error) {
-    if (error instanceof Error) alert(errorMessage);
+    if (error instanceof Error) alert(ERROR.FAIL_CONNECT);
   }
 };
 
 const api = {
-  async getMovieData(pageNumber: number) {
+  getMovieData(pageNumber: number) {
     const url = `https://api.themoviedb.org/3/movie/popular?language=ko-KR&region=KR&page=${pageNumber}`;
-    return GETWithAuth(url, ERROR.FAIL_CONNECT);
+    return GETWithAuth(url);
   },
 
-  async getSearchData(pageNumber: number, query: string) {
-    try {
-      const url = `https://api.themoviedb.org/3/search/movie?page=${pageNumber}&query=${query}&language=ko-KR`;
-      return GETWithAuth(url, ERROR.FAIL_CONNECT);
-    } catch (error) {
-      if (error instanceof Error) alert(error.message);
-    }
+  getSearchData(pageNumber: number, query: string) {
+    const url = `https://api.themoviedb.org/3/search/movie?page=${pageNumber}&query=${query}&language=ko-KR`;
+    return GETWithAuth(url);
   },
 };
 
