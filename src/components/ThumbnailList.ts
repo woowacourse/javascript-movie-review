@@ -39,7 +39,7 @@ export default class ThumbnailList extends Component<ThumbnailListProps> {
             ? `${DEFAULT_BACK_DROP_URL}${movie.backdrop_path}`
             : './images/default_thumbnail.jpeg';
           return `
-              <li class="item">
+              <li class="item" data-action="movie-detail" data-id="${movie.id}">
                 <img
                   class="thumbnail"
                   src="${backgroundImage}"

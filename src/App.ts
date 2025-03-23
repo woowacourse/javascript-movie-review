@@ -1,16 +1,17 @@
-import { MovieResult, MoviesResponse } from '@/lib/types';
+import { MovieDetailResponse, MovieResult, MoviesResponse } from '@/lib/types';
 import { MovieApiClient } from './apis';
 import { Footer, Header, Movies } from './components';
 import { Component } from './components/core';
 import { html, isElement, isError, isHTMLFormElement, isString } from './lib/utils';
+import eventHandlerInstance from './lib/modules/EventHandler';
 
 export interface AppState {
   page: number;
-  totalPages: number;
   moviesResponse: MoviesResponse | null;
   movies: MovieResult[] | null;
   search: string;
   error: Error | null;
+  movieDetailResponse: MovieDetailResponse | null;
 }
 
 export default class App extends Component<null, AppState> {
@@ -21,11 +22,11 @@ export default class App extends Component<null, AppState> {
   override setup() {
     this.state = {
       page: 1,
-      totalPages: 1,
       moviesResponse: null,
       movies: null,
       error: null,
       search: '',
+      movieDetailResponse: null,
     };
   }
 
@@ -95,6 +96,16 @@ export default class App extends Component<null, AppState> {
   }
 
   addEventListener() {
+    eventHandlerInstance.addEventListener({
+      eventType: 'click',
+      callback: async ({ currentTarget }) => {
+        if (!currentTarget.dataset.id) throw new Error('data-id를 설정해주세요.');
+
+        const movieDetailResponse = await MovieApiClient.getDetail({ id: Number(currentTarget.dataset.id) });
+        this.setState({ movieDetailResponse });
+      },
+      dataAction: 'movie-detail',
+    });
     window.addEventListener('click', async (event) => {
       const { target } = event;
       if (!isElement(target)) return;
