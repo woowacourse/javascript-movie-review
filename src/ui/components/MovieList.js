@@ -2,6 +2,7 @@ import Movie from "../../domain/models/Movie.ts";
 import MovieCard from "./Movie.js";
 import CustomButton from "./CustomButton.js";
 import { ADD_MOVIE_BUTTON } from "../../shared/CustomButton.ts";
+import NoResultsMessage from "./NoResultsMessage.js";
 
 export default class MovieList {
   constructor(
@@ -31,22 +32,15 @@ export default class MovieList {
 
     if (!this.moviesData || this.moviesData.length === 0) {
       const section = document.querySelector(".movie-select");
-      const noResultsItem = document.createElement("div");
-      noResultsItem.classList.add("no-results");
-      noResultsItem.innerHTML = `
-        <img src="./images/aaaahangsung.png" alt="no results" class="no-results-image">
-        <p class="no-results-text">검색 결과가 없습니다</p>
-      `;
-      section.appendChild(noResultsItem);
+      const noResultsItem = new NoResultsMessage();
+      section.appendChild(noResultsItem.render());
       return;
     }
 
-    const skeletonCards = [];
-    for (let i = 0; i < this.moviesData.length; i++) {
+    Array.from({ length: this.moviesData.length }).forEach(() => {
       const skeletonCard = new MovieCard(null).renderSkeleton();
-      skeletonCards.push(skeletonCard);
       this.container.appendChild(skeletonCard);
-    }
+    });
 
     setTimeout(() => {
       this.container.innerHTML = "";
@@ -60,7 +54,6 @@ export default class MovieList {
   }
 
   addLoadMoreButton() {
-    // 기존 버튼이 있다면 제거
     const existingButton = document.querySelector(".add-movie");
     existingButton?.remove();
 
