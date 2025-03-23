@@ -1,7 +1,7 @@
 import Movie from "../../domain/models/Movie.ts";
 import MovieCard from "./Movie.js";
 import CustomButton from "./CustomButton.js";
-import { ADD_MOVIE_BUTTON } from "../../shared/CustomButton.ts";
+import { ADD_MOVIE_BUTTON } from "../../constants/CustomButton.ts";
 
 export default class MovieList {
   constructor(
