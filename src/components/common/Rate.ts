@@ -1,11 +1,11 @@
 import { createElement } from "../../utils/createElement.ts";
 
-type RateProps = {
+type Props = {
   rate: number;
   className?: string[];
 };
 
-const Rate = ({ rate, className }: RateProps) => {
+const Rate = ({ rate, className }: Props) => {
   const rateElement = createElement(/*html*/ `
     <div class="rate">
         <img src="./images/star_empty.png" class="star" />

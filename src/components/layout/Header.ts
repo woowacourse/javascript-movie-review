@@ -4,13 +4,13 @@ import Button from "../common/Button.ts";
 import Rate from "../common/Rate.ts";
 import SearchBar from "../common/SearchBar.ts";
 
-type HeaderProps = {
+type Props = {
   title: string;
   imageUrl: string;
   voteAverage: number;
 };
 
-const Header = ({ title, imageUrl, voteAverage }: HeaderProps) => {
+const Header = ({ title, imageUrl, voteAverage }: Props) => {
   const header = createElement(/*html*/ `
     <header>
       <div class="background-container">

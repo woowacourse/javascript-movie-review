@@ -2,11 +2,11 @@ import { MovieResponse } from "../../../types/movie";
 import { loadMovies } from "../../utils/loadMovies.ts";
 import Button from "../common/Button.ts";
 
-type LoadMoreButtonProps = {
+type Props = {
   loadFn: (currentPage: number) => Promise<MovieResponse>;
 };
 
-const LoadMoreButton = ({ loadFn }: LoadMoreButtonProps) => {
+const LoadMoreButton = ({ loadFn }: Props) => {
   let currentPage = 1;
 
   const loadMoreButton = Button({ text: "더보기", className: ["load-more"] });

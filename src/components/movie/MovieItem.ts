@@ -2,13 +2,13 @@ import { createElement } from "../../utils/createElement.ts";
 import { $ } from "../../utils/dom.ts";
 import Rate from "../common/Rate.ts";
 
-type MovieItem = {
+type Props = {
   src: string;
   rate: number;
   title: string;
 };
 
-const MovieItem = ({ src, rate, title }: MovieItem) => {
+const MovieItem = ({ src, rate, title }: Props) => {
   const movieItem = createElement(/*html*/ `
     <li>
       <div class="item">

@@ -1,8 +1,8 @@
-type CaptionProps = {
+type Props = {
   title: string;
 };
 
-const Caption = ({ title }: CaptionProps) => {
+const Caption = ({ title }: Props) => {
   const caption = document.createElement("h2");
   caption.setAttribute("id", "caption");
   caption.innerText = title;
