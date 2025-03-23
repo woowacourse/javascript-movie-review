@@ -1,7 +1,7 @@
-import { IMovieItem } from "../types/movieResultType";
+import { MovieItemType } from "../types/movieResultType";
 import createDOMElement from "../util/createDomElement";
 
-const BackgroundThumbnailSection = (movie: IMovieItem) => {
+const BackgroundThumbnailSection = (movie: MovieItemType) => {
   return createDOMElement({
     tag: "div",
     class: "background-container",

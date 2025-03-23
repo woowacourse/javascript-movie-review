@@ -1,11 +1,11 @@
-export interface IMovieResult {
+export interface MovieResultType {
   page: number;
-  results: IMovieItem[];
+  results: MovieItemType[];
   total_pages: number;
   total_results: number;
 }
 
-export interface IMovieItem {
+export interface MovieItemType {
   adult: boolean;
   backdrop_path: null | string;
   genre_ids: number[];

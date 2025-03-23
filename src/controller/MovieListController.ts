@@ -6,7 +6,7 @@ import SkeletonBackgroundThumbnailSection from "../component/Skeleton/SkeletonBa
 import SkeletonMovieItem from "../component/Skeleton/SkeletonMovieItem";
 import SkeletonMovieListSection from "../component/Skeleton/SkeletonMovieListSection";
 import MovieResults from "../domain/MovieResults";
-import { IMovieItem, IMovieResult } from "../types/movieResultType";
+import { MovieItemType, MovieResultType } from "../types/movieResultType";
 
 class MovieListController {
   movieResults;
@@ -37,7 +37,7 @@ class MovieListController {
       page: newPage,
       total_pages: totalPage,
       results: movieList,
-    }: IMovieResult = await getPopularMovieResult(page);
+    }: MovieResultType = await getPopularMovieResult(page);
 
     this.movieResults.addMovieList(newPage, movieList);
     this.movieResults.initialTotalPage(totalPage);
@@ -75,7 +75,7 @@ class MovieListController {
     hasMore,
     skeletonBackgroundElement,
   }: {
-    movieList: IMovieItem[];
+    movieList: MovieItemType[];
     hasMore: boolean;
     skeletonBackgroundElement: HTMLElement;
   }) {

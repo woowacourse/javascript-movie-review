@@ -1,10 +1,10 @@
-import { IMovieItem } from "../types/movieResultType";
+import { MovieItemType } from "../types/movieResultType";
 import createDOMElement from "../util/createDomElement";
 import MovieItem from "./MovieItem";
 
 interface IMovieListSectionProps {
   title: string;
-  movieList: IMovieItem[];
+  movieList: MovieItemType[];
   hasMore: boolean;
 }
 

@@ -4,7 +4,7 @@ import MovieItem from "../component/MovieItem";
 import MovieListSection from "../component/MovieListSection";
 import SkeletonMovieItem from "../component/Skeleton/SkeletonMovieItem";
 import SkeletonMovieListSection from "../component/Skeleton/SkeletonMovieListSection";
-import { IMovieItem, IMovieResult } from "../types/movieResultType";
+import { MovieItemType, MovieResultType } from "../types/movieResultType";
 
 class SearchMovieListController {
   mainElement;
@@ -30,7 +30,7 @@ class SearchMovieListController {
       page: newPage,
       total_pages: totalPage,
       results: movieList,
-    }: IMovieResult = await getSearchMovieResult(
+    }: MovieResultType = await getSearchMovieResult(
       this.searchText,
       this.page + 1,
     );
@@ -60,7 +60,7 @@ class SearchMovieListController {
     movieList,
     hasMore,
   }: {
-    movieList: IMovieItem[];
+    movieList: MovieItemType[];
     hasMore: boolean;
   }) {
     let sectionElement;
