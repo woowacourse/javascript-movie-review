@@ -6,14 +6,12 @@ type Props = {
 };
 
 const Rate = ({ rate, className }: Props) => {
-  const rateElement = createElement(/*html*/ `
+  return createElement(/*html*/ `
     <div class="rate">
         <img src="./images/star_empty.png" class="star" />
         <span class=${className?.join(" ")}>${rate.toFixed(1)}</span>
     </div>
     `);
-
-  return rateElement;
 };
 
 export default Rate;

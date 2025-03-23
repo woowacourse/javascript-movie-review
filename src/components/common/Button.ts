@@ -1,13 +1,13 @@
+import { createElement } from "../../utils/createElement";
+
 type Props = {
   text: string;
   className: string[];
 };
 
 const Button = ({ text, className }: Props) => {
-  const button = document.createElement("button");
-  button.classList.add(...className);
-  button.textContent = text;
-
-  return button;
+  return createElement(/*html*/ `
+    <button class=${className.join(" ")}>${text}</button>
+  `);
 };
 export default Button;
