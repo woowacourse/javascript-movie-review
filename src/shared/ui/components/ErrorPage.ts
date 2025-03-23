@@ -1,6 +1,8 @@
 import { CustomButton } from "./CustomButton";
 
-const ErrorPage = (errorMessage?: string) => {
+export default function ErrorPage(errorMessage?: string) {
+  const $container = document.querySelector(".container");
+
   const errorPageContainer = document.createElement("div");
   errorPageContainer.className = "error-page-container";
 
@@ -23,7 +25,5 @@ const ErrorPage = (errorMessage?: string) => {
     window.location.replace("/");
   });
 
-  return errorPageContainer;
-};
-
-export default ErrorPage;
+  $container!.replaceChildren(errorPageContainer);
+}
