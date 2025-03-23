@@ -48,7 +48,13 @@ async function init() {
 
   searchForm?.addEventListener("submit", async (e) => {
     e.preventDefault();
-    await searchFormSubmitHandler(e);
+    try {
+      await searchFormSubmitHandler(e);
+    } catch (error) {
+      if (error instanceof Error) {
+        ErrorPage("영화 리스트를 불러오는데 실패하였습니다.");
+      }
+    }
   });
 }
 
