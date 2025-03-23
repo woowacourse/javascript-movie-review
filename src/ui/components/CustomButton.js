@@ -1,12 +1,12 @@
 export default class CustomButton {
-  constructor(fieldName) {
-    this.fieldName = fieldName;
+  constructor(buttonProps) {
+    this.buttonProps = buttonProps;
   }
 
   render() {
     const button = document.createElement("button");
-    button.textContent = this.fieldName.content;
-    button.className = this.fieldName.className;
+    button.textContent = this.buttonProps.content;
+    button.className = this.buttonProps.className;
     return button;
   }
 }
