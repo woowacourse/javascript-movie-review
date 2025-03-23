@@ -13,10 +13,7 @@ export const getSearchedMovie = async (
     );
   } catch (error) {
     if (error instanceof Error) {
-      const $container = document.querySelector(".container");
-      $container!.replaceChildren(
-        ErrorPage("검색 결과를 불러오는데 실패하였습니다.")
-      );
+      ErrorPage("검색 결과를 불러오는데 실패하였습니다.");
     }
   }
 };
