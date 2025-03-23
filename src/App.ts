@@ -98,11 +98,13 @@ export default class App extends Component<null, AppState> {
           this.setState({
             moviesResponse,
             movies: [...this.state.movies, ...moviesResponse.results],
+            page: this.state.page + 1,
           });
         else
           this.setState({
             moviesResponse,
             movies: moviesResponse.results,
+            page: this.state.page + 1,
           });
       }
     });
