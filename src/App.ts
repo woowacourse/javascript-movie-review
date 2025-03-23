@@ -91,7 +91,7 @@ export default class App extends Component<null, AppState> {
   }
 
   async dataFetchAsync() {
-    this.getMovie(this.state.search, this.state.page);
+    await this.getMovie(this.state.search, this.state.page);
   }
 
   addEventListener() {
@@ -99,15 +99,12 @@ export default class App extends Component<null, AppState> {
       const { target } = event;
       if (!isElement(target)) return;
 
-      if (target.closest('.show-more')) {
-        this.getMovie(this.state.search, this.state.page + 1);
-      }
+      if (target.closest('.show-more')) await this.getMovie(this.state.search, this.state.page + 1);
     });
 
     window.addEventListener('submit', async (event) => {
       event.preventDefault();
       const { target } = event;
-
       if (!isHTMLFormElement(target)) return;
 
       if (target.closest('.top-rated-search')) {
