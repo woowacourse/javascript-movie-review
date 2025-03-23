@@ -27,7 +27,7 @@ export default class Movies extends Component<MoviesProps> {
                 </a>
               </li>
             `,
-          ).join('')}
+          )}
         </ul>
         <main>
           <section>
@@ -43,7 +43,7 @@ export default class Movies extends Component<MoviesProps> {
           </section>
         </main>
         ${this.props.movies && this.props.movies.length > 0 && this.props.totalPages > this.props.page
-          ? '<button class="primary show-more">더 보기</button>'
+          ? '<button class="primary show-more" data-action="show-more">더 보기</button>'
           : ''}
       </div>
     `;

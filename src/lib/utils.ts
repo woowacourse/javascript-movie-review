@@ -1,4 +1,4 @@
-import { concat, flat, pipe, reduce, zip } from '@fxts/core';
+import { concat, flat, map, pipe, reduce, zip } from '@fxts/core';
 import type { HTMLType } from './types';
 
 export const isElement = (target: EventTarget | null): target is Element => {
@@ -16,13 +16,7 @@ export const $ = (selector: string) => {
   return document.querySelector(selector) as HTMLElement;
 };
 
-// const escape = (str: string) =>
-//   String(str)
-//     .replace(/&/g, '&amp;')
-//     .replace(/</g, '&lt;')
-//     .replace(/>/g, '&gt;')
-//     .replace(/"/g, '&quot;')
-//     .replace(/'/g, '&#39;');
+const escape = (str: string) => (Array.isArray(str) ? str.join('') : str);
 
 export function html(strings: TemplateStringsArray, ...values: any[]) {
   return pipe(
@@ -30,8 +24,7 @@ export function html(strings: TemplateStringsArray, ...values: any[]) {
       strings,
       concat(
         // TODO: escape
-        // map((value) => escape(value), values),
-        values,
+        map((value) => escape(value), values),
         [''],
       ),
     ),
