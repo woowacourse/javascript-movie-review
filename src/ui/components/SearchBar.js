@@ -42,9 +42,10 @@ class SearchBar {
     searchBarContainer.appendChild(form);
 
     const searchHeader = document.querySelector(".search-header");
-    if (searchHeader) {
-      searchHeader.appendChild(searchBarContainer);
+    if (!searchHeader) {
+      throw new Error(".search-header 요소를 찾을 수 없습니다.");
     }
+    searchHeader.appendChild(searchBarContainer);
   }
 }
 

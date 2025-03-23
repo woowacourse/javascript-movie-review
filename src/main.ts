@@ -10,10 +10,13 @@ const movieListHandler = new MovieListHandler(movieService);
 const searchHandler = new SearchHandler(movieListHandler);
 
 window.addEventListener("load", async () => {
-  const searchBar = new SearchBar(searchHandler);
-  searchBar.createSearchBar();
+  try {
+    const searchBar = new SearchBar(searchHandler);
+    searchBar.createSearchBar();
+  } catch (error) {
+    console.error("검색바 초기화 실패:", error);
+  }
 
-  
   const logo = document.querySelector(".logo");
   logo?.addEventListener("click", () => {
     movieListHandler.handleLogoClick();
