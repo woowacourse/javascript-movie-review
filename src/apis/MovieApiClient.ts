@@ -29,6 +29,6 @@ export default class MovieApiClient {
     url.searchParams.append("language", "ko-KR");
     url.searchParams.append("query", query);
 
-    return ApiClient.get(this.#ORIGIN, this.#OPTIONS);
+    return ApiClient.get(url, this.#OPTIONS);
   }
 }

@@ -57,27 +57,32 @@ export default class App extends Component<null, AppState> {
     this.fillSlot(new Footer().element, "footer");
   }
 
-  async dataFetchAsync() {
+  async getMovie(search: string, page: number) {
     let moviesResponse;
 
-    if (this.state.search)
+    if (search)
       moviesResponse = await MovieApiClient.get({
-        query: this.state.search,
-        page: this.state.page,
+        query: search,
+        page,
       });
-    else
-      moviesResponse = await MovieApiClient.getAll({ page: this.state.page });
+    else moviesResponse = await MovieApiClient.getAll({ page });
 
     if (this.state.movies)
       this.setState({
         moviesResponse,
         movies: [...this.state.movies, ...moviesResponse.results],
+        page,
       });
     else
       this.setState({
         moviesResponse,
         movies: moviesResponse.results,
+        page,
       });
+  }
+
+  async dataFetchAsync() {
+    this.getMovie(this.state.search, this.state.page);
   }
 
   addEventListener() {
@@ -86,30 +91,7 @@ export default class App extends Component<null, AppState> {
       if (!isElement(target)) return;
 
       if (target.closest(".show-more")) {
-        let moviesResponse;
-
-        if (this.state.search)
-          moviesResponse = await MovieApiClient.get({
-            query: this.state.search,
-            page: this.state.page + 1,
-          });
-        else
-          moviesResponse = await MovieApiClient.getAll({
-            page: this.state.page + 1,
-          });
-
-        if (this.state.movies)
-          this.setState({
-            moviesResponse,
-            movies: [...this.state.movies, ...moviesResponse.results],
-            page: this.state.page + 1,
-          });
-        else
-          this.setState({
-            moviesResponse,
-            movies: moviesResponse.results,
-            page: this.state.page + 1,
-          });
+        this.getMovie(this.state.search, this.state.page + 1);
       }
     });
 
@@ -123,11 +105,12 @@ export default class App extends Component<null, AppState> {
         const formData = new FormData(target);
         const modalInput = Object.fromEntries(formData);
 
-        const value = modalInput.search.toString();
+        this.setState({
+          search: String(modalInput.search),
+          page: 1,
+          movies: [],
+        });
 
-        this.setState({ search: value, page: 1, movies: [] });
-
-        this.dataFetchAsync();
       }
     });
   }
