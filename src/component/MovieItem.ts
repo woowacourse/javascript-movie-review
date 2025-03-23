@@ -11,13 +11,23 @@ const MovieItem = (movie: MovieItemType) => {
         className: "item",
         children: [
           createDOMElement({
-            tag: "img",
-            className: "thumbnail",
-            src: movie.poster_path
-              ? `https://media.themoviedb.org/t/p/w440_and_h660_face${movie.poster_path}`
-              : defaultImage,
-            alt: movie.title,
+            tag: "div",
+            className: "thumbnail-wrapper loading",
+            children: [
+              createDOMElement({
+                tag: "img",
+                className: "thumbnail",
+                src: movie.poster_path
+                  ? `https://media.themoviedb.org/t/p/w440_and_h660_face${movie.poster_path}`
+                  : defaultImage,
+                alt: movie.title,
+                onload: function () {
+                  this.parentElement?.classList.remove("loading");
+                },
+              }),
+            ],
           }),
+
           createDOMElement({
             tag: "div",
             className: "item-desc",

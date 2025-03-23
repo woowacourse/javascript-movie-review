@@ -149,6 +149,21 @@ header .search-bar {
   z-index: 1;
 }
 
+.background-thumbnail-wrapper.loading::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  animation: skeleton-gradient 1.2s infinite;
+  z-index: 1;
+}
+
+.background-thumbnail-wrapper.loading img {
+  opacity: 0;
+}
+.background-thumbnail-wrapper:not(.loading) img {
+  opacity: 1;
+}
+
 .background-thumbnail {
   position: absolute;
   top: 0;
