@@ -30,8 +30,6 @@ const escape = (str: string) =>
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#39;');
-``;
-
 export function html(strings: TemplateStringsArray, ...values: any[]) {
   return pipe(
     zip(
