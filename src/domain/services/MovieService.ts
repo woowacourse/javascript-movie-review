@@ -3,11 +3,8 @@ import Movie from "../models/Movie";
 
 export default class MovieService {
   private api: TmdbApi;
-  constructor() {
-    this.api = new TmdbApi(
-      import.meta.env.VITE_API_KEY,
-      import.meta.env.VITE_BASE_URL
-    );
+  constructor(apiKey: string, baseUrl: string) {
+    this.api = new TmdbApi(apiKey, baseUrl);
   }
 
   async getPopularResults(page: number = 1): Promise<{
