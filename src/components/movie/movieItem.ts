@@ -1,9 +1,12 @@
-import { ElementOptions } from "../utils/createElementWithAttributes";
+import {
+  createElementWithAttributes,
+  ElementOptions,
+} from "../utils/createElementWithAttributes";
 import { Movie } from "./types";
 import noImage from "/images/no_image.png";
 
-const movieItem = (movie: Movie): ElementOptions => {
-  return {
+const movieItem = (movie: Movie): HTMLElement => {
+  const movieItemOptions: ElementOptions = {
     tag: "li",
     className: "item",
     children: [
@@ -44,6 +47,8 @@ const movieItem = (movie: Movie): ElementOptions => {
       },
     ],
   };
+
+  return createElementWithAttributes(movieItemOptions);
 };
 
 export default movieItem;

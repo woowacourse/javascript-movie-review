@@ -1,7 +1,8 @@
 import { createElementWithAttributes } from "../utils/createElementWithAttributes";
-import movieList from "./movieList";
 import { MovieData } from "../../apis/getSearchedMovies";
 import skeletonContainer from "../skeleton/skeletonContainer";
+import movieList from "./movieList";
+import movieItem from "./movieItem";
 
 type LoadMoreCallback = (pageNumber: number) => Promise<MovieData>;
 
@@ -50,6 +51,7 @@ const movieContainer = (
   }
 
   const $movieList = movieList(results);
+  $movieContainer.append($movieList);
 
   const $seeMoreButton = createElementWithAttributes({
     tag: "button",
@@ -64,20 +66,21 @@ const movieContainer = (
     const $skeleton = skeletonContainer(20);
     $movieContainer.insertBefore($skeleton, $seeMoreButton);
 
-    const { results, total_pages } = await loadMoreCallback(pageNumber);
+    const { results: newResults } = await loadMoreCallback(pageNumber);
+
+    newResults.forEach((movie) => {
+      const $movieItem = movieItem(movie);
+      $movieList.append($movieItem);
+    });
+
+    $skeleton.remove();
 
     if (pageNumber === total_pages || pageNumber === MAX_PAGES) {
       $seeMoreButton.remove();
     }
-
-    $skeleton.remove();
-
-    const $newMovieList = movieList(results);
-    $movieList.append(...$newMovieList.children);
   });
 
-  $movieContainer.append($movieList);
-  if (pageNumber !== total_pages) {
+  if (pageNumber < total_pages && pageNumber < MAX_PAGES) {
     $movieContainer.append($seeMoreButton);
   }
 

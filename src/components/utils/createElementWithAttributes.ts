@@ -8,7 +8,7 @@ export type ElementOptions = {
   className?: string;
   attributes?: ElementAttributes;
   textContent?: string;
-  children?: ElementOptions[];
+  children?: (ElementOptions | HTMLElement)[];
 };
 
 export const createElementWithAttributes = ({
@@ -39,9 +39,13 @@ export const createElementWithAttributes = ({
 
   if (Array.isArray(children) && children.length) {
     const fragment = document.createDocumentFragment();
-    children.forEach((child) =>
-      fragment.append(createElementWithAttributes(child))
-    );
+    children.forEach((child) => {
+      if (child instanceof HTMLElement) {
+        fragment.append(child);
+      } else {
+        fragment.append(createElementWithAttributes(child));
+      }
+    });
     element.append(fragment);
   }
 
