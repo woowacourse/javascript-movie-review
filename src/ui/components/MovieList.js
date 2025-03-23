@@ -30,7 +30,7 @@ export default class MovieList {
     }
 
     if (!this.moviesData || this.moviesData.length === 0) {
-      const section = document.querySelector("section");
+      const section = document.querySelector(".movie-select");
       const noResultsItem = document.createElement("div");
       noResultsItem.classList.add("no-results");
       noResultsItem.innerHTML = `
