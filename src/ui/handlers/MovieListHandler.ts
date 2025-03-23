@@ -93,17 +93,16 @@ export default class MovieListHandler {
     }, 1000);
   }
 
-  handleSearch(query: string) {
+  async handleSearch(query: string) {
     if (!query.trim()) {
       this.initMovieList();
       return;
     }
 
     MovieList.removeMovieList();
-    this.movieService.searchMovies(query).then((movies) => {
-      this.movieList = new MovieList(".thumbnail-list", movies, 1, 500, this.movieService);
-      this.movieList.init();
-    });
+    const movies = await this.movieService.searchMovies(query);
+    this.movieList = new MovieList(".thumbnail-list", movies, 1, 500, this.movieService);
+    this.movieList.init();
   }
 
   handleLogoClick() {
