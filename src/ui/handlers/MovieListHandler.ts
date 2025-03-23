@@ -3,7 +3,7 @@ import MovieList from "../components/MovieList.js";
 import MovieService from "../../domain/services/MovieService.js";
 import MovieCard from "../components/Movie.js";
 import { store } from "../../store/store.js";
-import { ApiResponse, MovieResponse } from "../../types/types.js";
+import { APIResponse, MovieResponse } from "../../api/tmdbApi.js";
 
 export default class MovieListHandler {
   private movieList: MovieList | undefined;
@@ -17,6 +17,7 @@ export default class MovieListHandler {
     const moviesData = query
       ? await this.movieService.searchMovies(query, 1)
       : await this.movieService.getPopularResults();
+  
 
     this.updateMovieList(moviesData);
     this.handleMoreClickButton(query);
@@ -25,13 +26,18 @@ export default class MovieListHandler {
     console.log(this.movieList?.totalPage);
   }
 
-  private updateMovieList(moviesData: ApiResponse<MovieResponse>) {
+  private updateMovieList(moviesData: APIResponse<MovieResponse>) {
     MovieList.removeMovieList();
     this.movieList = new MovieList(
       ".thumbnail-list",
-      moviesData.movies,
+      moviesData.results.map(movie => new Movie({
+        id: movie.id,
+        title: movie.title,
+        posterPath: movie.poster_path || "",
+        voteAverage: movie.vote_average,
+      })),
       moviesData.page,
-      moviesData.totalPages,
+      moviesData.total_pages,
       this.movieService
     );
     this.movieList.init();
@@ -61,7 +67,7 @@ export default class MovieListHandler {
       this.movieList?.container.appendChild(skeletonCard);
     }
 
-    let newMoviesData: { movies: Movie[]; page: number; totalPages: number };
+    let newMoviesData: APIResponse<MovieResponse>;
     setTimeout(async () => {
       if (store.getMode() === "popularAdd") {
         newMoviesData = await this.movieService.getPopularResults(pageNumber);
@@ -71,8 +77,13 @@ export default class MovieListHandler {
 
       skeletonCards.forEach((skeleton) => skeleton.remove());
 
-      newMoviesData.movies.forEach((movieData) => {
-        const movie = new Movie(movieData);
+      newMoviesData.results.forEach((movieData) => {
+        const movie = new Movie({
+          id: movieData.id,
+          title: movieData.title,
+          posterPath: movieData.poster_path || "",
+          voteAverage: movieData.vote_average,
+        });
         const movieCard = new MovieCard(movie);
         this.movieList?.container.appendChild(movieCard.render());
       });
