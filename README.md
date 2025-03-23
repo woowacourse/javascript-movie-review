@@ -71,5 +71,5 @@ FE 레벨1 영화 리뷰 미션
 - [x] html 필요없는 주석 제거
 - [x] 타입명 변경 (I- prefix 제거)
 - [x] MovieResults 도메인 return 값 수정
-- [ ] ERROR_MESSAGE 키 타입 추가 및 수정
+- [x] ERROR_MESSAGE 주석 처리
 - [x] createDOMElement: class -> className으로 수정

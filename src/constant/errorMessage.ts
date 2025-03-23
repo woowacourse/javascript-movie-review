@@ -1,3 +1,7 @@
+/**
+ * TMDB에서 제공하는 에러 코드에 대한 메시지 매핑
+ * key: TMDB 고유 error code (공식 문서 기준)
+ */
 export const ERROR_MESSAGE: Record<number, string> = {
   3: "인증 실패: 서비스 접근 권한이 없습니다.",
   4: "잘못된 형식: 해당 형식의 서비스는 존재하지 않습니다.",
