@@ -23,11 +23,11 @@ export interface MovieResponse {
 }
 
 export default class TmdbApi {
-  private apiKey: string;
+  private apiToken: string;
   private baseUrl: string;
 
-  constructor(apiKey: string, baseUrl: string) {
-    this.apiKey =  apiKey;
+  constructor(apiToken: string, baseUrl: string) {
+    this.apiToken = apiToken;
     this.baseUrl = baseUrl;
   }
 
@@ -37,7 +37,6 @@ export default class TmdbApi {
   ): Promise<T> {
     const url = new URL(`${this.baseUrl}${endpoint}`);
 
-    url.searchParams.append("api_key", this.apiKey);
     url.searchParams.append("language", "ko-KR");
 
     Object.entries(params).forEach(([key, value]) => {
@@ -45,7 +44,14 @@ export default class TmdbApi {
     });
 
     try {
-      const response = await fetch(url.toString());
+      const option = {
+        method: "GET",
+        headers: {
+          accept: "application/json",
+          Authorization: `Bearer ${this.apiToken}`,
+        },
+      }
+      const response = await fetch(url.toString(), option);
       if (!response.ok) {
         throw new Error(`HTTP 오류! 상태: ${response.status}`);
       }

@@ -4,7 +4,7 @@ import SearchBar from "./ui/components/SearchBar.js";
 import MovieListHandler from "./ui/handlers/MovieListHandler.js";
 import SearchHandler from "./ui/handlers/SearchHandler.js";
 
-const tmdbApi = new TmdbApi(import.meta.env.VITE_API_KEY || "", import.meta.env.VITE_BASE_URL || "");
+const tmdbApi = new TmdbApi(import.meta.env.VITE_API_TOKEN || "", import.meta.env.VITE_BASE_URL || "");
 const movieService = new MovieService(tmdbApi);
 const movieListHandler = new MovieListHandler(movieService);
 const searchHandler = new SearchHandler(movieListHandler);
