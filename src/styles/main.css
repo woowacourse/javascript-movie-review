@@ -32,12 +32,12 @@ button.primary {
   border-radius: 4px;
 }
 
-#wrap {
+#app {
   min-width: 1440px;
   background-color: var(--color-bluegray-100);
 }
 
-#wrap h2 {
+#app h2 {
   font-size: 1.4rem;
   font-weight: bold;
   margin-bottom: 32px;

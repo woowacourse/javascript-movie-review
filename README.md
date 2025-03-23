@@ -67,7 +67,7 @@ FE 레벨1 영화 리뷰 미션
 
 ### 리팩토링 사항
 
-- [ ] html class 명 구체적으로 짓기
+- [x] html class 명 구체적으로 짓기 (wrap -> app)
 - [ ] html 필요없는 주석 제거
 - [ ] 타입명 변경 (I- prefix 제거)
 - [ ] MovieResults 도메인 return 값 수정
