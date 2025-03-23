@@ -109,7 +109,8 @@ body {
   line-height: 1;
 }
 ol,
-ul {
+ul,
+li {
   list-style: none;
 }
 blockquote,
@@ -126,4 +127,25 @@ q:after {
 table {
   border-collapse: collapse;
   border-spacing: 0;
+}
+
+input {
+  border: none;
+  outline: none;
+  background-color: transparent;
+}
+
+button {
+  border: none;
+  outline: none;
+  background-color: transparent;
+  padding: 0;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: #ffffff;
 }
