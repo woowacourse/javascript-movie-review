@@ -68,13 +68,8 @@ export default class TmdbApi {
         let errorMessage = errorData.status_message || "알수없는 오류가 발생했습니다.";
         switch (response.status) {
           case 401:
-            if (errorData.status_code === 7) {
-              errorMessage = '유효하지 않은 API 키입니다.';
-            } else if (errorData.status_code === 10) {
-              errorMessage = 'API 키가 정지되었습니다. TMDB에 문의하세요.';
-            } else {
-              errorMessage = '인증에 실패했습니다.';
-            }
+            console.error(`인증 오류: ${errorData.status_code} - ${errorData.status_message}`);
+            errorMessage = '서비스에 접속할 수 없습니다. 잠시 후 다시 시도하거나 관리자에게 문의하세요.';
             break;
           case 404:
             errorMessage = '요청한 리소스를 찾을 수 없습니다.';
