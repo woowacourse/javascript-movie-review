@@ -48,11 +48,20 @@ class SearchBar {
     searchInput.type = "text";
     searchInput.classList.add("search-bar");
     searchInput.placeholder = "검색어를 입력하세요";
-    searchInput.onfocus = () => {
-      window.addEventListener("keydown", (e) => this.#handleEnterKeyDown(e));
+
+    const handleEnterKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Enter") {
+        this.onSearchClick();
+        searchInput.blur();
+      }
     };
+
+    searchInput.onfocus = () => {
+      window.addEventListener("keydown", handleEnterKeyDown);
+    };
+
     searchInput.onblur = () => {
-      window.removeEventListener("keydown", (e) => this.#handleEnterKeyDown(e));
+      window.removeEventListener("keydown", handleEnterKeyDown);
     };
 
     return searchInput;
@@ -66,12 +75,6 @@ class SearchBar {
     imgButton.onclick = () => this.onSearchClick();
 
     return imgButton;
-  }
-
-  #handleEnterKeyDown(event: KeyboardEvent) {
-    if (event.key === "Enter") {
-      this.onSearchClick();
-    }
   }
 
   #changeTitleStyle(query: string) {
