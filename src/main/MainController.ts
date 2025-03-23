@@ -1,9 +1,9 @@
 import { ERROR_MESSAGE } from "../constant/errorMessage";
-import HeaderController from "./HeaderController";
-import MessageModalController from "./MessageModalController";
-import MovieListController from "./MovieListController";
-import SearchMovieListController from "./SearchMovieListController";
-import BackgroundThumbnailController from "./BackgroundThumbnailController";
+import HeaderController from "../controller/HeaderController";
+import MessageModalController from "../controller/MessageModalController";
+import MovieListController from "../controller/MovieListController";
+import SearchMovieListController from "../controller/SearchMovieListController";
+import BackgroundThumbnailController from "../controller/BackgroundThumbnailController";
 
 class MainController {
   mainElement;
