@@ -42,15 +42,13 @@ export default class MovieList {
       this.container.appendChild(skeletonCard);
     });
 
-    setTimeout(() => {
-      this.container.innerHTML = "";
+    this.container.innerHTML = "";
 
-      this.moviesData.forEach((movieData) => {
-        const movie = new Movie(movieData);
-        const movieCard = new MovieCard(movie);
-        this.container.appendChild(movieCard.render());
-      });
-    }, 1000);
+    this.moviesData.forEach((movieData) => {
+      const movie = new Movie(movieData);
+      const movieCard = new MovieCard(movie);
+      this.container.appendChild(movieCard.render());
+    });
   }
 
   addLoadMoreButton() {

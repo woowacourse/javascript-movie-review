@@ -63,7 +63,6 @@ export default class MovieListHandler {
     });
 
     let newMoviesData: APIResponse<MovieResponse>;
-    setTimeout(async () => {
       if (store.getMode() === "popularAdd") {
         newMoviesData = await this.movieService.getPopularResults(pageNumber);
       } else {
@@ -90,7 +89,7 @@ export default class MovieListHandler {
         const loadMoreButton = document.querySelector(".add-movie");
         loadMoreButton?.remove();
       }
-    }, 1000);
+
   }
 
   async handleSearch(query: string) {
