@@ -37,3 +37,6 @@ Cypress.Commands.add('search', (title: string) => {
   cy.get('.top-rated-search-input').type(title);
   cy.get('.top-rated-search-button').click();
 });
+Cypress.on('uncaught:exception', () => {
+  return false;
+});

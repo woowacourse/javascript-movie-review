@@ -21,8 +21,6 @@ export default class ApiClient {
       });
       const data = await response.json();
 
-      console.log({ data, response });
-
       if (!response.ok) {
         switch (response.status) {
           case 401:
