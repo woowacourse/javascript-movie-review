@@ -1,0 +1,9 @@
+.button--small {
+  width: 100px;
+}
+
+.button--medium {
+  width: 100%;
+  max-width: 1280px;
+  margin: 20px 0 20px 0;
+}

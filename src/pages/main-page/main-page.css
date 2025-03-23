@@ -1,0 +1,8 @@
+.main-page {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 56px;
+  transform: translateY(-164px);
+}

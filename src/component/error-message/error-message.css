@@ -1,0 +1,13 @@
+.empty-result {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-self: center;
+  align-items: center;
+  width: 100%;
+}
+
+.empty-result p {
+  color: var(--color-white);
+}
