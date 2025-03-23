@@ -1,15 +1,20 @@
-import Footer from "./components/Footer";
-import Header from "./components/Header";
-import { MovieInfo } from "../types/movieType.ts";
-import {ContentsContainer} from "./components/ContentsContainer.ts";
-import MovieService from "./services/MovieService.ts";
-import LogoSearchBar from "./components/LogoSearchBar.js";
-import EVENT_HANDLER from "./components/EventHandler.js";
+import Footer from "../components/Footer.js";
+import Header from "../components/Header.js";
+import { MovieInfo } from "../../types/movieType.ts";
+import {ContentsContainer} from "./Contents.ts";
+import MovieService from "../services/MovieService.ts";
+import LogoSearchBar from "../components/LogoSearchBar.js";
+import EVENT_HANDLER from "./EventHandler.js";
+
+export const state = {
+  isLoading: false,
+};
 
 function renderHeader({ title, poster_path, vote_average }: MovieInfo) {
   const container = document.querySelector("#wrap");
   const header = Header({ title, poster_path, vote_average });
   const logoSearchBar = LogoSearchBar();
+  
   header.querySelector(".top-rated-container")?.prepend(logoSearchBar);
   container?.prepend(header);
 }

@@ -1,4 +1,4 @@
-import { ContentsContainer } from "./ContentsContainer";
+import { ContentsContainer } from "./Contents";
 
 const EVENT_HANDLER = {
   SEARCH_MOVIE: async (movieService, inputValue) => {

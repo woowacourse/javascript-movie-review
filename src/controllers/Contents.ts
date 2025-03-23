@@ -26,6 +26,10 @@ export async function ContentsContainer(results: MovieInfo[], contentTitle:strin
     });
     $main.appendChild($moreButton);
   }
+
+   if (results.length < 20) {
+     removeMoreButton($main);
+   }
 }
 
 function renderContentHeader($section:HTMLElement, contentTitle:string) {
