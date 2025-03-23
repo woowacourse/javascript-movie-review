@@ -1,12 +1,11 @@
-/// <reference types="cypress" />
+import TEST_URL from "./constants";
 
 describe("검색 화면 테스트", () => {
   beforeEach(() => {
-    // https://docs.cypress.io/api/commands/intercept
     cy.intercept(
       {
         method: "GET",
-        url: /^https:\/\/api\.themoviedb\.org\/3\/search\/movie*/,
+        url: TEST_URL.SEARCH,
       },
       { fixture: "movie-search.json" }
     ).as("getSearchMovies");
@@ -64,7 +63,7 @@ describe("오류 테스트", () => {
     cy.intercept(
       {
         method: "GET",
-        url: /^https:\/\/api\.themoviedb\.org\/3\/search\/movie*/,
+        url: TEST_URL.SEARCH,
       },
       {
         statusCode: 500, // 오류 상태 코드

@@ -1,12 +1,13 @@
 /// <reference types="cypress" />
 
+import TEST_URL from "./constants";
+
 describe("메인 화면 테스트", () => {
   beforeEach(() => {
-    // https://docs.cypress.io/api/commands/intercept
     cy.intercept(
       {
         method: "GET",
-        url: /^https:\/\/api\.themoviedb\.org\/3\/movie\/popular*/,
+        url: TEST_URL.POPULAR,
       },
       { fixture: "movie-popular.json" }
     ).as("getPopularMovies");
@@ -60,7 +61,7 @@ describe("오류 테스트", () => {
     cy.intercept(
       {
         method: "GET",
-        url: /^https:\/\/api\.themoviedb\.org\/3\/movie\/popular*/,
+        url: TEST_URL.POPULAR,
       },
       {
         statusCode: 500, // 오류 상태 코드
