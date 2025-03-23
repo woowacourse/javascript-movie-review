@@ -64,3 +64,12 @@ FE 레벨1 영화 리뷰 미션
 - [x] message 모달 컴포넌트 생성
 - [x] try/catch error 관리
 - [x] 검색했을 때, background 제거
+
+### 리팩토링 사항
+
+- [ ] html class 명 구체적으로 짓기
+- [ ] html 필요없는 주석 제거
+- [ ] 타입명 변경 (I- prefix 제거)
+- [ ] MovieResults 도메인 return 값 수정
+- [ ] ERROR_MESSAGE 키 타입 추가 및 수정
+- [ ] createDOMElement: class -> className으로 수정
