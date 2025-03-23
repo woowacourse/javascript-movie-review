@@ -24,7 +24,7 @@ const api = {
   },
 
   getSearchData(pageNumber: number, query: string) {
-    const url = `${BASE_URL}/search/movie?page=${pageNumber}&query=${query}&language=${OPTION.language}`;
+    const url = `${BASE_URL}/search/movie?language=${OPTION.language}&region=${OPTION.region}&page=${pageNumber}&query=${query}`;
     return GETWithAuth(url);
   },
 };
