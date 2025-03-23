@@ -9,7 +9,7 @@ const OPTIONS = {
   },
 };
 
-const showSkeleton = (count: number = 20) => {
+const showSkeleton = (count = 20) => {
   const container = $(".thumbnail-list");
   if (!container) return;
 

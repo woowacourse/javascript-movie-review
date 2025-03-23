@@ -1,5 +1,5 @@
 import { createElement } from "../../utils/createElement.ts";
-import { $ } from "../../utils/dom.ts";
+import { $, $multiSelect } from "../../utils/dom.ts";
 import Button from "../common/Button.ts";
 import Rate from "../common/Rate.ts";
 import SearchBar from "../common/SearchBar.ts";
@@ -42,14 +42,15 @@ const Header = ({ title, imageUrl, voteAverage }: Props) => {
 
   if (!rate) return;
 
-  const logoSearchContainer = $(".logo-search-container", header);
+  const [logoSearchContainer, topRateMovie, logo] = $multiSelect(
+    ".logo-search-container .top-rated-movie .logo",
+    header
+  );
   logoSearchContainer.appendChild(searchBar);
 
-  const topRateMovie = $(".top-rated-movie", header);
   topRateMovie.prepend(rate);
   topRateMovie.appendChild(button);
 
-  const logo = $(".logo", header);
   logo.addEventListener("click", () => location.reload());
 
   return header;
