@@ -65,7 +65,7 @@ export default class TmdbApi {
   }
 
   async searchMovies(
-    query: string | undefined,
+    query: string,
     page: number = 1
   ): Promise<APIResponse<MovieResponse>> {
     const endpoint = "/search/movie";

@@ -46,7 +46,8 @@ export default class MovieService {
     totalPages: number;
   }> {
     try {
-      const response = await this.api.searchMovies(query, page);
+      const validQuery = query ?? "";
+      const response = await this.api.searchMovies(validQuery, page);
       return {
         movies: response.results.map(
           (movie) =>
