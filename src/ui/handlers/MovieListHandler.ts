@@ -3,7 +3,6 @@ import MovieList from "../components/MovieList.js";
 import MovieService from "../../domain/services/MovieService.js";
 import MovieCard from "../components/Movie.js";
 import { store } from "../../store/store.js";
-import { ApiResponse, MovieResponse } from "../../types/types.js";
 
 export default class MovieListHandler {
   private movieList: MovieList | undefined;
@@ -25,7 +24,11 @@ export default class MovieListHandler {
     console.log(this.movieList?.totalPage);
   }
 
-  private updateMovieList(moviesData: ApiResponse<MovieResponse>) {
+  private updateMovieList(moviesData: {
+    movies: Movie[];
+    page: number;
+    totalPages: number;
+  }) {
     MovieList.removeMovieList();
     this.movieList = new MovieList(
       ".thumbnail-list",
@@ -96,7 +99,13 @@ export default class MovieListHandler {
 
     MovieList.removeMovieList();
     this.movieService.searchMovies(query).then((movies) => {
-      this.movieList = new MovieList(".thumbnail-list", movies, 1, 500, this.movieService);
+      this.movieList = new MovieList(
+        ".thumbnail-list",
+        movies,
+        1,
+        500,
+        this.movieService
+      );
       this.movieList.init();
     });
   }
