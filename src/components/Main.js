@@ -8,17 +8,16 @@ const Main = ({ movies }) => {
 
   if ($body) {
     const $wrap = createElement({
-        tag: "div",
-        id: "wrap",
+      tag: "div",
+      id: "wrap",
     });
 
     const $container = createElement({
-        tag: "div",
-        id: "container"
+      tag: "div",
+      id: "container",
     });
 
     $body.appendChild($wrap);
-
 
     $container.appendChild(
       Header({
