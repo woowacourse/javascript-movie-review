@@ -25,23 +25,22 @@ export default class ThumbnailList extends Component<ThumbnailListProps> {
               ? `${DEFAULT_BACK_DROP_URL}${movie.backdrop_path}`
               : "./images/default_thumbnail.jpeg";
             return `
-            <li>
-              <div class="item">
-                <img
-                  class="thumbnail"
-                  src="${backgroundImage}"
-                  alt="${movie.title}"
-                />
-                <div class="item-desc">
-                  <p class="rate loading">
-                    <img src="./images/star_empty.png" class="star" /><span
-                      >${movie.vote_average}</span
-                    >
-                  </p>
-                  <strong>${movie.title}</strong>
+              <li>
+                <div class="item">
+                  <img
+                    class="thumbnail"
+                    src="${backgroundImage}"
+                    alt="${movie.title}"
+                  />
+                  <div class="item-desc">
+                    <p class="rate">
+                      <img src="./images/star_empty.png" class="star" />
+                      <span>${movie.vote_average}</span>
+                    </p>
+                    <strong>${movie.title}</strong>
+                  </div>
                 </div>
-              </div>
-            </li>
+              </li>
           `;
           })
           .join("")}
