@@ -57,12 +57,10 @@ export default class MovieListHandler {
     const pageNumber = this.movieList?.currentPage + 1;
     this.movieList?.addPageNumber();
 
-    const skeletonCards: HTMLElement[] = [];
-    for (let i = 0; i < 5; i++) {
+    Array.from({ length: 5 }).forEach(() => {
       const skeletonCard = new MovieCard(null).renderSkeleton();
-      skeletonCards.push(skeletonCard);
       this.movieList?.container.appendChild(skeletonCard);
-    }
+    });
 
     let newMoviesData: APIResponse<MovieResponse>;
     setTimeout(async () => {
@@ -72,7 +70,7 @@ export default class MovieListHandler {
         newMoviesData = await this.movieService.searchMovies(query, pageNumber);
       }
 
-      skeletonCards.forEach((skeleton) => skeleton.remove());
+      this.movieList?.container.querySelectorAll(".skeleton-card").forEach((skeleton) => skeleton.remove());
 
       newMoviesData.results.forEach((movieData) => {
         const movie = new Movie({
