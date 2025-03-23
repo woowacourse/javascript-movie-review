@@ -1,5 +1,5 @@
-import { MovieInfo } from "../../types/movieType";
-import MovieItem from "./MovieItem.js";
+import { MovieInfo } from "../../types/movieType.js";
+import MovieItem from "../components/MovieItem.js";
 
 class Movie {
   id: number;

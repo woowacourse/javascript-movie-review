@@ -1,5 +1,5 @@
 import MovieService from "../services/MovieService.js";
-import MovieList from "../components/MovieList.js";
+import MovieList from "../domains/MovieList.js";
 import Button from "../components/Button.js";
 import { MovieInfo } from "../../types/movieType.js";
 

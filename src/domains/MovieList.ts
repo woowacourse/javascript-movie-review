@@ -1,6 +1,6 @@
 import { MovieInfo } from "../../types/movieType.ts";
 import Movie from "./Movie.ts";
-import Skeleton from "./Skeleton.js";
+import Skeleton from "../components/Skeleton.js";
 
 class MovieList {
   movieList: Movie[];
