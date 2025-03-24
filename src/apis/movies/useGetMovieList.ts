@@ -9,17 +9,12 @@ import {
   setMovies,
   setTotalResults,
 } from "../../store/store";
-import { url } from "../config/config";
+import { options, url } from "../config/config";
 
 const useGetMovieList = () => {
   const fetchMovies = async (page: number): Promise<Movie[] | null> => {
     try {
-      const response = await fetch(url.popular(page), {
-        headers: {
-          Authorization: `Bearer ${import.meta.env.VITE_API_TOKEN}`,
-        },
-        method: "GET",
-      });
+      const response = await fetch(url.popular(page), options);
       const data: MovieListResponse = await response.json();
       if (data) {
         setIsLoading(false);
