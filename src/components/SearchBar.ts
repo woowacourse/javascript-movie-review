@@ -33,7 +33,7 @@ class SearchBar {
     toggleNoThumbnail("hidden");
     toggleSkeletonList("show");
 
-    thumbnailList?.replaceChildren();
+    thumbnailList.replaceChildren();
 
     await this.#renderSearchResult(query);
 
@@ -116,7 +116,7 @@ class SearchBar {
         poster_path,
       });
       const movieItemElement = movieItem.create();
-      thumbnailList?.appendChild(movieItemElement);
+      thumbnailList.appendChild(movieItemElement);
     });
   }
 

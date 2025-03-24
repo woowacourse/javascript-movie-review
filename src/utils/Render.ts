@@ -2,8 +2,8 @@ import { selectElement } from "./dom.ts";
 
 export const toggleNoThumbnail = (option: "show" | "hidden") => {
   const noThumbnail = selectElement<HTMLDivElement>(".no-thumbnail");
-  if (option === "show") noThumbnail?.classList.remove("hidden");
-  if (option === "hidden") noThumbnail?.classList.add("hidden");
+  if (option === "show") noThumbnail.classList.remove("hidden");
+  if (option === "hidden") noThumbnail.classList.add("hidden");
 };
 
 export const toggleSkeletonList = (option: "show" | "hidden") => {

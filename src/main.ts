@@ -44,7 +44,7 @@ const renderMovieData = (movieData: IMovie[]) => {
   movieData.forEach(({ title, poster_path, vote_average }) => {
     const movieItem = new MovieItem({ title, vote_average, poster_path });
     const movieItemElement = movieItem.create();
-    thumbnailList?.appendChild(movieItemElement);
+    thumbnailList.appendChild(movieItemElement);
   });
 
   toggleSkeletonList("hidden");
@@ -68,12 +68,12 @@ const searchBar = new SearchBar();
 const logo = selectElement<HTMLDivElement>(".logo");
 const logoImage = selectElement<HTMLImageElement>(".logo img");
 
-logoImage?.addEventListener("click", () => {
+logoImage.addEventListener("click", () => {
   window.location.reload();
 });
-logo?.appendChild(searchBar.create());
-mainSection?.appendChild(skeletonUl.create());
-mainSection?.appendChild(seeMoreButton.create());
+logo.appendChild(searchBar.create());
+mainSection.appendChild(skeletonUl.create());
+mainSection.appendChild(seeMoreButton.create());
 
 const movieData = (await getMovieData()).results;
 renderTitleMovie(movieData);
