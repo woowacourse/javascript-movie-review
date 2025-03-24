@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   wrap.prepend(header);
 
   const movieSectionTitle = Title({
-    text: "지금 인기 있는 영화"
+    text: "지금 인기 있는 영화",
   });
 
   main.appendChild(movieSectionTitle);
@@ -32,8 +32,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     query: "",
   };
 
-  const input = Input({
+  const searchInput = Input({
     type: "text",
+    mode: "search",
     placeholder: "검색어를 입력하세요",
     onSubmit: async (query: string) => {
       try {
@@ -53,7 +54,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         }) as HTMLElement;
 
         const searchedMovieTitle = Title({
-          text: `"${query}" 검색 결과`
+          text: `"${query}" 검색 결과`,
         });
 
         main.appendChild(searchedMovieTitle);
@@ -65,7 +66,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     },
   });
 
-  const navigationBar = NavigationBar({ input });
+  const navigationBar = NavigationBar({ input: searchInput });
   wrap?.prepend(navigationBar);
 
   const renderMovies = () => {

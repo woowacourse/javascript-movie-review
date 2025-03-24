@@ -1,5 +1,5 @@
 type NavigationBarProps = {
-  input: HTMLDivElement;
+  input: HTMLDivElement | null;
 };
 
 const NavigationBar = ({ input }: NavigationBarProps) => {
@@ -12,7 +12,9 @@ const NavigationBar = ({ input }: NavigationBarProps) => {
         </h1>
       `;
 
-  navigationContainer.appendChild(input);
+  if (input) {
+    navigationContainer.appendChild(input);
+  }
 
   return navigationContainer;
 };
