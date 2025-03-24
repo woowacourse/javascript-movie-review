@@ -1,4 +1,4 @@
-@import "./colors.css";
+@import './colors.css';
 
 * {
   box-sizing: border-box;
@@ -15,7 +15,7 @@ body {
   background-color: var(--color-bluegray-80);
 }
 
-#wrap,
+#movie-review-wrap,
 section {
   display: flex;
   flex-direction: column;
@@ -23,7 +23,7 @@ section {
 }
 
 main {
-  margin: 64px 0;
+  margin: 64px 0 0 0;
 }
 
 .star {
@@ -43,13 +43,17 @@ button.primary {
   border-radius: 4px;
 }
 
-#wrap {
+.show-more {
+  width: 100%;
+}
+
+#movie-review-wrap {
   min-width: 1440px;
   background-color: var(--color-bluegray-100);
 }
 
-#wrap h2 {
-  font-size: 1.4rem;
+#movie-review-wrap h2 {
+  font-size: 2rem;
   font-weight: bold;
   margin-bottom: 32px;
 }
@@ -57,13 +61,13 @@ button.primary {
 .container {
   max-width: 1280px;
   margin: 0 auto;
+  padding-bottom: 40px;
 }
 
 .background-container {
   position: relative;
   background-position: center center;
   background-size: cover;
-  height: 500px;
   padding: 48px;
 }
 
@@ -82,7 +86,42 @@ button.primary {
   position: relative;
   z-index: 2;
   max-width: 1280px;
+  height: 350px;
   margin: 0 auto;
+}
+
+.top-rated-header {
+  position: relative;
+  max-width: 1280px;
+  margin: 0 auto;
+  z-index: 2;
+}
+
+.top-rated-search {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 16px;
+  margin: auto;
+  border: 1.5px solid white;
+  border-radius: 32px;
+  width: 525px;
+}
+
+.top-rated-search-input {
+  width: 100%;
+  border: none;
+  font-size: 16px;
+  outline: none;
+  background-color: transparent;
+  color: white;
+}
+
+.top-rated-search-input::placeholder {
+  color: white;
+}
+
+.top-rated-search-button {
+  background-color: transparent;
 }
 
 .top-rated-movie {
@@ -94,7 +133,9 @@ button.primary {
 }
 
 h1.logo {
+  position: absolute;
   font-size: 2rem;
+  top: 10px;
 }
 
 .rate {
@@ -119,6 +160,14 @@ span.rate-value {
   font-weight: bold;
 }
 
+.error {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 32px;
+}
+
 footer.footer {
   min-height: 180px;
   background-color: var(--color-bluegray-80);
@@ -131,4 +180,26 @@ footer.footer {
 
 footer.footer p:not(:last-child) {
   margin-bottom: 8px;
+}
+
+.close {
+  display: none;
+}
+
+.open {
+  display: block;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-color: var(--color-bluegray-90);
+  }
+  100% {
+    background-color: var(--color-bluegray-70);
+  }
+}
+
+.skeleton {
+  animation: skeleton-loading 1s linear infinite alternate;
+  border-radius: 8px;
 }

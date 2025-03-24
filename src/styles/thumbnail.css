@@ -1,4 +1,4 @@
-@import "./colors.css";
+@import './colors.css';
 
 .thumbnail-list {
   margin: 0 auto 56px;
@@ -16,6 +16,10 @@
 .item {
   user-select: none;
   cursor: pointer;
+}
+
+.item-desc {
+  margin-top: 4px;
 }
 
 .item-desc > *:not(:last-child) {
