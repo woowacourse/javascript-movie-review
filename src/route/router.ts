@@ -27,7 +27,7 @@ export async function renderInnerContentsByRoute() {
 }
 
 export async function redirectToPage(url: string) {
-  const redirectUrl = `${APP_CONFIG}${url}`;
+  const redirectUrl = `${APP_CONFIG.BASE_PATH}${url}`;
   history.pushState({}, '', redirectUrl);
   await renderContent();
 }
