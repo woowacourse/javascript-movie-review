@@ -3,6 +3,7 @@ import { DEFAULT_BACK_DROP_URL } from '@/lib/constants';
 import { AppState } from '@/App';
 import { html } from '@/lib/utils';
 import Component from './core/Component';
+import { map } from '@fxts/core';
 
 interface ThumbnailListProps {
   movies: AppState['movies'];
@@ -48,7 +49,7 @@ export default class ThumbnailList extends Component<ThumbnailListProps> {
                 <div class="item-desc">
                   <p class="rate">
                     <img src="./images/star_empty.png" class="star" />
-                    <span>${movie.vote_average}</span>
+                    <span>${movie.vote_average.toFixed(1)}</span>
                   </p>
                   <strong>${movie.title}</strong>
                 </div>

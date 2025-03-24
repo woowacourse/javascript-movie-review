@@ -36,7 +36,9 @@ export default class MovieDetailModal extends Component<MovieDetailModalProps> {
                   join(', '),
                 )}
               </p>
-              <p class="rate"><img src="./images/star_filled.png" class="star" /><span>${vote_average}</span></p>
+              <p class="rate">
+                <img src="./images/star_filled.png" class="star" /><span>${vote_average.toFixed(1)}</span>
+              </p>
               <hr />
               <p class="detail">${overview}</p>
             </div>
