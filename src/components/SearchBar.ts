@@ -1,6 +1,6 @@
 import { IPage } from "../../types/domain";
 import movieApi from "../api/movieApi.ts";
-import { ITEMS } from "../constants/movie.ts";
+import calculatePageNumber from "../domain/calculatePageNumber.ts";
 import { selectElement } from "../utils/dom.ts";
 import {
   toggleNoThumbnail,
@@ -99,7 +99,8 @@ class SearchBar {
   }
 
   async #renderSearchResult(movieListInstance: MovieList, query: string) {
-    const pageNumber = movieListInstance.getTotalItems() / ITEMS.perPage + 1;
+    const currentItemCount = movieListInstance.getTotalItems();
+    const pageNumber = calculatePageNumber(currentItemCount);
 
     toggleSkeletonList("show");
     toggleSeeMoreButton("hidden");

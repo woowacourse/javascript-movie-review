@@ -3,14 +3,15 @@ import MovieItem from "./components/MovieItem";
 import SearchBar from "./components/SearchBar";
 import SkeletonUl from "./components/SkeletonUl";
 import TextButton from "./components/TextButton";
-import { IMAGE, ITEMS } from "./constants/movie.ts";
+import { IMAGE } from "./constants/movie.ts";
 import movieApi from "./api/movieApi.ts";
 import { selectElement } from "./utils/dom.ts";
 import { toggleSkeletonList } from "./utils/Render";
 import MovieList from "./components/MovieList.ts";
+import calculatePageNumber from "./domain/calculatePageNumber.ts";
 
 const getMovieData = async (currentItemCount: number = 0) => {
-  const pageNumber = currentItemCount / ITEMS.perPage + 1;
+  const pageNumber = calculatePageNumber(currentItemCount);
 
   return (await movieApi.getMovieData(pageNumber)) as IPage;
 };
