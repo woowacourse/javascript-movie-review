@@ -8,6 +8,7 @@ import { LocalStorageMovieRateValueType } from '@/lib/types';
 
 interface MovieDetailModalProps {
   movieDetailResponse: AppState['movieDetailResponse'];
+  movieRate: LocalStorageMovieRateValueType;
 }
 
 const RATE_MAP = {
@@ -23,13 +24,8 @@ export default class MovieDetailModal extends Component<MovieDetailModalProps> {
     if (!this.props.movieDetailResponse) return html``;
 
     const { backdrop_path, title, release_date, genres, overview, vote_average, id } = this.props.movieDetailResponse;
-    const movieRate = LocalStorage.get<LocalStorageMovieRateValueType>('movieRate');
 
-    const currentMovieRate = movieRate[id];
-
-    console.log(currentMovieRate);
-
-    LocalStorage.set('movieRate', { ...(movieRate ?? {}), [id]: 8 });
+    const currentMovieRate = this.props.movieRate[id] ?? 6;
 
     const backgroundImage = backdrop_path
       ? `${DEFAULT_BACK_DROP_URL}${backdrop_path}`

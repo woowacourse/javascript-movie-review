@@ -1,11 +1,10 @@
 import { LocalStorageMovieRateValueType, MovieDetailResponse, MovieResult, MoviesResponse } from '@/lib/types';
 import { MovieApiClient } from './apis';
-import { Footer, Header, Movies, MovieDetailModal } from './components';
+import { Footer, Header, MovieDetailModal, Movies } from './components';
 import { Component } from './components/core';
-import { html, isElement, isError, isHTMLFormElement, isString } from './lib/utils';
 import eventHandlerInstance from './lib/modules/EventHandler';
-import { event } from 'node_modules/cypress/types/jquery';
 import LocalStorage from './lib/modules/LocalStorage';
+import { html, isError, isHTMLFormElement, isString } from './lib/utils';
 
 export interface AppState {
   page: number;
@@ -14,6 +13,7 @@ export interface AppState {
   search: string;
   error: Error | null;
   movieDetailResponse: MovieDetailResponse | null;
+  movieRate: LocalStorageMovieRateValueType;
 }
 
 export default class App extends Component<null, AppState> {
@@ -29,6 +29,7 @@ export default class App extends Component<null, AppState> {
       error: null,
       search: '',
       movieDetailResponse: null,
+      movieRate: LocalStorage.get<LocalStorageMovieRateValueType>('movieRate') ?? {},
     };
   }
 
@@ -64,7 +65,8 @@ export default class App extends Component<null, AppState> {
     this.fillSlot(new Footer().element, 'footer');
     if (this.state.movieDetailResponse)
       this.fillSlot(
-        new MovieDetailModal({ movieDetailResponse: this.state.movieDetailResponse }).element,
+        new MovieDetailModal({ movieDetailResponse: this.state.movieDetailResponse, movieRate: this.state.movieRate })
+          .element,
         'movie-detail-modal',
       );
   }
@@ -164,10 +166,13 @@ export default class App extends Component<null, AppState> {
 
         if (!id || !rate) return;
 
-        LocalStorage.set('movieRate', {
-          ...(LocalStorage.get<LocalStorageMovieRateValueType>('movieRate') ?? {}),
-          [id]: rate,
-        });
+        const newMovieRate = {
+          ...this.state.movieRate,
+          [id]: Number(rate),
+        };
+
+        LocalStorage.set('movieRate', newMovieRate);
+        this.setState({ movieRate: newMovieRate });
       },
 
       dataAction: 'change-rate',
