@@ -15,7 +15,7 @@ describe("Fixture를 이용한 테스트", () => {
     cy.intercept(
       {
         method: "GET",
-        url: /^https:\/\/api\.themoviedb\.org\/3\/search\/movie\?page=1(?:&.*)?/,
+        url: /^https:\/\/api\.themoviedb\.org\/3\/search\/movie\?.*page=1.*/,
       },
       { fixture: "movie-search-first.json" }
     ).as("getFirstSearchedMovies");
@@ -23,7 +23,7 @@ describe("Fixture를 이용한 테스트", () => {
     cy.intercept(
       {
         method: "GET",
-        url: /^https:\/\/api\.themoviedb\.org\/3\/search\/movie\?page=2(?:&.*)?/,
+        url: /^https:\/\/api\.themoviedb\.org\/3\/search\/movie\?.*page=2.*/,
       },
       { fixture: "movie-search-second.json" }
     ).as("getSecondSearchedMovies");
