@@ -25,7 +25,7 @@ describe("Fixture를 이용한 테스트", () => {
     cy.intercept(
       {
         method: "GET",
-        url: /^https:\/\/api\.themoviedb\.org\/3\/search\/movie\?query=%20*/,
+        url: /^https:\/\/api\.themoviedb\.org\/3\/search\/movie\?query=%E3%85%8E%E3%85%87%E3%85%8E%E3%85%87*/,
       },
       { fixture: "movie-search-nothing.json" }
     ).as("searchNoMovies");
@@ -97,7 +97,7 @@ describe("Fixture를 이용한 테스트", () => {
   });
 
   it(`검색어를 입력한 후 폼을 제출하였으나, 검색 결과가 없는 경우 '${ERROR_MESSAGES.NO_RESULT}' 메시지가 나타나야 한다`, () => {
-    cy.get("[data-testid='search-input']").type(" ");
+    cy.get("[data-testid='search-input']").type("ㅎㅇㅎㅇ");
     cy.get("[data-testid='search-form']").submit();
 
     cy.wait("@searchNoMovies").then(() => {
