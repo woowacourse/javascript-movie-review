@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-describe('Fixture를 이용한 테스트', () => {
+describe('Fixture를 이용한 초기화면 테스트', () => {
   beforeEach(() => {
     cy.intercept(
       {
@@ -22,10 +22,8 @@ describe('Fixture를 이용한 테스트', () => {
   });
 
   it('더보기 버튼을 누를 경우, 20개의 작품이 더 렌더링된다', () => {
-    it('검색어를 입력하고, 더보기 버튼을 누르면 아이템을 띄워줘야 한다.', () => {
-      cy.get('.button--medium').click();
+    cy.get('.button--medium').click();
 
-      cy.get('.item').should('have.length', 40);
-    });
+    cy.get('.item').should('have.length', 40);
   });
 });
