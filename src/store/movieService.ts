@@ -9,7 +9,7 @@ const moviesPopularState = {
   totalPages: 0,
 };
 
-const moviesSearchedState = {
+const moviesSearchedState: typeof moviesPopularState = {
   list: [] as Movie[],
   currentPage: 1,
   totalPages: 0,
@@ -31,7 +31,7 @@ const fetchPopularMovies = async (page = 1) => {
   try {
     const data = await fetchMovies(`${popularApiUrl}&page=${page}`);
 
-    moviesPopularState.list = data.results.map((item: any) => mapToMovie(item));
+    moviesPopularState.list = data.results.map(mapToMovie);
     moviesPopularState.currentPage = page;
     moviesPopularState.totalPages = data.total_pages;
 
