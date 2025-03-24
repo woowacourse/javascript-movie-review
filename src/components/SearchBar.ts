@@ -1,5 +1,6 @@
 import { IPage } from "../../types/domain";
 import movieApi from "../api/movieApi.ts";
+import { ITEMS } from "../constants/movie.ts";
 import { selectElement, selectElementAll } from "../utils/dom.ts";
 import {
   toggleNoThumbnail,
@@ -99,7 +100,7 @@ class SearchBar {
     const itemCount = selectElementAll<HTMLLIElement>(
       "ul.thumbnail-list li"
     ).length;
-    const pageNumber = itemCount / 20 + 1;
+    const pageNumber = itemCount / ITEMS.perPage + 1;
 
     toggleSkeletonList("show");
     toggleSeeMoreButton("hidden");

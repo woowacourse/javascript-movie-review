@@ -1,9 +1,10 @@
-/// <reference types="cypress" />
-
+import { ITEMS } from "../../src/constants/movie.ts";
 import { IMovie } from "../../types/domain";
 
+/// <reference types="cypress" />
+
 describe("비동기 API 테스트", () => {
-  it("영화 목록 API를 호출하면 한 번에 20개씩 목록에 나열되어야 한다.", () => {
+  it(`영화 목록 API를 호출하면 한 번에 ${ITEMS.perPage}개씩 목록에 나열되어야 한다.`, () => {
     cy.visit("localhost:5173");
 
     const popularMovieUrl = `https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=1&api_key=${Cypress.env(
@@ -22,7 +23,9 @@ describe("비동기 API 테스트", () => {
     }).as("popularMovies");
 
     cy.get("@popularMovies").its("status").should("eq", 200);
-    cy.get("@popularMovies").its("body.results").should("have.length", 20);
+    cy.get("@popularMovies")
+      .its("body.results")
+      .should("have.length", ITEMS.perPage);
   });
 
   it("영화 검색 API를 사용하면 검색된 결과를 받아온다.", () => {

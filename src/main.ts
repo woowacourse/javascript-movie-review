@@ -3,7 +3,7 @@ import MovieItem from "./components/MovieItem";
 import SearchBar from "./components/SearchBar";
 import SkeletonUl from "./components/SkeletonUl";
 import TextButton from "./components/TextButton";
-import { IMAGE } from "./constants/movie";
+import { IMAGE, ITEMS } from "./constants/movie.ts";
 import movieApi from "./api/movieApi.ts";
 import { selectElement, selectElementAll } from "./utils/dom.ts";
 import { toggleSkeletonList } from "./utils/Render";
@@ -12,7 +12,7 @@ const getMovieData = async () => {
   const itemCount = selectElementAll<HTMLLIElement>(
     "ul.thumbnail-list li"
   ).length;
-  const pageNumber = itemCount / 20 + 1;
+  const pageNumber = itemCount / ITEMS.perPage + 1;
 
   return (await movieApi.getMovieData(pageNumber)) as IPage;
 };
