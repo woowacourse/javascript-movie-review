@@ -11,6 +11,7 @@ export const loadMovies = async (movies: MovieResponse): Promise<void> => {
         : "./images/default_poster.png",
       title: movie.title,
       rate: movie.vote_average,
+      clickEvent: () => showMovieDetailInfo(movie),
     });
 
     $(".thumbnail-list").appendChild(movieElement);
@@ -18,4 +19,8 @@ export const loadMovies = async (movies: MovieResponse): Promise<void> => {
 
   if (movies.page === movies.total_pages)
     $(".load-more").classList.add("hidden");
+};
+
+const showMovieDetailInfo = (movie: Movie): void => {
+  console.log(movie.title);
 };

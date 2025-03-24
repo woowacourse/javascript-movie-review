@@ -6,9 +6,10 @@ type MovieItem = {
   src: string;
   rate: number;
   title: string;
+  clickEvent: () => void;
 };
 
-const MovieItem = ({ src, rate, title }: MovieItem) => {
+const MovieItem = ({ src, rate, title, clickEvent }: MovieItem) => {
   const movieItem = createElement(/*html*/ `
     <li>
       <div class="item">
@@ -25,6 +26,7 @@ const MovieItem = ({ src, rate, title }: MovieItem) => {
   `);
 
   $(".item-desc", movieItem).prepend(Rate({ rate: rate }));
+  $(".item", movieItem).addEventListener("click", clickEvent);
 
   return movieItem;
 };
