@@ -15,8 +15,8 @@ export const fetchPopularMovies = async (
 
     return response.results;
   } catch (error) {
-    if (error instanceof Error) {
-      onError?.(error);
+    if (error instanceof Error && onError) {
+      onError(error);
     }
     throw error;
   }
@@ -39,8 +39,8 @@ export const fetchSearchedMovies = async (
 
     return response;
   } catch (error) {
-    if (error instanceof Error) {
-      onError?.(error);
+    if (error instanceof Error && onError) {
+      onError(error);
     }
     throw error;
   }
