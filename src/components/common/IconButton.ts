@@ -14,13 +14,13 @@ export const IconButton = ({
   height,
   src,
   onClick,
-  classList,
-  props,
+  classList = [],
+  props = {},
 }: IconButtonProps) => {
   return Button({
     type: 'button',
     onClick,
-    classList: ['border-none', ...(classList || [])],
+    classList: ['border-none', ...classList],
     props: {
       ...props,
       children: [Img({ width, height, src })],
