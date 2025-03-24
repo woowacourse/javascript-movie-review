@@ -1,5 +1,5 @@
 import { App } from './App';
 
-addEventListener('load', () => {
+window.addEventListener('load', () => {
   App();
 });
