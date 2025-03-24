@@ -10,6 +10,10 @@
   --color-yellow: #ffc700;
   --color-ffffff: #ffffff;
   --color-242a32: #242a32;
+
+  --z-index-header: 20;
+  --z-index-overlay: 10;
+  --z-index-main-banner: 20;
 }
 
 .text-placeholder {
