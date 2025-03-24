@@ -1,6 +1,6 @@
 import { createElement } from "../../util/dom";
-export default function MovieItem({ src, title, rate, onload }) {
-  const $li = createElement("li");
+export default function MovieItem({ id, src, title, rate, onload }) {
+  const $li = createElement("li", { id });
   let url = `https://image.tmdb.org/t/p/w500/${src}`;
   if (!src) url = "images/fallback.png";
 

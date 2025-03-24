@@ -38,8 +38,9 @@ export function renderMovieItems(results: Result[], reset?: boolean) {
   if (reset && $list) $list.innerHTML = "";
 
   const movieItems = results.map((result: Result) => {
-    const { title, poster_path, vote_average } = result;
+    const { id, title, poster_path, vote_average } = result;
     return MovieItem({
+      id,
       title,
       src: poster_path,
       rate: vote_average,
