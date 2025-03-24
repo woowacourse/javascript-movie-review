@@ -1,0 +1,31 @@
+export default class ApiClient {
+  static async get(endpoint: string, headers = {}) {
+    return this.request('GET', endpoint, headers);
+  }
+
+  static async request(method: 'GET' | 'POST' | 'PUT' | 'DELETE', endpoint: string, headers = {}) {
+    const BASE_URL = 'https://api.themoviedb.org/3';
+    const url = `${BASE_URL}${endpoint}`;
+    const options = {
+      method,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${import.meta.env.VITE_THDB_API_KEY}`,
+        ...headers
+      }
+    };
+
+    try {
+      const response = await fetch(url, options);
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'An error occurred');
+      }
+
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+}
