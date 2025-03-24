@@ -40,7 +40,7 @@ export default class MovieDetailModal extends Component<MovieDetailModalProps> {
               <img src="${backgroundImage}" />
             </div>
             <div class="modal-description">
-              <div>
+              <div class="main-info">
                 <h2>${title}</h2>
                 <p class="category">
                   ${new Date(release_date).getFullYear()} ·
