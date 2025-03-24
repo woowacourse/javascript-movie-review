@@ -1,4 +1,5 @@
 import { MovieItemProps } from "../../types/domain";
+import { POSTER_IMG_PREFIX } from "../constants/URL";
 
 const MovieItem = {
   create({ id, posterPath, rate, title }: MovieItemProps) {
@@ -8,7 +9,7 @@ const MovieItem = {
         <div class="item">
             <img
             class="thumbnail"
-            src=${posterPath}
+            src=${POSTER_IMG_PREFIX + posterPath}
             onerror="this.src='./images/null_image.png'"
             alt=${title}
             />
@@ -24,7 +25,6 @@ const MovieItem = {
     `;
 
     movieItemElement.insertAdjacentHTML("beforeend", content);
-    console.log(movieItemElement);
     return movieItemElement;
   },
 };

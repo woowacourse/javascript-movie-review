@@ -1,53 +1,22 @@
 import { MovieItemProps } from "../../../types/domain";
+import fetchPopularMovies from "../../api/fetchPopularMovies";
 import MovieItem from "../MovieItem";
 import { movieListContainer } from "./Element";
 
 const MovieList = {
-  init() {
-    this.set([
-      {
-        id: 696506,
-        posterPath:
-          "https://media.themoviedb.org/t/p/w440_and_h660_face/7KghOYtsxFquUuw4THbARsSEo6g.jpg",
-        rate: 7.0,
-        title: "미키 17",
-      },
-      {
-        id: 696506,
-        posterPath:
-          "https://media.themoviedb.org/t/p/w440_and_h660_face/7KghOYtsxFquUuw4THbARsSEo6g.jpg",
-        rate: 7.0,
-        title: "미키 17",
-      },
-      {
-        id: 696506,
-        posterPath:
-          "https://media.themoviedb.org/t/p/w440_and_h660_face/7KghOYtsxFquUuw4THbARsSEo6g.jpg",
-        rate: 7.0,
-        title: "미키 17",
-      },
-      {
-        id: 696506,
-        posterPath:
-          "https://media.themoviedb.org/t/p/w440_and_h660_face/7KghOYtsxFquUuw4THbARsSEo6g.jpg",
-        rate: 7.0,
-        title: "미키 17",
-      },
-      {
-        id: 696506,
-        posterPath:
-          "https://media.themoviedb.org/t/p/w440_and_h660_face/7KghOYtsxFquUuw4THbARsSEo6g.jpg",
-        rate: 7.0,
-        title: "미키 17",
-      },
-      {
-        id: 696506,
-        posterPath:
-          "https://media.themoviedb.org/t/p/w440_and_h660_face/7KghOYtsxFquUuw4THbARsSEo6g.jpg",
-        rate: 7.0,
-        title: "미키 17",
-      },
-    ]);
+  async init() {
+    try {
+      const popularMovies = await fetchPopularMovies();
+
+      const movieList = popularMovies?.results.map(
+        ({ id, poster_path, vote_average, title }) => {
+          return { id, posterPath: poster_path, rate: vote_average, title };
+        }
+      );
+      if (movieList) this.set(movieList);
+    } catch (error) {
+      if (error instanceof Error) alert(error.message);
+    }
   },
 
   set(movieList: MovieItemProps[]) {
