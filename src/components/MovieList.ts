@@ -2,7 +2,7 @@ import MovieItem from "./MovieItem";
 import { Movie } from "../../types/movie";
 
 type MovieListProps = {
-  movieItems?: Movie[] | null;
+  movieItems?: Movie[];
 };
 
 const MovieList = ({ movieItems = [] }: MovieListProps) => {

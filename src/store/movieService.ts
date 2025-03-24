@@ -15,7 +15,7 @@ const moviesSearchedState = {
   totalPages: 0,
 };
 
-const isLastPage = (movieType: MovieType): boolean => {
+const isLastPage = (movieType: MovieType) => {
   if (movieType === "popular") {
     return moviesPopularState.currentPage === moviesPopularState.totalPages;
   }
@@ -27,7 +27,7 @@ const isLastPage = (movieType: MovieType): boolean => {
   return false;
 };
 
-const fetchPopularMovies = async (page = 1): Promise<Movie[]> => {
+const fetchPopularMovies = async (page = 1) => {
   try {
     const data = await fetchMovies(`${popularApiUrl}&page=${page}`);
 

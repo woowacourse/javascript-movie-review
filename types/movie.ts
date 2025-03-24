@@ -6,3 +6,8 @@ export type Movie = {
 };
 
 export type MovieType = "popular" | "search";
+
+export type MovieState = {
+  mode: MovieType;
+  query: string;
+};

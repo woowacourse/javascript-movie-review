@@ -18,7 +18,7 @@ const defaultOptions: Options = {
   },
 };
 
-export const fetchMovies = (apiUrl: string = popularApiUrl) => {
+export const fetchMovies = (apiUrl = popularApiUrl) => {
   return fetch(apiUrl, defaultOptions)
     .then((res) => {
       if (!res.ok) {

@@ -10,24 +10,22 @@ import {
   isLastPage,
   fetchSearchedMovies,
 } from "./store/movieService.ts";
-import { MovieType } from "../types/movie.ts";
+import { MovieState } from "../types/movie.ts";
 
 document.addEventListener("DOMContentLoaded", async () => {
   const main = document.querySelector("main");
-  if (!main) return;
   const title = document.querySelector("h2");
-  if (!title) return;
   const wrap = document.querySelector("#wrap");
-  if (!wrap) return;
+  if (!main || !title || !wrap) return;
 
   const header = Header({ movie: null });
-  wrap?.prepend(header);
+  wrap.prepend(header);
 
   title.classList.add("main-title");
   title.textContent = "지금 인기 있는 영화";
 
-  const movieState = {
-    mode: "popular" as MovieType,
+  const movieState: MovieState = {
+    mode: "popular",
     query: "",
   };
 
@@ -124,5 +122,5 @@ document.addEventListener("DOMContentLoaded", async () => {
     },
   });
 
-  container?.appendChild(moreButton);
+  container.appendChild(moreButton);
 });
