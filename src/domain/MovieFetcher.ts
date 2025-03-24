@@ -3,7 +3,7 @@ import { ENV } from '../api/env';
 import Fetcher from '../api/Fetcher';
 import { movieFetcherEvent } from './MovieFetcherEvent';
 
-export const QUERY_PARAMS = {
+export const API_PATHS = {
   MOVIE: 'movie/popular',
   SEARCH: 'search/movie',
 } as const;
@@ -65,7 +65,7 @@ class MovieFetcher {
   ): Promise<MovieResponse | undefined> {
     this.isSearch = false;
     this.currentPage = page;
-    const url = `${QUERY_PARAMS.MOVIE}?page=${page}`;
+    const url = `${API_PATHS.MOVIE}?page=${page}`;
     return await this.fetchMovies(url);
   }
 
@@ -82,7 +82,7 @@ class MovieFetcher {
     this.currentPage = page;
     this.query = query;
 
-    const url = `${QUERY_PARAMS.SEARCH}?query=${query}&page=${page}`;
+    const url = `${API_PATHS.SEARCH}?query=${query}&page=${page}`;
     return await this.fetchMovies(url);
   }
 
