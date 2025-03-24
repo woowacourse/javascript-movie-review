@@ -22,5 +22,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src", "types"]
+  "include": ["src", "types", "step1/api/utils", "step1/api/constants"]
 }

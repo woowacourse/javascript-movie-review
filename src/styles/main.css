@@ -114,7 +114,6 @@ div.logo {
 
 .logo > img {
   cursor: pointer;
-  position: absolute;
   left: 0;
   top: 9px;
 }
