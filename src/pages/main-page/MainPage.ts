@@ -5,10 +5,11 @@ import { Title } from '../../component/common/title/Title';
 import { extractedData } from '../../domain/APIManager';
 import mainPageLoadingTemplate from './loadingTemplate';
 import { MOVIE_API } from '../../constants/systemConstants';
+import { MovieData } from '../../../types/movie';
 
 export class MainPage {
-  #container;
-  #movieListData = [];
+  #container: HTMLElement;
+  #movieListData: MovieData[] = [];
   #currentPage = 1;
   #isLoading: boolean = true;
 

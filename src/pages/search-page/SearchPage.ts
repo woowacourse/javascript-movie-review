@@ -4,10 +4,11 @@ import { Title } from '../../component/common/title/Title';
 import { extractedData } from '../../domain/APIManager';
 import searchPageLoadingTemplate from './loadingTemplate';
 import { MOVIE_API } from '../../constants/systemConstants';
+import { MovieData } from '../../../types/movie';
 
 class SearchPage {
   #container;
-  #movieListData = [];
+  #movieListData: MovieData[] = [];
   #isLoading: boolean = true;
   #query: string;
   #currentPage = 1;

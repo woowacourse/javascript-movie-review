@@ -7,7 +7,7 @@ interface ApiClientOptions {
   body?: object;
 }
 
-export async function apiClient(url: string, options: ApiClientOptions) {
+export async function apiClient<T>(url: string, options: ApiClientOptions): Promise<T> {
   const requestOptions: RequestInit = {
     method: options.method,
     headers: {
@@ -26,8 +26,7 @@ export async function apiClient(url: string, options: ApiClientOptions) {
     const json = await res.json();
     return json;
   } catch (err: unknown) {
-    if (err instanceof Error) {
-      redirectToPage('/error');
-    }
+    redirectToPage('/error');
+    throw err;
   }
 }

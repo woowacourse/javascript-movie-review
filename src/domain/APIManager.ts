@@ -1,6 +1,13 @@
 import { ASSET_PATHS } from '../constants/systemConstants';
 import { apiClient } from '../util/apiClient';
 
+interface MovieListResponse {
+  results: MovieListJSON[];
+  total_pages: number;
+  page: number;
+  total_results: number;
+}
+
 interface MovieListJSON {
   id: number;
   title: string;
@@ -32,5 +39,5 @@ export async function extractedData(url: string) {
 }
 
 async function fetchMovieList(url: string) {
-  return await apiClient(url, { method: 'GET' });
+  return await apiClient<MovieListResponse>(url, { method: 'GET' });
 }
