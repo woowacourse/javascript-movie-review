@@ -1,35 +1,94 @@
-import image from "../templates/images/star_filled.png";
+import { getPopularMovies } from "./apis/getPopularMovies";
+import { getSearchedMovies } from "./apis/getSearchedMovies";
+import backgroundContainer from "./components/backgroundContainer";
+import { handleError } from "./components/error/handleError";
+import movieContainer from "./components/movie/movieContainer";
+import skeletonContainer from "./components/skeleton/skeletonContainer";
+import skeletonContainerTitle from "./components/skeleton/skeletonTitleContainer";
+import { $ } from "./components/utils/selectors";
 
-console.log("npm run dev 명령어를 통해 영화 리뷰 미션을 시작하세요");
+const onSearch = async (event: Event) => {
+  if (!(event.target instanceof HTMLFormElement)) return;
 
-console.log(
-  "%c" +
-    " _____ ______   ________  ___      ___ ___  _______                \n" +
-    "|\\   _ \\  _   \\|\\   __  \\|\\  \\    /  /|\\  \\|\\  ___ \\               \n" +
-    "\\ \\  \\\\\\__\\ \\  \\ \\  \\|\\  \\ \\  \\  /  / | \\  \\ \\   __/|              \n" +
-    " \\ \\  \\\\|__| \\  \\ \\  \\\\\\  \\ \\  \\/  / / \\ \\  \\ \\  \\_|/__            \n" +
-    "  \\ \\  \\    \\ \\  \\ \\  \\\\\\  \\ \\    / /   \\ \\  \\ \\  \\_|\\ \\           \n" +
-    "   \\ \\__\\    \\ \\__\\ \\_______\\ \\__/ /     \\ \\__\\ \\_______\\          \n" +
-    "    \\|__|     \\|__|\\|_______|\\|__|/       \\|__|\\|_______|          \n" +
-    "                                                                   \n" +
-    "                                                                   \n" +
-    "                                                                   \n" +
-    " ________  _______   ___      ___ ___  _______   ___       __      \n" +
-    "|\\   __  \\|\\  ___ \\ |\\  \\    /  /|\\  \\|\\  ___ \\ |\\  \\     |\\  \\    \n" +
-    "\\ \\  \\|\\  \\ \\   __/|\\ \\  \\  /  / | \\  \\ \\   __/|\\ \\  \\    \\ \\  \\   \n" +
-    " \\ \\   _  _\\ \\  \\_|/_\\ \\  \\/  / / \\ \\  \\ \\  \\_|/_\\ \\  \\  __\\ \\  \\  \n" +
-    "  \\ \\  \\\\  \\\\ \\  \\_|\\ \\ \\    / /   \\ \\  \\ \\  \\_|\\ \\ \\  \\|\\__\\_\\  \\ \n" +
-    "   \\ \\__\\\\ _\\\\ \\_______\\ \\__/ /     \\ \\__\\ \\_______\\ \\____________\\\n" +
-    "    \\|__|\\|__|\\|_______|\\|__|/       \\|__|\\|_______|\\|____________|",
-  "color: #d81b60; font-size: 14px; font-weight: bold;"
-);
+  event.preventDefault();
+  try {
+    const formData = new FormData(event.target);
+    const searchKeyword = formData.get("search-bar");
 
-addEventListener("load", () => {
-  const app = document.querySelector("#app");
-  const buttonImage = document.createElement("img");
-  buttonImage.src = image;
+    if (typeof searchKeyword !== "string" || searchKeyword.length === 0) {
+      return;
+    }
 
-  if (app) {
-    app.appendChild(buttonImage);
+    const $main = $("main");
+    $(".background-container")?.remove();
+    $main?.classList.add("no-background");
+
+    $(".movie-container")?.remove();
+
+    const $skeleton = skeletonContainer(20);
+    $skeleton.prepend(skeletonContainerTitle());
+
+    $main?.append($skeleton);
+
+    const { results, page, total_pages, total_results } =
+      await getSearchedMovies(searchKeyword);
+
+    $skeleton.remove();
+
+    const loadMoreCallback = async (pageNumber: number) =>
+      await getSearchedMovies(searchKeyword, pageNumber);
+
+    const $searchedMovieContainer = movieContainer(
+      `"${searchKeyword}" 검색 결과`,
+      { results, page, total_pages, total_results },
+      loadMoreCallback
+    );
+
+    $main?.append($searchedMovieContainer);
+  } catch (error) {
+    handleError(error);
   }
-});
+};
+
+const initializeMovie = async () => {
+  const $main = $("main");
+
+  const $skeleton = skeletonContainer(20);
+  $skeleton.prepend(skeletonContainerTitle());
+  $main?.append($skeleton);
+
+  try {
+    const { results, page, total_pages, total_results } =
+      await getPopularMovies();
+
+    $skeleton.remove();
+
+    const loadMoreCallback = async (pageNumber: number) =>
+      await getPopularMovies(pageNumber);
+
+    const $movieContainer = movieContainer(
+      "지금 인기 있는 영화",
+      { results, page, total_pages, total_results },
+      loadMoreCallback
+    );
+
+    $main?.append($movieContainer);
+  } catch (error) {
+    handleError(error);
+  }
+};
+
+const $header = $("header");
+$header?.append(backgroundContainer);
+
+const main = async () => {
+  try {
+    await initializeMovie();
+    const $searchBar = $("#search-bar-container");
+    $searchBar?.addEventListener("submit", onSearch);
+  } catch (error) {
+    handleError(error);
+  }
+};
+
+main();
