@@ -1,4 +1,4 @@
-import { MovieResult } from "../../types/movieApiType";
+import { MovieResult } from "../apis/MovieApi";
 import { DEFAULT_BACK_DROP_URL } from "../constants/movieApi";
 import { toElement } from "../utils/domUtils";
 

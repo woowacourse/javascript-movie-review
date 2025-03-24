@@ -1,4 +1,5 @@
-import { MovieResult } from "../../types/movieApiType";
+import { MovieResult } from "../apis/MovieApi";
+
 export const movieStore = {
   page: 1,
   totalPages: 1,
