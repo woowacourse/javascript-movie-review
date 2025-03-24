@@ -15,6 +15,7 @@ export interface Result {
   vote_count: number;
 }
 export interface TMDBResponse {
+  id: number;
   page: number;
   results: Result[];
   total_pages: number;
