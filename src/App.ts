@@ -1,10 +1,11 @@
-import { MovieDetailResponse, MovieResult, MoviesResponse } from '@/lib/types';
+import { LocalStorageMovieRateValueType, MovieDetailResponse, MovieResult, MoviesResponse } from '@/lib/types';
 import { MovieApiClient } from './apis';
 import { Footer, Header, Movies, MovieDetailModal } from './components';
 import { Component } from './components/core';
 import { html, isElement, isError, isHTMLFormElement, isString } from './lib/utils';
 import eventHandlerInstance from './lib/modules/EventHandler';
 import { event } from 'node_modules/cypress/types/jquery';
+import LocalStorage from './lib/modules/LocalStorage';
 
 export interface AppState {
   page: number;
@@ -155,6 +156,21 @@ export default class App extends Component<null, AppState> {
         await this.dataFetchAsync();
       },
       dataAction: 'submit-search',
+    });
+    eventHandlerInstance.addEventListener({
+      eventType: 'click',
+      callback: ({ target }) => {
+        const { id, rate } = target.dataset;
+
+        if (!id || !rate) return;
+
+        LocalStorage.set('movieRate', {
+          ...(LocalStorage.get<LocalStorageMovieRateValueType>('movieRate') ?? {}),
+          [id]: rate,
+        });
+      },
+
+      dataAction: 'change-rate',
     });
   }
 }

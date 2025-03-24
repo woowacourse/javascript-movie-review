@@ -1,3 +1,5 @@
+import { LOCAL_STORAGE_KEYS } from './constants';
+
 export interface MoviesResponse {
   page: number;
   results: MovieResult[];
@@ -76,3 +78,6 @@ export interface StrictObject {
   [key: string]: any;
   length?: never;
 }
+
+export type LocalStorageKeyType = keyof typeof LOCAL_STORAGE_KEYS;
+export type LocalStorageMovieRateValueType = Record<string, number>;
