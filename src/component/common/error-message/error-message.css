@@ -2,12 +2,15 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 16px;
   justify-self: center;
   align-items: center;
   width: 100%;
+  padding: 60px 0;
 }
 
-.empty-message__detail {
+.error-message__detail {
+  width: 100%;
   color: var(--color-white);
+  text-align: center;
 }
