@@ -1,4 +1,3 @@
-import { UnPack } from "../../types";
 import { debounce } from "./debounce";
 import { $, isTarget } from "./domHelper";
 
@@ -12,9 +11,7 @@ export interface Event {
   callback: EventCallback;
 }
 
-interface Options<T = unknown> {
-  currentStateKey: number;
-  states: T[];
+interface Options {
   events: Event[];
   root: null | Element;
   rootComponent: null | (() => string);
@@ -25,37 +22,16 @@ export interface Dispatch<T> {
 }
 
 function Core() {
-  const options: Options<UnPack<Parameters<typeof useState>>> = {
-    currentStateKey: 0,
-    states: [],
+  const options: Options = {
     events: [],
     root: null,
     rootComponent: null,
   };
 
-  function useState<S = undefined>(initialState?: S): [S, Dispatch<S>];
-  function useState<S = undefined>(initialState?: S): [unknown, Dispatch<S>] {
-    const { currentStateKey: key, states } = options;
-    if (states.length === key) states.push(initialState);
-
-    const state = states[key];
-
-    const setState = (newState: S) => {
-      if (newState === state) return;
-
-      states[key] = newState;
-      _render();
-    };
-    options.currentStateKey += 1;
-
-    return [state, setState];
-  }
-
   const _render = debounce(() => {
     const { root, rootComponent } = options;
     if (!root || !rootComponent) return;
     root.innerHTML = rootComponent();
-    options.currentStateKey = 0;
 
     _addEvent();
 
@@ -102,7 +78,7 @@ function Core() {
     _render();
   }
 
-  return { useState, useEvents, render, reRender };
+  return { useEvents, render, reRender };
 }
 
-export const { useState, useEvents, render, reRender } = Core();
+export const { useEvents, render, reRender } = Core();
