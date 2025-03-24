@@ -1,5 +1,5 @@
 import { IMovieList } from "../../../shared/types/movies";
-import { apiClient } from "../../../shared/utils/apiClient";
+import { apiClient } from "../../../shared/apis/apiClient";
 
 export const getSearchedMovie = async (
   query: string,
