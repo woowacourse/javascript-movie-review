@@ -4,7 +4,7 @@ import HttpError from './HttpError';
 export const API_OPTION = {
   headers: {
     accept: 'application/json',
-    Authorization: `Bearer ${ENV.VITE_TMBD_HEADER}`,
+    Authorization: `Bearer ${ENV.VITE_TMDB_HEADER}`,
   },
 };
 
@@ -23,7 +23,7 @@ export default class Fetcher {
     const response = await fetch(`${this.baseUrl}/${url}`, {
       headers: {
         accept: 'application/json',
-        Authorization: `Bearer ${ENV.VITE_TMBD_HEADER}`,
+        Authorization: `Bearer ${ENV.VITE_TMDB_HEADER}`,
       },
       method: 'GET',
       signal: curHttpCtrl.signal,
