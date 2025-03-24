@@ -1,0 +1,5 @@
+:root {
+  --z-index-overlay: 1;
+  --z-index-overlay-image: 0;
+  --z-index-top-rated: 2;
+}

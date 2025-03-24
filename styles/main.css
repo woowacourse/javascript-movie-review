@@ -1,4 +1,5 @@
 @import "./colors.css";
+@import "./z-index.css";
 
 * {
   box-sizing: border-box;
@@ -43,12 +44,12 @@ button.primary {
   border-radius: 4px;
 }
 
-#wrap {
+#app {
   min-width: 1440px;
   background-color: var(--color-bluegray-100);
 }
 
-#wrap h2 {
+#app h2 {
   font-size: 1.4rem;
   font-weight: bold;
   margin-bottom: 32px;
@@ -67,20 +68,10 @@ button.primary {
   padding: 48px;
 }
 
-.overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-}
-
 .top-rated-container {
   user-select: none;
   position: relative;
-  z-index: 2;
+  z-index: var(--z-index-top-rated);
   max-width: 1280px;
   margin: 0 auto;
 }
@@ -89,7 +80,7 @@ button.primary {
   margin-top: 64px;
 }
 
-.top-rated-movie > *:not(:last-child) {
+.top-rated-movie>*:not(:last-child) {
   margin-bottom: 8px;
 }
 
@@ -103,7 +94,7 @@ h1.logo {
   color: var(--color-yellow);
 }
 
-.rate > img {
+.rate>img {
   position: relative;
   top: 2px;
 }
@@ -131,4 +122,38 @@ footer.footer {
 
 footer.footer p:not(:last-child) {
   margin-bottom: 8px;
+}
+
+.search-header {
+  display: flex;
+  flex-direction: row;
+}
+
+.background-container {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  overflow: hidden;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  opacity: 0.5;
+  z-index: var(--z-index-overlay);
+}
+
+
+.overlay-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: var(--z-index-overlay-image);
 }
