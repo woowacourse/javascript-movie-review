@@ -82,7 +82,7 @@ const titleText = Text({
   props: { textContent: '인기 있는 영화' },
 });
 
-let movieUl = createElement<HTMLUListElement>('ul', {
+const movieUl = createElement<HTMLUListElement>('ul', {
   classList: 'thumbnail-list',
 });
 
