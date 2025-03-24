@@ -26,7 +26,6 @@ const App = () => {
 
   addEvent("click", ".more-button", () => {
     fetchMoreMovies(fetchMovies);
-    console.log("more movie length :", movies.length); // 40개 전달됨
   });
 
   if (movies.length === 0) {
@@ -39,6 +38,7 @@ const App = () => {
 
   const displayMovieList =
     searchInputValue.trim().length > 0 ? searchResults : movies;
+
   return ` ${
     isError || !movies.length
       ? `<div class="movie-list-error">에러가 발생했습니다. 다시 시도해주세요.</div>`
@@ -64,16 +64,20 @@ const App = () => {
       ${
         searchInputValue.length > 0 && displayMovieList.length === 0
           ? `<div class="no-results">검색 결과가 없습니다.</div>`
+          : isLoading
+          ? `<ul class="thumbnail-list">
+      ${Array.from({ length: 20 })
+        .map((_) => Skeleton())
+        .join("")}
+          </ul>`
           : `<ul class="thumbnail-list">
               ${displayMovieList
                 .map((movie) => {
-                  return isLoading
-                    ? Skeleton()
-                    : MovieItem({
-                        title: movie.title,
-                        rate: movie.vote_count,
-                        src: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
-                      });
+                  return MovieItem({
+                    title: movie.title,
+                    rate: movie.vote_count,
+                    src: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
+                  });
                 })
                 .join("")}
             </ul>
