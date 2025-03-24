@@ -1,7 +1,7 @@
 import { getMovieList } from "./features/movie/api/getMovieList";
 import Header from "./shared/ui/components/Header";
 import { CustomButton } from "./shared/ui/components/CustomButton";
-import { addMoreMovies } from "./shared/domain/addMoreMovies";
+import { addMoreMovies } from "./shared/ui/addMoreMovies";
 import { searchFormSubmitHandler } from "./features/search/ui/searchFormSubmitHandler";
 import { addMovieCard } from "./shared/ui/addMovieCard";
 import MoreMoviesButton from "./shared/ui/components/MoreMoviesButton";
