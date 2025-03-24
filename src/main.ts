@@ -15,32 +15,34 @@ const onSearch = async (event: Event) => {
     const formData = new FormData(event.target);
     const searchKeyword = formData.get("search-bar");
 
-    if (typeof searchKeyword === "string") {
-      const $main = $("main");
-
-      $(".movie-container")?.remove();
-
-      const $skeleton = skeletonContainer(20);
-      $skeleton.prepend(skeletonContainerTitle());
-
-      $main?.append($skeleton);
-
-      const { results, page, total_pages, total_results } =
-        await getSearchedMovies(searchKeyword);
-
-      $skeleton.remove();
-
-      const loadMoreCallback = async (pageNumber: number) =>
-        await getSearchedMovies(searchKeyword, pageNumber);
-
-      const $searchedMovieContainer = movieContainer(
-        `"${searchKeyword}" 검색 결과`,
-        { results, page, total_pages, total_results },
-        loadMoreCallback
-      );
-
-      $main?.append($searchedMovieContainer);
+    if (typeof searchKeyword !== "string" || searchKeyword.length === 0) {
+      return;
     }
+
+    const $main = $("main");
+
+    $(".movie-container")?.remove();
+
+    const $skeleton = skeletonContainer(20);
+    $skeleton.prepend(skeletonContainerTitle());
+
+    $main?.append($skeleton);
+
+    const { results, page, total_pages, total_results } =
+      await getSearchedMovies(searchKeyword);
+
+    $skeleton.remove();
+
+    const loadMoreCallback = async (pageNumber: number) =>
+      await getSearchedMovies(searchKeyword, pageNumber);
+
+    const $searchedMovieContainer = movieContainer(
+      `"${searchKeyword}" 검색 결과`,
+      { results, page, total_pages, total_results },
+      loadMoreCallback
+    );
+
+    $main?.append($searchedMovieContainer);
   } catch (error) {
     handleError(error);
   }

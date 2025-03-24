@@ -11,7 +11,7 @@ export const getSearchedMovies = async (
   searchKeyword: string,
   pageNumber = 1
 ) => {
-  const query = encodeURIComponent(searchKeyword); // 사용자 입력값을 인코딩
+  const query = encodeURIComponent(searchKeyword);
 
   const url = `https://api.themoviedb.org/3/search/movie?query=${query}&include_adult=false&language=ko-KR&page=${pageNumber}`;
 
