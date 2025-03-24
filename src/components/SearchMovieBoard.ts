@@ -10,7 +10,7 @@ interface Props {
 }
 
 class SearchMovieBoard {
-  private static LOAD_COUNT = 20;
+  private static readonly LOAD_COUNT = 20;
 
   #parentElement;
   #props;

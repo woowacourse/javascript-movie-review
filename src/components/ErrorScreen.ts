@@ -5,7 +5,7 @@ interface ErrorScreenContract {
 }
 
 class ErrorScreen implements ErrorScreenContract {
-  #message: string;
+  readonly #message: string;
 
   constructor(message: string) {
     this.#message = message;

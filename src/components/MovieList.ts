@@ -6,7 +6,8 @@ interface MovieListContract {
 }
 
 class MovieList implements MovieListContract {
-  private static IMAGE_BASE_URL = "https://image.tmdb.org/t/p/original";
+  private static readonly IMAGE_BASE_URL =
+    "https://image.tmdb.org/t/p/original";
 
   #movies: Movie[];
 

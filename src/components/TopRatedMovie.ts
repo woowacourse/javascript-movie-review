@@ -6,7 +6,8 @@ interface TopRatedMovieContract {
 }
 
 class TopRatedMovie implements TopRatedMovieContract {
-  private static IMAGE_BASE_URL = "https://image.tmdb.org/t/p/original";
+  private static readonly IMAGE_BASE_URL =
+    "https://image.tmdb.org/t/p/original";
 
   #movie: Movie;
 

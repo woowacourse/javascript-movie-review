@@ -7,7 +7,7 @@ import MovieList from "./MovieList";
 import TopRatedMovie from "./TopRatedMovie";
 
 class PopularMovieBoard {
-  private static MAX_PAGE = 500;
+  private static readonly MAX_PAGE = 500;
 
   #parentElement;
   #page;
