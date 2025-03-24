@@ -24,39 +24,52 @@ export default class MovieList {
   }
 
   loadInitMovie() {
+    this.removeNoResultItem();
+
+    if (!this.moviesData || this.moviesData.length === 0) {
+      this.renderNoResult()
+      return;
+    }
+
+    this.renderSkeleton();
+    setTimeout(() => this.renderMovies(), 1000);
+  }
+
+  removeNoResultItem() {
     const noResultsItem = document.querySelector(".no-results");
     if (noResultsItem) {
       noResultsItem.remove();
     }
+  }
 
-    if (!this.moviesData || this.moviesData.length === 0) {
-      const section = document.querySelector("section");
-      const noResultsItem = document.createElement("div");
-      noResultsItem.classList.add("no-results");
-      noResultsItem.innerHTML = `
-        <img src="./images/aaaahangsung.png" alt="no results" class="no-results-image">
-        <p class="no-results-text">검색 결과가 없습니다</p>
-      `;
-      section.appendChild(noResultsItem);
-      return;
-    }
+  renderNoResult() {
+    const section = document.querySelector("section");
+    const noResultsItem = document.createElement("div");
+    noResultsItem.classList.add("no-results");
+    noResultsItem.innerHTML = `
+      <img src="./images/aaaahangsung.png" alt="no results" class="no-results-image">
+      <p class="no-results-text">검색 결과가 없습니다</p>
+    `;
+    section.appendChild(noResultsItem);
+  }
 
+  renderSkeleton() {
     const skeletonCards = [];
     for (let i = 0; i < this.moviesData.length; i++) {
       const skeletonCard = new MovieCard(null).renderSkeleton();
       skeletonCards.push(skeletonCard);
       this.container.appendChild(skeletonCard);
     }
+  }
 
-    setTimeout(() => {
-      this.container.innerHTML = "";
+  renderMovies() {
+    this.container.innerHTML = "";
 
-      this.moviesData.forEach((movieData) => {
-        const movie = new Movie(movieData);
-        const movieCard = new MovieCard(movie);
-        this.container.appendChild(movieCard.render());
-      });
-    }, 1000);
+    this.moviesData.forEach((movieData) => {
+      const movie = new Movie(movieData);
+      const movieCard = new MovieCard(movie);
+      this.container.appendChild(movieCard.render());
+    });
   }
 
   addLoadMoreButton() {
