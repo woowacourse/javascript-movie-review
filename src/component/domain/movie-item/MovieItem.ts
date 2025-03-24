@@ -37,7 +37,6 @@ class MovieItem {
   }
 
   get element() {
-    // @TODO
     return this.#container;
   }
 }

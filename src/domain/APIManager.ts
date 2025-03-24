@@ -46,7 +46,6 @@ async function fetchMovieList(url: string) {
     return json;
   } catch (err: unknown) {
     if (err instanceof Error) {
-      ////
       redirectToPage('/error');
     }
   }
