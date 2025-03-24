@@ -5,6 +5,7 @@ import asyncErrorBoundary from "./components/ErrorBoundary/Async/asyncErrorBound
 import { addErrorBox } from "./components/ErrorBox/ErrorBox";
 import $HeaderBox from "./components/HeaderBox/HeaderBox";
 import { $MovieListBox } from "./components/MovieListBox/MovieListBox";
+import $ScrollToTopButton from "./components/ScrollToTop/ScrollToTopButton";
 import { replaceSkeletonList } from "./components/Skeleton/MovieList/SkeletonList";
 
 export const replaceMovieListBox = ({
@@ -36,6 +37,9 @@ const initPopularMovieListRender = async () => {
 
 const $header = document.querySelector("header");
 $header?.append($Banner(), $HeaderBox());
+
+const $app = document.querySelector("#app");
+$app?.appendChild($ScrollToTopButton());
 
 asyncErrorBoundary({
   asyncFn: () => initPopularMovieListRender(),
