@@ -13,6 +13,7 @@ import { options, url } from "../config/config";
 
 const useGetMovieList = () => {
   const fetchMovies = async (page: number): Promise<Movie[] | null> => {
+    console.log("nextpage :", page);
     try {
       const response = await fetch(url.popular(page), options);
       const data: MovieListResponse = await response.json();
