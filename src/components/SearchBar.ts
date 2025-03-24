@@ -1,13 +1,14 @@
 import { IPage } from "../../types/domain";
 import movieApi from "../api/movieApi.ts";
 import { ITEMS } from "../constants/movie.ts";
-import { selectElement, selectElementAll } from "../utils/dom.ts";
+import { selectElement } from "../utils/dom.ts";
 import {
   toggleNoThumbnail,
   toggleSeeMoreButton,
   toggleSkeletonList,
 } from "../utils/Render";
 import MovieItem from "./MovieItem";
+import MovieList from "./MovieList.ts";
 
 class SearchBar {
   #element;
@@ -26,7 +27,6 @@ class SearchBar {
 
   async onSearchClick() {
     const searchBar = selectElement<HTMLInputElement>(".search-bar");
-    const thumbnailList = selectElement<HTMLUListElement>("ul.thumbnail-list");
     const query = searchBar.value;
     const seeMoreButton = selectElement<HTMLButtonElement>("#seeMore");
 
@@ -34,12 +34,13 @@ class SearchBar {
     toggleNoThumbnail("hidden");
     toggleSkeletonList("show");
 
-    thumbnailList.replaceChildren();
+    const movieList = new MovieList([]);
+    movieList.clearList();
 
-    await this.#renderSearchResult(query);
+    await this.#renderSearchResult(movieList, query);
 
     seeMoreButton.onclick = async () => {
-      await this.#renderSearchResult(query);
+      await this.#renderSearchResult(movieList, query);
     };
   }
 
@@ -76,7 +77,9 @@ class SearchBar {
     imgButton.id = "search";
     imgButton.src = "./images/search_button.png";
     imgButton.alt = "SearchButton";
-    imgButton.onclick = () => this.onSearchClick();
+    imgButton.onclick = () => {
+      this.onSearchClick();
+    };
 
     return imgButton;
   }
@@ -95,12 +98,8 @@ class SearchBar {
     backgroundContainer.style.height = "auto";
   }
 
-  async #renderSearchResult(query: string) {
-    const thumbnailList = selectElement<HTMLUListElement>("ul.thumbnail-list");
-    const itemCount = selectElementAll<HTMLLIElement>(
-      "ul.thumbnail-list li"
-    ).length;
-    const pageNumber = itemCount / ITEMS.perPage + 1;
+  async #renderSearchResult(movieListInstance: MovieList, query: string) {
+    const pageNumber = movieListInstance.getTotalItems() / ITEMS.perPage + 1;
 
     toggleSkeletonList("show");
     toggleSeeMoreButton("hidden");
@@ -110,15 +109,14 @@ class SearchBar {
     if (searchResult.total_results === 0) toggleNoThumbnail("show");
     toggleSkeletonList("hidden");
 
-    searchResult.results.forEach(({ title, poster_path, vote_average }) => {
-      const movieItem = new MovieItem({
-        title,
-        vote_average,
-        poster_path,
-      });
-      const movieItemElement = movieItem.create();
-      thumbnailList.appendChild(movieItemElement);
-    });
+    const movieItems = searchResult.results.map(
+      ({ title, poster_path, vote_average }) => {
+        const movieItem = new MovieItem({ title, vote_average, poster_path });
+        return movieItem.create();
+      }
+    );
+
+    movieListInstance.updateList(movieItems);
   }
 
   async #getSearchResult(pageNumber: number, query: string) {
