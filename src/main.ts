@@ -89,27 +89,30 @@ const initializeMovie = async () => {
 const $header = $("header");
 $header?.append(backgroundContainer);
 
-try {
-  initializeMovie();
+const main = async () => {
+  try {
+    await initializeMovie();
 
-  const $searchBar = $("#search-bar-container");
-  $searchBar?.addEventListener("submit", onSearch);
-} catch (error: unknown) {
-  if (error instanceof Error) {
-    const $main = $("main");
-    $main?.replaceChildren();
+    const $searchBar = $("#search-bar-container");
+    $searchBar?.addEventListener("submit", onSearch);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      const $main = $("main");
+      $main?.replaceChildren();
 
-    const $backgroundContainer = $(".background-container");
-    $backgroundContainer?.remove();
+      const $backgroundContainer = $(".background-container");
+      $backgroundContainer?.remove();
 
-    const $errorContainer = createElementWithAttributes({
-      tag: "div",
-      className: "error-container",
-      children: [
-        { tag: "h1", textContent: `${error.message} 새로고침 해주세요!` },
-      ],
-    });
+      const $errorContainer = createElementWithAttributes({
+        tag: "div",
+        className: "error-container",
+        children: [
+          { tag: "h1", textContent: `${error.message} 새로고침 해주세요!` },
+        ],
+      });
 
-    $main?.append($errorContainer);
+      $main?.append($errorContainer);
+    }
   }
-}
+};
+main();
