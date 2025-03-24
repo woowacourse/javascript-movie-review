@@ -114,7 +114,6 @@ class App {
     this.#show = true;
 
     const { results } = await this.#movieManager.fetchPopular();
-    console.log(results);
 
     this.render(results);
   };
