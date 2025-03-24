@@ -5,4 +5,5 @@ export const IMAGE = {
 
 export const ITEMS = {
   perPage: 20,
+  initialCount: 0,
 };
