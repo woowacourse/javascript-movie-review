@@ -14,7 +14,6 @@ function MovieItem({ img, rating, title }) {
         />
         </div>
 
-
         <div class="item-desc">
         
         <div class="skeleton-loading">

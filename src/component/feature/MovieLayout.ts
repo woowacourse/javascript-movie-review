@@ -19,7 +19,7 @@ class MovieLayout {
         this.render();
     }
 
-    setState(newState:MovieState) {
+    async setState(newState:MovieState) {
         this.#state = {...this.#state, ...newState};
         this.render();
     }
@@ -57,7 +57,7 @@ class MovieLayout {
     render(){
         const movieSectionEl = getElement('#MovieSection')
         if(movieSectionEl) movieSectionEl.innerHTML = this.template();
-        hideskeleton();
+         hideskeleton()
     }
 
     newMovieListRender(dataList:MovieData[]) {

@@ -24,7 +24,7 @@ async function clickEvent(movieLayout:MovieLayout) {
   
     const readMoreMovieList = (function () {
       let pageIndex = 2;
-      setTimeout(hideskeleton, 500);
+
       async function loadMovieData() {
         const {results, total_pages} = await fetchPopularMovies(pageIndex);
         pageIndex++;
@@ -62,10 +62,11 @@ async function clickEvent(movieLayout:MovieLayout) {
         
          return results;
       }
+      
       return async function () {
         const movieData = await loadMovieData();
         if (movieData) movieLayout.newMovieListRender(movieData);
-        hideskeleton();
+        hideskeleton()
       };
     })();
 

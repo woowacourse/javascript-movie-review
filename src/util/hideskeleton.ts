@@ -3,10 +3,8 @@ export function hideskeleton() {
   
     skeletonItem.forEach((element: HTMLElement) => {
       
-      setTimeout(() => {
         element.style.opacity = '0';
         element.style.display = 'none';
-      }, 300);
     });
   };
 

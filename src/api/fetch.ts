@@ -41,7 +41,6 @@ async function fetchUtil(url: string) {
     alert("서버와의 연결이 끊어졌습니다")
   }
 
-
   const {results, total_pages} = (await response.json()) as TMDBResponse;
   return {results, total_pages};
 }
