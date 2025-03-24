@@ -5,7 +5,6 @@ export default function MovieItem({ src, title, rate, onload }) {
   if (!src) url = "images/fallback.png";
 
   $li.innerHTML = `
-    <li>
       <div class="skeleton-thumbnail thumbnail"></div>
       <div class="item">
         <img
@@ -21,7 +20,6 @@ export default function MovieItem({ src, title, rate, onload }) {
           <strong>${title}</strong>
         </div>
       </div>
-    </li>
   `;
 
   if (onload) {
