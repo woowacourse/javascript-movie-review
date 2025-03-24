@@ -1,14 +1,16 @@
 import { MovieDetail } from "../../../../../types/type";
-
-const defaultPosterPath = "./default-poster.svg";
-const imagePathPreFix = "https://image.tmdb.org/t/p/w440_and_h660_face";
+import {
+  POSTER_PATH,
+  ICON_PATH,
+  getPosterUrl,
+} from "../../../../constants/imagePaths";
 
 const $MovieItem = ({ title, poster_path, vote_average }: MovieDetail) => {
   const $rate = createElement("p", {
     className: "rate",
   });
   const $star = createElement("img", {
-    src: "./star_empty.png",
+    src: ICON_PATH.STAR,
     className: "star",
   });
   const $rateValue = createElement("span", {
@@ -30,10 +32,28 @@ const $MovieItem = ({ title, poster_path, vote_average }: MovieDetail) => {
   });
   const $poster = createElement("img", {
     className: "thumbnail",
-    src: poster_path ? imagePathPreFix + poster_path : defaultPosterPath,
+    src: POSTER_PATH.LOADING,
     alt: title,
     loading: "lazy",
   });
+
+  if (poster_path) {
+    const posterUrl = getPosterUrl(poster_path);
+
+    const actualImage = new Image();
+    actualImage.src = posterUrl;
+
+    actualImage.onload = () => {
+      $poster.src = posterUrl;
+    };
+
+    actualImage.onerror = () => {
+      $poster.src = POSTER_PATH.ERROR;
+    };
+  } else {
+    $poster.src = POSTER_PATH.DEFAULT;
+  }
+
   $item.append($poster, $description);
   return $item;
 };
