@@ -3,6 +3,7 @@ import MovieList from "../components/MovieList.js";
 import MovieService from "../../domain/services/MovieService.js";
 import MovieCard from "../components/Movie.js";
 import { store } from "../../store/store.js";
+import { MOVIES_PER_ROW } from "../../constants/ui.js";
 
 export default class MovieListHandler {
   private movieList: MovieList | undefined;
@@ -58,7 +59,7 @@ export default class MovieListHandler {
     console.log(`pageNumber: ${pageNumber}`);
 
     const skeletonCards: HTMLElement[] = [];
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < MOVIES_PER_ROW; i++) {
       const skeletonCard = new MovieCard(null).renderSkeleton();
       skeletonCards.push(skeletonCard);
       this.movieList?.container.appendChild(skeletonCard);
