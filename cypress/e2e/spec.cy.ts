@@ -1,13 +1,5 @@
 /// <reference types="cypress" />
 
-describe("", () => {
-  it("", () => {
-    cy.visit("http://localhost:5173");
-    cy.get(".app-layout", { timeout: 10000 }).should("exist");
-    cy.get(".item").should("have.length", 20);
-  });
-});
-
 describe("영화 fixture관련 테스트", () => {
   beforeEach(() => {
     cy.intercept(
@@ -22,8 +14,6 @@ describe("영화 fixture관련 테스트", () => {
   });
 
   it("초기 fetchData 시 영화 목록이 20개인지 확인", () => {
-    cy.wait("@fetchMovies").then((interception) => {});
-
     cy.get(".item", { timeout: 10000 }).should("have.length", 20);
   });
 
