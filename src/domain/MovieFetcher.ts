@@ -2,6 +2,7 @@ import { MovieItem, MovieResponse } from '../types/Movie.types';
 import { ENV } from '../api/env';
 import Fetcher from '../api/Fetcher';
 import { movieFetcherEvent } from './MovieFetcherEvent';
+import { delay } from '../utils/delay';
 
 export const API_PATHS = {
   MOVIE: 'movie/popular',
@@ -32,7 +33,7 @@ class MovieFetcher {
 
     try {
       const response = await this.movieFetcher.get<MovieResponse>(url);
-      await this.delay(3000);
+      await delay(3000);
 
       this.updateMovieData(response);
 
@@ -54,10 +55,6 @@ class MovieFetcher {
 
   private async fetchMovies(url: string): Promise<MovieResponse | undefined> {
     return await this.fetchMovieData(url);
-  }
-
-  private delay(ms: number) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
   public async getPopularMovies(
