@@ -37,6 +37,7 @@ describe("Fixture을 리용한 목록 목킹 E2E테스트", () => {
       expect(popularMovieItems.should("have.length", 20));
     });
   });
+
   it("사용자가 더 보기를 누르면 다음 목록을 보여준다.", () => {
     cy.wait("@getPopularMoviesPage1");
 
@@ -52,7 +53,6 @@ describe("Fixture을 리용한 목록 목킹 E2E테스트", () => {
 describe("Fixture을 리용한 검색 목킹 E2E테스트", () => {
   beforeEach(() => {
     cy.visit("http://localhost:5173/");
-    cy.wait(2000);
   });
 
   it("검색어 '미키' 입력 시 20개의 결과를 보여준다.", () => {

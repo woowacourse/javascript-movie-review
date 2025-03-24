@@ -1,4 +1,5 @@
 import { MoviesResponse } from "../../types/movieApiType";
+import { TMDB_BASE_URL } from "../constants/constants";
 
 async function fetchWithErrorHandling(url: string): Promise<MoviesResponse> {
   const options = {
@@ -16,7 +17,12 @@ async function fetchWithErrorHandling(url: string): Promise<MoviesResponse> {
 }
 
 export async function getMovies({ page }: { page: number }) {
-  const url = `https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=${page}`;
+  const params = new URLSearchParams({
+    language: "ko-KR",
+    page: String(page),
+  });
+
+  const url = `${TMDB_BASE_URL}/movie/popular?${params.toString()}`;
   return fetchWithErrorHandling(url);
 }
 
@@ -27,6 +33,13 @@ export async function getMovieByName({
   name: string;
   page: number;
 }) {
-  const url = `https://api.themoviedb.org/3/search/movie?query=${name}&include_adult=false&language=ko-KR&page=${page}`;
+  const params = new URLSearchParams({
+    query: name,
+    include_adult: "false",
+    language: "ko-KR",
+    page: String(page),
+  });
+
+  const url = `${TMDB_BASE_URL}/search/movie?${params.toString()}`;
   return fetchWithErrorHandling(url);
 }
