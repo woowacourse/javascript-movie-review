@@ -1,0 +1,71 @@
+@import './reset.css';
+@import './theme.css';
+
+@import './component/common/search-bar/search-bar.css';
+@import './component/common/button/button.css';
+@import './component/common/title/title.css';
+@import './component/common/error-message/error-message.css';
+
+@import './component/domain/movie-grid/movie-grid.css';
+@import './component/domain/movie-item/movie-item.css';
+@import './component/domain/main-banner/main-banner.css';
+
+@import './component/layout/header/header.css';
+@import './component/layout/footer/footer.css';
+
+@import './pages/main-page/main-page.css';
+@import './pages/search-page/search-page.css';
+@import './pages/layout/layout.css';
+
+body {
+  background-color: var(--color-bluegray-100);
+}
+
+input {
+  border: none;
+  background: none;
+  outline: none;
+  &:focus::placeholder {
+    opacity: 0;
+  }
+}
+
+button {
+  border: none;
+  background: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+h2 {
+  color: var(--color-white);
+  font-weight: 600;
+  font-size: 2.25rem;
+  line-height: 100%;
+  letter-spacing: 0%;
+}
+
+.render-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.skeleton {
+  background-color: var(--color-gray-300);
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 1;
+  }
+}
