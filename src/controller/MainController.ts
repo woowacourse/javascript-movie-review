@@ -31,9 +31,14 @@ class MainController {
     });
 
     new HeaderController({
-      renderSearchMovieList: (searchValue) =>
-        new SearchMovieListController(searchValue),
-      renderMovieList: () => this.movieListController.renderExistingMovieList(),
+      renderSearchMovieList: (searchValue) => {
+        this.backgroundThumbnailController.hideBackground();
+        new SearchMovieListController(searchValue);
+      },
+      renderMovieList: () => {
+        this.backgroundThumbnailController.showBackground();
+        this.movieListController.renderExistingMovieList();
+      },
     });
   }
 

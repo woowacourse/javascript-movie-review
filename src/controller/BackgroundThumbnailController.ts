@@ -34,6 +34,14 @@ class BackgroundThumbnailController {
       this.openModal("아직 지원되지 않은 기능입니다."),
     );
   }
+
+  hideBackground() {
+    this.backgroundElement.classList.add("search");
+  }
+
+  showBackground() {
+    this.backgroundElement.classList.remove("search");
+  }
 }
 
 export default BackgroundThumbnailController;

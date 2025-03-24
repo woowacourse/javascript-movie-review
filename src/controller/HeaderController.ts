@@ -29,10 +29,6 @@ class HeaderController {
         const target = formElement.querySelector("input") as HTMLInputElement;
         const searchValue = target.value;
 
-        document
-          .querySelector(".background-container")
-          ?.classList.add("search");
-
         renderSearchMovieList(searchValue);
       },
     );
@@ -41,9 +37,6 @@ class HeaderController {
   bindHomeLogoEvent(renderMovieList: () => void) {
     this.headerLogoElement?.addEventListener("click", () => {
       renderMovieList();
-      document
-        .querySelector(".background-container")
-        ?.classList.remove("search");
 
       const inputElement = this.searchBarElement.querySelector(
         "input",
