@@ -1,8 +1,6 @@
 import { ITEMS } from "../constants/movie.ts";
 
 class SkeletonUl {
-  constructor() {}
-
   create() {
     const skeletonUlElement = document.createElement("ul");
     skeletonUlElement.classList.add("skeleton-list");

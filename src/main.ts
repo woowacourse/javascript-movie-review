@@ -5,7 +5,7 @@ import SkeletonUl from "./components/SkeletonUl";
 import TextButton from "./components/TextButton";
 import { IMAGE, ITEMS } from "./constants/movie.ts";
 import movieApi from "./api/movieApi.ts";
-import { selectElement, selectElementAll } from "./utils/dom.ts";
+import { selectElement } from "./utils/dom.ts";
 import { toggleSkeletonList } from "./utils/Render";
 import MovieList from "./components/MovieList.ts";
 
