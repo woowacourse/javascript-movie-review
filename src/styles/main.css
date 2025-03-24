@@ -48,7 +48,6 @@ button.primary {
 }
 
 #movie-review-wrap {
-  min-width: 1440px;
   background-color: var(--color-bluegray-100);
 }
 
@@ -95,6 +94,10 @@ button.primary {
   max-width: 1280px;
   margin: 0 auto;
   z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
 }
 
 .top-rated-search {
@@ -133,7 +136,6 @@ button.primary {
 }
 
 h1.logo {
-  position: absolute;
   font-size: 2rem;
   top: 10px;
 }

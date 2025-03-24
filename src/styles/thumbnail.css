@@ -3,8 +3,26 @@
 .thumbnail-list {
   margin: 0 auto 56px;
   display: grid;
-  grid-template-columns: repeat(5, 200px);
+  grid-template-columns: repeat(1, 200px);
   gap: 70px;
+  justify-content: center;
+}
+
+@media (min-width: 800px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(3, 200px);
+  }
+}
+@media (min-width: 1120px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(4, 200px);
+  }
+}
+
+@media (min-width: 1440px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(5, 200px);
+  }
 }
 
 .thumbnail {
