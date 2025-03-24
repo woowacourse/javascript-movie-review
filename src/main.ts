@@ -1,4 +1,4 @@
-import { IPage } from "../types/domain";
+import { IMovie, IPage } from "../types/domain";
 import MovieItem from "./components/MovieItem";
 import SearchBar from "./components/SearchBar";
 import SkeletonUl from "./components/SkeletonUl";
@@ -17,8 +17,8 @@ const getMovieData = async () => {
   return (await movieApi.getMovieData(pageNumber)) as IPage;
 };
 
-const renderTitleMovie = async () => {
-  const topMovieData = (await getMovieData()).results[0];
+const renderTitleMovie = (movieData: IMovie[]) => {
+  const topMovieData = movieData[0];
   const movieTitle = topMovieData.title;
   const movieRate = topMovieData.vote_average;
   const movieBackdropUrl = IMAGE.backdropPrefix + topMovieData.backdrop_path;
@@ -38,10 +38,8 @@ const renderTitleMovie = async () => {
   backgroundOverlay.style.backgroundImage = `url("${movieBackdropUrl}")`;
 };
 
-const renderMovieData = async () => {
+const renderMovieData = (movieData: IMovie[]) => {
   toggleSkeletonList("show");
-
-  const movieData = (await getMovieData()).results;
 
   movieData.forEach(({ title, poster_path, vote_average }) => {
     const movieItem = new MovieItem({ title, vote_average, poster_path });
@@ -59,7 +57,10 @@ const skeletonUl = new SkeletonUl();
 const seeMoreButton = new TextButton({
   id: "seeMore",
   title: "더보기",
-  onClick: renderMovieData,
+  onClick: async () => {
+    const movieData = (await getMovieData()).results;
+    renderMovieData(movieData);
+  },
   type: "primary",
 });
 
@@ -67,11 +68,13 @@ const searchBar = new SearchBar();
 const logo = selectElement<HTMLDivElement>(".logo");
 const logoImage = selectElement<HTMLImageElement>(".logo img");
 
-renderTitleMovie();
 logoImage?.addEventListener("click", () => {
   window.location.reload();
 });
 logo?.appendChild(searchBar.create());
 mainSection?.appendChild(skeletonUl.create());
 mainSection?.appendChild(seeMoreButton.create());
-renderMovieData();
+
+const movieData = (await getMovieData()).results;
+renderTitleMovie(movieData);
+renderMovieData(movieData);
