@@ -61,7 +61,7 @@ function TopRatedMovie({ vote_average, title }: { vote_average: number; title: s
             className: 'title',
             textContent: title
           }),
-          Button({ text: '자세히보기' })
+          Button({ text: '자세히보기', id: 'bannerMovieButton' })
         ]
       })
     ]
