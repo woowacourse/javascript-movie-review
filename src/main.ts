@@ -1,10 +1,10 @@
 import { getPopularMovies } from "./apis/getPopularMovies";
 import { getSearchedMovies } from "./apis/getSearchedMovies";
 import backgroundContainer from "./components/backgroundContainer";
+import { handleError } from "./components/error/handleError";
 import movieContainer from "./components/movie/movieContainer";
 import skeletonContainer from "./components/skeleton/skeletonContainer";
 import skeletonContainerTitle from "./components/skeleton/skeletonTitleContainer";
-import { createElementWithAttributes } from "./components/utils/createElementWithAttributes";
 import { $ } from "./components/utils/selectors";
 
 const onSearch = async (event: Event) => {
@@ -41,24 +41,8 @@ const onSearch = async (event: Event) => {
 
       $main?.append($searchedMovieContainer);
     }
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      const $main = $("main");
-      $main?.replaceChildren();
-
-      const $backgroundContainer = $(".background-container");
-      $backgroundContainer?.remove();
-
-      const $errorContainer = createElementWithAttributes({
-        tag: "div",
-        className: "error-container",
-        children: [
-          { tag: "h1", textContent: `${error.message} 새로고침 해주세요!` },
-        ],
-      });
-
-      $main?.append($errorContainer);
-    }
+  } catch (error) {
+    handleError(error);
   }
 };
 
@@ -69,47 +53,38 @@ const initializeMovie = async () => {
   $skeleton.prepend(skeletonContainerTitle());
   $main?.append($skeleton);
 
-  const { results, page, total_pages, total_results } =
-    await getPopularMovies();
+  try {
+    const { results, page, total_pages, total_results } =
+      await getPopularMovies();
 
-  $skeleton.remove();
+    $skeleton.remove();
 
-  const loadMoreCallback = async (pageNumber: number) =>
-    await getPopularMovies(pageNumber);
+    const loadMoreCallback = async (pageNumber: number) =>
+      await getPopularMovies(pageNumber);
 
-  const $movieContainer = movieContainer(
-    "지금 인기 있는 영화",
-    { results, page, total_pages, total_results },
-    loadMoreCallback
-  );
+    const $movieContainer = movieContainer(
+      "지금 인기 있는 영화",
+      { results, page, total_pages, total_results },
+      loadMoreCallback
+    );
 
-  $main?.append($movieContainer);
+    $main?.append($movieContainer);
+  } catch (error) {
+    handleError(error);
+  }
 };
 
 const $header = $("header");
 $header?.append(backgroundContainer);
 
-try {
-  initializeMovie();
-
-  const $searchBar = $("#search-bar-container");
-  $searchBar?.addEventListener("submit", onSearch);
-} catch (error: unknown) {
-  if (error instanceof Error) {
-    const $main = $("main");
-    $main?.replaceChildren();
-
-    const $backgroundContainer = $(".background-container");
-    $backgroundContainer?.remove();
-
-    const $errorContainer = createElementWithAttributes({
-      tag: "div",
-      className: "error-container",
-      children: [
-        { tag: "h1", textContent: `${error.message} 새로고침 해주세요!` },
-      ],
-    });
-
-    $main?.append($errorContainer);
+const main = async () => {
+  try {
+    await initializeMovie();
+    const $searchBar = $("#search-bar-container");
+    $searchBar?.addEventListener("submit", onSearch);
+  } catch (error) {
+    handleError(error);
   }
-}
+};
+
+main();
