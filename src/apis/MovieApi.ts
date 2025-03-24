@@ -1,6 +1,6 @@
 import { MoviesResponse } from "../../types/movieApiType";
 
-async function fetchWithErrorHandling(url: string) {
+async function fetchWithErrorHandling(url: string): Promise<MoviesResponse> {
   const options = {
     method: "GET",
     headers: {
@@ -10,7 +10,7 @@ async function fetchWithErrorHandling(url: string) {
   };
 
   return fetch(url, options).then((res) => {
-    if (res.ok) return res.json() as unknown as MoviesResponse;
+    if (res.ok) return res.json();
     throw new Error(String(res.status));
   });
 }
