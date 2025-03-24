@@ -1,5 +1,5 @@
 /// <reference types="cypress" />
-import { MOVIE_COUNT } from "../../src/constants/config.js";
+import { ERROR_MESSAGES, MOVIE_COUNT } from "../../src/constants/config.js";
 import { Movie } from "../../types/movie.ts";
 
 describe("Fixture를 이용한 테스트", () => {
@@ -96,7 +96,7 @@ describe("Fixture를 이용한 테스트", () => {
     });
   });
 
-  it(`검색어를 입력한 후 폼을 제출하였으나, 검색 결과가 없는 경우 '검색 결과가 없습니다.' 메시지가 나타나야 한다`, () => {
+  it(`검색어를 입력한 후 폼을 제출하였으나, 검색 결과가 없는 경우 '${ERROR_MESSAGES.NO_RESULT}' 메시지가 나타나야 한다`, () => {
     cy.get("[data-testid='search-input']").type(" ");
     cy.get("[data-testid='search-form']").submit();
 
