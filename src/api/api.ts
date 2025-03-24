@@ -1,4 +1,4 @@
-import { TMDB_TOKEN, BASE_URL, OPTION } from "../constants/api.ts";
+import { BASE_URL, TMDB_TOKEN } from "../constants/api.ts";
 import ERROR from "../constants/error.ts";
 
 const options = {
@@ -8,24 +8,15 @@ const options = {
   },
 };
 
-const GETWithAuth = async (url: string) => {
-  try {
-    const response = await fetch(url, options);
-    return await response.json();
-  } catch (error) {
-    if (error instanceof Error) alert(ERROR.FAIL_CONNECT);
-  }
-};
-
 const api = {
-  getMovieData(pageNumber: number) {
-    const url = `${BASE_URL}/movie/popular?language=${OPTION.language}&region=${OPTION.region}&page=${pageNumber}`;
-    return GETWithAuth(url);
-  },
-
-  getSearchData(pageNumber: number, query: string) {
-    const url = `${BASE_URL}/search/movie?language=${OPTION.language}&region=${OPTION.region}&page=${pageNumber}&query=${query}`;
-    return GETWithAuth(url);
+  async GETWithAuth(endpoint: string) {
+    try {
+      const url = `${BASE_URL}${endpoint}`;
+      const response = await fetch(url, options);
+      return await response.json();
+    } catch (error) {
+      if (error instanceof Error) alert(ERROR.FAIL_CONNECT);
+    }
   },
 };
 

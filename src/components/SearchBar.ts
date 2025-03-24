@@ -1,5 +1,5 @@
 import { IPage } from "../../types/domain";
-import api from "../api/api";
+import movieApi from "../api/movieApi.ts";
 import { selectElement, selectElementAll } from "../utils/dom.ts";
 import {
   toggleNoThumbnail,
@@ -121,7 +121,7 @@ class SearchBar {
   }
 
   async #getSearchResult(pageNumber: number, query: string) {
-    return (await api.getSearchData(pageNumber, query)) as IPage;
+    return (await movieApi.getSearchData(pageNumber, query)) as IPage;
   }
 }
 

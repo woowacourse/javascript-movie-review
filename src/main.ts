@@ -1,10 +1,10 @@
 import { IPage } from "../types/domain";
-import api from "./api/api";
 import MovieItem from "./components/MovieItem";
 import SearchBar from "./components/SearchBar";
 import SkeletonUl from "./components/SkeletonUl";
 import TextButton from "./components/TextButton";
 import { BACKDROP_IMG_PREFIX } from "./constants/movie";
+import movieApi from "./api/movieApi.ts";
 import { selectElement, selectElementAll } from "./utils/dom.ts";
 import { toggleSkeletonList } from "./utils/Render";
 
@@ -14,7 +14,7 @@ const getMovieData = async () => {
   ).length;
   const pageNumber = itemCount / 20 + 1;
 
-  return (await api.getMovieData(pageNumber)) as IPage;
+  return (await movieApi.getMovieData(pageNumber)) as IPage;
 };
 
 const renderTitleMovie = async () => {
