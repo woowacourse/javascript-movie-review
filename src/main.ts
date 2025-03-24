@@ -6,7 +6,7 @@ import TextButton from "./components/TextButton";
 import { IMAGE, ITEMS } from "./constants/movie.ts";
 import movieApi from "./api/movieApi.ts";
 import { selectElement } from "./utils/dom.ts";
-import { toggleSkeletonList } from "./utils/Render";
+import { toggleElementVisibility } from "./utils/Render.ts";
 import MovieList from "./components/MovieList.ts";
 import calculatePageNumber from "./domain/calculatePageNumber.ts";
 
@@ -38,14 +38,14 @@ const renderTitleMovie = (movieData: IMovie[]) => {
 };
 
 const renderMovieData = (movieData: IMovie[]) => {
-  toggleSkeletonList("show");
+  toggleElementVisibility(".skeleton-list", "show");
 
   const movieItems = movieData.map(({ title, poster_path, vote_average }) => {
     const movieItem = new MovieItem({ title, vote_average, poster_path });
     return movieItem.create();
   });
 
-  toggleSkeletonList("hidden");
+  toggleElementVisibility(".skeleton-list", "hidden");
 
   return new MovieList(movieItems);
 };

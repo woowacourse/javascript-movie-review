@@ -2,11 +2,7 @@ import { IPage } from "../../types/domain";
 import movieApi from "../api/movieApi.ts";
 import calculatePageNumber from "../domain/calculatePageNumber.ts";
 import { selectElement } from "../utils/dom.ts";
-import {
-  toggleNoThumbnail,
-  toggleSeeMoreButton,
-  toggleSkeletonList,
-} from "../utils/Render";
+import { toggleElementVisibility } from "../utils/Render.ts";
 import MovieItem from "./MovieItem";
 import MovieList from "./MovieList.ts";
 
@@ -31,8 +27,8 @@ class SearchBar {
     const seeMoreButton = selectElement<HTMLButtonElement>("#seeMore");
 
     this.#changeTitleStyle(query);
-    toggleNoThumbnail("hidden");
-    toggleSkeletonList("show");
+    toggleElementVisibility(".no-thumbnail", "hidden");
+    toggleElementVisibility(".skeleton-list", "show");
 
     const movieList = new MovieList([]);
     movieList.clearList();
@@ -102,13 +98,15 @@ class SearchBar {
     const currentItemCount = movieListInstance.getTotalItems();
     const pageNumber = calculatePageNumber(currentItemCount);
 
-    toggleSkeletonList("show");
-    toggleSeeMoreButton("hidden");
+    toggleElementVisibility(".skeleton-list", "show");
+    toggleElementVisibility("#seeMore", "hidden");
 
     const searchResult = await this.#getSearchResult(pageNumber, query);
-    if (pageNumber < searchResult.total_pages) toggleSeeMoreButton("show");
-    if (searchResult.total_results === 0) toggleNoThumbnail("show");
-    toggleSkeletonList("hidden");
+    if (pageNumber < searchResult.total_pages)
+      toggleElementVisibility("#seeMore", "show");
+    if (searchResult.total_results === 0)
+      toggleElementVisibility(".no-thumbnail", "show");
+    toggleElementVisibility(".skeleton-list", "hidden");
 
     const movieItems = searchResult.results.map(
       ({ title, poster_path, vote_average }) => {
