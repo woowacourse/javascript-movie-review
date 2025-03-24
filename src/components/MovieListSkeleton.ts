@@ -5,17 +5,13 @@ export default function MovieListSkeleton() {
   const $ul = document.querySelector(".thumbnail-list");
 
   for (let i = 0; i < 20; i++) {
-    const $imageSkeleton = Skeleton({ width: 200, height: 300 });
-    const $voteAverageSkeleton = Skeleton({ width: 60, height: 15 });
-    const $titleSkeleton = Skeleton({ width: 150, height: 20 });
-
     const skeletonHTML = /* html */ `
       <li>
         <div class="item">
-          ${$imageSkeleton.outerHTML}
+          ${Skeleton({ width: 200, height: 300 }).outerHTML}
           <div class="item-desc">
-            ${$voteAverageSkeleton.outerHTML}
-            ${$titleSkeleton.outerHTML}
+            ${Skeleton({ width: 60, height: 15 }).outerHTML}
+            ${Skeleton({ width: 150, height: 20 }).outerHTML}
           </div>
         </div>
       </li>
