@@ -11,11 +11,10 @@ const OPTIONS = {
 
 const showSkeleton = (count = 20) => {
   const container = $(".thumbnail-list");
-  if (!container) return;
+  const fragment = document.createDocumentFragment();
+  fragment.append(...Array.from({ length: count }).map(SkeletonMovieItem));
 
-  for (let i = 0; i < count; i++) {
-    container.appendChild(SkeletonMovieItem());
-  }
+  container.appendChild(fragment);
 };
 
 const hideSkeleton = () => {

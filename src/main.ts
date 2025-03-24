@@ -29,11 +29,9 @@ addEventListener("load", async () => {
     wrapper.appendChild(Caption({ title: "지금 인기 있는 영화" }));
     wrapper.appendChild(movieList);
 
-    for (let i = 0; i < 20; i++) {
-      const skeletonItem = SkeletonMovieItem();
-      movieList.appendChild(skeletonItem);
-    }
-    wrapper.appendChild(movieList);
+    const fragment = document.createDocumentFragment();
+    fragment.append(...Array.from({ length: 20 }).map(SkeletonMovieItem));
+    movieList.appendChild(fragment);
 
     try {
       const movies: MovieResponse = await fetchPopularMovieList(currentPage);

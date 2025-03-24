@@ -14,7 +14,7 @@ const LoadMoreButton = ({ loadFn }: Props) => {
     className: ["load-more"],
     onClick: async () => {
       currentPage++;
-      const movies: MovieResponse = await loadFn(currentPage);
+      const movies = await loadFn(currentPage);
       loadMovies(movies);
     },
   });
