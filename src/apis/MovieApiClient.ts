@@ -9,6 +9,10 @@ interface GetRequest {
   query: string;
 }
 
+interface GetDetailRequest {
+  id: number;
+}
+
 export default class MovieApiClient {
   static #ORIGIN = 'https://api.themoviedb.org';
   static #OPTIONS = {
@@ -28,6 +32,13 @@ export default class MovieApiClient {
     url.searchParams.append('page', String(page));
     url.searchParams.append('language', 'ko-KR');
     url.searchParams.append('query', query);
+
+    return ApiClient.get(url, this.#OPTIONS);
+  }
+
+  static getDetail({ id }: GetDetailRequest) {
+    const url = new URL(`/3/movie/${id}`, this.#ORIGIN);
+    url.searchParams.append('language', 'ko-KR');
 
     return ApiClient.get(url, this.#OPTIONS);
   }
