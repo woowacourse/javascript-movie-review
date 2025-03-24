@@ -1,5 +1,5 @@
 import { IMovie } from "../../types/domain";
-import { IMG_PREFIX } from "../constants/movie";
+import { IMAGE } from "../constants/movie";
 
 type IMovieItem = Pick<IMovie, "title" | "vote_average" | "poster_path">;
 
@@ -20,7 +20,7 @@ class MovieItem {
     <div class="item">
         <img
         class="thumbnail"
-        src=${IMG_PREFIX + this.#posterPath}
+        src=${IMAGE.prefix + this.#posterPath}
         onerror="this.src='./images/null_image.png'"
         alt=${this.#title}
         />

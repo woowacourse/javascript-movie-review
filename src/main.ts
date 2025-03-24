@@ -3,7 +3,7 @@ import MovieItem from "./components/MovieItem";
 import SearchBar from "./components/SearchBar";
 import SkeletonUl from "./components/SkeletonUl";
 import TextButton from "./components/TextButton";
-import { BACKDROP_IMG_PREFIX } from "./constants/movie";
+import { IMAGE } from "./constants/movie";
 import movieApi from "./api/movieApi.ts";
 import { selectElement, selectElementAll } from "./utils/dom.ts";
 import { toggleSkeletonList } from "./utils/Render";
@@ -21,7 +21,7 @@ const renderTitleMovie = async () => {
   const topMovieData = (await getMovieData()).results[0];
   const movieTitle = topMovieData.title;
   const movieRate = topMovieData.vote_average;
-  const movieBackdropUrl = BACKDROP_IMG_PREFIX + topMovieData.backdrop_path;
+  const movieBackdropUrl = IMAGE.backdropPrefix + topMovieData.backdrop_path;
 
   const topMovieTitle = selectElement<HTMLDivElement>(
     ".top-rated-movie .title"
