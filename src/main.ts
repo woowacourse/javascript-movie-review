@@ -3,11 +3,11 @@ import Footer from "./components/layout/Footer.ts";
 import Header from "./components/layout/Header.ts";
 import Caption from "./components/movie/Caption.ts";
 import LoadMoreButton from "./components/movie/LoadMoreButton.ts";
+import MovieList from "./components/movie/MovieList.ts";
 import NoSearchResults from "./components/movie/NoSearchResults.ts";
 import SkeletonMovieItem from "./components/movie/SkeletonMovieItem.ts";
 import { fetchPopularMovieList } from "./utils/api.ts";
 import { $ } from "./utils/dom.ts";
-import { loadMovies } from "./utils/loadMovies.ts";
 
 let currentPage = 1;
 const movieList = document.createElement("ul");
@@ -20,7 +20,6 @@ addEventListener("load", async () => {
   const app = $("#app");
 
   const header = Header({ title: "로딩중 ...", imageUrl: "", voteAverage: 0 });
-  if (!header) return;
   const footer = Footer();
 
   if (app) {
@@ -47,7 +46,7 @@ addEventListener("load", async () => {
         if (updatedHeader) wrapper.replaceChild(updatedHeader, header);
       }
 
-      loadMovies(movies);
+      MovieList(movies);
 
       wrapper.appendChild(
         LoadMoreButton({

@@ -1,7 +1,7 @@
 import { fetchSearchMovieList } from "../../utils/api.ts";
 import { $ } from "../../utils/dom.ts";
-import { loadMovies } from "../../utils/loadMovies.ts";
 import LoadMoreButton from "../movie/LoadMoreButton.ts";
+import MovieList from "../movie/MovieList.ts";
 import NoSearchResults from "../movie/NoSearchResults.ts";
 
 const SearchBar = () => {
@@ -46,7 +46,7 @@ const searchMovie = async (input: string) => {
       return;
     }
 
-    loadMovies(movies);
+    MovieList(movies);
 
     $(".thumbnail-list").after(
       LoadMoreButton({

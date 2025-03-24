@@ -41,8 +41,6 @@ const Header = ({ title, imageUrl, voteAverage }: Props) => {
     onClick: () => {},
   });
 
-  if (!rate) return;
-
   const [logoSearchContainer, topRateMovie, logo] = $multiSelect(
     ".logo-search-container .top-rated-movie .logo",
     header

@@ -1,6 +1,6 @@
 import { MovieResponse } from "../../../types/movie";
-import { loadMovies } from "../../utils/loadMovies.ts";
 import Button from "../common/Button.ts";
+import MovieList from "./MovieList.ts";
 
 type Props = {
   loadFn: (currentPage: number) => Promise<MovieResponse>;
@@ -15,7 +15,7 @@ const LoadMoreButton = ({ loadFn }: Props) => {
     onClick: async () => {
       currentPage++;
       const movies = await loadFn(currentPage);
-      loadMovies(movies);
+      MovieList(movies);
     },
   });
 

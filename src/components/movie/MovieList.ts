@@ -1,8 +1,8 @@
-import { Movie, MovieResponse } from "../../types/movie.ts";
-import MovieItem from "../components/movie/MovieItem.ts";
-import { $ } from "./dom.ts";
+import { Movie, MovieResponse } from "../../../types/movie";
+import { $ } from "../../utils/dom";
+import MovieItem from "./MovieItem";
 
-export const loadMovies = async (movies: MovieResponse): Promise<void> => {
+const MovieList = (movies: MovieResponse) => {
   movies.results.forEach((movie: Movie) => {
     const posterPath = movie.poster_path;
     const movieElement = MovieItem({
@@ -19,3 +19,4 @@ export const loadMovies = async (movies: MovieResponse): Promise<void> => {
   if (movies.page === movies.total_pages)
     $(".load-more").classList.add("hidden");
 };
+export default MovieList;
