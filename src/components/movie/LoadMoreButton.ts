@@ -1,4 +1,5 @@
 import { MovieResponse } from "../../../types/movie";
+import { Response } from "../../utils/api.ts";
 import { $ } from "../../utils/dom.ts";
 import Button from "../common/Button.ts";
 import hideSkeleton from "../utils/hideSkeleton.ts";
@@ -7,7 +8,7 @@ import MovieList from "./MovieList.ts";
 import NoSearchResults from "./NoSearchResults.ts";
 
 type Props = {
-  loadFn: (currentPage: number) => Promise<MovieResponse>;
+  loadFn: (currentPage: number) => Promise<Response>;
 };
 
 const LoadMoreButton = ({ loadFn }: Props) => {
@@ -18,17 +19,22 @@ const LoadMoreButton = ({ loadFn }: Props) => {
     className: ["load-more"],
     onClick: async () => {
       showSkeleton();
-      try {
-        currentPage++;
-        const movies = await loadFn(currentPage);
-        MovieList(movies);
-      } catch (e) {
+
+      const movies = await loadFn(currentPage);
+
+      if (movies.status === "fail") {
         $("#wrapper").appendChild(
           NoSearchResults("영화 목록을 가져오지 못했습니다.")
         );
-      } finally {
-        hideSkeleton();
       }
+
+      if (movies.status === "success") {
+        currentPage++;
+
+        MovieList(movies.data);
+      }
+
+      hideSkeleton();
     },
   });
 

@@ -8,7 +8,7 @@ type Props = {
 
 const Button = ({ text, className, onClick }: Props) => {
   const button = createElement(/*html*/ `
-    <button class=${className.join(" ")} >${text}</button>
+    <button class=${className.join(" ")}>${text}</button>
   `);
   button.addEventListener("click", onClick);
 

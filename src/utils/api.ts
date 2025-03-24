@@ -7,9 +7,19 @@ const OPTIONS = {
   },
 };
 
+export type Response =
+  | {
+      status: "success";
+      data: MovieResponse;
+    }
+  | {
+      status: "fail";
+      data: [];
+    };
+
 export const fetchPopularMovieList = async (
   currentPage: number
-): Promise<MovieResponse> => {
+): Promise<Response> => {
   try {
     const url = `https://api.themoviedb.org/3/movie/popular?include_adult=false&language=ko-KR&page=${currentPage}`;
     const response = await fetch(url, OPTIONS);
@@ -19,17 +29,17 @@ export const fetchPopularMovieList = async (
     }
 
     const data = await response.json();
-    return data;
+    return { status: "success", data: data };
   } catch (error) {
     console.error("데이터 로드 실패:", error);
-    throw error;
+    return { status: "fail", data: [] };
   }
 };
 
 export const fetchSearchMovieList = async (
   search: string,
   currentPage: number
-): Promise<MovieResponse> => {
+): Promise<Response> => {
   try {
     const url = `https://api.themoviedb.org/3/search/movie?query=${search}&include_adult=false&language=ko-KR&page=${currentPage}`;
     const response = await fetch(url, OPTIONS);
@@ -39,9 +49,9 @@ export const fetchSearchMovieList = async (
     }
 
     const data = await response.json();
-    return data;
+    return { status: "success", data: data };
   } catch (error) {
     console.error("검색 데이터 로드 실패:", error);
-    throw error;
+    return { status: "fail", data: [] };
   }
 };

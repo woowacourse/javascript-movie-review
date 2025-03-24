@@ -8,7 +8,7 @@ import NoSearchResults from "./components/movie/NoSearchResults.ts";
 import SkeletonMovieItem from "./components/movie/SkeletonMovieItem.ts";
 import hideSkeleton from "./components/utils/hideSkeleton.ts";
 import showSkeleton from "./components/utils/showSkeleton.ts";
-import { fetchPopularMovieList } from "./utils/api.ts";
+import { fetchPopularMovieList, Response } from "./utils/api.ts";
 import { $ } from "./utils/dom.ts";
 
 let currentPage = 1;
@@ -32,10 +32,14 @@ addEventListener("load", async () => {
 
     showSkeleton();
 
-    try {
-      const movies: MovieResponse = await fetchPopularMovieList(currentPage);
-      const topMovie = movies.results[0];
+    const movies: Response = await fetchPopularMovieList(currentPage);
 
+    if (movies.status === "fail") {
+      wrapper.appendChild(NoSearchResults("영화 목록을 가져오지 못했습니다."));
+    }
+
+    if (movies.status === "success") {
+      const topMovie = movies.data.results[0];
       if (topMovie) {
         const updatedHeader = Header({
           title: topMovie.title,
@@ -46,19 +50,16 @@ addEventListener("load", async () => {
         if (updatedHeader) wrapper.replaceChild(updatedHeader, header);
       }
 
-      MovieList(movies);
+      MovieList(movies.data);
 
       wrapper.appendChild(
         LoadMoreButton({
           loadFn: fetchPopularMovieList,
         })
       );
-    } catch (error) {
-      wrapper.appendChild(NoSearchResults("영화 목록을 가져오지 못했습니다."));
-    } finally {
-      hideSkeleton();
     }
 
+    hideSkeleton();
     app.appendChild(footer);
   }
 });
