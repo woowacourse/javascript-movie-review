@@ -3,12 +3,13 @@ import { getMovieByName, getMovies } from "../apis/MovieApi";
 import MovieList from "../components/MovieList";
 import MovieListSkeleton from "../components/MovieListSkeleton";
 import TopRatedMovie from "../components/TopRatedMovie";
-import { DEFAULT_BACK_DROP_URL, MAX_MOVIE_PAGE } from "../constants/movieApi";
+import { DEFAULT_BACK_DROP_URL } from "../constants/movieApi";
 
 const $mainSection = document.querySelector("main section");
 const $ul = document.querySelector(".thumbnail-list");
 const $error = document.querySelector(".error");
 const $h2 = $error?.querySelector("h2");
+const MAX_MOVIE_PAGE = 500;
 
 const changeHeaderBackground = () => {
   const $backgroundContainer = document.querySelector(".background-container");
