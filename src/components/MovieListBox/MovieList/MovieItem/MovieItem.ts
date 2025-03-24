@@ -1,16 +1,14 @@
 import { MovieDetail } from "../../../../../types/type";
-import {
-  POSTER_PATH,
-  ICON_PATH,
-  getPosterUrl,
-} from "../../../../constants/imagePaths";
+import { createElement } from "../../../../utils/dom";
+import { POSTER_PATH, ICON_PATH } from "../../../../constants/imagePaths";
+import { getPosterUrl } from "../../../../utils/getPosterUrl";
 
 const $MovieItem = ({ title, poster_path, vote_average }: MovieDetail) => {
   const $rate = createElement("p", {
     className: "rate",
   });
   const $star = createElement("img", {
-    src: ICON_PATH.STAR,
+    src: ICON_PATH.STAR_EMPTY,
     className: "star",
   });
   const $rateValue = createElement("span", {
@@ -35,7 +33,7 @@ const $MovieItem = ({ title, poster_path, vote_average }: MovieDetail) => {
     src: POSTER_PATH.LOADING,
     alt: title,
     loading: "lazy",
-  });
+  }) as HTMLImageElement;
 
   if (poster_path) {
     const posterUrl = getPosterUrl(poster_path);
