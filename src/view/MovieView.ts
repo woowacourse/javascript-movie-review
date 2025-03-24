@@ -58,20 +58,3 @@ export function renderHeaderAndHero() {
     $wrap.prepend(Hero());
   }
 }
-
-// export function renderLoadMoreButton(state: StateTypes) {
-//   const $thumbnailContainer = document.getElementById("thumbnail-container");
-
-//   if ($thumbnailContainer) {
-//     const loadMoreButton = Button({
-//       className: ["primary", "width-100"],
-//       placeholder: "더보기",
-//       id: "load-more",
-//       onClick: async () => {
-//         const data = await fetchAndSetLoadingEvent(state);
-//         renderMovieItems(data.results, false);
-//       },
-//     });
-//     $thumbnailContainer.append(loadMoreButton);
-//   }
-// }
