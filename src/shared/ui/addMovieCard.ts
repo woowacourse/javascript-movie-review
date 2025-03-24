@@ -1,6 +1,7 @@
 import MovieCard from "../../features/movie/ui/components/MovieCard";
 import { showEmptySearchResult } from "../../features/search/ui/showEmptySearchResult";
 import { IMovie } from "../types/movies";
+import { createFragment } from "../utils/createFragment";
 import MoreMoviesButton from "./components/MoreMoviesButton";
 
 export function addMovieCard(
@@ -26,20 +27,18 @@ export function addMovieCard(
 }
 
 function addMoreMovies($movieListContainer: HTMLElement, movieList: IMovie[]) {
-  const fragment = document.createDocumentFragment();
-
   if (movieList[0].title) {
-    fragment.append(
-      ...movieList.map((movie) => MovieCard(movie.title as string, movie))
+    $movieListContainer.appendChild(
+      createFragment(
+        movieList.map((movie) => MovieCard(movie.title as string, movie))
+      )
     );
-
-    $movieListContainer.appendChild(fragment);
     return;
   }
 
-  fragment.append(
-    ...movieList.map((movie) => MovieCard(movie.name as string, movie))
+  $movieListContainer.appendChild(
+    createFragment(
+      movieList.map((movie) => MovieCard(movie.name as string, movie))
+    )
   );
-
-  $movieListContainer.appendChild(fragment);
 }
