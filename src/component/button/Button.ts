@@ -1,32 +1,34 @@
-interface ButtonProps {
+interface ButtonProps extends Partial<HTMLButtonElement> {
   size: 'small' | 'medium';
-  innerText: string;
-  onClick: Function;
 }
 
 class Button {
-  #button;
-  #onClick;
+  #button: HTMLButtonElement;
+  #restProps;
 
-  constructor({ size, innerText, onClick }: ButtonProps) {
+  constructor({ size, ...rest }: ButtonProps) {
     this.#button = document.createElement('button');
     this.#button.classList.add(`button--${size}`);
     this.#button.classList.add(`text-button--${size}`);
-    this.#button.innerText = innerText;
 
-    this.#onClick = onClick;
-    this.#bindEvent();
+    this.#restProps = rest;
+
+    this.applyPropsToButton();
+  }
+
+  applyPropsToButton() {
+    Object.entries(this.#restProps).forEach(([key, value]) => {
+      if (key in this.#button) {
+        (this.#button as any)[key] = value;
+        return;
+      }
+      this.#button.setAttribute(key, String(value));
+    });
   }
 
   get element() {
     return this.#button;
   }
-
-  #bindEvent = () => {
-    this.#button.addEventListener('click', () => {
-      this.#onClick();
-    });
-  };
 }
 
 export default Button;

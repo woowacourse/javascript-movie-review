@@ -34,7 +34,7 @@ class MainBanner {
   }
 
   #detailButtonElement() {
-    return new Button({ size: 'small', innerText: '자세히 보기', onClick: () => {} }).element.outerHTML;
+    return new Button({ size: 'small', innerText: '자세히 보기', onclick: () => {} }).element.outerHTML;
   }
 
   get element() {

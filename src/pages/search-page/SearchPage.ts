@@ -62,7 +62,7 @@ class SearchPage {
   }
 
   #loadMoreButtonElement() {
-    return new Button({ size: 'medium', innerText: '더보기', onClick: this.#loadMoreData }).element;
+    return new Button({ size: 'medium', innerText: '더보기', onclick: this.#loadMoreData }).element;
   }
 
   #loadMoreData = async () => {

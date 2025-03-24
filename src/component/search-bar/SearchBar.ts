@@ -50,6 +50,7 @@ class SearchBar {
 
   #bindEvent() {
     this.#bindInputEvent();
+
     this.#bindSubmitEvent();
   }
 
