@@ -4,6 +4,7 @@ import MovieItem from "../component/MovieItem";
 import MovieListSection from "../component/MovieListSection";
 import SkeletonMovieItem from "../component/Skeleton/SkeletonMovieItem";
 import SkeletonMovieListSection from "../component/Skeleton/SkeletonMovieListSection";
+import mainElement from "../dom/mainElement";
 import { IMovieItem, IMovieResult } from "../types/movieResultType";
 
 class SearchMovieListController {
@@ -11,7 +12,7 @@ class SearchMovieListController {
   searchText;
   page = 0;
 
-  constructor(mainElement: HTMLElement, searchText: string) {
+  constructor(searchText: string) {
     this.mainElement = mainElement;
     this.searchText = searchText;
 

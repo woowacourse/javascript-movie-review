@@ -7,15 +7,12 @@ import MovieListController from "./MovieListController";
 import SearchMovieListController from "./SearchMovieListController";
 
 class MainController {
-  mainElement;
   backgroundThumbnailController;
   messageModalController;
   movieListController;
 
   constructor() {
-    this.mainElement = document.querySelector("main") as HTMLElement;
-
-    this.messageModalController = new MessageModalController(this.mainElement);
+    this.messageModalController = new MessageModalController();
 
     this.backgroundThumbnailController = new BackgroundThumbnailController({
       openModal: (text: string) => {
@@ -25,7 +22,6 @@ class MainController {
     });
 
     this.movieListController = new MovieListController({
-      mainElement: this.mainElement,
       renderBackgroundThumbnailSkeleton: () => {
         this.backgroundThumbnailController.renderSkeleton();
       },
@@ -36,7 +32,7 @@ class MainController {
 
     new HeaderController({
       renderSearchMovieList: (searchValue) =>
-        new SearchMovieListController(this.mainElement, searchValue),
+        new SearchMovieListController(searchValue),
       renderMovieList: () => this.movieListController.renderExistingMovieList(),
     });
   }

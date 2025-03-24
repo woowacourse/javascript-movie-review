@@ -1,10 +1,11 @@
 import MessageModal from "../component/MessageModal";
+import mainElement from "../dom/mainElement";
 
 class MessageModalController {
   mainElement;
   messageModalElement;
 
-  constructor(mainElement: HTMLElement) {
+  constructor() {
     this.mainElement = mainElement;
     this.messageModalElement = MessageModal("") as HTMLDialogElement;
 

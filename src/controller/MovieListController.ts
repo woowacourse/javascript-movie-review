@@ -3,6 +3,7 @@ import MovieItem from "../component/MovieItem";
 import MovieListSection from "../component/MovieListSection";
 import SkeletonMovieItem from "../component/Skeleton/SkeletonMovieItem";
 import SkeletonMovieListSection from "../component/Skeleton/SkeletonMovieListSection";
+import mainElement from "../dom/mainElement";
 import MovieResults from "../domain/MovieResults";
 import { IMovieItem, IMovieResult } from "../types/movieResultType";
 
@@ -14,11 +15,9 @@ class MovieListController {
   renderBackgroundThumbnail;
 
   constructor({
-    mainElement,
     renderBackgroundThumbnailSkeleton,
     renderBackgroundThumbnail,
   }: {
-    mainElement: HTMLElement;
     renderBackgroundThumbnailSkeleton: () => void;
     renderBackgroundThumbnail: (movie: IMovieItem) => void;
   }) {
