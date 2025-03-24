@@ -4,35 +4,37 @@ import { toElement } from "../utils/domUtils";
 
 export default function MovieList(moviesResult: MovieResult[]) {
   const $ul = document.querySelector(".thumbnail-list");
+  const $movieListFragment = document.createDocumentFragment();
 
-  moviesResult.forEach((movieResult) => {
-    const backgroundImage = movieResult.backdrop_path
-      ? `${DEFAULT_BACK_DROP_URL}${movieResult.backdrop_path}`
+  moviesResult.forEach((movie) => {
+    const backgroundImage = movie.backdrop_path
+      ? `${DEFAULT_BACK_DROP_URL}${movie.backdrop_path}`
       : "./images/default_thumbnail.jpeg";
 
-    const movieItemTemplate = /*html*/ `
+    const movieItemHTML = /*html*/ `
       <li>
         <div class="item">
           <img
             class="thumbnail"
             src="${backgroundImage}"
-            alt="${movieResult.title}"
+            alt="${movie.title}"
           />
           <div class="item-desc">
             <p class="rate loading">
               <img src="./images/star_empty.png" class="star" /><span
-                >${movieResult.vote_average}</span
+                >${movie.vote_average}</span
               >
             </p>
-            <strong>${movieResult.title}</strong>
+            <strong>${movie.title}</strong>
           </div>
         </div>
       </li>
     `;
 
-    const $movieItemElement = toElement(movieItemTemplate);
-
-    $ul?.appendChild($movieItemElement);
+    const $movieItem = toElement(movieItemHTML);
+    $movieListFragment.appendChild($movieItem);
   });
+
+  $ul?.appendChild($movieListFragment);
   return $ul;
 }

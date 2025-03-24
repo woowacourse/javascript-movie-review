@@ -9,7 +9,7 @@ export default function MovieListSkeleton() {
     const $voteAverageSkeleton = Skeleton({ width: 60, height: 15 });
     const $titleSkeleton = Skeleton({ width: 150, height: 20 });
 
-    const skeletonTemplate = /* html */ `
+    const skeletonHTML = /* html */ `
       <li>
         <div class="item">
           ${$imageSkeleton.outerHTML}
@@ -21,8 +21,8 @@ export default function MovieListSkeleton() {
       </li>
     `;
 
-    const $skeletonElement = toElement(skeletonTemplate);
-    $ul?.append($skeletonElement);
+    const $skeleton = toElement(skeletonHTML);
+    $ul?.append($skeleton);
   }
   return $ul;
 }
