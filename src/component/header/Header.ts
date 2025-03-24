@@ -21,7 +21,7 @@ class Header {
   render() {
     this.#container.innerHTML = `
     <h1 class="logo"/>
-         <img src="./logo.png" alt="MovieList" class="logo__img"/>
+      <img src="./logo.png" alt="MovieList" class="logo__img"/>
     </h1>
     `;
 

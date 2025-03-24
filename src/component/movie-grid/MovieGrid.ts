@@ -21,8 +21,9 @@ class MovieGrid {
     if (this.#movieItems.length !== 0) {
       this.#container.innerHTML = `
       <ul class="thumbnail-list">
-      ${this.#movieItemElements()};
-      </ul>`;
+        ${this.#movieItemElements()}
+      </ul>
+    `;
       return;
     }
     this.#container.innerHTML = this.#emptyListElement();

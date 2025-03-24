@@ -23,16 +23,17 @@ class MovieItem {
 
   render() {
     this.#container.innerHTML = `
-      <div class="item">
-        <img class="thumbnail" src=${this.#matchImgUrl()} alt=${this.#data.title}/>
-        <div class="item-desc">
-          <p class="rate">
-            <img src="./star_empty.png" class="star" />
-            <span>${this.#data.score}</span>
-          </p>
-          <strong class = 'text-body'>${this.#data.title}</strong>
-        </div>
-      </div>`;
+    <div class="item">
+      <img class="thumbnail" src=${this.#matchImgUrl()} alt=${this.#data.title} />
+      <div class="item-desc">
+        <p class="rate">
+          <img src="./star_empty.png" class="star" />
+          <span>${this.#data.score}</span>
+        </p>
+        <strong class="text-body">${this.#data.title}</strong>
+      </div>
+    </div>
+  `;
   }
 
   get element() {
