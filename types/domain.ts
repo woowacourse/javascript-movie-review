@@ -21,3 +21,7 @@ export interface IMovie {
   readonly vote_average: number;
   readonly vote_count: number;
 }
+
+export interface State {
+  totalMovies: number;
+}
