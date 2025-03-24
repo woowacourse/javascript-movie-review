@@ -1,8 +1,7 @@
 import { createElement } from '../../utils/createElement';
 
-const SKELETON_ANIMATION =
-  'animation: skeleton-gradient 1.5s infinite;' as const;
-const SKELETON_BASE_COLOR = 'background-color: rgb(165, 165, 165);' as const;
+const SKELETON_ANIMATION = 'animation: skeleton-gradient 1.5s infinite;';
+const SKELETON_BASE_COLOR = 'background-color: rgb(165, 165, 165);';
 
 const createPosterSkeleton = () => {
   return createElement<HTMLDivElement>('div', {
