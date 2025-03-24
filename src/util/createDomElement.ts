@@ -1,7 +1,7 @@
-type Event = Record<string, EventListenerOrEventListenerObject>;
+type Event = Partial<Record<keyof GlobalEventHandlersEventMap, EventListenerOrEventListenerObject>>;
 
 interface DOMElementProps {
-  tag: string;
+  tag: keyof HTMLElementTagNameMap;
   children?: HTMLElement[];
   event?: Event;
   attributes?: Record<string, string>;
