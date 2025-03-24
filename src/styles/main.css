@@ -59,6 +59,10 @@ button.primary {
   margin: 0 auto;
 }
 
+.no-background-container {
+  margin-top: 120px;
+}
+
 .background-container {
   position: relative;
   background-position: center center;

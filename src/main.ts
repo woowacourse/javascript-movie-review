@@ -20,6 +20,9 @@ const onSearch = async (event: Event) => {
 
       $(".movie-container")?.remove();
 
+      $(".background-container")?.remove();
+      $(".container")?.classList.add("no-background-container");
+
       const $skeleton = skeletonContainer(20);
       $skeleton.prepend(skeletonContainerTitle());
 
