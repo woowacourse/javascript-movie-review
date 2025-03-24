@@ -1,6 +1,13 @@
-import { MoviesResponse } from "../../types/movieApiType";
+import { MovieResult } from "../../types/movieApiType";
 
 const TMDB_BASE_URL = "https://api.themoviedb.org/3";
+
+export interface MoviesResponse {
+  page: number;
+  results: MovieResult[];
+  total_pages: number;
+  total_results: number;
+}
 
 async function fetchWithErrorHandling(url: string): Promise<MoviesResponse> {
   const options = {

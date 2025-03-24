@@ -81,8 +81,6 @@ export const renderMoviesList = async () => {
       $h2.textContent = "검색 가능한 페이지 수를 넘겼습니다.";
     if (error.message === "401" && $h2)
       $h2.textContent = "사용자 인증 정보가 잘못되었습니다.";
-
-    return;
   }
 
   const $showMore = document.querySelector(".show-more");
