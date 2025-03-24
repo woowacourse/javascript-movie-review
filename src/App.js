@@ -7,16 +7,15 @@ import { searchMovie } from "./Domain/searchMovie";
 import MovieListSection from "./UI/MoviesContainer/MovieListSection/MovieListSection";
 import { IMG_PATH } from "./constants/constants";
 import MovieManager from "./Domain/MovieManager";
+import UIManager from "./Domain/UIManager";
 
 class App {
   #movieManager;
-  #isLoading;
-  #show;
+  #uiManager;
 
   constructor() {
     this.#movieManager = new MovieManager();
-    this.#isLoading = true;
-    this.#show = true;
+    this.#uiManager = new UIManager();
   }
 
   async init() {
@@ -32,7 +31,7 @@ class App {
       this.render(null);
       return;
     }
-    this.#isLoading = false;
+    this.#uiManager.setShowMore(true);
     this.render(results.results);
   }
 
@@ -61,7 +60,7 @@ class App {
     const $movieListSection = new MovieListSection(
       this.getKeywordFromURL(),
       movies,
-      this.#isLoading
+      this.#uiManager.getLoading()
     ).render();
 
     app.appendChild($wrap);
@@ -70,7 +69,7 @@ class App {
     $container.appendChild($main);
     $main.appendChild($movieListSection);
 
-    if (movies && movies.length > 0 && this.#show) {
+    if (movies && movies.length > 0 && this.#uiManager.getShowMore()) {
       const $moreButton = new Button().render();
       $main.appendChild($moreButton);
       $moreButton.addEventListener("click", this.handleButtonClick);
@@ -92,14 +91,16 @@ class App {
     window.history.pushState({}, "", newUrl);
 
     this.#movieManager.reset();
-    this.#isLoading = true;
-    this.#show = true;
+    this.#uiManager.setLoading(true);
+    this.#uiManager.setShowMore(true);
     const { results, totalPage } = await this.#movieManager.fetchSearch(
       keyword
     );
 
-    if (totalPage === 1) this.#show = false;
-    this.#isLoading = false;
+    if (totalPage === 1) {
+      this.#uiManager.setShowMore(false);
+    }
+    this.#uiManager.setLoading(false);
     this.render(results);
   };
 
@@ -111,7 +112,7 @@ class App {
     window.history.pushState({}, "", url);
 
     this.#movieManager.reset();
-    this.#show = true;
+    this.#uiManager.setShowMore(true);
 
     const { results } = await this.#movieManager.fetchPopular();
 
@@ -124,7 +125,8 @@ class App {
       ? await this.#movieManager.fetchSearch(keyword)
       : await this.#movieManager.fetchPopular();
 
-    if (currentPage >= totalPage) this.#show = false;
+    if (currentPage >= totalPage) this.#uiManager.setShowMore(false);
+
     this.render(results);
   };
 
