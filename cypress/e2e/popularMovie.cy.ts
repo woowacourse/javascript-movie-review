@@ -16,10 +16,9 @@ describe('영화 목록 테스트', () => {
   it('영화 목록이 20개 렌더링되어야 한다.', () => {
     cy.wait('@getPopularMovies').then((interception) => {
       const popularMovies = interception?.response?.body.results;
-      expect(popularMovies.length).to.equal(20);
+      cy.wrap(popularMovies).should('have.length', 20);
 
-      const popularMovieItems = cy.get('.thumbnail-list > li');
-      expect(popularMovieItems.should('have.length', 20));
+      cy.get('.thumbnail-list > li').should('have.length', 20);
     });
   });
 
