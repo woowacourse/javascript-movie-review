@@ -2,13 +2,7 @@ import {
   Movie,
   MovieListResponse,
 } from "../../../types/responseType/responseType";
-import {
-  movies,
-  setIsError,
-  setIsLoading,
-  setMovies,
-  setTotalResults,
-} from "../../store/store";
+import { setIsError, setIsLoading, setTotalResults } from "../../store/store";
 import { options, url } from "../config/config";
 
 const useGetMovieList = () => {
@@ -20,7 +14,6 @@ const useGetMovieList = () => {
       if (data) {
         setIsLoading(false);
       }
-      setMovies([...movies, ...data.results]);
       setTotalResults(data.total_results);
       return data.results;
     } catch (error) {

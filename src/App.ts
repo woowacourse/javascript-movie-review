@@ -26,6 +26,7 @@ const App = () => {
 
   addEvent("click", ".more-button", () => {
     fetchMoreMovies(fetchMovies);
+    console.log("more movie length :", movies.length); // 40개 전달됨
   });
 
   if (movies.length === 0) {
