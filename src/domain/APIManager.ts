@@ -1,4 +1,4 @@
-import { SYSTEM_CONSTANTS } from '../constants/systemConstants';
+import { ASSET_PATHS } from '../constants/systemConstants';
 import { redirectToPage } from '../route/router';
 
 interface MovieListJSON {
@@ -22,7 +22,7 @@ export async function extractedeData(url: string) {
   const movieJSON = await fetchMovieList(url);
   const movieListData = movieJSON.results.map((movieItem: MovieListJSON) => ({
     title: movieItem.title,
-    imgUrl: `${SYSTEM_CONSTANTS.BASE_IMG_URL}${movieItem.poster_path}`,
+    imgUrl: `${ASSET_PATHS.IMAGE_BASE}${movieItem.poster_path}`,
     score: Number(movieItem.vote_average.toFixed(1)),
   }));
 

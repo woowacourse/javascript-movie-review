@@ -2,9 +2,9 @@ import Button from '../../component/common/button/Button';
 import MainBanner from '../../component/domain/main-banner/MainBanner';
 import MovieGrid from '../../component/domain/movie-grid/MovieGrid';
 import { Title } from '../../component/common/title/Title';
-import { SYSTEM_CONSTANTS } from '../../constants/systemConstants';
 import { extractedeData } from '../../domain/APIManager';
 import mainPageLoadingTemplate from './loadingTemplate';
+import { MOVIE_API } from '../../constants/systemConstants';
 
 export class MainPage {
   #container;
@@ -23,7 +23,7 @@ export class MainPage {
     this.#isLoading = true;
     this.render();
 
-    const { movieListData } = await extractedeData(SYSTEM_CONSTANTS.MAIN_URL(this.#currentPage));
+    const { movieListData } = await extractedeData(MOVIE_API.getPopularUrl(this.#currentPage));
     this.#movieListData = movieListData;
     this.#isLoading = false;
     this.render();
@@ -67,7 +67,7 @@ export class MainPage {
 
   #loadMoreData = async () => {
     this.#currentPage += 1;
-    const { movieListData } = await extractedeData(SYSTEM_CONSTANTS.MAIN_URL(this.#currentPage));
+    const { movieListData } = await extractedeData(MOVIE_API.getPopularUrl(this.#currentPage));
     this.#movieListData = movieListData;
     this.renderDynamicSection();
   };
