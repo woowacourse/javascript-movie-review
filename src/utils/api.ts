@@ -1,4 +1,4 @@
-import { MovieResponse } from "../../types/movie.ts";
+import { Response } from "../../types/response";
 
 const OPTIONS = {
   headers: {
@@ -6,16 +6,6 @@ const OPTIONS = {
     accept: "application/json",
   },
 };
-
-export type Response =
-  | {
-      status: "success";
-      data: MovieResponse;
-    }
-  | {
-      status: "fail";
-      data: [];
-    };
 
 export const fetchPopularMovieList = async (
   currentPage: number

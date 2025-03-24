@@ -1,14 +1,13 @@
-import { MovieResponse } from "../types/movie";
+import { Response } from "../types/response";
 import Footer from "./components/layout/Footer.ts";
 import Header from "./components/layout/Header.ts";
 import Caption from "./components/movie/Caption.ts";
 import LoadMoreButton from "./components/movie/LoadMoreButton.ts";
 import MovieList from "./components/movie/MovieList.ts";
 import NoSearchResults from "./components/movie/NoSearchResults.ts";
-import SkeletonMovieItem from "./components/movie/SkeletonMovieItem.ts";
 import hideSkeleton from "./components/utils/hideSkeleton.ts";
 import showSkeleton from "./components/utils/showSkeleton.ts";
-import { fetchPopularMovieList, Response } from "./utils/api.ts";
+import { fetchPopularMovieList } from "./utils/api.ts";
 import { $ } from "./utils/dom.ts";
 
 let currentPage = 1;

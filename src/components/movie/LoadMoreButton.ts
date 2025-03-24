@@ -1,5 +1,4 @@
-import { MovieResponse } from "../../../types/movie";
-import { Response } from "../../utils/api.ts";
+import { Response } from "../../../types/response";
 import { $ } from "../../utils/dom.ts";
 import Button from "../common/Button.ts";
 import hideSkeleton from "../utils/hideSkeleton.ts";
