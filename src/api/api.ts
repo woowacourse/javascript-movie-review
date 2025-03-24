@@ -13,9 +13,20 @@ const api = {
     try {
       const url = `${BASE_URL}${endpoint}`;
       const response = await fetch(url, options);
+
+      if (!response.ok) {
+        throw new Error(response.status.toString());
+      }
+
       return await response.json();
     } catch (error) {
-      if (error instanceof Error) alert(ERROR.FAIL_CONNECT);
+      if (error instanceof TypeError) {
+        alert(ERROR.FAIL_CONNECT_API);
+      }
+
+      if (error instanceof Error) {
+        throw error;
+      }
     }
   },
 };
