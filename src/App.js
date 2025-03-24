@@ -6,92 +6,37 @@ import { getPopularityMovie } from "./Domain/getPopularityMovie";
 import { searchMovie } from "./Domain/searchMovie";
 import MovieListSection from "./UI/MoviesContainer/MovieListSection/MovieListSection";
 import { IMG_PATH } from "./constants/constants";
+import MovieManager from "./Domain/MovieManager";
 
 class App {
-  #movies;
+  #movieManager;
   #isLoading;
-  #page;
-  #searchKeyword;
-  #searchPage;
   #show;
 
   constructor() {
-    this.#movies = [];
+    this.#movieManager = new MovieManager();
     this.#isLoading = true;
-    this.#page = 1;
-    this.#searchPage = 1;
     this.#show = true;
   }
 
   async init() {
     const app = document.getElementById("app");
     app.innerHTML = "로딩 중";
-    const { results } = await this.getMoviesResults();
 
-    if (results === null) {
-      this.setMovies(null);
+    const keyword = this.getKeywordFromURL();
+    const results = keyword
+      ? await this.#movieManager.fetchSearch(keyword)
+      : await this.#movieManager.fetchPopular();
+
+    if (results.results === null) {
+      this.render(null);
       return;
     }
-    this.setMovies([...this.#movies, ...results]);
-    this.setIsLoading(false);
+    this.#isLoading = false;
+    this.render(results.results);
   }
 
-  setShow(show) {
-    this.#show = show;
-    this.render();
-  }
-
-  setMovies(newMovies) {
-    this.#movies = newMovies;
-    this.render();
-  }
-
-  setIsLoading(isLoading) {
-    this.#isLoading = isLoading;
-  }
-
-  setSearchKeyword = async (searchKeyword) => {
-    this.#searchKeyword = searchKeyword;
-
-    const { results, totalPage } = await this.getSearchMovies();
-
-    if (totalPage === this.#searchPage) {
-      this.setShow(false);
-    }
-
-    this.setMovies(results);
-  };
-
-  async getMoviesResults() {
-    return this.getMovies(getPopularityMovie, [this.#page]);
-  }
-
-  async getSearchMovies() {
-    return this.getMovies(searchMovie, [this.#searchPage, this.#searchKeyword]);
-  }
-
-  async getMovies(apiCall, params) {
-    this.setIsLoading(true);
-
-    const data = await apiCall(...params);
-
-    if (data !== null) {
-      this.setIsLoading(false);
-
-      const results = data.results.map((movie) => ({
-        ...movie,
-        poster_path: `${IMG_PATH}/w300${movie.poster_path}`,
-        vote_average: movie.vote_average.toFixed(1),
-        backdrop_path: `${IMG_PATH}/w1280${movie.backdrop_path}`,
-      }));
-
-      return { results, totalPage: data.total_pages };
-    }
-
-    return { results: null };
-  }
-
-  render() {
+  render(movies) {
     const app = document.getElementById("app");
     app.innerHTML = "";
 
@@ -100,8 +45,8 @@ class App {
 
     const $header = new TitleSearchBar(this.onSubmit).render();
 
-    if (this.hasMovies()) {
-      const $thumbnail = new Thumbnail(this.#movies[0]).render();
+    if (movies && movies.length > 0) {
+      const $thumbnail = new Thumbnail(movies[0]).render();
       $wrap.append($thumbnail);
     }
 
@@ -111,8 +56,8 @@ class App {
     const $main = document.createElement("main");
 
     const $movieListSection = new MovieListSection(
-      this.#searchKeyword,
-      this.#movies,
+      this.getKeywordFromURL(),
+      movies,
       this.#isLoading
     ).render();
 
@@ -122,9 +67,8 @@ class App {
     $container.appendChild($main);
     $main.appendChild($movieListSection);
 
-    if (this.hasMovies() && this.#show) {
+    if (movies && movies.length > 0 && this.#show) {
       const $moreButton = new Button().render();
-
       $main.appendChild($moreButton);
       $moreButton.addEventListener("click", this.handleButtonClick);
     }
@@ -137,30 +81,37 @@ class App {
     e.preventDefault();
 
     const $input = document.querySelector(".search-input");
+    const keyword = $input.value;
+    if (!keyword) return;
 
-    this.#searchPage = 1;
-    this.setShow(true);
+    const newUrl = new URL(window.location);
+    newUrl.searchParams.set("query", keyword);
+    window.history.pushState({}, "", newUrl);
 
-    await this.setSearchKeyword($input.value);
+    this.#movieManager.reset();
+    this.#isLoading = true;
+    this.#show = true;
+    const { results, totalPage } = await this.#movieManager.fetchSearch(
+      keyword
+    );
+
+    if (totalPage === 1) this.#show = false;
+    this.#isLoading = false;
+    this.render(results);
   };
 
   handleButtonClick = async () => {
-    if (this.#searchKeyword) {
-      this.#searchPage += 1;
-      const { results, totalPage } = await this.getSearchMovies();
-      if (totalPage <= this.#searchPage) this.setShow(false);
-      this.setMovies([...this.#movies, ...results]);
-    } else {
-      this.#page += 1;
-      const { results, totalPage } = await this.getMoviesResults();
-      if (totalPage === this.#page) this.setShow(false);
-      this.setMovies([...this.#movies, ...results]);
-    }
+    const keyword = this.getKeywordFromURL();
+    const { results, totalPage, currentPage } = keyword
+      ? await this.#movieManager.fetchSearch(keyword)
+      : await this.#movieManager.fetchPopular();
+
+    if (currentPage >= totalPage) this.#show = false;
+    this.render(results);
   };
 
-  hasMovies() {
-    return this.#movies !== null && this.#movies.length !== 0;
+  getKeywordFromURL() {
+    return new URLSearchParams(window.location.search).get("query");
   }
 }
-
 export default App;
