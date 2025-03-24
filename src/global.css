@@ -1,16 +1,20 @@
-@import './component/search-bar/search-bar.css';
 @import './reset.css';
 @import './theme.css';
-@import './component/movie-item/movie-item.css';
-@import './component/button/button.css';
-@import './component/movie-grid/movie-grid.css';
-@import './component/header/header.css';
-@import './component/footer/footer.css';
-@import './component/main-banner/main-banner.css';
+
+@import './component/common/search-bar/search-bar.css';
+@import './component/common/button/button.css';
+@import './component/common/title/title.css';
+@import './component/common/error-message/error-message.css';
+
+@import './component/domain/movie-grid/movie-grid.css';
+@import './component/domain/movie-item/movie-item.css';
+@import './component/domain/main-banner/main-banner.css';
+
+@import './component/layout/header/header.css';
+@import './component/layout/footer/footer.css';
+
 @import './pages/main-page/main-page.css';
 @import './pages/layout/layout.css';
-@import './component/title/title.css';
-@import './component/error-message/error-message.css';
 
 body {
   background-color: var(--color-bluegray-100);

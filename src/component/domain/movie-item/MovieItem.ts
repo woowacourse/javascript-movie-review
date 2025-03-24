@@ -1,4 +1,4 @@
-import { MovieData } from '../../../types/movie';
+import { MovieData } from '../../../../types/movie';
 
 interface MovieItemProps {
   data: MovieData;

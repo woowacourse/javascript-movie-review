@@ -1,7 +1,7 @@
-import Button from '../../component/button/Button';
-import MainBanner from '../../component/main-banner/MainBanner';
-import MovieGrid from '../../component/movie-grid/MovieGrid';
-import { Title } from '../../component/title/Title';
+import Button from '../../component/common/button/Button';
+import MainBanner from '../../component/domain/main-banner/MainBanner';
+import MovieGrid from '../../component/domain/movie-grid/MovieGrid';
+import { Title } from '../../component/common/title/Title';
 import { SYSTEM_CONSTANTS } from '../../constants/systemConstants';
 import { extractedeData } from '../../domain/APIManager';
 import mainPageLoadingTemplate from './loadingTemplate';

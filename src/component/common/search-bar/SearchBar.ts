@@ -1,4 +1,4 @@
-import { redirectToPage } from '../../route/router';
+import { redirectToPage } from '../../../route/router';
 //@TODO 버튼을 먼저 확장성 좋게 리팩토링 한 후 사용 할 것
 
 class SearchBar {

@@ -1,5 +1,5 @@
-import Footer from '../../component/footer/Footer';
-import Header from '../../component/header/Header';
+import Footer from '../../component/layout/footer/Footer';
+import Header from '../../component/layout/header/Header';
 import { renderContent } from '../../route/router';
 
 class Layout {

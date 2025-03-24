@@ -1,5 +1,5 @@
-import { redirectToPage } from '../../route/router';
-import SearchBar from '../search-bar/SearchBar';
+import { redirectToPage } from '../../../route/router';
+import SearchBar from '../../common/search-bar/SearchBar';
 
 class Header {
   #container;

@@ -1,4 +1,4 @@
-import ErrorMessage from '../../component/error-message/ErrorMessage';
+import ErrorMessage from '../../component/common/error-message/ErrorMessage';
 import { ERROR_MESSAGE } from '../../constants/errorMessage';
 
 class ErrorPage {
