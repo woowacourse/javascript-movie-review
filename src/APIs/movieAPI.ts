@@ -1,29 +1,19 @@
 import { Movie, MovieResponse } from "../../types/movie";
-import { ERROR_MESSAGES } from "../constants/config";
+import APIClient from "./APIClient";
 
 export const fetchPopularMovies = async (
   page: number = 1
 ): Promise<Movie[]> => {
   try {
-    const response = await fetch(
-      `${
-        import.meta.env.VITE_TMDB_API_URL
-      }/movie/popular?language=ko-KR&page=${page}`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${import.meta.env.VITE_TMDB_API_KEY}`,
-        },
-      }
-    );
+    const params = new URLSearchParams({
+      language: "ko-KR",
+      page: page.toString(),
+    });
 
-    if (!response.ok) {
-      throw new Error(ERROR_MESSAGES.MOVIE_FETCH_FAILED);
-    }
+    const response = await APIClient.get(`/movie/popular?${params.toString()}`);
 
-    const data = await response.json();
-    return data.results;
-  } catch (error: unknown) {
+    return response.results;
+  } catch (error) {
     if (error instanceof Error) {
       alert(error.message);
     }
@@ -36,25 +26,17 @@ export const fetchSearchedMovies = async (
   page: number = 1
 ): Promise<MovieResponse | null> => {
   try {
-    const response = await fetch(
-      `${
-        import.meta.env.VITE_TMDB_API_URL
-      }/search/movie?query=${query}&include_adult=false&language=ko-KR&page=${page}`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${import.meta.env.VITE_TMDB_API_KEY}`,
-        },
-      }
-    );
+    const params = new URLSearchParams({
+      query,
+      include_adult: "false",
+      language: "ko-KR",
+      page: page.toString(),
+    });
 
-    if (!response.ok) {
-      throw new Error(ERROR_MESSAGES.MOVIE_FETCH_FAILED);
-    }
+    const response = await APIClient.get(`/search/movie?${params.toString()}`);
 
-    const data = await response.json();
-    return data;
-  } catch (error: unknown) {
+    return response;
+  } catch (error) {
     if (error instanceof Error) {
       alert(error.message);
     }
