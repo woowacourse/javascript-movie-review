@@ -22,7 +22,7 @@ const LoadMoreButton = ({ loadFn }: Props) => {
       const movies = await loadFn(currentPage);
 
       if (movies.status === "fail") {
-        $("#wrapper").appendChild(
+        $("#wrap").appendChild(
           NoSearchResults("영화 목록을 가져오지 못했습니다.")
         );
       }

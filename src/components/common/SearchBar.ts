@@ -43,9 +43,7 @@ const searchMovie = async (input: string) => {
   const movies = await fetchSearchMovieList(input, 1);
 
   if (movies.status === "fail") {
-    thumbnailList.appendChild(
-      NoSearchResults("영화 목록을 가져오지 못했습니다.")
-    );
+    thumbnailList.before(NoSearchResults("영화 목록을 가져오지 못했습니다."));
   }
 
   if (movies.status === "success") {
