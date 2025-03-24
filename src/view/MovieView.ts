@@ -5,8 +5,8 @@ import MovieItem from "../components/moveItem/movieItem";
 import type { Result } from "../../types/tmdb.types";
 import { createElementsFragment } from "../util/dom";
 import type { StateTypes } from "../state/state";
-import type { RenderMovieOptions } from "../../types/service.types";
-import state from "../state/state";
+
+import fetchAndSetLoadingEvent from "../service/fetchService";
 
 export function showElement(element: Element | null) {
   element?.classList.remove("hide");
@@ -51,30 +51,6 @@ export function renderMovieItems(results: Result[], reset?: boolean) {
   $list?.appendChild(createElementsFragment(movieItems));
 }
 
-export async function renderMovieList(
-  loadMovies: () => Promise<{ results: Result[]; isLastPage: boolean }>,
-  renderMovieOptions: RenderMovieOptions
-) {
-  const { reset, init } = renderMovieOptions;
-
-  const skeleton = document.querySelector(".skeleton-list");
-  const loadMore = document.getElementById("load-more");
-
-  showElement(skeleton);
-  hideElement(loadMore);
-
-  const { results, isLastPage } = await loadMovies();
-  if (init) {
-    state.heroMovie = results[0];
-  }
-  showElement(loadMore);
-  hideElement(skeleton);
-
-  if (isLastPage) hideElement(loadMore);
-
-  renderMovieItems(results, reset);
-}
-
 export function renderHeaderAndHero() {
   const $wrap = document.getElementById("wrap");
   if ($wrap) {
@@ -85,14 +61,15 @@ export function renderHeaderAndHero() {
 
 export function renderLoadMoreButton(state: StateTypes) {
   const $thumbnailContainer = document.getElementById("thumbnail-container");
-  const options = { init: false, reset: false };
+
   if ($thumbnailContainer) {
     const loadMoreButton = Button({
       className: ["primary", "width-100"],
       placeholder: "더보기",
       id: "load-more",
-      onClick: () => {
-        if (state.loadMovies) renderMovieList(state.loadMovies, options);
+      onClick: async () => {
+        const data = await fetchAndSetLoadingEvent(state);
+        renderMovieItems(data.results, false);
       },
     });
     $thumbnailContainer.append(loadMoreButton);

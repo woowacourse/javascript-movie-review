@@ -5,9 +5,13 @@ import {
   defaultOptions,
   defaultQueryObject,
 } from "../setting/settings.ts";
-import { hideElement, showElement } from "../view/MovieView.ts";
+import {
+  renderMovieItems,
+  hideElement,
+  showElement,
+} from "../view/MovieView.ts";
 import Toast from "../components/Toast/Toast.ts";
-import { renderMovieList } from "../view/MovieView.ts";
+import fetchAndSetLoadingEvent from "./fetchService.ts";
 
 export default async function handleSearch(searchValue: string) {
   setSearchResultTitle(searchValue);
@@ -19,8 +23,10 @@ export default async function handleSearch(searchValue: string) {
     (error) => handleSearchError(error),
     searchValue
   );
-  const renderMovieOptions = { init: false, reset: true };
-  await renderMovieList(state.loadMovies, renderMovieOptions);
+
+  const data = await fetchAndSetLoadingEvent(state);
+  renderMovieItems(data.results, true);
+
   displaySearchResults();
 }
 
@@ -52,11 +58,9 @@ function displaySearchResults(): void {
 function handleSearchError(error: unknown): void {
   const $thumbnailContainer = document.getElementById("thumbnail-container");
   const $fallback = document.getElementById("fallback");
-
-  if (error instanceof Error) {
-    Toast.showToast(error.message, "error", 5000);
-  }
-
+  const $fallbackDetails = document.getElementById("fallback-details");
+  if (error instanceof Error) Toast.showToast(error.message, "error", 5000);
+  $fallbackDetails.innerText = "검색 결과가 없습니다.";
   hideElement($thumbnailContainer);
   showElement($fallback);
 }
