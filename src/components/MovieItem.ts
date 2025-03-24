@@ -1,10 +1,7 @@
+import { IMovie } from "../../types/domain";
 import { IMG_PREFIX } from "../constants/movie";
 
-interface IMovieItem {
-  title: string;
-  vote_average: number;
-  poster_path: string;
-}
+type IMovieItem = Pick<IMovie, "title" | "vote_average" | "poster_path">;
 
 class MovieItem {
   #title: string;

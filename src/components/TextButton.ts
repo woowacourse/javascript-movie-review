@@ -1,8 +1,8 @@
 interface ITextButton {
-  id: string;
-  title: string;
+  readonly id: string;
+  readonly title: string;
   onClick(): void;
-  type: "primary" | "secondary";
+  readonly type: "primary" | "secondary";
 }
 
 class TextButton {

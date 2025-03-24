@@ -1,23 +1,23 @@
 export interface IPage {
-  page: number;
-  results: IMovie[];
-  total_pages: number;
-  total_results: number;
+  readonly page: number;
+  readonly results: IMovie[];
+  readonly total_pages: number;
+  readonly total_results: number;
 }
 
 export interface IMovie {
-  adult: boolean;
-  backdrop_path: null | string;
-  genre_ids: number[];
-  id: number;
-  original_language: string;
-  original_title: string;
-  overview: string;
-  popularity: number;
-  poster_path: string;
-  release_date: Date;
-  title: string;
-  video: boolean;
-  vote_average: number;
-  vote_count: number;
+  readonly adult: boolean;
+  readonly backdrop_path: null | string;
+  readonly genre_ids: number[];
+  readonly id: number;
+  readonly original_language: string;
+  readonly original_title: string;
+  readonly overview: string;
+  readonly popularity: number;
+  readonly poster_path: string;
+  readonly release_date: Date;
+  readonly title: string;
+  readonly video: boolean;
+  readonly vote_average: number;
+  readonly vote_count: number;
 }
