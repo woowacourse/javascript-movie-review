@@ -1,10 +1,10 @@
 type InputProps = {
   type: "text" | null;
   placeholder: string;
-  onSearch: (query: string) => void;
+  onSubmit: (query: string) => void;
 };
 
-const Input = ({ type, placeholder, onSearch }: InputProps) => {
+const Input = ({ type, placeholder, onSubmit }: InputProps) => {
   const searchWrapper = document.createElement("div");
   searchWrapper.classList.add("search-wrapper");
 
@@ -23,7 +23,7 @@ const Input = ({ type, placeholder, onSearch }: InputProps) => {
   const handleSearch = () => {
     const query = searchInput.value.trim();
     if (query !== "") {
-      onSearch(query);
+      onSubmit(query);
     }
   };
 

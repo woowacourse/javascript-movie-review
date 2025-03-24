@@ -21,7 +21,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   const header = Header({ movie: null });
   wrap.prepend(header);
 
-
   const movieSectionTitle = Title({
     text: "지금 인기 있는 영화"
   });
@@ -36,7 +35,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const input = Input({
     type: "text",
     placeholder: "검색어를 입력하세요",
-    onSearch: async (query: string) => {
+    onSubmit: async (query: string) => {
       try {
         if (header.parentElement) {
           header.remove();
