@@ -20,6 +20,8 @@ const onSearch = async (event: Event) => {
     }
 
     const $main = $("main");
+    $(".background-container")?.remove();
+    $main?.classList.add("no-background");
 
     $(".movie-container")?.remove();
 

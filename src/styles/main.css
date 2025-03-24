@@ -197,3 +197,7 @@ footer.footer p:not(:last-child) {
 .error-container {
   margin-top: 150px;
 }
+
+.no-background {
+  margin-top: 150px;
+}
