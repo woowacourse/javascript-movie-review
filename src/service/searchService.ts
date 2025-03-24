@@ -19,7 +19,8 @@ export default async function handleSearch(searchValue: string) {
     (error) => handleSearchError(error),
     searchValue
   );
-  await renderMovieList(state.loadMovies, true);
+  const renderMovieOptions = { init: false, reset: true };
+  await renderMovieList(state.loadMovies, renderMovieOptions);
   displaySearchResults();
 }
 

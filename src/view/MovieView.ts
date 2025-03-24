@@ -5,6 +5,9 @@ import MovieItem from "../components/moveItem/movieItem";
 import type { Result } from "../../types/tmdb.types";
 import { createElementsFragment } from "../util/dom";
 import type { StateTypes } from "../state/state";
+import type { RenderMovieOptions } from "../../types/service.types";
+import state from "../state/state";
+
 export function showElement(element: Element | null) {
   element?.classList.remove("hide");
 }
@@ -30,7 +33,7 @@ export function hideImgSkeleton(event: Event) {
   skeleton?.remove();
 }
 
-function renderMovieItems(results: Result[], reset?: boolean) {
+export function renderMovieItems(results: Result[], reset?: boolean) {
   const $list = document.getElementById("thumbnail-list");
   if (reset && $list) $list.innerHTML = "";
 
@@ -47,10 +50,12 @@ function renderMovieItems(results: Result[], reset?: boolean) {
   $list?.appendChild(createElementsFragment(movieItems));
 }
 
-async function handleMovieList(
+export async function renderMovieList(
   loadMovies: () => Promise<{ results: Result[]; isLastPage: boolean }>,
-  reset?: boolean
+  renderMovieOptions: RenderMovieOptions
 ) {
+  const { reset, init } = renderMovieOptions;
+
   const skeleton = document.querySelector(".skeleton-list");
   const loadMore = document.getElementById("load-more");
 
@@ -58,20 +63,15 @@ async function handleMovieList(
   hideElement(loadMore);
 
   const { results, isLastPage } = await loadMovies();
-
+  if (init) {
+    state.heroMovie = results[0];
+  }
   showElement(loadMore);
   hideElement(skeleton);
 
   if (isLastPage) hideElement(loadMore);
 
   renderMovieItems(results, reset);
-}
-
-export async function renderMovieList(
-  loadMovies: () => Promise<{ results: Result[]; isLastPage: boolean }>,
-  reset?: boolean
-) {
-  await handleMovieList(loadMovies, reset);
 }
 
 export function renderHeaderAndHero() {
@@ -84,13 +84,14 @@ export function renderHeaderAndHero() {
 
 export function renderLoadMoreButton(state: StateTypes) {
   const $thumbnailContainer = document.getElementById("thumbnail-container");
+  const options = { init: false, reset: false };
   if ($thumbnailContainer) {
     const loadMoreButton = Button({
       className: ["primary", "width-100"],
       placeholder: "더보기",
       id: "load-more",
       onClick: () => {
-        if (state.loadMovies) renderMovieList(state.loadMovies);
+        if (state.loadMovies) renderMovieList(state.loadMovies, options);
       },
     });
     $thumbnailContainer.append(loadMoreButton);
