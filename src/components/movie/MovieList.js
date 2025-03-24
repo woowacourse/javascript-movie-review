@@ -1,7 +1,7 @@
 import MovieItem from "./MovieItem";
-import SkeletonMovieItem from "./SkeletonMovieItem";
+import SkeletonMovieItem from "../SkeletonMovieItem";
 import NothingMovieList from "./NothingMovieList";
-import createElement from "./utils/createElement";
+import createElement from "../utils/createElement";
 
 const MovieList = ({ movies }) => {
   const $ul = createElement({

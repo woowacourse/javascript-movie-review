@@ -1,4 +1,4 @@
-import createElement from "./utils/createElement";
+import createElement from "../utils/createElement";
 
 const NOTHING_IMG_SRC = "./images/으아아.png";
 const NOTHING_TEXT = "검색 결과가 없습니다.";

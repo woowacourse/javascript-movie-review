@@ -1,4 +1,4 @@
-import createElement from "./utils/createElement";
+import createElement from "../utils/createElement";
 
 const LOGO_IMG_SRC = "./images/woowacourse_logo.png";
 

@@ -1,6 +1,6 @@
-import Header from "./Header";
-import MovieContainer from "./MovieContainer";
-import Footer from "./Footer";
+import Header from "./layout/Header";
+import MovieContainer from "./movie/MovieContainer";
+import Footer from "./layout/Footer";
 import createElement from "./utils/createElement";
 
 const Main = ({ movies }) => {
