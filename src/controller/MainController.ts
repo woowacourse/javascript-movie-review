@@ -7,6 +7,8 @@ import MovieListController from "./MovieListController";
 import SearchMovieListController from "./SearchMovieListController";
 
 class MainController {
+  static instance: MainController;
+
   backgroundThumbnailController;
   messageModalController;
   movieListController;
@@ -15,10 +17,7 @@ class MainController {
     this.messageModalController = new MessageModalController();
 
     this.backgroundThumbnailController = new BackgroundThumbnailController({
-      openModal: (text: string) => {
-        this.messageModalController.changeContentMessage(text);
-        this.messageModalController.messageModalElement.showModal();
-      },
+      openModal: this.#openModal.bind(this),
     });
 
     this.movieListController = new MovieListController({
@@ -40,18 +39,28 @@ class MainController {
         this.movieListController.renderExistingMovieList();
       },
     });
+
+    // 싱글톤 패턴 적용
+    if (MainController.instance) {
+      return MainController.instance;
+    }
+    MainController.instance = this;
   }
 
   async render() {
     try {
       await this.movieListController.render();
     } catch (error) {
-      this.messageModalController.changeContentMessage(
+      this.#openModal(
         ERROR_MESSAGE[Number((error as Error).message)] ||
           "알 수 없는 오류가 발생했습니다.",
       );
-      this.messageModalController.messageModalElement.showModal();
     }
+  }
+
+  #openModal(text: string) {
+    this.messageModalController.changeContentMessage(text);
+    this.messageModalController.messageModalElement.showModal();
   }
 }
 
