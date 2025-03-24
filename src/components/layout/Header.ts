@@ -1,5 +1,5 @@
 import { createElement } from "../../utils/createElement.ts";
-import { $, $multiSelect } from "../../utils/dom.ts";
+import { $multiSelect } from "../../utils/dom.ts";
 import Button from "../common/Button.ts";
 import Rate from "../common/Rate.ts";
 import SearchBar from "../common/SearchBar.ts";
@@ -38,6 +38,7 @@ const Header = ({ title, imageUrl, voteAverage }: Props) => {
   const button = Button({
     text: "자세히 보기",
     className: ["primary", "detail"],
+    onClick: () => {},
   });
 
   if (!rate) return;

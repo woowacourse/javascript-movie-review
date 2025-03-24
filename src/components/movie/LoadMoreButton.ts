@@ -9,11 +9,14 @@ type Props = {
 const LoadMoreButton = ({ loadFn }: Props) => {
   let currentPage = 1;
 
-  const loadMoreButton = Button({ text: "더보기", className: ["load-more"] });
-  loadMoreButton.addEventListener("click", async () => {
-    currentPage++;
-    const movies: MovieResponse = await loadFn(currentPage);
-    loadMovies(movies);
+  const loadMoreButton = Button({
+    text: "더보기",
+    className: ["load-more"],
+    onClick: async () => {
+      currentPage++;
+      const movies: MovieResponse = await loadFn(currentPage);
+      loadMovies(movies);
+    },
   });
 
   return loadMoreButton;
