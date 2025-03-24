@@ -12,10 +12,11 @@ import {
 } from "../view/MovieView.ts";
 import Toast from "../components/Toast/Toast.ts";
 import fetchAndSetLoadingEvent from "./fetchService.ts";
-
+import { infiniteScrollInstance } from "../main.ts";
 export default async function handleSearch(searchValue: string) {
   setSearchResultTitle(searchValue);
   setSearchLoadingState();
+  window.scrollTo({ top: 0, behavior: "smooth" });
   state.loadMovies = createMovieLoader(
     URLS.searchMovieUrl,
     defaultQueryObject,
@@ -24,9 +25,9 @@ export default async function handleSearch(searchValue: string) {
     searchValue
   );
 
-  const data = await fetchAndSetLoadingEvent(state);
-  renderMovieItems(data.results, true);
-
+  infiniteScrollInstance.resumeInfiniteScroll();
+  const $list = document.getElementById("thumbnail-list");
+  $list.innerHTML = "";
   displaySearchResults();
 }
 

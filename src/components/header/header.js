@@ -44,6 +44,7 @@ export default function Header() {
   });
 
   $logo.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
     location.reload();
   });
 
