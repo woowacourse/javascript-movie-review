@@ -14,20 +14,12 @@ class SearchBar {
     input.classList.add("search-bar-input");
     input.placeholder = "검색어를 입력하세요...";
 
-    input.addEventListener("keydown", async (e) => {
-      if (e.key === "Enter") {
-        await this.searchHandler.handleSearch(e.target.value);
-        store.setMode('searchAdd');
-      }
-    });
+    input.addEventListener("keydown", async (e) => this.handleInputKeydown(e, input));
 
     const searchButton = document.createElement("button");
     searchButton.classList.add("search-bar-button");
 
-    searchButton.addEventListener("click", async () => {
-      await this.searchHandler.handleSearch(input.value);
-      store.setMode('searchAdd');
-    });
+    searchButton.addEventListener("click", async () => this.handleSearchButtonClick(input));
 
     const buttonImage = document.createElement("img");
     buttonImage.src = "images/find.png";
@@ -43,6 +35,18 @@ class SearchBar {
     if (searchHeader) {
       searchHeader.appendChild(searchBarContainer);
     }
+  }
+
+  async handleInputKeydown(e, input) {
+    if (e.key === "Enter") {
+      await this.searchHandler.handleSearch(input.value);
+      store.setMode('searchAdd');
+    }
+  }
+
+  async handleSearchButtonClick(input) {
+    await this.searchHandler.handleSearch(input.value);
+    store.setMode('searchAdd');
   }
 }
 
