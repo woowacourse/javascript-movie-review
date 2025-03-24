@@ -1,7 +1,7 @@
 import SearchBar from "./SearchBar.js";
 
 const Header = (store) => {
-  setTimeout(() => attachHeaderStyle(), 0);
+  setTimeout(attachHeaderStyle, 0);
 
   return /* html */ `
     <header id="header" class="header">

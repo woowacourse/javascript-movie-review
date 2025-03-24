@@ -8,6 +8,7 @@ const MovieItem = ({ poster_path, title, vote_average }) => {
   return /* html */ `
     <li>
       <div class="item">
+        <div class="skeleton-thumbnail"></div>
         <img class="thumbnail" src="${imageUrl}" alt="${title}" />
         <div class="item-desc">
           <p class="rate">

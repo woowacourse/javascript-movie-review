@@ -6,7 +6,12 @@ import { ERROR_MESSAGES, MOVIE_COUNT } from "../../constants/config.js";
 
 const MOVIE_LIST = "movie-list";
 
-const movieListTemplate = ({ movies, query, searchedMoviesLength }) => {
+const movieListTemplate = ({
+  movies,
+  query,
+  searchedMoviesLength,
+  loading,
+}) => {
   const showMoreButton =
     (!query && movies.length < 10000) || movies.length < searchedMoviesLength;
 
@@ -25,7 +30,16 @@ const movieListTemplate = ({ movies, query, searchedMoviesLength }) => {
                     </div>`;
   } else {
     movieContent = movies.map((movie) => MovieItem(movie)).join("");
+    if (loading) {
+      const skeletons = new Array(MOVIE_COUNT.UNIT)
+        .fill(0)
+        .map(() => SkeletonMovieItem())
+        .join("");
+      movieContent += skeletons;
+    }
   }
+
+  setTimeout(attachThumbnailLoadEvent, 0);
 
   return /* html */ `
     <main>
@@ -38,6 +52,21 @@ const movieListTemplate = ({ movies, query, searchedMoviesLength }) => {
       </section>
     </main>
   `;
+};
+
+const attachThumbnailLoadEvent = () => {
+  const thumbnails = document.querySelectorAll("img.thumbnail");
+  thumbnails.forEach((img) => {
+    img.addEventListener("load", function () {
+      this.style.display = "block";
+      if (
+        this.previousElementSibling &&
+        this.previousElementSibling.classList.contains("skeleton-thumbnail")
+      ) {
+        this.previousElementSibling.style.display = "none";
+      }
+    });
+  });
 };
 
 export default movieListTemplate;
