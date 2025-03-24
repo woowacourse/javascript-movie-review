@@ -17,7 +17,7 @@ export default class Header extends Component<HeaderProps> {
               <img src="./images/logo.png" alt="MovieList" />
             </h1>
           </a>
-          <form class="top-rated-search">
+          <form class="top-rated-search" data-action="submit-search">
             <input
               id="top-rated-search-input"
               class="top-rated-search-input"

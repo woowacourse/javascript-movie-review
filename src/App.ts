@@ -138,13 +138,11 @@ export default class App extends Component<null, AppState> {
       },
       dataAction: 'show-more',
     });
+    eventHandlerInstance.addEventListener({
+      eventType: 'submit',
+      callback: async ({ target }) => {
+        if (!isHTMLFormElement(target)) return;
 
-    window.addEventListener('submit', async (event) => {
-      event.preventDefault();
-      const { target } = event;
-      if (!isHTMLFormElement(target)) return;
-
-      if (target.closest('.top-rated-search')) {
         const formData = new FormData(target);
         const modalInput = Object.fromEntries(formData);
 
@@ -155,7 +153,8 @@ export default class App extends Component<null, AppState> {
         });
 
         await this.dataFetchAsync();
-      }
+      },
+      dataAction: 'submit-search',
     });
   }
 }
