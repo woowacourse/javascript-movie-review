@@ -19,7 +19,8 @@
 }
 
 .main-banner__info {
-  width: 1280px;
+  max-width: 1280px;
+  width: 100%;
   display: inline-flex;
   flex-direction: column;
   gap: 10px;

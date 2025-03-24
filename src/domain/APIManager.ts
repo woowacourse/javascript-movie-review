@@ -1,5 +1,5 @@
 import { ASSET_PATHS } from '../constants/systemConstants';
-import { redirectToPage } from '../route/router';
+import { apiClient } from '../util/apiClient';
 
 interface MovieListJSON {
   id: number;
@@ -32,21 +32,5 @@ export async function extractedData(url: string) {
 }
 
 async function fetchMovieList(url: string) {
-  const options = {
-    method: 'GET',
-    headers: {
-      accept: 'application/json',
-      Authorization: `Bearer ${import.meta.env.VITE_API_TOKEN}`,
-    },
-  };
-
-  try {
-    const res = await fetch(url, options);
-    const json = await res.json();
-    return json;
-  } catch (err: unknown) {
-    if (err instanceof Error) {
-      redirectToPage('/error');
-    }
-  }
+  return await apiClient(url, { method: 'GET' });
 }
