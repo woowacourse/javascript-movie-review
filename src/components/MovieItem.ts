@@ -1,12 +1,7 @@
-interface MovieItem {
-  id: number;
-  posterPath: string;
-  rate: number;
-  title: string;
-}
+import { MovieItemProps } from "../../types/domain";
 
 const MovieItem = {
-  create({ id, posterPath, rate, title }: MovieItem) {
+  create({ id, posterPath, rate, title }: MovieItemProps) {
     const movieItemElement = document.createElement("li");
     movieItemElement.dataset.id = id.toString();
     const content = /*html*/ `
