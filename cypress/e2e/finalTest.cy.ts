@@ -35,7 +35,7 @@ describe("홈 화면 테스트", () => {
   // 그러나 계속해서 직접 사용자가 테스트 하듯이 이렇게 테스트 하면 귀찮으니, 추가 했습니다.
   // 코스트가 크니 기본값은 스킵입니다.
 
-  it.skip("파이널 테스트(코스트가 크니 기본값은 스킵)", () => {
+  it("파이널 테스트(코스트가 크니 기본값은 스킵)", () => {
     const firstIllegalSearchValue = "미친 오토바이 삼인방";
     cy.get(".search-bar").type(`${firstIllegalSearchValue}{enter}`);
 
@@ -48,7 +48,7 @@ describe("홈 화면 테스트", () => {
     cy.get(".search-bar").clear();
     cy.get(".search-bar").type(`${firstLegalSearchValue}{enter}`);
 
-    cy.get("#load-more").scrollIntoView().should("be.visible").click();
+    cy.scrollTo("bottom");
     cy.get("#thumbnail-list > li").should("have.length", 35);
 
     cy.get("#thumbnail-list > li").each(($li) => {
@@ -71,7 +71,7 @@ describe("홈 화면 테스트", () => {
       cy.wrap($li).should("contain.text", secondLegalSearchValue);
     });
 
-    cy.get("#load-more").scrollIntoView().should("be.visible").click();
+    cy.scrollTo("bottom");
 
     cy.get("#thumbnail-list > li").should("have.length", 22);
 
@@ -80,6 +80,6 @@ describe("홈 화면 테스트", () => {
     });
 
     cy.get("#logo").click();
-    cy.get("#thumbnail-list > li").should("have.length", 20);
+    cy.get("#thumbnail-list > li").should("have.length", 40);
   });
 });
