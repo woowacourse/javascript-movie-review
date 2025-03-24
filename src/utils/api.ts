@@ -1,6 +1,4 @@
 import { MovieResponse } from "../../types/movie.ts";
-import SkeletonMovieItem from "../components/movie/SkeletonMovieItem.ts";
-import { $, $$ } from "./dom.ts";
 
 const OPTIONS = {
   headers: {
@@ -9,23 +7,9 @@ const OPTIONS = {
   },
 };
 
-const showSkeleton = (count = 20) => {
-  const container = $(".thumbnail-list");
-  const fragment = document.createDocumentFragment();
-  fragment.append(...Array.from({ length: count }).map(SkeletonMovieItem));
-
-  container.appendChild(fragment);
-};
-
-const hideSkeleton = () => {
-  $$(".skeleton")?.forEach((s) => s.remove());
-};
-
 export const fetchPopularMovieList = async (
   currentPage: number
 ): Promise<MovieResponse> => {
-  showSkeleton();
-
   try {
     const url = `https://api.themoviedb.org/3/movie/popular?include_adult=false&language=ko-KR&page=${currentPage}`;
     const response = await fetch(url, OPTIONS);
@@ -35,11 +19,9 @@ export const fetchPopularMovieList = async (
     }
 
     const data = await response.json();
-    hideSkeleton();
     return data;
   } catch (error) {
     console.error("데이터 로드 실패:", error);
-    hideSkeleton();
     throw error;
   }
 };
@@ -48,8 +30,6 @@ export const fetchSearchMovieList = async (
   search: string,
   currentPage: number
 ): Promise<MovieResponse> => {
-  showSkeleton();
-
   try {
     const url = `https://api.themoviedb.org/3/search/movie?query=${search}&include_adult=false&language=ko-KR&page=${currentPage}`;
     const response = await fetch(url, OPTIONS);
@@ -59,11 +39,9 @@ export const fetchSearchMovieList = async (
     }
 
     const data = await response.json();
-    hideSkeleton();
     return data;
   } catch (error) {
     console.error("검색 데이터 로드 실패:", error);
-    hideSkeleton();
     throw error;
   }
 };

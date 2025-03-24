@@ -6,6 +6,8 @@ import LoadMoreButton from "./components/movie/LoadMoreButton.ts";
 import MovieList from "./components/movie/MovieList.ts";
 import NoSearchResults from "./components/movie/NoSearchResults.ts";
 import SkeletonMovieItem from "./components/movie/SkeletonMovieItem.ts";
+import hideSkeleton from "./components/utils/hideSkeleton.ts";
+import showSkeleton from "./components/utils/showSkeleton.ts";
 import { fetchPopularMovieList } from "./utils/api.ts";
 import { $ } from "./utils/dom.ts";
 
@@ -28,9 +30,7 @@ addEventListener("load", async () => {
     wrapper.appendChild(Caption({ title: "지금 인기 있는 영화" }));
     wrapper.appendChild(movieList);
 
-    const fragment = document.createDocumentFragment();
-    fragment.append(...Array.from({ length: 20 }).map(SkeletonMovieItem));
-    movieList.appendChild(fragment);
+    showSkeleton();
 
     try {
       const movies: MovieResponse = await fetchPopularMovieList(currentPage);
@@ -55,6 +55,8 @@ addEventListener("load", async () => {
       );
     } catch (error) {
       wrapper.appendChild(NoSearchResults("영화 목록을 가져오지 못했습니다."));
+    } finally {
+      hideSkeleton();
     }
 
     app.appendChild(footer);

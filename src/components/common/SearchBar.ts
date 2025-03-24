@@ -3,6 +3,8 @@ import { $ } from "../../utils/dom.ts";
 import LoadMoreButton from "../movie/LoadMoreButton.ts";
 import MovieList from "../movie/MovieList.ts";
 import NoSearchResults from "../movie/NoSearchResults.ts";
+import hideSkeleton from "../utils/hideSkeleton.ts";
+import showSkeleton from "../utils/showSkeleton.ts";
 
 const SearchBar = () => {
   const searchBar = document.createElement("div");
@@ -36,6 +38,8 @@ const searchMovie = async (input: string) => {
   $(".load-more")?.remove();
   $("#caption").innerText = `"${input}" 검색 결과`;
 
+  showSkeleton();
+
   try {
     const movies = await fetchSearchMovieList(input, 1);
     $(".top-rated-container").classList.add("hidden");
@@ -58,6 +62,8 @@ const searchMovie = async (input: string) => {
     $(".thumbnail-list").after(
       NoSearchResults("영화 목록을 가져오는 데 실패했습니다.")
     );
+  } finally {
+    hideSkeleton();
   }
 };
 
