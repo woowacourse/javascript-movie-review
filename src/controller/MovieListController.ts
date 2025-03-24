@@ -40,7 +40,7 @@ class MovieListController {
     }: IMovieResult = await getPopularMovieResult(page);
 
     this.movieResults.addMovieList(newPage, movieList);
-    this.movieResults.initialTotalPage(totalPage);
+    this.movieResults.initializeTotalPage(totalPage);
 
     return { movieList, hasMore: newPage !== totalPage };
   }

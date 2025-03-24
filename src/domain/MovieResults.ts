@@ -10,7 +10,7 @@ const MovieResults = () => {
     page = newPage;
   };
 
-  const initialTotalPage = (totalPage: number) => {
+  const initializeTotalPage = (totalPage: number) => {
     maxPage = totalPage;
   };
 
@@ -18,8 +18,8 @@ const MovieResults = () => {
     getMovieList: () => [...movieList],
     getPage: () => page,
     hasMore: () => page !== maxPage,
-    addMovieList: addMovieList,
-    initialTotalPage: initialTotalPage,
+    addMovieList,
+    initializeTotalPage,
   };
 };
 
