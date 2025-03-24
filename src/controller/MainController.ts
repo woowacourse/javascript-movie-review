@@ -1,4 +1,6 @@
+import { IMovieItem } from "./../types/movieResultType";
 import { ERROR_MESSAGE } from "../constant/errorMessage";
+import BackgroundThumbnailController from "./BackgroundThumbnailController";
 import HeaderController from "./HeaderController";
 import MessageModalController from "./MessageModalController";
 import MovieListController from "./MovieListController";
@@ -6,6 +8,7 @@ import SearchMovieListController from "./SearchMovieListController";
 
 class MainController {
   mainElement;
+  backgroundThumbnailController;
   messageModalController;
   movieListController;
 
@@ -14,11 +17,20 @@ class MainController {
 
     this.messageModalController = new MessageModalController(this.mainElement);
 
-    this.movieListController = new MovieListController({
-      mainElement: this.mainElement,
+    this.backgroundThumbnailController = new BackgroundThumbnailController({
       openModal: (text: string) => {
         this.messageModalController.changeContentMessage(text);
         this.messageModalController.messageModalElement.showModal();
+      },
+    });
+
+    this.movieListController = new MovieListController({
+      mainElement: this.mainElement,
+      renderBackgroundThumbnailSkeleton: () => {
+        this.backgroundThumbnailController.renderSkeleton();
+      },
+      renderBackgroundThumbnail: (movie: IMovieItem) => {
+        this.backgroundThumbnailController.renderBackgroundThumbnail(movie);
       },
     });
 

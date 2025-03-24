@@ -1,8 +1,6 @@
 import { getPopularMovieResult } from "../api/getPopularMovieResult";
-import BackgroundThumbnailSection from "../component/BackgroundThumbnailSection";
 import MovieItem from "../component/MovieItem";
 import MovieListSection from "../component/MovieListSection";
-import SkeletonBackgroundThumbnailSection from "../component/Skeleton/SkeletonBackgroundThumbnailSection";
 import SkeletonMovieItem from "../component/Skeleton/SkeletonMovieItem";
 import SkeletonMovieListSection from "../component/Skeleton/SkeletonMovieListSection";
 import MovieResults from "../domain/MovieResults";
@@ -11,18 +9,23 @@ import { IMovieItem, IMovieResult } from "../types/movieResultType";
 class MovieListController {
   movieResults;
   mainElement;
-  openModal;
+
+  renderBackgroundThumbnailSkeleton;
+  renderBackgroundThumbnail;
 
   constructor({
     mainElement,
-    openModal,
+    renderBackgroundThumbnailSkeleton,
+    renderBackgroundThumbnail,
   }: {
     mainElement: HTMLElement;
-    openModal: (text: string) => void;
+    renderBackgroundThumbnailSkeleton: () => void;
+    renderBackgroundThumbnail: (movie: IMovieItem) => void;
   }) {
     this.movieResults = MovieResults();
     this.mainElement = mainElement;
-    this.openModal = openModal;
+    this.renderBackgroundThumbnailSkeleton = renderBackgroundThumbnailSkeleton;
+    this.renderBackgroundThumbnail = renderBackgroundThumbnail;
   }
 
   bindEvents() {
@@ -46,14 +49,15 @@ class MovieListController {
   }
 
   async render() {
-    const skeletonBackgroundElement = this.renderSkeleton();
+    this.renderSkeleton();
+    this.renderBackgroundThumbnailSkeleton();
 
     const { movieList, hasMore } = await this.fetchAndStoreMovies();
     this.renderMovieList({
       movieList,
       hasMore,
-      skeletonBackgroundElement,
     });
+    this.renderBackgroundThumbnail(movieList[0]);
 
     this.bindEvents();
   }
@@ -61,23 +65,14 @@ class MovieListController {
   renderSkeleton() {
     const skeletonSectionElement = SkeletonMovieListSection();
     this.mainElement.replaceChildren(skeletonSectionElement);
-    const skeletonBackgroundElement = SkeletonBackgroundThumbnailSection();
-    this.mainElement?.insertAdjacentElement(
-      "beforebegin",
-      skeletonBackgroundElement,
-    );
-
-    return skeletonBackgroundElement;
   }
 
   renderMovieList({
     movieList,
     hasMore,
-    skeletonBackgroundElement,
   }: {
     movieList: IMovieItem[];
     hasMore: boolean;
-    skeletonBackgroundElement: HTMLElement;
   }) {
     const sectionElement = MovieListSection({
       title: "지금 인기 있는 영화",
@@ -85,28 +80,6 @@ class MovieListController {
       hasMore,
     });
     this.mainElement.replaceChildren(sectionElement);
-
-    const backgroundThumbnailSectionElement = BackgroundThumbnailSection(
-      movieList[0],
-    );
-    skeletonBackgroundElement.replaceWith(backgroundThumbnailSectionElement);
-
-    const detailButtonElement = backgroundThumbnailSectionElement.querySelector(
-      "button.detail",
-    ) as HTMLButtonElement;
-    detailButtonElement.addEventListener("click", () =>
-      this.openModal("아직 지원되지 않은 기능입니다."),
-    );
-  }
-
-  renderBackgroundSection() {
-    const skeletonBackgroundElement = SkeletonBackgroundThumbnailSection();
-    this.mainElement?.insertAdjacentElement(
-      "beforebegin",
-      skeletonBackgroundElement,
-    );
-
-    return skeletonBackgroundElement;
   }
 
   async renderExistingMovieList() {
