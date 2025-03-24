@@ -12,7 +12,8 @@ class MovieGrid {
   #movieItems;
 
   constructor({ movieItems = [] }: MovieGridProps) {
-    this.#container = document.createElement('main');
+    this.#container = document.createElement('ul');
+    this.#container.classList.add('thumbnail-list');
     this.#movieItems = movieItems;
     this.render();
   }
@@ -20,9 +21,7 @@ class MovieGrid {
   render() {
     if (this.#movieItems.length !== 0) {
       this.#container.innerHTML = `
-      <ul class="thumbnail-list">
         ${this.#movieItemElements()}
-      </ul>
     `;
       return;
     }
