@@ -43,7 +43,10 @@ class App {
     const $wrap = document.createElement("div");
     $wrap.id = "wrap";
 
-    const $header = new TitleSearchBar(this.onSubmit).render();
+    const $header = new TitleSearchBar(
+      this.onSubmit,
+      this.onLogoClick
+    ).render();
 
     if (movies && movies.length > 0) {
       const $thumbnail = new Thumbnail(movies[0]).render();
@@ -97,6 +100,22 @@ class App {
 
     if (totalPage === 1) this.#show = false;
     this.#isLoading = false;
+    this.render(results);
+  };
+
+  onLogoClick = async (e) => {
+    e.preventDefault();
+
+    const url = new URL(window.location);
+    url.searchParams.delete("query");
+    window.history.pushState({}, "", url);
+
+    this.#movieManager.reset();
+    this.#show = true;
+
+    const { results } = await this.#movieManager.fetchPopular();
+    console.log(results);
+
     this.render(results);
   };
 

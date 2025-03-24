@@ -1,8 +1,9 @@
 import "./TitleSearchBar.css";
 
 class TitleSearchBar {
-  constructor(onSubmit) {
+  constructor(onSubmit, onLogoClick) {
     this.onSubmit = onSubmit;
+    this.onLogoClick = onLogoClick;
   }
 
   render() {
@@ -34,6 +35,7 @@ class TitleSearchBar {
     $button.appendChild($img);
 
     $searchBar.addEventListener("submit", this.onSubmit);
+    $div.querySelector(".logo").addEventListener("click", this.onLogoClick);
 
     return $div;
   }
