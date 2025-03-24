@@ -11,18 +11,22 @@ import {
   fetchSearchedMovies,
 } from "./store/movieService.ts";
 import { MovieState } from "../types/movie.ts";
+import Title from "./components/Title.ts";
 
 document.addEventListener("DOMContentLoaded", async () => {
   const main = document.querySelector("main");
-  const title = document.querySelector("h2");
   const wrap = document.querySelector("#wrap");
-  if (!main || !title || !wrap) return;
+  if (!main || !wrap) return;
 
   const header = Header({ movie: null });
   wrap.prepend(header);
 
-  title.classList.add("main-title");
-  title.textContent = "지금 인기 있는 영화";
+
+  const movieSectionTitle = Title({
+    text: "지금 인기 있는 영화"
+  });
+
+  main.appendChild(movieSectionTitle);
 
   const movieState: MovieState = {
     mode: "popular",
@@ -49,8 +53,11 @@ document.addEventListener("DOMContentLoaded", async () => {
           movieItems: searchedMovies,
         }) as HTMLElement;
 
-        title.textContent = `"${query}" 검색 결과`;
+        const searchedMovieTitle = Title({
+          text: `"${query}" 검색 결과`
+        });
 
+        main.appendChild(searchedMovieTitle);
         main.appendChild(movieListComponent);
       } catch (error: unknown) {
         console.error("검색 영화 호출 중 오류 발생:", error);
