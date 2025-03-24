@@ -21,6 +21,8 @@ export function attachMoreButtonEvent(store) {
       const currentPage =
         Math.floor(state.movies.length / MOVIE_COUNT.UNIT) + 1;
 
+      store.setState({ loading: true });
+
       if (!state.query) {
         const newMovies = await fetchPopularMovies(
           (error) => alert(error.message),
@@ -41,6 +43,7 @@ export function attachMoreButtonEvent(store) {
 
       store.setState({
         movies: [...state.movies, ...newMoviesData.results],
+        loading: false,
       });
       if (state.movies.length >= state.searchedMoviesLength) {
         $button.remove();

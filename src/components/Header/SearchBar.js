@@ -27,6 +27,8 @@ function attachSearchEvent(store) {
       const query = formData.get("query");
       if (!query) return;
 
+      store.setState({ loading: true });
+
       const searchedMovies = await fetchSearchedMovies(query, (error) =>
         alert(error.message)
       );
@@ -37,6 +39,8 @@ function attachSearchEvent(store) {
           searchedMoviesLength: searchedMovies.total_results,
         });
       }
+
+      store.setState({ loading: false });
       $searchForm.reset();
       window.scrollTo(0, 0);
     });

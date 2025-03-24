@@ -4,6 +4,7 @@ export interface State {
   movies: Movie[];
   query: string;
   searchedMoviesLength: number;
+  loading: boolean;
 }
 
 type Subscriber = (state: State) => void;

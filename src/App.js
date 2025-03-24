@@ -15,6 +15,7 @@ class App {
       movies: [],
       query: "",
       searchedMoviesLength: 0,
+      loading: false,
     });
 
     const $headerTemplate = document.createElement("template");
@@ -42,8 +43,9 @@ class App {
   }
 
   async loadPopularMovies() {
+    this.#store.setState({ loading: true });
     const movies = await fetchPopularMovies((error) => alert(error.message));
-    this.#store.setState({ movies });
+    this.#store.setState({ movies, loading: false });
   }
 }
 
