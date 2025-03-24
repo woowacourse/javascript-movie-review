@@ -1,3 +1,5 @@
+/// <reference types="cypress" />
+
 export function setupMovieApiMocks() {
   cy.intercept(
     "GET",
