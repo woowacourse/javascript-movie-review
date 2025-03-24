@@ -25,7 +25,7 @@ class App {
 
   render() {
     const state = store.getState();
-    this.$target.innerHTML = `
+    this.$target.innerHTML = /* html */ `
       <div id="wrap">
         ${Header()}
         ${
@@ -64,9 +64,9 @@ class App {
       if ($header) {
         if (window.scrollY > 0) {
           $header.classList.add("scrolled");
-        } else {
-          $header.classList.remove("scrolled");
+          return;
         }
+        $header.classList.remove("scrolled");
       }
     });
   }

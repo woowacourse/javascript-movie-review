@@ -1,11 +1,13 @@
 import { fetchSearchedMovies } from "../../APIs/movieAPI.ts";
 import store from "../../store/store.ts";
 
+const SEARCH_FORM = "search-form";
+
 const SearchBar = () => {
   setTimeout(() => attachSearchEvent(), 0);
   return /* html */ `
     <div class="search-bar-container">
-      <form id="search-form" class="search-form" data-testid='search-form'>
+      <form id="${SEARCH_FORM}" class="${SEARCH_FORM}" data-testid='${SEARCH_FORM}'>
         <input type="text" name="query" data-testid='search-input' class="search-bar" placeholder="검색어를 입력하세요" autocomplete="off" />
         <button type="submit" class="search-button">
           <img src="./images/search.png" alt="search" width="16" height="16" />
@@ -17,6 +19,7 @@ const SearchBar = () => {
 
 function attachSearchEvent() {
   const $searchForm = document.querySelector("#search-form");
+
   if ($searchForm) {
     $searchForm.addEventListener("submit", async (event) => {
       event.preventDefault();

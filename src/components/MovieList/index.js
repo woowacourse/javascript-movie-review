@@ -4,8 +4,11 @@ import MoreButton from "../MoreButton/MoreButton.js";
 import SkeletonMovieItem from "../Skeleton/SkeletonMovieItem.js";
 import { ERROR_MESSAGES, MOVIE_COUNT } from "../../constants/config.js";
 
+const MOVIE_LIST = "movie-list";
+
 const MovieList = ({ movies, query, searchedMoviesLength }) => {
-  const showMoreButton = !query || movies.length < searchedMoviesLength;
+  const showMoreButton =
+    (!query && movies.length < 10000) || movies.length < searchedMoviesLength;
 
   let movieContent = "";
   if (movies.length === 0 && !query) {
@@ -28,7 +31,7 @@ const MovieList = ({ movies, query, searchedMoviesLength }) => {
     <main>
       <section>
         ${ListTitle({ query })}
-        <ul id="movie-list" class="thumbnail-list" data-testid="movie-list">
+        <ul id="${MOVIE_LIST}" class="thumbnail-list" data-testid="${MOVIE_LIST}">
           ${movieContent}
         </ul>
         ${showMoreButton ? MoreButton() : ""}

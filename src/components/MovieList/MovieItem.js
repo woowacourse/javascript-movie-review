@@ -1,6 +1,8 @@
+const POSTER_URL = import.meta.env.VITE_TMDB_API_POSTER_URL;
+
 const MovieItem = ({ poster_path, title, vote_average }) => {
   const imageUrl = poster_path
-    ? `${import.meta.env.VITE_TMDB_API_POSTER_URL}${poster_path}`
+    ? `${POSTER_URL}${poster_path}`
     : "./images/logo.png";
 
   return /* html */ `
