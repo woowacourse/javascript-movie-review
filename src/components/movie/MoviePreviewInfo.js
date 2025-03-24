@@ -1,4 +1,4 @@
-import createElement from "../utils/createElement";
+import createElement from "./utils/createElement";
 
 const STAR_IMG_SRC = "./images/star_empty.png";
 
