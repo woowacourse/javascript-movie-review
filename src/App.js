@@ -24,8 +24,8 @@ class App {
   }
 
   async init() {
-    const body = document.querySelector("body");
-    body.innerHTML = "로딩 중";
+    const app = document.getElementById("app");
+    app.innerHTML = "로딩 중";
     const { results } = await this.getMoviesResults();
 
     if (results === null) {
@@ -92,8 +92,8 @@ class App {
   }
 
   render() {
-    const body = document.querySelector("body");
-    body.innerHTML = "";
+    const app = document.getElementById("app");
+    app.innerHTML = "";
 
     const $wrap = document.createElement("div");
     $wrap.id = "wrap";
@@ -116,7 +116,7 @@ class App {
       this.#isLoading
     ).render();
 
-    body.appendChild($wrap);
+    app.appendChild($wrap);
     $wrap.append($header);
     $wrap.appendChild($container);
     $container.appendChild($main);
@@ -130,7 +130,7 @@ class App {
     }
 
     const $footer = new Footer().render();
-    body.appendChild($footer);
+    app.appendChild($footer);
   }
 
   onSubmit = async (e) => {
@@ -149,12 +149,13 @@ class App {
       this.#searchPage += 1;
       const { results, totalPage } = await this.getSearchMovies();
       if (totalPage <= this.#searchPage) this.setShow(false);
+      this.setMovies([...this.#movies, ...results]);
     } else {
       this.#page += 1;
       const { results, totalPage } = await this.getMoviesResults();
       if (totalPage === this.#page) this.setShow(false);
+      this.setMovies([...this.#movies, ...results]);
     }
-    this.setMovies([...this.#movies, ...results]);
   };
 
   hasMovies() {
