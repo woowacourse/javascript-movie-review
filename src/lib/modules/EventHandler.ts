@@ -1,37 +1,52 @@
+import { forEach } from '@fxts/core';
+
 interface EventCallbackProps {
   event: WindowEventMap[keyof WindowEventMap];
   target: HTMLElement;
   currentTarget: HTMLElement;
 }
 
-interface AddEventListenerProps {
-  eventType: keyof WindowEventMap;
+type EventMapKeyType = keyof WindowEventMap;
+interface EventCallback {
+  dataAction?: string;
   callback: (props: EventCallbackProps) => void;
-  dataAction: string;
+  notTriggerDataAction?: string;
+}
+
+interface AddEventListenerProps extends EventCallback {
+  eventType: EventMapKeyType;
 }
 
 export class EventHandler {
-  #events = new Map<string, { eventType: keyof WindowEventMap; callback: (props: EventCallbackProps) => void }>();
+  #eventMap = new Map<EventMapKeyType, EventCallback[]>();
 
-  addEventListener({ eventType, callback, dataAction }: AddEventListenerProps) {
-    this.#events.set(dataAction, {
-      eventType,
-      callback,
-    });
+  addEventListener({ eventType, callback, dataAction, notTriggerDataAction }: AddEventListenerProps) {
+    const value = this.#eventMap.get(eventType);
+
+    this.#eventMap.set(eventType, [
+      ...(value ?? []),
+      {
+        callback,
+        dataAction,
+        notTriggerDataAction,
+      },
+    ]);
   }
 
   attachEventListener() {
-    for (const [dataAction, { eventType, callback }] of this.#events) {
+    for (const [eventType, eventActions] of this.#eventMap) {
       window.addEventListener(eventType, (event) => {
-        const target = event.target as HTMLElement;
-        const currentTarget = target.closest(`[data-action="${dataAction}"]`) as HTMLElement;
+        forEach(({ callback, dataAction, notTriggerDataAction }) => {
+          const target = event.target as HTMLElement;
+          const currentTarget = dataAction
+            ? (target.closest(`[data-action="${dataAction}"]`) as HTMLElement)
+            : document.documentElement;
+          const isNotTriggerTarget = target.closest(`[data-action="${notTriggerDataAction}"]`);
 
-        if (!currentTarget) return;
+          if (!currentTarget || isNotTriggerTarget) return;
 
-        callback({ event, target, currentTarget });
-
-        event.stopImmediatePropagation();
-        event.stopPropagation();
+          callback({ event, target, currentTarget });
+        }, eventActions);
       });
     }
   }

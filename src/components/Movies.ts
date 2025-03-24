@@ -8,7 +8,7 @@ const TAB_LIST = ['상영 중', '인기순', '평점순', '상영 예정'];
 interface MoviesProps {
   movies: AppState['movies'];
   page: AppState['page'];
-  totalPages: AppState['totalPages'];
+  totalPages: number;
   search: AppState['search'];
   error: AppState['error'];
 }

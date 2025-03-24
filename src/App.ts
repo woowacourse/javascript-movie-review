@@ -1,9 +1,10 @@
 import { MovieDetailResponse, MovieResult, MoviesResponse } from '@/lib/types';
 import { MovieApiClient } from './apis';
-import { Footer, Header, Movies } from './components';
+import { Footer, Header, Movies, MovieDetailModal } from './components';
 import { Component } from './components/core';
 import { html, isElement, isError, isHTMLFormElement, isString } from './lib/utils';
 import eventHandlerInstance from './lib/modules/EventHandler';
+import { event } from 'node_modules/cypress/types/jquery';
 
 export interface AppState {
   page: number;
@@ -36,6 +37,7 @@ export default class App extends Component<null, AppState> {
         <slot name="header"></slot>
         <slot name="movies"></slot>
         <slot name="footer"></slot>
+        <slot name="movie-detail-modal"></slot>
       </div>
     `;
   }
@@ -59,6 +61,11 @@ export default class App extends Component<null, AppState> {
       'movies',
     );
     this.fillSlot(new Footer().element, 'footer');
+    if (this.state.movieDetailResponse)
+      this.fillSlot(
+        new MovieDetailModal({ movieDetailResponse: this.state.movieDetailResponse }).element,
+        'movie-detail-modal',
+      );
   }
 
   async getMovie(search: string, page: number) {
@@ -106,11 +113,30 @@ export default class App extends Component<null, AppState> {
       },
       dataAction: 'movie-detail',
     });
-    window.addEventListener('click', async (event) => {
-      const { target } = event;
-      if (!isElement(target)) return;
 
-      if (target.closest('.show-more')) await this.getMovie(this.state.search, this.state.page + 1);
+    eventHandlerInstance.addEventListener({
+      eventType: 'click',
+      callback: () => {
+        this.setState({ movieDetailResponse: null });
+      },
+      dataAction: 'close-movie-detail-modal',
+      notTriggerDataAction: 'not-close-movie-detail-modal',
+    });
+
+    eventHandlerInstance.addEventListener({
+      eventType: 'keydown',
+      callback: ({ event }) => {
+        if (!this.state.movieDetailResponse) return;
+        if ((event as KeyboardEvent).key === 'Escape') this.setState({ movieDetailResponse: null });
+      },
+    });
+    eventHandlerInstance.addEventListener({
+      eventType: 'click',
+      callback: async () => {
+        await this.getMovie(this.state.search, this.state.page + 1);
+        this.setState({ movieDetailResponse: null });
+      },
+      dataAction: 'show-more',
     });
 
     window.addEventListener('submit', async (event) => {
