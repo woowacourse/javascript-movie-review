@@ -103,9 +103,7 @@ class MovieListController {
     const skeletonElements = Array.from({ length: 20 }, () =>
       SkeletonMovieItem(),
     );
-    skeletonElements.forEach((skeleton) =>
-      movieListContainer.appendChild(skeleton),
-    );
+    movieListContainer.append(...skeletonElements);
 
     const { movieList, hasMore } = await this.fetchAndStoreMovies(
       this.movieResults.getPage() + 1,
@@ -113,9 +111,7 @@ class MovieListController {
 
     // 스켈레톤 제거 후 새로운 영화 추가
     skeletonElements.forEach((skeleton) => skeleton.remove());
-    movieList.forEach((movie) =>
-      movieListContainer.appendChild(MovieItem(movie)),
-    );
+    movieListContainer.append(...movieList.map((movie) => MovieItem(movie)));
 
     if (!hasMore) this.mainElement.querySelector(".see-more")?.remove();
   }

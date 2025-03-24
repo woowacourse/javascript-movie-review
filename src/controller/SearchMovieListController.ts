@@ -86,19 +86,13 @@ class SearchMovieListController {
     const skeletonElements = Array.from({ length: 20 }, () =>
       SkeletonMovieItem(),
     );
-    skeletonElements.forEach((skeletonElement) => {
-      movieListContainer?.appendChild(skeletonElement);
-    });
+    movieListContainer?.append(...skeletonElements);
 
     const { movieList, hasMore } = await this.fetchMovies();
 
     // 스켈레톤 제거 후 새로운 영화 추가
-    skeletonElements.forEach((skeletonElement) => {
-      skeletonElement.remove();
-    });
-    movieList.forEach((movie) => {
-      movieListContainer?.appendChild(MovieItem(movie));
-    });
+    skeletonElements.forEach((skeleton) => skeleton.remove());
+    movieListContainer?.append(...movieList.map((movie) => MovieItem(movie)));
 
     if (!hasMore) this.mainElement.querySelector(".see-more")?.remove();
   }
