@@ -1,6 +1,8 @@
-import SearchBar, { attachSearchEvent } from "./SearchBar.js";
+import SearchBar from "./SearchBar.js";
 
 const Header = () => {
+  setTimeout(() => attachHeaderStyle(), 0);
+
   return /* html */ `
     <header id="header" class="header">
       <div class="header-container">
@@ -15,5 +17,19 @@ const Header = () => {
     </header>
   `;
 };
+
+function attachHeaderStyle() {
+  const $header = document.querySelector("#header");
+
+  if ($header) {
+    window.addEventListener("scroll", async (event) => {
+      if (window.scrollY > 0) {
+        $header.classList.add("scrolled");
+        return;
+      }
+      $header.classList.remove("scrolled");
+    });
+  }
+}
 
 export default Header;

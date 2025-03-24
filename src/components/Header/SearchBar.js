@@ -5,6 +5,7 @@ const SEARCH_FORM = "search-form";
 
 const SearchBar = () => {
   setTimeout(() => attachSearchEvent(), 0);
+
   return /* html */ `
     <div class="search-bar-container">
       <form id="${SEARCH_FORM}" class="${SEARCH_FORM}" data-testid='${SEARCH_FORM}'>
@@ -43,5 +44,4 @@ function attachSearchEvent() {
   }
 }
 
-export { attachSearchEvent };
 export default SearchBar;
