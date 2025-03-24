@@ -4,6 +4,7 @@ import MovieList from "../components/MovieList";
 import MovieListSkeleton from "../components/MovieListSkeleton";
 import TopRatedMovie from "../components/TopRatedMovie";
 import { DEFAULT_BACK_DROP_URL } from "../constants/movieApi";
+import { errorMessages } from "../utils/errorUtils";
 
 const $mainSection = document.querySelector("main section");
 const $ul = document.querySelector(".thumbnail-list");
@@ -76,11 +77,11 @@ export const renderMoviesList = async () => {
     $ul?.classList.add("close");
     $error?.classList.remove("close");
 
-    if ($ul) $ul.innerHTML = "";
-    if (error.message === "400" && $h2)
-      $h2.textContent = "검색 가능한 페이지 수를 넘겼습니다.";
-    if (error.message === "401" && $h2)
-      $h2.textContent = "사용자 인증 정보가 잘못되었습니다.";
+    $ul && ($ul.innerHTML = "");
+    if (!$h2 || !error.message) {
+      return;
+    }
+    $h2.textContent = errorMessages(error.message);
   }
 
   const $showMore = document.querySelector(".show-more");
