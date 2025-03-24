@@ -4,7 +4,7 @@ const $HeaderBox = () => {
   const $headerBox = createElement("div", {
     className: "header-box",
   });
-  const $logoLink = createElement("a", { href: "/" });
+  const $logoLink = createElement("a", { href: "/javascript-movie-review" });
   const $logoImage = createElement("img", {
     src: "./logo.png",
     alt: "MovieList",
