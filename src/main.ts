@@ -36,7 +36,7 @@ const renderApp = async (state: StateTypes) => {
   if (!state.loadMovies) return;
   renderHeaderAndHero();
   await renderMovieList(state.loadMovies, { init: true, reset: false });
-  updateHero(state.heroMovie);
+  if (state.heroMovie) updateHero(state.heroMovie);
   renderLoadMoreButton(state);
 };
 
