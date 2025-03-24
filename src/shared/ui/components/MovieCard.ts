@@ -1,5 +1,5 @@
-import { IMovie } from "../../../../shared/types/movies";
-import { toElement } from "../../../../shared/utils/toElement";
+import { IMovie } from "../../types/movies";
+import { toElement } from "../../utils/toElement";
 
 export default function MovieCard(movieTitle: string, movie: IMovie) {
   const movieImgPath = movie.poster_path

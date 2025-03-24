@@ -1,4 +1,4 @@
-import MovieCard from "../../features/movie/ui/components/MovieCard";
+import MovieCard from "./components/MovieCard";
 import { showEmptySearchResult } from "../../features/search/ui/showEmptySearchResult";
 import { IMovie } from "../types/movies";
 import { createFragment } from "../utils/createFragment";
