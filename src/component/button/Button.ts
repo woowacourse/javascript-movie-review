@@ -1,5 +1,5 @@
 interface ButtonProps extends Partial<HTMLButtonElement> {
-  size: 'small' | 'medium';
+  size: 'small' | 'full';
 }
 
 class Button {

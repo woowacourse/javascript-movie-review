@@ -41,7 +41,7 @@ export class MainPage {
   }
 
   renderDynamicSection() {
-    const loadMoreButton = document.querySelector('.button--medium');
+    const loadMoreButton = document.querySelector('.button--full');
     if (loadMoreButton) {
       loadMoreButton.remove();
     }
@@ -62,7 +62,7 @@ export class MainPage {
   }
 
   #loadMoreButtonElement() {
-    return new Button({ size: 'medium', innerText: '더보기', onclick: this.#loadMoreData }).element;
+    return new Button({ size: 'full', innerText: '더보기', onclick: this.#loadMoreData }).element;
   }
 
   #loadMoreData = async () => {

@@ -5,7 +5,7 @@
   padding: 10px 0;
 }
 
-.button--medium {
+.button--full {
   background-color: var(--color-lightblue-90);
   color: var(--color-white);
   width: 100%;

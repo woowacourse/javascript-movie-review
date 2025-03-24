@@ -22,7 +22,7 @@ describe('Fixture를 이용한 초기화면 테스트', () => {
   });
 
   it('더보기 버튼을 누를 경우, 20개의 작품이 더 렌더링된다', () => {
-    cy.get('.button--medium').click();
+    cy.get('.button--full').click();
 
     cy.get('.item').should('have.length', 40);
   });

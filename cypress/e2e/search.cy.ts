@@ -30,7 +30,7 @@ describe('검색 결과가 있는 경우 테스트', () => {
   it('검색어를 입력하고, 더보기 버튼을 누르면 아이템을 띄워줘야 한다.', () => {
     cy.get('.searchbar__input').type('미키');
     cy.get('.searchbar__icon').click();
-    cy.get('.button--medium').click();
+    cy.get('.button--full').click();
 
     cy.get('.item').should('have.length', 40);
   });
