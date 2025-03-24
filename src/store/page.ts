@@ -5,7 +5,7 @@ class Page {
     this.#page = 1;
   }
 
-  getPage() {
+  getNextPage() {
     this.#page++;
     return this.#page;
   }
