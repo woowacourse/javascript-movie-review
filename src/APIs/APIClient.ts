@@ -25,7 +25,7 @@ class APIClient {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || ERROR_MESSAGES.NO_RESULT);
+        throw new Error(data.message || ERROR_MESSAGES.MOVIE_FETCH_FAILED);
       }
 
       return data;

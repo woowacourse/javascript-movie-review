@@ -24,7 +24,9 @@ function attachSearchEvent() {
       const query = formData.get("query");
       if (!query) return;
 
-      const searchedMovies = await fetchSearchedMovies(query);
+      const searchedMovies = await fetchSearchedMovies(query, (error) =>
+        alert(error.message)
+      );
       if (searchedMovies) {
         store.setState({
           movies: searchedMovies.results,

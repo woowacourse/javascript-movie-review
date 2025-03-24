@@ -19,7 +19,7 @@ class App {
   }
 
   async loadPopularMovies() {
-    const movies = await fetchPopularMovies();
+    const movies = await fetchPopularMovies((error) => alert(error.message));
     store.setState({ movies });
   }
 

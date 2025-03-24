@@ -2,6 +2,7 @@ import { Movie, MovieResponse } from "../../types/movie";
 import APIClient from "./APIClient";
 
 export const fetchPopularMovies = async (
+  onError?: (error: Error) => void,
   page: number = 1
 ): Promise<Movie[]> => {
   try {
@@ -15,16 +16,17 @@ export const fetchPopularMovies = async (
     return response.results;
   } catch (error) {
     if (error instanceof Error) {
-      alert(error.message);
+      onError?.(error);
     }
-    return [];
+    throw error;
   }
 };
 
 export const fetchSearchedMovies = async (
   query: string,
+  onError?: (error: Error) => void,
   page: number = 1
-): Promise<MovieResponse | null> => {
+): Promise<MovieResponse> => {
   try {
     const params = new URLSearchParams({
       query,
@@ -38,8 +40,8 @@ export const fetchSearchedMovies = async (
     return response;
   } catch (error) {
     if (error instanceof Error) {
-      alert(error.message);
+      onError?.(error);
     }
-    return null;
+    throw error;
   }
 };
