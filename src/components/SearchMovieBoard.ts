@@ -1,3 +1,4 @@
+import MovieApi from "../api/MovieApi";
 import { Movie } from "../types/movie";
 import { isHTMLElement } from "../utils/typeGuards";
 import ErrorScreen from "./ErrorScreen";
@@ -9,7 +10,6 @@ interface Props {
 }
 
 class SearchMovieBoard {
-  private static BASE_URL = "https://api.themoviedb.org/3";
   private static LOAD_COUNT = 20;
 
   #parentElement;
@@ -60,26 +60,16 @@ class SearchMovieBoard {
   }
 
   async #movieData(): Promise<{ movies: Movie[]; total_pages: number }> {
-    const options = {
-      method: "GET",
-      headers: {
-        accept: "application/json",
-        Authorization: `Bearer ${import.meta.env.VITE_TMDB_ACCESS_TOKEN}`,
-      },
-    };
     try {
-      const raw = await fetch(
-        `${SearchMovieBoard.BASE_URL}/search/movie?query=${
-          this.#props.searchParams
-        }&include_adult=false&language=ko-KR&page=${this.#page}`,
-        options
+      const { movies, total_pages } = await MovieApi.fetchSearchMovies(
+        this.#page,
+        this.#props.searchParams
       );
-      const data = await raw.json();
-      const movies: Movie[] = data.results;
 
-      return { movies, total_pages: data.total_pages };
+      return { movies, total_pages };
     } catch (e) {
       new ErrorScreen("오류가 발생했습니다.").render();
+
       return { movies: [], total_pages: 0 };
     }
   }

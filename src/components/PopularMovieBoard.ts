@@ -1,3 +1,4 @@
+import MovieApi from "../api/MovieApi";
 import { Movie } from "../types/movie";
 import { isHTMLElement } from "../utils/typeGuards";
 import ErrorScreen from "./ErrorScreen";
@@ -6,7 +7,6 @@ import MovieList from "./MovieList";
 import TopRatedMovie from "./TopRatedMovie";
 
 class PopularMovieBoard {
-  private static BASE_URL = "https://api.themoviedb.org/3/movie";
   private static MAX_PAGE = 500;
 
   #parentElement;
@@ -66,24 +66,12 @@ class PopularMovieBoard {
   }
 
   async #movieData(): Promise<{ movies: Movie[]; total_pages: number }> {
-    const options = {
-      method: "GET",
-      headers: {
-        accept: "application/json",
-        Authorization: `Bearer ${import.meta.env.VITE_TMDB_ACCESS_TOKEN}`,
-      },
-    };
     try {
-      const raw = await fetch(
-        `${PopularMovieBoard.BASE_URL}/popular?language=ko-KR&page=${
-          this.#page
-        }`,
-        options
+      const { movies, total_pages } = await MovieApi.fetchPopularMovies(
+        this.#page
       );
-      const data = await raw.json();
-      const movies: Movie[] = data.results;
 
-      return { movies, total_pages: data.total_pages };
+      return { movies, total_pages };
     } catch (e) {
       new ErrorScreen("오류가 발생했습니다.").render();
 
