@@ -40,6 +40,8 @@ describe('검색 영화 목록 테스트', () => {
 
     cy.get('#moreButton').click();
 
+    cy.wait('@getSearchMovies');
+
     cy.get('.thumbnail-list > li').should('have.length', 40);
   });
 });
