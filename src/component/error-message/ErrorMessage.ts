@@ -8,7 +8,7 @@ class ErrorMessage {
 
   constructor({ errorMessage }: ErrorResultOption) {
     this.#container = document.createElement('div');
-    this.#container.classList.add('empty-result');
+    this.#container.classList.add('error-message');
     this.#errorMessage = errorMessage;
 
     this.render();
@@ -17,7 +17,7 @@ class ErrorMessage {
   render() {
     this.#container.innerHTML = `
         <img src="./no-result.png" alt="으아아 행성이"/>
-        <p class="text-subtitle">${this.#errorMessage}</p>
+        <p class="error-message__detail text-subtitle">${this.#errorMessage}</p>
     `;
   }
 
