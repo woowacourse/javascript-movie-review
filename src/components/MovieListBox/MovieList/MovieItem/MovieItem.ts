@@ -28,6 +28,10 @@ const $MovieItem = ({ title, poster_path, vote_average }: MovieDetail) => {
   const $item = createElement("li", {
     className: "item",
   });
+
+  const $posterBox = createElement("div", {
+    className: "thumbnail-box",
+  });
   const $poster = createElement("img", {
     className: "thumbnail",
     src: "./placeholder-poster.svg",
@@ -40,7 +44,9 @@ const $MovieItem = ({ title, poster_path, vote_average }: MovieDetail) => {
         : defaultPosterPath;
     },
   });
-  $item.append($poster, $description);
+  $posterBox.appendChild($poster);
+
+  $item.append($posterBox, $description);
   return $item;
 };
 

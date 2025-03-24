@@ -15,7 +15,7 @@ body {
   background-color: var(--color-bluegray-80);
 }
 
-#wrap,
+#app,
 section {
   display: flex;
   flex-direction: column;
@@ -43,12 +43,12 @@ button.primary {
   border-radius: 4px;
 }
 
-#wrap {
-  min-width: 1440px;
+#app {
   background-color: var(--color-bluegray-100);
+  min-width: 375px;
 }
 
-#wrap h2 {
+#app h2 {
   font-size: 1.85rem;
   font-weight: bold;
   margin-bottom: 3.5rem;
@@ -63,11 +63,14 @@ button.primary {
 }
 
 .header-box {
+  position: relative;
   display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
+  gap: 1.5rem;
   max-width: 1280px;
   margin: 2.5rem auto 0;
-  position: relative;
 }
 
 .search-form {
@@ -77,11 +80,12 @@ button.primary {
   align-items: center;
   justify-content: space-between;
   padding: 0 1.25rem;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 32.8125rem;
+  width: 525px;
   gap: 1rem;
+
+  @media screen and (max-width: 768px) {
+    width: 300px;
+  }
 }
 
 .search-input {
@@ -122,7 +126,18 @@ button.primary {
   position: relative;
   z-index: 2;
   width: 1280px;
-  margin: 0 auto;
+  margin: 3rem auto 0;
+
+  @media screen and (max-width: 1280px) {
+    padding: 0 3rem;
+    width: 1024px;
+  }
+
+  @media screen and (max-width: 768px) {
+    width: 768px;
+    margin: 5rem 0 0 3rem;
+    padding: 0 3rem;
+  }
 }
 
 .top-rated-container > *:not(:last-child) {
@@ -153,9 +168,14 @@ span.rate-value {
 .title {
   font-size: 3rem;
   font-weight: bold;
+
+  @media screen and (max-width: 768px) {
+    font-size: 2.5rem;
+  }
 }
 
 footer.footer {
+  width: 100%;
   min-height: 180px;
   background-color: var(--color-bluegray-80);
   display: flex;
@@ -167,4 +187,19 @@ footer.footer {
 
 footer.footer p:not(:last-child) {
   margin-bottom: 8px;
+}
+
+.scroll-to-top-button {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background-color: var(--color-lightblue-90);
+  color: var(--color-white);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
 }

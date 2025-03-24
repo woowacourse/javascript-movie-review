@@ -12,11 +12,15 @@
 
 .skeleton-list {
   display: grid;
-  grid-template-columns: repeat(5, 200px);
+  grid-template-columns: repeat(auto-fit, 200px);
   justify-content: space-between;
-  gap: 70px;
   width: 1280px;
-  margin: 4rem auto;
+  gap: 50px;
+  margin: 0 auto;
+
+  @media screen and (max-width: 768px) {
+    justify-content: center;
+  }
 }
 
 .skeleton-item {
