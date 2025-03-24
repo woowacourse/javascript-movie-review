@@ -14,7 +14,7 @@ class SearchBar {
     input.classList.add("search-bar-input");
     input.placeholder = "검색어를 입력하세요...";
 
-    input.addEventListener("keypress", async (e) => {
+    input.addEventListener("keydown", async (e) => {
       if (e.key === "Enter") {
         await this.searchHandler.handleSearch(e.target.value);
         store.setMode('searchAdd');
