@@ -7,12 +7,10 @@ import { IMAGE, ITEMS } from "./constants/movie.ts";
 import movieApi from "./api/movieApi.ts";
 import { selectElement, selectElementAll } from "./utils/dom.ts";
 import { toggleSkeletonList } from "./utils/Render";
+import MovieList from "./components/MovieList.ts";
 
-const getMovieData = async () => {
-  const itemCount = selectElementAll<HTMLLIElement>(
-    "ul.thumbnail-list li"
-  ).length;
-  const pageNumber = itemCount / ITEMS.perPage + 1;
+const getMovieData = async (currentItemCount: number = 0) => {
+  const pageNumber = currentItemCount / ITEMS.perPage + 1;
 
   return (await movieApi.getMovieData(pageNumber)) as IPage;
 };
@@ -41,28 +39,38 @@ const renderTitleMovie = (movieData: IMovie[]) => {
 const renderMovieData = (movieData: IMovie[]) => {
   toggleSkeletonList("show");
 
-  movieData.forEach(({ title, poster_path, vote_average }) => {
+  const movieItems = movieData.map(({ title, poster_path, vote_average }) => {
     const movieItem = new MovieItem({ title, vote_average, poster_path });
-    const movieItemElement = movieItem.create();
-    thumbnailList.appendChild(movieItemElement);
+    return movieItem.create();
   });
 
   toggleSkeletonList("hidden");
+
+  return new MovieList(movieItems);
 };
 
-const thumbnailList = selectElement<HTMLUListElement>("ul.thumbnail-list");
 const mainSection = selectElement<HTMLElement>("main section");
 const skeletonUl = new SkeletonUl();
 
-const seeMoreButton = new TextButton({
-  id: "seeMore",
-  title: "더보기",
-  onClick: async () => {
-    const movieData = (await getMovieData()).results;
-    renderMovieData(movieData);
-  },
-  type: "primary",
-});
+const seeMoreButton = (movieListInstance: MovieList) => {
+  return new TextButton({
+    id: "seeMore",
+    title: "더보기",
+    onClick: async () => {
+      const currentItemCount = movieListInstance.getTotalItems();
+      const newMovieData = (await getMovieData(currentItemCount)).results;
+      const movieItems = newMovieData.map(
+        ({ title, poster_path, vote_average }) => {
+          const movieItem = new MovieItem({ title, vote_average, poster_path });
+          return movieItem.create();
+        }
+      );
+
+      movieListInstance.updateList(movieItems);
+    },
+    type: "primary",
+  });
+};
 
 const searchBar = new SearchBar();
 const logo = selectElement<HTMLDivElement>(".logo");
@@ -73,8 +81,11 @@ logoImage.addEventListener("click", () => {
 });
 logo.appendChild(searchBar.create());
 mainSection.appendChild(skeletonUl.create());
-mainSection.appendChild(seeMoreButton.create());
 
 const movieData = (await getMovieData()).results;
 renderTitleMovie(movieData);
-renderMovieData(movieData);
+const totalMovieList = renderMovieData(movieData);
+totalMovieList.create();
+
+const seeMoreButtonInstance = seeMoreButton(totalMovieList);
+mainSection.appendChild(seeMoreButtonInstance.create());

@@ -15,9 +15,8 @@ class MovieItem {
   }
 
   create() {
-    const movieItemElement = document.createElement("li");
     const content = /*html*/ `
-    <div class="item">
+    <li class="item">
         <img
         class="thumbnail"
         src=${IMAGE.prefix + this.#posterPath}
@@ -32,12 +31,10 @@ class MovieItem {
         </p>
         <strong>${this.#title}</strong>
         </div>
-    </div>
+    </li>
     `;
 
-    movieItemElement.insertAdjacentHTML("beforeend", content);
-
-    return movieItemElement;
+    return content;
   }
 }
 
