@@ -1,23 +1,23 @@
-import SearchBar from './SearchBar';
-import createElement from './utils/createElement';
+import SearchBar from "./SearchBar";
+import createElement from "./utils/createElement";
 
-const LOGO_IMG_SRC = './images/logo.png';
+const LOGO_IMG_SRC = "./images/logo.png";
 
 const Gnb = () => {
   const $div = createElement({
-    tag: 'div',
-    classNames: ['gnb']
+    tag: "div",
+    classNames: ["gnb"],
   });
 
   const $logo = createElement({
-    tag: 'h1',
-    classNames: ['logo'],
+    tag: "h1",
+    classNames: ["logo"],
   });
 
   const $logoImg = createElement({
-    tag: 'img',
+    tag: "img",
     src: LOGO_IMG_SRC,
-    alt: 'MovieList',
+    alt: "MovieList",
   });
 
   $div.appendChild($logo);
