@@ -1,7 +1,6 @@
 import SearchBar, { attachSearchEvent } from "./SearchBar.js";
 
 const Header = () => {
-  setTimeout(() => attachSearchEvent(), 0);
   return /* html */ `
     <header id="header" class="header">
       <div class="header-container">

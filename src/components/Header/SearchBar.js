@@ -2,6 +2,7 @@ import { fetchSearchedMovies } from "../../APIs/movieAPI.ts";
 import store from "../../store/store.ts";
 
 const SearchBar = () => {
+  setTimeout(() => attachSearchEvent(), 0);
   return /* html */ `
     <div class="search-bar-container">
       <form id="search-form" class="search-form" data-testid='search-form'>
