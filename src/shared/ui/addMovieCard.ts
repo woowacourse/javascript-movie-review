@@ -16,11 +16,10 @@ export function addMovieCard(
   const $emptySearchResult = document.querySelector(
     ".empty-search-result-container"
   );
-  const $moreMoviesButton = MoreMoviesButton();
 
   if ($emptySearchResult) {
     $emptySearchResult.remove();
-    $moreMoviesButton?.classList.remove("disabled");
+    MoreMoviesButton.removeDisable();
   }
 
   addMoreMovies($movieListContainer, movieList);

@@ -13,6 +13,5 @@ export function showEmptySearchResult() {
   `)
   );
 
-  const $moreMoviesButton = MoreMoviesButton();
-  $moreMoviesButton?.classList.add("disabled");
+  MoreMoviesButton.addDisable();
 }
