@@ -47,7 +47,7 @@ export default class ThumbnailList extends Component<ThumbnailListProps> {
                   alt="${movie.title}"
                 />
                 <div class="item-desc">
-                  <p class="rate">
+                  <p class="rate yellow">
                     <img src="./images/star_empty.png" class="star" />
                     <span>${movie.vote_average.toFixed(1)}</span>
                   </p>

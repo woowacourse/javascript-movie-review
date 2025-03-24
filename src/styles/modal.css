@@ -19,7 +19,9 @@ body.modal-open {
   z-index: 10;
   visibility: hidden; /* 모달이 기본적으로 보이지 않도록 설정 */
   opacity: 0;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
+  transition:
+    opacity 0.3s ease,
+    visibility 0.3s ease;
 }
 
 .modal-background.active {
@@ -76,11 +78,34 @@ body.modal-open {
 }
 
 .modal-description h2 {
-  font-size: 2rem;
+  font-size: 1.6rem;
   margin: 0 0 8px;
 }
 
 .detail {
   max-height: 430px;
   overflow-y: auto;
+}
+
+.sub-title {
+  font-weight: 700;
+}
+
+.modal-description .rate {
+  display: flex;
+  gap: 8px;
+}
+
+.modal-description .my-rate {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.modal-description .my-rate .main {
+  display: flex;
+  gap: 8px;
+  align-items: center;
 }

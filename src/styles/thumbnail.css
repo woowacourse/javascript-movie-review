@@ -8,6 +8,12 @@
   justify-content: center;
 }
 
+@media (min-width: 600px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(2, 200px);
+  }
+}
+
 @media (min-width: 800px) {
   .thumbnail-list {
     grid-template-columns: repeat(3, 200px);
@@ -49,7 +55,6 @@
 p.rate {
   display: flex;
   align-items: baseline;
-  color: var(--color-yellow);
 }
 
 p.rate > span {
@@ -59,4 +64,8 @@ p.rate > span {
 .item .star {
   width: 16px;
   top: 1px;
+}
+
+.yellow {
+  color: var(--color-yellow);
 }

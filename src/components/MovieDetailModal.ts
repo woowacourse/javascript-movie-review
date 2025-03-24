@@ -1,10 +1,9 @@
 import { AppState } from '@/App';
-import { Component } from './core';
-import { html } from '@/lib/utils';
 import { DEFAULT_BACK_DROP_URL } from '@/lib/constants';
-import { join, map, pipe, toArray } from '@fxts/core';
-import LocalStorage from '@/lib/modules/LocalStorage';
 import { LocalStorageMovieRateValueType } from '@/lib/types';
+import { html } from '@/lib/utils';
+import { join, map, pipe, toArray } from '@fxts/core';
+import { Component } from './core';
 
 interface MovieDetailModalProps {
   movieDetailResponse: AppState['movieDetailResponse'];
@@ -41,35 +40,47 @@ export default class MovieDetailModal extends Component<MovieDetailModalProps> {
               <img src="${backgroundImage}" />
             </div>
             <div class="modal-description">
-              <h2>${title}</h2>
-              <p class="category">
-                ${new Date(release_date).getFullYear()} ·
-                ${pipe(
-                  map((genre) => genre.name, genres),
-                  join(', '),
-                )}
-              </p>
-              <p class="rate">
-                <span>평균</span>
-                <img src="./images/star_filled.png" class="star" /><span>${vote_average.toFixed(1)}</span>
-              </p>
+              <div>
+                <h2>${title}</h2>
+                <p class="category">
+                  ${new Date(release_date).getFullYear()} ·
+                  ${pipe(
+                    map((genre) => genre.name, genres),
+                    join(', '),
+                  )}
+                </p>
+                <p class="rate">
+                  <span>평균</span>
+                  <img src="./images/star_filled.png" class="star" /><span class="yellow"
+                    >${vote_average.toFixed(1)}</span
+                  >
+                </p>
+              </div>
               <hr />
-              <span>내 별점</span>
-              ${pipe(
-                Object.keys(RATE_MAP),
-                map(
-                  (rate) =>
-                    `<img src="./images/star_${currentMovieRate >= Number(rate) ? 'filled' : 'empty'}.png" class="star" data-action="change-rate" data-id="${id}" data-rate="${rate}" />`,
-                ),
-                toArray,
-              )}
-              <span>${RATE_MAP[String(currentMovieRate)]}</span>
-              <span>(${currentMovieRate}/10)</span>
+              <div class="my-rate">
+                <p class="sub-title">내 별점</p>
+                <div class="main">
+                  <div>
+                    ${pipe(
+                      Object.keys(RATE_MAP),
+                      map(
+                        (rate) =>
+                          `<img src="./images/star_${currentMovieRate >= Number(rate) ? 'filled' : 'empty'}.png" class="star" data-action="change-rate" data-id="${id}" data-rate="${rate}" />`,
+                      ),
+                      toArray,
+                    )}
+                  </div>
+                  <p>
+                    <span>${RATE_MAP[String(currentMovieRate)]}</span>
+                    <span>(${currentMovieRate}/10)</span>
+                  </p>
+                </div>
+              </div>
               <hr />
-              <p class="detail">
-                <span>줄거리</span>
+              <div class="detail">
+                <p class="sub-title">줄거리</p>
                 ${overview}
-              </p>
+              </div>
             </div>
           </div>
         </div>
