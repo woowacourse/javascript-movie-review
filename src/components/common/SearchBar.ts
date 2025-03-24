@@ -34,7 +34,8 @@ const SearchBar = () => {
 };
 
 const searchMovie = async (input: string) => {
-  $(".thumbnail-list").replaceChildren();
+  const thumbnailList = $(".thumbnail-list");
+  thumbnailList.replaceChildren();
   $(".load-more")?.remove();
   $("#caption").innerText = `"${input}" 검색 결과`;
 
@@ -42,14 +43,18 @@ const searchMovie = async (input: string) => {
   const movies = await fetchSearchMovieList(input, 1);
 
   if (movies.status === "fail") {
-    $(".thumbnail-list").appendChild(NoSearchResults("검색 결과가 없습니다."));
+    thumbnailList.appendChild(
+      NoSearchResults("영화 목록을 가져오지 못했습니다.")
+    );
   }
 
   if (movies.status === "success") {
     $(".top-rated-container").classList.add("hidden");
     $(".overlay-img").classList.add("hidden");
+
     MovieList(movies.data);
-    $(".thumbnail-list").after(
+
+    thumbnailList.after(
       LoadMoreButton({
         loadFn: (currentPage: number) =>
           fetchSearchMovieList(input, currentPage),

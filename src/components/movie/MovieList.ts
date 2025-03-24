@@ -1,9 +1,16 @@
 import { Movie, MovieResponse } from "../../../types/movie";
 import { $ } from "../../utils/dom";
 import MovieItem from "./MovieItem";
+import NoSearchResults from "./NoSearchResults";
 
 const MovieList = (movies: MovieResponse) => {
-  movies.results.forEach((movie: Movie) => {
+  if (movies?.results.length === 0) {
+    $(".thumbnail-list").before(NoSearchResults("검색 결과가 없습니다."));
+    return;
+  }
+
+  const fragment = document.createDocumentFragment();
+  movies?.results.forEach((movie: Movie) => {
     const posterPath = movie.poster_path;
     const movieElement = MovieItem({
       src: posterPath
@@ -13,10 +20,13 @@ const MovieList = (movies: MovieResponse) => {
       rate: movie.vote_average,
     });
 
-    $(".thumbnail-list").appendChild(movieElement);
+    fragment.appendChild(movieElement);
   });
+  $(".thumbnail-list").appendChild(fragment);
 
   if (movies.page === movies.total_pages)
     $(".load-more").classList.add("hidden");
+
+  return fragment;
 };
 export default MovieList;
