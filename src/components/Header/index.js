@@ -1,6 +1,6 @@
 import SearchBar from "./SearchBar.js";
 
-const Header = () => {
+const Header = (store) => {
   setTimeout(() => attachHeaderStyle(), 0);
 
   return /* html */ `
@@ -11,7 +11,7 @@ const Header = () => {
             <img src="./images/logo.png" alt="MovieList" />
           </a>
         </h1>
-        ${SearchBar()}
+        ${SearchBar(store)}
         <div class="empty"></div>
       </div>
     </header>

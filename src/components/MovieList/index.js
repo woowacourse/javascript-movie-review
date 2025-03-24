@@ -1,22 +1,24 @@
-// components/MovieListComponent.js
-import store from "../../store/store.ts";
 import movieListTemplate from "./movieListTemplate.js";
 import { attachMoreButtonEvent } from "../MoreButton/MoreButton.js";
 
 class MovieList {
-  constructor($container) {
-    this.$container = $container;
-    store.subscribe(this.render.bind(this));
-    this.render(store.getState());
+  #$container;
+  #store;
+
+  constructor($container, store) {
+    this.#$container = $container;
+    this.#store = store;
+    this.#store.subscribe(this.render.bind(this));
+    this.render(this.#store.getState());
   }
 
   render(state) {
-    this.$container.innerHTML = movieListTemplate({
+    this.#$container.innerHTML = movieListTemplate({
       movies: state.movies,
       query: state.query,
       searchedMoviesLength: state.searchedMoviesLength,
     });
-    attachMoreButtonEvent();
+    attachMoreButtonEvent(this.#store);
   }
 }
 

@@ -1,10 +1,9 @@
 import { fetchSearchedMovies } from "../../APIs/movieAPI.ts";
-import store from "../../store/store.ts";
 
 const SEARCH_FORM = "search-form";
 
-const SearchBar = () => {
-  setTimeout(() => attachSearchEvent(), 0);
+const SearchBar = (store) => {
+  setTimeout(() => attachSearchEvent(store), 0);
 
   return /* html */ `
     <div class="search-bar-container">
@@ -18,7 +17,7 @@ const SearchBar = () => {
   `;
 };
 
-function attachSearchEvent() {
+function attachSearchEvent(store) {
   const $searchForm = document.querySelector("#search-form");
 
   if ($searchForm) {

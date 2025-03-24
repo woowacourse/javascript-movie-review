@@ -1,30 +1,32 @@
-// components/BannerComponent.js
-import store from "../../store/store.ts";
 import bannerTemplate from "./bannerTemplate.js";
 import SkeletonBanner from "../Skeleton/SkeletonBanner.js";
 
 class Banner {
-  constructor($container) {
-    this.$container = $container;
-    store.subscribe(this.render.bind(this));
-    this.render(store.getState());
+  #$container;
+  #store;
+
+  constructor($container, store) {
+    this.#$container = $container;
+    this.#store = store;
+    this.#store.subscribe(this.render.bind(this));
+    this.render(this.#store.getState());
   }
 
   render(state) {
     if (!state.query) {
       if (state.movies.length) {
-        this.$container.innerHTML = bannerTemplate(state.movies[0]);
-        const $banner = this.$container.querySelector("#banner");
+        this.#$container.innerHTML = bannerTemplate(state.movies[0]);
+        const $banner = this.#$container.querySelector("#banner");
         if ($banner) {
           $banner.style.backgroundImage = `url(${
             import.meta.env.VITE_TMDB_API_BANNER_URL
           }${state.movies[0].backdrop_path})`;
         }
       } else {
-        this.$container.innerHTML = SkeletonBanner();
+        this.#$container.innerHTML = SkeletonBanner();
       }
     } else {
-      this.$container.innerHTML = "";
+      this.#$container.innerHTML = "";
     }
   }
 }

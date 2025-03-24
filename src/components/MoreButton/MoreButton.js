@@ -3,7 +3,6 @@ import {
   fetchSearchedMovies,
 } from "../../APIs/movieAPI.ts";
 import { MOVIE_COUNT } from "../../constants/config.js";
-import store from "../../store/store.ts";
 
 const MORE_BUTTON = "more-button";
 
@@ -13,7 +12,7 @@ const MoreButton = () => {
   `;
 };
 
-export function attachMoreButtonEvent() {
+export function attachMoreButtonEvent(store) {
   const $button = document.querySelector("#more-button");
 
   if ($button) {

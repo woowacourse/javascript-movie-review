@@ -32,8 +32,4 @@ class Store {
   }
 }
 
-export default new Store({
-  movies: [],
-  query: "",
-  searchedMoviesLength: 0,
-});
+export default Store;
