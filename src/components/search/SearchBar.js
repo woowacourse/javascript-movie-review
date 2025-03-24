@@ -1,7 +1,7 @@
-import fetchSearchMovies from "../fetch/fetchSearchMovies";
-import createElement from "./utils/createElement";
-import movies from "../store/Movies";
-import MovieList from "./movie/MovieList";
+import fetchSearchMovies from "../../fetch/fetchSearchMovies";
+import createElement from "../utils/createElement";
+import movies from "../../store/Movies";
+import MovieList from "../movie/MovieList";
 
 const SEARCH_BUTTON_IMAGE_SRC = "images/searchButtonIcon.png";
 const PAGE = 1;

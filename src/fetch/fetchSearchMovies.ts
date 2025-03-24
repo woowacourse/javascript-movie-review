@@ -1,5 +1,5 @@
 export default async function fetchSearchMovies(query: string, page: number) {
-  const searchMovieUrl = `https://api.themoviedb.org/3/search/movie?query=${query}&include_adult=false&language=kr-KO&page=${page}`;
+  const searchMovieUrl = `https://api.themoviedb.org/3/search/movie?query=${query}&include_adult=false&language=ko-KR&page=${page}`;
   const options = {
     method: "GET",
     headers: {

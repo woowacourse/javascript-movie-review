@@ -1,5 +1,5 @@
-import SearchBar from "./SearchBar";
-import createElement from "./utils/createElement";
+import SearchBar from "../search/SearchBar";
+import createElement from "../utils/createElement";
 
 const LOGO_IMG_SRC = "./images/logo.png";
 
