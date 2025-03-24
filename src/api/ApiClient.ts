@@ -1,6 +1,23 @@
+import MessageDisplay from '../component/MessageDisplay';
+import createDOMElement from '../util/createDomElement';
+import { $ } from '../util/selector';
+
 export default class ApiClient {
   static async get(endpoint: string, headers = {}) {
     return this.request('GET', endpoint, headers);
+  }
+
+  static handleError() {
+    const skeleton = $('.skeleton');
+    skeleton?.remove();
+
+    const errorUI = createDOMElement({
+      tag: 'div',
+      className: 'error-ui',
+      children: [MessageDisplay({ text: '새로고침을 해주세요!' })]
+    });
+
+    $('.container')?.replaceChildren(errorUI);
   }
 
   static async request(method: 'GET' | 'POST' | 'PUT' | 'DELETE', endpoint: string, headers = {}) {
