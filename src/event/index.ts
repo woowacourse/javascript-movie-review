@@ -1,12 +1,12 @@
 import { renderMoviesList } from "../domains/renderMoviesList";
-import { store } from "../store";
-import { isElement } from "../utils";
+import { movieStore } from "../store/movieStore";
+import { isElement } from "../utils/domUtils";
 
 window.addEventListener("click", async (event) => {
   const { target } = event;
 
   if (isElement(target) && target.closest(".show-more")) {
-    store.page = store.page + 1;
+    movieStore.page = movieStore.page + 1;
     renderMoviesList();
   }
 });
@@ -24,11 +24,12 @@ window.addEventListener("submit", async (event) => {
     (target as HTMLFormElement).reset();
 
     if (value) {
-      store.searchKeyword = value;
-      store.page = 1;
+      movieStore.searchKeyword = value;
+      movieStore.page = 1;
 
       const $title = document.querySelector(".thumbnail-title");
-      if ($title) $title.textContent = `"${store.searchKeyword}" 검색 결과`;
+      if ($title)
+        $title.textContent = `"${movieStore.searchKeyword}" 검색 결과`;
 
       const $ul = document.querySelector(".thumbnail-list");
       if ($ul) $ul.innerHTML = "";
@@ -39,7 +40,7 @@ window.addEventListener("submit", async (event) => {
       $topRatedContainer?.classList.add("close");
       $overlay?.classList.add("close");
 
-      store.movies = [];
+      movieStore.movies = [];
 
       renderMoviesList();
     }

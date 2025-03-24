@@ -1,5 +1,5 @@
 import { MoviesResponse } from "../../types/movieApiType";
-import { TMDB_BASE_URL } from "../constants/constants";
+import { TMDB_BASE_URL } from "../constants/movieApi";
 
 async function fetchWithErrorHandling(url: string): Promise<MoviesResponse> {
   const options = {

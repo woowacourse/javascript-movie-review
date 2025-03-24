@@ -1,18 +1,17 @@
 import { MovieResult } from "../../types/movieApiType";
-import { DEFAULT_BACK_DROP_URL } from "../constants/constants";
+import { DEFAULT_BACK_DROP_URL } from "../constants/movieApi";
+import { toElement } from "../utils/domUtils";
 
 export default function MovieList(moviesResult: MovieResult[]) {
   const $ul = document.querySelector(".thumbnail-list");
-  moviesResult.forEach((movieResult) => {
-    const $li = document.createElement("li");
 
+  moviesResult.forEach((movieResult) => {
     const backgroundImage = movieResult.backdrop_path
       ? `${DEFAULT_BACK_DROP_URL}${movieResult.backdrop_path}`
       : "./images/default_thumbnail.jpeg";
 
-    // 서버로부터 데이터를 받아오는 동안
-
-    $li.innerHTML = /*html*/ `
+    const movieItemTemplate = /*html*/ `
+      <li>
         <div class="item">
           <img
             class="thumbnail"
@@ -28,9 +27,12 @@ export default function MovieList(moviesResult: MovieResult[]) {
             <strong>${movieResult.title}</strong>
           </div>
         </div>
+      </li>
     `;
 
-    $ul?.appendChild($li);
+    const $movieItemElement = toElement(movieItemTemplate);
+
+    $ul?.appendChild($movieItemElement);
   });
   return $ul;
 }
