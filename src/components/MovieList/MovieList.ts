@@ -1,6 +1,6 @@
 import { MovieItemProps } from "../../../types/domain";
 import MovieItem from "../MovieItem";
-import { movieListContainer } from "./Element";
+import { $movieListContainer } from "./Element";
 
 const MovieList = {
   async init(movieList: MovieItemProps[]) {
@@ -12,9 +12,14 @@ const MovieList = {
   },
 
   set(movieList: MovieItemProps[]) {
+    $movieListContainer.replaceChildren();
+    this.add(movieList);
+  },
+
+  add(movieList: MovieItemProps[]) {
     movieList
       .map((movieItem) => MovieItem.create(movieItem))
-      .forEach((movieItem) => movieListContainer.appendChild(movieItem));
+      .forEach((movieItem) => $movieListContainer.appendChild(movieItem));
   },
 };
 

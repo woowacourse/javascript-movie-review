@@ -2,11 +2,13 @@ import { TMDB_PaginatedMovies } from "../../types/TMDB_data";
 import ErrorMessage from "../constants/ErrorMessage";
 import ApiClient from "./ApiClient";
 
-async function fetchPopularMovies() {
+async function fetchPopularMovies(pageNumber: number) {
   const params = new URLSearchParams({
-    page: "1",
+    page: pageNumber.toString(),
     language: "ko-KR",
+    region: "KR",
   });
+  console.log(params.toString());
 
   try {
     const TMDB_movieList = await ApiClient.get<TMDB_PaginatedMovies>(
