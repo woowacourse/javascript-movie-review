@@ -1,18 +1,7 @@
-import { IMovie } from '../type';
 import { Response } from './type';
 import ApiClient from './ApiClient';
 
-interface SearchMoviesResponse extends Response {
-  results: IMovie[];
-}
-
-export const getSearchMovies = async ({
-  page,
-  query
-}: {
-  page: number;
-  query: string;
-}): Promise<SearchMoviesResponse | null> => {
+export const getSearchMovies = async ({ page, query }: { page: number; query: string }): Promise<Response | null> => {
   try {
     const params = new URLSearchParams({
       include_adult: 'false',

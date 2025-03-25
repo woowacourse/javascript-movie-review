@@ -1,12 +1,7 @@
-import { IMovie } from '../type';
 import { Response } from './type';
 import ApiClient from './ApiClient';
 
-interface PopularMoviesResponse extends Response {
-  results: IMovie[];
-}
-
-export const getPopularMovies = async ({ page }: { page: number }): Promise<PopularMoviesResponse | null> => {
+export const getPopularMovies = async ({ page }: { page: number }): Promise<Response | null> => {
   try {
     const params = new URLSearchParams({
       language: 'en-US',
