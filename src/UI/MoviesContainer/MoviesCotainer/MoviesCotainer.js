@@ -107,7 +107,6 @@ class MoviesCotainer {
 
     const $main = document.createElement("main");
 
-    console.log("this.#searchKeyword:", this.#searchKeyword);
     if (this.#searchKeyword === "") {
       const $thumbnail = new Thumbnail(this.#movies[0]).render();
       this.$target.append($thumbnail);
