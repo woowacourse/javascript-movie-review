@@ -3,10 +3,12 @@ import { ENV } from '../api/env';
 import Fetcher from '../api/Fetcher';
 import { movieFetcherEvent } from './MovieFetcherEvent';
 import { delay } from '../utils/delay';
+import { MovieDetailResponse } from '../types/MovieDetail.types';
 
 export const API_PATH = {
   MOVIE: 'movie/popular',
   SEARCH: 'search/movie',
+  DETAIL: '/movie/',
 } as const;
 
 type MovieFetcherState = {
@@ -18,9 +20,7 @@ type MovieFetcherState = {
 
 class MovieFetcher {
   private movieFetcher: Fetcher;
-
   private state: MovieFetcherState;
-
   private query: string = '';
   private currentPage: number = 1;
   private error: Error | null = null;
@@ -111,6 +111,14 @@ class MovieFetcher {
 
     const url = `${API_PATH.SEARCH}?query=${query}&page=${page}`;
     return await this.fetchMovieData(url);
+  }
+
+  public async getMovieDetail(
+    id: number,
+  ): Promise<MovieDetailResponse | undefined> {
+    const url = `${API_PATH.DETAIL}/${id}`;
+    const res = await this.movieFetcher.get<MovieDetailResponse>(url);
+    return res;
   }
 
   public async getNextPageSearchMovies() {
