@@ -4,7 +4,7 @@
   "description": "우아한테크코스 레벨1 영화 리뷰 미션 저장소",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "test-unit": "jest --no-cache",
@@ -19,7 +19,7 @@
   "bugs": {
     "url": "https://github.com/woowacourse-projects/javascript-movie-review/issues"
   },
-  "homepage": "https://{username}.github.io/javascript-movie-review",
+  "homepage": "https://eunoia-jaxson.github.io/javascript-movie-review",
   "devDependencies": {
     "vite": "^6.1.0",
     "@babel/core": "^7.20.12",

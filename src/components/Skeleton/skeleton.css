@@ -1,0 +1,77 @@
+.skeleton-item {
+  animation: pulse 1.5s infinite;
+  background-color: #e0e0e0;
+  border-radius: 4px;
+}
+
+.skeleton-thumbnail {
+  width: 200px;
+  height: 300px;
+  background-color: #ccc;
+  border-radius: 8px;
+  animation: pulse 1.5s infinite;
+}
+
+.skeleton-desc {
+  padding: 8px;
+}
+
+.skeleton-rate,
+.skeleton-title {
+  height: 16px;
+  background-color: #ccc;
+  margin-top: 4px;
+  border-radius: 4px;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.skeleton-banner {
+  position: relative;
+  width: 100%;
+  height: 500px;
+  background-color: #e0e0e0;
+  overflow: hidden;
+}
+
+.skeleton-banner .overlay {
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 150%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.6),
+    transparent
+  );
+  animation: shimmer 2s infinite;
+}
+
+.skeleton-banner-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(150%);
+  }
+}

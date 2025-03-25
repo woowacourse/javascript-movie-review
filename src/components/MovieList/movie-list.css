@@ -1,5 +1,3 @@
-@import "./colors.css";
-
 .thumbnail-list {
   margin: 0 auto 56px;
   display: grid;
@@ -11,6 +9,8 @@
   width: 200px;
   height: 300px;
   border-radius: 8px;
+  object-fit: contain;
+  display: none;
 }
 
 .item {
@@ -28,6 +28,7 @@ p.rate {
   display: flex;
   align-items: baseline;
   color: var(--color-yellow);
+  margin-top: 4px;
 }
 
 p.rate > span {
@@ -37,4 +38,8 @@ p.rate > span {
 .item .star {
   width: 16px;
   top: 1px;
+}
+
+.more {
+  width: 100%;
 }
