@@ -1,0 +1,46 @@
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  padding: 30px 40px;
+  z-index: 100;
+  width: 100%;
+}
+
+h1.logo {
+  font-size: 2rem;
+}
+
+.search-bar {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 525px;
+  padding: 3px 20px;
+  color: var(--color-white);
+  font-size: 16px;
+  border-radius: 30px;
+  border: 2px solid var(--color-white);
+  display: flex;
+}
+
+.search-bar button {
+  background-color: transparent;
+  border: none;
+}
+
+.search-bar input {
+  background-color: transparent;
+  border: none;
+  color: white;
+  flex: 1;
+  font-size: 16px;
+  &:focus {
+    outline: none;
+  }
+  &::placeholder {
+    color: var(--color-white);
+  }
+}
