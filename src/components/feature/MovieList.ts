@@ -48,12 +48,12 @@ const updateListTitle = (
 ) => {
   titleElement.textContent = isSearch
     ? `검색 결과: ${query}`
-    : '인기 있는 영화';
+    : '지금 인기 있는 영화';
 };
 
 const titleText = Text({
   classList: ['text-2xl', 'font-bold', 'mb-32'],
-  props: { textContent: '인기 있는 영화' },
+  props: { textContent: '지금 인기 있는 영화' },
 });
 
 let movieUl = createElement<HTMLUListElement>('ul', {
@@ -69,7 +69,7 @@ const mainElement = createElement('main', {
   children: [sectionElement],
 });
 
-const handleMoreButtonClick = async () => {
+const handleMoreMovieData = async () => {
   const response = movieFetcher.currentMovieResponse;
   const hasNextPage = response.page < response.total_pages;
 
@@ -78,6 +78,27 @@ const handleMoreButtonClick = async () => {
   await (movieFetcher.isSearchState
     ? movieFetcher.getNextPageSearchMovies()
     : movieFetcher.getNextPagePopularMovies());
+};
+
+const observerCallback = async (entries: IntersectionObserverEntry[]) => {
+  const entry = entries[0];
+
+  if (entry.isIntersecting && !movieFetcher.isLoadingState) {
+    await handleMoreMovieData();
+  }
+};
+
+const setupIntersectionObserver = () => {
+  const lastMovieItem = document.querySelector('.movie-item:last-child');
+  if (!lastMovieItem) return;
+
+  const observer = new IntersectionObserver(observerCallback, {
+    root: null,
+    rootMargin: '100px',
+    threshold: 1.0,
+  });
+
+  observer.observe(lastMovieItem);
 };
 
 const renderMoreLoadingState = (itemCount: number) => {
@@ -92,7 +113,7 @@ const renderEmptyState = () => {
   movieUl.appendChild(emptyElement);
 };
 
-const renderMovies = (movies: MovieItemType[], response: MovieResponse) => {
+const renderMovies = (movies: MovieItemType[]) => {
   const movieElements = createMovieItems(movies);
 
   movieUl.innerHTML = '';
@@ -103,7 +124,7 @@ const renderMovieList = () => {
   const {
     movies: results,
     queryText: query,
-    currentMovieResponse: response,
+    // currentMovieResponse: response,
     isLoadingState: isLoading,
     isSearchState: isSearch,
     errorState: error,
@@ -117,7 +138,8 @@ const renderMovieList = () => {
     return renderEmptyState();
   }
 
-  renderMovies(results, response);
+  renderMovies(results);
+  setupIntersectionObserver();
 };
 
 export const MovieList = async (): Promise<HTMLElement> => {
