@@ -18,7 +18,7 @@ describe("fallback 테스트", () => {
     cy.visit(localHostUrl);
   });
 
-  it("사용자가 홈화면에 접속하면 영화 추천과 20개의 영화 리스트를 본다.", () => {
+  it(`서버가 500를 보내면 ${ERROR_MESSAGE.FETCH_ERROR}를 보여준다.`, () => {
     cy.get(".toast-container")
       .should("be.visible")
       .contains(ERROR_MESSAGE.FETCH_ERROR);
