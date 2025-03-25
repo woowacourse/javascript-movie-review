@@ -106,16 +106,16 @@ button#seeMore {
   margin-bottom: 8px;
 }
 
-div.logo {
+.logo {
   font-size: 2rem;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .logo > img {
+  object-fit: contain;
   cursor: pointer;
-  left: 0;
-  top: 9px;
 }
 
 .rate {

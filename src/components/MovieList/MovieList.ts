@@ -1,19 +1,11 @@
 import { MovieItemProps } from "../../../types/domain";
-import fetchPopularMovies from "../../api/fetchPopularMovies";
 import MovieItem from "../MovieItem";
 import { movieListContainer } from "./Element";
 
 const MovieList = {
-  async init() {
+  async init(movieList: MovieItemProps[]) {
     try {
-      const popularMovies = await fetchPopularMovies();
-
-      const movieList = popularMovies?.results.map(
-        ({ id, poster_path, vote_average, title }) => {
-          return { id, posterPath: poster_path, rate: vote_average, title };
-        }
-      );
-      if (movieList) this.set(movieList);
+      this.set(movieList);
     } catch (error) {
       if (error instanceof Error) alert(error.message);
     }
