@@ -28,7 +28,9 @@ const requestAppClient = async (method: HttpMethod, query: string, params: Recor
       throw new Error(ERROR.NETWORK);
     }
 
-    throw Error;
+    if (error instanceof Error) {
+      throw Error(ERROR.NOT_FOUND);
+    }
   }
 };
 
