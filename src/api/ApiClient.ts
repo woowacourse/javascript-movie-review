@@ -27,7 +27,7 @@ export default class ApiClient {
       method,
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${import.meta.env.VITE_THDB_API_KEY}`,
+        Authorization: `Bearer ${import.meta.env.VITE_TMDB_TOKEN}`,
         ...headers
       }
     };
