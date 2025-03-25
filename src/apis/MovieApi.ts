@@ -15,18 +15,17 @@ async function fetchWithErrorHandling(url: string) {
   });
 }
 
-export async function getMovies({ page }: { page: number }) {
+interface GetDataProps {
+  page: number;
+  name: string;
+}
+
+export async function getMovies({ page }: Omit<GetDataProps, "name">) {
   const url = `https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=${page}`;
   return fetchWithErrorHandling(url);
 }
 
-export async function getMovieByName({
-  name,
-  page,
-}: {
-  name: string;
-  page: number;
-}) {
+export async function getMovieByName({ name, page }: GetDataProps) {
   const url = `https://api.themoviedb.org/3/search/movie?query=${name}&include_adult=false&language=ko-KR&page=${page}`;
   return fetchWithErrorHandling(url);
 }

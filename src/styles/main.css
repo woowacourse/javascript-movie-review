@@ -79,13 +79,11 @@ button.primary {
   background-color: rgba(0, 0, 0, 0.5);
   width: 100%;
   height: 100%;
-  z-index: 1;
 }
 
 .top-rated-container {
   user-select: none;
   position: relative;
-  z-index: 2;
   max-width: 1280px;
   height: 350px;
   margin: 0 auto;
@@ -95,7 +93,6 @@ button.primary {
   position: relative;
   max-width: 1280px;
   margin: 0 auto;
-  z-index: 2;
 }
 
 .top-rated-search {

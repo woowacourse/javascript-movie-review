@@ -1,0 +1,19 @@
+:root {
+  --z-overlay: 1;
+  --z-content: 2;
+  --z-modal-backdrop: 10;
+}
+
+.overlay {
+  z-index: var(--z-overlay);
+}
+
+.top-rated-container,
+.top-rated-header,
+.modal {
+  z-index: var(--z-content);
+}
+
+.modal-background {
+  z-index: var(--z-modal-backdrop);
+}
