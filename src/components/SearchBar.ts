@@ -18,7 +18,7 @@ class SearchBar {
     <form class="search-bar">
         <input placeholder="검색어를 입력하세요"/>
         <button type="submit">
-          <img src="./images/search_button.png" />
+          <img src="./images/search_button.png"  alt="search-button"/>
         </button>
     </form >
   `;

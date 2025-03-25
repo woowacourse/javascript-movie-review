@@ -21,7 +21,7 @@ class TopRatedMovie implements TopRatedMovieContract {
       <div class="overlay" aria-hidden="true"></div>
       <div class="top-rated-movie">
           <div class="rate">
-              <img src="./images/star_empty.png" class="star" />
+              <img src="./images/star_empty.png" class="star" alt="star-empty"/>
               <span class="rate-value">${this.#movie.vote_average}</span>
           </div>
           <div class="title">${this.#movie.title}</div>
@@ -39,7 +39,7 @@ class TopRatedMovie implements TopRatedMovieContract {
       <div class="overlay" aria-hidden="true"></div>
       <div class="top-rated-movie">
         <div class="rate">
-            <img src="./images/star_empty.png" class="star" />
+            <img src="./images/star_empty.png" class="star" alt="star-empty" />
             <span class="rate-value">${this.#movie.vote_average}</span>
         </div>
         <div class="title">${this.#movie.title}</div>
