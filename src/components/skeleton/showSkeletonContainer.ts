@@ -1,5 +1,5 @@
-import skeletonContainer from "../skeletonContainer";
-import skeletonContainerTitle from "../skeletonTitleContainer";
+import skeletonContainer from "./internal/skeletonContainer";
+import skeletonContainerTitle from "./internal/skeletonTitleContainer";
 
 const showSkeletonContainer = (
   $targetElement: Element | null,

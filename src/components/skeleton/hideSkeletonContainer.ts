@@ -1,4 +1,4 @@
-import { $ } from "../../utils/selectors";
+import { $ } from "../utils/selectors";
 
 const hideSkeletonContainer = () => {
   const $skeleton = $(".skeleton-container");

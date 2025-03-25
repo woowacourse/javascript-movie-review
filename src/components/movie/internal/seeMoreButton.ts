@@ -1,5 +1,5 @@
-import hideSkeletonContainer from "../../skeleton/utils/hideSkeletonContainer";
-import showSkeletonContainer from "../../skeleton/utils/showSkeletonContainer";
+import hideSkeletonContainer from "../../skeleton/hideSkeletonContainer";
+import showSkeletonContainer from "../../skeleton/showSkeletonContainer";
 import { createElementWithAttributes } from "../../utils/createElementWithAttributes";
 import { LoadMoreCallback } from "../movieContainer";
 import movieList from "./movieList";

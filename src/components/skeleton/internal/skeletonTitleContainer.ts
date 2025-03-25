@@ -1,4 +1,4 @@
-import { createElementWithAttributes } from "../utils/createElementWithAttributes";
+import { createElementWithAttributes } from "../../utils/createElementWithAttributes";
 
 const skeletonContainerTitle = () => {
   return createElementWithAttributes({

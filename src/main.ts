@@ -4,8 +4,8 @@ import backgroundContainer from "./components/backgroundContainer";
 import movieContainer from "./components/movie/movieContainer";
 import { createElementWithAttributes } from "./components/utils/createElementWithAttributes";
 import { $ } from "./components/utils/selectors";
-import showSkeletonContainer from "./components/skeleton/utils/showSkeletonContainer";
-import hideSkeletonContainer from "./components/skeleton/utils/hideSkeletonContainer";
+import showSkeletonContainer from "./components/skeleton/showSkeletonContainer";
+import hideSkeletonContainer from "./components/skeleton/hideSkeletonContainer";
 
 const onSearch = async (event: Event) => {
   if (!(event.target instanceof HTMLFormElement)) return;
