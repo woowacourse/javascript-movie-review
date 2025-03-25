@@ -15,17 +15,20 @@ interface HeaderProps {
 const Header = (props: HeaderProps) => {
   const { rate, title, src } = props;
   const { fetchSearchMovieList } = useGetSearchMovieList();
-  const { handleInputChange } = useInputChange(
+  const { handleInputChange, resetInput } = useInputChange(
     ".search-input",
     setSearchInputValue
   );
   const [addEvent] = useEvents(".background-container");
 
-  addEvent("click", ".search-button-icon", (e) => {
+  addEvent("click", ".search-button-icon", async (e) => {
     e.preventDefault();
     handleInputChange();
 
-    fetchSearchMovieList(searchInputValue);
+    if (searchInputValue) {
+      await fetchSearchMovieList(searchInputValue);
+      resetInput();
+    }
   });
 
   addEvent("click", ".logo", () => {

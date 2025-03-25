@@ -13,7 +13,14 @@ const useInputChange = (
     setSearchInputValue(inputValue);
   };
 
-  return { handleInputChange };
+  const resetInput = () => {
+    const inputValue = $(selector) as HTMLInputElement;
+    if (inputValue) {
+      inputValue.value = "";
+    }
+  };
+
+  return { handleInputChange, resetInput };
 };
 
 export default useInputChange;
