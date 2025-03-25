@@ -8,6 +8,7 @@ import MovieListSection from "./UI/MoviesContainer/MovieListSection/MovieListSec
 import { IMG_PATH } from "./constants/constants";
 import MovieManager from "./Domain/MovieManager";
 import UIManager from "./Domain/UIManager";
+import MovieItem from "./UI/MoviesContainer/MovieItem/MovieItem";
 
 class App {
   #movieManager;
@@ -125,13 +126,35 @@ class App {
 
   handleButtonClick = async () => {
     const keyword = this.getKeywordFromURL();
+
+    const $main = document.querySelector("main");
+    const $ul = document.querySelector(".thumbnail-list");
+
+    const skeletonElements = [];
+    for (let i = 0; i < 20; i++) {
+      const skeleton = document.createElement("li");
+      skeleton.classList.add("skeleton-box");
+      skeletonElements.push(skeleton);
+      $ul.appendChild(skeleton);
+    }
+
     const { results, totalPage, currentPage } = keyword
       ? await this.#movieManager.fetchSearch(keyword)
       : await this.#movieManager.fetchPopular();
 
-    if (currentPage >= totalPage) this.#uiManager.setShowMore(false);
+    if (currentPage >= totalPage) {
+      this.#uiManager.setShowMore(false);
+      const $moreButton = document.querySelector(".more-button");
+      $moreButton.remove();
+    }
 
-    this.render(results);
+    skeletonElements.forEach(($el) => $el.remove());
+
+    const newMovies = results.slice(-20);
+    newMovies.forEach((movie) => {
+      const $item = new MovieItem(movie, false).render();
+      $ul.appendChild($item);
+    });
   };
 
   getKeywordFromURL() {

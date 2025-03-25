@@ -8,9 +8,12 @@ class Thumbnail {
   render() {
     const $div = document.createElement("div");
     $div.classList.add("background-container");
-    if (this.isLoading || !this.movie) {
+    if (this.isLoading) {
       $div.classList.add("skeleton-thumbnail");
       return $div;
+    }
+    if (this.movie === null) {
+      return;
     }
 
     $div.style.backgroundImage = `url("${this.movie.backdrop_path}")`;

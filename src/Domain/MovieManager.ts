@@ -8,6 +8,10 @@ class MovieManager {
   #page: number = 1;
   #searchPage: number = 1;
 
+  getMovies() {
+    return this.#movies;
+  }
+
   reset() {
     this.#movies = [];
     this.#page = 1;
