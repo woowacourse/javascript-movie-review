@@ -4,7 +4,7 @@ import Button from "./components/@common/Button";
 import Footer from "./components/footer/Footer";
 import Header from "./components/header/Header";
 import MovieItem from "./components/movieItem/MovieItem";
-import Skeleton from "./components/skeleton/Skeleton";
+import SkeletonList from "./components/skeletonList/SkeletonList";
 import {
   movies,
   searchInputValue,
@@ -36,8 +36,7 @@ const App = () => {
     });
   }
 
-  const displayMovieList =
-    searchInputValue.trim().length > 0 ? searchResults : movies;
+  const displayMovieList = searchResults.length > 0 ? searchResults : movies;
 
   return ` ${
     isError || !movies.length
@@ -51,9 +50,7 @@ const App = () => {
   
     <div class="app-layout">
       <h1 class="sub-title">${
-        searchInputValue.length > 0
-          ? `${searchInputValue} 검색 결과`
-          : "지금 인기 있는 영화"
+        searchResults.length > 0 ? `검색 결과` : "지금 인기 있는 영화"
       }</h1>
 
       ${
@@ -62,21 +59,23 @@ const App = () => {
           : ""
       }
       ${
-        searchInputValue.length > 0 && displayMovieList.length === 0
+        searchResults.length === 0 && searchInputValue.trim().length > 0
           ? `<div class="no-results">검색 결과가 없습니다.</div>`
-          : `<ul class="thumbnail-list">
-              ${displayMovieList
-                .map((movie) => {
-                  return isLoading
-                    ? Skeleton()
-                    : MovieItem({
-                        title: movie.title,
-                        rate: movie.vote_count,
-                        src: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
-                      });
-                })
-                .join("")}
-            </ul>
+          : `${
+              isLoading && movies.length === 0
+                ? `${SkeletonList()}`
+                : `<ul class="thumbnail-list">
+                    ${displayMovieList
+                      .map((movie) =>
+                        MovieItem({
+                          title: movie.title,
+                          rate: movie.vote_count,
+                          src: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
+                        })
+                      )
+                      .join("")}
+                  </ul>`
+            }
       ${isMoreError ? `<div>영화 목록을 불러오는 데 실패했습니다.</div>` : ""}
     ${
       displayMovieList.length < totalResults
