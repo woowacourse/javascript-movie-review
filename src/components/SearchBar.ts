@@ -17,8 +17,8 @@ class SearchBar {
     this.#parentElement.innerHTML = `
     <form class="search-bar">
         <input placeholder="검색어를 입력하세요"/>
-        <button type="submit">
-          <img src="./images/search_button.png"  alt="search-button"/>
+        <button class="search-button" type="submit">
+          <img src="./images/search_button.png" alt="search-button"/>
         </button>
     </form >
   `;
@@ -35,8 +35,20 @@ class SearchBar {
 
       if (!params) return; // 빈 문자열 입력 시 무시
 
+      this.#disableButton();
       this.#props.onSearchSubmitted(params);
+      this.#enableButton();
     });
+  }
+
+  #disableButton() {
+    const moreButton = document.querySelector(".search-button");
+    moreButton?.setAttribute("disabled", "true");
+  }
+
+  #enableButton() {
+    const moreButton = document.querySelector(".search-button");
+    moreButton?.removeAttribute("disabled");
   }
 }
 

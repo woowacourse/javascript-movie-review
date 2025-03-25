@@ -21,18 +21,18 @@ class MoreMoviesButton {
   #addEventListeners() {
     const moreButton = document.querySelector(".more-movies-button");
     moreButton?.addEventListener("click", () => {
-      this.disableButton();
+      this.#disableButton();
       this.#props.refetchMovies();
-      this.enableButton();
+      this.#enableButton();
     });
   }
 
-  disableButton() {
+  #disableButton() {
     const moreButton = document.querySelector(".more-movies-button");
     moreButton?.setAttribute("disabled", "true");
   }
 
-  enableButton() {
+  #enableButton() {
     const moreButton = document.querySelector(".more-movies-button");
     moreButton?.removeAttribute("disabled");
   }
