@@ -12,11 +12,41 @@ interface MovieContainerProps {
   loadMoreCallback: LoadMoreCallback;
 }
 
-const MAX_PAGES = 500;
+const setupSeeMoreMoviesHandler = ({
+  $movieList,
+  $seeMoreButton,
+  loadMoreCallback,
+}: {
+  $movieList: HTMLElement;
+  $seeMoreButton: HTMLElement;
+  loadMoreCallback: LoadMoreCallback;
+}) => {
+  const MAX_PAGES = 500;
+  let pageNumber = 1;
+  const seeMoreMovies = async () => {
+    pageNumber += 1;
+
+    showSkeletonContainer($movieList);
+
+    const { results, total_pages } = await loadMoreCallback(pageNumber);
+
+    if (pageNumber === total_pages || pageNumber === MAX_PAGES) {
+      $seeMoreButton.removeEventListener("click", seeMoreMovies);
+      $seeMoreButton.remove();
+    }
+
+    hideSkeletonContainer();
+
+    const $newMovieList = movieList(results);
+    $movieList.append(...$newMovieList.children);
+  };
+
+  return { seeMoreMovies };
+};
 
 const movieContainer = ({
   movieListTitle,
-  movieData: { results, total_pages, total_results },
+  movieData: { results, page, total_pages, total_results },
   loadMoreCallback,
 }: MovieContainerProps) => {
   const $movieContainer = createElementWithAttributes({
@@ -63,26 +93,15 @@ const movieContainer = ({
     className: "see-more",
   });
 
-  let pageNumber = 1;
-  $seeMoreButton.addEventListener("click", async () => {
-    pageNumber += 1;
-
-    showSkeletonContainer($movieList);
-
-    const { results, total_pages } = await loadMoreCallback(pageNumber);
-
-    if (pageNumber === total_pages || pageNumber === MAX_PAGES) {
-      $seeMoreButton.remove();
-    }
-
-    hideSkeletonContainer();
-
-    const $newMovieList = movieList(results);
-    $movieList.append(...$newMovieList.children);
+  const { seeMoreMovies } = setupSeeMoreMoviesHandler({
+    $movieList,
+    loadMoreCallback,
+    $seeMoreButton,
   });
+  $seeMoreButton.addEventListener("click", seeMoreMovies);
 
   $movieContainer.append($movieList);
-  if (pageNumber !== total_pages) {
+  if (page !== total_pages) {
     $movieContainer.append($seeMoreButton);
   }
 
