@@ -1,6 +1,6 @@
 import { LocalStorageMovieRateValueType, MovieDetailResponse, MovieResult, MoviesResponse } from '@/lib/types';
 import { MovieApiClient } from './apis';
-import { Footer, Header, MovieDetailModal, Movies } from './components';
+import { Footer, Header, MovieDetailModal, Movies, Obserable } from './components';
 import { Component } from './components/core';
 import eventHandlerInstance from './lib/modules/EventHandler';
 import LocalStorage from './lib/modules/LocalStorage';
@@ -40,6 +40,7 @@ export default class App extends Component<null, AppState> {
         <slot name="movies"></slot>
         <slot name="footer"></slot>
         <slot name="movie-detail-modal"></slot>
+        <slot name="obserable"></slot>
       </div>
     `;
   }
@@ -69,6 +70,16 @@ export default class App extends Component<null, AppState> {
           .element,
         'movie-detail-modal',
       );
+    this.fillSlot(
+      new Obserable({
+        callback: async () => {
+          console.log(1);
+          await this.getMovie(this.state.search, this.state.page + 1);
+          this.setState({ movieDetailResponse: null });
+        },
+      }).element,
+      'obserable',
+    );
   }
 
   async getMovie(search: string, page: number) {
@@ -141,14 +152,7 @@ export default class App extends Component<null, AppState> {
         if ((event as KeyboardEvent).key === 'Escape') this.setState({ movieDetailResponse: null });
       },
     });
-    eventHandlerInstance.addEventListener({
-      eventType: 'click',
-      callback: async () => {
-        await this.getMovie(this.state.search, this.state.page + 1);
-        this.setState({ movieDetailResponse: null });
-      },
-      dataAction: 'show-more',
-    });
+
     eventHandlerInstance.addEventListener({
       eventType: 'submit',
       callback: async ({ target }) => {

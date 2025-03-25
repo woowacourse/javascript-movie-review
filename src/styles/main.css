@@ -43,10 +43,6 @@ button.primary {
   border-radius: 4px;
 }
 
-.show-more {
-  width: 100%;
-}
-
 #movie-review-wrap {
   background-color: var(--color-bluegray-100);
 }
