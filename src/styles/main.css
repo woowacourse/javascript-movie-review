@@ -243,3 +243,34 @@ input:-webkit-autofill {
 .hidden {
   display: none;
 }
+
+.skeleton-base {
+  background-color: rgb(165, 165, 165);
+  animation: skeleton-gradient 1.5s infinite;
+}
+
+.poster-skeleton {
+  width: 100%;
+  height: 300px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.title-skeleton {
+  width: 80%;
+  height: 24px;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+
+.date-skeleton {
+  width: 50%;
+  height: 16px;
+  border-radius: 4px;
+}
+
+.skeleton-animation {
+  border-radius: 8px;
+  animation: skeleton-gradient 1.5s infinite;
+  background-color: rgb(165, 165, 165);
+}
