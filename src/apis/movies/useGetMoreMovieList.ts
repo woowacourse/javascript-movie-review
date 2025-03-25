@@ -1,17 +1,18 @@
-import { Movie } from "../../../types/responseType/responseType";
 import {
   appendMovies,
   appendSearchResults,
   currentPage,
   searchInputValue,
   setIsMoreError,
+  isMoreError,
 } from "../../store/store";
 import { options, url } from "../config/config";
+import { FetchMoviesResponse } from "./useGetMovieList";
 
 const useGetMoreMovieList = () => {
   const fetchMoreMovies = async (
-    callback: (page: number) => Promise<Movie[] | null>
-  ): Promise<Movie[] | null> => {
+    callback: (page: number) => Promise<FetchMoviesResponse>
+  ): Promise<FetchMoviesResponse> => {
     const nextPage = currentPage + 1;
 
     if (searchInputValue.trim()) {
@@ -26,17 +27,17 @@ const useGetMoreMovieList = () => {
         console.error("Error fetching search results:", error);
         setIsMoreError(true);
       }
-      return null;
+      return { isLoading: false, data: null };
     } else {
       // 첫 화면에서 더보기 버튼 누를 때
       const newMovies = await callback(nextPage);
       if (newMovies) {
-        appendMovies(newMovies);
+        appendMovies(newMovies.data ?? []);
       }
       return newMovies;
     }
   };
-  return { fetchMoreMovies };
+  return { fetchMoreMovies, isMoreError };
 };
 
 export default useGetMoreMovieList;

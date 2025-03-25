@@ -5,21 +5,24 @@ import {
 import {
   movies,
   setIsError,
-  setIsLoading,
+  // setIsLoading,
   setMovies,
   setTotalResults,
+  isLoading,
 } from "../../store/store";
-import { url } from "../config/config";
+import { useState } from "../../utils/Core";
+import { options, url } from "../config/config";
+
+export interface FetchMoviesResponse {
+  isLoading?: boolean;
+  data: Movie[] | null;
+}
 
 const useGetMovieList = () => {
-  const fetchMovies = async (page: number): Promise<Movie[] | null> => {
+  const fetchMovies = async (page: number): Promise<FetchMoviesResponse> => {
+    const [isLoading, setIsLoading] = useState(false);
     try {
-      const response = await fetch(url.popular(page), {
-        headers: {
-          Authorization: `Bearer ${import.meta.env.VITE_API_TOKEN}`,
-        },
-        method: "GET",
-      });
+      const response = await fetch(url.popular(page), options);
       const data: MovieListResponse = await response.json();
 
       if (data) {
@@ -28,15 +31,15 @@ const useGetMovieList = () => {
 
       setMovies([...movies, ...data.results]);
       setTotalResults(data.total_results);
-      return data.results;
+      return { isLoading, data: data.results };
     } catch (error) {
       setIsError(true);
       console.error("Error fetching data in App:", error);
     }
-    return null;
+    return { isLoading, data: null };
   };
 
-  return { fetchMovies };
+  return { fetchMovies, isLoading };
 };
 
 export default useGetMovieList;

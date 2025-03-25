@@ -11,17 +11,15 @@ import {
   searchResults,
   setMovies,
   totalResults,
-  isLoading,
   isError,
-  isMoreError,
   isSearchError,
 } from "./store/store";
 import { useEvents } from "./utils/Core";
 import { timeOutDebounce } from "./utils/debounce";
 
 const App = () => {
-  const { fetchMovies } = useGetMovieList();
-  const { fetchMoreMovies } = useGetMoreMovieList();
+  const { fetchMovies, isLoading } = useGetMovieList();
+  const { fetchMoreMovies, isMoreError } = useGetMoreMovieList();
 
   const [addEvent] = useEvents(".app-layout");
 
@@ -36,7 +34,7 @@ const App = () => {
   if (movies.length === 0) {
     fetchMovies(1).then((results) => {
       if (results) {
-        setMovies(results);
+        setMovies(results.data ?? []);
       }
     });
   }
