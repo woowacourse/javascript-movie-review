@@ -16,7 +16,7 @@ const MAX_PAGES = 500;
 
 const movieContainer = ({
   movieListTitle,
-  movieData,
+  movieData: { results, total_pages, total_results },
   loadMoreCallback,
 }: MovieContainerProps) => {
   const $movieContainer = createElementWithAttributes({
@@ -29,8 +29,6 @@ const movieContainer = ({
       },
     ],
   });
-
-  const { results, total_pages, total_results } = movieData;
 
   if (total_results === 0) {
     const $noSearchContainer = createElementWithAttributes({
