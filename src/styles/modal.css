@@ -36,7 +36,7 @@ body.modal-open {
   color: white;
   z-index: 2;
   position: relative;
-  width: 1000px;
+  width: 100%;
 }
 
 .close-modal {
@@ -66,6 +66,12 @@ body.modal-open {
   padding: 8px;
   margin-left: 16px;
   line-height: 1.6rem;
+}
+
+.modal-description .category {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .modal-description .rate > img {
@@ -111,12 +117,9 @@ body.modal-open {
 }
 
 /* 태블릿 */
-@media (max-width: 800px) {
+@media (max-width: 1120px) {
   .modal-background {
     align-items: end;
-  }
-  .modal {
-    border-radius: 0;
   }
   .main-info {
     text-align: center;
@@ -135,3 +138,29 @@ body.modal-open {
 }
 
 /* 모바일 */
+@media (max-width: 800px) {
+  .modal-background {
+    align-items: end;
+  }
+  .modal {
+    padding-top: 60px;
+  }
+  .modal-description {
+    text-align: center;
+  }
+  .my-rate .main {
+    display: flex;
+    flex-direction: column;
+  }
+  .modal-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  .modal-image img {
+    display: none;
+  }
+  .rate {
+    display: flex;
+    justify-content: center;
+  }
+}
