@@ -1,5 +1,5 @@
-import { getPopularMovies } from "./apis/getPopularMovies";
-import { getSearchedMovies } from "./apis/getSearchedMovies";
+import { fetchPopularMovies } from "./domain/apis/fetchPopularMovies";
+import { fetchSearchedMovies } from "./domain/apis/fetchSearchedMovies";
 import backgroundContainer from "./components/backgroundContainer";
 import movieContainer from "./components/movie/movieContainer";
 import skeletonContainer from "./components/skeleton/skeletonContainer";
@@ -29,12 +29,12 @@ const onSearch = async (event: Event) => {
       $main?.append($skeleton);
 
       const { results, page, total_pages, total_results } =
-        await getSearchedMovies(searchKeyword);
+        await fetchSearchedMovies(searchKeyword);
 
       $skeleton.remove();
 
       const loadMoreCallback = async (pageNumber: number) =>
-        await getSearchedMovies(searchKeyword, pageNumber);
+        await fetchSearchedMovies(searchKeyword, pageNumber);
 
       const $searchedMovieContainer = movieContainer(
         `"${searchKeyword}" 검색 결과`,
@@ -73,12 +73,12 @@ const initializeMovie = async () => {
   $main?.append($skeleton);
 
   const { results, page, total_pages, total_results } =
-    await getPopularMovies();
+    await fetchPopularMovies();
 
   $skeleton.remove();
 
   const loadMoreCallback = async (pageNumber: number) =>
-    await getPopularMovies(pageNumber);
+    await fetchPopularMovies(pageNumber);
 
   const $movieContainer = movieContainer(
     "지금 인기 있는 영화",
