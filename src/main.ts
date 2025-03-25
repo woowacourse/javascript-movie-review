@@ -2,16 +2,16 @@ import { fetchPopularMovies } from "./domain/apis/fetchPopularMovies";
 import { fetchSearchedMovies } from "./domain/apis/fetchSearchedMovies";
 import backgroundContainer from "./components/backgroundContainer";
 import movieContainer from "./components/movie/movieContainer";
-import { createElementWithAttributes } from "./components/utils/createElementWithAttributes";
 import { $ } from "./components/utils/selectors";
 import showSkeletonContainer from "./components/skeleton/showSkeletonContainer";
 import hideSkeletonContainer from "./components/skeleton/hideSkeletonContainer";
+import errorContainer from "./components/errorContainer";
 
 const onSearch = async (event: Event) => {
-  if (!(event.target instanceof HTMLFormElement)) return;
-
-  event.preventDefault();
   try {
+    if (!(event.target instanceof HTMLFormElement)) return;
+
+    event.preventDefault();
     const formData = new FormData(event.target);
     const searchKeyword = formData.get("search-bar");
 
@@ -43,21 +43,14 @@ const onSearch = async (event: Event) => {
     }
   } catch (error: unknown) {
     if (error instanceof Error) {
-      const $main = $("main");
-      $main?.replaceChildren();
-
       const $backgroundContainer = $(".background-container");
       $backgroundContainer?.remove();
 
-      const $errorContainer = createElementWithAttributes({
-        tag: "div",
-        className: "error-container",
-        children: [
-          { tag: "h1", textContent: `${error.message} 새로고침 해주세요!` },
-        ],
-      });
+      const $main = $("main");
 
-      $main?.append($errorContainer);
+      const $errorContainer = errorContainer(error);
+
+      $main?.replaceChildren($errorContainer);
     }
   }
 };
@@ -95,21 +88,13 @@ const main = async () => {
     $searchBar?.addEventListener("submit", onSearch);
   } catch (error: unknown) {
     if (error instanceof Error) {
-      const $main = $("main");
-      $main?.replaceChildren();
-
       const $backgroundContainer = $(".background-container");
       $backgroundContainer?.remove();
 
-      const $errorContainer = createElementWithAttributes({
-        tag: "div",
-        className: "error-container",
-        children: [
-          { tag: "h1", textContent: `${error.message} 새로고침 해주세요!` },
-        ],
-      });
+      const $errorContainer = errorContainer(error);
 
-      $main?.append($errorContainer);
+      const $main = $("main");
+      $main?.replaceChildren($errorContainer);
     }
   }
 };
