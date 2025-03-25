@@ -2,6 +2,7 @@ import { createElement } from "../../utils/createElement.ts";
 import { MovieDetail } from "../../../types/movie.ts";
 import Rate from "../common/Rate.ts";
 import { $ } from "../../utils/dom.ts";
+import MyRating from "./MyRating.ts";
 
 const MovieDetailModal = (movie: MovieDetail): HTMLElement => {
   const modalDetailModal = createElement(/*html*/ `
@@ -36,22 +37,7 @@ const MovieDetailModal = (movie: MovieDetail): HTMLElement => {
               }</div>
             </div>
             <hr>
-            <!-- 별점 컴포넌트로 분리 예정 -->
-            <h3>내 별점</h3>
-            <div class="my-rate">
-                <div>
-                    <img src="./images/star_empty.png" class="star" />
-                    <img src="./images/star_empty.png" class="star" />
-                    <img src="./images/star_empty.png" class="star" />
-                    <img src="./images/star_empty.png" class="star" />
-                    <img src="./images/star_empty.png" class="star" />
-                </div>
-                <div class="label">
-                    <div>평가하지 않았어요</div>
-                    <div class="score">(0/0)</div>
-                </div>
-            </div>
-            <!-- -->
+            <div class="my-rate-container"></div>
             <hr>
             ${
               movie.overview
@@ -71,6 +57,7 @@ const MovieDetailModal = (movie: MovieDetail): HTMLElement => {
   };
 
   $(".close-modal", modalDetailModal)?.addEventListener("click", closeModal);
+  $(".my-rate-container", modalDetailModal).appendChild(MyRating());
 
   modalDetailModal.addEventListener("click", (e) => {
     if (e.target === modalDetailModal) closeModal();
