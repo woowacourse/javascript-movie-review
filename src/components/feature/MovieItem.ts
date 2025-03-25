@@ -1,8 +1,12 @@
+import { movieFetcher } from '../../domain/MovieFetcher';
 import { MovieItem as MovieItemType } from '../../types/Movie.types';
+import { MovieDetailResponse } from '../../types/MovieDetail.types';
 import { createElement } from '../../utils/createElement';
 import { Box } from '../common/Box';
 import { Img } from '../common/Img';
+import { Modal } from '../common/Modal';
 import { Text } from '../common/Text';
+import { MovieDetailModal } from './MovieDetailModal';
 
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w220_and_h330_face';
 const DEFAULT_IMAGE_URL = './images/no_image.png';
@@ -18,7 +22,7 @@ const createRatingSection = (vote_average: number) => {
           src: './images/star_empty.png',
         }),
         Text({
-          classList: ['text-lg', 'font-semibold', 'text-yellow'],
+          classList: ['text-lg', 'font-semibold', 'text-yellow', 'mt-2'],
           props: {
             textContent: `${vote_average}`,
           },
@@ -55,16 +59,42 @@ const createMovieImage = (title: string, poster_path: string) => {
   });
 };
 
-export const MovieItem = ({
-  title,
-  vote_average,
-  poster_path,
-}: MovieItemType) => {
-  return createElement<HTMLLIElement>('li', {
+export const MovieItem = ({ ...movieItem }: MovieItemType) => {
+  const { id, title, vote_average, poster_path } = movieItem;
+  const item = createElement<HTMLLIElement>('li', {
     classList: 'movie-item',
     children: [
       createMovieImage(title, poster_path),
       createDescriptionSection(title, vote_average),
     ],
   });
+
+  const modal = document.querySelector('#modal');
+
+  item.addEventListener('click', async () => {
+    const loadingModal = Modal(
+      Box({
+        classList: ['flex-center'],
+        props: {
+          children: [
+            Img({
+              src: './images/loading.png',
+              width: '50',
+              height: '50',
+              classList: ['loading-spinner'],
+            }),
+          ],
+        },
+      }),
+    );
+    modal?.appendChild(loadingModal);
+
+    const detailData = await movieFetcher.getMovieDetail(id);
+    if (detailData) {
+      const modalElement = Modal(MovieDetailModal(detailData));
+      modal?.replaceChild(modalElement, loadingModal);
+    }
+  });
+
+  return item;
 };
