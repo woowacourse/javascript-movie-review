@@ -4,10 +4,11 @@ import EmptyView from "../EmptyView/EmptyView";
 import { MOVIE } from "../../../constants/movie";
 
 class MovieListSection {
-  constructor(title, movies, isLoading) {
+  constructor(title, movies, isLoading, $target) {
     this.title = title;
     this.movies = movies;
     this.isLoading = isLoading;
+    this.$target = $target;
   }
 
   render() {
@@ -20,9 +21,10 @@ class MovieListSection {
     $ul.classList.add("thumbnail-list");
 
     if (this.movies === null) {
-      const $div = new EmptyView("오류가 발생했습니다.").render();
-      $section.appendChild($div);
-      return $section;
+      new EmptyView("오류가 발생했습니다.", $section).render();
+
+      this.$target.appendChild($section);
+      return;
     }
 
     const totalMovie = this.movies.length;
@@ -34,16 +36,16 @@ class MovieListSection {
         this.isLoading
       );
       $section.appendChild($ul);
-
-      return $section;
+      this.$target.appendChild($section);
     }
 
     if (totalMovie === 0) {
-      const $div = new EmptyView("검색 결과가 없습니다.").render();
       $section.appendChild($title);
-      $section.appendChild($div);
 
-      return $section;
+      new EmptyView("검색 결과가 없습니다.", $section).render();
+
+      this.$target.appendChild($section);
+      return;
     }
 
     this.renderMovieItemByArray(this.movies, $ul, false);
@@ -55,14 +57,12 @@ class MovieListSection {
       );
     }
 
-    $section.append($title, $ul);
-    return $section;
+    this.$target.append($title, $ul);
   }
 
   renderMovieItemByArray(movies, $ul, isLoading) {
     movies.forEach((movie) => {
-      const $item = new MovieItem(movie, isLoading).render();
-      $ul.appendChild($item);
+      new MovieItem(movie, isLoading, $ul).render();
     });
   }
 

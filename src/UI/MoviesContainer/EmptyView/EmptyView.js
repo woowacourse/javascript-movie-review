@@ -1,8 +1,9 @@
 import "./EmptyView.css";
 
 class EmptyView {
-  constructor(text) {
+  constructor(text, $target) {
     this.text = text;
+    this.$target = $target;
   }
   render() {
     const $div = document.createElement("div");
@@ -16,7 +17,7 @@ class EmptyView {
     $div.appendChild($p);
     $img.setAttribute("src", "./images/noResult.png");
 
-    return $div;
+    this.$target.appendChild($div);
   }
 }
 export default EmptyView;

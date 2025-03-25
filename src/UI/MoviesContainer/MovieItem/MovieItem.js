@@ -1,9 +1,10 @@
 import "./MovieItem.css";
 
 class MovieItem {
-  constructor(movie, isLoading) {
+  constructor(movie, isLoading, $target) {
     this.movie = movie;
     this.isLoading = isLoading;
+    this.$target = $target;
   }
 
   render() {
@@ -11,7 +12,9 @@ class MovieItem {
 
     if (this.isLoading) {
       $li.classList.add("skeleton-box");
-      return $li;
+      this.$target.appendChild($li);
+
+      return;
     }
 
     const { title, poster_path, vote_average } = this.movie;
@@ -40,7 +43,7 @@ class MovieItem {
     
     `;
 
-    return $li;
+    this.$target.appendChild($li);
   }
 }
 export default MovieItem;

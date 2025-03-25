@@ -108,24 +108,20 @@ class MoviesCotainer {
     const $main = document.createElement("main");
 
     if (this.#searchKeyword === "") {
-      const $thumbnail = new Thumbnail(this.#movies[0]).render();
-      this.$target.append($thumbnail);
+      new Thumbnail(this.#movies[0], this.$target).render();
     }
 
-    const $movieListSection = new MovieListSection(
+    new MovieListSection(
       this.#searchKeyword,
       this.#movies,
-      this.#isLoading
+      this.#isLoading,
+      $main
     ).render();
 
     $container.appendChild($main);
-    $main.appendChild($movieListSection);
 
     if (this.hasMovies() && this.#show) {
-      const $moreButton = new Button().render();
-
-      $main.appendChild($moreButton);
-      $moreButton.addEventListener("click", this.handleButtonClick);
+      new Button($main, this.handleButtonClick).render();
     }
 
     this.$target.appendChild($container);

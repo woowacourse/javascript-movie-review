@@ -1,8 +1,9 @@
 import "./TitleSearchBar.css";
 
 class TitleSearchBar {
-  constructor(onSubmit) {
+  constructor(onSubmit, $target) {
     this.onSubmit = onSubmit;
+    this.$target = $target;
   }
 
   render() {
@@ -36,7 +37,7 @@ class TitleSearchBar {
 
     $searchBar.addEventListener("submit", this.onSubmit);
 
-    return $div;
+    this.$target.appendChild($div);
   }
 }
 export default TitleSearchBar;

@@ -33,7 +33,7 @@ class App {
     const $wrap = document.createElement("div");
     $wrap.id = "wrap";
 
-    const $header = new TitleSearchBar(this.onSubmit).render();
+    new TitleSearchBar(this.onSubmit, $wrap).render();
 
     const $container = document.createElement("div");
     const moviesContainer = new MoviesCotainer(
@@ -42,12 +42,11 @@ class App {
       $container
     );
     await moviesContainer.init();
-    const $footer = new Footer().render();
 
     body.appendChild($wrap);
-    $wrap.append($header);
     $wrap.appendChild($container);
-    body.appendChild($footer);
+
+    new Footer(body).render();
   }
 
   onSubmit = async (e) => {

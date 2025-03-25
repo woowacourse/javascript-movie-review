@@ -1,8 +1,9 @@
 import "./Thumbnail.css";
 
 class Thumbnail {
-  constructor(movie) {
+  constructor(movie, $target) {
     this.movie = movie;
+    this.$target = $target;
   }
   render() {
     const $div = document.createElement("div");
@@ -25,7 +26,8 @@ class Thumbnail {
       </div>
     `;
 
-      return $div;
+      this.$target.appendChild($div);
+      return;
     }
     $div.style.backgroundImage = `url("${this.movie.backdrop_path}")`;
 
@@ -44,7 +46,7 @@ class Thumbnail {
       </div>
     `;
 
-    return $div;
+    this.$target.appendChild($div);
   }
 }
 export default Thumbnail;
