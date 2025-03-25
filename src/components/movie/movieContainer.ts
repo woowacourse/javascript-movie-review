@@ -1,48 +1,15 @@
 import { createElementWithAttributes } from "../utils/createElementWithAttributes";
 import movieList from "./movieList/movieList";
 import { MovieData } from "../../domain/types";
-import showSkeletonContainer from "../skeleton/utils/showSkeletonContainer";
-import hideSkeletonContainer from "../skeleton/utils/hideSkeletonContainer";
+import seeMoreButton from "./seeMoreButton/seeMoreButton";
 
-type LoadMoreCallback = (pageNumber: number) => Promise<MovieData>;
+export type LoadMoreCallback = (pageNumber: number) => Promise<MovieData>;
 
 interface MovieContainerProps {
   movieListTitle: string;
   movieData: MovieData;
   loadMoreCallback: LoadMoreCallback;
 }
-
-const setupSeeMoreMoviesHandler = ({
-  $movieList,
-  $seeMoreButton,
-  loadMoreCallback,
-}: {
-  $movieList: HTMLElement;
-  $seeMoreButton: HTMLElement;
-  loadMoreCallback: LoadMoreCallback;
-}) => {
-  const MAX_PAGES = 500;
-  let pageNumber = 1;
-  const seeMoreMovies = async () => {
-    pageNumber += 1;
-
-    showSkeletonContainer($movieList);
-
-    const { results, total_pages } = await loadMoreCallback(pageNumber);
-
-    if (pageNumber === total_pages || pageNumber === MAX_PAGES) {
-      $seeMoreButton.removeEventListener("click", seeMoreMovies);
-      $seeMoreButton.remove();
-    }
-
-    hideSkeletonContainer();
-
-    const $newMovieList = movieList(results);
-    $movieList.append(...$newMovieList.children);
-  };
-
-  return { seeMoreMovies };
-};
 
 const movieContainer = ({
   movieListTitle,
@@ -87,18 +54,7 @@ const movieContainer = ({
 
   const $movieList = movieList(results);
 
-  const $seeMoreButton = createElementWithAttributes({
-    tag: "button",
-    textContent: "더보기",
-    className: "see-more",
-  });
-
-  const { seeMoreMovies } = setupSeeMoreMoviesHandler({
-    $movieList,
-    loadMoreCallback,
-    $seeMoreButton,
-  });
-  $seeMoreButton.addEventListener("click", seeMoreMovies);
+  const $seeMoreButton = seeMoreButton($movieList, loadMoreCallback);
 
   $movieContainer.append($movieList);
   if (page !== total_pages) {
