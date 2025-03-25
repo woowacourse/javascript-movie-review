@@ -1,9 +1,11 @@
-import { store } from "./../stores";
 import { getMovieByName, getMovies } from "../apis/MovieApi";
-import MovieList from "../components/MovieList";
-import MovieListSkeleton from "../components/MovieListSkeleton";
-import TopRatedMovie from "../components/TopRatedMovie";
+import {
+  MovieList,
+  MovieListSkeleton,
+  TopRatedMovie,
+} from "../components/index";
 import { DEFAULT_BACK_DROP_URL, MAX_MOVIE_PAGE } from "../constants/constants";
+import { store } from "./../stores";
 
 const $mainSection = document.querySelector("main section");
 const $ul = document.querySelector(".thumbnail-list");

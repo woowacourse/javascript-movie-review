@@ -1,4 +1,4 @@
-import Button from "./components/Button";
+import { Button } from "./components/index";
 import { renderMoviesList } from "./domains/renderMoviesList";
 import "./events/index";
 

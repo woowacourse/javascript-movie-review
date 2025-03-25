@@ -1,4 +1,4 @@
-import Button from "./Button";
+import { Button } from "../index";
 
 interface TopRatedMovieProps {
   title: string;

@@ -1,4 +1,4 @@
-import Skeleton from "./Skeleton";
+import { Skeleton } from "../index";
 
 export default function MovieListSkeleton() {
   const $ul = document.querySelector(".thumbnail-list");

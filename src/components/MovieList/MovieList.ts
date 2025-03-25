@@ -1,5 +1,5 @@
-import { MovieResult } from "../../types/movieApiType";
-import { DEFAULT_BACK_DROP_URL } from "../constants/constants";
+import { MovieResult } from "../../../types/movieApiType";
+import { DEFAULT_BACK_DROP_URL } from "../../constants/constants";
 
 export default function MovieList(moviesResult: MovieResult[]) {
   const $ul = document.querySelector(".thumbnail-list");
