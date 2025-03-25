@@ -1,3 +1,5 @@
+import { IMAGE_PATH } from "../../constants/imagePaths";
+
 export const addErrorBox = (text: string) => {
   const $movieListSection = document.querySelector(
     ".movie-list-section"
@@ -11,7 +13,7 @@ interface ErrorBoxProps {
 
 const $ErrorBox = ({ text }: ErrorBoxProps) => {
   const $errorPlanet = createElement("img", {
-    src: "./empty-planet.svg",
+    src: IMAGE_PATH.EMPTY_PLANET,
     className: "empty-planet",
     alt: text,
   });
