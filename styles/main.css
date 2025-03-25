@@ -45,8 +45,11 @@ button.primary {
 }
 
 #wrap {
-  min-width: 1440px;
+  width: 100%;
   background-color: var(--color-bluegray-100);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 #wrap h2 {
@@ -55,9 +58,16 @@ button.primary {
   margin-bottom: 32px;
 }
 
+#header {
+  width: 100%;
+}
+
 .container {
-  max-width: 1280px;
-  margin: 0 auto;
+  width: 100%;
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .background-container {
@@ -138,7 +148,14 @@ span.rate-value {
   font-weight: bold;
 }
 
+@media (max-width: 768px) {
+  .title {
+    font-size: 2rem;
+  }
+}
+
 footer.footer {
+  width: 100%;
   min-height: 180px;
   background-color: var(--color-bluegray-80);
   display: flex;
@@ -154,11 +171,23 @@ footer.footer p:not(:last-child) {
 
 .header-container {
   display: flex;
+  flex-direction: row;
   justify-content: center;
+  align-items: center;
+}
+
+@media (max-width: 1200px) {
+  .header-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+  }
 }
 
 .search-form {
-  width: 40%;
+  width: 60%;
   margin: auto;
   display: flex;
   justify-content: space-between;
@@ -194,6 +223,12 @@ footer.footer p:not(:last-child) {
   font-size: 36px;
   font-weight: 600;
   margin-bottom: 56px;
+}
+
+@media (max-width: 768px) {
+  .movie-list-title {
+    font-size: 24px;
+  }
 }
 
 .disabled {
