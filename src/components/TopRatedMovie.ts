@@ -12,9 +12,9 @@ export default function TopRatedMovie({
   const $topRatedMovie = document.createElement("div");
   $topRatedMovie.className = "top-rated-movie";
 
-  $topRatedMovie.innerHTML = `
+  $topRatedMovie.innerHTML = /*html*/ `
     <div class="rate">
-      <img src="./images/star_empty.png" class="star" />
+      <img src="./images/star_empty.png" class="star" alt="star_empty" />
       <span class="rate-value">${voteAverage}</span>
     </div>
     <div class="title">${title}</div>

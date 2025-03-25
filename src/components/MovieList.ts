@@ -11,21 +11,21 @@ export default function MovieList(moviesResult: MovieResult[]) {
       : "./images/default_thumbnail.jpeg";
 
     $li.innerHTML = /*html*/ `
-        <div class="item">
-          <img
-            class="thumbnail"
-            src="${backgroundImage}"
-            alt="${movieResult.title}"
-          />
-          <div class="item-desc">
-            <p class="rate loading">
-              <img src="./images/star_empty.png" class="star" /><span
-                >${movieResult.vote_average}</span
-              >
-            </p>
-            <strong>${movieResult.title}</strong>
-          </div>
+      <div class="item">
+        <img
+          class="thumbnail"
+          src="${backgroundImage}"
+          alt="${movieResult.title}"
+        />
+        <div class="item-desc">
+          <p class="rate loading">
+            <img src="./images/star_empty.png" class="star" alt="star_empty" /><span
+              >${movieResult.vote_average}</span
+            >
+          </p>
+          <strong>${movieResult.title}</strong>
         </div>
+      </div>
     `;
 
     $ul?.appendChild($li);
