@@ -1,6 +1,6 @@
 import Header from "./components/Header.ts";
 import NavigationBar from "./components/NavigationBar.ts";
-import MovieList from "./components/MovieList.ts";
+import CardList from "./components/CardList.ts";
 import Input from "./components/Input.ts";
 import Button from "./components/Button.ts";
 import {
@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         main.innerHTML = "";
 
-        const movieListComponent = MovieList({
+        const movieListComponent = CardList({
           movieItems: searchedMovies,
         }) as HTMLElement;
 
@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         ? moviesPopularState.list
         : moviesSearchedState.list;
 
-    const movieListComponent = MovieList({ movieItems }) as HTMLElement;
+    const movieListComponent = CardList({ movieItems }) as HTMLElement;
     main.appendChild(movieListComponent);
   };
 

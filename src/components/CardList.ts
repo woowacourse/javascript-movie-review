@@ -1,11 +1,11 @@
-import MovieItem from "./MovieItem";
+import CardItem from "./CardItem.ts";
 import { Movie } from "../../types/movie";
 
-type MovieListProps = {
+type CardListProps = {
   movieItems?: Movie[];
 };
 
-const MovieList = ({ movieItems = [] }: MovieListProps) => {
+const CardList = ({ movieItems = [] }: CardListProps) => {
   const movieContainer = document.createElement("section");
   movieContainer.classList.add("movie-container");
 
@@ -17,16 +17,16 @@ const MovieList = ({ movieItems = [] }: MovieListProps) => {
     const ul = document.createElement("ul");
     ul.classList.add("thumbnail-list");
 
-    movieItems.forEach((movie) => {
-      const movieItemElement = MovieItem({
-        title: movie.title,
-        voteAverage: movie.voteAverage,
-        posterPath: movie.posterPath,
-      });
+    const fragment = document.createDocumentFragment();
 
-      ul.appendChild(movieItemElement);
-    });
+    const cardItems = movieItems.map(movie => CardItem({
+      title: movie.title,
+      rating: movie.voteAverage,
+      imageSrc: movie.posterPath,
+    }));
 
+    fragment.append(...cardItems);
+    ul.appendChild(fragment);
     movieContainer.appendChild(ul);
   }
 
@@ -42,4 +42,4 @@ const MovieList = ({ movieItems = [] }: MovieListProps) => {
   return movieContainer;
 };
 
-export default MovieList;
+export default CardList;
