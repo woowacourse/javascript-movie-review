@@ -1,5 +1,3 @@
-import { popularApiUrl } from "./config";
-
 const bearerToken = import.meta.env.VITE_TMDB_BEARER_TOKEN;
 
 type Options = {
@@ -10,7 +8,7 @@ type Options = {
   };
 };
 
-const defaultOptions: Options = {
+export const defaultOptions: Options = {
   method: "GET",
   headers: {
     accept: "application/json",
@@ -18,8 +16,9 @@ const defaultOptions: Options = {
   },
 };
 
-export const fetchMovies = (apiUrl = popularApiUrl) => {
-  return fetch(apiUrl, defaultOptions)
+const http = {
+  request: (apiUrl: string, options: Options) => {
+    return fetch(apiUrl, options)
     .then((res) => {
       if (!res.ok) {
         throw new Error(`HTTP error! status: ${res.status}`);
@@ -30,6 +29,10 @@ export const fetchMovies = (apiUrl = popularApiUrl) => {
       console.error("Error fetching movies:", error);
       throw error;
     });
-};
+  },
+  get: (url: string) => {
+    return http.request(url, defaultOptions);
+  }
+}
 
-export default fetchMovies;
+export default http;

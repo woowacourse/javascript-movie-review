@@ -1,17 +1,36 @@
 import Header from "./components/Header.ts";
 import NavigationBar from "./components/NavigationBar.ts";
+import Title from "./components/Title.ts";
 import CardList from "./components/CardList.ts";
 import Input from "./components/Input.ts";
 import Button from "./components/Button.ts";
-import {
-  fetchPopularMovies,
-  moviesPopularState,
-  moviesSearchedState,
-  isLastPage,
-  fetchSearchedMovies,
-} from "./store/movieService.ts";
-import { MovieState } from "../types/movie.ts";
-import Title from "./components/Title.ts";
+import { Movie, MovieState, MovieType } from "../types/movie.ts";
+import { mapToMovie } from "./store/movieMapper.ts";
+import { movieApi } from "./api/movieApi.ts";
+
+const moviesPopularState = {
+  list: [] as Movie[],
+  currentPage: 1,
+  totalPages: 0,
+};
+
+const moviesSearchedState: typeof moviesPopularState = {
+  list: [] as Movie[],
+  currentPage: 1,
+  totalPages: 0,
+};
+
+const isLastPage = (movieType: MovieType) => {
+  if (movieType === "popular") {
+    return moviesPopularState.currentPage === moviesPopularState.totalPages;
+  }
+
+  if (movieType === "search") {
+    return moviesSearchedState.currentPage === moviesSearchedState.totalPages;
+  }
+
+  return false;
+};
 
 document.addEventListener("DOMContentLoaded", async () => {
   const main = document.querySelector("main");
@@ -46,7 +65,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         movieState.mode = "search";
         movieState.query = query;
 
-        const searchedMovies = await fetchSearchedMovies(query);
+        const searchedMovies = await movieApi.fetchSearchedMovies(query);
+
+        moviesSearchedState.list = searchedMovies.results.map((item: any) =>
+          mapToMovie(item)
+        );
+        moviesSearchedState.currentPage = 1;
+        moviesSearchedState.totalPages = searchedMovies.total_pages;
 
         main.innerHTML = "";
 
@@ -90,9 +115,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
 
       if (popularMode) {
-        await fetchPopularMovies(moviesPopularState.currentPage + 1);
+        await movieApi.fetchPopularMovies(moviesPopularState.currentPage + 1);
       } else if (searchMode) {
-        await fetchSearchedMovies(
+        await movieApi.fetchSearchedMovies(
           movieState.query,
           moviesSearchedState.currentPage + 1
         );
@@ -122,7 +147,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   };
 
   try {
-    await fetchPopularMovies();
+    const popularMovies =  await movieApi.fetchPopularMovies();
+
+    moviesPopularState.list = popularMovies.results.map(mapToMovie);
+    moviesPopularState.currentPage = 1;
+    moviesPopularState.totalPages = popularMovies.total_pages;
 
     if (moviesPopularState.list.length > 0) {
       const updatedHeader = Header({
