@@ -90,7 +90,6 @@ class PopularMovieBoard {
 
     if (this.#page >= PopularMovieBoard.MAX_PAGE || this.#page >= total_pages) {
       this.#hideMoreMoviesButton();
-      return;
     }
   }
 
