@@ -14,9 +14,9 @@ import {
 import { store } from "./../stores";
 
 const $mainSection = document.querySelector("main section");
-const $ul = document.querySelector(".thumbnail-list");
+const $thumbnailList = document.querySelector(".thumbnail-list");
 const $error = document.querySelector(".error");
-const $h2 = $error?.querySelector("h2");
+const $errorMessage = document.querySelector(".error-message");
 
 const changeHeaderBackground = () => {
   const $backgroundContainer = document.querySelector(".background-container");
@@ -57,9 +57,9 @@ const renderTotalList = async () => {
       changeHeaderBackground();
     },
     (error) => {
-      $ul?.classList.add("close");
+      $thumbnailList?.classList.add("close");
       $error?.classList.remove("close");
-      if ($h2) $h2.textContent = error;
+      if ($errorMessage) $errorMessage.textContent = error;
     }
   );
 };
@@ -79,18 +79,18 @@ const renderSearchList = async () => {
       store.totalPages = data.total_pages;
 
       if (store.movies.length === 0) {
-        $ul?.classList.add("close");
+        $thumbnailList?.classList.add("close");
         $error?.classList.remove("close");
-        if ($h2) $h2.textContent = "검색 결과가 없습니다.";
+        if ($errorMessage) $errorMessage.textContent = "검색 결과가 없습니다.";
       } else {
-        $ul?.classList.remove("close");
+        $thumbnailList?.classList.remove("close");
         $error?.classList.add("close");
       }
     },
     (error) => {
-      $ul?.classList.add("close");
+      $thumbnailList?.classList.add("close");
       $error?.classList.remove("close");
-      if ($h2) $h2.textContent = error;
+      if ($errorMessage) $errorMessage.textContent = error;
     }
   );
 };
@@ -107,7 +107,7 @@ export const renderMoviesList = async () => {
     $showMore?.classList.add("open");
   else $showMore?.classList.remove("open");
 
-  if ($ul) $ul.innerHTML = "";
+  if ($thumbnailList) $thumbnailList.innerHTML = "";
   const $movies = MovieList(store.movies);
   if ($movies) $mainSection?.appendChild($movies);
 };
