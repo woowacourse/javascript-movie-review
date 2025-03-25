@@ -20,9 +20,7 @@ export async function updateSearchedMovieUI(
       addMovieCard(searchedMovies.results, $container);
     }
   } catch (error) {
-    if (error instanceof Error) {
-      ErrorPage(error.message);
-    }
+    ErrorPage("검색한 영화 리스트를 불러오는데 실패하였습니다.");
   }
 }
 

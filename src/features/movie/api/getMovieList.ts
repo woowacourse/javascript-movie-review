@@ -5,10 +5,12 @@ export const getMovieList = async ({
   page,
 }: {
   page: number;
-}): Promise<IMovieList | null> => {
+}): Promise<IMovieList | undefined> => {
   try {
     return await apiClient("GET", `/tv/popular?page=${page}`);
   } catch (error) {
-    throw new Error("영화 리스트를 불러오는데 실패하였습니다.");
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    }
   }
 };

@@ -39,9 +39,7 @@ async function init() {
       addMovieCard(movies.results, $movieList);
     }
   } catch (error) {
-    if (error instanceof Error) {
-      ErrorPage("영화 리스트를 불러오는데 실패하였습니다.");
-    }
+    ErrorPage("영화 리스트를 불러오는데 실패하였습니다.");
   }
 
   const searchForm = document.querySelector(".search-form");
@@ -51,9 +49,7 @@ async function init() {
     try {
       await searchFormSubmitHandler(e);
     } catch (error) {
-      if (error instanceof Error) {
-        ErrorPage("영화 리스트를 불러오는데 실패하였습니다.");
-      }
+      ErrorPage("영화 리스트를 불러오는데 실패하였습니다.");
     }
   });
 }
