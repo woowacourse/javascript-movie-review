@@ -8,7 +8,7 @@ export default function MovieCard(movieTitle: string, movie: IMovie) {
 
   return toElement(`
     <li class="item">
-      <button class="movie-card-button">
+      <button class="movie-card-button" id=${movie.id}>
         <img
           class="thumbnail"
           src=${movieImgPath}
