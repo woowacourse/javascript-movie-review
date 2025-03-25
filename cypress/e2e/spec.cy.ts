@@ -14,8 +14,6 @@ describe("영화 fixture관련 테스트", () => {
   });
 
   it("초기 fetchData 시 영화 목록이 20개인지 확인", () => {
-    cy.wait("@fetchMovies").then((interception) => {});
-
     cy.get(".item", { timeout: 10000 }).should("have.length", 20);
   });
 
