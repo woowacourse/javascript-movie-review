@@ -53,8 +53,11 @@ const MovieDetailModal = (movie: MovieDetail): HTMLElement => {
             </div>
             <!-- -->
             <hr>
-            <h3>줄거리</h3>
-            <div class="detail">${movie.overview}</div>
+            ${
+              movie.overview
+                ? `<h3>줄거리</h3><div class="detail">${movie.overview}</div>`
+                : ""
+            }
           </div>
         </div>
       </div>
