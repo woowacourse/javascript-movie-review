@@ -16,11 +16,11 @@ const requestAppClient = async (method: HttpMethod, query: string, params: Recor
 
   try {
     const response = await fetch(newUrl, options);
-    const data = await response.json();
-
     if (!response.ok) {
       httpErrorStatus(response.status);
     }
+
+    const data = await response.json();
 
     return data;
   } catch (error) {
