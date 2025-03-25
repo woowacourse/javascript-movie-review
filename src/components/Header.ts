@@ -9,10 +9,6 @@ interface HeaderProps {
 }
 export default class Header extends Component<HeaderProps> {
   override template() {
-    if (!this.props.movie) return html``;
-
-    const { title, vote_average } = this.props.movie;
-
     return html`
       <header class="background-container">
         ${this.props.search ? '' : '<div class="overlay" aria-hidden="true"></div>'}
@@ -35,19 +31,19 @@ export default class Header extends Component<HeaderProps> {
             </button>
           </form>
         </div>
-        ${this.props.search
-          ? ''
-          : `
+        ${this.props.movie && !this.props.search
+          ? `
           <div class="top-rated-container">
             <div class="rate">
               <img src="./images/star_empty.png" class="star" />
-              <span class="rate-value">${vote_average}</span>
+              <span class="rate-value">${this.props.movie.vote_average}</span>
             </div>
-            <div class="title">${title}</div>
+            <div class="title">${this.props.movie.title}</div>
             <button class="primary" data-action="show-detail">자세히 보기</button>
           </div>
           
-          `}
+          `
+          : ''}
       </header>
     `;
   }
