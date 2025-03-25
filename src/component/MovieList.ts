@@ -37,3 +37,12 @@ export const addMoreMovieList = (newMovies: IMovie[]) => {
 
   container.appendChild(fragment);
 };
+
+export const addMovieList = ({ movies, title }: { movies: IMovie[]; title: string }) => {
+  const container = $('.container');
+  if (!container) return;
+
+  const movieList = MovieList({ movies, title });
+
+  container.appendChild(movieList);
+};

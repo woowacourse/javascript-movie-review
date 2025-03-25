@@ -2,6 +2,7 @@ import createDOMElement from '../util/createDomElement';
 import Button from './Button';
 import { IMAGE_BASE_URL } from '../constant';
 import { IMovie } from '../type';
+import { $ } from '../util/selector';
 
 function Banner({ movie }: { movie: IMovie }) {
   const { backdrop_path, vote_average, title } = movie;
@@ -69,3 +70,17 @@ function TopRatedMovie({ vote_average, title }: { vote_average: number; title: s
 }
 
 export default Banner;
+
+export const removeBanner = () => {
+  const banner = document.querySelector('header');
+  banner?.remove();
+
+  const main = document.querySelector('main');
+  if (!main) return;
+  main.style.padding = '100px 0 64px';
+};
+
+export const addBanner = (banner: HTMLElement) => {
+  const wrap = $('#wrap');
+  wrap?.prepend(banner);
+};

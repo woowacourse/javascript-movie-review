@@ -1,18 +1,16 @@
 import getPopularMovies from './api/getPopularMovies';
-import Button from './component/Button';
-import Footer from './component/Footer';
-import Banner from './component/Banner';
-import Movie from './component/Movie';
-import MovieList from './component/MovieList';
+import { addFooter } from './component/Footer';
+import Banner, { addBanner } from './component/Banner';
+import { addMovieList } from './component/MovieList';
 import { $ } from './util/selector';
-import Header from './component/Header';
-import Skeleton from './component/Skeleton';
+import { addHeader } from './component/Header';
+import { addBannerSkeleton, removeBannerSkeleton } from './component/Skeleton';
 import { addSkeletonList, removeSkeletonList } from './component/SkeletonList';
-import { IMovie } from './type';
+import MoreButton from './component/MoreButton';
 
-const API_PAGE_LIMIT = 500;
 const INITIAL_PAGE = 1;
 const MOVIE_INDEX_FOR_BANNER = 1;
+const TOTAL_PAGES = 500;
 
 addEventListener('DOMContentLoaded', async () => {
   renderBanner();
@@ -22,26 +20,18 @@ addEventListener('DOMContentLoaded', async () => {
 });
 
 const renderBanner = async () => {
-  const wrap = $('#wrap');
-
-  const bannerSkeleton = Skeleton({ height: 500 });
-  wrap?.prepend(bannerSkeleton);
+  addBannerSkeleton();
 
   const response = await getPopularMovies({ page: 1 });
-  if (!response) return;
-  const movies = response.results;
+  if (!response || response.results.length === 0) return;
 
-  if (movies.length !== 0) {
-    const banner = Banner({ movie: movies[MOVIE_INDEX_FOR_BANNER] });
-    bannerSkeleton?.replaceWith(banner);
-  }
+  removeBannerSkeleton();
+
+  addBanner(Banner({ movie: response.results[MOVIE_INDEX_FOR_BANNER] }));
 };
 
 const renderHeader = () => {
-  const wrap = $('#wrap');
-
-  const header = Header();
-  wrap?.prepend(header);
+  addHeader();
 };
 
 const renderMovieList = async () => {
@@ -49,60 +39,24 @@ const renderMovieList = async () => {
   if (!container) return;
 
   addSkeletonList(container);
-  let page = INITIAL_PAGE;
 
-  const response = await getPopularMovies({ page });
-  if (!response) return;
+  const response = await getPopularMovies({ page: INITIAL_PAGE });
 
-  const movies = response.results;
+  removeSkeletonList();
 
-  if (movies.length !== 0) {
-    const movieList = MovieList({ movies, title: '지금 인기 있는 영화' });
+  if (!response || response.results.length === 0) return;
 
-    const moreButton = Button({
-      text: '더보기',
-      id: 'moreButton',
-      onClick: () => handleMoreButtonClick(++page, moreButton)
-    });
+  addMovieList({ movies: response.results, title: '지금 인기있는 영화' });
 
-    removeSkeletonList();
-    container.appendChild(movieList);
-    container.appendChild(moreButton);
-  }
+  const moreButton = MoreButton({
+    totalPages: TOTAL_PAGES,
+    fetchMovies: getPopularMovies,
+    fetchArgs: {}
+  });
+
+  container.appendChild(moreButton);
 };
 
 const renderFooter = () => {
-  const wrap = $('#wrap');
-  if (!wrap) return;
-
-  const footer = Footer();
-  wrap.appendChild(footer);
-};
-
-const handleMoreButtonClick = async (page: number, moreButton: HTMLElement) => {
-  if (page >= API_PAGE_LIMIT - 1) {
-    moreButton.remove();
-  }
-
-  const container = $('.thumbnail-list') as HTMLElement;
-  if (!container) return;
-
-  addSkeletonList(container);
-
-  const response = await getPopularMovies({ page });
-  if (!response) return;
-
-  removeSkeletonList();
-  renderMoreMovies(response.results, container);
-};
-
-const renderMoreMovies = (newMovies: IMovie[], container: HTMLElement) => {
-  const fragment = document.createDocumentFragment();
-
-  newMovies.forEach((movie) => {
-    const newMovie = Movie({ movie });
-    fragment.appendChild(newMovie);
-  });
-
-  container.appendChild(fragment);
+  addFooter();
 };

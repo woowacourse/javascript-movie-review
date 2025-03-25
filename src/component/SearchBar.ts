@@ -30,30 +30,44 @@ function SearchBar() {
   });
 }
 
+export default SearchBar;
+
 const handleSearchMovies = async (e: Event) => {
   e.preventDefault();
   removeBanner();
 
+  const searchKeyword = getSearchKeyword(e);
+  if (!searchKeyword) return;
+
+  await renderMovies(searchKeyword);
+};
+
+const getSearchKeyword = (e: Event): string | null => {
   const form = e.target as HTMLFormElement;
   const data = new FormData(form);
+  const keyword = data.get('keyword');
+  return keyword ? String(keyword) : null;
+};
 
-  const searchKeyword = String(data.get('keyword'));
-
+const renderMovies = async (searchKeyword: string) => {
   const container = $('.container');
+  if (!container) return;
 
   const skeletonList = SkeletonList({ height: 300 });
-  container?.replaceChildren(skeletonList);
+  container.replaceChildren(skeletonList);
 
-  // 화면 업데이트
   const response = await getSearchMovies({ page: 1, query: searchKeyword });
   if (!response) return;
+
   const { results: movies, total_pages, page } = response;
 
-  const searchedMovieList = MovieList({ movies, title: `"${searchKeyword}" 검색 결과` });
+  const searchedMovieList = MovieList({
+    movies,
+    title: `"${searchKeyword}" 검색 결과`
+  });
 
-  container?.replaceChildren(searchedMovieList);
+  container.replaceChildren(searchedMovieList);
 
-  // 더보기 버튼 추가
   if (total_pages !== page) {
     const moreButton = MoreButton({
       totalPages: total_pages,
@@ -61,47 +75,6 @@ const handleSearchMovies = async (e: Event) => {
       fetchArgs: { query: searchKeyword }
     });
 
-    container?.appendChild(moreButton);
+    container.appendChild(moreButton);
   }
 };
-
-export default SearchBar;
-
-// import createDOMElement from '../util/createDomElement';
-
-// interface SearchBarProps {
-//   onSubmit: (e: Event) => void;
-// }
-
-// function SearchBar({ onSubmit }: SearchBarProps) {
-//   return createDOMElement({
-//     tag: 'form',
-//     id: 'searchForm',
-//     className: 'search-form',
-//     children: [
-//       createDOMElement({
-//         tag: 'input',
-//         attributes: {
-//           placeholder: '검색어를 입력하세요',
-//           type: 'text',
-//           name: 'keyword'
-//         }
-//       }),
-//       createDOMElement({
-//         tag: 'button',
-//         children: [
-//           createDOMElement({
-//             tag: 'img',
-//             attributes: {
-//               src: 'images/search.png',
-//               alt: '검색 아이콘'
-//             }
-//           })
-//         ]
-//       })
-//     ],
-//     event: { submit: onSubmit }
-//   });
-// }
-
-// export default SearchBar;

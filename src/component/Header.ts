@@ -1,4 +1,5 @@
 import createDOMElement from '../util/createDomElement';
+import { $ } from '../util/selector';
 import SearchBar from './SearchBar';
 
 function Header() {
@@ -29,3 +30,11 @@ function Header() {
 }
 
 export default Header;
+
+export const addHeader = () => {
+  const wrap = $('#wrap');
+  if (!wrap) return;
+
+  const header = Header();
+  wrap.prepend(header);
+};

@@ -1,4 +1,5 @@
 import createDOMElement from '../util/createDomElement';
+import { $ } from '../util/selector';
 
 function Footer() {
   return createDOMElement({
@@ -26,3 +27,11 @@ function Footer() {
 }
 
 export default Footer;
+
+export const addFooter = () => {
+  const wrap = $('#wrap');
+  if (!wrap) return;
+
+  const footer = Footer();
+  wrap.appendChild(footer);
+};
