@@ -37,7 +37,6 @@ const fetchPopularMovies = async (page = 1) => {
 
     return moviesPopularState.list;
   } catch (error) {
-    console.error("Error fetching movies:", error);
     throw error;
   }
 };
@@ -61,8 +60,6 @@ const fetchSearchedMovies = async (
 
     return moviesSearchedState.list;
   } catch (error) {
-    console.error("Error fetching searched movies:", error);
-    alert("영화 정보를 가져오는 중 오류가 발생했습니다.");
     throw error;
   }
 };
