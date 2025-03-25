@@ -12,6 +12,5 @@ export const renderBanner = async (movies: IMovie[]) => {
   const hasBackdropMovies = movies.filter((movie) => movie.backdrop_path !== null);
   const bannerMovie = hasBackdropMovies.length ? hasBackdropMovies[0] : movies[0];
 
-  const banner = Banner({ movie: bannerMovie });
-  bannerSkeleton?.replaceWith(banner);
+  bannerSkeleton?.replaceWith(Banner({ movie: bannerMovie }));
 };
