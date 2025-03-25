@@ -7,10 +7,7 @@ import { addHeader } from './component/Header';
 import { addBannerSkeleton, removeBannerSkeleton } from './component/Skeleton';
 import { addSkeletonList, removeSkeletonList } from './component/SkeletonList';
 import MoreButton from './component/MoreButton';
-
-const INITIAL_PAGE = 1;
-const MOVIE_INDEX_FOR_BANNER = 1;
-const TOTAL_PAGES = 500;
+import { INITIAL_PAGE, MOVIE_INDEX_FOR_BANNER, TOTAL_PAGES } from './constant';
 
 addEventListener('DOMContentLoaded', async () => {
   renderBanner();

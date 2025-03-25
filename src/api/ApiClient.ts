@@ -1,4 +1,5 @@
 import MessageDisplay from '../component/MessageDisplay';
+import { BASE_URL } from '../constant';
 import createDOMElement from '../util/createDomElement';
 import { $ } from '../util/selector';
 
@@ -21,7 +22,6 @@ export default class ApiClient {
   }
 
   static async request(method: 'GET' | 'POST' | 'PUT' | 'DELETE', endpoint: string, headers = {}) {
-    const BASE_URL = 'https://api.themoviedb.org/3';
     const url = `${BASE_URL}${endpoint}`;
     const options = {
       method,
