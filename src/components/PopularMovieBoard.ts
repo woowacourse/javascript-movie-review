@@ -45,7 +45,7 @@ class PopularMovieBoard {
 
     this.#renderTopRatedMovie(movies[0]);
     this.#renderMovies(movies);
-    this.#initMoreMoviesButton();
+    this.#renderMoreMoviesButton();
   }
 
   #renderTopRatedMovie(movie: Movie): void {
@@ -81,6 +81,8 @@ class PopularMovieBoard {
 
   async #loadMoreMovies(): Promise<void> {
     this.#page += 1;
+    console.log("load");
+
     const { movies: newMovies, total_pages } = await this.#movieData();
     if (!newMovies) return;
 
@@ -92,12 +94,13 @@ class PopularMovieBoard {
     }
   }
 
-  #initMoreMoviesButton(): void {
+  #renderMoreMoviesButton(): void {
     const $moreMoviesButton = document.querySelector(".more-button-container");
-    if (isHTMLElement($moreMoviesButton))
-      new MoreMoviesButton($moreMoviesButton, {
-        refetchMovies: () => this.#loadMoreMovies(),
-      });
+    if (!isHTMLElement($moreMoviesButton)) return;
+
+    new MoreMoviesButton($moreMoviesButton, {
+      refetchMovies: () => this.#loadMoreMovies(),
+    });
   }
 
   #hideMoreMoviesButton(): void {
