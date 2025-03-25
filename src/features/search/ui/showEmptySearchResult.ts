@@ -4,6 +4,14 @@ import { toElement } from "../../../shared/utils/toElement";
 export function showEmptySearchResult() {
   const $movieContainer = document.getElementById("movie-container");
 
+  const $emptySearchResultContainer = document.querySelector(
+    ".empty-search-result-container"
+  );
+
+  if ($emptySearchResultContainer) {
+    return;
+  }
+
   $movieContainer?.appendChild(
     toElement(`
   <div class="empty-search-result-container">
