@@ -4,7 +4,7 @@ interface DOMElementProps {
   tag: keyof HTMLElementTagNameMap;
   children?: HTMLElement[];
   event?: Event;
-  attributes?: Record<string, string>;
+  attributes?: Record<string, unknown>;
   [key: string]: any;
 }
 
@@ -22,7 +22,7 @@ const createDOMElement = ({
   });
 
   Object.entries(attributes).forEach(([attrName, attributes]) => {
-    element.setAttribute(attrName, attributes);
+    element.setAttribute(attrName, String(attributes));
   });
 
   Object.entries(props).forEach(([propName, propValue]) => {
