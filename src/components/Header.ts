@@ -1,13 +1,18 @@
 import { html } from '@/lib/utils';
 import Component from './core/Component';
 import { DEFAULT_BACK_DROP_URL } from '@/lib/constants';
+import { MovieResult } from '@/lib/types';
 
 interface HeaderProps {
   search: string;
-  backgroundImage?: string;
+  movie?: MovieResult;
 }
 export default class Header extends Component<HeaderProps> {
   override template() {
+    if (!this.props.movie) return html``;
+
+    const { title, vote_average } = this.props.movie;
+
     return html`
       <header class="background-container">
         ${this.props.search ? '' : '<div class="overlay" aria-hidden="true"></div>'}
@@ -30,15 +35,28 @@ export default class Header extends Component<HeaderProps> {
             </button>
           </form>
         </div>
-
-        ${this.props.search ? '' : '<div class="top-rated-container"></div>'}
+        ${this.props.search
+          ? ''
+          : `
+          <div class="top-rated-container">
+            <div class="rate">
+              <img src="./images/star_empty.png" class="star" />
+              <span class="rate-value">${vote_average}</span>
+            </div>
+            <div class="title">${title}</div>
+            <button class="primary" data-action="show-detail">자세히 보기</button>
+          </div>
+          
+          `}
       </header>
     `;
   }
 
   onRender() {
+    if (!this.props.movie) return;
+
     if (this.props.search) this.element!.style.backgroundImage = '';
-    else if (this.props.backgroundImage)
-      this.element!.style.backgroundImage = `url(${DEFAULT_BACK_DROP_URL}${this.props.backgroundImage})`;
+    else if (this.props.movie.backdrop_path)
+      this.element!.style.backgroundImage = `url(${DEFAULT_BACK_DROP_URL}${this.props.movie.backdrop_path})`;
   }
 }

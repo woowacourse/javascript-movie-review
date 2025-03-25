@@ -48,7 +48,7 @@ export default class App extends Component<null, AppState> {
     this.fillSlot(
       new Header({
         search: this.state.search,
-        backgroundImage: this.state.movies?.at(0)?.backdrop_path,
+        movie: this.state.movies?.at(0),
       }).element,
       'header',
     );
