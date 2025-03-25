@@ -5,13 +5,9 @@ import {
   defaultOptions,
   defaultQueryObject,
 } from "../setting/settings.ts";
-import {
-  renderMovieItems,
-  hideElement,
-  showElement,
-} from "../view/MovieView.ts";
+import { hideElement, showElement } from "../view/MovieView.ts";
 import Toast from "../components/Toast/Toast.ts";
-import fetchAndSetLoadingEvent from "./fetchService.ts";
+
 import { infiniteScrollInstance } from "../main.ts";
 export default async function handleSearch(searchValue: string) {
   setSearchResultTitle(searchValue);

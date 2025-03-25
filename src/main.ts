@@ -35,7 +35,6 @@ const renderApp = (data) => {
   renderHeaderAndHero();
   const firstMovieShown = data.results[0];
   updateHero(firstMovieShown);
-  renderMovieItems(data.results, false);
 };
 
 function updateHero({ poster_path, title, vote_average }) {
@@ -137,7 +136,7 @@ export function setupInfiniteScroll(state: StateTypes) {
     },
     {
       root: null, // 뷰포트를 기준으로 감시
-      threshold: 0.1, // sentinel이 10% 보이면 콜백 실행
+      threshold: 0.4, // sentinel이 10% 보이면 콜백 실행
     }
   );
 
@@ -162,4 +161,5 @@ export function setupInfiniteScroll(state: StateTypes) {
 
 main();
 const infiniteScrollInstance = setupInfiniteScroll(state);
+
 export { infiniteScrollInstance };
