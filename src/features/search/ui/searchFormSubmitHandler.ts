@@ -12,7 +12,7 @@ export const searchFormSubmitHandler = async (e: Event) => {
   }
 
   const formData = new FormData(e.target as HTMLFormElement);
-  let searchQuery = formData.get("search-input");
+  const searchQuery = formData.get("search-input");
 
   const params = getUrlParams();
   updateUrlParams(params, String(searchQuery));
