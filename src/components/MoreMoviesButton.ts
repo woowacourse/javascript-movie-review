@@ -1,3 +1,5 @@
+import { isHTMLElement } from "../utils/typeGuards";
+
 interface Props {
   refetchMovies: () => void;
 }
@@ -29,12 +31,22 @@ class MoreMoviesButton {
 
   #disableButton() {
     const moreButton = document.querySelector(".more-movies-button");
-    moreButton?.setAttribute("disabled", "true");
+
+    if (!isHTMLElement(moreButton)) return;
+
+    moreButton.setAttribute("disabled", "true");
+    moreButton.textContent = "로딩중...";
+    moreButton.style.cursor = "not-allowed";
   }
 
   #enableButton() {
     const moreButton = document.querySelector(".more-movies-button");
+
+    if (!isHTMLElement(moreButton)) return;
+
     moreButton?.removeAttribute("disabled");
+    moreButton.textContent = "더보기";
+    moreButton.style.cursor = "pointer";
   }
 }
 
