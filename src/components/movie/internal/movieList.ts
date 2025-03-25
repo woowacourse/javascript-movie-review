@@ -1,4 +1,4 @@
-import movieItem from "../movieItem/movieItem";
+import movieItem from "./movieItem";
 import { createElementWithAttributes } from "../../utils/createElementWithAttributes";
 import { Movie } from "../../../domain/types";
 

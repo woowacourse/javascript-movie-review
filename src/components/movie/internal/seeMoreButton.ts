@@ -2,7 +2,7 @@ import hideSkeletonContainer from "../../skeleton/utils/hideSkeletonContainer";
 import showSkeletonContainer from "../../skeleton/utils/showSkeletonContainer";
 import { createElementWithAttributes } from "../../utils/createElementWithAttributes";
 import { LoadMoreCallback } from "../movieContainer";
-import movieList from "../movieList/movieList";
+import movieList from "./movieList";
 
 interface SetupSeeMoreMoviesHandlerProps {
   $movieList: HTMLElement;
