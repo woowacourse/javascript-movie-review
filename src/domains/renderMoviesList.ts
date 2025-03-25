@@ -4,7 +4,11 @@ import {
   MovieListSkeleton,
   TopRatedMovie,
 } from "../components/index";
-import { DEFAULT_BACK_DROP_URL, MAX_MOVIE_PAGE } from "../constants/constants";
+import {
+  PREFIX_BACKDROP_PATH,
+  MAX_MOVIE_PAGE,
+  DEFAULT_TOP_RATED_DATA,
+} from "../constants/constants";
 import { store } from "./../stores";
 
 const $mainSection = document.querySelector("main section");
@@ -17,8 +21,8 @@ const changeHeaderBackground = () => {
 
   if (store.searchKeyword === "") {
     const backgroundImage = store.movies[0].backdrop_path
-      ? `${DEFAULT_BACK_DROP_URL}${store.movies[0].backdrop_path}`
-      : "./images/default_thumbnail.jpeg";
+      ? `${PREFIX_BACKDROP_PATH}${store.movies[0].backdrop_path}`
+      : DEFAULT_TOP_RATED_DATA.backdropPath;
     ($backgroundContainer as HTMLElement)!.style.backgroundImage = `url(${backgroundImage})`;
   } else {
     ($backgroundContainer as HTMLElement)!.style.backgroundImage = "";
@@ -30,8 +34,9 @@ const renderHeaderBackground = () => {
     const $topRatedContainer = document.querySelector(".top-rated-container");
     $topRatedContainer?.append(
       TopRatedMovie({
-        title: store.movies[0].title,
-        voteAverage: store.movies[0].vote_average,
+        title: store.movies[0].title ?? DEFAULT_TOP_RATED_DATA.title,
+        voteAverage:
+          store.movies[0].vote_average ?? DEFAULT_TOP_RATED_DATA.voteAverage,
       })
     );
   }

@@ -1,5 +1,5 @@
 import { MovieResult } from "../../../types/movieApiType";
-import { DEFAULT_BACK_DROP_URL } from "../../constants/constants";
+import { PREFIX_BACKDROP_PATH } from "../../constants/constants";
 
 export default function MovieList(moviesResult: MovieResult[]) {
   const $ul = document.querySelector(".thumbnail-list");
@@ -7,7 +7,7 @@ export default function MovieList(moviesResult: MovieResult[]) {
     const $li = document.createElement("li");
 
     const backgroundImage = movieResult.backdrop_path
-      ? `${DEFAULT_BACK_DROP_URL}${movieResult.backdrop_path}`
+      ? `${PREFIX_BACKDROP_PATH}${movieResult.backdrop_path}`
       : "./images/default_thumbnail.jpeg";
 
     $li.innerHTML = /*html*/ `
