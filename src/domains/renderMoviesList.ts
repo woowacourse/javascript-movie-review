@@ -1,6 +1,6 @@
 import { MoviesResponse } from "../../types/movie";
 import { handleApiResponse } from "../api/handlers";
-import { getMovieByName, getMovies } from "../api/movie";
+import { searchMovies, getMovies } from "../api/movie";
 import {
   MovieList,
   MovieListSkeleton,
@@ -67,7 +67,7 @@ const renderTotalList = async () => {
 const renderSearchList = async () => {
   changeHeaderBackground();
 
-  const moviesResponse = await getMovieByName({
+  const moviesResponse = await searchMovies({
     name: store.searchKeyword,
     page: store.page,
   });

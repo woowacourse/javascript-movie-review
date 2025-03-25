@@ -1,5 +1,6 @@
 import { MoviesResponse } from "../../../types/movie";
 import { fetchWithErrorHandling } from "../client";
+import { createMovieApiUrl, MOVIE_API } from "../endpoints";
 
 interface MovieApiProps {
   page: number;
@@ -7,11 +8,21 @@ interface MovieApiProps {
 }
 
 export async function getMovies({ page }: Omit<MovieApiProps, "name">) {
-  const url = `https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=${page}`;
+  const url = createMovieApiUrl(MOVIE_API.endPoints.movies.popular, {
+    language: "ko-KR",
+    page: String(page),
+  });
+
   return fetchWithErrorHandling<MoviesResponse>(url);
 }
 
-export async function getMovieByName({ name, page }: MovieApiProps) {
-  const url = `https://api.themoviedb.org/3/search/movie?query=${name}&include_adult=false&language=ko-KR&page=${page}`;
+export async function searchMovies({ name, page }: MovieApiProps) {
+  const url = createMovieApiUrl(MOVIE_API.endPoints.movies.search, {
+    query: String(name),
+    include_adult: "false",
+    language: "ko-KR",
+    page: String(page),
+  });
+
   return fetchWithErrorHandling<MoviesResponse>(url);
 }
