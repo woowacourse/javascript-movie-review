@@ -77,16 +77,25 @@ const searchBar = new SearchBar();
 const logo = selectElement<HTMLDivElement>(".logo");
 const logoImage = selectElement<HTMLImageElement>(".logo img");
 
-logoImage.addEventListener("click", () => {
-  window.location.reload();
-});
-logo.appendChild(searchBar.create());
-mainSection.appendChild(skeletonUl.create());
+const app = async () => {
+  try {
+    logoImage.addEventListener("click", () => {
+      window.location.reload();
+    });
+    const movieData = (await getMovieData()).results;
 
-const movieData = (await getMovieData()).results;
-renderTitleMovie(movieData);
-const totalMovieList = renderMovieData(movieData);
-totalMovieList.create();
+    logo.appendChild(searchBar.create());
+    mainSection.appendChild(skeletonUl.create());
 
-const seeMoreButtonInstance = seeMoreButton(totalMovieList);
-mainSection.appendChild(seeMoreButtonInstance.create());
+    renderTitleMovie(movieData);
+    const totalMovieList = renderMovieData(movieData);
+    totalMovieList.create();
+
+    const seeMoreButtonInstance = seeMoreButton(totalMovieList);
+    mainSection.appendChild(seeMoreButtonInstance.create());
+  } catch (error) {
+    if (error instanceof Error) alert(error.message);
+  }
+};
+
+app();
