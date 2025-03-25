@@ -7,6 +7,7 @@ import { addMovieCard } from "./shared/ui/addMovieCard";
 import MoreMoviesButton from "./shared/ui/components/MoreMoviesButton";
 import ErrorPage from "./shared/ui/components/ErrorPage";
 import { withSkeleton } from "./shared/ui/withSkeleton";
+import { initUrl } from "./shared/utils/updateUrl";
 
 async function init() {
   const $movieList = document.querySelector(".thumbnail-list") as HTMLElement;
@@ -16,17 +17,7 @@ async function init() {
     return;
   }
 
-  try {
-    const movies = await withSkeleton($movieList, getMovieList({ page: 1 }));
-    if (movies) {
-      Header(movies.results[0]);
-      addMovieCard(movies.results, $movieList);
-    }
-  } catch (error) {
-    if (error instanceof Error) {
-      ErrorPage("영화 리스트를 불러오는데 실패하였습니다.");
-    }
-  }
+  initUrl();
 
   const $movieContainer = document.getElementById("movie-container");
   const addMoreMoviesButton = CustomButton({
@@ -40,6 +31,18 @@ async function init() {
   $moreMoviesButton?.addEventListener("click", async () => {
     withSkeleton($movieList, addMoreMovies($movieList));
   });
+
+  try {
+    const movies = await withSkeleton($movieList, getMovieList({ page: 1 }));
+    if (movies) {
+      Header(movies.results[0]);
+      addMovieCard(movies.results, $movieList);
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      ErrorPage("영화 리스트를 불러오는데 실패하였습니다.");
+    }
+  }
 
   const searchForm = document.querySelector(".search-form");
 
