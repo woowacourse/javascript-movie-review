@@ -1,7 +1,8 @@
 import { createElementWithAttributes } from "../utils/createElementWithAttributes";
-import movieList from "./movieList";
-import { MovieData } from "../../apis/getSearchedMovies";
+import movieList from "./movieList/movieList";
+
 import skeletonContainer from "../skeleton/skeletonContainer";
+import { MovieData } from "../../domain/types";
 
 type LoadMoreCallback = (pageNumber: number) => Promise<MovieData>;
 

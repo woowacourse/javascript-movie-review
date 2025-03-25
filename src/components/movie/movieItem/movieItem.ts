@@ -1,5 +1,5 @@
-import { ElementOptions } from "../utils/createElementWithAttributes";
-import { Movie } from "./types";
+import { ElementOptions } from "../../utils/createElementWithAttributes";
+import { Movie } from "../../../domain/types";
 import noImage from "/images/no_image.png";
 
 const movieItem = (movie: Movie): ElementOptions => {
