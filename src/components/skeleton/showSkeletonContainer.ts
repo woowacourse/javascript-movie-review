@@ -10,9 +10,11 @@ const showSkeletonContainer = (
   }
 
   const $skeleton = skeletonContainer(20);
+
   if (hasSkeletonTitle) {
     $skeleton.prepend(skeletonContainerTitle());
   }
+
   $targetElement.append($skeleton);
 };
 

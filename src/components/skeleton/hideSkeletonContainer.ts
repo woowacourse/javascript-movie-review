@@ -5,6 +5,7 @@ const hideSkeletonContainer = () => {
   if (!$skeleton) {
     return;
   }
+
   $skeleton.remove();
 };
 
