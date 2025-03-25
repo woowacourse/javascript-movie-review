@@ -1,4 +1,4 @@
-import { createElementWithAttributes } from "./utils/createElementWithAttributes";
+import { createElementWithAttributes } from "../../utils/createElementWithAttributes";
 
 const errorContainer = (error: Error) => {
   const $errorContainer = createElementWithAttributes({

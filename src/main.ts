@@ -4,9 +4,8 @@ import movieContainer from "./components/movie/movieContainer";
 import { $ } from "./components/utils/selectors";
 import showSkeletonContainer from "./components/skeleton/showSkeletonContainer";
 import hideSkeletonContainer from "./components/skeleton/hideSkeletonContainer";
-import errorContainer from "./components/errorContainer";
-import hideBackgroundContainer from "./components/backgroundContainer/hideBackgroundContainer";
 import showBackgroundContainer from "./components/backgroundContainer/showBackgroundContainer";
+import showErrorContainer from "./components/errorContainer/showErrorContainer";
 
 const onSearch = async (event: Event) => {
   try {
@@ -20,7 +19,6 @@ const onSearch = async (event: Event) => {
       const $main = $("main");
 
       $(".movie-container")?.remove();
-
       $(".background-container")?.remove();
       $(".container")?.classList.add("no-background-container");
 
@@ -43,15 +41,7 @@ const onSearch = async (event: Event) => {
       $main?.append($searchedMovieContainer);
     }
   } catch (error: unknown) {
-    if (error instanceof Error) {
-      hideBackgroundContainer();
-
-      const $main = $("main");
-
-      const $errorContainer = errorContainer(error);
-
-      $main?.replaceChildren($errorContainer);
-    }
+    showErrorContainer(error);
   }
 };
 
@@ -88,14 +78,8 @@ const main = async () => {
     const $searchBar = $("#search-bar-container");
     $searchBar?.addEventListener("submit", onSearch);
   } catch (error: unknown) {
-    if (error instanceof Error) {
-      hideBackgroundContainer();
-
-      const $errorContainer = errorContainer(error);
-
-      const $main = $("main");
-      $main?.replaceChildren($errorContainer);
-    }
+    showErrorContainer(error);
   }
 };
+
 main();
