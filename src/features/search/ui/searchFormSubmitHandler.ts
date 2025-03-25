@@ -15,7 +15,7 @@ export const searchFormSubmitHandler = async (e: Event) => {
   let searchQuery = formData.get("search-input");
 
   const params = getUrlParams();
-  updateUrlParams(params, searchQuery as string);
+  updateUrlParams(params, String(searchQuery));
   updateSearchedMovieUI($thumbnailList, searchQuery as string);
   updateUrl(params);
 };

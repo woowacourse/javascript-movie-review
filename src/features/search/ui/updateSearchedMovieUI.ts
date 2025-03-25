@@ -13,7 +13,7 @@ export async function updateSearchedMovieUI(
 
     const searchedMovies = await withSkeleton(
       $container,
-      getSearchedMovie(searchQuery as string, 1)
+      getSearchedMovie(String(searchQuery), 1)
     );
 
     if (searchedMovies) {
