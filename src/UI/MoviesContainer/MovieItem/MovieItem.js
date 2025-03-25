@@ -10,7 +10,7 @@ class MovieItem {
   render() {
     const $li = document.createElement("li");
 
-    if (this.isLoading) {
+    if (this.isLoading || this.movie === null) {
       $li.classList.add("skeleton-box");
       return $li;
     }

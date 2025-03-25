@@ -20,12 +20,13 @@ class App {
 
   async init() {
     const app = document.getElementById("app");
-    app.innerHTML = "로딩 중";
-
     const keyword = this.getKeywordFromURL();
+    this.#uiManager.setLoading(true);
+    this.render([]);
     const results = keyword
       ? await this.#movieManager.fetchSearch(keyword)
       : await this.#movieManager.fetchPopular();
+    this.#uiManager.setLoading(false);
 
     if (results.results === null) {
       this.render(null);
@@ -36,6 +37,8 @@ class App {
   }
 
   render(movies) {
+    const isLoading = this.#uiManager.getLoading();
+
     const app = document.getElementById("app");
     app.innerHTML = "";
 
@@ -47,10 +50,11 @@ class App {
       this.onLogoClick
     ).render();
 
-    if (movies && movies.length > 0) {
-      const $thumbnail = new Thumbnail(movies[0]).render();
-      $wrap.append($thumbnail);
-    }
+    const $thumbnail = new Thumbnail(
+      !isLoading && movies && movies.length > 0 ? movies[0] : null,
+      isLoading
+    ).render();
+    $wrap.append($thumbnail);
 
     const $container = document.createElement("div");
     $container.classList.add("container");
@@ -60,7 +64,7 @@ class App {
     const $movieListSection = new MovieListSection(
       this.getKeywordFromURL(),
       movies,
-      this.#uiManager.getLoading()
+      isLoading
     ).render();
 
     app.appendChild($wrap);

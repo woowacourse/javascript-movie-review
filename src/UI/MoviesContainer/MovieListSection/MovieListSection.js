@@ -17,6 +17,16 @@ class MovieListSection {
     const $ul = document.createElement("ul");
     $ul.classList.add("thumbnail-list");
 
+    if (this.isLoading) {
+      for (let i = 0; i < 20; i++) {
+        const $item = new MovieItem(null, true).render();
+        $ul.appendChild($item);
+      }
+      $section.appendChild($title);
+      $section.appendChild($ul);
+      return $section;
+    }
+
     if (this.movies === null) {
       const $div = new EmptyView("오류가 발생했습니다.").render();
       $section.appendChild($div);
