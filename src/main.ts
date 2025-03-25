@@ -22,6 +22,9 @@ import { setupInfiniteScroll } from "./service/scrollService.ts";
 import { updateHero } from "./view/MovieView.ts";
 import { handleConnectionError } from "./service/errorService.ts";
 
+import { fetchUrl } from "./util/fetch.ts";
+import type { TMDBDetails } from "../types/tmdb.types.ts";
+
 let infiniteScrollInstance = null;
 const initMovies = () =>
   createMovieLoader(
@@ -72,7 +75,70 @@ if (!window._loadingEventRegistered) {
 
   window._loadingEventRegistered = true;
 }
+document
+  .getElementById("thumbnail-list")
+  ?.addEventListener("click", ({ target }) => {
+    const { id } = target?.closest("li") ?? {};
+    if (id) {
+      handleItemClick(id);
+    }
+  });
 
+async function handleItemClick(id: string) {
+  const detailsUrl = "https://api.themoviedb.org/3/movie";
+  const result: TMDBDetails = await fetchUrl(
+    detailsUrl,
+    defaultQueryObject,
+    defaultOptions,
+    id
+  );
+  const modal = document.getElementById("modal-dialog");
+  updateDetails(result);
+  updateHero(result);
+  const skeleton = document.getElementById("details-skeleton");
+  const detailsImage = document.getElementById("details-image");
+  showElement(skeleton);
+  hideElement(detailsImage);
+  modal.showModal();
+}
+
+function updateDetails({
+  poster_path,
+  release_date,
+  overview,
+  title,
+  vote_average,
+  genres,
+}) {
+  const detailsImage = document.getElementById("details-image");
+  const detailsTitle = document.getElementById("details-title");
+  const detailsCategory = document.getElementById("details-category");
+  const detailsRate = document.getElementById("details-rate");
+  const detailsDescription = document.getElementById("details-description");
+  const categoryNames = `${new Date(release_date).getFullYear()} ${genres
+    .map((genre) => genre.name)
+    .join(", ")} `;
+  let imgUrl = "./images/fallback_no_movies.png";
+  if (poster_path) imgUrl = "https://image.tmdb.org/t/p/original" + poster_path;
+
+  detailsTitle.innerText = title;
+  detailsRate.innerText = vote_average;
+  detailsCategory.innerText = categoryNames;
+  detailsDescription.innerText = overview;
+  detailsImage.src = imgUrl;
+}
+
+document.getElementById("details-image").addEventListener("load", () => {
+  const skeleton = document.getElementById("details-skeleton");
+  const detailsImage = document.getElementById("details-image");
+  hideElement(skeleton);
+  showElement(detailsImage);
+});
+
+document.getElementById("closeModal").addEventListener("click", () => {
+  const modal = document.getElementById("modal-dialog");
+  modal.close();
+});
 main();
 
 export { infiniteScrollInstance };
