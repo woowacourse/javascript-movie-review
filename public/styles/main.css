@@ -67,7 +67,13 @@ button.primary {
   align-items: center;
   max-width: 1280px;
   margin: 2.5rem auto 0;
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
 }
 
 .search-form {
@@ -77,9 +83,7 @@ button.primary {
   align-items: center;
   justify-content: space-between;
   padding: 0 1.25rem;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+  margin-top: 1.5rem;
   width: 32.8125rem;
   gap: 1rem;
 }
