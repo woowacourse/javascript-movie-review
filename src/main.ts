@@ -86,20 +86,24 @@ document
 
 async function handleItemClick(id: string) {
   const detailsUrl = "https://api.themoviedb.org/3/movie";
-  const result: TMDBDetails = await fetchUrl(
-    detailsUrl,
-    defaultQueryObject,
-    defaultOptions,
-    id
-  );
-  const modal = document.getElementById("modal-dialog");
-  updateDetails(result);
-  updateHero(result);
-  const skeleton = document.getElementById("details-skeleton");
-  const detailsImage = document.getElementById("details-image");
-  showElement(skeleton);
-  hideElement(detailsImage);
-  modal.showModal();
+  try {
+    const result: TMDBDetails = await fetchUrl(
+      detailsUrl,
+      defaultQueryObject,
+      defaultOptions,
+      id
+    );
+    const modal = document.getElementById("modal-dialog");
+    updateDetails(result);
+    updateHero(result);
+    const skeleton = document.getElementById("details-skeleton");
+    const detailsImage = document.getElementById("details-image");
+    showElement(skeleton);
+    hideElement(detailsImage);
+    modal.showModal();
+  } catch (error) {
+    Toast.showToast(error.message, "error", 5000);
+  }
 }
 
 function updateDetails({
