@@ -1,38 +1,48 @@
 interface CreateDOMElementProps {
   tag: string;
-  children?: (HTMLElement | undefined | null)[] | HTMLElement;
+  children?: (HTMLElement | undefined | null)[] | HTMLElement | undefined;
   [key: string]: any;
 }
 
 const createDOMElement = ({
   tag,
   children,
+  className,
   ...props
 }: CreateDOMElementProps): HTMLElement => {
   if (!tag) throw new Error("Tag is required");
 
   const element = document.createElement(tag);
 
-  Object.entries(props).forEach(([key, value]) => {
-    if (key === "className") {
-      if (Array.isArray(value)) {
-        value.forEach((className) => {
-          element.classList.add(className);
-        });
-      } else if (typeof value === "string") {
-        value.split(" ").forEach((className) => {
-          if (className !== "") element.classList.add(className);
-        });
-      }
-    }
+  applyClassName(element, className);
+  applyAttributes(element, props);
+  appendChildren(element, children);
 
+  return element;
+};
+
+export default createDOMElement;
+
+const applyClassName = (element: HTMLElement, className?: string) => {
+  if (!className) return;
+  const classList = className.split(" ").filter((c) => c.trim() !== "");
+  classList.forEach((cls) => element.classList.add(cls));
+};
+
+const applyAttributes = (element: HTMLElement, props: Record<string, any>) => {
+  Object.entries(props).forEach(([key, value]) => {
     if (key in element) {
       (element as any)[key] = value;
     } else {
-      element.setAttribute(key, value as string);
+      element.setAttribute(key, value);
     }
   });
+};
 
+const appendChildren = (
+  element: HTMLElement,
+  children?: (HTMLElement | undefined | null)[] | HTMLElement,
+) => {
   if (children) {
     if (Array.isArray(children)) {
       children.forEach((child) => {
@@ -42,8 +52,4 @@ const createDOMElement = ({
       element.appendChild(children);
     }
   }
-
-  return element;
 };
-
-export default createDOMElement;
