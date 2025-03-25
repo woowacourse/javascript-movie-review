@@ -20,7 +20,7 @@ export default function MovieCard(movieTitle: string, movie: IMovie) {
               >${movie.vote_average.toFixed(1)}</span
             >
           </p>
-          <strong>${movieTitle}</strong>
+          <strong class="movie-card-title">${movieTitle}</strong>
         </div>
       </button>
     </li>
