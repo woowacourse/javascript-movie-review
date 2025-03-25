@@ -1,6 +1,8 @@
-import { MoviesResponse } from "../../types";
+import { BaseApiResponse } from "../../types/api";
 
-async function fetchWithErrorHandling(url: string) {
+export async function fetchWithErrorHandling<T>(
+  url: string
+): Promise<BaseApiResponse<T>> {
   const options = {
     method: "GET",
     headers: {
@@ -11,7 +13,6 @@ async function fetchWithErrorHandling(url: string) {
 
   try {
     const response = await fetch(url, options);
-    console.log(response);
 
     if (!response.ok) {
       switch (response.status) {
@@ -30,25 +31,10 @@ async function fetchWithErrorHandling(url: string) {
       }
     }
 
-    return response.json() as unknown as MoviesResponse;
+    return response.json();
   } catch (error) {
     return {
       error: `에러가 발생했습니다. ${error}`,
     };
   }
-}
-
-interface GetDataProps {
-  page: number;
-  name: string;
-}
-
-export async function getMovies({ page }: Omit<GetDataProps, "name">) {
-  const url = `https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=${page}`;
-  return fetchWithErrorHandling(url);
-}
-
-export async function getMovieByName({ name, page }: GetDataProps) {
-  const url = `https://api.themoviedb.org/3/search/movie?query=${name}&include_adult=false&language=ko-KR&page=${page}`;
-  return fetchWithErrorHandling(url);
 }

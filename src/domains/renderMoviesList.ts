@@ -1,4 +1,6 @@
-import { getMovieByName, getMovies } from "../apis/MovieApi";
+import { MoviesResponse } from "../../types/movie";
+import { handleApiResponse } from "../api/handlers";
+import { getMovieByName, getMovies } from "../api/movie";
 import {
   MovieList,
   MovieListSkeleton,
@@ -9,7 +11,6 @@ import {
   MAX_MOVIE_PAGE,
   DEFAULT_TOP_RATED_DATA,
 } from "../constants/constants";
-import { isErrorResponse } from "../utils/typeGuards";
 import { store } from "./../stores";
 
 const $mainSection = document.querySelector("main section");
@@ -46,18 +47,21 @@ const renderHeaderBackground = () => {
 const renderTotalList = async () => {
   const moviesResponse = await getMovies({ page: store.page });
 
-  if (isErrorResponse(moviesResponse)) {
-    $ul?.classList.add("close");
-    $error?.classList.remove("close");
-    if ($h2) $h2.textContent = moviesResponse.error;
-    return;
-  }
+  handleApiResponse<MoviesResponse>(
+    moviesResponse,
+    (data) => {
+      store.movies = [...store.movies, ...data.results];
+      store.totalPages = data.total_pages;
 
-  store.movies = [...store.movies, ...moviesResponse.results];
-  store.totalPages = moviesResponse.total_pages;
-
-  renderHeaderBackground();
-  changeHeaderBackground();
+      renderHeaderBackground();
+      changeHeaderBackground();
+    },
+    (error) => {
+      $ul?.classList.add("close");
+      $error?.classList.remove("close");
+      if ($h2) $h2.textContent = error;
+    }
+  );
 };
 
 const renderSearchList = async () => {
@@ -68,24 +72,27 @@ const renderSearchList = async () => {
     page: store.page,
   });
 
-  if (isErrorResponse(moviesResponse)) {
-    $ul?.classList.add("close");
-    $error?.classList.remove("close");
-    if ($h2) $h2.textContent = moviesResponse.error;
-    return;
-  }
+  handleApiResponse<MoviesResponse>(
+    moviesResponse,
+    (data) => {
+      store.movies = [...store.movies, ...data.results];
+      store.totalPages = data.total_pages;
 
-  store.movies = [...store.movies, ...moviesResponse.results];
-  store.totalPages = moviesResponse.total_pages;
-
-  if (store.movies.length === 0) {
-    $ul?.classList.add("close");
-    $error?.classList.remove("close");
-    if ($h2) $h2.textContent = "검색 결과가 없습니다.";
-  } else {
-    $ul?.classList.remove("close");
-    $error?.classList.add("close");
-  }
+      if (store.movies.length === 0) {
+        $ul?.classList.add("close");
+        $error?.classList.remove("close");
+        if ($h2) $h2.textContent = "검색 결과가 없습니다.";
+      } else {
+        $ul?.classList.remove("close");
+        $error?.classList.add("close");
+      }
+    },
+    (error) => {
+      $ul?.classList.add("close");
+      $error?.classList.remove("close");
+      if ($h2) $h2.textContent = error;
+    }
+  );
 };
 
 export const renderMoviesList = async () => {

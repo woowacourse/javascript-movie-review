@@ -1,4 +1,4 @@
-import { MovieResult } from "../../../types";
+import { MovieResult } from "../../../types/movie";
 import { PREFIX_BACKDROP_PATH } from "../../constants/constants";
 
 export default function MovieList(moviesResult: MovieResult[]) {

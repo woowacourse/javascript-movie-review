@@ -1,6 +1,6 @@
 import { renderMoviesList } from "../domains/renderMoviesList";
 import { store } from "../stores";
-import { isElement } from "../utils/typeGuards";
+import { isElement } from "../utils";
 
 window.addEventListener("click", async (event) => {
   const { target } = event;

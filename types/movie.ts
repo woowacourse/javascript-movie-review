@@ -1,3 +1,5 @@
+import { BaseApiResponse } from "./api";
+
 export interface MoviesResponse {
   page: number;
   results: MovieResult[];
@@ -22,8 +24,4 @@ export interface MovieResult {
   vote_count: number;
 }
 
-export type ApiResponse = MoviesResponse | ErrorResponse;
-
-export interface ErrorResponse {
-  error: string;
-}
+export type MovieApiResponse = BaseApiResponse<MoviesResponse>;
