@@ -13,10 +13,12 @@ import MovieItem from "./UI/MoviesContainer/MovieItem/MovieItem";
 class App {
   #movieManager;
   #uiManager;
+  #movieListSection;
 
   constructor() {
     this.#movieManager = new MovieManager();
     this.#uiManager = new UIManager();
+    this.#movieListSection = new MovieListSection();
   }
 
   async init() {
@@ -130,13 +132,7 @@ class App {
     const $main = document.querySelector("main");
     const $ul = document.querySelector(".thumbnail-list");
 
-    const skeletonElements = [];
-    for (let i = 0; i < 20; i++) {
-      const skeleton = document.createElement("li");
-      skeleton.classList.add("skeleton-box");
-      skeletonElements.push(skeleton);
-      $ul.appendChild(skeleton);
-    }
+    const skeletonElements = this.#movieListSection.renderSkeleton($ul);
 
     const { results, totalPage, currentPage } = keyword
       ? await this.#movieManager.fetchSearch(keyword)
@@ -144,17 +140,13 @@ class App {
 
     if (currentPage >= totalPage) {
       this.#uiManager.setShowMore(false);
-      const $moreButton = document.querySelector(".more-button");
-      $moreButton.remove();
+      this.#movieListSection.removeMoreButton();
     }
 
-    skeletonElements.forEach(($el) => $el.remove());
+    this.#movieListSection.removeSkeleton(skeletonElements);
 
     const newMovies = results.slice(-20);
-    newMovies.forEach((movie) => {
-      const $item = new MovieItem(movie, false).render();
-      $ul.appendChild($item);
-    });
+    this.#movieListSection.appendMovies(newMovies, $ul);
   };
 
   getKeywordFromURL() {

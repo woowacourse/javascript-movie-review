@@ -64,6 +64,33 @@ class MovieListSection {
     return $section;
   }
 
+  renderSkeleton($ul) {
+    const skeletonElements = [];
+    for (let i = 0; i < 20; i++) {
+      const skeleton = document.createElement("li");
+      skeleton.classList.add("skeleton-box");
+      skeletonElements.push(skeleton);
+      $ul.appendChild(skeleton);
+    }
+    return skeletonElements;
+  }
+
+  removeMoreButton() {
+    const $moreButton = document.querySelector(".more-button");
+    $moreButton.remove();
+  }
+
+  removeSkeleton(skeletonElements) {
+    skeletonElements.forEach(($el) => $el.remove());
+  }
+
+  appendMovies(movies, $ul) {
+    movies.forEach((movie) => {
+      const $item = new MovieItem(movie, false).render();
+      $ul.appendChild($item);
+    });
+  }
+
   renderMovieItemByArray(movies, $ul, isLoading) {
     return movies.forEach((movie) => {
       const $item = new MovieItem(movie, isLoading).render();
