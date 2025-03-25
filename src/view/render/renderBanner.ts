@@ -3,14 +3,15 @@ import Skeleton from '../../component/Skeleton';
 import { IMovie } from '../../type';
 import { $ } from '../../util/selector';
 
-const MOVIE_INDEX_FOR_BANNER = 1;
-
 export const renderBanner = async (movies: IMovie[]) => {
   const wrap = $('#wrap');
 
   const bannerSkeleton = Skeleton({ height: 500 });
   wrap?.prepend(bannerSkeleton);
 
-  const banner = Banner({ movie: movies[MOVIE_INDEX_FOR_BANNER] });
+  const hasBackdropMovies = movies.filter((movie) => movie.backdrop_path !== null);
+  const bannerMovie = hasBackdropMovies.length ? hasBackdropMovies[0] : movies[0];
+
+  const banner = Banner({ movie: bannerMovie });
   bannerSkeleton?.replaceWith(banner);
 };
