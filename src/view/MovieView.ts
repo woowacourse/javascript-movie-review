@@ -58,3 +58,21 @@ export function renderHeaderAndHero() {
     $wrap.prepend(Hero());
   }
 }
+export function updateHero({ poster_path, title, vote_average }) {
+  const heroImg = document.getElementById("hero-img");
+  const heroTitle = document.getElementById("hero-title");
+  const heroAverage = document.getElementById("hero-rate");
+  const topRatedContainer = document.getElementById("top-rated-container");
+
+  let url = `https://image.tmdb.org/t/p/original${poster_path}`;
+  if (!poster_path) url = "images/fallback.png";
+  if (heroImg) heroImg.src = url;
+  const img = document.getElementById("hero-img");
+  const heroSkeleton = document.getElementById("hero-skeleton");
+  img.addEventListener("load", () => {
+    hideElement(heroSkeleton);
+    if (heroAverage) heroAverage.innerText = vote_average;
+    if (heroTitle) heroTitle.innerText = title;
+    showElement(topRatedContainer);
+  });
+}
