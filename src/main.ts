@@ -8,6 +8,7 @@ import MoreMoviesButton from "./shared/ui/components/MoreMoviesButton";
 import ErrorPage from "./shared/ui/components/ErrorPage";
 import { withSkeleton } from "./shared/ui/withSkeleton";
 import { initUrl } from "./shared/utils/updateUrl";
+import { movieDetailModalHandler } from "./shared/ui/movieDetailModalHandler";
 
 async function init() {
   const $movieList = document.querySelector(".thumbnail-list") as HTMLElement;
@@ -52,6 +53,8 @@ async function init() {
       ErrorPage("영화 리스트를 불러오는데 실패하였습니다.");
     }
   });
+
+  movieDetailModalHandler();
 }
 
 if (document.readyState === "loading") {
