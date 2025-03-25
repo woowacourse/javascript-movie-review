@@ -2,6 +2,7 @@ import createDOMElement from '../util/createDomElement';
 import MessageDisplay from './MessageDisplay';
 import Movie from './Movie';
 import { IMovie } from '../type';
+import { $ } from '../util/selector';
 
 function MovieList({ title, movies }: { title: string; movies: IMovie[] }) {
   return createDOMElement({
@@ -23,3 +24,16 @@ function MovieList({ title, movies }: { title: string; movies: IMovie[] }) {
   });
 }
 export default MovieList;
+
+export const addMoreMovieList = (newMovies: IMovie[]) => {
+  const container = $('.thumbnail-list') as HTMLElement;
+  if (!container) return;
+  const fragment = document.createDocumentFragment();
+
+  newMovies.forEach((movie) => {
+    const newMovie = Movie({ movie });
+    fragment.appendChild(newMovie);
+  });
+
+  container.appendChild(fragment);
+};

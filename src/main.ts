@@ -7,7 +7,7 @@ import MovieList from './component/MovieList';
 import { $ } from './util/selector';
 import Header from './component/Header';
 import Skeleton from './component/Skeleton';
-import SkeletonList, { addSkeletonList, removeSkeletonList } from './component/SkeletonList';
+import { addSkeletonList, removeSkeletonList } from './component/SkeletonList';
 import { IMovie } from './type';
 
 const API_PAGE_LIMIT = 500;
@@ -48,7 +48,7 @@ const renderMovieList = async () => {
   const container = $('.container');
   if (!container) return;
 
-  addSkeletonList();
+  addSkeletonList(container);
   let page = INITIAL_PAGE;
 
   const response = await getPopularMovies({ page });
@@ -87,18 +87,16 @@ const handleMoreButtonClick = async (page: number, moreButton: HTMLElement) => {
   const container = $('.thumbnail-list') as HTMLElement;
   if (!container) return;
 
-  const skeletonList = SkeletonList({ height: 300 });
-  container.appendChild(skeletonList);
+  addSkeletonList(container);
 
   const response = await getPopularMovies({ page });
   if (!response) return;
 
-  renderMoreMovies(response.results, container, skeletonList);
+  removeSkeletonList();
+  renderMoreMovies(response.results, container);
 };
 
-const renderMoreMovies = (newMovies: IMovie[], container: HTMLElement, skeletonList: HTMLElement) => {
-  skeletonList.remove();
-
+const renderMoreMovies = (newMovies: IMovie[], container: HTMLElement) => {
   const fragment = document.createDocumentFragment();
 
   newMovies.forEach((movie) => {

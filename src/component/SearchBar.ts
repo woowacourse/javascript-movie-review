@@ -1,9 +1,8 @@
 import getSearchMovies from '../api/getSearchMovies';
 import createDOMElement from '../util/createDomElement';
 import Button from './Button';
-import Movie from './Movie';
-import MovieList from './MovieList';
-import SkeletonList from './SkeletonList';
+import MovieList, { addMoreMovieList } from './MovieList';
+import SkeletonList, { addSkeletonList, removeSkeletonList } from './SkeletonList';
 import { $ } from '../util/selector';
 
 function SearchBar() {
@@ -52,6 +51,7 @@ const handleSearchMovies = async (e: Event) => {
 
   const skeletonList = SkeletonList({ height: 300 });
   container?.replaceChildren(skeletonList);
+
   // 화면 업데이트
   let currentPage = 1;
   const response = await getSearchMovies({ page: currentPage, query: searchKeyword });
@@ -81,23 +81,54 @@ const handleMoreButtonClick = async (page: number, query: string, total_pages: n
   const container = $('.thumbnail-list') as HTMLElement;
   if (!container) return;
 
-  const skeletonList = SkeletonList({ height: 300 });
-  container.appendChild(skeletonList);
+  addSkeletonList(container);
 
   const response = await getSearchMovies({ page, query });
   if (!response) return;
   const { results: newMovies } = response;
 
-  skeletonList.remove();
+  removeSkeletonList();
 
-  const fragment = document.createDocumentFragment();
-
-  newMovies.forEach((movie) => {
-    const newMovie = Movie({ movie });
-    fragment.appendChild(newMovie);
-  });
-
-  container.appendChild(fragment);
+  addMoreMovieList(newMovies);
 };
 
 export default SearchBar;
+
+// import createDOMElement from '../util/createDomElement';
+
+// interface SearchBarProps {
+//   onSubmit: (e: Event) => void;
+// }
+
+// function SearchBar({ onSubmit }: SearchBarProps) {
+//   return createDOMElement({
+//     tag: 'form',
+//     id: 'searchForm',
+//     className: 'search-form',
+//     children: [
+//       createDOMElement({
+//         tag: 'input',
+//         attributes: {
+//           placeholder: '검색어를 입력하세요',
+//           type: 'text',
+//           name: 'keyword'
+//         }
+//       }),
+//       createDOMElement({
+//         tag: 'button',
+//         children: [
+//           createDOMElement({
+//             tag: 'img',
+//             attributes: {
+//               src: 'images/search.png',
+//               alt: '검색 아이콘'
+//             }
+//           })
+//         ]
+//       })
+//     ],
+//     event: { submit: onSubmit }
+//   });
+// }
+
+// export default SearchBar;
