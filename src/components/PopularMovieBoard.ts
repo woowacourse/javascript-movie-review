@@ -33,7 +33,7 @@ class PopularMovieBoard {
       </section>
       <section class="movie-list-container">
           <h2>지금 인기 있는 영화</h2>
-          <ul class='thumbnail-list'>${new MovieList([]).ui}</ul>
+          <ul class='thumbnail-list'>${new MovieList([]).skeleton}</ul>
           <div class="more-button-container"></div>
       </section>
     `;
