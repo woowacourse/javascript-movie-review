@@ -8,7 +8,6 @@ async function fetchPopularMovies(pageNumber: number) {
     language: "ko-KR",
     region: "KR",
   });
-  console.log(params.toString());
 
   try {
     const TMDB_movieList = await ApiClient.get<TMDB_PaginatedMovies>(

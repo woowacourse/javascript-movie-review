@@ -2,6 +2,7 @@ import fetchPopularMovies from "./api/fetchPopularMovies";
 import Header from "./components/Header/Header";
 import MovieList from "./components/MovieList/MovieList";
 import SeeMoreButton from "./components/SeeMoreButton/SeeMoreButton";
+import Skeleton from "./components/Skeleton/Skeleton";
 import ErrorMessage from "./constants/ErrorMessage";
 
 let pageNumber = 1;
@@ -17,10 +18,13 @@ addEventListener("load", async () => {
       rate: movieList[0].rate,
     });
     MovieList.init(movieList);
+    Skeleton.init();
     SeeMoreButton.init();
     SeeMoreButton.onButtonClick = async () => {
+      Skeleton.show();
       const movieList = await getMovieList();
       MovieList.add(movieList);
+      Skeleton.hidden();
     };
   } catch (error) {
     if (error instanceof Error) alert(error.message);
