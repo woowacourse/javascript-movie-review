@@ -8,12 +8,22 @@ export interface FetchOptions {
 
 export async function fetchUrl<T>(
   url: string,
-  queryObject: URLSearchParams,
-  options: FetchOptions = {}
-): Promise<T> {
-  const queryString = new URLSearchParams(queryObject).toString();
-  const finalUrl = queryString ? `${url}?${queryString}` : url;
 
+  queryObject: URLSearchParams,
+  options: FetchOptions = {},
+  path?: string
+): Promise<T> {
+  function buildMovieUrl(baseUrl: string, path: string, queryObject = {}) {
+    let url = baseUrl;
+    if (path) {
+      url += `/${path}`;
+    }
+
+    const queryString = new URLSearchParams(queryObject).toString();
+    return queryString ? `${url}?${queryString}` : url;
+  }
+
+  const finalUrl = buildMovieUrl(url, path, queryObject);
   // AbortController를 생성하여 signal을 옵션에 추가
   const controller = new AbortController();
   options.signal = controller.signal;
