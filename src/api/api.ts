@@ -1,5 +1,5 @@
 import { BASE_URL, TMDB_TOKEN } from "../constants/api.ts";
-import ERROR from "../constants/error.ts";
+import { ERROR } from "../constants/error.ts";
 
 const options = {
   method: "GET",
@@ -21,7 +21,7 @@ const api = {
       return await response.json();
     } catch (error) {
       if (error instanceof TypeError) {
-        alert(ERROR.FAIL_CONNECT_API);
+        throw new Error(ERROR.FAIL_CONNECT_API);
       }
 
       if (error instanceof Error) {

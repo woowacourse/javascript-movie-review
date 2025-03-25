@@ -1,5 +1,6 @@
 import api from "./api.ts";
 import { OPTION } from "../constants/api.ts";
+import { STATUS_MESSAGE } from "../constants/error.ts";
 
 const defaultParams = {
   language: OPTION.language,
@@ -7,25 +8,37 @@ const defaultParams = {
 };
 
 const movieApi = {
-  getMovieData(pageNumber: number) {
-    const params = new URLSearchParams({
-      ...defaultParams,
-      page: pageNumber.toString(),
-    }).toString();
+  async getMovieData(pageNumber: number) {
+    try {
+      const params = new URLSearchParams({
+        ...defaultParams,
+        page: pageNumber.toString(),
+      }).toString();
 
-    const endpoint = `/movie/popular?${params}`;
-    return api.GETWithAuth(endpoint);
+      const endpoint = `/movie/popular?${params}`;
+      return api.GETWithAuth(endpoint);
+    } catch (error) {
+      if (error instanceof Error && error.message in STATUS_MESSAGE) {
+        throw new Error(STATUS_MESSAGE[error.message]);
+      }
+    }
   },
 
   getSearchData(pageNumber: number, query: string) {
-    const params = new URLSearchParams({
-      ...defaultParams,
-      page: pageNumber.toString(),
-      query,
-    }).toString();
+    try {
+      const params = new URLSearchParams({
+        ...defaultParams,
+        page: pageNumber.toString(),
+        query,
+      }).toString();
 
-    const endpoint = `/search/movie?${params}`;
-    return api.GETWithAuth(endpoint);
+      const endpoint = `/search/movie?${params}`;
+      return api.GETWithAuth(endpoint);
+    } catch (error) {
+      if (error instanceof Error && error.message in STATUS_MESSAGE) {
+        throw new Error(STATUS_MESSAGE[error.message]);
+      }
+    }
   },
 };
 
