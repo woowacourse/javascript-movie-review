@@ -21,7 +21,8 @@ addEventListener("load", async () => {
     });
 
     SearchInput.init();
-    SearchInput.onButtonClick = async () => setSearchMode();
+    SearchInput.onButtonClick = async () => search();
+    SearchInput.onEnterKeydown = async () => search();
 
     Subtitle.init();
 
@@ -57,7 +58,7 @@ async function getSearchMovieList(query: string) {
   return movieList;
 }
 
-async function setSearchMode() {
+async function search() {
   Header.setSearchMode();
   MovieList.init([]);
   pageNumber = 1;
