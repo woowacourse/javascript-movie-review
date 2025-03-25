@@ -16,7 +16,7 @@ const MovieItem = {
             <div class="item-desc">
             <p class="rate">
                 <img src="./images/star_empty.png" class="star" /><span
-                >${rate}</span
+                >${rate.toFixed(1)}</span
                 >
             </p>
             <strong>${title}</strong>

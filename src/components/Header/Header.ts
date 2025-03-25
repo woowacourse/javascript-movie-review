@@ -10,7 +10,7 @@ const Header = {
 
   setTitle({ id, posterPath, rate, title }: MovieItemProps) {
     $overlay.style.backgroundImage = `url(${BACKDROP_IMG_PREFIX + posterPath})`;
-    $rate.textContent = rate.toString();
+    $rate.textContent = rate.toFixed(1);
     $headerTitle.textContent = title;
   },
 };
