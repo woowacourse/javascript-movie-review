@@ -36,12 +36,23 @@ async function fetchUtil(url: string) {
     },
   };
 
-  const response = await fetch(url, options);
+  try {
+    const response = await fetch(url, options);
+    const data = await response.json();
 
-  if(!response.ok){
-    alert("서버와의 연결이 끊어졌습니다")
+    if (!response.ok) {
+      if (response.status === 404) {
+        alert("페이지를 찾을 수 없습니다.");
+      } else if (response.status === 500) {
+        alert("서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+      }
+      throw new Error(data.message || "An error occurred");
+    }
+
+    const { results, total_pages } = (data) as TMDBResponse;
+    return { results, total_pages };
+
+  } catch (error) {
+    throw error; 
   }
-
-  const {results, total_pages} = (await response.json()) as TMDBResponse;
-  return {results, total_pages};
 }
