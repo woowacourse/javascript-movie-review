@@ -1,9 +1,9 @@
-import { ElementOptions } from "../../utils/createElementWithAttributes";
+import { createElementWithAttributes } from "../../utils/createElementWithAttributes";
 import { Movie } from "../../../domain/types";
 import noImage from "/images/no_image.png";
 
-const movieItem = (movie: Movie): ElementOptions => {
-  return {
+const movieItem = (movie: Movie) => {
+  return createElementWithAttributes({
     tag: "li",
     className: "item",
     children: [
@@ -43,7 +43,7 @@ const movieItem = (movie: Movie): ElementOptions => {
         ],
       },
     ],
-  };
+  });
 };
 
 export default movieItem;

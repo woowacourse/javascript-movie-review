@@ -6,8 +6,10 @@ const movieList = (movies: Movie[]) => {
   const $movieList = createElementWithAttributes({
     tag: "ul",
     className: "thumbnail-list",
-    children: movies.map((movie) => movieItem(movie)),
   });
+
+  const $movieItems = movies.map((movie) => movieItem(movie));
+  $movieList.append(...$movieItems);
 
   return $movieList;
 };
