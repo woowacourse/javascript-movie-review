@@ -6,7 +6,7 @@ const $HeaderBox = () => {
   });
   const $logoLink = createElement("a", { href: "/javascript-movie-review" });
   const $logoImage = createElement("img", {
-    src: "./logo.png",
+    src: "./logo.svg",
     alt: "MovieList",
   });
   $logoLink.appendChild($logoImage);

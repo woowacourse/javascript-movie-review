@@ -5,14 +5,15 @@ export const POSTER_PATH = Object.freeze({
 });
 
 export const ICON_PATH = Object.freeze({
-  STAR_EMPTY: "./star_empty.png",
-  STAR_FILLED: "./star_filled.png",
+  STAR_EMPTY: "./star_empty.svg",
+  STAR_FILLED: "./star_filled.svg",
   SEARCH: "./search.svg",
   MODAL_CLOSE: "./modal_button_close.svg",
 });
 
 export const LOGO_PATH = Object.freeze({
-  LOGO: "./woowacourse_logo.png",
+  LOGO: "./logo.svg",
+  WOOWACOURSE_LOGO: "./woowacourse_logo.png",
 });
 
 export const IMAGE_PATH = Object.freeze({

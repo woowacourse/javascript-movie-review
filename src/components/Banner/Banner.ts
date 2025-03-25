@@ -21,7 +21,7 @@ const $Banner = () => {
   <div class="overlay" aria-hidden="true"></div>
   <div class="top-rated-container">
     <div class="rate">
-      <img src="./star_empty.png" class="star" />
+      <img src="./star_empty.svg" class="star" />
       <span class="rate-value">9.5</span>
     </div>
     <div class="title">인사이드 아웃2</div>
