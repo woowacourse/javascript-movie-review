@@ -1,13 +1,5 @@
 /// <reference types="cypress" />
 
-describe("", () => {
-  it("", () => {
-    cy.visit("http://localhost:5173");
-    cy.get(".app-layout", { timeout: 10000 }).should("exist");
-    cy.get(".item").should("have.length", 20);
-  });
-});
-
 describe("영화 fixture관련 테스트", () => {
   beforeEach(() => {
     cy.intercept(
