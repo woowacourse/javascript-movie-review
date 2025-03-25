@@ -1,11 +1,12 @@
 import { fetchPopularMovies } from "./domain/apis/fetchPopularMovies";
 import { fetchSearchedMovies } from "./domain/apis/fetchSearchedMovies";
-import backgroundContainer from "./components/backgroundContainer";
 import movieContainer from "./components/movie/movieContainer";
 import { $ } from "./components/utils/selectors";
 import showSkeletonContainer from "./components/skeleton/showSkeletonContainer";
 import hideSkeletonContainer from "./components/skeleton/hideSkeletonContainer";
 import errorContainer from "./components/errorContainer";
+import hideBackgroundContainer from "./components/backgroundContainer/hideBackgroundContainer";
+import showBackgroundContainer from "./components/backgroundContainer/showBackgroundContainer";
 
 const onSearch = async (event: Event) => {
   try {
@@ -43,8 +44,7 @@ const onSearch = async (event: Event) => {
     }
   } catch (error: unknown) {
     if (error instanceof Error) {
-      const $backgroundContainer = $(".background-container");
-      $backgroundContainer?.remove();
+      hideBackgroundContainer();
 
       const $main = $("main");
 
@@ -77,19 +77,19 @@ const initializeMovie = async () => {
   $main?.append($movieContainer);
 };
 
-const $header = $("header");
-$header?.append(backgroundContainer);
-
 const main = async () => {
   try {
+    const $header = $("header");
+
+    showBackgroundContainer($header);
+
     await initializeMovie();
 
     const $searchBar = $("#search-bar-container");
     $searchBar?.addEventListener("submit", onSearch);
   } catch (error: unknown) {
     if (error instanceof Error) {
-      const $backgroundContainer = $(".background-container");
-      $backgroundContainer?.remove();
+      hideBackgroundContainer();
 
       const $errorContainer = errorContainer(error);
 
