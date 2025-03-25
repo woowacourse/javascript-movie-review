@@ -53,6 +53,7 @@ const movieContainer = ({
       ],
     });
     $movieContainer.append($noSearchContainer);
+
     return $movieContainer;
   }
 
