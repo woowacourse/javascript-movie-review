@@ -17,10 +17,6 @@ interface Options {
   rootComponent: null | (() => string);
 }
 
-// export interface Dispatch<T> {
-//   (value: T): void;
-// }
-
 function Core() {
   const options: Options = {
     events: [],

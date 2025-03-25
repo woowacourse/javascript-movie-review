@@ -63,7 +63,7 @@ const App = () => {
 
       ${
         isSearchError
-          ? `<div class="no-results">검색 결과를 불러오는데 실패하였습니다.</div>`
+          ? `<div class="search-server-error">검색 결과를 불러오는데 실패하였습니다.</div>`
           : ""
       }
       ${
@@ -86,7 +86,11 @@ const App = () => {
                 })
                 .join("")}
             </ul>
-      ${isMoreError ? `<div>영화 목록을 불러오는 데 실패했습니다.</div>` : ""}
+      ${
+        isMoreError
+          ? `<div class='more-error'>영화 목록을 불러오는 데 실패했습니다.</div>`
+          : ""
+      }
     ${
       displayMovieList.length < totalResults
         ? Button({
