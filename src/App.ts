@@ -122,8 +122,16 @@ export default class App extends Component<null, AppState> {
       callback: () => {
         this.setState({ movieDetailResponse: null });
       },
-      dataAction: 'close-movie-detail-modal',
+      dataAction: 'close-movie-detail-modal-outside',
       notTriggerDataAction: 'not-close-movie-detail-modal',
+    });
+
+    eventHandlerInstance.addEventListener({
+      eventType: 'click',
+      callback: () => {
+        this.setState({ movieDetailResponse: null });
+      },
+      dataAction: 'close-movie-detail-modal-button',
     });
 
     eventHandlerInstance.addEventListener({
