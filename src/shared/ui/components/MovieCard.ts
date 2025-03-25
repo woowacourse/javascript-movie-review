@@ -8,19 +8,21 @@ export default function MovieCard(movieTitle: string, movie: IMovie) {
 
   return toElement(`
     <li class="item">
-      <img
-        class="thumbnail"
-        src=${movieImgPath}
-        alt=${movieTitle}
-      />
-      <div class="item-desc">
-        <p class="rate">
-          <img src="./images/star_empty.png" class="star" /><span
-            >${movie.vote_average.toFixed(1)}</span
-          >
-        </p>
-        <strong>${movieTitle}</strong>
-      </div>
+      <button class="movie-card-button">
+        <img
+          class="thumbnail"
+          src=${movieImgPath}
+          alt=${movieTitle}
+        />
+        <div class="item-desc">
+          <p class="rate">
+            <img src="./images/star_empty.png" class="star" /><span
+              >${movie.vote_average.toFixed(1)}</span
+            >
+          </p>
+          <strong>${movieTitle}</strong>
+        </div>
+      </button>
     </li>
   `);
 }
