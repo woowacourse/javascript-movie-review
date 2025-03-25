@@ -1,12 +1,18 @@
-interface ButtonProps {
-  className: string;
+interface ButtonProps extends Partial<HTMLButtonElement> {
+  className?: string;
   textContent: string;
+  type?: HTMLButtonElement["type"];
 }
 
-export default function Button({ className, textContent }: ButtonProps) {
+export default function Button({
+  className = "",
+  textContent,
+  type = "button",
+}: ButtonProps) {
   const $button = document.createElement("button");
-  $button.className = `${className} primary`;
+  $button.className = `primary ${className}`;
   $button.textContent = textContent;
+  $button.type = type;
 
   return $button;
 }
