@@ -6,6 +6,7 @@ interface ObserableProps {
 
 export default class Obserable extends Component<ObserableProps> {
   onRender() {
+    this.element.style.height = '1px';
     const intersectionObserver = new IntersectionObserver((entries) => {
       if (entries[0].intersectionRatio <= 0) return;
 
