@@ -1,8 +1,8 @@
 import { createElementWithAttributes } from "../utils/createElementWithAttributes";
 import movieList from "./movieList/movieList";
-
-import skeletonContainer from "../skeleton/skeletonContainer";
 import { MovieData } from "../../domain/types";
+import showSkeletonContainer from "../skeleton/utils/showSkeletonContainer";
+import hideSkeletonContainer from "../skeleton/utils/hideSkeletonContainer";
 
 type LoadMoreCallback = (pageNumber: number) => Promise<MovieData>;
 
@@ -67,8 +67,7 @@ const movieContainer = ({
   $seeMoreButton.addEventListener("click", async () => {
     pageNumber += 1;
 
-    const $skeleton = skeletonContainer(20);
-    $movieContainer.insertBefore($skeleton, $seeMoreButton);
+    showSkeletonContainer($movieList);
 
     const { results, total_pages } = await loadMoreCallback(pageNumber);
 
@@ -76,7 +75,7 @@ const movieContainer = ({
       $seeMoreButton.remove();
     }
 
-    $skeleton.remove();
+    hideSkeletonContainer();
 
     const $newMovieList = movieList(results);
     $movieList.append(...$newMovieList.children);
