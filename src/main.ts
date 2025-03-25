@@ -7,13 +7,14 @@ import MovieList from './component/MovieList';
 import { $ } from './util/selector';
 import Header from './component/Header';
 import Skeleton from './component/Skeleton';
-import SkeletonList from './component/SkeletonList';
+import SkeletonList, { addSkeletonList, removeSkeletonList } from './component/SkeletonList';
+import { IMovie } from './type';
 
 const API_PAGE_LIMIT = 500;
 const INITIAL_PAGE = 1;
 const MOVIE_INDEX_FOR_BANNER = 1;
 
-addEventListener('load', async () => {
+addEventListener('DOMContentLoaded', async () => {
   renderBanner();
   renderHeader();
   renderMovieList();
@@ -47,9 +48,7 @@ const renderMovieList = async () => {
   const container = $('.container');
   if (!container) return;
 
-  const skeletonList = SkeletonList({ height: 300 });
-  container.appendChild(skeletonList);
-
+  addSkeletonList();
   let page = INITIAL_PAGE;
 
   const response = await getPopularMovies({ page });
@@ -66,7 +65,8 @@ const renderMovieList = async () => {
       onClick: () => handleMoreButtonClick(++page, moreButton)
     });
 
-    skeletonList.replaceWith(movieList);
+    removeSkeletonList();
+    container.appendChild(movieList);
     container.appendChild(moreButton);
   }
 };
@@ -83,6 +83,7 @@ const handleMoreButtonClick = async (page: number, moreButton: HTMLElement) => {
   if (page >= API_PAGE_LIMIT - 1) {
     moreButton.remove();
   }
+
   const container = $('.thumbnail-list') as HTMLElement;
   if (!container) return;
 
@@ -91,11 +92,15 @@ const handleMoreButtonClick = async (page: number, moreButton: HTMLElement) => {
 
   const response = await getPopularMovies({ page });
   if (!response) return;
-  const newMovies = response.results;
 
+  renderMoreMovies(response.results, container, skeletonList);
+};
+
+const renderMoreMovies = (newMovies: IMovie[], container: HTMLElement, skeletonList: HTMLElement) => {
   skeletonList.remove();
 
   const fragment = document.createDocumentFragment();
+
   newMovies.forEach((movie) => {
     const newMovie = Movie({ movie });
     fragment.appendChild(newMovie);
