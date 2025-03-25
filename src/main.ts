@@ -69,6 +69,41 @@ document.addEventListener("DOMContentLoaded", async () => {
   const navigationBar = NavigationBar({ input: searchInput });
   wrap?.prepend(navigationBar);
 
+  const container = document.querySelector(".container");
+  if (!container) return;
+
+  const moreButton = Button({
+    text: "더 보기",
+    onClick: async () => {
+      const popularMode = movieState.mode === "popular";
+      const searchMode = movieState.mode === "search";
+      const movieType = popularMode ? "popular" : "search";
+
+      if (isLastPage(movieType)) {
+        alert("마지막 페이지입니다.");
+        return;
+      }
+
+      if (popularMode) {
+        await fetchPopularMovies(moviesPopularState.currentPage + 1);
+      } else if (searchMode) {
+        await fetchSearchedMovies(
+          movieState.query,
+          moviesSearchedState.currentPage + 1
+        );
+      }
+
+      renderMovies();
+    },
+  });
+
+  container.appendChild(moreButton);
+
+  const updateMoreButtonVisibility = () => {
+    const movieType = movieState.mode === "popular" ? "popular" : "search";
+    moreButton.style.display = isLastPage(movieType) ? "none" : "block";
+  };
+
   const renderMovies = () => {
     const movieItems =
       movieState.mode === "popular"
@@ -77,6 +112,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const movieListComponent = CardList({ movieItems }) as HTMLElement;
     main.appendChild(movieListComponent);
+
+    updateMoreButtonVisibility();
   };
 
   try {
@@ -86,7 +123,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       const updatedHeader = Header({
         movie: moviesPopularState.list[0],
       });
-
       header.replaceWith(updatedHeader);
     }
 
@@ -95,39 +131,4 @@ document.addEventListener("DOMContentLoaded", async () => {
     console.error("Error in main.ts:", error);
     alert("영화 정보를 가져오는 중 오류가 발생했습니다.");
   }
-
-  const container = document.querySelector(".container");
-  if (!container) return;
-
-  const moreButton = Button({
-    text: "더 보기",
-    onClick: async () => {
-      if (movieState.mode === "popular") {
-        if (isLastPage("popular")) {
-          moreButton.style.display = "none";
-          alert("마지막 페이지입니다.");
-
-          return;
-        }
-
-        await fetchPopularMovies(moviesPopularState.currentPage + 1);
-        renderMovies();
-      } else if (movieState.mode === "search") {
-        if (isLastPage("search")) {
-          moreButton.style.display = "none";
-          alert("마지막 페이지입니다.");
-
-          return;
-        }
-
-        await fetchSearchedMovies(
-          movieState.query,
-          moviesSearchedState.currentPage + 1
-        );
-        renderMovies();
-      }
-    },
-  });
-
-  container.appendChild(moreButton);
 });

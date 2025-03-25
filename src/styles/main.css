@@ -23,7 +23,7 @@ section {
 }
 
 main {
-  margin: 64px 0;
+  margin: 64px 0 0 0;
 }
 
 .star {
@@ -206,7 +206,7 @@ span.rate-value {
   font-family: Poppins;
   font-weight: 600;
   line-height: 100%;
-  letter-spacing: 0%;
+  letter-spacing: 0;
 }
 
 footer.footer {
