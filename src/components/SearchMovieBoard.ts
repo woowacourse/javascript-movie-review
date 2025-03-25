@@ -55,7 +55,7 @@ class SearchMovieBoard {
     if (this.#page === 1) {
       ul.innerHTML = new MovieList(movies).ui;
     } else {
-      ul?.insertAdjacentHTML("beforeend", new MovieList(movies).ui);
+      ul.insertAdjacentHTML("beforeend", new MovieList(movies).ui);
     }
   }
 
