@@ -26,7 +26,8 @@ main {
 }
 
 .star {
-  width: 24px;
+  width: 22px;
+  height: 22px;
 }
 
 button {
@@ -173,14 +174,22 @@ h1.logo {
 
 .rate {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   color: var(--color-yellow);
 }
 
 .rate > img {
+  margin-right: 3px;
+}
+
+.rate > span {
   position: relative;
   top: 2px;
-  margin-right: 3px;
+}
+
+.modal-rate {
+  font-size: 20px;
+  font-weight: bold;
 }
 
 span.rate-value {

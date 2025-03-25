@@ -48,6 +48,13 @@ body.modal-open {
   color: white;
   font-size: 20px;
   cursor: pointer;
+  width: 17px;
+  height: 17px;
+}
+
+.close-modal img {
+  width: 100%;
+  height: 100%;
 }
 
 .modal-container {
@@ -66,23 +73,26 @@ body.modal-open {
   line-height: 1.6rem;
 }
 
-.modal-description .rate > img {
+.modal-description .modal-rate-container {
+  display: flex;
+  margin-top: 10px;
+}
+
+.modal-description .modal-rate-container > img {
   position: relative;
   top: 5px;
 }
 
-.modal-description > *:not(:last-child) {
-  margin-bottom: 8px;
-}
-
 .modal-description h2 {
   font-size: 2rem;
-  margin: 0 0 8px;
   font-weight: 600;
+  margin-top: 15px;
+  padding-bottom: 15px;
 }
 
 .modal-description h3 {
   font-weight: 600;
+  padding-bottom: 10px;
 }
 
 .detail {
@@ -90,7 +100,7 @@ body.modal-open {
   overflow-y: auto;
 }
 
-.rate .label {
+.modal-rate-container .label {
   margin-right: 10px;
 }
 
@@ -99,6 +109,7 @@ body.modal-open {
   height: 1px;
   background-color: white;
   opacity: 0.3;
+  margin: 15px 0;
 }
 
 .my-rate {

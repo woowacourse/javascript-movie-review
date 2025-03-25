@@ -38,5 +38,6 @@ p.rate > span {
 
 .item .star {
   width: 16px;
+  height: 16px;
   top: 1px;
 }

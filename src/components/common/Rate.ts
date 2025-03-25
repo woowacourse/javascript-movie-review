@@ -6,7 +6,7 @@ type RateProps = {
   isFilled?: boolean;
 };
 
-const Rate = ({ rate, className, isFilled = false }: RateProps) => {
+const Rate = ({ rate, className = [], isFilled = false }: RateProps) => {
   const starImgSrc = isFilled
     ? "./images/star_filled.png"
     : "./images/star_empty.png";

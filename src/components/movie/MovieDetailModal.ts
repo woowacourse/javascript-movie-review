@@ -7,7 +7,7 @@ const MovieDetailModal = (movie: MovieDetail): HTMLElement => {
   const modalDetailModal = createElement(/*html*/ `
     <div class="modal-background active">
       <div class="modal">
-        <button class="close-modal" aria-label="Close modal">X</button>
+        <button class="close-modal" aria-label="Close modal"><img src="./images/modal_button_close.png"/></button>
         <div class="modal-container">
           <div class="modal-image">
             <img
@@ -25,10 +25,14 @@ const MovieDetailModal = (movie: MovieDetail): HTMLElement => {
                 ${movie.release_date.slice(0, 4)} ·
                 ${movie.genres.map((genre) => genre.name).join(", ")}
             </div>
-            <div class="rate">
+            <div class="modal-rate-container">
               <div class="label">평균</div>
               <div>${
-                Rate({ rate: movie.vote_average, isFilled: true }).outerHTML
+                Rate({
+                  rate: movie.vote_average,
+                  className: ["modal-rate"],
+                  isFilled: true,
+                }).outerHTML
               }</div>
             </div>
             <hr>
@@ -47,6 +51,7 @@ const MovieDetailModal = (movie: MovieDetail): HTMLElement => {
                     <div class="score">(0/0)</div>
                 </div>
             </div>
+            <!-- -->
             <hr>
             <h3>줄거리</h3>
             <div class="detail">${movie.overview}</div>

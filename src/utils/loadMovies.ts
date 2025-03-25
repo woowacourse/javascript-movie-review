@@ -24,11 +24,7 @@ export const loadMovies = async (movies: MovieResponse): Promise<void> => {
 };
 
 const showMovieDetailInfo = async (movie: Movie): Promise<void> => {
-  // console.log(movie.title);
-  // console.log($("#app"));
-  // console.log(movie);
-  // $("#app").appendChild(MovieDetailModal(movie));
   const movieInfo = await fetchMovieDetails(movie.id);
-  console.log(movieInfo);
+  document.body.classList.add("modal-open");
   $("#app").appendChild(MovieDetailModal(movieInfo));
 };
