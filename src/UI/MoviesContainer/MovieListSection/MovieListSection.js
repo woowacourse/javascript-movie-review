@@ -67,7 +67,7 @@ class MovieListSection {
   }
 
   getTitle() {
-    if (this.title === undefined) {
+    if (this.title === "") {
       return "지금 인기 있는 영화";
     }
     return `"${this.title}" 검색 결과`;
