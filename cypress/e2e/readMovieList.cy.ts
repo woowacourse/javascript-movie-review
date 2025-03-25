@@ -1,5 +1,3 @@
-/// <reference types="cypress" />
-
 describe("Fixture를 이용한 테스트", () => {
     beforeEach(() => {
       cy.intercept(

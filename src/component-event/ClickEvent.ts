@@ -2,7 +2,6 @@ import { fetchPopularMovies } from "../api/fetch.js";
 import { fetchSearchMovies } from "../api/fetch.js";
 import hideskeleton from "../util/hideskeleton.ts";
 import { MovieLayout } from "../../types/movieDataType";
-import { getElement } from "../util/utils.ts";
 
 function removeButton(movieLayout:MovieLayout, total_pages:number, pageIndex:number){
   if(total_pages<pageIndex){

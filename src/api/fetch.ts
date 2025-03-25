@@ -1,4 +1,4 @@
-/// <reference types="vite/client" />
+
 import {MovieData} from "../../types/movieDataType";
 import state from "../state/state";
 
