@@ -32,7 +32,7 @@ describe("search 테스트", () => {
     });
   });
 
-  it("더보기 버튼을 누르면 나머지 영화 데이터를 가져온다.", () => {
+  it("스크롤을 내리면 나머지 영화 데이터를 가져온다.", () => {
     const searchValue = "짱구";
     cy.get(".search-bar").type(`${searchValue}{enter}`);
     cy.scrollTo("bottom");

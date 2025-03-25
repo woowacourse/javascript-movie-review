@@ -80,6 +80,6 @@ describe("홈 화면 테스트", () => {
     });
 
     cy.get("#logo").click();
-    cy.get("#thumbnail-list > li").should("have.length", 40);
+    cy.get("#thumbnail-list > li").should("have.length", 20);
   });
 });

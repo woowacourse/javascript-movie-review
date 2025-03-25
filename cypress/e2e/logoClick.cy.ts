@@ -53,7 +53,6 @@ describe("로고 클릭 테스트", () => {
     });
 
     cy.get("#logo > img").click();
-    cy.scrollTo("bottom");
-    cy.get("#thumbnail-list > li").should("have.length", 40);
+    cy.get("#thumbnail-list > li").should("have.length", 20);
   });
 });
