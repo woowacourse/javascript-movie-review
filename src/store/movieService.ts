@@ -1,7 +1,7 @@
 import fetchMovies from "../api/http";
 import { Movie, MovieType } from "../../types/movie";
 import { popularApiUrl, searchApiUrl } from "../api/config";
-import { mapToMovie } from "../utils/mapper";
+import { mapToMovie } from "./movieMapper.ts";
 
 const moviesPopularState = {
   list: [] as Movie[],

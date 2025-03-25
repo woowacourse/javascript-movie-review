@@ -1,4 +1,4 @@
-import { Movie } from "../../types/movie";
+import { Movie } from "../../types/movie.ts";
 
 export const mapToMovie = (apiData: any): Movie => ({
   id: apiData.id,
