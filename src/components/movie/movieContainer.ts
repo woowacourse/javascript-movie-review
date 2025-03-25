@@ -6,13 +6,19 @@ import { MovieData } from "../../domain/types";
 
 type LoadMoreCallback = (pageNumber: number) => Promise<MovieData>;
 
+interface MovieContainerProps {
+  movieListTitle: string;
+  movieData: MovieData;
+  loadMoreCallback: LoadMoreCallback;
+}
+
 const MAX_PAGES = 500;
 
-const movieContainer = (
-  movieListTitle: string,
-  movieData: MovieData,
-  loadMoreCallback: LoadMoreCallback
-) => {
+const movieContainer = ({
+  movieListTitle,
+  movieData,
+  loadMoreCallback,
+}: MovieContainerProps) => {
   const $movieContainer = createElementWithAttributes({
     tag: "section",
     className: "movie-container",

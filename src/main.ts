@@ -36,11 +36,11 @@ const onSearch = async (event: Event) => {
       const loadMoreCallback = async (pageNumber: number) =>
         await fetchSearchedMovies(searchKeyword, pageNumber);
 
-      const $searchedMovieContainer = movieContainer(
-        `"${searchKeyword}" 검색 결과`,
-        { results, page, total_pages, total_results },
-        loadMoreCallback
-      );
+      const $searchedMovieContainer = movieContainer({
+        movieListTitle: `"${searchKeyword}" 검색 결과`,
+        movieData: { results, page, total_pages, total_results },
+        loadMoreCallback,
+      });
 
       $main?.append($searchedMovieContainer);
     }
@@ -80,11 +80,11 @@ const initializeMovie = async () => {
   const loadMoreCallback = async (pageNumber: number) =>
     await fetchPopularMovies(pageNumber);
 
-  const $movieContainer = movieContainer(
-    "지금 인기 있는 영화",
-    { results, page, total_pages, total_results },
-    loadMoreCallback
-  );
+  const $movieContainer = movieContainer({
+    movieListTitle: "지금 인기 있는 영화",
+    movieData: { results, page, total_pages, total_results },
+    loadMoreCallback,
+  });
 
   $main?.append($movieContainer);
 };
