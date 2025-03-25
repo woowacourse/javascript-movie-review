@@ -38,8 +38,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     placeholder: "검색어를 입력하세요",
     onSubmit: async (query: string) => {
       try {
-        if (header.parentElement) {
-          header.remove();
+        const headerElement = document.getElementById("app-header");
+        if (headerElement) {
+          headerElement.remove();
         }
 
         movieState.mode = "search";
@@ -49,6 +50,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         main.innerHTML = "";
 
+        updateMoreButtonVisibility();
+
         const movieListComponent = CardList({
           movieItems: searchedMovies,
         }) as HTMLElement;
@@ -56,6 +59,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         const searchedMovieTitle = Title({
           text: `"${query}" 검색 결과`,
         });
+
+        searchedMovieTitle.classList.add("search-result-title");
 
         main.appendChild(searchedMovieTitle);
         main.appendChild(movieListComponent);
