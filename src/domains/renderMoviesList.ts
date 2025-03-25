@@ -18,6 +18,17 @@ const $thumbnailList = document.querySelector(".thumbnail-list");
 const $error = document.querySelector(".error");
 const $errorMessage = document.querySelector(".error-message");
 
+const showError = (error: string) => {
+  $thumbnailList?.classList.add("close");
+  $error?.classList.remove("close");
+  if ($errorMessage) $errorMessage.textContent = error;
+};
+
+const hideError = () => {
+  $thumbnailList?.classList.remove("close");
+  $error?.classList.add("close");
+};
+
 const changeHeaderBackground = () => {
   const $backgroundContainer = document.querySelector(".background-container");
 
@@ -56,11 +67,7 @@ const renderTotalList = async () => {
       renderHeaderBackground();
       changeHeaderBackground();
     },
-    (error) => {
-      $thumbnailList?.classList.add("close");
-      $error?.classList.remove("close");
-      if ($errorMessage) $errorMessage.textContent = error;
-    }
+    (error) => showError(error)
   );
 };
 
@@ -78,20 +85,11 @@ const renderSearchList = async () => {
       store.movies = [...store.movies, ...data.results];
       store.totalPages = data.total_pages;
 
-      if (store.movies.length === 0) {
-        $thumbnailList?.classList.add("close");
-        $error?.classList.remove("close");
-        if ($errorMessage) $errorMessage.textContent = "검색 결과가 없습니다.";
-      } else {
-        $thumbnailList?.classList.remove("close");
-        $error?.classList.add("close");
-      }
+      store.movies.length === 0
+        ? showError("검색 결과가 없습니다.")
+        : hideError();
     },
-    (error) => {
-      $thumbnailList?.classList.add("close");
-      $error?.classList.remove("close");
-      if ($errorMessage) $errorMessage.textContent = error;
-    }
+    (error) => showError(error)
   );
 };
 
