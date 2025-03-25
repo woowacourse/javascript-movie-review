@@ -81,13 +81,6 @@ body {
   background-color: var(--color-bluegray-80);
 }
 
-#wrap,
-section {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
 main {
   margin: 64px 0;
 }
@@ -109,16 +102,6 @@ button.primary {
   font-weight: bold;
   background-color: var(--color-lightblue-90);
   border-radius: 4px;
-}
-
-#wrap {
-  background-color: var(--color-bluegray-100);
-}
-
-#wrap h2 {
-  font-size: 1.4rem;
-  font-weight: bold;
-  margin-bottom: 32px;
 }
 
 .container {
