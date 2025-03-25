@@ -1,4 +1,4 @@
-import { MoviesResponse } from "../../types/movieApiType";
+import { MoviesResponse } from "../../types";
 
 async function fetchWithErrorHandling(url: string) {
   const options = {
@@ -9,10 +9,33 @@ async function fetchWithErrorHandling(url: string) {
     },
   };
 
-  return fetch(url, options).then((res) => {
-    if (res.ok) return res.json() as unknown as MoviesResponse;
-    throw new Error(String(res.status));
-  });
+  try {
+    const response = await fetch(url, options);
+    console.log(response);
+
+    if (!response.ok) {
+      switch (response.status) {
+        case 400:
+          return {
+            error: "검색 가능한 페이지 수를 넘겼습니다.",
+          };
+        case 401:
+          return {
+            error: "사용자 인증 정보가 잘못되었습니다.",
+          };
+        default:
+          return {
+            error: `에러가 발생했습니다. (${response.status})`,
+          };
+      }
+    }
+
+    return response.json() as unknown as MoviesResponse;
+  } catch (error) {
+    return {
+      error: `에러가 발생했습니다. ${error}`,
+    };
+  }
 }
 
 interface GetDataProps {

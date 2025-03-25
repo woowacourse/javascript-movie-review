@@ -9,6 +9,7 @@ import {
   MAX_MOVIE_PAGE,
   DEFAULT_TOP_RATED_DATA,
 } from "../constants/constants";
+import { isErrorResponse } from "../utils/typeGuards";
 import { store } from "./../stores";
 
 const $mainSection = document.querySelector("main section");
@@ -44,6 +45,14 @@ const renderHeaderBackground = () => {
 
 const renderTotalList = async () => {
   const moviesResponse = await getMovies({ page: store.page });
+
+  if (isErrorResponse(moviesResponse)) {
+    $ul?.classList.add("close");
+    $error?.classList.remove("close");
+    if ($h2) $h2.textContent = moviesResponse.error;
+    return;
+  }
+
   store.movies = [...store.movies, ...moviesResponse.results];
   store.totalPages = moviesResponse.total_pages;
 
@@ -58,6 +67,14 @@ const renderSearchList = async () => {
     name: store.searchKeyword,
     page: store.page,
   });
+
+  if (isErrorResponse(moviesResponse)) {
+    $ul?.classList.add("close");
+    $error?.classList.remove("close");
+    if ($h2) $h2.textContent = moviesResponse.error;
+    return;
+  }
+
   store.movies = [...store.movies, ...moviesResponse.results];
   store.totalPages = moviesResponse.total_pages;
 
@@ -75,21 +92,8 @@ export const renderMoviesList = async () => {
   const $skeleton = MovieListSkeleton();
   if ($skeleton) $mainSection?.appendChild($skeleton);
 
-  try {
-    if (store.searchKeyword === "") await renderTotalList();
-    else await renderSearchList();
-  } catch (error: any) {
-    $ul?.classList.add("close");
-    $error?.classList.remove("close");
-
-    if ($ul) $ul.innerHTML = "";
-    if (error.message === "400" && $h2)
-      $h2.textContent = "검색 가능한 페이지 수를 넘겼습니다.";
-    if (error.message === "401" && $h2)
-      $h2.textContent = "사용자 인증 정보가 잘못되었습니다.";
-
-    return;
-  }
+  if (store.searchKeyword === "") await renderTotalList();
+  else await renderSearchList();
 
   const $showMore = document.querySelector(".show-more");
   if (store.page !== Math.min(MAX_MOVIE_PAGE, store.totalPages))

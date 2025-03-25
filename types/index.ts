@@ -21,3 +21,9 @@ export interface MovieResult {
   vote_average: number;
   vote_count: number;
 }
+
+export type ApiResponse = MoviesResponse | ErrorResponse;
+
+export interface ErrorResponse {
+  error: string;
+}
