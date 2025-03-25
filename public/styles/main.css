@@ -203,3 +203,8 @@ footer.footer p:not(:last-child) {
   align-items: center;
   cursor: pointer;
 }
+
+.star-icon {
+  width: 32px;
+  height: 32px;
+}
