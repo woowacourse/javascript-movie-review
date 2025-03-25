@@ -1,0 +1,137 @@
+@media (max-width: 1280px) {
+  .container {
+    max-width: 1200px;
+    padding: 0 40px;
+  }
+  .thumbnail-list {
+    gap: 40px;
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 1000px) {
+  .container {
+    max-width: 900px;
+    padding: 0 20px;
+  }
+
+  .background-container {
+    height: 400px;
+  }
+
+  .section-container {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .thumbnail-list {
+    gap: 40px;
+    margin: 0 auto 20px;
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    max-width: 768px;
+  }
+
+  .background-container {
+    height: 300px;
+  }
+
+  .search-header-container {
+    height: 150px;
+  }
+
+  .top-rated-movie {
+    margin-top: 15px;
+  }
+
+  /* .rate {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  } */
+
+  .rate p {
+    margin: 0;
+    font-size: 24px;
+  }
+
+  .rate img {
+    width: 24px;
+    height: 24px;
+    bottom: 2px;
+  }
+
+  .text-3xl {
+    font-size: 24px;
+    text-align: start;
+    display: block;
+    width: 100%;
+  }
+
+  .text-2xl {
+    font-size: 2.25rem;
+    text-align: center;
+    display: block;
+  }
+
+  .thumbnail-list {
+    place-items: center;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .movie-description p {
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+@media (max-width: 680px) {
+  .container {
+    max-width: 600px;
+  }
+
+  .rate {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 4px;
+  }
+
+  .thumbnail-list {
+    place-items: center;
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 450px) {
+  .rate {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .container {
+    max-width: 450px;
+  }
+
+  .thumbnail-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 70px;
+  }
+
+  .movie-description p {
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
