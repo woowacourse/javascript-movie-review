@@ -1,35 +1,62 @@
-import image from "../templates/images/star_filled.png";
+import { getMovieList } from "./features/movie/api/getMovieList";
+import Header from "./shared/ui/components/Header";
+import { CustomButton } from "./shared/ui/components/CustomButton";
+import { addMoreMovies } from "./shared/ui/addMoreMovies";
+import { searchFormSubmitHandler } from "./features/search/ui/searchFormSubmitHandler";
+import { addMovieCard } from "./shared/ui/addMovieCard";
+import MoreMoviesButton from "./shared/ui/components/MoreMoviesButton";
+import ErrorPage from "./shared/ui/components/ErrorPage";
+import { withSkeleton } from "./shared/ui/withSkeleton";
 
-console.log("npm run dev 명령어를 통해 영화 리뷰 미션을 시작하세요");
+async function init() {
+  const $movieList = document.querySelector(".thumbnail-list") as HTMLElement;
 
-console.log(
-  "%c" +
-    " _____ ______   ________  ___      ___ ___  _______                \n" +
-    "|\\   _ \\  _   \\|\\   __  \\|\\  \\    /  /|\\  \\|\\  ___ \\               \n" +
-    "\\ \\  \\\\\\__\\ \\  \\ \\  \\|\\  \\ \\  \\  /  / | \\  \\ \\   __/|              \n" +
-    " \\ \\  \\\\|__| \\  \\ \\  \\\\\\  \\ \\  \\/  / / \\ \\  \\ \\  \\_|/__            \n" +
-    "  \\ \\  \\    \\ \\  \\ \\  \\\\\\  \\ \\    / /   \\ \\  \\ \\  \\_|\\ \\           \n" +
-    "   \\ \\__\\    \\ \\__\\ \\_______\\ \\__/ /     \\ \\__\\ \\_______\\          \n" +
-    "    \\|__|     \\|__|\\|_______|\\|__|/       \\|__|\\|_______|          \n" +
-    "                                                                   \n" +
-    "                                                                   \n" +
-    "                                                                   \n" +
-    " ________  _______   ___      ___ ___  _______   ___       __      \n" +
-    "|\\   __  \\|\\  ___ \\ |\\  \\    /  /|\\  \\|\\  ___ \\ |\\  \\     |\\  \\    \n" +
-    "\\ \\  \\|\\  \\ \\   __/|\\ \\  \\  /  / | \\  \\ \\   __/|\\ \\  \\    \\ \\  \\   \n" +
-    " \\ \\   _  _\\ \\  \\_|/_\\ \\  \\/  / / \\ \\  \\ \\  \\_|/_\\ \\  \\  __\\ \\  \\  \n" +
-    "  \\ \\  \\\\  \\\\ \\  \\_|\\ \\ \\    / /   \\ \\  \\ \\  \\_|\\ \\ \\  \\|\\__\\_\\  \\ \n" +
-    "   \\ \\__\\\\ _\\\\ \\_______\\ \\__/ /     \\ \\__\\ \\_______\\ \\____________\\\n" +
-    "    \\|__|\\|__|\\|_______|\\|__|/       \\|__|\\|_______|\\|____________|",
-  "color: #d81b60; font-size: 14px; font-weight: bold;"
-);
-
-addEventListener("load", () => {
-  const app = document.querySelector("#app");
-  const buttonImage = document.createElement("img");
-  buttonImage.src = image;
-
-  if (app) {
-    app.appendChild(buttonImage);
+  if (!$movieList) {
+    ErrorPage("영화 리스트를 불러오는데 실패하였습니다.");
+    return;
   }
-});
+
+  try {
+    const movies = await withSkeleton($movieList, getMovieList({ page: 1 }));
+    if (movies) {
+      Header(movies.results[0]);
+      addMovieCard(movies.results, $movieList);
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      ErrorPage("영화 리스트를 불러오는데 실패하였습니다.");
+    }
+  }
+
+  const $movieContainer = document.getElementById("movie-container");
+  const addMoreMoviesButton = CustomButton({
+    title: "더보기",
+    className: "add-more-button",
+  });
+  addMoreMoviesButton.id = "more-movies-button";
+  $movieContainer?.appendChild(addMoreMoviesButton);
+
+  const $moreMoviesButton = MoreMoviesButton();
+  $moreMoviesButton?.addEventListener("click", async () => {
+    withSkeleton($movieList, addMoreMovies($movieList));
+  });
+
+  const searchForm = document.querySelector(".search-form");
+
+  searchForm?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    try {
+      await searchFormSubmitHandler(e);
+    } catch (error) {
+      if (error instanceof Error) {
+        ErrorPage("영화 리스트를 불러오는데 실패하였습니다.");
+      }
+    }
+  });
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", init);
+} else {
+  init();
+}
