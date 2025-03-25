@@ -7,3 +7,21 @@ export const debounce = (callback: () => void) => {
     id = requestAnimationFrame(callback);
   };
 };
+
+export const timeOutDebounce = <T extends (...args: unknown[]) => void>(
+  fn: T,
+  delay: number
+) => {
+  let timeout: ReturnType<typeof setTimeout>;
+
+  return (...args: Parameters<T>): Promise<unknown> => {
+    return new Promise((resolve) => {
+      if (timeout) clearTimeout(timeout);
+
+      timeout = setTimeout(async () => {
+        const result = await fn(...args);
+        resolve(result);
+      }, delay);
+    });
+  };
+};

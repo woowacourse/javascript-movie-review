@@ -21,9 +21,11 @@ const useGetMovieList = () => {
         method: "GET",
       });
       const data: MovieListResponse = await response.json();
+
       if (data) {
         setIsLoading(false);
       }
+
       setMovies([...movies, ...data.results]);
       setTotalResults(data.total_results);
       return data.results;

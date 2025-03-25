@@ -17,6 +17,7 @@ import {
   isSearchError,
 } from "./store/store";
 import { useEvents } from "./utils/Core";
+import { timeOutDebounce } from "./utils/debounce";
 
 const App = () => {
   const { fetchMovies } = useGetMovieList();
@@ -24,9 +25,13 @@ const App = () => {
 
   const [addEvent] = useEvents(".app-layout");
 
-  addEvent("click", ".more-button", () => {
-    fetchMoreMovies(fetchMovies);
-  });
+  addEvent(
+    "click",
+    ".more-button",
+    timeOutDebounce(() => {
+      fetchMoreMovies(fetchMovies);
+    }, 500)
+  );
 
   if (movies.length === 0) {
     fetchMovies(1).then((results) => {
