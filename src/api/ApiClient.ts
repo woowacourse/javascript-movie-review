@@ -39,9 +39,9 @@ export default class ApiClient {
       if (!response.ok) {
         throw new Error(data.message || 'An error occurred');
       }
-
       return data;
     } catch (error) {
+      ApiClient.handleError();
       throw error;
     }
   }

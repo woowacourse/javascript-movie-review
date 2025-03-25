@@ -20,7 +20,6 @@ const renderBanner = async () => {
   addBannerSkeleton();
 
   const response = await getPopularMovies({ page: 1 });
-  if (!response || response.results.length === 0) return;
 
   removeBannerSkeleton();
 
@@ -40,8 +39,6 @@ const renderMovieList = async () => {
   const response = await getPopularMovies({ page: INITIAL_PAGE });
 
   removeSkeletonList();
-
-  if (!response || response.results.length === 0) return;
 
   addMovieList({ movies: response.results, title: '지금 인기있는 영화' });
 
