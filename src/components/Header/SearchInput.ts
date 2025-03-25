@@ -1,8 +1,12 @@
-import { $searchButton } from "./Element";
+import { $searchButton, $searchInput } from "./Element";
 
 const SearchInput = {
   init() {
     $searchButton.addEventListener("click", (e) => this.onButtonClick(e));
+  },
+
+  getSearchValue() {
+    return $searchInput.value;
   },
 
   onButtonClick(event: MouseEvent) {
