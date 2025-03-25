@@ -1,5 +1,6 @@
 /// <reference types="vite/client" />
 import {MovieData} from "../../types/movieDataType";
+import state from "../state/state";
 
 export interface ImportMetaEnv {
     readonly VITE_TMDB_TOKEN: string;
@@ -23,8 +24,8 @@ export async function fetchPopularMovies(pageIndex:number) {
     return await fetchUtil(popularMovieUrl)
   }
 
-export async function fetchSearchMovies(searchKeyword: string, pageIndex:number) {
-  const searchMovieUrl = `${import.meta.env.VITE_BASE_URL}search/movie?query=${searchKeyword}&include_adult=false&language=en-US&page=${pageIndex}`;
+export async function fetchSearchMovies(pageIndex:number) {
+  const searchMovieUrl = `${import.meta.env.VITE_BASE_URL}search/movie?query=${state.searchKeyword}&include_adult=false&language=en-US&page=${pageIndex}`;
   return await fetchUtil(searchMovieUrl);
 }
   

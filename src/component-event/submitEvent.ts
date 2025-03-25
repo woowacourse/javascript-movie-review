@@ -2,6 +2,7 @@ import { fetchSearchMovies } from "../api/fetch.js";
 import MovieLayout from "../component/feature/MovieLayout";
 import { MOVIE_COUNT_PER_PAGE } from "../constant/constant.js";
 import { getElement } from "../util/utils.js";
+import state from "../state/state.ts";
 
 async function submitEvent(this:void, movieLayout: MovieLayout) {
   document.addEventListener("submit", onSubmit.bind(this));
@@ -10,9 +11,11 @@ async function submitEvent(this:void, movieLayout: MovieLayout) {
     event.preventDefault();
     const formData = new FormData(form);
     const searchKeyword = String(formData.get("searchInput"));
+    state.searchKeyword = searchKeyword;
 
-    const {results: searchData} = await fetchSearchMovies(searchKeyword, 1);
-    movieLayout.setState({title: `"${searchKeyword}" 검색 결과`, eventName: 'readMoreSearchList', movieData: searchData, isPossibleMore: searchData.length === MOVIE_COUNT_PER_PAGE});
+
+    const {results: searchData} = await fetchSearchMovies(1);
+    movieLayout.setState({title: `"${state.searchKeyword}" 검색 결과`, eventName: 'readMoreSearchList', movieData: searchData, isPossibleMore: searchData.length === MOVIE_COUNT_PER_PAGE});
   }
 
 

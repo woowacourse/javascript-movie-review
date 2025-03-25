@@ -43,19 +43,8 @@ async function clickEvent(movieLayout:MovieLayout) {
     const readMoreSearchList = (function () {
       let pageIndex = 2;
       async function loadMovieData() {
-        const layoutTitleText = getElement("#movieListTitle")?.innerText;
-
-        const regex = /"([^"]*)"/;
-        const match = layoutTitleText?.match(regex);
-
-        if (!match) {
-            console.error("검색어를 찾을 수 없습니다:", layoutTitleText);
-            return;
-        }
-
-        const searchKeyword = match[1];
-
-        const {results, total_pages} = await fetchSearchMovies(searchKeyword,pageIndex);
+ 
+        const {results, total_pages} = await fetchSearchMovies(pageIndex);
         pageIndex++;
 
         removeButton(movieLayout, total_pages, pageIndex)
