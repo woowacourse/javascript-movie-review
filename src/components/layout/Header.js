@@ -24,8 +24,8 @@ const Header = ({ popularMovie }) => {
 
   const $img = createElement({
     tag: "img",
-    src: `${imageUrl(posterPath)}`,
-    alt: `${title}`,
+    src: imageUrl(posterPath),
+    alt: title,
   });
 
   $header.appendChild(Gnb());

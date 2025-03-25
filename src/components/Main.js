@@ -1,5 +1,6 @@
 import Header from "./layout/Header";
 import MovieContainer from "./movie/MovieContainer";
+//import DetailModal from "./layout/DetailModal";
 import Footer from "./layout/Footer";
 import createElement from "./utils/createElement";
 
@@ -30,8 +31,15 @@ const Main = ({ movies }) => {
         movies,
       })
     );
+    // const $modal = createElement({
+    //   tag: "div",
+    //   id: "modal",
+    // });
+
+    //$wrap.appendChild($modal);
 
     $wrap.appendChild($container);
+    //$wrap.appendChild(Modal());
     $wrap.appendChild(Footer());
   }
 };

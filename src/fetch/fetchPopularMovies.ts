@@ -7,8 +7,12 @@ export default async function fetchPopularMovies(page: number) {
       Authorization: `Bearer ${import.meta.env.VITE_THDB_API_KEY}`,
     },
   };
-
-  const response = await fetch(popularMovieUrl, options);
-  const { results, totalPages } = await response.json();
-  return { results, totalPages };
+  try {
+    const response = await fetch(popularMovieUrl, options);
+    const { results, total_pages } = await response.json();
+    const totalPages = total_pages;
+    return { results, totalPages };
+  } catch (error) {
+    alert("영화 정보를 불러오는데 실패했습니다.");
+  }
 }
