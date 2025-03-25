@@ -15,13 +15,25 @@
 
 .item {
   user-select: none;
-  cursor: pointer;
 }
 
 .item-desc > *:not(:last-child) {
   position: relative;
   margin-bottom: 4px;
   line-height: 1.2rem;
+}
+
+.movie-card-button {
+  cursor: pointer;
+  background: none;
+  border: none;
+  color: white;
+}
+
+.movie-card-button:hover {
+  background-color: #606060;
+  transition: 0.3s;
+  border-radius: 3px;
 }
 
 p.rate {
