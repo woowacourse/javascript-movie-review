@@ -9,9 +9,7 @@ const Button = (props: PropsWithChildren<ButtonProps>) => {
   const { attribute, children } = props;
 
   return `
-    <button ${
-      attribute ? parseAttribute(attribute) : ""
-    }" >${children}</button>`;
+    <button ${parseAttribute(attribute)}" >${children}</button>`;
 };
 
 export default Button;
