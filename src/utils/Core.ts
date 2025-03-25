@@ -1,4 +1,4 @@
-import { debounce } from "./debounce";
+import { timeoutDebounce } from "./debounce";
 import { $, isTarget } from "./domHelper";
 
 export interface EventCallback {
@@ -17,9 +17,9 @@ interface Options {
   rootComponent: null | (() => string);
 }
 
-export interface Dispatch<T> {
-  (value: T): void;
-}
+// export interface Dispatch<T> {
+//   (value: T): void;
+// }
 
 function Core() {
   const options: Options = {
@@ -28,7 +28,7 @@ function Core() {
     rootComponent: null,
   };
 
-  const _render = debounce(() => {
+  const _render = timeoutDebounce(() => {
     const { root, rootComponent } = options;
     if (!root || !rootComponent) return;
     root.innerHTML = rootComponent();
@@ -36,7 +36,7 @@ function Core() {
     _addEvent();
 
     options.events = [];
-  });
+  }, 100);
 
   function render(
     rootComponent: Options["rootComponent"],
