@@ -15,6 +15,13 @@ export const createElement = <T extends HTMLTagName>(
       continue;
     }
 
+    if (key === "dataset") {
+      for (const [dataKey, dataValue] of Object.entries(value)) {
+        element.setAttribute(`data-${dataKey}`, dataValue as string);
+      }
+      continue;
+    }
+
     (element as any)[key] = value;
   }
 

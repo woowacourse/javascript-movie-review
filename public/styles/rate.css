@@ -1,0 +1,28 @@
+.rating-box {
+  display: flex;
+  justify-content: space-between;
+}
+
+.rating-button-box {
+  display: flex;
+  gap: 0.25rem;
+  align-items: center;
+}
+
+.rate-message-box {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.rate-message {
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.rate-value-message {
+  color: #95a1b2;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
