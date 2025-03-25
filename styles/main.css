@@ -66,6 +66,8 @@ button.primary {
   background-size: cover;
   height: 500px;
   padding: 48px;
+  width: 100%;
+  overflow: hidden;
 }
 
 .top-rated-container {
@@ -78,6 +80,8 @@ button.primary {
 
 .top-rated-movie {
   margin-top: 64px;
+  position: relative;
+  z-index: var(--z-index-top-rated);
 }
 
 .top-rated-movie>*:not(:last-child) {
@@ -125,15 +129,36 @@ footer.footer p:not(:last-child) {
 }
 
 .search-header {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  right: 0;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 48px;
   display: flex;
-  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  z-index: var(--z-index-top-rated);
 }
 
-.background-container {
-  position: relative;
-  width: 100%;
-  height: 400px;
-  overflow: hidden;
+.logo {
+  flex-shrink: 0;
+}
+
+.search-bar-container {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 525px;
+  height: 36px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 32px;
+  border: 2px solid #D1D5DB;
+  padding: 6px 16px;
 }
 
 .overlay {
@@ -147,7 +172,6 @@ footer.footer p:not(:last-child) {
   z-index: var(--z-index-overlay);
 }
 
-
 .overlay-image {
   position: absolute;
   top: 0;
@@ -156,4 +180,15 @@ footer.footer p:not(:last-child) {
   height: 100%;
   object-fit: cover;
   z-index: var(--z-index-overlay-image);
+}
+
+.hide {
+  display: none;
+}
+
+.hide-background {
+  height: 164px;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
 }

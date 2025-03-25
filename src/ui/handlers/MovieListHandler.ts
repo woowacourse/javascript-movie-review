@@ -14,6 +14,10 @@ export default class MovieListHandler {
   }
 
   async initMovieList(query?: string) {
+    if (!query) {
+      this.showHeader();
+    }
+
     const moviesData = query
       ? await this.movieService.searchMovies(query, 1)
       : await this.movieService.getPopularResults();
@@ -113,5 +117,13 @@ export default class MovieListHandler {
 
   handleLogoClick() {
     this.initMovieList();
+  }
+
+  showHeader() {
+    document.querySelector(".overlay")?.classList.remove("hide");
+    document.querySelector(".top-rated-movie")?.classList.remove("hide");
+    document
+      .querySelector(".background-container")
+      ?.classList.remove("hide-background");
   }
 }
