@@ -78,9 +78,40 @@ body.modal-open {
 .modal-description h2 {
   font-size: 2rem;
   margin: 0 0 8px;
+  font-weight: 600;
+}
+
+.modal-description h3 {
+  font-weight: 600;
 }
 
 .detail {
   max-height: 430px;
   overflow-y: auto;
+}
+
+.rate .label {
+  margin-right: 10px;
+}
+
+.modal-description hr {
+  border: none;
+  height: 1px;
+  background-color: white;
+  opacity: 0.3;
+}
+
+.my-rate {
+  display: flex;
+  align-items: center;
+  gap: 15px
+}
+
+.my-rate .label {
+  display: flex;
+  gap: 5px;
+}
+
+.my-rate .score {
+  color: gray;
 }

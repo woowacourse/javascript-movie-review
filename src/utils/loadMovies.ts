@@ -1,5 +1,7 @@
 import { Movie, MovieResponse } from "../../types/movie.ts";
+import MovieDetailModal from "../components/movie/MovieDetailModal.ts";
 import MovieItem from "../components/movie/MovieItem.ts";
+import { fetchMovieDetails } from "./api.ts";
 import { $ } from "./dom.ts";
 
 export const loadMovies = async (movies: MovieResponse): Promise<void> => {
@@ -21,6 +23,12 @@ export const loadMovies = async (movies: MovieResponse): Promise<void> => {
     $(".load-more").classList.add("hidden");
 };
 
-const showMovieDetailInfo = (movie: Movie): void => {
-  console.log(movie.title);
+const showMovieDetailInfo = async (movie: Movie): Promise<void> => {
+  // console.log(movie.title);
+  // console.log($("#app"));
+  // console.log(movie);
+  // $("#app").appendChild(MovieDetailModal(movie));
+  const movieInfo = await fetchMovieDetails(movie.id);
+  console.log(movieInfo);
+  $("#app").appendChild(MovieDetailModal(movieInfo));
 };
