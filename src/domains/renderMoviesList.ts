@@ -1,12 +1,7 @@
 import { MoviesResponse } from "../../types/movie";
 import { handleApiResponse } from "../api/handlers";
 import { getMovies, searchMovies } from "../api/movie";
-import {
-  App,
-  MovieList,
-  MovieListSkeleton,
-  TopRatedMovie,
-} from "../components/index";
+import { App, Main, TopRatedMovie } from "../components/index";
 import {
   DEFAULT_MOVIE_DATA,
   MAX_MOVIE_PAGE,
@@ -14,7 +9,6 @@ import {
 } from "../constants/constants";
 import { store } from "./../stores";
 
-const $mainSection = document.querySelector("main section");
 const $thumbnailList = document.querySelector(".thumbnail-list");
 const $error = document.querySelector(".error");
 const $errorMessage = document.querySelector(".error-message");
@@ -98,20 +92,19 @@ export const updateMoviesList = async () => {
   if (store.searchKeyword === "") await renderTotalList();
   else await renderSearchList();
 
+  Main.getInstance().render({
+    movies: store.movies,
+    isLoading: false,
+  });
+
+  // TODO: 더보기 버튼 로직 분리
   const $showMore = document.querySelector(".show-more");
   if (store.page !== Math.min(MAX_MOVIE_PAGE, store.totalPages))
     $showMore?.classList.add("open");
   else $showMore?.classList.remove("open");
-
-  if ($thumbnailList) $thumbnailList.innerHTML = "";
-  const $movies = MovieList(store.movies);
-  if ($movies) $mainSection?.appendChild($movies);
 };
 
 export const initializeLayout = () => {
   const $app = document.querySelector("#app");
   $app?.append(App());
-
-  const $skeleton = MovieListSkeleton();
-  if ($skeleton) $mainSection?.appendChild($skeleton);
 };

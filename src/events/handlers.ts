@@ -1,3 +1,4 @@
+import { Main } from "../components";
 import { updateMoviesList } from "../domains/renderMoviesList";
 import { store } from "../stores";
 import { isElement } from "./guards";
@@ -28,20 +29,17 @@ window.addEventListener("submit", async (event) => {
 
   store.searchKeyword = value;
   store.page = 1;
+  store.movies = [];
 
-  const $title = document.querySelector(".thumbnail-title");
-  if ($title) $title.textContent = `"${store.searchKeyword}" 검색 결과`;
+  Main.getInstance().render({
+    title: `"${store.searchKeyword}" 검색 결과`,
+  });
 
-  const $ul = document.querySelector(".thumbnail-list");
-  if ($ul) $ul.innerHTML = "";
-
+  // TODO: Header 변경 로직 분리
   const $topRatedContainer = document.querySelector(".top-rated-container");
   const $overlay = document.querySelector(".overlay");
-
   $topRatedContainer?.classList.add("close");
   $overlay?.classList.add("close");
 
-  store.movies = [];
-
-  updateMoviesList();
+  await updateMoviesList();
 });
