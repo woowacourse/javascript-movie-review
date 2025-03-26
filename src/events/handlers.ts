@@ -22,10 +22,9 @@ window.addEventListener("submit", async (event) => {
     ".top-rated-search-input"
   ) as HTMLInputElement;
   const value = $searchInput?.value;
+  if (!value) return;
 
   (target as HTMLFormElement).reset();
-
-  if (!value) return;
 
   store.searchKeyword = value;
   store.page = 1;

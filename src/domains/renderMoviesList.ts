@@ -9,6 +9,13 @@ import {
 } from "../constants/constants";
 import { store } from "./../stores";
 
+const toggleShowMoreButton = () => {
+  const $showMore = document.querySelector(".show-more");
+  if (store.page !== Math.min(MAX_MOVIE_PAGE, store.totalPages))
+    $showMore?.classList.add("open");
+  else $showMore?.classList.remove("open");
+};
+
 const changeHeaderBackground = () => {
   const $backgroundContainer = document.querySelector(".background-container");
 
@@ -94,12 +101,7 @@ export const updateMoviesList = async () => {
   else await renderSearchList(main);
 
   main.render();
-
-  // TODO: 더보기 버튼 로직 분리
-  const $showMore = document.querySelector(".show-more");
-  if (store.page !== Math.min(MAX_MOVIE_PAGE, store.totalPages))
-    $showMore?.classList.add("open");
-  else $showMore?.classList.remove("open");
+  toggleShowMoreButton();
 };
 
 export const initializeLayout = () => {
