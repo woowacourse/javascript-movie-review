@@ -1,3 +1,5 @@
+import StarRating from './StarRating.js';
+
 export default class MovieModal {
   constructor(movie) {
     this.movie = movie;
@@ -63,13 +65,26 @@ export default class MovieModal {
     rateText.textContent = this.movie.getVoteAverage();
     rate.append(starImg, rateText);
 
-    const hr = document.createElement("hr");
+    const hr1 = document.createElement("hr");
+    const hr2 = document.createElement("hr");
+
+    const myRatingTitle = document.createElement("p");
+    myRatingTitle.textContent = "내 별점";
+    myRatingTitle.className = "user-rating-title";
+
+    const ratingMessage = document.createElement("p");
+    ratingMessage.className = "rating-message";
+
+    const starRating = new StarRating((score) => {
+      ratingMessage.textContent = this.getMessageByScore(score);
+    });
+    const starUI = starRating.render();
 
     const detail = document.createElement("p");
     detail.className = "detail";
-    detail.textContent = this.movie.overview;
+    detail.textContent = `${this.movie.overview || "설명 정보 없음"}`;
 
-    description.append(title, category, rate, hr, detail);
+    description.append(title, category, rate, hr1, myRatingTitle, starUI, ratingMessage, hr2, detail);
     container.append(imageWrapper, description);
     modal.append(closeButton, container);
 
@@ -95,5 +110,18 @@ export default class MovieModal {
     if (e.key === 'Escape') {
       this.close();
     }
+  }
+
+  getMessageByScore(score) {
+    const messages = {
+      1: "최악이에요",   // 2점
+      2: "별로예요",     // 4점
+      3: "보통이에요",   // 6점
+      4: "재미있어요",   // 8점
+      5: "명작이에요",   // 10점
+    };
+    const point = score * 2;
+    const message = messages[score] ?? "";
+    return `${message} (${point}/10)`;
   }
 }
