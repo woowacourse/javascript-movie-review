@@ -1,6 +1,9 @@
 import getSearchMovies from '../api/getSearchMovies';
 import createDOMElement from '../util/createDomElement';
+import { $ } from '../util/selector';
+import { removeBanner } from './render/renderBanner';
 import { renderMovieList } from './render/renderMovieList';
+import { renderSkeletons } from './render/renderSkeletons';
 
 function SearchBar() {
   return createDOMElement({
@@ -26,18 +29,9 @@ function SearchBar() {
   });
 }
 
-const removeHeader = () => {
-  const banner = document.querySelector('header');
-  banner?.remove();
-
-  const main = document.querySelector('main');
-  if (!main) return;
-  main.style.padding = '100px 0 64px';
-};
-
 const handleSearchMovies = async (e: Event) => {
   e.preventDefault();
-  removeHeader();
+  removeBanner();
 
   const form = e.target as HTMLFormElement;
   const data = new FormData(form);
@@ -48,6 +42,8 @@ const handleSearchMovies = async (e: Event) => {
     include_adult: 'false',
     query: String(data.get('keyword'))
   };
+
+  $('.container')?.appendChild(renderSkeletons({ height: 300 }));
 
   const response = await getSearchMovies('/search/movie', params);
   renderMovieList(response, String(data.get('keyword')));

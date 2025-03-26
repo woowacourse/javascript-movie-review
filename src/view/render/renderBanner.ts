@@ -14,3 +14,12 @@ export const renderBanner = async (movies: IMovie[]) => {
 
   bannerSkeleton?.replaceWith(Banner({ movie: bannerMovie }));
 };
+
+export const removeBanner = () => {
+  const banner = document.querySelector('header');
+  banner?.remove();
+
+  const main = document.querySelector('main');
+  if (!main) return;
+  main.style.padding = '100px 0 64px';
+};

@@ -2,7 +2,6 @@ import MovieList from '../../component/MovieList';
 import { $ } from '../../util/selector';
 import { INITIAL_PAGE } from '../../constant';
 import { IMovie } from '../../type';
-import { renderSkeletons } from './renderSkeletons';
 import { moreButton } from '../moreButton';
 interface IResponse {
   page: number;
@@ -14,8 +13,6 @@ interface IResponse {
 export const renderMovieList = async (response: IResponse, keyword?: string) => {
   const { results, total_pages } = response;
   const container = $('.container');
-
-  container?.appendChild(renderSkeletons({ height: 300 }));
 
   const movieList = MovieList({
     movies: results,
