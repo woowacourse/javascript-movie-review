@@ -1,4 +1,4 @@
-import { $, html } from '@/lib/utils';
+import { $, html, variant } from '@/lib/utils';
 import Component from './core/Component';
 
 interface ToastProps {
@@ -14,10 +14,11 @@ export const enum TOAST_TYPE {
 export default class Toast extends Component<ToastProps> {
   template() {
     return html`<div
-      class="toast ${this.props.type === TOAST_TYPE.success ? 'toast-success' : ''} ${this.props.type ===
-      TOAST_TYPE.error
-        ? 'toast-error'
-        : ''}"
+      class="toast 
+      ${variant({
+        'toast-success': this.props.type === TOAST_TYPE.success,
+        'toast-error': this.props.type === TOAST_TYPE.error,
+      })}"
     >
       ${this.props.message}
     </div>`;
