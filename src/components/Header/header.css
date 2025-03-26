@@ -1,7 +1,7 @@
 .header-container {
   position: sticky;
   top: 0;
-  z-index: 9999;
+  z-index: 3;
   width: 100dvw;
   transition: backdrop-filter 0.3s ease;
   padding: 40px calc(50% - 640px);

@@ -1,4 +1,4 @@
-@import "./colors.css";
+@import "../../styles/colors.css";
 
 /* modal.css */
 body.modal-open {
@@ -19,9 +19,7 @@ body.modal-open {
   z-index: 10;
   visibility: hidden; /* 모달이 기본적으로 보이지 않도록 설정 */
   opacity: 0;
-  transition:
-    opacity 0.3s ease,
-    visibility 0.3s ease;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
 .modal-background.active {
@@ -85,4 +83,15 @@ body.modal-open {
 .detail {
   max-height: 430px;
   overflow-y: auto;
+}
+
+.label {
+  color: var(--color-white);
+  margin-right: 16px;
+}
+
+.subtitle {
+  font-size: 1.5rem;
+  margin: 16px 0;
+  font-weight: 600;
 }
