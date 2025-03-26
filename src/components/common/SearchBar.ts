@@ -48,12 +48,14 @@ const searchMovie = async (input: string) => {
     $(".top-rated-container").classList.add("hidden");
     $(".overlay-img").classList.add("hidden");
 
-    if (movies.results.length === 0) {
+    if (movies.results.length === 0 && !$(".no-result")) {
       $(".thumbnail-list").after(NoSearchResults("검색 결과가 없습니다."));
       return;
     }
+    if ($(".no-result")) $(".no-result").remove();
     loadMovies(movies);
   } catch (error) {
+    console.log(error);
     $(".thumbnail-list").after(
       NoSearchResults("영화 목록을 가져오는 데 실패했습니다.")
     );
