@@ -89,6 +89,7 @@ const $MovieListBoxRender = () => {
     const $fragment = document.createDocumentFragment();
     const $title = createElement("h2", {
       textContent: title,
+      className: "thumbnail-list-title",
     });
     const $movieList = $MovieList(movieResult.results);
     $fragment.append($title, $movieList);

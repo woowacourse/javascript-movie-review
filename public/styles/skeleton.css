@@ -12,11 +12,13 @@
 
 .skeleton-list {
   display: grid;
-  grid-template-columns: repeat(5, 200px);
-  justify-content: space-between;
+  grid-template-columns: repeat(4, 200px);
+  justify-content: center;
   gap: 70px;
-  width: 1280px;
+  max-width: 1280px;
+  width: 100%;
   margin: 4rem auto;
+  padding: 0 2rem;
 }
 
 .skeleton-item {
@@ -26,7 +28,7 @@
 }
 
 .skeleton-poster {
-  width: 100%;
+  width: 200px;
   height: 300px;
   background-color: #a9a9a9;
   border-radius: 5px;
@@ -41,4 +43,20 @@
   border-radius: 5px;
   margin-bottom: 10px;
   animation: pulse 1.5s infinite;
+}
+
+/* 반응형 디자인 */
+@media screen and (max-width: 1120px) {
+  .skeleton-list {
+    grid-template-columns: repeat(3, 200px);
+    gap: 50px;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .skeleton-list {
+    grid-template-columns: repeat(1, 200px);
+    gap: 40px;
+    padding: 0 1rem;
+  }
 }
