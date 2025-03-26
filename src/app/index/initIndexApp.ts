@@ -11,8 +11,10 @@ import {
 import MovieItemList from "../../components/movieItemList/movieItemList";
 import LongButton from "../../components/longButton/longButton";
 import mountHero from "../mount/mountHero";
-import { MovieItemListInstance } from "../../../types/components";
-import { LongButtonInstance } from "../../../types/components";
+import type {
+  MovieItemListInstance,
+  LongButtonInstance,
+} from "../../../types/components";
 
 const movieItemList: MovieItemListInstance = MovieItemList();
 const loadMoreButton: LongButtonInstance = LongButton("더보기");
