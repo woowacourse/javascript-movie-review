@@ -1,26 +1,26 @@
-import { MovieData, TotalData } from "../types/data.ts";
+import { Movie, TotalMovies } from "../types/domain.ts";
 import MovieItem from "./components/MovieItem";
 import SearchBar from "./components/SearchBar";
 import SkeletonUl from "./components/SkeletonUl";
 import TextButton from "./components/TextButton";
 import { IMAGE, ITEMS } from "./constants/movie.ts";
-import movieApi from "./api/movieApi.ts";
 import { selectElement } from "./utils/dom.ts";
 import { toggleElementVisibility } from "./utils/Render.ts";
 import MovieList from "./components/MovieList.ts";
 import calculatePageNumber from "./domain/calculatePageNumber.ts";
+import movieService from "./service/movieService.ts";
 
 const getMovieData = async (currentItemCount: number = ITEMS.initialCount) => {
   const pageNumber = calculatePageNumber(currentItemCount);
 
-  return (await movieApi.getMovieData(pageNumber)) as TotalData;
+  return (await movieService.getMovies(pageNumber)) as TotalMovies;
 };
 
-const renderTitleMovie = (movieData: MovieData[]) => {
+const renderTitleMovie = (movieData: Movie[]) => {
   const topMovieData = movieData[0];
   const movieTitle = topMovieData.title;
-  const movieRate = topMovieData.vote_average;
-  const movieBackdropUrl = IMAGE.backdropPrefix + topMovieData.backdrop_path;
+  const movieRate = topMovieData.voteAverage;
+  const movieBackdropUrl = IMAGE.backdropPrefix + topMovieData.backdropPath;
 
   const topMovieTitle = selectElement<HTMLDivElement>(
     ".top-rated-movie .title"
@@ -37,11 +37,11 @@ const renderTitleMovie = (movieData: MovieData[]) => {
   backgroundOverlay.style.backgroundImage = `url("${movieBackdropUrl}")`;
 };
 
-const renderMovieData = (movieData: MovieData[]) => {
+const renderMovieData = (movieData: Movie[]) => {
   toggleElementVisibility(".skeleton-list", "show");
 
-  const movieItems = movieData.map(({ title, poster_path, vote_average }) => {
-    const movieItem = new MovieItem({ title, vote_average, poster_path });
+  const movieItems = movieData.map(({ title, posterPath, voteAverage }) => {
+    const movieItem = new MovieItem({ title, voteAverage, posterPath });
     return movieItem.create();
   });
 
@@ -61,8 +61,8 @@ const seeMoreButton = (movieListInstance: MovieList) => {
       const currentItemCount = movieListInstance.getTotalItems();
       const newMovieData = (await getMovieData(currentItemCount)).results;
       const movieItems = newMovieData.map(
-        ({ title, poster_path, vote_average }) => {
-          const movieItem = new MovieItem({ title, vote_average, poster_path });
+        ({ title, posterPath, voteAverage }) => {
+          const movieItem = new MovieItem({ title, voteAverage, posterPath });
           return movieItem.create();
         }
       );

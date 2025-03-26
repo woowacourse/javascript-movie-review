@@ -1,6 +1,6 @@
-import { TotalData } from "../../types/data.ts";
-import movieApi from "../api/movieApi.ts";
+import { TotalMovies } from "../../types/domain.ts";
 import calculatePageNumber from "../domain/calculatePageNumber.ts";
+import movieService from "../service/movieService.ts";
 import { selectElement } from "../utils/dom.ts";
 import { toggleElementVisibility } from "../utils/Render.ts";
 import MovieItem from "./MovieItem";
@@ -102,15 +102,15 @@ class SearchBar {
     toggleElementVisibility("#seeMore", "hidden");
 
     const searchResult = await this.#getSearchResult(pageNumber, query);
-    if (pageNumber < searchResult.total_pages)
+    if (pageNumber < searchResult.totalPages)
       toggleElementVisibility("#seeMore", "show");
-    if (searchResult.total_results === 0)
+    if (searchResult.totalResults === 0)
       toggleElementVisibility(".no-thumbnail", "show");
     toggleElementVisibility(".skeleton-list", "hidden");
 
     const movieItems = searchResult.results.map(
-      ({ title, poster_path, vote_average }) => {
-        const movieItem = new MovieItem({ title, vote_average, poster_path });
+      ({ title, posterPath, voteAverage }) => {
+        const movieItem = new MovieItem({ title, voteAverage, posterPath });
         return movieItem.create();
       }
     );
@@ -119,7 +119,7 @@ class SearchBar {
   }
 
   async #getSearchResult(pageNumber: number, query: string) {
-    return (await movieApi.getSearchData(pageNumber, query)) as TotalData;
+    return (await movieService.searchMovies(pageNumber, query)) as TotalMovies;
   }
 }
 
