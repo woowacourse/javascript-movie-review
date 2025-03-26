@@ -54,6 +54,7 @@ button.primary {
 
 #app {
   width: 100vw;
+  min-width: 250px;
   display: flex;
   flex-direction: column;
   justify-content: center;

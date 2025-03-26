@@ -19,3 +19,7 @@
 .text-yellow {
   color: var(--color-yellow);
 }
+
+.text-opacity-blue {
+  color: #95a1b2;
+}
