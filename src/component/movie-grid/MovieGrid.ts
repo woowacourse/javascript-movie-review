@@ -1,7 +1,6 @@
 import MovieItem from '../movie-item/MovieItem';
 import { ERROR_MESSAGE } from '../../constants/errorMessage';
 import ErrorMessage from '../error-message/ErrorMessage';
-import { $ } from '../../utils/selector';
 
 interface MovieGridProps {
   movieItems: MovieData[];
@@ -10,40 +9,39 @@ interface MovieGridProps {
 class MovieGrid {
   #container;
   #movieItems;
-  #listElement: HTMLElement | null = null;
+  #listElement: HTMLElement;
 
   constructor({ movieItems = [] }: MovieGridProps) {
     this.#container = document.createElement('main');
+    this.#listElement = document.createElement('ul');
+    this.#listElement.classList.add('thumbnail-list');
+    this.#container.appendChild(this.#listElement);
+
     this.#movieItems = movieItems;
-    this.render();
+    this.render(this.#movieItems);
   }
 
-  render() {
-    if (this.#movieItems.length !== 0) {
-      this.#container.innerHTML = `
-      <ul class="thumbnail-list">
-      ${this.#movieItemElements()}
-      </ul>`;
+  render(items: MovieData[]) {
+    if (items.length === 0) {
+      this.#listElement.innerHTML = this.#emptyListElement();
       return;
     }
-    this.#container.innerHTML = this.#emptyListElement();
+    const itemsHTML = this.#movieItemElements(items);
+    itemsHTML.forEach((el) => this.#listElement.appendChild(el));
   }
 
   #emptyListElement() {
     return new ErrorMessage({ errorMessage: ERROR_MESSAGE.NO_RESULT }).element.outerHTML;
   }
 
-  #movieItemElements() {
-    return this.#movieItems.map((movieItem) => new MovieItem({ data: movieItem }).element.outerHTML).join('');
+  #movieItemElements(items: MovieData[]) {
+    return items.map((movieItem) => new MovieItem({ data: movieItem }).element);
   }
 
   appendMovies(newItems: MovieData[]) {
-    this.#listElement = $({ root: this.#container, selector: '.thumbnail-list' }) as HTMLElement | null;
-    newItems.forEach((movieItem) => {
-      const item = new MovieItem({ data: movieItem });
-      if (!this.#listElement) throw new Error('listElement가 존재하지 않습니다.');
-      this.#listElement.insertAdjacentHTML('beforeend', item.element.outerHTML);
-    });
+    const elements = this.#movieItemElements(newItems);
+    this.#movieItems = [...this.#movieItems, ...newItems];
+    return elements;
   }
 
   get element() {

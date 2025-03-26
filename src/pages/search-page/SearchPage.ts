@@ -54,24 +54,38 @@ class SearchPage {
   renderDynamicSection() {
     const $loadMoreButton = $({ selector: '.button--medium' });
     if ($loadMoreButton) $loadMoreButton.remove();
-    this.#movieGrid = new MovieGrid({ movieItems: this.#movieListData });
-    this.#container.appendChild(this.#movieGrid.element);
+    this.#renderGridMovies();
+
     if (this.#currentPage !== this.#totalPage) {
       this.#loadMoreButton = new Button({ cssType: 'medium', innerText: '더보기', onClick: this.#loadMoreData });
       this.#container.appendChild(this.#loadMoreButton.element);
     }
   }
 
+  #renderGridMovies() {
+    if (!this.#movieGrid) {
+      this.#container.appendChild(this.#movieGridElement());
+      return;
+    }
+    const newItems = this.#movieListData.slice(-20); // todo : 20 매직넘버
+    const movieElements = this.#movieGrid.appendMovies(newItems);
+
+    const list = $({ selector: '.thumbnail-list' });
+    if (!list) throw new Error('thumbnail-list가 존재하지 않습니다.');
+
+    movieElements.forEach((el) => list.appendChild(el));
+  }
+
+  #movieGridElement() {
+    this.#movieGrid = new MovieGrid({ movieItems: this.#movieListData });
+    return this.#movieGrid.element;
+  }
+
   #loadMoreData = async () => {
     this.#currentPage += 1;
     const { movieListData } = await extractedData(SYSTEM_CONSTANTS.SEARCH_URL(this.#query, this.#currentPage));
     this.#movieListData = [...this.#movieListData, ...movieListData];
-    if (!this.#movieGrid) throw new Error('movieGrid가 존재하지 않습니다.');
-    this.#movieGrid.appendMovies(movieListData);
-    if (this.#loadMoreButton) {
-      this.#loadMoreButton.element.remove();
-      this.#loadMoreButton = null;
-    }
+    this.renderDynamicSection();
   };
 
   #titleElement() {
