@@ -1,8 +1,10 @@
+import fetchMovieDetail from "./api/fetchMovieDetail";
 import fetchPopularMovies from "./api/fetchPopularMovies";
 import fetchSearchMovies from "./api/fetchSearchMovies";
 import Header from "./components/Header/Header";
 import SearchInput from "./components/Header/SearchInput";
 import Modal from "./components/Modal/Modal";
+import ModalDetail from "./components/Modal/ModalDetail/ModalDetail";
 import MovieItem from "./components/MovieItem";
 import MovieList from "./components/MovieList/MovieList";
 import NoThumbnail from "./components/NoThumbnail/NoThumbnail";
@@ -15,7 +17,7 @@ let pageNumber = 1;
 
 addEventListener("load", async () => {
   try {
-    const { movies, canMore } = await getPopularMovieList();
+    const { movies } = await getPopularMovieList();
     Header.init({
       id: movies[0].id,
       title: movies[0].title,
@@ -43,8 +45,24 @@ addEventListener("load", async () => {
       Skeleton.hidden();
     };
 
-    MovieItem.onClickItem = () => {
+    MovieItem.onClickItem = async (e) => {
+      const clickedMovieItem = e.currentTarget as HTMLLIElement;
+      if (!clickedMovieItem.dataset.id) return;
+
       Modal.show();
+      const movieDetail = await fetchMovieDetail(clickedMovieItem.dataset.id);
+      if (!movieDetail) throw new Error(ErrorMessage.FETCH_MOVIE_DETAIL);
+
+      Modal.setContent(
+        ModalDetail.create({
+          posterPath: movieDetail.posterPath,
+          category: movieDetail.category,
+          title: movieDetail.title,
+          releaseYear: movieDetail.releaseYear,
+          rate: movieDetail.rate,
+          detail: movieDetail.detail,
+        })
+      );
     };
 
     Modal.init();
