@@ -100,34 +100,37 @@ document.addEventListener("DOMContentLoaded", async () => {
   const $container = document.querySelector(".container");
   if (!$container) return;
 
+  async function handleMoreButtonClick(
+    mode: "popular" | "search",
+    $moreButton: HTMLElement
+  ) {
+    if (mode === "popular") {
+      if (isLastPage("popular")) {
+        $moreButton.style.display = "none";
+        alert("마지막 페이지입니다.");
+        return;
+      }
+
+      await fetchPopularMovies(popularMovieList.currentPage + 1);
+    } else if (mode === "search") {
+      if (isLastPage("search")) {
+        $moreButton.style.display = "none";
+        alert("마지막 페이지입니다.");
+        return;
+      }
+
+      await fetchSearchedMovies(
+        movieState.query,
+        searchedMovieList.currentPage + 1
+      );
+    }
+
+    renderMovieContainer();
+  }
+
   const $moreButton = Button({
     text: "더 보기",
-    onClick: async () => {
-      if (movieState.mode === "popular") {
-        if (isLastPage("popular")) {
-          $moreButton.style.display = "none";
-          alert("마지막 페이지입니다.");
-
-          return;
-        }
-
-        await fetchPopularMovies(popularMovieList.currentPage + 1);
-        renderMovieContainer();
-      } else if (movieState.mode === "search") {
-        if (isLastPage("search")) {
-          $moreButton.style.display = "none";
-          alert("마지막 페이지입니다.");
-
-          return;
-        }
-
-        await fetchSearchedMovies(
-          movieState.query,
-          searchedMovieList.currentPage + 1
-        );
-        renderMovieContainer();
-      }
-    },
+    onClick: () => handleMoreButtonClick(movieState.mode, $moreButton),
   });
 
   $container.appendChild($moreButton);
