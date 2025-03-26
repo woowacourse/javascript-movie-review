@@ -32,6 +32,8 @@ export default class App extends Component<null, AppState> {
       movieDetailResponse: null,
       movieRate: LocalStorage.get<LocalStorageMovieRateValueType>('movieRate') ?? {},
     };
+
+    this.getMovie(this.state.search, this.state.page);
   }
 
   override template() {
@@ -46,7 +48,7 @@ export default class App extends Component<null, AppState> {
     `;
   }
 
-  onRender() {
+  async onRender() {
     this.fillSlot(
       new Header({
         search: this.state.search,
@@ -105,10 +107,6 @@ export default class App extends Component<null, AppState> {
     });
   }
 
-  async dataFetchAsync() {
-    await this.getMovie(this.state.search, this.state.page);
-  }
-
   addEventListener() {
     eventHandlerInstance.addEventListener({
       eventType: 'click',
@@ -160,7 +158,7 @@ export default class App extends Component<null, AppState> {
           movies: null,
         });
 
-        await this.dataFetchAsync();
+        await this.getMovie(this.state.search, this.state.page);
       },
       dataAction: 'submit-search',
     });

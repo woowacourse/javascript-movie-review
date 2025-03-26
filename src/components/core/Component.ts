@@ -16,11 +16,7 @@ export default abstract class Component<
 
     this.render();
     this.addEventListener();
-
-    this.dataFetchAsync();
   }
-
-  dataFetchAsync() {}
 
   setup() {}
 
