@@ -1,5 +1,6 @@
 import { IMG_PATH } from "../constants/constants";
-import { Result } from "../types/movie";
+import { Detail, Result } from "../types/movie";
+import { getDetailMovie } from "./getDetailMovie";
 import { getPopularityMovie } from "./getPopularityMovie";
 import { searchMovie } from "./searchMovie";
 
@@ -44,6 +45,10 @@ class MovieManager {
       totalPage: data.total_pages,
       currentPage: this.#searchPage++,
     };
+  }
+  async fetchDetail(id: number) {
+    const data = await getDetailMovie(id);
+    return data;
   }
 
   parsingMovieInfo(movies: Result[]) {

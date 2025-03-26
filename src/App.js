@@ -9,6 +9,7 @@ import { IMG_PATH } from "./constants/constants";
 import MovieManager from "./Domain/MovieManager";
 import UIManager from "./Domain/UIManager";
 import MovieItem from "./UI/MoviesContainer/MovieItem/MovieItem";
+import Modal from "./UI/Modal/Modal";
 
 class App {
   #movieManager;
@@ -67,7 +68,8 @@ class App {
     const $movieListSection = new MovieListSection(
       this.getKeywordFromURL(),
       movies,
-      isLoading
+      isLoading,
+      this.handleMovieClick
     ).render();
 
     app.appendChild($wrap);
@@ -84,6 +86,11 @@ class App {
 
     const $footer = new Footer().render();
     app.appendChild($footer);
+
+    // if (this.#uiManager.getIsModalOpen() === true) {
+    //   const modal = new Modal(movies).render();
+    //   document.body.appendChild(modal);
+    // }
   }
 
   onSubmit = async (e) => {
@@ -147,6 +154,12 @@ class App {
 
     const newMovies = results.slice(-20);
     this.#movieListSection.appendMovies(newMovies, $ul);
+  };
+
+  handleMovieClick = async (movieId) => {
+    const movieDetail = await this.#movieManager.fetchDetail(movieId);
+    const modal = new Modal(movieDetail).render();
+    document.body.appendChild(modal);
   };
 
   getKeywordFromURL() {

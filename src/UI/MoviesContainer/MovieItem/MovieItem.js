@@ -2,9 +2,10 @@ import { IMG_PATH } from "../../../constants/constants";
 import "./MovieItem.css";
 
 class MovieItem {
-  constructor(movie, isLoading) {
+  constructor(movie, isLoading, handleMovieClick) {
     this.movie = movie;
     this.isLoading = isLoading;
+    this.handleMovieClick = handleMovieClick;
   }
 
   render() {
@@ -15,7 +16,8 @@ class MovieItem {
       return $li;
     }
 
-    const { title, poster_path, vote_average } = this.movie;
+    const { title, poster_path, vote_average, id } = this.movie;
+    $li.addEventListener("click", () => this.handleMovieClick(id));
 
     $li.innerHTML = /*html*/ `
     

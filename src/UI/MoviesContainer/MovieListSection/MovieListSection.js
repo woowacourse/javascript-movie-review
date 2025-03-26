@@ -2,10 +2,11 @@ import "./MovieListSection.css";
 import MovieItem from "../MovieItem/MovieItem";
 import EmptyView from "../EmptyView/EmptyView";
 class MovieListSection {
-  constructor(title, movies, isLoading) {
+  constructor(title, movies, isLoading, handleMovieClick) {
     this.title = title;
     this.movies = movies;
     this.isLoading = isLoading;
+    this.handleMovieClick = handleMovieClick;
   }
 
   render() {
@@ -19,7 +20,7 @@ class MovieListSection {
 
     if (this.isLoading) {
       for (let i = 0; i < 20; i++) {
-        const $item = new MovieItem(null, true).render();
+        const $item = new MovieItem(null, true, this.handleMovieClick).render();
         $ul.appendChild($item);
       }
       $section.appendChild($title);
@@ -86,14 +87,18 @@ class MovieListSection {
 
   appendMovies(movies, $ul) {
     movies.forEach((movie) => {
-      const $item = new MovieItem(movie, false).render();
+      const $item = new MovieItem(movie, false, this.handleMovieClick).render();
       $ul.appendChild($item);
     });
   }
 
   renderMovieItemByArray(movies, $ul, isLoading) {
     return movies.forEach((movie) => {
-      const $item = new MovieItem(movie, isLoading).render();
+      const $item = new MovieItem(
+        movie,
+        isLoading,
+        this.handleMovieClick
+      ).render();
       $ul.appendChild($item);
     });
   }
