@@ -18,14 +18,14 @@ const Header = ({ movie }: HeaderProps) => {
     <div class="overlay" aria-hidden="true"></div>
     <div class="top-rated-container">
       
-      <div class="top-rated-movie">
+      ${movie ? `<div class="top-rated-movie">
         <div class="rate">
           <img src="images/star_empty.png" class="star" />
           <span class="rate-value">${movie?.voteAverage}</span>
         </div>
         <div class="title">${movie?.title}</div>
         <button class="primary detail">자세히 보기</button>
-      </div>
+      </div>` : ""}
     </div>
   </div>
 `;
