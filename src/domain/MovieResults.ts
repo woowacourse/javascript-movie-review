@@ -1,26 +1,32 @@
 import { MovieItemType } from "../types/movieResultType";
 
-const MovieResults = () => {
-  const movieList: MovieItemType[] = [];
-  let page = 0;
-  let maxPage = 0;
+class MovieResults {
+  movieList: MovieItemType[] = [];
+  page: number = 0;
+  maxPage: number = 0;
 
-  const addMovieList = (newPage: number, list: MovieItemType[]) => {
-    movieList.push(...list);
-    page = newPage;
-  };
+  addMovieList(newPage: number, list: MovieItemType[]) {
+    list.forEach((movie) => {
+      this.movieList.push({ ...movie, star: 0 });
+    });
+    this.page = newPage;
+  }
 
-  const initialTotalPage = (totalPage: number) => {
-    maxPage = totalPage;
-  };
+  initialTotalPage(totalPage: number) {
+    this.maxPage = totalPage;
+  }
 
-  return {
-    getMovieList: () => [...movieList],
-    getPage: () => page,
-    hasMore: () => page !== maxPage,
-    addMovieList,
-    initialTotalPage,
-  };
-};
+  getMovieList(): MovieItemType[] {
+    return [...this.movieList];
+  }
+
+  getPage(): number {
+    return this.page;
+  }
+
+  hasMore(): boolean {
+    return this.page !== this.maxPage;
+  }
+}
 
 export default MovieResults;
