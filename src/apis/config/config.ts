@@ -25,4 +25,6 @@ export const url = {
     }/search/movie?include_adult=false&language=ko-KR&page=${page}&query=${encodeURIComponent(
       searchInputValue
     )}`,
+  detail: (movie_id: string) =>
+    `${import.meta.env.VITE_API_URL}/movie/${movie_id}`,
 } as const;
