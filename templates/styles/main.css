@@ -1,7 +1,17 @@
-@import "./colors.css";
+@import './colors.css';
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&display=swap');
 
 * {
   box-sizing: border-box;
+  font-family: 'Pretendard Variable', Pretendard, BlinkMacSystemFont, system-ui, Roboto,
+    'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic',
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
+  color: white;
+}
+
+.wt-200 {
+  width: 200px;
 }
 
 a {
@@ -9,17 +19,66 @@ a {
   text-decoration: none;
 }
 
+header {
+  width: 100%;
+  position: relative;
+  z-index: 3;
+}
+
+
+.skeleton-loading {
+  height: 100%;
+  position: relative;
+  width: fit-content;
+}
+
+.skeleton-image {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  opacity: 100%;
+  background: linear-gradient(120deg, #e5e5e5 30%, #f0f0f0 38%, #f0f0f0 40%, #e5e5e5 48%);
+border-radius: 1rem;
+background-size: 200% 100%;
+background-position: 100% 0;
+animation: load 1s infinite;
+}
+
+
+/* .skeleton_loading * {
+
+} */
+
+@keyframes load {
+100% {
+    background-position: -100% 0;
+}
+}
+
+
+
+.header-container {
+  top: 20px;
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+h1.logo {
+  position: fixed;
+  top: 26px;
+  margin-left: 50px;
+  cursor: pointer;
+  z-index:500;
+}
+
 body {
   font-size: 16px;
   color: var(--color-white);
   background-color: var(--color-bluegray-80);
-}
-
-#wrap,
-section {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
 }
 
 main {
@@ -34,24 +93,15 @@ button {
   border: 0;
   padding: 8px 16px;
   cursor: pointer;
+  background-color: transparent;
 }
 
 button.primary {
+  width:100%;
   color: var(--color-white);
   font-weight: bold;
   background-color: var(--color-lightblue-90);
   border-radius: 4px;
-}
-
-#wrap {
-  min-width: 1440px;
-  background-color: var(--color-bluegray-100);
-}
-
-#wrap h2 {
-  font-size: 1.4rem;
-  font-weight: bold;
-  margin-bottom: 32px;
 }
 
 .container {
@@ -60,6 +110,8 @@ button.primary {
 }
 
 .background-container {
+  display: flex;
+  align-items: center;
   position: relative;
   background-position: center center;
   background-size: cover;
@@ -78,29 +130,29 @@ button.primary {
 }
 
 .top-rated-container {
+  display: flex;
+  justify-items: center;
+
   user-select: none;
-  position: relative;
+  position: fixed;
   z-index: 2;
   max-width: 1280px;
   margin: 0 auto;
 }
 
 .top-rated-movie {
-  margin-top: 64px;
+  z-index: 3;
 }
 
 .top-rated-movie > *:not(:last-child) {
   margin-bottom: 8px;
 }
 
-h1.logo {
-  font-size: 2rem;
-}
-
 .rate {
   display: flex;
   align-items: baseline;
   color: var(--color-yellow);
+  margin: 4px 0;
 }
 
 .rate > img {
@@ -131,4 +183,34 @@ footer.footer {
 
 footer.footer p:not(:last-child) {
   margin-bottom: 8px;
+}
+
+.search-input-box {
+  width: 525px;
+  height: 36px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  border: 2px solid #d1d5db;
+  border-radius: 100px;
+
+  padding: 6px 16px;
+}
+
+input {
+  width: 100%;
+  color: var(--color-white);
+  font-size: 16px;
+  border: none;
+  background-color: transparent;
+}
+
+input::placeholder {
+  color: var(--color-white);
+}
+
+#bannerSection {
+  display:block;
 }
