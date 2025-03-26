@@ -1,5 +1,5 @@
-import { PropsWithChildren } from "../../../types";
-import { Attribute, parseAttribute } from "../../utils/domHelper";
+import { Attribute, PropsWithChildren } from "../../../types";
+import { parseAttribute } from "../../utils/domHelper";
 
 interface ButtonProps {
   attribute: Attribute;

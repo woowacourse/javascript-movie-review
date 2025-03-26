@@ -1,4 +1,5 @@
-import { Attribute, parseAttribute } from "../../utils/domHelper";
+import { Attribute } from "../../../types";
+import { parseAttribute } from "../../utils/domHelper";
 
 interface InputProps {
   attribute: Attribute;

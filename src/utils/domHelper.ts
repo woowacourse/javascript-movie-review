@@ -1,7 +1,4 @@
-export interface Attribute {
-  class: string;
-  [key: string]: string;
-}
+import { Attribute } from "../../types";
 
 export const $ = (
   selector: string,
