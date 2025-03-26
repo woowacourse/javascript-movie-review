@@ -19,7 +19,6 @@ body {
 section {
   display: flex;
   flex-direction: column;
-  justify-content: center;
 }
 
 main {
@@ -54,7 +53,6 @@ button.more {
 }
 
 #wrap {
-  min-width: 1440px;
   background-color: var(--color-bluegray-100);
 }
 
@@ -67,6 +65,8 @@ button.more {
 .container {
   max-width: 1280px;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
 }
 
 .background-container {
@@ -105,10 +105,14 @@ button.more {
 }
 
 .search-container {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translate(-50%, 0);
+  display: flex;
+  width: 525px;
+  padding: 0 0 0 5px;
+  border-radius: 32px;
+  outline: none;
+  border: 2px solid #d1d5db;
+  color: #fff;
+  background-color: transparent;
 }
 
 .contentContainer {
@@ -126,14 +130,9 @@ button.more {
 }
 
 .search-input {
-  display: flex;
-  width: 525px;
-  padding: 6px 16px;
-  border-radius: 32px;
-  outline: none;
-  border: 2px solid #d1d5db;
-  color: #fff;
+  width: 100%;
   background-color: transparent;
+  border: none;
 }
 
 .search-input::placeholder {
@@ -145,11 +144,7 @@ button.more {
 }
 
 .search-button {
-  position: absolute;
-  top: 50%;
-  right: -20px;
   border: none;
-  transform: translate(-50%, -50%);
   background-color: transparent;
 }
 
@@ -159,6 +154,17 @@ button.more {
 
 .top-rated-movie > *:not(:last-child) {
   margin-bottom: 8px;
+}
+.logosearchbar-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  height: auto;
+  align-items: center;
+  justify-content: center;
 }
 
 h1.logo {
@@ -210,4 +216,46 @@ footer.footer {
 
 footer.footer p:not(:last-child) {
   margin-bottom: 8px;
+}
+@media screen and (max-width: 1023px) and (min-width: 768px) {
+  .logosearchbar-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .search-container {
+    display: flex;
+    position: static;
+    transform: none;
+    text-align: center;
+  }
+
+  .search-button {
+    position: static;
+    margin-left: auto;
+    transform: none;
+  }
+}
+@media screen and (max-width: 767px) {
+  .search-container {
+    width: 400px;
+  }
+
+  .logosearchbar-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .search-container {
+    display: flex;
+    position: static;
+    transform: none;
+    text-align: center;
+  }
+
+  .search-button {
+    position: static;
+    margin-left: auto;
+    transform: none;
+  }
 }
