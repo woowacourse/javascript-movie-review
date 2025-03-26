@@ -11,7 +11,7 @@ addEventListener('DOMContentLoaded', async () => {
 
   if (movies?.results.length > 0) {
     renderBanner(movies.results);
-    renderMovieList(movies.results);
+    renderMovieList(movies);
   }
 
   renderFooter();

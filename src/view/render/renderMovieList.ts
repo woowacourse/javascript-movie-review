@@ -1,59 +1,29 @@
-import getPopularMovies from '../../api/getPopularMovies';
-import Button from '../../component/Button';
-import Movie from '../../component/Movie';
 import MovieList from '../../component/MovieList';
-import SkeletonList from '../../component/SkeletonList';
-import { API_PAGE_LIMIT, INITIAL_PAGE } from '../../constant';
-import { IMovie } from '../../type';
 import { $ } from '../../util/selector';
+import { INITIAL_PAGE } from '../../constant';
+import { IMovie } from '../../type';
+import { renderSkeletons } from './renderSkeletons';
+import { moreButton } from '../moreButton';
+interface IResponse {
+  page: number;
+  results: IMovie[];
+  total_pages: number;
+  total_results: number;
+}
 
-const handleMoreButtonClick = async (page: number, moreButton: HTMLElement) => {
-  if (page >= API_PAGE_LIMIT - 1) {
-    moreButton.remove();
-  }
-  const container = $('.thumbnail-list') as HTMLElement;
-  if (!container) return;
-
-  const skeletonList = SkeletonList({ height: 300 });
-  container.appendChild(skeletonList);
-
-  const params = {
-    page: page.toString(),
-    language: 'ko-KR'
-  };
-
-  const response = await getPopularMovies('/movie/popular', params);
-  if (!response) return;
-  const newMovies = response.results;
-
-  skeletonList.remove();
-
-  const fragment = document.createDocumentFragment();
-  newMovies.forEach((movie: IMovie) => {
-    const newMovie = Movie({ movie });
-    fragment.appendChild(newMovie);
-  });
-
-  container.appendChild(fragment);
-};
-
-export const renderMovieList = async (movies: IMovie[]) => {
+export const renderMovieList = async (response: IResponse, keyword?: string) => {
+  const { results, total_pages } = response;
   const container = $('.container');
-  if (!container) return;
 
-  const skeletonList = SkeletonList({ height: 300 });
-  container.appendChild(skeletonList);
+  container?.appendChild(renderSkeletons({ height: 300 }));
 
-  let page = INITIAL_PAGE;
-
-  const movieList = MovieList({ movies, title: '지금 인기 있는 영화' });
-
-  const moreButton = Button({
-    text: '더보기',
-    id: 'moreButton',
-    onClick: () => handleMoreButtonClick(++page, moreButton)
+  const movieList = MovieList({
+    movies: results,
+    title: keyword ? `"${keyword}" 검색 결과` : '지금 인기 있는 영화'
   });
+  container?.replaceChildren(movieList);
 
-  skeletonList.replaceWith(movieList);
-  container.appendChild(moreButton);
+  if (INITIAL_PAGE < total_pages) {
+    container?.appendChild(moreButton(INITIAL_PAGE, total_pages, keyword));
+  }
 };
