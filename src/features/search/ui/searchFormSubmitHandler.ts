@@ -6,22 +6,13 @@ import { IMovie } from "../../../shared/types/movies";
 
 export const searchFormSubmitHandler = async (e: Event) => {
   const formData = new FormData(e.target as HTMLFormElement);
-  let searchQuery = formData.get("search-input");
-
-  const params = new URLSearchParams(window.location.search);
-  const page = params.get("page");
-  if (!page) {
-    params.append("page", "1");
-    params.append("query", searchQuery as string);
-  } else {
-    params.set("page", "1");
-    params.set("query", searchQuery as string);
-  }
-
-  const searchedMovies = await getSearchedPost(
-    searchQuery as string,
-    parseInt(params.get("page")!)
-  );
+  const searchQuery = formData.get("search-input") as string;
+  const params = new URLSearchParams({
+    page: "1",
+    query: searchQuery as string,
+  });
+  const pageNum = params.get("page") ? parseInt(params.get("page")!) : 1;
+  const searchedMovies = await getSearchedPost(searchQuery, pageNum);
 
   updateSearchPageUI(
     searchedMovies.results,
@@ -43,22 +34,21 @@ export function updateSearchPageUI(
   ) as HTMLElement;
   const $movieListTitle = document.querySelector(".movie-list-title");
 
+  const pageNum = params.get("page") ? parseInt(params.get("page")!) : 1;
+  const query = params.get("query") as string;
+
   if (!$thumbnailList || !$movieListTitle) return;
 
   $thumbnailList.innerHTML = "";
   showSkeletons($thumbnailList);
 
-  $movieListTitle.textContent = `"${params.get("query")}" 검색 결과`;
+  $movieListTitle.textContent = `"${query}" 검색 결과`;
 
   $thumbnailList.innerHTML = "";
   addMoviePost(searchedMovies, $thumbnailList);
 
   disableHeaderImage();
-  disableMoreButton(
-    searchedMoviesTotalPages,
-    parseInt(params.get("page")!),
-    searchedMovies
-  );
+  disableMoreButton(searchedMoviesTotalPages, pageNum, searchedMovies);
 }
 
 function disableHeaderImage() {
