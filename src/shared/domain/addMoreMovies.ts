@@ -5,32 +5,27 @@ import { disableMoreButton } from "../ui/disabledMoreButton";
 
 export async function addMoreMovies($movieList: HTMLElement) {
   const params = new URLSearchParams(window.location.search);
+  const query = params.get("query") ?? null;
   const pageStr = params.get("page");
-  const query = params.get("query");
-  const pageNum = pageStr ? parseInt(pageStr) : 1;
+  const currentPage = pageStr ? parseInt(pageStr) : 1;
+  const nextPage = currentPage + 1;
 
-  if (!pageStr) {
-    params.append("page", "2");
-  } else {
-    params.set("page", (pageNum + 1).toString());
-  }
+  if (!pageStr) return;
 
-  if (query) {
-    const searchedMovies = await getSearchedPost(query, pageNum);
+  params.set("page", nextPage.toString());
+  const movies = await getCurrentMovieList(nextPage, query);
 
-    addMoviePost(searchedMovies.results, $movieList);
-    disableMoreButton(
-      searchedMovies.total_pages,
-      pageNum,
-      searchedMovies.results
-    );
-  } else {
-    const movies = await getMovieList({ page: pageNum });
-
-    addMoviePost(movies.results, $movieList);
-    disableMoreButton(movies.total_pages, pageNum, movies.results);
-  }
+  addMoviePost(movies.results, $movieList);
+  disableMoreButton(movies.total_pages, currentPage, movies.results);
 
   const newUrl = `${window.location.pathname}?${params.toString()}`;
   history.pushState(null, "", newUrl);
+}
+
+async function getCurrentMovieList(page: number, query: string | null) {
+  if (query) {
+    return await getSearchedPost(query, page);
+  }
+
+  return await getMovieList({ page });
 }
