@@ -16,7 +16,7 @@ const movieApi = {
       }).toString();
 
       const endpoint = `/movie/popular?${params}`;
-      return api.GETWithAuth(endpoint);
+      return await api.GETWithAuth(endpoint);
     } catch (error) {
       if (error instanceof Error && error.message in STATUS_MESSAGE) {
         throw new Error(STATUS_MESSAGE[error.message]);
@@ -24,7 +24,7 @@ const movieApi = {
     }
   },
 
-  getSearchData(pageNumber: number, query: string) {
+  async getSearchData(pageNumber: number, query: string) {
     try {
       const params = new URLSearchParams({
         ...defaultParams,
@@ -33,7 +33,7 @@ const movieApi = {
       }).toString();
 
       const endpoint = `/search/movie?${params}`;
-      return api.GETWithAuth(endpoint);
+      return await api.GETWithAuth(endpoint);
     } catch (error) {
       if (error instanceof Error && error.message in STATUS_MESSAGE) {
         throw new Error(STATUS_MESSAGE[error.message]);
@@ -41,14 +41,14 @@ const movieApi = {
     }
   },
 
-  getMovieDetailsData(id: number) {
+  async getMovieDetailsData(id: number) {
     try {
       const params = new URLSearchParams({
         ...defaultParams,
       }).toString();
 
       const endpoint = `/movie/${id}?${params}`;
-      return api.GETWithAuth(endpoint);
+      return await api.GETWithAuth(endpoint);
     } catch (error) {
       if (error instanceof Error && error.message in STATUS_MESSAGE) {
         throw new Error(STATUS_MESSAGE[error.message]);
