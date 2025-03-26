@@ -63,3 +63,38 @@ dialog::backdrop {
   height: 570px;
   border-radius: 8px;
 }
+.star-rating {
+  display: inline-flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+}
+
+.star-rating input {
+  display: none;
+}
+
+.star-rating label {
+  /* //모바일 환경에 맞게 폰트 사이즈 조정 필요. */
+  font-size: 2rem;
+  color: grey;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.star-rating input:checked ~ label {
+  color: grey;
+}
+
+.star-rating input:checked + label,
+.star-rating input:checked + label ~ label {
+  color: gold;
+}
+
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+  color: goldenrod;
+}
+.star-rating-container {
+  display: flex;
+  gap: 1rem;
+}

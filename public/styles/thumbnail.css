@@ -30,10 +30,6 @@ p.rate {
   color: var(--color-yellow);
 }
 
-p.rate > span {
-  margin-left: 4px;
-}
-
 .item .star {
   width: 16px;
   top: 1px;
