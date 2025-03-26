@@ -1,7 +1,7 @@
 import ErrorPage from "../../../shared/ui/components/ErrorPage";
 
 const url = (page: number) =>
-  `https://api.themoviedb.org/3/tv/popular?page=${page}`;
+  `https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=${page}`;
 const options = {
   method: "GET",
   headers: {
