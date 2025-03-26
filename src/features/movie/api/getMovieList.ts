@@ -1,4 +1,4 @@
-import ErrorPage from "../../../shared/ui/components/ErrorPage";
+import { MovieListResponse } from "../../../shared/types/movies";
 
 const url = (page: number) =>
   `https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=${page}`;
@@ -10,17 +10,16 @@ const options = {
   },
 };
 
-export const getMovieList = async ({ page }: { page: number }) => {
-  try {
-    const response = await fetch(url(page), options);
+export const getMovieList = async ({
+  page,
+}: {
+  page: number;
+}): Promise<MovieListResponse> => {
+  const response = await fetch(url(page), options);
 
-    if (!response.ok) {
-      throw new Error("Failed to fetch movie list");
-    }
-
-    return response.json();
-  } catch (error) {
-    const $container = document.querySelector(".container");
-    $container!.replaceChildren(ErrorPage());
+  if (!response.ok) {
+    throw new Error("Failed to fetch movie list");
   }
+
+  return response.json();
 };
