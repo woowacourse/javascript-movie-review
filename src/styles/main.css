@@ -101,7 +101,7 @@ button.primary {
   display: flex;
   align-items: baseline;
   color: var(--color-yellow);
-  z-index: 100;
+  /* z-index: ; */
 }
 
 .rate > img {
