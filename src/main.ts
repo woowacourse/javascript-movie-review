@@ -1,6 +1,5 @@
 import Footer from "./components/Footer";
 import Header from "./components/Header";
-import Modal from "./components/Modal";
 import PopularMovieBoard from "./components/PopularMovieBoard";
 import SearchMovieBoard from "./components/SearchMovieBoard";
 import { isHTMLElement } from "./utils/typeGuards";
@@ -16,7 +15,6 @@ class App implements AppContract {
     this.#renderHeader();
     this.#renderPopularMovies();
     this.#renderFooter();
-    this.#renderModal();
   }
 
   #renderHeader() {
@@ -42,11 +40,6 @@ class App implements AppContract {
   #renderFooter() {
     const root = document.querySelector("body");
     root?.insertAdjacentHTML("beforeend", Footer());
-  }
-
-  #renderModal() {
-    const $modalBackground = document.querySelector(".modal-background");
-    if (isHTMLElement($modalBackground)) new Modal($modalBackground);
   }
 }
 
