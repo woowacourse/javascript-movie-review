@@ -4,8 +4,8 @@ const Header = (store) => {
   setTimeout(attachHeaderStyle, 0);
 
   return /* html */ `
-    <header id="header" class="header">
-      <div class="header-container">
+    <header id="header" class="header-container">
+      <div class="header">
         <h1 class="logo">
           <a href="/javascript-movie-review">
             <img src="./images/logo.png" alt="MovieList" />
