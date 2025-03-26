@@ -32,7 +32,7 @@ const Header = (movie: IMovie) => {
             <img src="./images/star_empty.png" class="star" />
             <span class="rate-value">${movie.vote_average}</span>
           </div>
-          <div class="title">${movie.name}</div>
+          <div class="title">${movie.title}</div>
           ${CustomButton({ title: "자세히 보기" }).outerHTML}
         </div>
       </div>
