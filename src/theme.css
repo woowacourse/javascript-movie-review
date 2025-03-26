@@ -1,6 +1,7 @@
 :root {
   --color-white: #ffffff;
   --color-lightblue-90: #0da9fd;
+  --color-lightblue-100: #0a99e7;
   --color-bluegray-100: #242a32;
   --color-bluegray-80: #39414d;
   --color-bluegray-10: #e0e6ed;
@@ -21,6 +22,11 @@
   font-size: 1rem;
   font-weight: 400;
   letter-spacing: 0;
+}
+
+.text-title {
+  font-weight: 600;
+  font-size: 4rem;
 }
 
 .text-subtitle {
@@ -49,9 +55,4 @@
   font-size: 1.5rem;
   line-height: 100%;
   letter-spacing: 0.24px;
-}
-
-.text-title {
-  font-weight: 600;
-  font-size: 4rem;
 }

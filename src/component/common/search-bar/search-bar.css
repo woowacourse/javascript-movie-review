@@ -4,7 +4,7 @@
   align-items: center;
   gap: 8px;
   max-width: 525px;
-  width: 50%;
+  width: 100%;
   padding: 6px 16px;
   border: 2px solid var(--color-gray-300);
   color: var(--color-gray-300);

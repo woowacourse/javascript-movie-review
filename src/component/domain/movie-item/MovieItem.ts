@@ -10,6 +10,7 @@ class MovieItem {
 
   constructor({ data }: MovieItemProps) {
     this.#container = document.createElement('li');
+    this.#container.classList.add('item');
     this.#data = data;
     this.render();
   }
@@ -23,7 +24,6 @@ class MovieItem {
 
   render() {
     this.#container.innerHTML = `
-    <div class="item">
       <img class="thumbnail" src=${this.#matchImgUrl()} alt=${this.#data.title} />
       <div class="item-desc">
         <p class="rate">
@@ -32,7 +32,6 @@ class MovieItem {
         </p>
         <strong class="text-body">${this.#data.title}</strong>
       </div>
-    </div>
   `;
   }
 
