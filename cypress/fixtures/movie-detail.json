@@ -1,0 +1,92 @@
+{
+  "adult": false,
+  "backdrop_path": "/vW7lwVHkRePHzayZfoKOyYBeZqO.jpg",
+  "belongs_to_collection": {
+    "id": 117354,
+    "name": "극장판 짱구는 못말려 시리즈",
+    "poster_path": "/byaQpxzuzO1PDZ7yvA9zyB7krdn.jpg",
+    "backdrop_path": "/fOk4eUe2nNyErJEi8pukiClhUZV.jpg"
+  },
+  "budget": 0,
+  "genres": [
+    {
+      "id": 16,
+      "name": "애니메이션"
+    },
+    {
+      "id": 12,
+      "name": "모험"
+    },
+    {
+      "id": 35,
+      "name": "코미디"
+    },
+    {
+      "id": 10751,
+      "name": "가족"
+    }
+  ],
+  "homepage": "",
+  "id": 1221404,
+  "imdb_id": "tt30400536",
+  "origin_country": ["JP"],
+  "original_language": "ja",
+  "original_title": "映画クレヨンしんちゃん オラたちの恐竜日記",
+  "overview": "다이노스 아일랜드에 어서 오세요! 멸종된 공룡을 현대에 부활시킨 테마파크 다이노스 아일랜드 오픈! 떡잎마을은 물론, 전국이 공룡 열풍에 빠져든다! 그 무렵, 흰둥이는 어디선가 작은 공룡 나나를 발견한다. 나나는 짱구네 집의 새로운 가족이자 떡잎마을 방범대의 친구가 되어 아주 특별한 방학을 보내게 된다. 한편, 자신이 나나의 주인이라는 빌리가 나타나 나나를 데려가겠다 하고 다이노스 아일랜드 창립자 버블 어마무시와 그의 수하들도 수단과 방법을 가리지 않고 나나와 짱구를 쫓는다. 설상가상으로 다이노스 아일랜드의 공룡들이 탈출해 떡잎마을은 물론 도시 전역을 쑥대밭으로 만들어버리는데…! 나나를 지키기 위한 짱구, 흰둥이, 떡잎마을 방범대의 사투가 시작된다!",
+  "popularity": 5.9309,
+  "poster_path": "/sxwOUajjGzkPYrrXy2sdMEfeZpE.jpg",
+  "production_companies": [
+    {
+      "id": 5141,
+      "logo_path": "/fK2QKfHdSdw42Xx4MiD7KhDufBV.png",
+      "name": "Shin-Ei Animation",
+      "origin_country": "JP"
+    },
+    {
+      "id": 62866,
+      "logo_path": "/uYawQ0Lb8smRXNNCoq8gTHG92Pz.png",
+      "name": "Futabasha",
+      "origin_country": "JP"
+    },
+    {
+      "id": 4720,
+      "logo_path": "/7wQgZTA4FCkFMDedBYVZiVE87c7.png",
+      "name": "Asatsu-DK",
+      "origin_country": "JP"
+    },
+    {
+      "id": 9300,
+      "logo_path": "/9sSD1XufVCJWAadNiC9Mwu994VD.png",
+      "name": "TV Asahi",
+      "origin_country": "JP"
+    },
+    {
+      "id": 882,
+      "logo_path": "/fRSWWjquvzcHjACbtF53utZFIll.png",
+      "name": "TOHO",
+      "origin_country": "JP"
+    }
+  ],
+  "production_countries": [
+    {
+      "iso_3166_1": "JP",
+      "name": "Japan"
+    }
+  ],
+  "release_date": "2024-08-09",
+  "revenue": 21478573,
+  "runtime": 106,
+  "spoken_languages": [
+    {
+      "english_name": "Japanese",
+      "iso_639_1": "ja",
+      "name": "日本語"
+    }
+  ],
+  "status": "Released",
+  "tagline": "작은 만남, 큰 인연",
+  "title": "극장판 짱구는 못말려: 우리들의 공룡일기",
+  "video": false,
+  "vote_average": 5.3,
+  "vote_count": 24
+}
