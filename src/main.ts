@@ -14,16 +14,18 @@ import {
   renderHeaderAndHero,
   renderMovieItems,
   showElement,
+  hideElement,
+  updateDetails,
+  updateHero,
 } from "./view/MovieView.ts";
-
-import { hideElement } from "./view/MovieView.ts";
+import type { TMDBDetails } from "../types/tmdb.types.ts";
 import fetchAndSetLoadingEvent from "./service/fetchService.ts";
 import { setupInfiniteScroll } from "./service/scrollService.ts";
-import { updateHero } from "./view/MovieView.ts";
-import { handleConnectionError } from "./service/errorService.ts";
-
+import {
+  handleConnectionError,
+  checkApiAvailability,
+} from "./service/errorService.ts";
 import { fetchUrl } from "./util/fetch.ts";
-import type { TMDBDetails } from "../types/tmdb.types.ts";
 
 let infiniteScrollInstance = null;
 const initMovies = () =>
@@ -34,28 +36,9 @@ const initMovies = () =>
     handleError
   );
 
-function checkApiAvailability() {
-  const intervalId = setInterval(() => {
-    fetch("https://api.themoviedb.org/3/movie/popular")
-      .then((response) => {
-        if (response.ok) {
-          // API 사용 가능하면 infinite scroll을 재개하고, 체크를 중지합니다.
-          infiniteScrollInstance.resumeInfiniteScroll();
-          clearInterval(intervalId);
-        }
-      })
-      .catch((error) => {
-        console.error("API 재확인 중 에러 발생:", error);
-      });
-  }, 3000);
-}
-
-// 두 에러 핸들링 로직을 합친 handleError 함수
 const handleError = (error: Error) => {
-  // 에러 메시지 표시
   Toast.showToast(error.message, "error", 5000);
-  // API 가용성 체크 시작
-  checkApiAvailability();
+  checkApiAvailability(infiniteScrollInstance);
 };
 
 const initState = () => ({
@@ -130,32 +113,6 @@ async function handleItemClick(id: string) {
   } catch (error) {
     Toast.showToast(error.message, "error", 5000);
   }
-}
-
-function updateDetails({
-  poster_path,
-  release_date,
-  overview,
-  title,
-  vote_average,
-  genres,
-}) {
-  const detailsImage = document.getElementById("details-image");
-  const detailsTitle = document.getElementById("details-title");
-  const detailsCategory = document.getElementById("details-category");
-  const detailsRate = document.getElementById("details-rate");
-  const detailsDescription = document.getElementById("details-description");
-  const categoryNames = `${new Date(release_date).getFullYear()} ${genres
-    .map((genre) => genre.name)
-    .join(", ")} `;
-  let imgUrl = "./images/fallback_no_movies.png";
-  if (poster_path) imgUrl = "https://image.tmdb.org/t/p/original" + poster_path;
-
-  detailsTitle.innerText = title;
-  detailsRate.innerText = vote_average;
-  detailsCategory.innerText = categoryNames;
-  detailsDescription.innerText = overview;
-  detailsImage.src = imgUrl;
 }
 
 document.getElementById("details-image").addEventListener("load", () => {
