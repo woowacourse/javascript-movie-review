@@ -19,8 +19,8 @@ export const loadMovies = async (movies: MovieResponse): Promise<void> => {
     $(".thumbnail-list").appendChild(movieElement);
   });
 
-  if (movies.page === movies.total_pages)
-    $(".load-more").classList.add("hidden");
+  if (movies.page === movies.total_pages) return;
+  // $(".load-more").classList.add("hidden");
 };
 
 const showMovieDetailInfo = async (movie: Movie): Promise<void> => {

@@ -1,8 +1,8 @@
 import { fetchSearchMovieList } from "../../utils/api.ts";
 import { $ } from "../../utils/dom.ts";
 import { loadMovies } from "../../utils/loadMovies.ts";
-import LoadMoreButton from "../movie/LoadMoreButton.ts";
 import NoSearchResults from "../movie/NoSearchResults.ts";
+import { movieState } from "../../state/movieState.ts";
 
 const SearchBar = () => {
   const searchBar = document.createElement("div");
@@ -32,12 +32,19 @@ const SearchBar = () => {
 };
 
 const searchMovie = async (input: string) => {
+  movieState.setMode("search");
   $(".thumbnail-list").replaceChildren();
-  $(".load-more").remove();
   $("#caption").innerText = `"${input}" 검색 결과`;
 
   try {
-    const movies = await fetchSearchMovieList(input, 1);
+    movieState.setSearchKeyword(input);
+    const movies = await fetchSearchMovieList(
+      movieState.getSearchKeyword(),
+      movieState.getCurrentPage()
+    );
+
+    movieState.setMaxPage(movies.total_pages);
+
     $(".top-rated-container").classList.add("hidden");
     $(".overlay-img").classList.add("hidden");
 
@@ -45,15 +52,7 @@ const searchMovie = async (input: string) => {
       $(".thumbnail-list").after(NoSearchResults("검색 결과가 없습니다."));
       return;
     }
-
     loadMovies(movies);
-
-    $(".thumbnail-list").after(
-      LoadMoreButton({
-        loadFn: (currentPage: number) =>
-          fetchSearchMovieList(input, currentPage),
-      })
-    );
   } catch (error) {
     $(".thumbnail-list").after(
       NoSearchResults("영화 목록을 가져오는 데 실패했습니다.")

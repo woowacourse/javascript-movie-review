@@ -23,17 +23,17 @@ describe("메인 화면 테스트", () => {
     });
   });
 
-  it("더보기 클릭시 다음 페이지의 영화 20개 가져와서 보여준다.", () => {
-    cy.get(".load-more").click();
+  // it("더보기 클릭시 다음 페이지의 영화 20개 가져와서 보여준다.", () => {
+  //   cy.get(".load-more").click();
 
-    cy.wait("@getPopularMovies").then((interception) => {
-      const popularMovies = interception.response?.body.results;
-      cy.wrap(popularMovies).should("have.length", 20);
+  //   cy.wait("@getPopularMovies").then((interception) => {
+  //     const popularMovies = interception.response?.body.results;
+  //     cy.wrap(popularMovies).should("have.length", 20);
 
-      const popularMovieItems = cy.get(".thumbnail-list > li");
-      expect(popularMovieItems.should("have.length", 40));
-    });
-  });
+  //     const popularMovieItems = cy.get(".thumbnail-list > li");
+  //     expect(popularMovieItems.should("have.length", 40));
+  //   });
+  // });
 
   it("헤더에 인기순 첫번째 영화의 포스터, 제목, 별점을 보여준다.", () => {
     cy.wait("@getPopularMovies").then((interception) => {
