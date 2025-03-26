@@ -2,7 +2,6 @@ import { Movie } from "../../../types/responseType/responseType";
 import {
   resetPage,
   setIsSearchError,
-  setSearchInputValue,
   setSearchResults,
   setTotalResults,
 } from "../../store/store";
@@ -21,7 +20,6 @@ const useGetSearchMovieList = () => {
       setTotalResults(data.total_results);
       setSearchResults(results);
       resetPage();
-      setSearchInputValue("");
 
       return results;
     } catch (error) {
