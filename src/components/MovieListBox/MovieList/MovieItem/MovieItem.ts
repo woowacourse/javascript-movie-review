@@ -1,7 +1,6 @@
 import { MovieDetail } from "../../../../../types/type";
-
-const defaultPosterPath = "./default-poster.svg";
-const imagePathPreFix = "https://image.tmdb.org/t/p/w440_and_h660_face";
+import { replaceMovieDetailModal } from "../../../Modal/MovieDetail/MovieDetailModal";
+import $MoviePoster from "../../../MoviePoster/MoviePoster";
 
 const $MovieItem = ({ title, poster_path, vote_average }: MovieDetail) => {
   const $rate = createElement("p", {
@@ -32,21 +31,14 @@ const $MovieItem = ({ title, poster_path, vote_average }: MovieDetail) => {
   const $posterBox = createElement("div", {
     className: "thumbnail-box",
   });
-  const $poster = createElement("img", {
-    className: "thumbnail",
-    src: "./placeholder-poster.svg",
-    alt: title,
-    loading: "lazy",
-    onerror: "this.src='./error-poster.svg'",
-    onload: function () {
-      this.src = poster_path
-        ? imagePathPreFix + poster_path
-        : defaultPosterPath;
-    },
-  });
-  $posterBox.appendChild($poster);
+  $posterBox.appendChild($MoviePoster({ title, poster_path }));
 
   $item.append($posterBox, $description);
+
+  $item.addEventListener("click", () => {
+    replaceMovieDetailModal();
+  });
+
   return $item;
 };
 
