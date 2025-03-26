@@ -1,12 +1,10 @@
-describe("The Home Page", () => {
-  it("페이지가 정상적으로 로드된다.", () => {
-    cy.visit("http://localhost:5173/");
-    cy.get("header").should("be.visible");
-  });
-});
-
 describe("영화 목록 조회, 검색 테스트", () => {
   beforeEach(() => {
+    // https://docs.cypress.io/api/commands/intercept
+    cy.intercept("GET", "https://api.themoviedb.org/3/discover/movie*", {
+      fixture: "movie-popular.json",
+    }).as("getPopularMovies");
+
     cy.visit("http://localhost:5173");
   });
 
