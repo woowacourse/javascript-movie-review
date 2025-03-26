@@ -1,14 +1,20 @@
-import { BaseApiResponse } from "../../types/api";
+import {
+  ApiErrorCallback,
+  ApiSuccessCallback,
+  BaseApiResponse,
+} from "../../types/api";
 import { isErrorResponse } from "./guards";
 
 export function handleApiResponse<T>(
   response: BaseApiResponse<T>,
-  onSuccess: (data: T) => void,
-  onError?: (error: string) => void
+  callbacks: {
+    onSuccess: ApiSuccessCallback<T>;
+    onError: ApiErrorCallback;
+  }
 ) {
   if (isErrorResponse<T>(response)) {
-    onError?.(response.error);
+    callbacks.onError(response.error);
     return;
   }
-  onSuccess(response as T);
+  callbacks.onSuccess(response as T);
 }

@@ -31,8 +31,10 @@ window.addEventListener("submit", async (event) => {
   store.page = 1;
   store.movies = [];
 
-  Main.getInstance().render({
+  const main = Main.getInstance();
+  main.setState({
     title: `"${store.searchKeyword}" 검색 결과`,
+    isLoading: true,
   });
 
   // TODO: Header 변경 로직 분리

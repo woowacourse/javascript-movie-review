@@ -164,6 +164,7 @@ span.rate-value {
   justify-content: center;
   align-items: center;
   gap: 32px;
+  width: 1280px;
 }
 
 footer.footer {
@@ -180,6 +181,7 @@ footer.footer p:not(:last-child) {
   margin-bottom: 8px;
 }
 
+/* TODO: close, open 제거? */
 .close {
   display: none;
 }

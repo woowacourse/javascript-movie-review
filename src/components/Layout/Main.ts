@@ -4,24 +4,29 @@ import Skeleton from "../Common/Skeleton";
 
 const SKELETON_COUNT = 20;
 
-interface MainRenderProps {
-  movies?: MovieResult[];
-  isLoading?: boolean;
-  title?: string;
+interface MainState {
+  movies: MovieResult[];
+  isLoading: boolean;
+  title: string;
+  error: string | null;
 }
 
 export default class Main {
   private static instance: Main;
   private $main: HTMLElement;
-  private title: MainRenderProps["title"];
+  private state: MainState;
 
   private constructor() {
     this.$main = document.createElement("main");
-    this.title = "지금 인기 있는 영화";
-    this.render({ isLoading: true });
+    this.state = {
+      movies: [],
+      isLoading: true,
+      title: "지금 인기 있는 영화",
+      error: null,
+    };
+    this.render();
   }
 
-  // 싱글톤
   static getInstance(): Main {
     if (!Main.instance) Main.instance = new Main();
     return Main.instance;
@@ -67,28 +72,40 @@ export default class Main {
     `;
   }
 
-  render({ movies = [], isLoading = true, title }: MainRenderProps = {}) {
-    if (title) this.title = title;
-
+  render() {
     this.$main.innerHTML = /*html*/ `
     <section>
-      <h2 class="thumbnail-title">${this.title}</h2>
-      <ul class="thumbnail-list">
+      <h2 class="thumbnail-title">${this.state.title}</h2>
+      ${
+        !this.state.error
+          ? /*html*/ `
+        <ul class="thumbnail-list">
         ${
-          isLoading
+          this.state.isLoading
             ? Array.from(
                 { length: SKELETON_COUNT },
                 this.renderSkeletonItem
               ).join("")
-            : movies.map((movie) => this.renderMovieItem(movie)).join("")
+            : this.state.movies
+                .map((movie) => this.renderMovieItem(movie))
+                .join("")
         }
       </ul>
-      <div class="error close">
-        <img src="./images/woowawa_planet.svg" alt="woowawa_planet" />
-        <h2 class="error-message"></h2>
-      </div>
+        `
+          : /*html*/ `
+        <div class="error">
+          <img src="./images/woowawa_planet.svg" alt="woowawa_planet" />
+          <h2 class="error-message">${this.state.error}</h2>
+        </div>
+        `
+      }
     </section>
   `;
+  }
+
+  setState(newState: Partial<MainState>) {
+    this.state = { ...this.state, ...newState };
+    this.render();
   }
 
   getElement() {

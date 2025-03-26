@@ -9,21 +9,6 @@ import {
 } from "../constants/constants";
 import { store } from "./../stores";
 
-const $thumbnailList = document.querySelector(".thumbnail-list");
-const $error = document.querySelector(".error");
-const $errorMessage = document.querySelector(".error-message");
-
-const showError = (error: string) => {
-  $thumbnailList?.classList.add("close");
-  $error?.classList.remove("close");
-  if ($errorMessage) $errorMessage.textContent = error;
-};
-
-const hideError = () => {
-  $thumbnailList?.classList.remove("close");
-  $error?.classList.add("close");
-};
-
 const changeHeaderBackground = () => {
   const $backgroundContainer = document.querySelector(".background-container");
 
@@ -50,23 +35,32 @@ const renderHeaderBackground = () => {
   }
 };
 
-const renderTotalList = async () => {
+const renderTotalList = async (main: Main) => {
   const moviesResponse = await getMovies({ page: store.page });
 
-  handleApiResponse<MoviesResponse>(
-    moviesResponse,
-    (data) => {
+  handleApiResponse<MoviesResponse>(moviesResponse, {
+    onSuccess: (data) => {
       store.movies = [...store.movies, ...data.results];
       store.totalPages = data.total_pages;
+
+      main.setState({
+        movies: store.movies,
+        isLoading: false,
+      });
 
       renderHeaderBackground();
       changeHeaderBackground();
     },
-    (error) => showError(error)
-  );
+    onError: (error) => {
+      main.setState({
+        isLoading: false,
+        error: error,
+      });
+    },
+  });
 };
 
-const renderSearchList = async () => {
+const renderSearchList = async (main: Main) => {
   changeHeaderBackground();
 
   const moviesResponse = await searchMovies({
@@ -74,28 +68,32 @@ const renderSearchList = async () => {
     page: store.page,
   });
 
-  handleApiResponse<MoviesResponse>(
-    moviesResponse,
-    (data) => {
+  handleApiResponse<MoviesResponse>(moviesResponse, {
+    onSuccess: (data) => {
       store.movies = [...store.movies, ...data.results];
       store.totalPages = data.total_pages;
 
-      store.movies.length === 0
-        ? showError("검색 결과가 없습니다.")
-        : hideError();
+      main.setState({
+        movies: store.movies,
+        isLoading: false,
+        error: store.movies.length === 0 ? "검색 결과가 없습니다." : null,
+      });
     },
-    (error) => showError(error)
-  );
+    onError: (error) => {
+      main.setState({
+        isLoading: false,
+        error: error,
+      });
+    },
+  });
 };
 
 export const updateMoviesList = async () => {
-  if (store.searchKeyword === "") await renderTotalList();
-  else await renderSearchList();
+  const main = Main.getInstance();
+  if (store.searchKeyword === "") await renderTotalList(main);
+  else await renderSearchList(main);
 
-  Main.getInstance().render({
-    movies: store.movies,
-    isLoading: false,
-  });
+  main.render();
 
   // TODO: 더보기 버튼 로직 분리
   const $showMore = document.querySelector(".show-more");
