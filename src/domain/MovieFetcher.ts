@@ -78,7 +78,8 @@ class MovieFetcher {
       return response;
     } catch (err) {
       if (err instanceof HttpError) {
-        this.state.error = new HttpError(Number(err.status));
+        this.state.error = err;
+        throw err;
       }
     }
   }
