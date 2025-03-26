@@ -1,4 +1,4 @@
-type Event = Record<keyof GlobalEventHandlersEventMap, EventListenerOrEventListenerObject>;
+type Event = Partial<Record<keyof GlobalEventHandlersEventMap, EventListenerOrEventListenerObject>>;
 
 interface IProps {
   textContent?: string;
@@ -17,7 +17,7 @@ const createDOMElement = ({
   tag,
   children = [],
   attributes = {},
-  event = {} as Event,
+  event = {},
   ...props
 }: DOMElementProps): HTMLElement => {
   const element = document.createElement(tag);
