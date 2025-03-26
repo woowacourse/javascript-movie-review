@@ -1,35 +1,56 @@
-import image from "../templates/images/star_filled.png";
+import getPopularMovies from './api/getPopularMovies';
+import { addFooter } from './component/Footer';
+import Banner, { addBanner } from './component/Banner';
+import { addMovieList } from './component/MovieList';
+import { $ } from './util/selector';
+import { addHeader } from './component/Header';
+import { addBannerSkeleton, removeBannerSkeleton } from './component/Skeleton';
+import { addSkeletonList, removeSkeletonList } from './component/SkeletonList';
+import MoreButton from './component/MoreButton';
+import { INITIAL_PAGE, MOVIE_INDEX_FOR_BANNER, TOTAL_PAGES } from './constant';
 
-console.log("npm run dev 명령어를 통해 영화 리뷰 미션을 시작하세요");
-
-console.log(
-  "%c" +
-    " _____ ______   ________  ___      ___ ___  _______                \n" +
-    "|\\   _ \\  _   \\|\\   __  \\|\\  \\    /  /|\\  \\|\\  ___ \\               \n" +
-    "\\ \\  \\\\\\__\\ \\  \\ \\  \\|\\  \\ \\  \\  /  / | \\  \\ \\   __/|              \n" +
-    " \\ \\  \\\\|__| \\  \\ \\  \\\\\\  \\ \\  \\/  / / \\ \\  \\ \\  \\_|/__            \n" +
-    "  \\ \\  \\    \\ \\  \\ \\  \\\\\\  \\ \\    / /   \\ \\  \\ \\  \\_|\\ \\           \n" +
-    "   \\ \\__\\    \\ \\__\\ \\_______\\ \\__/ /     \\ \\__\\ \\_______\\          \n" +
-    "    \\|__|     \\|__|\\|_______|\\|__|/       \\|__|\\|_______|          \n" +
-    "                                                                   \n" +
-    "                                                                   \n" +
-    "                                                                   \n" +
-    " ________  _______   ___      ___ ___  _______   ___       __      \n" +
-    "|\\   __  \\|\\  ___ \\ |\\  \\    /  /|\\  \\|\\  ___ \\ |\\  \\     |\\  \\    \n" +
-    "\\ \\  \\|\\  \\ \\   __/|\\ \\  \\  /  / | \\  \\ \\   __/|\\ \\  \\    \\ \\  \\   \n" +
-    " \\ \\   _  _\\ \\  \\_|/_\\ \\  \\/  / / \\ \\  \\ \\  \\_|/_\\ \\  \\  __\\ \\  \\  \n" +
-    "  \\ \\  \\\\  \\\\ \\  \\_|\\ \\ \\    / /   \\ \\  \\ \\  \\_|\\ \\ \\  \\|\\__\\_\\  \\ \n" +
-    "   \\ \\__\\\\ _\\\\ \\_______\\ \\__/ /     \\ \\__\\ \\_______\\ \\____________\\\n" +
-    "    \\|__|\\|__|\\|_______|\\|__|/       \\|__|\\|_______|\\|____________|",
-  "color: #d81b60; font-size: 14px; font-weight: bold;"
-);
-
-addEventListener("load", () => {
-  const app = document.querySelector("#app");
-  const buttonImage = document.createElement("img");
-  buttonImage.src = image;
-
-  if (app) {
-    app.appendChild(buttonImage);
-  }
+addEventListener('DOMContentLoaded', async () => {
+  renderBanner();
+  renderHeader();
+  renderMovieList();
+  renderFooter();
 });
+
+const renderBanner = async () => {
+  addBannerSkeleton();
+
+  const response = await getPopularMovies({ page: 1 });
+
+  removeBannerSkeleton();
+
+  addBanner(Banner({ movie: response.results[MOVIE_INDEX_FOR_BANNER] }));
+};
+
+const renderHeader = () => {
+  addHeader();
+};
+
+const renderMovieList = async () => {
+  const container = $('.container');
+  if (!container) return;
+
+  addSkeletonList(container);
+
+  const response = await getPopularMovies({ page: INITIAL_PAGE });
+
+  removeSkeletonList();
+
+  addMovieList({ movies: response.results, title: '지금 인기있는 영화' });
+
+  const moreButton = MoreButton({
+    totalPages: TOTAL_PAGES,
+    fetchMovies: getPopularMovies,
+    fetchArgs: {}
+  });
+
+  container.appendChild(moreButton);
+};
+
+const renderFooter = () => {
+  addFooter();
+};

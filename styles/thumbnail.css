@@ -1,4 +1,4 @@
-@import "./colors.css";
+@import './colors.css';
 
 .thumbnail-list {
   margin: 0 auto 56px;
@@ -7,6 +7,12 @@
   gap: 70px;
 }
 
+.skeleton-list {
+  margin: 0 auto 56px;
+  display: grid;
+  grid-template-columns: repeat(5, 200px);
+  gap: 70px;
+}
 .thumbnail {
   width: 200px;
   height: 300px;
@@ -16,6 +22,9 @@
 .item {
   user-select: none;
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .item-desc > *:not(:last-child) {
