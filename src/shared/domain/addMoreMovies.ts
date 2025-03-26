@@ -23,13 +23,18 @@ export async function addMoreMovies($movieList: HTMLElement) {
     addMoviePost(searchedMovies.results, $movieList);
     disableMoreButton(
       searchedMovies.total_pages,
-      parseInt(params.get("page")!)
+      parseInt(params.get("page")!),
+      searchedMovies.results
     );
   } else {
     const movies = await getMovieList({ page: parseInt(params.get("page")!) });
 
     addMoviePost(movies.results, $movieList);
-    disableMoreButton(movies.total_pages, parseInt(params.get("page")!));
+    disableMoreButton(
+      movies.total_pages,
+      parseInt(params.get("page")!),
+      movies.results
+    );
   }
 
   const newUrl = `${window.location.pathname}?${params.toString()}`;

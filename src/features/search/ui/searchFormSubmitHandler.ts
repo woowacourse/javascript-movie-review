@@ -1,6 +1,7 @@
 import { addMoviePost } from "../../../shared/ui/addMoviePost";
 import { showSkeletons } from "../../../shared/ui/showSkeletons";
 import { getSearchedPost } from "../api/getSearchedPost";
+import { disableMoreButton } from "../../../shared/ui/disabledMoreButton";
 
 export const searchFormSubmitHandler = async (e: Event) => {
   const $thumbnailList = document.querySelector(
@@ -44,6 +45,12 @@ export const searchFormSubmitHandler = async (e: Event) => {
   const searchedMovies = await getSearchedPost(
     searchQuery as string,
     parseInt(params.get("page")!)
+  );
+
+  disableMoreButton(
+    searchedMovies.total_pages,
+    parseInt(params.get("page")!),
+    searchedMovies.results
   );
 
   if ($thumbnailList) {
