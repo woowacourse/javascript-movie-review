@@ -16,7 +16,7 @@ body.modal-open {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 10;
+  z-index: 100;
   visibility: hidden; /* 모달이 기본적으로 보이지 않도록 설정 */
   opacity: 0;
   transition: opacity 0.3s ease, visibility 0.3s ease;
@@ -83,4 +83,31 @@ body.modal-open {
 .detail {
   max-height: 430px;
   overflow-y: auto;
+}
+
+@media (max-width: 800px) {
+  .modal-background {
+    align-items: end;
+  }
+
+  .modal-container {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modal-description {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .modal-description hr {
+    width: 100%;
+  }
+
+  .modal-image img {
+    width: 200px !important;
+    border-radius: 16px;
+  }
 }
