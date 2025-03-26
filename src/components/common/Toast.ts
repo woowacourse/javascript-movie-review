@@ -4,7 +4,8 @@ import { movieFetcher } from '../../domain/MovieFetcher';
 import { movieFetcherEvent } from '../../domain/MovieFetcherEvent';
 import { Button } from './Button';
 
-const createToast = (activeToast: HTMLElement) => {
+let activeToast: HTMLElement | null = null;
+const createToast = () => {
   if (activeToast && activeToast.parentElement) {
     activeToast.parentElement.removeChild(activeToast);
   }
@@ -68,10 +69,9 @@ const createToast = (activeToast: HTMLElement) => {
 };
 
 export const Toast = () => {
-  const toastElement = Box({});
   movieFetcherEvent.subscribe(() => {
     if (movieFetcher.errorState) {
-      createToast(toastElement);
+      createToast();
     }
   });
 };
