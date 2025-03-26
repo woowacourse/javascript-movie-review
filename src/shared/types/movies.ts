@@ -21,3 +21,12 @@ export interface IMovieList {
   total_pages: number;
   total_results: number;
 }
+
+export interface IMovieDetail {
+  backdrop_path: string;
+  genres: { id: number; name: string }[];
+  overview: string;
+  release_date: string;
+  title: string;
+  vote_average: number;
+}
