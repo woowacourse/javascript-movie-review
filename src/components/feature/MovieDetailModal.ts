@@ -98,10 +98,8 @@ const movieInfo = (
 
 const myRatingSection = (movieId: number, title: string) => {
   const movieRate = new MovieRating(movieId, title);
-  let selectedScore = 0;
 
   const updateStars = (score: number) => {
-    selectedScore = score;
     movieRate.setRating(score);
 
     starElements.forEach((star, index) => {
@@ -122,6 +120,7 @@ const myRatingSection = (movieId: number, title: string) => {
 
   const starElements = Array.from({ length: 5 }, (_, index) => {
     const starScore = (index + 1) * 2;
+
     return IconButton({
       width: '25',
       height: '25',
@@ -134,12 +133,7 @@ const myRatingSection = (movieId: number, title: string) => {
   });
 
   const storedRating = movieRate.getRating();
-  if (storedRating !== null) {
-    selectedScore = storedRating;
-    updateStars(storedRating);
-  } else {
-    updateStars(0);
-  }
+  updateStars(storedRating || 0);
 
   return Box({
     classList: ['modal-my-rate'],
