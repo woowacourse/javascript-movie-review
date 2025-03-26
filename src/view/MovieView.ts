@@ -76,3 +76,28 @@ export function updateHero({ poster_path, title, vote_average }) {
     showElement(topRatedContainer);
   });
 }
+export function updateDetails({
+  poster_path,
+  release_date,
+  overview,
+  title,
+  vote_average,
+  genres,
+}) {
+  const detailsImage = document.getElementById("details-image");
+  const detailsTitle = document.getElementById("details-title");
+  const detailsCategory = document.getElementById("details-category");
+  const detailsRate = document.getElementById("details-rate");
+  const detailsDescription = document.getElementById("details-description");
+  const categoryNames = `${new Date(release_date).getFullYear()} ${genres
+    .map((genre) => genre.name)
+    .join(", ")} `;
+  let imgUrl = "./images/fallback_no_movies.png";
+  if (poster_path) imgUrl = "https://image.tmdb.org/t/p/original" + poster_path;
+
+  detailsTitle.innerText = title;
+  detailsRate.innerText = vote_average;
+  detailsCategory.innerText = categoryNames;
+  detailsDescription.innerText = overview;
+  detailsImage.src = imgUrl;
+}
