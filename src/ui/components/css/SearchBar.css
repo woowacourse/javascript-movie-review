@@ -1,5 +1,6 @@
 .search-bar-container {
-  width: 525px;
+  width: 100%;
+  max-width: 525px;
   height: 36px;
   display: flex;
   justify-content: space-between;
@@ -8,15 +9,13 @@
   border: 2px solid #D1D5DB;
   padding: 6px 16px;
   margin: 0 auto;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
 }
 
-.search-form{
-    width: 525px;
-    display: flex;
-    justify-content: space-between;
+
+.search-form {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }
 
 .search-bar-input {
@@ -33,4 +32,17 @@
   background: transparent;
   cursor: pointer;
   font-size: 18px;
+}
+
+.search-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  position: relative;
+}
+
+.search-header .logo {
+  margin-bottom: 24px;
+  
 }

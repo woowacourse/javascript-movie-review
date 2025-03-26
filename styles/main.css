@@ -44,7 +44,7 @@ button.primary {
 }
 
 #app {
-  min-width: 1440px;
+  min-width: 100%;
   background-color: var(--color-bluegray-100);
 }
 
@@ -85,6 +85,7 @@ button.primary {
 
 h1.logo {
   font-size: 2rem;
+  margin: 0; 
 }
 
 .rate {
@@ -105,8 +106,19 @@ span.rate-value {
 }
 
 .title {
-  font-size: 3rem;
+  font-size: 64px;
   font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .title {
+    font-size: clamp(32px, 5vw + 10px, 64px);
+  }
+}
+@media (max-width: 390px) {
+  .title {
+    font-size: 24px;
+  }
 }
 
 footer.footer {
@@ -123,10 +135,8 @@ footer.footer p:not(:last-child) {
   margin-bottom: 8px;
 }
 
-.search-header {
-  display: flex;
-  flex-direction: row;
-}
+
+
 
 .background-container {
   position: relative;
