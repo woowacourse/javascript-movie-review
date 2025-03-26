@@ -1,6 +1,17 @@
-import { MovieData, MovieDetailsData } from "../../types/data.ts";
-import { Movie, MovieDetails } from "../../types/domain.ts";
+import { MovieData, MovieDetailsData, TotalData } from "../../types/data.ts";
+import { Movie, MovieDetails, TotalMovies } from "../../types/domain.ts";
 import { IMAGE, VOTE } from "../constants/movie.ts";
+
+export const extractTotalMovies = (totalData: TotalData): TotalMovies => {
+  const { results, total_pages, total_results } = totalData;
+  const movies = results.map((movieData) => extractMovie(movieData));
+
+  return {
+    results: movies,
+    totalPages: total_pages,
+    totalResults: total_results,
+  };
+};
 
 export const extractMovie = (movieData: MovieData): Movie => {
   const { id, backdrop_path, poster_path, title, vote_average } = movieData;

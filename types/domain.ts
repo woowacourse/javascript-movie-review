@@ -2,6 +2,12 @@ export interface State {
   readonly totalMovies: number;
 }
 
+export interface TotalMovies {
+  readonly results: Movie[];
+  readonly totalPages: number;
+  readonly totalResults: number;
+}
+
 export interface Movie {
   readonly id: number;
   readonly backdropPath: string;
