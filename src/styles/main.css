@@ -166,12 +166,13 @@ span.rate-value {
   font-weight: bold;
 }
 
-.error {
+.result-not-found {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 32px;
+  line-height: 32px;
 }
 
 footer.footer {

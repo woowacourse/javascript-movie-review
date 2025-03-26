@@ -28,9 +28,14 @@ export default class ThumbnailList extends Component<ThumbnailListProps> {
       `;
     if (this.props.movies.length === 0)
       return html`
-        <div class="error">
+        <div class="result-not-found">
           <img src="./images/woowawa_planet.svg" alt="woowawa_planet" />
-          <h2>검색 결과가 없습니다.</h2>
+          <div>
+            <h2>검색 결과를 찾지 못하였습니다.</h2>
+            <p>단어의 철자가 정확한지 확인해 보세요.</p>
+            <p>검색어의 단어 수를 줄이거나, 보다 일반적인 검색어로 다시 검색해 보세요.</p>
+            <p>두 단어 이상의 검색어인 경우, 띄어쓰기를 확인해 보세요.</p>
+          </div>
         </div>
       `;
     return html`

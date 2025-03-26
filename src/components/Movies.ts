@@ -31,7 +31,7 @@ export default class Movies extends Component<MoviesProps> {
         </ul>
         <main>
           <section>
-            <h2 class="thumbnail-title">${this.props.search || '지금 인기 있는 영화'}</h2>
+            <h2 class="thumbnail-title">${`"${this.props.search}" 검색 결과` || '지금 인기 있는 영화'}</h2>
             <slot name="thumbnail-list"> </slot>
 
             <slot name="error"></slot>
