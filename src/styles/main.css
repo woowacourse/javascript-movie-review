@@ -209,3 +209,12 @@ footer.footer p:not(:last-child) {
   animation: skeleton-loading 1s linear infinite alternate;
   border-radius: 8px;
 }
+
+.loaded {
+  opacity: 1;
+}
+
+.picture {
+  opacity: 0;
+  transition: opacity 1s linear;
+}

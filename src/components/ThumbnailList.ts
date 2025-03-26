@@ -3,7 +3,7 @@ import { DEFAULT_BACK_DROP_URL } from '@/lib/constants';
 import { AppState } from '@/App';
 import { html } from '@/lib/utils';
 import Component from './core/Component';
-import { map } from '@fxts/core';
+import { forEach } from '@fxts/core';
 
 interface ThumbnailListProps {
   movies: AppState['movies'];
@@ -41,11 +41,14 @@ export default class ThumbnailList extends Component<ThumbnailListProps> {
             : './images/default_thumbnail.jpeg';
           return `
               <li class="item" data-action="movie-detail" data-id="${movie.id}">
-                <img
-                  class="thumbnail"
-                  src="${backgroundImage}"
-                  alt="${movie.title}"
-                />
+                <div class="thumbnail image-container skeleton">
+                  <img
+                    class="thumbnail picture"
+                    alt="${movie.title}"
+                    data-src="${backgroundImage}"
+                    src="${backgroundImage}"
+                  />
+                </div>
                 <div class="item-desc">
                   <p class="rate yellow">
                     <img src="./images/star_empty.png" class="star" />
@@ -58,5 +61,15 @@ export default class ThumbnailList extends Component<ThumbnailListProps> {
         })}
       </section>
     `;
+  }
+
+  onRender(): void {
+    forEach(
+      (thumbnail) =>
+        (thumbnail as HTMLElement).addEventListener('load', () => {
+          thumbnail.className = 'thumbnail loaded';
+        }),
+      this.element.querySelectorAll('img.thumbnail'),
+    );
   }
 }
