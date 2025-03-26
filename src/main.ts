@@ -2,6 +2,8 @@ import fetchPopularMovies from "./api/fetchPopularMovies";
 import fetchSearchMovies from "./api/fetchSearchMovies";
 import Header from "./components/Header/Header";
 import SearchInput from "./components/Header/SearchInput";
+import Modal from "./components/Modal/Modal";
+import MovieItem from "./components/MovieItem";
 import MovieList from "./components/MovieList/MovieList";
 import NoThumbnail from "./components/NoThumbnail/NoThumbnail";
 import SeeMoreButton from "./components/SeeMoreButton/SeeMoreButton";
@@ -40,6 +42,12 @@ addEventListener("load", async () => {
       MovieList.add(movies);
       Skeleton.hidden();
     };
+
+    MovieItem.onClickItem = () => {
+      Modal.show();
+    };
+
+    Modal.init();
   } catch (error) {
     if (error instanceof Error) alert(error.message);
   }

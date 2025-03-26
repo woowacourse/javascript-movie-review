@@ -8,9 +8,18 @@
 }
 
 .thumbnail {
+  cursor: pointer;
   width: 200px;
   height: 300px;
   border-radius: 8px;
+  background: linear-gradient(
+    140deg,
+    var(--color-bluegray-90) 40%,
+    var(--color-bluegray-80) 50%,
+    var(--color-bluegray-90) 60%
+  );
+  background-size: 300%;
+  animation: glow 3s infinite linear;
 }
 
 .item {
