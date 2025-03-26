@@ -4,7 +4,6 @@ import { CustomButton } from "./shared/ui/components/CustomButton";
 import { showSkeletons } from "./shared/ui/showSkeletons";
 import { addMoviePost } from "./shared/ui/addMoviePost";
 import { addMoreMovies } from "./shared/domain/addMoreMovies";
-import { searchFormSubmitHandler } from "./features/search/ui/searchFormSubmitHandler";
 
 addEventListener("DOMContentLoaded", async () => {
   const url = new URL(window.location.href);
@@ -39,12 +38,5 @@ addEventListener("DOMContentLoaded", async () => {
   $moreMoviesButton?.addEventListener("click", async () => {
     if (!$movieList) return;
     await addMoreMovies($movieList);
-  });
-
-  const searchForm = document.querySelector(".search-form");
-
-  searchForm?.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    searchFormSubmitHandler(e);
   });
 });

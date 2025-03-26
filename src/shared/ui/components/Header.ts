@@ -1,5 +1,7 @@
 import { IMovie } from "../../types/movies";
 import { CustomButton } from "./CustomButton";
+import SearchForm from "../../../features/search/ui/components/SearchForm";
+import { searchFormSubmitHandler } from "../../../features/search/ui/searchFormSubmitHandler";
 
 const Header = (movie: IMovie) => {
   const $header = document.getElementById("header");
@@ -20,12 +22,7 @@ const Header = (movie: IMovie) => {
           <a href="/javascript-movie-review/" class="logo">
             <img src="images/logo.png" alt="MovieList" />
           </a>
-          <form class="search-form">
-            <input id="search-input" name="search-input" type="text" placeholder="검색어를 입력하세요" />
-            <button type="submit" class="search-button">
-              <img src="images/search.png" alt="Search" />
-            </button>
-          </form>
+          ${SearchForm().outerHTML}
         </div>
         <div class="top-rated-movie">
           <div class="rate">
@@ -38,6 +35,12 @@ const Header = (movie: IMovie) => {
       </div>
     </div>
   `;
+
+  const $searchForm = document.querySelector(".search-form");
+  $searchForm?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    searchFormSubmitHandler(e);
+  });
 };
 
 export default Header;
