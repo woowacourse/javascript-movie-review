@@ -1,13 +1,17 @@
 import createElement from "../utils/createElement";
+import "/styles/modal.css";
 
 class Modal {
   parentElement: HTMLElement;
   modalElement: HTMLDialogElement;
   openButtons: NodeListOf<HTMLButtonElement>;
   closeButton: HTMLButtonElement;
+  movies: any;
+  movie: any;
 
-  constructor(parentElement: HTMLElement) {
+  constructor(parentElement: HTMLElement, movies: any) {
     this.parentElement = parentElement;
+    this.movies = movies;
     this.render();
     this.modalElement = document.getElementById(
       "modalBackground"
@@ -24,15 +28,28 @@ class Modal {
 
   open() {
     this.modalElement.showModal();
+    document.body.classList.add("modal-open");
   }
 
   close() {
     this.modalElement.close();
+    document.body.classList.remove("modal-open");
   }
 
   addEventListeners() {
     this.openButtons.forEach((button) => {
-      button.addEventListener("click", () => this.open());
+      button.addEventListener("click", (e) => {
+        this.open();
+        const li = e.currentTarget as HTMLElement;
+        const itemElement = li.querySelector(".item") as HTMLElement;
+        const movieId = itemElement?.dataset.id;
+
+        this.movie = this.movies.find(
+          (movie: any) => movie.id === Number(movieId)
+        );
+        console.log(this.movie);
+        this.updateModalContent();
+      });
     });
     this.closeButton.addEventListener("click", () => this.close());
 
@@ -42,7 +59,12 @@ class Modal {
       }
     });
   }
-
+  updateModalContent() {
+    const $title = document.getElementById("modalTitle");
+    if ($title && this.movie?.title) {
+      $title.textContent = this.movie.title;
+    }
+  }
   render() {
     const $dialog = createElement({
       tag: "dialog",
@@ -88,6 +110,7 @@ class Modal {
 
     const $h2 = createElement({
       tag: "h2",
+      id: "modalTitle",
     });
 
     const $category = createElement({

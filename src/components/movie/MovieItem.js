@@ -14,6 +14,9 @@ const MovieItem = ({ movie }) => {
   const $div = createElement({
     tag: "div",
     classNames: ["item"],
+    dataset: {
+      id: movie.id.toString(),
+    },
   });
 
   const $img = createElement({

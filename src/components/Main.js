@@ -35,7 +35,7 @@ const Main = ({ movies }) => {
     $wrap.appendChild($container);
     $wrap.appendChild(Footer());
 
-    new Modal($wrap);
+    new Modal($wrap, movies);
   }
 };
 
