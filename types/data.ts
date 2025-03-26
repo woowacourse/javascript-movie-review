@@ -1,4 +1,4 @@
-export interface PageData {
+export interface TotalData {
   readonly page: number;
   readonly results: MovieData[];
   readonly total_pages: number;

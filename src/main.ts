@@ -1,4 +1,4 @@
-import { MovieData, PageData } from "../types/data.ts";
+import { MovieData, TotalData } from "../types/data.ts";
 import MovieItem from "./components/MovieItem";
 import SearchBar from "./components/SearchBar";
 import SkeletonUl from "./components/SkeletonUl";
@@ -13,7 +13,7 @@ import calculatePageNumber from "./domain/calculatePageNumber.ts";
 const getMovieData = async (currentItemCount: number = ITEMS.initialCount) => {
   const pageNumber = calculatePageNumber(currentItemCount);
 
-  return (await movieApi.getMovieData(pageNumber)) as PageData;
+  return (await movieApi.getMovieData(pageNumber)) as TotalData;
 };
 
 const renderTitleMovie = (movieData: MovieData[]) => {
