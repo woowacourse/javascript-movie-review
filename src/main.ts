@@ -2,7 +2,7 @@ import Header from "./components/Header.ts";
 import NavigationBar from "./components/NavigationBar.ts";
 import Title from "./components/Title.ts";
 import CardList from "./components/CardList.ts";
-import Input from "./components/Input.ts";
+import SearchInput from "./components/SearchInput.ts";
 import Button from "./components/Button.ts";
 import Skeleton from "./components/Skeleton.ts";
 import { Movie } from "../types/movie.ts";
@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const isLastPage = movieState.currentPage === movieState.totalPages;
 
-    moreButton.style.display = isLastPage ? "none" : "block";
+    moreButton.style.display = (!isLastPage && !movieState.isLoading) ? "block" : "none";
 
     renderMovies();
   };
@@ -80,7 +80,21 @@ document.addEventListener("DOMContentLoaded", async () => {
       renderTitle();
     }
 
-    const movieList = CardList({ movieItems: movieState.list }) as HTMLElement;
+    if (movieState.list.length === 0 && !movieState.isLoading) {
+      const emptySection = document.createElement("section");
+      emptySection.classList.add("empty-container");
+
+      emptySection.innerHTML = `
+      <img src="images/empty_logo.png" alt="우아한테크코스 로고" />
+      <h2 class="empty-content">검색 결과가 없습니다.</h2>
+   `;
+
+      main.appendChild(emptySection);
+
+      return;
+    }
+
+    const movieList = CardList({ items: movieState.list }) as HTMLElement;
     main.appendChild(movieList);
 
     if (movieState.isLoading) {
@@ -100,23 +114,29 @@ document.addEventListener("DOMContentLoaded", async () => {
         updateState({ list: [] });
       }
 
+      await new Promise((resolve) => setTimeout(resolve, 500));
+
       const response = !query
         ? await movieApi.fetchPopularMovies(page)
         : await movieApi.fetchSearchedMovies(query, page);
 
-      console.log(response);
+      const movies = response.results.map(mapToMovie);
+
+      if (isFirstLoad) {
+        Skeleton.remove();
+      }
 
       updateState({
-        list: response.results.map(mapToMovie),
+        list: page === 1 ? movies : [...movieState.list, ...movies],
         currentPage: page,
         totalPages: response.total_pages,
         query: query || "",
         isLoading: false,
       });
 
-      if (movieState.list.length > 0) {
+      if (movies.length > 0) {
         const updatedHeader = Header({
-          movie: movieState.list[0],
+          movie: movies[0],
         });
         header.replaceWith(updatedHeader);
       }
@@ -125,16 +145,19 @@ document.addEventListener("DOMContentLoaded", async () => {
     } catch (error) {
       console.error("영화 로딩 중 오류 발생:", error);
 
+      updateState({ isLoading: false });
+
       if (query) {
         alert("검색 중 오류가 발생했습니다.");
+      } else {
+        alert("영화 정보를 가져오는 중 오류가 발생했습니다.");
       }
-      alert("영화 정보를 가져오는 중 오류가 발생했습니다.");
+      return null;
     }
   };
 
-  const searchInput = Input({
+  const searchInput = SearchInput({
     type: "text",
-    mode: "search",
     placeholder: "검색어를 입력하세요",
     onSubmit: async (query: string) => {
       if (!query.trim()) {
@@ -146,7 +169,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     },
   });
 
-  const navigationBar = NavigationBar({ input: searchInput });
+  const handleClickLogo = () => {
+    location.reload();
+  };
+
+  const navigationBar = NavigationBar({
+    input: searchInput,
+    onClick: handleClickLogo,
+  });
   wrap?.prepend(navigationBar);
 
   const container = document.querySelector(".container");
