@@ -1,7 +1,6 @@
 interface ButtonProps extends Partial<HTMLButtonElement> {
   className?: string;
   textContent: string;
-  type?: HTMLButtonElement["type"];
 }
 
 export default function Button({
