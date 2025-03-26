@@ -3,6 +3,13 @@ import { updateMoviesList } from "../domains/renderMoviesList";
 import { store } from "../stores";
 import { isElement } from "./guards";
 
+const closeHeader = () => {
+  const $topRatedContainer = document.querySelector(".top-rated-container");
+  const $overlay = document.querySelector(".overlay");
+  $topRatedContainer?.classList.add("close");
+  $overlay?.classList.add("close");
+};
+
 window.addEventListener("click", async (event) => {
   const { target } = event;
 
@@ -36,11 +43,6 @@ window.addEventListener("submit", async (event) => {
     isLoading: true,
   });
 
-  // TODO: Header 변경 로직 분리
-  const $topRatedContainer = document.querySelector(".top-rated-container");
-  const $overlay = document.querySelector(".overlay");
-  $topRatedContainer?.classList.add("close");
-  $overlay?.classList.add("close");
-
+  closeHeader();
   await updateMoviesList();
 });
