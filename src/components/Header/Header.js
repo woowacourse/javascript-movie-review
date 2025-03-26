@@ -1,13 +1,13 @@
 import LogoSearchBar from "./LogoSearchBar";
 
-function Header({ title, poster_path, vote_average }) {
+function Header({ title, backdrop_path, poster_path, vote_average }) {
   const $header = document.createElement("header");
 
   $header.innerHTML = `
   <div class="background-container">
     <div class="overlay" aria-hidden="true">  
     </div>
-    <img src="https://image.tmdb.org/t/p/w1920_and_h800_multi_faces${poster_path}" class="banner"/>
+    <img src="https://image.tmdb.org/t/p/w1920_and_h800_multi_faces${backdrop_path}" class="banner"/>
     <div class="top-rated-container">
     <div class="top-rated-movie">
       <div class="rate">

@@ -10,9 +10,14 @@ import {
   showSkeleton,
 } from "./components/Skeleton/showSkeleton.ts";
 
-function renderHeader({ title, poster_path, vote_average }: MovieInfo) {
+function renderHeader({
+  title,
+  backdrop_path,
+  poster_path,
+  vote_average,
+}: MovieInfo) {
   const $container = document.querySelector("#wrap");
-  const $header = Header({ title, poster_path, vote_average });
+  const $header = Header({ title, backdrop_path, poster_path, vote_average });
   const $logoSearchBar = LogoSearchBar();
   $header.querySelector(".top-rated-container")?.prepend($logoSearchBar);
   const $headerSkeleton = document
