@@ -5,7 +5,7 @@ import { extractedData } from '../../domain/APIManager';
 import mainPageLoadingTemplate from './loadingTemplate';
 import { MOVIE_API } from '../../constants/systemConstants';
 import { MovieData } from '../../../types/movie';
-import { bindScroll, handleBottomScroll } from '../../util/web/scroll';
+import { bindScrollEvent, handleBottomScroll } from '../../util/web/scroll';
 
 export class MainPage {
   #container: HTMLElement;
@@ -13,6 +13,7 @@ export class MainPage {
   #currentPage = 1;
   #isLoading: boolean = true;
   #isFetching: boolean = false;
+  #unbindScrollEvent: () => void;
 
   constructor() {
     this.#container = document.createElement('div');
@@ -22,7 +23,7 @@ export class MainPage {
 
     this.init();
 
-    bindScroll(() => handleBottomScroll(() => this.#guardedLoadMore()));
+    this.#unbindScrollEvent = bindScrollEvent(() => handleBottomScroll(() => this.#guardedLoadMore()));
   }
 
   async init() {
@@ -74,6 +75,10 @@ export class MainPage {
     this.#isFetching = true;
     this.#loadMoreData();
     this.#isFetching = false;
+  }
+
+  destroy() {
+    this.#unbindScrollEvent();
   }
 
   get element() {

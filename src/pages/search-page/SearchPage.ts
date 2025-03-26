@@ -4,7 +4,7 @@ import { extractedData } from '../../domain/APIManager';
 import searchPageLoadingTemplate from './loadingTemplate';
 import { MOVIE_API } from '../../constants/systemConstants';
 import { MovieData } from '../../../types/movie';
-import { bindScroll, handleBottomScroll } from '../../util/web/scroll';
+import { bindScrollEvent, handleBottomScroll } from '../../util/web/scroll';
 
 class SearchPage {
   #container;
@@ -14,6 +14,7 @@ class SearchPage {
   #currentPage = 1;
   #totalPage = 0;
   #isFetching: boolean = false;
+  #unbindScrollEvent: () => void;
 
   constructor() {
     this.#container = document.createElement('div');
@@ -26,7 +27,7 @@ class SearchPage {
     this.#query = params.get('query') ?? '';
     this.init();
 
-    bindScroll(() => handleBottomScroll(() => this.#guardedLoadMore()));
+    this.#unbindScrollEvent = bindScrollEvent(() => handleBottomScroll(() => this.#guardedLoadMore()));
   }
 
   async init() {
@@ -78,6 +79,10 @@ class SearchPage {
 
   #titleElement() {
     return new Title({ text: `"${this.#query}" 검색 결과` }).element;
+  }
+
+  destroy() {
+    this.#unbindScrollEvent();
   }
 
   get element() {

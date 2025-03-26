@@ -9,10 +9,7 @@ export const handleBottomScroll = (callback: () => void) => {
   }
 };
 
-export function bindScroll(onScroll: () => void) {
+export function bindScrollEvent(onScroll: () => void) {
   window.addEventListener('scroll', onScroll);
-}
-
-export function removeBottomScroll(onScroll: () => void) {
-  window.removeEventListener('scroll', () => handleBottomScroll(onScroll));
+  return () => window.removeEventListener('scroll', onScroll);
 }
