@@ -9,7 +9,7 @@ const MostPopularMovieBanner = () => {
     const backgroundImageUrl =
       movie && movie.posterPath
         ? `https://image.tmdb.org/t/p/original${movie.posterPath}`
-        : "images/default-background.jpg"; // 기본 이미지
+        : "images/default-background.jpg";
 
     header.innerHTML = `
   <div class="background-container" style="background-image: url('${backgroundImageUrl}');">

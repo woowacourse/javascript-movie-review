@@ -1,6 +1,5 @@
 import MostPopularMovieBanner from "./components/MostPopularMovieBanner.ts";
 import NavigationBar from "./components/navigation-bar/NavigationBar.ts";
-import MovieList from "./components/movie-list/MovieList.ts";
 import Input from "./components/navigation-bar/Input.ts";
 import Button from "./components/Button.ts";
 import {
@@ -14,47 +13,40 @@ import {
 import MovieContainer from "./components/movie-list/MovieContainer.ts";
 
 document.addEventListener("DOMContentLoaded", async () => {
-  const main = document.querySelector("main");
-  if (!main) return;
-  const title = document.querySelector("h2");
-  if (!title) return;
-  const wrap = document.querySelector("#wrap");
-  if (!wrap) return;
+  const $main = document.querySelector("main");
+  if (!$main) return;
+  const $title = document.querySelector("h2");
+  if (!$title) return;
+  const $root = document.querySelector("#wrap");
+  if (!$root) return;
 
-  const header = Header({ movie: null });
-  wrap?.prepend(header);
+  const {
+    mostPopularMovieBanner: $mostPopularMovieBanner,
+    renderMostPopularMovieBanner,
+  } = MostPopularMovieBanner();
+  $root.prepend($mostPopularMovieBanner);
 
-  title.classList.add("main-title");
-  title.textContent = "지금 인기 있는 영화";
+  $title.classList.add("main-title");
+  $title.textContent = "지금 인기 있는 영화";
 
-  const movieState = {
-    mode: "popular" as MovieType,
-    query: "",
-  };
+  const { renderMovieContainer } = MovieContainer({ $movieContainer: $main });
 
-  const input = Input({
+  const $input = Input({
     type: "text",
     placeholder: "검색어를 입력하세요",
     onSearch: async (query: string) => {
       try {
-        if (header.parentElement) {
-          header.remove();
+        if (movieState.mode === "popular") {
+          $mostPopularMovieBanner.style.display = "none";
         }
 
         movieState.mode = "search";
         movieState.query = query;
 
-        const searchedMovies = await fetchSearchedMovies(query);
+        await fetchSearchedMovies(query);
+        renderMovieContainer();
 
-        main.innerHTML = "";
-
-        const movieListComponent = MovieList({
-          movieItems: searchedMovies,
-        }) as HTMLElement;
-
-        title.textContent = `"${query}" 검색 결과`;
-
-        main.appendChild(movieListComponent);
+        $title.textContent = `"${query}" 검색 결과`;
       } catch (error: unknown) {
         console.error("검색 영화 호출 중 오류 발생:", error);
         alert("검색 중 오류가 발생했습니다.");
@@ -62,55 +54,50 @@ document.addEventListener("DOMContentLoaded", async () => {
     },
   });
 
-  const navigationBar = NavigationBar({ input });
-  wrap?.prepend(navigationBar);
+  const $navigationBar = NavigationBar({
+    input: $input,
+    routeToPopularPage: () => {
+      movieState.mode = "popular";
+      $title.textContent = "지금 인기 있는 영화";
+      $mostPopularMovieBanner.style.display = "block";
 
-  const renderMovies = () => {
-    const movieItems =
-      movieState.mode === "popular"
-        ? popularMovieList.list
-        : searchedMovieList.list;
-
-    const movieListComponent = MovieList({ movieItems }) as HTMLElement;
-    main.appendChild(movieListComponent);
-  };
+      renderMovieContainer();
+    },
+  });
+  $root.prepend($navigationBar);
 
   try {
     await fetchPopularMovies();
 
     if (popularMovieList.list.length > 0) {
-      const updatedHeader = Header({
-        movie: popularMovieList.list[0],
-      });
-
-      header.replaceWith(updatedHeader);
+      renderMostPopularMovieBanner();
     }
 
-    renderMovies();
+    renderMovieContainer();
   } catch (error: unknown) {
     console.error("Error in main.ts:", error);
     alert("영화 정보를 가져오는 중 오류가 발생했습니다.");
   }
 
-  const container = document.querySelector(".container");
-  if (!container) return;
+  const $container = document.querySelector(".container");
+  if (!$container) return;
 
-  const moreButton = Button({
+  const $moreButton = Button({
     text: "더 보기",
     onClick: async () => {
       if (movieState.mode === "popular") {
         if (isLastPage("popular")) {
-          moreButton.style.display = "none";
+          $moreButton.style.display = "none";
           alert("마지막 페이지입니다.");
 
           return;
         }
 
         await fetchPopularMovies(popularMovieList.currentPage + 1);
-        renderMovies();
+        renderMovieContainer();
       } else if (movieState.mode === "search") {
         if (isLastPage("search")) {
-          moreButton.style.display = "none";
+          $moreButton.style.display = "none";
           alert("마지막 페이지입니다.");
 
           return;
@@ -120,10 +107,10 @@ document.addEventListener("DOMContentLoaded", async () => {
           movieState.query,
           searchedMovieList.currentPage + 1
         );
-        renderMovies();
+        renderMovieContainer();
       }
     },
   });
 
-  container?.appendChild(moreButton);
+  $container.appendChild($moreButton);
 });
