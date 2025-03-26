@@ -1,9 +1,6 @@
 import { movieFetcher } from '../../domain/MovieFetcher';
 import { movieFetcherEvent } from '../../domain/MovieFetcherEvent';
-import {
-  MovieItem as MovieItemType,
-  MovieResponse,
-} from '../../types/Movie.types';
+import { MovieItem as MovieItemType } from '../../types/Movie.types';
 import { createElement } from '../../utils/createElement';
 import { Text } from '../common/Text';
 import { MovieItem } from './MovieItem';
@@ -52,7 +49,7 @@ const updateListTitle = (
 };
 
 const titleText = Text({
-  classList: ['text-2xl', 'font-bold', 'mb-32'],
+  classList: ['text-2xl', 'font-bold', 'mb-64'],
   props: { textContent: '지금 인기 있는 영화' },
 });
 
@@ -124,7 +121,6 @@ const renderMovieList = () => {
   const {
     movies: results,
     queryText: query,
-    // currentMovieResponse: response,
     isLoadingState: isLoading,
     isSearchState: isSearch,
     errorState: error,
@@ -144,9 +140,7 @@ const renderMovieList = () => {
 
 export const MovieList = async (): Promise<HTMLElement> => {
   const app = document.querySelector('#app');
-  if (app?.firstChild) {
-    app.insertBefore(mainElement, app.firstChild.nextSibling);
-  }
+  app?.append(mainElement);
 
   renderMoreLoadingState(20);
   await movieFetcher.getPopularMovies(1);
