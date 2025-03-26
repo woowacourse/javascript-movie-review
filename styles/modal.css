@@ -37,6 +37,14 @@ body.modal-open {
   width: 90%;
 }
 
+@media (max-width: 768px) {
+  .modal {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+  }
+}
+
 .close-modal {
   position: absolute;
   margin: 0;
@@ -101,9 +109,23 @@ body.modal-open {
   }
 }
 
+.rate {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.rate-title {
+  color: white;
+}
+
+.vote-average {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
 .modal-description .rate > img {
   position: relative;
-  top: 5px;
 }
 
 .modal-description > *:not(:last-child) {
@@ -116,6 +138,47 @@ body.modal-open {
 }
 
 .detail {
+  margin-top: 20px;
   max-height: 430px;
   overflow-y: auto;
+}
+
+.bar {
+  width: 100%;
+}
+
+.my-rating-container {
+  margin-top: 20px;
+}
+
+.my-rating {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.star-rating {
+  display: flex;
+}
+
+.rating-out-of-ten {
+  color: var(--color-bluegray-30);
+  font-weight: bold;
+}
+
+.star-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.rating-star {
+  width: 24px;
+  height: 24px;
+}
+
+.star-button:hover {
+  background-color: var(--color-bluegray-30);
+  transition: background-color 0.3s ease;
+  border-radius: 100%;
 }
