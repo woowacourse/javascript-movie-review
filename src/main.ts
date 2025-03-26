@@ -12,6 +12,37 @@ import {
 } from "./store/movieService.ts";
 import MovieContainer from "./components/movie-list/MovieContainer.ts";
 
+interface HandleSearchProps {
+  $title: HTMLHeadingElement;
+  $mostPopularMovieBanner: HTMLElement;
+  renderMovieContainer: () => void;
+}
+
+function handleSearch({
+  $title,
+  $mostPopularMovieBanner,
+  renderMovieContainer,
+}: HandleSearchProps) {
+  return async (query: string) => {
+    try {
+      if (movieState.mode === "popular") {
+        $mostPopularMovieBanner.style.display = "none";
+      }
+
+      movieState.mode = "search";
+      movieState.query = query;
+
+      await fetchSearchedMovies(query);
+      renderMovieContainer();
+
+      $title.textContent = `"${query}" 검색 결과`;
+    } catch (error: unknown) {
+      console.error("검색 영화 호출 중 오류 발생:", error);
+      alert("검색 중 오류가 발생했습니다.");
+    }
+  };
+}
+
 document.addEventListener("DOMContentLoaded", async () => {
   const $main = document.querySelector("main");
   if (!$main) return;
@@ -34,24 +65,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   const $input = Input({
     type: "text",
     placeholder: "검색어를 입력하세요",
-    onSearch: async (query: string) => {
-      try {
-        if (movieState.mode === "popular") {
-          $mostPopularMovieBanner.style.display = "none";
-        }
-
-        movieState.mode = "search";
-        movieState.query = query;
-
-        await fetchSearchedMovies(query);
-        renderMovieContainer();
-
-        $title.textContent = `"${query}" 검색 결과`;
-      } catch (error: unknown) {
-        console.error("검색 영화 호출 중 오류 발생:", error);
-        alert("검색 중 오류가 발생했습니다.");
-      }
-    },
+    onSearch: handleSearch({
+      $title,
+      $mostPopularMovieBanner,
+      renderMovieContainer,
+    }),
   });
 
   const $navigationBar = NavigationBar({
