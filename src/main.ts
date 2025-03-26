@@ -24,8 +24,8 @@ addEventListener("DOMContentLoaded", async () => {
   const addMoreMoviesButton = CustomButton({
     title: "더보기",
     className: "add-more-button",
+    id: "more-movies-button",
   });
-  addMoreMoviesButton.id = "more-movies-button";
   $movieContainer?.appendChild(addMoreMoviesButton);
 
   const $moreMoviesButton = document.getElementById("more-movies-button");
