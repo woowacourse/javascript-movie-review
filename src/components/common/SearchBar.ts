@@ -1,4 +1,4 @@
-import { fetchSearchMovieList } from "../../utils/api.ts";
+import { fetchSearchMovieList } from "../../api/fetchSearchMovieList.ts";
 import { $ } from "../../utils/dom.ts";
 import LoadMoreButton from "../movie/LoadMoreButton.ts";
 import MovieList from "../movie/MovieList.ts";
