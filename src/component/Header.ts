@@ -1,5 +1,5 @@
 import createDOMElement from '../util/createDomElement';
-import SearchBar from './SearchBar';
+import SearchBar from '../view/SearchBar';
 
 function Header() {
   return createDOMElement({
