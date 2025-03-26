@@ -59,7 +59,10 @@ const createMovieImage = (title: string, poster_path: string) => {
   });
 };
 
-export const MovieItem = ({ ...movieItem }: MovieItemType) => {
+export const MovieItem = ({
+  index,
+  ...movieItem
+}: MovieItemType & { index: number }) => {
   const { id, title, vote_average, poster_path } = movieItem;
   const item = createElement<HTMLLIElement>('li', {
     classList: 'movie-item',
@@ -69,6 +72,7 @@ export const MovieItem = ({ ...movieItem }: MovieItemType) => {
     ],
   });
 
+  item.setAttribute('data-index', index.toString());
   const modal = document.querySelector('#modal');
 
   item.addEventListener('click', async () => {

@@ -12,7 +12,7 @@ const createSkeletonItems = (count = 20) => {
 };
 
 const createMovieItems = (movies: MovieItemType[]) => {
-  return movies.map((movie) => MovieItem(movie));
+  return movies.map((movie, index) => MovieItem({ ...movie, index }));
 };
 
 const updateListTitle = (
