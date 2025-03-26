@@ -1,5 +1,5 @@
 import { IMG_PATH } from "../constants/constants";
-import { Detail, Result } from "../types/movie";
+import { Result } from "../types/movie";
 import { getDetailMovie } from "./getDetailMovie";
 import { getPopularityMovie } from "./getPopularityMovie";
 import { searchMovie } from "./searchMovie";
