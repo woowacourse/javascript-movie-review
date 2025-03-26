@@ -2,6 +2,8 @@ import {
   fullMovieListTemplate,
   movieItemsTemplate,
 } from "./movieListTemplate.js";
+import Modal from "../Modal/index.js";
+import modalContentTemplate from "../Modal/modalContentTemplate.js";
 
 class MovieList {
   #$container;
@@ -41,6 +43,7 @@ class MovieList {
     }
     this.#removeSkeleton(state.loading);
     this.#attachThumbnailLoadEvent(this.#$container);
+    this.#attachMovieItemEvents(this.#store, this.#$container);
   }
 
   #removeSkeleton(loading) {
@@ -66,6 +69,21 @@ class MovieList {
         });
         img.setAttribute("data-load-listener-attached", "true");
       }
+    });
+  }
+
+  #attachMovieItemEvents(store, container) {
+    const modal = new Modal();
+    const items = container.querySelectorAll("li[data-movie-id]");
+    items.forEach((li) => {
+      li.addEventListener("click", async () => {
+        const movieId = li.getAttribute("data-movie-id");
+        const state = store.getState();
+        const movie = state.movies.find((m) => m.id == movieId);
+        if (movie) {
+          modal.open(await modalContentTemplate(movie.id));
+        }
+      });
     });
   }
 }
