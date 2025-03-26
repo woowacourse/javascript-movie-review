@@ -5,36 +5,30 @@ import { disableMoreButton } from "../ui/disabledMoreButton";
 
 export async function addMoreMovies($movieList: HTMLElement) {
   const params = new URLSearchParams(window.location.search);
-  const page = params.get("page");
+  const pageStr = params.get("page");
   const query = params.get("query");
+  const pageNum = pageStr ? parseInt(pageStr) : 1;
 
-  if (!page) {
+  if (!pageStr) {
     params.append("page", "2");
   } else {
-    params.set("page", (parseInt(page) + 1).toString());
+    params.set("page", (pageNum + 1).toString());
   }
 
   if (query) {
-    const searchedMovies = await getSearchedPost(
-      query,
-      parseInt(params.get("page")!)
-    );
+    const searchedMovies = await getSearchedPost(query, pageNum);
 
     addMoviePost(searchedMovies.results, $movieList);
     disableMoreButton(
       searchedMovies.total_pages,
-      parseInt(params.get("page")!),
+      pageNum,
       searchedMovies.results
     );
   } else {
-    const movies = await getMovieList({ page: parseInt(params.get("page")!) });
+    const movies = await getMovieList({ page: pageNum });
 
     addMoviePost(movies.results, $movieList);
-    disableMoreButton(
-      movies.total_pages,
-      parseInt(params.get("page")!),
-      movies.results
-    );
+    disableMoreButton(movies.total_pages, pageNum, movies.results);
   }
 
   const newUrl = `${window.location.pathname}?${params.toString()}`;
