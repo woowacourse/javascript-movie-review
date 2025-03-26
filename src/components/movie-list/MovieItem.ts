@@ -15,23 +15,26 @@ const MovieItem = ({ title, voteAverage, posterPath }: Movie) => {
   `;
 
   const img = new Image();
-  img.src = posterPath
-    ? `https://image.tmdb.org/t/p/w500${posterPath}`
-    : "images/nullImage.png";
+  img.src = `https://image.tmdb.org/t/p/w500${posterPath}`;
   img.alt = title;
   img.classList.add("thumbnail");
+
+  img.onerror = () => {
+    img.src = "images/nullImage.png";
+  };
+
   img.onload = () => {
     movieItem.innerHTML = `
-      <div class="item">
-        <img class="thumbnail" src="${img.src}" alt="${title}" />
-        <div class="item-desc">
-          <p class="rate">
-            <img src="images/star_empty.png" class="star" /><span>${voteAverage}</span>
-          </p>
-          <strong>${title}</strong>
-        </div>
+    <div class="item">
+      <img class="thumbnail" src="${img.src}" alt="${title}" />
+      <div class="item-desc">
+        <p class="rate">
+          <img src="images/star_empty.png" class="star" /><span>${voteAverage}</span>
+        </p>
+        <strong>${title}</strong>
       </div>
-    `;
+    </div>
+  `;
   };
 
   return movieItem;
