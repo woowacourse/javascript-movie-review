@@ -1,6 +1,6 @@
 type createElementProps = {
   tag: string;
-  classNames: string[];
+  classNames?: string[];
 };
 
 const createElement = ({
