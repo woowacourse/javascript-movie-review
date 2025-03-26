@@ -1,4 +1,4 @@
-import { Movie } from "../../types/movie";
+import { Movie } from "../../types/movieList";
 
 export interface State {
   movies: Movie[];

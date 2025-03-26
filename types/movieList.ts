@@ -28,4 +28,7 @@ export interface Movie {
   backdrop_path: null | string;
   poster_path: null | string;
   vote_average: number;
+  gernes: string[];
+  release_date: Date;
+  overview: string;
 }
