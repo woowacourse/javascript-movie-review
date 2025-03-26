@@ -127,7 +127,12 @@ const createBackgroundContainer = (movie: MovieItem) => {
 const renderHeader = (headerElement: HTMLHeadElement) => {
   const { isLoadingState: isLoading, movies } = movieFetcher;
 
-  if (isLoading) {
+  const existingSkeleton = headerElement.querySelector('.skeleton-gradient');
+  if (existingSkeleton) {
+    existingSkeleton.remove();
+  }
+
+  if (isLoading && movies.length === 0) {
     headerElement.appendChild(Skeleton({ width: 1980, height: 500 }));
     headerElement.classList.add('skeleton-animation');
     return;
