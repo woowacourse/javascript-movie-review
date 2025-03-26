@@ -69,4 +69,5 @@ FE 레벨1 영화 리뷰 미션
 
 ## 구현 목록
 
-![UI별기능](./docs/UI.png)
+![1단계UI별기능](./docs/step1UI.png)
+![2단계UI별기능](./docs/step2UI.png)
