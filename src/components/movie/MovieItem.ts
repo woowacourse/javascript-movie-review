@@ -1,15 +1,25 @@
+import { MovieDetail } from "../../../types/movie";
+import { fetchDetailMovie } from "../../api/fetchDetailMovie.ts";
 import { createElement } from "../../utils/createElement.ts";
 import { $ } from "../../utils/dom.ts";
 import Rate from "../common/Rate.ts";
 
 type Props = {
+  id: number;
   src: string;
   rate: number;
   title: string;
 };
 
-const MovieItem = ({ src, rate, title }: Props) => {
-  const movieItem = createElement(/*html*/ `
+const MovieItem = ({ id, src, rate, title }: Props) => {
+  async function onClick() {
+    const movie = await fetchDetailMovie(id);
+    const { title, genres, vote_average, poster_path, overview } = movie.data;
+
+    // 모달에 해당 값 전달하기
+  }
+  const movieItem = createElement(
+    /*html*/ `
     <li>
       <div class="item">
         <img
@@ -22,7 +32,9 @@ const MovieItem = ({ src, rate, title }: Props) => {
         </div>
       </div>
     </li>
-  `);
+  `,
+    { click: onClick }
+  );
 
   $(".item-desc", movieItem).prepend(Rate({ rate: rate }));
 
