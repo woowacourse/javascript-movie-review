@@ -127,8 +127,7 @@ const renderMovieList = () => {
   } = movieFetcher;
 
   updateListTitle(titleText, isSearch, query);
-
-  if (error) return renderErrorState();
+  if (error) return;
   if (isLoading) return renderMoreLoadingState(20);
   if (isSearch && results.length === 0 && !isLoading) {
     return renderEmptyState();
