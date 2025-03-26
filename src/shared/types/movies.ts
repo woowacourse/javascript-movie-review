@@ -29,4 +29,5 @@ export interface IMovieDetail {
   release_date: string;
   title: string;
   vote_average: number;
+  id: number;
 }
