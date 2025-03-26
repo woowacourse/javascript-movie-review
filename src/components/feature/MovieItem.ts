@@ -1,6 +1,5 @@
 import { movieFetcher } from '../../domain/MovieFetcher';
 import { MovieItem as MovieItemType } from '../../types/Movie.types';
-import { MovieDetailResponse } from '../../types/MovieDetail.types';
 import { createElement } from '../../utils/createElement';
 import { Box } from '../common/Box';
 import { Img } from '../common/Img';
@@ -8,8 +7,8 @@ import { Modal } from '../common/Modal';
 import { Text } from '../common/Text';
 import { MovieDetailModal } from './MovieDetailModal';
 
-const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w220_and_h330_face';
-const DEFAULT_IMAGE_URL = './images/no_image.png';
+export const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w220_and_h330_face';
+export const DEFAULT_IMAGE_URL = './images/no_image.png';
 
 const createRatingSection = (vote_average: number) => {
   return Box({
