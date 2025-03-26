@@ -20,8 +20,6 @@ describe("메인 화면 테스트", () => {
       const popularMovies = interception.response.body.results;
       cy.wrap(popularMovies).should("have.length", 20);
 
-      const popularMovieItems = cy.get(".thumbnail-list > li");
-      // expect(popularMovieItems.should("have.length", 20));
       expect(popularMovies.length).to.equal(20);
     });
   });
