@@ -35,6 +35,7 @@ class Header {
   #bindLogoClickEvent() {
     const $logo = $({ root: this.#container, selector: '.logo' });
     if (!$logo) throw new Error('로고가 존재하지 않습니다.');
+
     $logo.addEventListener('click', () => {
       redirectToPage('/');
     });
