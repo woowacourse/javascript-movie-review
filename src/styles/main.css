@@ -140,6 +140,10 @@ span.rate-value {
   font-weight: bold;
 }
 
+.subtitle {
+  font-weight: bold;
+}
+
 footer.footer {
   min-height: 180px;
   background-color: var(--color-bluegray-80);
