@@ -50,7 +50,7 @@ export default class App extends Component<null, AppState> {
       new Header({
         search: this.state.search,
         movie: this.state.movies?.at(0),
-      }).element,
+      }),
       'header',
     );
     this.fillSlot(
@@ -60,14 +60,13 @@ export default class App extends Component<null, AppState> {
         page: this.state.page,
         search: this.state.search,
         error: this.state.error,
-      }).element,
+      }),
       'movies',
     );
-    this.fillSlot(new Footer().element, 'footer');
+    this.fillSlot(new Footer(), 'footer');
     if (this.state.movieDetailResponse)
       this.fillSlot(
-        new MovieDetailModal({ movieDetailResponse: this.state.movieDetailResponse, movieRate: this.state.movieRate })
-          .element,
+        new MovieDetailModal({ movieDetailResponse: this.state.movieDetailResponse, movieRate: this.state.movieRate }),
         'movie-detail-modal',
       );
     this.fillSlot(
@@ -77,7 +76,7 @@ export default class App extends Component<null, AppState> {
           await this.getMovie(this.state.search, this.state.page + 1);
           this.setState({ movieDetailResponse: null });
         },
-      }).element,
+      }),
       'obserable',
     );
   }

@@ -56,11 +56,11 @@ export default abstract class Component<
 
   onRender() {}
 
-  fillSlot(element: HTMLElement, slotName: string) {
+  fillSlot(component: Component, slotName: string) {
     const targetSlot = this.element.querySelector(`slot[name=${slotName}]`);
     if (!targetSlot) throw new Error(`name=${slotName} 속성을 가진 slot 요소를 만들어주세요.`);
 
-    targetSlot.replaceWith(element);
+    targetSlot.replaceWith(component.element);
   }
 
   get element() {
