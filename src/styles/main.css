@@ -41,7 +41,7 @@ button.primary {
 
 #wrap {
   position: relative;
-  min-width: 1440px;
+  min-width: 100dvw;
   background-color: var(--color-bluegray-100);
 }
 

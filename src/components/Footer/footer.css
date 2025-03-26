@@ -8,6 +8,7 @@ footer.footer {
   justify-content: center;
   text-align: center;
   font-size: 1.1rem;
+  width: 100dvw;
 }
 
 footer.footer p:not(:last-child) {
