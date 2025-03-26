@@ -1,6 +1,7 @@
 class UIManager {
   #isLoading = false;
   #showMoreButton = true;
+  #isModalOpen = true;
 
   reset() {
     this.#isLoading = false;
@@ -19,6 +20,13 @@ class UIManager {
   }
   getShowMore() {
     return this.#showMoreButton;
+  }
+
+  setIsModalOpen(isOpen: boolean) {
+    this.#isModalOpen = isOpen;
+  }
+  getIsModalOpen() {
+    return this.#isModalOpen;
   }
 }
 
