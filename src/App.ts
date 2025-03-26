@@ -1,10 +1,10 @@
 import useGetMoreMovieList from "./apis/movies/useGetMoreMovieList";
 import useGetMovieList from "./apis/movies/useGetMovieList";
-import Button from "./components/@common/Button";
 import Footer from "./components/footer/Footer";
 import Header from "./components/header/Header";
 import MovieItem from "./components/movieItem/MovieItem";
 import SkeletonList from "./components/skeletonList/SkeletonList";
+import useInfiniteScroll from "./hooks/useInfitniteScroll";
 import {
   movies,
   searchInputValue,
@@ -14,22 +14,16 @@ import {
   isError,
   isSearchError,
 } from "./store/store";
-import { useEvents } from "./utils/Core";
-import { timeOutDebounce } from "./utils/debounce";
 
 const App = () => {
   const { fetchMovies, isLoading } = useGetMovieList();
   const { fetchMoreMovies, isMoreError } = useGetMoreMovieList();
 
-  const [addEvent] = useEvents(".app-layout");
-
-  addEvent(
-    "click",
-    ".more-button",
-    timeOutDebounce(() => {
+  if (movies.length < totalResults) {
+    useInfiniteScroll(() => {
       fetchMoreMovies(fetchMovies);
-    }, 500)
-  );
+    });
+  }
 
   if (movies.length === 0) {
     fetchMovies(1).then((results) => {
@@ -80,16 +74,7 @@ const App = () => {
                   </ul>`
             }
       ${isMoreError ? `<div>영화 목록을 불러오는 데 실패했습니다.</div>` : ""}
-    ${
-      displayMovieList.length < totalResults
-        ? Button({
-            attribute: {
-              class: "primary detail more-button",
-            },
-            children: "더 보기",
-          })
-        : ""
-    }`
+    `
       }
     </div>
     ${Footer()}
