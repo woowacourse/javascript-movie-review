@@ -1,10 +1,4 @@
-const options = {
-  method: "GET",
-  headers: {
-    accept: "application/json",
-    Authorization: `Bearer ${import.meta.env.VITE_TMDB_API_KEY}`,
-  },
-};
+import { getApiOptions } from "../apis/config";
 
 class MovieService {
   currentPage: number;
@@ -18,7 +12,7 @@ class MovieService {
   async getPopularMovies() {
     const response = await fetch(
       `${this.baseUrl}/movie/popular?language=ko-KR&page=${this.currentPage}`,
-      options
+      getApiOptions(import.meta.env.VITE_TMDB_API_KEY)
     );
 
     if (response.status === 200) {
@@ -36,7 +30,7 @@ class MovieService {
   async getSearchResult(searchWord: string) {
     const response = await fetch(
       `${this.baseUrl}/search/movie?query=${searchWord}&include_adult=false?language=ko-KR&page=${this.currentPage}`,
-      options
+      getApiOptions(import.meta.env.VITE_TMDB_API_KEY)
     );
 
     if (response.status === 200) {
