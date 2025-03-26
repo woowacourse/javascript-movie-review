@@ -1,18 +1,23 @@
-type Event = Record<string, EventListenerOrEventListenerObject>;
+type Event = Record<keyof GlobalEventHandlersEventMap, EventListenerOrEventListenerObject>;
 
-interface DOMElementProps {
-  tag: string;
+interface IProps {
+  textContent?: string;
+  className?: string;
+  id?: string;
+}
+
+interface DOMElementProps extends IProps {
+  tag: keyof HTMLElementTagNameMap;
   children?: HTMLElement[];
   event?: Event;
   attributes?: Record<string, string>;
-  [key: string]: any;
 }
 
 const createDOMElement = ({
   tag,
   children = [],
   attributes = {},
-  event = {},
+  event = {} as Event,
   ...props
 }: DOMElementProps): HTMLElement => {
   const element = document.createElement(tag);
