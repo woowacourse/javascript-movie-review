@@ -17,7 +17,8 @@
 
 1단계 리팩토링
 
-- [ ] api 호출 main에서 관리 (상위에서 -> list와 backgroundThumbnail 꾸며주기) -> 도메인 분리
+- [x] api 호출 main에서 관리 (상위에서 -> list와 backgroundThumbnail 꾸며주기) -> 도메인 분리
+  - [ ]searchController의 api호출도 main에서 관리해야하는지 (통일성을 위해서?) -> 아니면 api 호출 계층 분리?
 - [x] createDomElement 수정하기
 - [ ] 스크롤 시, 헤더 백그라운드 처리
 - [x] 기존 스켈레톤 제거
