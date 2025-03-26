@@ -1,3 +1,5 @@
+import MovieModal from './MovieModal.js'
+
 export default class MovieCard {
   constructor(movie) {
     this.movie = movie;
@@ -22,6 +24,12 @@ export default class MovieCard {
         </div>
       </div>
     `;
+
+    li.addEventListener("click", () => {
+      console.log(this.movie.title)
+      const modal = new MovieModal(this.movie);
+      modal.render();
+    });
 
     return li;
   }
