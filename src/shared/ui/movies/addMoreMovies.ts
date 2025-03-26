@@ -1,8 +1,8 @@
-import { getMovieList } from "../../features/movie/api/getMovieList";
-import { getSearchedMovie } from "../../features/search/api/getSearchedMovie";
+import { getMovieList } from "../../../features/movie/api/getMovieList";
+import { getSearchedMovie } from "../../../features/search/api/getSearchedMovie";
 import { addMovieCard } from "./addMovieCard";
 import { disableMoreButton } from "./disabledMoreButton";
-import { getUrlParams } from "../utils/getUrlParams";
+import { getUrlParams } from "../../utils/getUrlParams";
 
 export async function addMoreMovies($movieList: HTMLElement) {
   const params = getUrlParams();

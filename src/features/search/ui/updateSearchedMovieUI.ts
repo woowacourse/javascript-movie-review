@@ -1,6 +1,6 @@
-import { addMovieCard } from "../../../shared/ui/addMovieCard";
+import { addMovieCard } from "../../../shared/ui/movies/addMovieCard";
 import ErrorPage from "../../../shared/ui/components/ErrorPage";
-import { withSkeleton } from "../../../shared/ui/withSkeleton";
+import { withSkeleton } from "../../../shared/ui/skeletons/withSkeleton";
 import { getSearchedMovie } from "../api/getSearchedMovie";
 
 export async function updateSearchedMovieUI(

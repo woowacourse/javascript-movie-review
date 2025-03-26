@@ -1,7 +1,7 @@
 import { IMovieDetail } from "../../types/movies";
 import { modalRating } from "../../utils/modalRating";
 import { toElement } from "../../utils/toElement";
-import { removeDetailModal } from "../removeDetailModal";
+import { removeDetailModal } from "../detailModal/removeDetailModal";
 
 export default function MovieDetailModal(movieDetails: IMovieDetail) {
   const $container = document.getElementById("wrap");

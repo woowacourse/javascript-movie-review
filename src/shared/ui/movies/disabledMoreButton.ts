@@ -1,4 +1,4 @@
-import MoreMoviesButton from "./components/MoreMoviesButton";
+import MoreMoviesButton from "../components/MoreMoviesButton";
 
 export function disableMoreButton(totalPages: number, currentPage: number) {
   if (totalPages === currentPage) {

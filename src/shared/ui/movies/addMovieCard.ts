@@ -1,8 +1,8 @@
-import MovieCard from "./components/MovieCard";
-import { showEmptySearchResult } from "../../features/search/ui/showEmptySearchResult";
-import { IMovie } from "../types/movies";
-import { createFragment } from "../utils/createFragment";
-import MoreMoviesButton from "./components/MoreMoviesButton";
+import MovieCard from "../components/MovieCard";
+import { showEmptySearchResult } from "../../../features/search/ui/showEmptySearchResult";
+import { IMovie } from "../../types/movies";
+import { createFragment } from "../../utils/createFragment";
+import MoreMoviesButton from "../components/MoreMoviesButton";
 
 export function addMovieCard(
   movieList: IMovie[],

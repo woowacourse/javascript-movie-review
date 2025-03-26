@@ -1,14 +1,14 @@
 import { getMovieList } from "./features/movie/api/getMovieList";
 import Header from "./shared/ui/components/Header";
 import { CustomButton } from "./shared/ui/components/CustomButton";
-import { addMoreMovies } from "./shared/ui/addMoreMovies";
+import { addMoreMovies } from "./shared/ui/movies/addMoreMovies";
 import { searchFormSubmitHandler } from "./features/search/ui/searchFormSubmitHandler";
-import { addMovieCard } from "./shared/ui/addMovieCard";
+import { addMovieCard } from "./shared/ui/movies/addMovieCard";
 import MoreMoviesButton from "./shared/ui/components/MoreMoviesButton";
 import ErrorPage from "./shared/ui/components/ErrorPage";
-import { withSkeleton } from "./shared/ui/withSkeleton";
+import { withSkeleton } from "./shared/ui/skeletons/withSkeleton";
 import { initUrl } from "./shared/utils/updateUrl";
-import { movieDetailModalHandler } from "./shared/ui/movieDetailModalHandler";
+import { movieDetailModalHandler } from "./shared/ui/detailModal/movieDetailModalHandler";
 
 async function init() {
   const $movieList = document.querySelector(".thumbnail-list") as HTMLElement;

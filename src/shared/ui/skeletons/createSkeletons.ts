@@ -1,5 +1,5 @@
-import { createFragment } from "../utils/createFragment";
-import { MovieSkeleton } from "./components/MovieSkeleton";
+import { createFragment } from "../../utils/createFragment";
+import { MovieSkeleton } from "../components/MovieSkeleton";
 
 export const createSkeletons = (count = 10) => {
   const skeleton = document.createElement("div");
