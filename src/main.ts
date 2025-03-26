@@ -1,14 +1,15 @@
-import Header from "./components/Header.ts";
+import MostPopularMovieBanner from "./components/MostPopularMovieBanner.ts";
 import NavigationBar from "./components/NavigationBar.ts";
 import MovieList from "./components/MovieList.ts";
 import Input from "./components/Input.ts";
 import Button from "./components/Button.ts";
 import {
   fetchPopularMovies,
-  moviesPopularState,
-  moviesSearchedState,
+  popularMovieList,
+  searchedMovieList,
   isLastPage,
   fetchSearchedMovies,
+  movieState,
 } from "./store/movieService.ts";
 import { MovieType } from "../types/movie.ts";
 
@@ -67,8 +68,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   const renderMovies = () => {
     const movieItems =
       movieState.mode === "popular"
-        ? moviesPopularState.list
-        : moviesSearchedState.list;
+        ? popularMovieList.list
+        : searchedMovieList.list;
 
     const movieListComponent = MovieList({ movieItems }) as HTMLElement;
     main.appendChild(movieListComponent);
@@ -77,9 +78,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   try {
     await fetchPopularMovies();
 
-    if (moviesPopularState.list.length > 0) {
+    if (popularMovieList.list.length > 0) {
       const updatedHeader = Header({
-        movie: moviesPopularState.list[0],
+        movie: popularMovieList.list[0],
       });
 
       header.replaceWith(updatedHeader);
@@ -105,7 +106,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           return;
         }
 
-        await fetchPopularMovies(moviesPopularState.currentPage + 1);
+        await fetchPopularMovies(popularMovieList.currentPage + 1);
         renderMovies();
       } else if (movieState.mode === "search") {
         if (isLastPage("search")) {
@@ -117,7 +118,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         await fetchSearchedMovies(
           movieState.query,
-          moviesSearchedState.currentPage + 1
+          searchedMovieList.currentPage + 1
         );
         renderMovies();
       }
