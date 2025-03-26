@@ -4,8 +4,8 @@ import ApiClient from "./ApiClient";
 
 async function fetchSearchMovies(query: string, pageNumber: number) {
   const params = new URLSearchParams({
-    query: query,
     page: pageNumber.toString(),
+    query: query,
     language: "ko-KR",
     region: "KR",
   });
@@ -25,7 +25,7 @@ async function fetchSearchMovies(query: string, pageNumber: number) {
         };
       }
     );
-    return movies;
+    return { movies: movies, canMore: TMDB_movieList.total_pages > pageNumber };
   } catch (error) {
     if (error instanceof Error)
       throw new Error(ErrorMessage.FETCH_SEARCH_MOVIES || error.message);

@@ -24,7 +24,7 @@ async function fetchPopularMovies(pageNumber: number) {
         };
       }
     );
-    return movies;
+    return { movies, canMore: TMDB_movieList.total_pages > pageNumber };
   } catch (error) {
     if (error instanceof Error)
       throw new Error(ErrorMessage.FETCH_POPULAR_MOVIES || error.message);

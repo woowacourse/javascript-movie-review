@@ -42,8 +42,8 @@ describe("Fixture를 이용한 테스트", () => {
   });
 
   it("영화 검색 API를 호출하면 검색 결과가 보인다.", () => {
+    cy.wait("@getPopularMovies");
     cy.get("#search").click();
-
     cy.wait("@getFirstSearchedMovies").then((interception) => {
       const searchedMovies = interception.response?.body.results;
       expect(searchedMovies.length).to.equal(20);

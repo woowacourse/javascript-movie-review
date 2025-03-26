@@ -8,6 +8,7 @@ describe("영화 목록 테스트", () => {
   });
 
   it("더보기 버튼을 누르면 다음 페이지 20개가 추가로 표시된다.", () => {
+    cy.get("ul.thumbnail-list li").should("have.length", 20);
     cy.get("main section button.primary").click();
     cy.get("ul.thumbnail-list li").should("have.length", 40);
   });

@@ -13,12 +13,12 @@ let pageNumber = 1;
 
 addEventListener("load", async () => {
   try {
-    const movieList = await getPopularMovieList();
+    const { movies, canMore } = await getPopularMovieList();
     Header.init({
-      id: movieList[0].id,
-      title: movieList[0].title,
-      posterPath: movieList[0].backdropPath || "",
-      rate: movieList[0].rate,
+      id: movies[0].id,
+      title: movies[0].title,
+      posterPath: movies[0].backdropPath || "",
+      rate: movies[0].rate,
     });
 
     SearchInput.init();
@@ -27,15 +27,17 @@ addEventListener("load", async () => {
 
     Subtitle.init();
 
-    MovieList.init(movieList);
+    MovieList.init(movies);
 
     Skeleton.init();
 
     SeeMoreButton.init();
+    SeeMoreButton.show();
     SeeMoreButton.onButtonClick = async () => {
       Skeleton.show();
-      const movieList = await getPopularMovieList();
-      MovieList.add(movieList);
+      const { movies, canMore } = await getPopularMovieList();
+      if (!canMore) SeeMoreButton.hidden();
+      MovieList.add(movies);
       Skeleton.hidden();
     };
   } catch (error) {
@@ -63,24 +65,27 @@ async function search() {
   Header.setSearchMode();
   NoThumbnail.hidden();
   MovieList.init([]);
+  SeeMoreButton.show();
   pageNumber = 1;
 
   Skeleton.show();
   const query = SearchInput.getSearchValue();
-  const movieList = await getSearchMovieList(query);
+  const { movies, canMore } = await getSearchMovieList(query);
   Subtitle.set(`"${query}" 검색 결과`);
   Skeleton.hidden();
-  MovieList.set(movieList);
+  MovieList.set(movies);
+  if (!canMore) SeeMoreButton.hidden();
 
-  if (movieList.length === 0) {
+  if (movies.length === 0) {
     NoThumbnail.show();
     return;
   }
 
   SeeMoreButton.onButtonClick = async () => {
     Skeleton.show();
-    const movieList = await getSearchMovieList(query);
-    MovieList.add(movieList);
+    const { movies, canMore } = await getSearchMovieList(query);
+    if (!canMore) SeeMoreButton.hidden();
+    MovieList.add(movies);
     Skeleton.hidden();
   };
 }
