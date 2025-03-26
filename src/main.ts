@@ -6,7 +6,7 @@ import deleteParams from "./utils/deleteParams";
 deleteParams();
 
 Main({
-  movies: "loading",
+  movies: [],
 });
 
 async function init() {

@@ -13,7 +13,7 @@ body.modal-open {
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경을 위해 설정 */
   backdrop-filter: blur(10px); /* 블러 효과 적용 */
-  display: flex;
+  /* display: flex; */
   justify-content: center;
   align-items: center;
   z-index: 10;
@@ -33,7 +33,10 @@ body.modal-open {
   border-radius: 16px;
   color: white;
   z-index: 2;
-  position: relative;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
   width: 1000px;
 }
 
@@ -83,4 +86,14 @@ body.modal-open {
 .detail {
   max-height: 430px;
   overflow-y: auto;
+}
+
+dialog {
+  margin: 0;
+  padding: 0;
+}
+
+dialog:-internal-dialog-in-top-layer {
+  max-width: 100%;
+  max-height: 100%;
 }
