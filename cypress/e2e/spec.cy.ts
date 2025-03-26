@@ -5,14 +5,10 @@ describe("비동기 API 테스트 ", () => {
 
   beforeEach(() => {
     cy.visit("http://localhost:5173/");
-
-    
   });
   it("영화 목록 API 를 호출하면 한 번에 20개씩 목록에 나열되어야 한다.", () => {
     const popularMovieUrl =
       "https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=1";
-
-    
 
     cy.request({
       method: "GET",
@@ -26,7 +22,6 @@ describe("비동기 API 테스트 ", () => {
 
   it("영화를 검색하면 한 번에 20개씩 목록에 나열되어야 한다.", () => {
     const searchWord = "사랑";
-    // const searchMovieUrl = `https://api.themoviedb.org/3/search/movie?query=${searchWord}&include_adult=false?language=ko-KR&page=1`;
     const searchMovieUrl = `https://api.themoviedb.org/3/search/movie?query=${searchWord}&include_adult=false&language=ko-KR&page=1`;
 
     cy.request({

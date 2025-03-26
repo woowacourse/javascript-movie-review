@@ -29,7 +29,7 @@ class MovieService {
 
   async getSearchResult(searchWord: string) {
     const response = await fetch(
-      `${this.baseUrl}/search/movie?query=${searchWord}&include_adult=false?language=ko-KR&page=${this.currentPage}`,
+      `${this.baseUrl}/search/movie?query=${searchWord}&include_adult=false&language=ko-KR&page=${this.currentPage}`,
       getApiOptions(import.meta.env.VITE_TMDB_API_KEY)
     );
 
