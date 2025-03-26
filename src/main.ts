@@ -1,3 +1,3 @@
-import { initApp } from "./app/index/initIndexApp";
+import { initApp } from "./app/index/initIndexApp.ts";
 
 initApp();

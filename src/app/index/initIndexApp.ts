@@ -11,9 +11,11 @@ import {
 import MovieItemList from "../../components/movieItemList/movieItemList";
 import LongButton from "../../components/longButton/longButton";
 import mountHero from "../mount/mountHero";
+import { MovieItemListInstance } from "../../../types/components";
+import { LongButtonInstance } from "../../../types/components";
 
-const movieItemList = MovieItemList();
-const loadMoreButton = LongButton("더보기");
+const movieItemList: MovieItemListInstance = MovieItemList();
+const loadMoreButton: LongButtonInstance = LongButton("더보기");
 
 export function initApp() {
   mountHeader();
