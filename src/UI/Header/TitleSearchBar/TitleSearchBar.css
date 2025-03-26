@@ -1,0 +1,45 @@
+.header-container {
+  display: flex;
+}
+
+.title-search-bar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  z-index: 3;
+  margin-top: 20px;
+}
+
+.search-bar {
+  width: 525px;
+  height: 36px;
+  border-radius: 32px;
+  border: 2px solid white;
+  padding: 6px 16px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: space-between;
+}
+
+.search-button {
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
+.search-input {
+  width: 90%;
+  background-color: transparent;
+  border: none;
+  color: white;
+}
+
+h1.logo {
+  font-size: 2rem;
+  float: left;
+  margin-left: 125px;
+  cursor: pointer;
+}
