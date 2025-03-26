@@ -1,4 +1,4 @@
-import { redirectToPage } from '../route/router';
+import { redirectToPage } from '../../route/router';
 
 type HTTPMethodOptions = 'GET' | 'POST' | 'PUT' | 'DELETE';
 

@@ -1,5 +1,5 @@
 import { ASSET_PATHS } from '../constants/systemConstants';
-import { apiClient } from '../util/apiClient';
+import { apiClient } from '../util/web/apiClient';
 
 interface MovieListResponse {
   results: MovieListJSON[];
