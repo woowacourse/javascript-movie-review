@@ -65,4 +65,19 @@
   letter-spacing: 0%;
   color: white;
   text-align: center;
-} 
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.movie-list-title{
+  margin-left: 20px;
+  font-size: 36px;
+}
+
+@media (max-width: 768px) {
+  .movie-list-title {
+    margin-left: 0;
+    text-align: center;
+  }
+}

@@ -49,13 +49,12 @@ button.primary {
 }
 
 #app h2 {
-  font-size: 1.4rem;
   font-weight: bold;
-  margin-bottom: 32px;
+  margin-bottom: 52px;
 }
 
 .container {
-  max-width: 1280px;
+  max-width: 100%;
   margin: 0 auto;
 }
 

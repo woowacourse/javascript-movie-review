@@ -3,8 +3,42 @@
 .thumbnail-list {
   margin: 0 auto 56px;
   display: grid;
-  grid-template-columns: repeat(5, 200px);
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 70px;
+  justify-content: center;
+  width: 100%;
+  max-width: 1440px;
+  padding: 0 20px;
+}
+
+@media (min-width: 1440px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(5, 200px);
+  }
+}
+
+@media (min-width: 1120px) and (max-width: 1439px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(4, 200px);
+  }
+}
+
+@media (min-width: 800px) and (max-width: 1119px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(3, 200px);
+  }
+}
+
+@media (min-width: 550px) and (max-width: 799px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(2, 200px);
+  }
+}
+
+@media (max-width: 549px) {
+  .thumbnail-list {
+    grid-template-columns: 200px;
+  }
 }
 
 .thumbnail {
