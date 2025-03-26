@@ -1,6 +1,8 @@
+import { Result } from "./TMDB";
+
 export interface MovieItemListInstance {
   $el: HTMLUListElement;
-  render: (data: any[]) => void;
+  render: (data: Result[]) => void;
 }
 
 export interface LongButtonInstance {
