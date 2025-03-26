@@ -3,7 +3,7 @@ import { Movie } from "../types/movie";
 import { isHTMLElement } from "../utils/typeGuards";
 import ErrorScreen from "./ErrorScreen";
 import MoreMoviesButton from "./MoreMoviesButton";
-import MovieList from "./MovieList";
+import MovieList, { movieListSkeleton } from "./MovieList";
 import TopRatedMovie from "./TopRatedMovie";
 
 class PopularMovieBoard {
@@ -33,7 +33,7 @@ class PopularMovieBoard {
       </section>
       <section class="movie-list-container">
           <h2>지금 인기 있는 영화</h2>
-          <ul class='thumbnail-list'>${new MovieList([]).skeleton}</ul>
+          <ul class='thumbnail-list'>${movieListSkeleton()}</ul>
           <div class="more-button-container"></div>
       </section>
     `;
@@ -59,10 +59,17 @@ class PopularMovieBoard {
     if (!isHTMLElement(ul)) return;
 
     if (this.#page === 1) {
-      ul.innerHTML = new MovieList(movies).ui;
+      document.querySelectorAll(".skeleton-list").forEach((skeleton) => {
+        skeleton.remove();
+      });
+      new MovieList(ul, movies);
       return;
     }
-    ul?.insertAdjacentHTML("beforeend", new MovieList(movies).ui);
+
+    new MovieList(ul, movies);
+    //   return;
+    // }
+    // ul?.insertAdjacentHTML("beforeend", new MovieList(movies).ui);
   }
 
   async #movieData(): Promise<{ movies: Movie[]; total_pages: number }> {
