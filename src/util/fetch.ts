@@ -19,5 +19,6 @@ export async function fetchUrl<T>(
   if (!response.ok || !navigator.onLine)
     throw new Error(ERROR_MESSAGE.FETCH_ERROR);
 
-  return response.json() || [];
+  const data = await response.json();
+  return data;
 }
