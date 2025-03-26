@@ -2,21 +2,21 @@ import MovieApi from "../api/MovieApi";
 import { Movie } from "../types/movie";
 import { isHTMLElement } from "../utils/typeGuards";
 import ErrorScreen from "./ErrorScreen";
-import MoreMoviesButton from "./MoreMoviesButton";
 import MovieList, { movieListSkeleton } from "./MovieList";
 import TopRatedMovie from "./TopRatedMovie";
 
 class PopularMovieBoard {
   private static readonly MAX_PAGE = 500;
-
   #parentElement;
   #page;
+  #isLoading: boolean = false;
 
   constructor(parentElement: HTMLElement) {
     this.#parentElement = parentElement;
     this.#page = 1;
     this.#renderInitialLayout();
     this.#fetchAndRenderMovies();
+    this.#addEventListeners();
   }
 
   #renderInitialLayout(): void {
@@ -45,7 +45,6 @@ class PopularMovieBoard {
 
     this.#renderTopRatedMovie(movies[0]);
     this.#renderMovies(movies);
-    this.#renderMoreMoviesButton();
   }
 
   #renderTopRatedMovie(movie: Movie): void {
@@ -59,17 +58,12 @@ class PopularMovieBoard {
     if (!isHTMLElement(ul)) return;
 
     if (this.#page === 1) {
-      document.querySelectorAll(".skeleton-list").forEach((skeleton) => {
-        skeleton.remove();
-      });
+      ul.innerHTML = "";
       new MovieList(ul, movies);
       return;
     }
 
     new MovieList(ul, movies);
-    //   return;
-    // }
-    // ul?.insertAdjacentHTML("beforeend", new MovieList(movies).ui);
   }
 
   async #movieData(): Promise<{ movies: Movie[]; total_pages: number }> {
@@ -87,6 +81,9 @@ class PopularMovieBoard {
   }
 
   async #loadMoreMovies(): Promise<void> {
+    if (this.#isLoading) return;
+    this.#isLoading = true;
+
     this.#page += 1;
 
     const { movies: newMovies, total_pages } = await this.#movieData();
@@ -94,22 +91,29 @@ class PopularMovieBoard {
 
     this.#renderMovies(newMovies);
 
+    this.#isLoading = false;
+
     if (this.#page >= PopularMovieBoard.MAX_PAGE || this.#page >= total_pages) {
-      this.#hideMoreMoviesButton();
+      window.removeEventListener("scroll", this.#handleScroll);
     }
   }
 
-  #renderMoreMoviesButton(): void {
-    const $moreMoviesButton = document.querySelector(".more-button-container");
-    if (!isHTMLElement($moreMoviesButton)) return;
+  #handleScroll = () => {
+    const scrollTop = window.scrollY;
+    const windowHeight = window.innerHeight;
+    const documentHeight = document.body.scrollHeight;
 
-    new MoreMoviesButton($moreMoviesButton, {
-      refetchMovies: () => this.#loadMoreMovies(),
-    });
+    if (scrollTop + windowHeight >= documentHeight - 100) {
+      this.#loadMoreMovies();
+    }
+  };
+
+  destroy(): void {
+    window.removeEventListener("scroll", this.#handleScroll);
   }
 
-  #hideMoreMoviesButton(): void {
-    document.querySelector(".more-movies-button")?.remove();
+  #addEventListeners(): void {
+    window.addEventListener("scroll", this.#handleScroll);
   }
 }
 

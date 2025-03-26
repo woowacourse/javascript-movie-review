@@ -1,5 +1,4 @@
 import { Movie } from "../types/movie";
-import { isHTMLElement } from "../utils/typeGuards";
 import MovieItem from "./MovieItem";
 
 interface MovieListContract {}

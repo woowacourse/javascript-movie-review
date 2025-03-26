@@ -9,6 +9,7 @@ interface AppContract {
 }
 
 class App implements AppContract {
+  #currentBoard: PopularMovieBoard | SearchMovieBoard | null = null;
   constructor() {}
 
   public render() {
@@ -27,14 +28,17 @@ class App implements AppContract {
   }
 
   #renderSearchResult(searchParams: string) {
+    if (this.#currentBoard) this.#currentBoard.destroy();
     const $section = document.querySelector("main");
     if (isHTMLElement($section))
-      new SearchMovieBoard($section, { searchParams });
+      this.#currentBoard = new SearchMovieBoard($section, { searchParams });
   }
 
   #renderPopularMovies() {
+    if (this.#currentBoard) this.#currentBoard.destroy();
     const $section = document.querySelector("main");
-    if (isHTMLElement($section)) new PopularMovieBoard($section);
+    if (isHTMLElement($section))
+      this.#currentBoard = new PopularMovieBoard($section);
   }
 
   #renderFooter() {
