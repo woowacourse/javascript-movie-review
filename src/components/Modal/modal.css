@@ -95,3 +95,44 @@ body.modal-open {
   margin: 16px 0;
   font-weight: 600;
 }
+
+@media screen and (max-width: 940px) {
+  .modal {
+    width: 100dvw;
+    border-radius: 16px 16px 0 0;
+    position: absolute;
+    bottom: 0;
+  }
+  .description-information {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 32px;
+  }
+  .modal-description {
+    margin-left: 0;
+  }
+  .modal-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  .modal-image img {
+    width: 200px;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .modal {
+    min-width: 350px;
+  }
+  .modal-image img {
+    display: none;
+  }
+  .category {
+    width: calc(100% - 115px);
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
