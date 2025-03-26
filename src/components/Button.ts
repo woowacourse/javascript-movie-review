@@ -1,12 +1,16 @@
-import Main from './Main';
 import MovieList from './MovieList';
 import fetchPopularMovies from '../fetch/fetchPopularMovies';
 import fetchSearchMovies from '../fetch/fetchSearchMovies';
 import movies from '../store/Movies';
 import page from '../store/page';
 import createElement from './utils/createElement';
+import { ButtonType } from '../types/ButtonType';
 
-const Button = ({ text, type }) => {
+interface ButtonProps {
+  text: string;
+  type: ButtonType;
+}
+const Button = ({ text, type }: ButtonProps) => {
   const $button = createElement({
     tag: 'button',
     classNames: ['primary', `${type}`],
@@ -14,15 +18,13 @@ const Button = ({ text, type }) => {
 
   $button.textContent = text;
 
-  $button.addEventListener("click", async () => {
-    const $input = document.querySelector(".search-bar");
-    
+  $button.addEventListener("click", async () => {    
     const params = new URLSearchParams(window.location.search);
     
     let fetchedMovies;
     const currentPage = page.getPage();
     if(params.has("query")) {
-      fetchedMovies = await fetchSearchMovies(params.get("query"), currentPage);
+      fetchedMovies = await fetchSearchMovies(params.get("query") || '', currentPage);
     }
     else {
       fetchedMovies = await fetchPopularMovies(currentPage);
@@ -34,13 +36,19 @@ const Button = ({ text, type }) => {
       $button.classList.toggle('disappear');
     }
 
-    document.querySelector('.thumbnail-list').remove();
+    const thumbnailList = document.querySelector('.thumbnail-list');
+    if (thumbnailList) {
+      thumbnailList.remove();
+    }
 
-    document.querySelector('section').appendChild(
-      MovieList({
-          movies: movies.movieList,
-      })
-    )
+    const section = document.querySelector('section');
+    if (section) {
+      section.appendChild(
+        MovieList({
+            movies: movies.movieList,
+        })
+      );
+    }
   });
 
   return $button;
