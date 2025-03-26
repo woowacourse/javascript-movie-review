@@ -111,14 +111,16 @@ class MoviesCotainer {
       new Thumbnail(this.#movies[0], this.$target).render();
     }
 
+    const $div = document.createElement("div");
     new MovieListSection(
       this.#searchKeyword,
       this.#movies,
       this.#isLoading,
-      $main
+      $div
     ).render();
 
     $container.appendChild($main);
+    $main.appendChild($div);
 
     if (this.hasMovies() && this.#show) {
       new Button($main, this.handleButtonClick).render();

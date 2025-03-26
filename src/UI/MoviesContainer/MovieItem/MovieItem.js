@@ -1,9 +1,10 @@
 import "./MovieItem.css";
 
 class MovieItem {
-  constructor(movie, isLoading, $target) {
+  constructor(movie, isLoading, onMovieItemClick, $target) {
     this.movie = movie;
     this.isLoading = isLoading;
+    this.onMovieItemClick = onMovieItemClick;
     this.$target = $target;
   }
 
@@ -42,6 +43,8 @@ class MovieItem {
         </div>
     
     `;
+
+    $li.addEventListener("click", () => this.onMovieItemClick(this.movie.id));
 
     this.$target.appendChild($li);
   }

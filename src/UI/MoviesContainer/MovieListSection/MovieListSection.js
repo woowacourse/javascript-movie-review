@@ -1,17 +1,29 @@
 import "./MovieListSection.css";
 import MovieItem from "../MovieItem/MovieItem";
 import EmptyView from "../EmptyView/EmptyView";
+import Modal from "../../Common/Modal/Modal";
 import { MOVIE } from "../../../constants/movie";
 
 class MovieListSection {
+  #modalId;
+
   constructor(title, movies, isLoading, $target) {
     this.title = title;
     this.movies = movies;
     this.isLoading = isLoading;
     this.$target = $target;
+
+    this.#modalId;
   }
 
-  render() {
+  async setMovieId(movieId) {
+    this.#modalId = movieId;
+    await this.render();
+  }
+
+  async render() {
+    this.$target.innerHTML = "";
+
     const $section = document.createElement("section");
     const $title = document.createElement("h2");
     $title.textContent = this.getTitle();
@@ -58,11 +70,31 @@ class MovieListSection {
     }
 
     this.$target.append($title, $ul);
+
+    const $body = document.querySelector("body");
+    const $modalContainer = document.createElement("div");
+    $modalContainer.classList.add("modal-background-container");
+
+    const $el = document.querySelector(".modal-background-container");
+
+    if ($el) {
+      $modalContainer.innerHTML = "";
+      $el.remove();
+    }
+
+    $body.appendChild($modalContainer);
+
+    const modal = new Modal($modalContainer, this.#modalId);
+    modal.init();
   }
+
+  handleMovieItemClick = (movieId) => {
+    this.setMovieId(movieId);
+  };
 
   renderMovieItemByArray(movies, $ul, isLoading) {
     movies.forEach((movie) => {
-      new MovieItem(movie, isLoading, $ul).render();
+      new MovieItem(movie, isLoading, this.handleMovieItemClick, $ul).render();
     });
   }
 
