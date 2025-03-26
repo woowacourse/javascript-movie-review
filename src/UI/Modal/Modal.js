@@ -3,8 +3,8 @@ class Modal {
     this.movieDetail = movieDetail;
   }
   render() {
-    const $div = document.createElement("div");
-    $div.innerHTML =
+    this.$div = document.createElement("div");
+    this.$div.innerHTML =
       /*html*/
       `
         <div class="modal-background active" id="modalBackground">
@@ -41,7 +41,22 @@ class Modal {
       </div>
     </div>
         `;
-    return $div;
+
+    const closeButton = this.$div.querySelector("#closeModal");
+    closeButton.addEventListener("click", () => this.closeModal());
+    document.addEventListener("keydown", () => this.handleKeyDown(event));
+
+    return this.$div;
+  }
+
+  handleKeyDown(e) {
+    if (e.key === "Escape") {
+      this.closeModal();
+    }
+  }
+
+  closeModal() {
+    this.$div.remove();
   }
 }
 export default Modal;
