@@ -16,7 +16,7 @@ export async function addMoreMovies($movieList: HTMLElement) {
 
   if (query) {
     const searchedMovies = await getSearchedPost(
-      query as string,
+      query,
       parseInt(params.get("page")!)
     );
 
