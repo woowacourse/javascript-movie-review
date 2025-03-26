@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
   const $navigationBar = NavigationBar({
-    input: $input,
+    searchWrap: $input,
     routeToPopularPage: () => {
       movieState.mode = "popular";
       $title.textContent = "지금 인기 있는 영화";

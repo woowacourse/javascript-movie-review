@@ -1,9 +1,12 @@
 type NavigationBarProps = {
-  input: HTMLDivElement;
+  searchWrap: HTMLDivElement;
   routeToPopularPage: () => void;
 };
 
-const NavigationBar = ({ input, routeToPopularPage }: NavigationBarProps) => {
+const NavigationBar = ({
+  searchWrap,
+  routeToPopularPage,
+}: NavigationBarProps) => {
   const navigationContainer = document.createElement("div");
   navigationContainer.classList.add("navigation-container");
 
@@ -13,7 +16,7 @@ const NavigationBar = ({ input, routeToPopularPage }: NavigationBarProps) => {
 
   logo.addEventListener("click", routeToPopularPage);
 
-  navigationContainer.append(logo, input);
+  navigationContainer.append(logo, searchWrap);
 
   return navigationContainer;
 };
