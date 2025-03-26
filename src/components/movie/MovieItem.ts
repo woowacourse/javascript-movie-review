@@ -1,8 +1,8 @@
-import { MovieDetail } from "../../../types/movie";
 import { fetchDetailMovie } from "../../api/fetchDetailMovie.ts";
 import { createElement } from "../../utils/createElement.ts";
 import { $ } from "../../utils/dom.ts";
 import Rate from "../common/Rate.ts";
+import MovieDetailContent from "./MovieDetail.ts";
 
 type Props = {
   id: number;
@@ -14,9 +14,21 @@ type Props = {
 const MovieItem = ({ id, src, rate, title }: Props) => {
   async function onClick() {
     const movie = await fetchDetailMovie(id);
-    const { title, genres, vote_average, poster_path, overview } = movie.data;
+    const { title, genres, vote_average, poster_path, overview, release_date } =
+      movie.data;
 
-    // 모달에 해당 값 전달하기
+    $("#modalBackground").classList.add("active");
+
+    $(".modal").appendChild(
+      MovieDetailContent({
+        title,
+        genres,
+        vote_average,
+        poster_path,
+        overview,
+        release_date,
+      })
+    );
   }
   const movieItem = createElement(
     /*html*/ `
