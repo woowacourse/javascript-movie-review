@@ -1,10 +1,11 @@
 import { LocalStorageMovieRateValueType, MovieDetailResponse, MovieResult, MoviesResponse } from '@/lib/types';
 import { MovieApiClient } from './apis';
-import { Footer, Header, MovieDetailModal, Movies, Obserable } from './components';
+import { Footer, Header, MovieDetailModal, Movies, Obserable, Toast } from './components';
 import { Component } from './components/core';
 import eventHandlerInstance from './lib/modules/EventHandler';
 import LocalStorage from './lib/modules/LocalStorage';
 import { html, isError, isHTMLFormElement, isString } from './lib/utils';
+import { TOAST_TYPE } from './components/Toast';
 
 export interface AppState {
   page: number;
@@ -191,15 +192,13 @@ export default class App extends Component<null, AppState> {
     eventHandlerInstance.addEventListener({
       eventType: 'offline',
       callbackWindow: () => {
-        console.log('offline');
-        // "네트워크 오프라인이 감지되었습니다." 토스트로 보여주기
+        new Toast({ message: '네트워크 오프라인이 감지되었습니다.', type: TOAST_TYPE.error }).show();
       },
     });
     eventHandlerInstance.addEventListener({
       eventType: 'online',
       callbackWindow: () => {
-        console.log('online');
-        // "네트워크가 연결되었습니다." 토스트로 보여주기
+        new Toast({ message: '네트워크가 연결되었습니다.', type: TOAST_TYPE.success }).show();
       },
     });
   }

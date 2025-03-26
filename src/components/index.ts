@@ -4,3 +4,4 @@ export { default as Movies } from './Movies';
 export { default as ThumbnailList } from './ThumbnailList';
 export { default as MovieDetailModal } from './MovieDetailModal';
 export { default as Obserable } from './Obserable';
+export { default as Toast } from './Toast';
