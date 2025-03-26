@@ -1,4 +1,3 @@
-import Button from '../../component/button/Button';
 import MainBanner from '../../component/main-banner/MainBanner';
 import MovieGrid from '../../component/movie-grid/MovieGrid';
 import { Title } from '../../component/title/Title';
@@ -29,6 +28,7 @@ export class MainPage {
     this.#movieListData = movieListData;
     this.#isLoading = false;
     this.render();
+    this.#bindInfiniteScrollEvent();
   }
 
   render() {
@@ -46,7 +46,6 @@ export class MainPage {
     const $loadMoreButton = $({ selector: '.button--medium' });
     if ($loadMoreButton) $loadMoreButton.remove();
     this.#renderGridMovies();
-    this.#container.appendChild(this.#loadMoreButtonElement());
   }
 
   #renderGridMovies() {
@@ -76,10 +75,6 @@ export class MainPage {
     return this.#movieGrid.element;
   }
 
-  #loadMoreButtonElement() {
-    return new Button({ cssType: 'medium', innerText: '더보기', onClick: this.#loadMoreData }).element;
-  }
-
   #loadMoreData = async () => {
     this.#currentPage += 1;
     const { movieListData } = await extractedData(SYSTEM_CONSTANTS.MAIN_URL(this.#currentPage));
@@ -89,5 +84,21 @@ export class MainPage {
 
   get element() {
     return this.#container;
+  }
+
+  #onScroll = () => {
+    if (this.#isLoading) return;
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
+      console.log('main');
+      this.#loadMoreData();
+    }
+  };
+
+  #bindInfiniteScrollEvent() {
+    window.addEventListener('scroll', this.#onScroll);
+  }
+
+  destroy() {
+    window.removeEventListener('scroll', this.#onScroll);
   }
 }

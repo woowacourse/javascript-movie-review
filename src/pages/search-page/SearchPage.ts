@@ -1,4 +1,4 @@
-import Button from '../../component/button/Button';
+// import Button from '../../component/button/Button';
 import MovieGrid from '../../component/movie-grid/MovieGrid';
 import { Title } from '../../component/title/Title';
 import { SYSTEM_CONSTANTS } from '../../constants/systemConstants';
@@ -9,12 +9,12 @@ import searchPageLoadingTemplate from './loadingTemplate';
 class SearchPage {
   #container;
   #movieListData: MovieData[] = [];
+  #newMovies = [];
   #isLoading: boolean = true;
   #query: string;
   #currentPage = 1;
   #totalPage = 0;
   #movieGrid: MovieGrid | null = null;
-  #loadMoreButton: Button | null = null;
 
   constructor() {
     this.#container = document.createElement('div');
@@ -35,10 +35,12 @@ class SearchPage {
         SYSTEM_CONSTANTS.SEARCH_URL(this.#query, this.#currentPage),
       );
       this.#movieListData = movieListData;
+      this.#newMovies = movieListData;
       this.#totalPage = totalPage;
     }
     this.#isLoading = false;
     this.render();
+    this.#bindInfiniteScrollEvent();
   }
 
   render() {
@@ -55,11 +57,6 @@ class SearchPage {
     const $loadMoreButton = $({ selector: '.button--medium' });
     if ($loadMoreButton) $loadMoreButton.remove();
     this.#renderGridMovies();
-
-    if (this.#currentPage !== this.#totalPage) {
-      this.#loadMoreButton = new Button({ cssType: 'medium', innerText: '더보기', onClick: this.#loadMoreData });
-      this.#container.appendChild(this.#loadMoreButton.element);
-    }
   }
 
   #renderGridMovies() {
@@ -67,8 +64,7 @@ class SearchPage {
       this.#container.appendChild(this.#movieGridElement());
       return;
     }
-    const newItems = this.#movieListData.slice(-20); // todo : 20 매직넘버
-    const movieElements = this.#movieGrid.appendMovies(newItems);
+    const movieElements = this.#movieGrid.appendMovies(this.#newMovies);
 
     const list = $({ selector: '.thumbnail-list' });
     if (!list) throw new Error('thumbnail-list가 존재하지 않습니다.');
@@ -84,6 +80,8 @@ class SearchPage {
   #loadMoreData = async () => {
     this.#currentPage += 1;
     const { movieListData } = await extractedData(SYSTEM_CONSTANTS.SEARCH_URL(this.#query, this.#currentPage));
+    console.log('here', movieListData);
+    this.#newMovies = movieListData;
     this.#movieListData = [...this.#movieListData, ...movieListData];
     this.renderDynamicSection();
   };
@@ -94,6 +92,25 @@ class SearchPage {
 
   get element() {
     return this.#container;
+  }
+
+  #onScroll = () => {
+    if (this.#isLoading || this.#currentPage === this.#totalPage) {
+      return;
+    }
+
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
+      console.log('search');
+      this.#loadMoreData();
+    }
+  };
+
+  #bindInfiniteScrollEvent() {
+    window.addEventListener('scroll', this.#onScroll); // 익명함수는 제거 되지 않ㅎ는다... 주의 ...
+  }
+
+  destroy() {
+    window.removeEventListener('scroll', this.#onScroll);
   }
 }
 
