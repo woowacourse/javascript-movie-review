@@ -1,6 +1,6 @@
 import { LocalStorageMovieRateValueType, MovieDetailResponse, MovieResult, MoviesResponse } from '@/lib/types';
 import { MovieApiClient } from './apis';
-import { Footer, Header, MovieDetailModal, Movies, Obserable, Toast } from './components';
+import { Footer, Header, MovieDetailModal, Movies, IntersectionObserble, Toast } from './components';
 import { Component } from './components/core';
 import eventHandlerInstance from './lib/modules/EventHandler';
 import LocalStorage from './lib/modules/LocalStorage';
@@ -71,12 +71,12 @@ export default class App extends Component<null, AppState> {
         'movie-detail-modal',
       );
     this.fillSlot(
-      new Obserable({
+      new IntersectionObserble({
         callback: async () => {
-          console.log(1);
           await this.getMovie(this.state.search, this.state.page + 1);
           this.setState({ movieDetailResponse: null });
         },
+        id: 'movie-more',
       }),
       'obserable',
     );

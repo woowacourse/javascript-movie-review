@@ -13,7 +13,7 @@ export default class ThumbnailList extends Component<ThumbnailListProps> {
   template() {
     if (!this.props.movies)
       return html`
-        <ul class="thumbnail-list">
+        <ul class="thumbnail-list skeleton-thumbnail-list">
           ${new Array(20).fill(null).map(
             () => `
               <li class="item">
@@ -64,7 +64,7 @@ export default class ThumbnailList extends Component<ThumbnailListProps> {
               </li>
           `;
         })}
-      </section>
+      </ul>
     `;
   }
 
