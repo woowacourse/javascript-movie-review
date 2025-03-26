@@ -2,6 +2,7 @@ import { addMovieCard } from "../../../shared/ui/movies/addMovieCard";
 import ErrorPage from "../../../shared/ui/components/ErrorPage";
 import { withSkeleton } from "../../../shared/ui/skeletons/withSkeleton";
 import { getSearchedMovie } from "../api/getSearchedMovie";
+import { movieDetailModalHandler } from "../../../shared/ui/detailModal/movieDetailModalHandler";
 
 export async function updateSearchedMovieUI(
   $container: HTMLElement,
@@ -18,6 +19,7 @@ export async function updateSearchedMovieUI(
 
     if (searchedMovies) {
       addMovieCard(searchedMovies.results, $container);
+      movieDetailModalHandler();
     }
   } catch (error) {
     ErrorPage("검색한 영화 리스트를 불러오는데 실패하였습니다.");
