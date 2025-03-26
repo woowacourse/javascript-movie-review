@@ -4,10 +4,3 @@ export type Movie = {
   voteAverage: number;
   posterPath: string | null;
 };
-
-export type MovieType = "popular" | "search";
-
-export type MovieState = {
-  mode: MovieType;
-  query: string;
-};
