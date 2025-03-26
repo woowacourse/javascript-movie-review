@@ -15,7 +15,12 @@ class MovieFetcher {
   private isSearch: boolean = false;
   private query: string = '';
   private currentPage: number = 1;
-  private movieResponse: MovieResponse = {} as MovieResponse;
+  private movieResponse: MovieResponse = {
+    page: 1,
+    results: [],
+    total_pages: 0,
+    total_results: 0,
+  };
   private movieResult: MovieItem[] = [];
 
   private error: Error | null = null;
