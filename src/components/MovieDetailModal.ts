@@ -10,7 +10,7 @@ interface MovieDetailModalProps {
   movieRate: LocalStorageMovieRateValueType;
 }
 
-const RATE_MAP = {
+const RATE_MAP: Record<number, string> = {
   2: '최악이에요',
   4: '별로에요',
   6: '보통이에요',
@@ -71,7 +71,7 @@ export default class MovieDetailModal extends Component<MovieDetailModalProps> {
                     )}
                   </div>
                   <p>
-                    <span>${RATE_MAP[String(currentMovieRate)]}</span>
+                    <span>${RATE_MAP[currentMovieRate]}</span>
                     <span>(${currentMovieRate}/10)</span>
                   </p>
                 </div>

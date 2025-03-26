@@ -23,7 +23,3 @@ export class Store<State extends StrictObject = {}> {
     }, this.#listeners);
   }
 }
-
-export default class MovieStore {
-  #store = new Store();
-}
