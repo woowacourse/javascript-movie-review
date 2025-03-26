@@ -13,6 +13,7 @@
 
 .searchbar__input {
   flex: 1;
+  color: var(--color-white);
   &::placeholder {
     color: var(--color-white);
   }
