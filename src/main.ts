@@ -1,6 +1,6 @@
 import MostPopularMovieBanner from "./components/MostPopularMovieBanner.ts";
 import NavigationBar from "./components/navigation-bar/NavigationBar.ts";
-import MovieList from "./components/MovieList.ts";
+import MovieList from "./components/movie-list/MovieList.ts";
 import Input from "./components/navigation-bar/Input.ts";
 import Button from "./components/Button.ts";
 import {
@@ -11,7 +11,7 @@ import {
   fetchSearchedMovies,
   movieState,
 } from "./store/movieService.ts";
-import { MovieType } from "../types/movie.ts";
+import MovieContainer from "./components/movie-list/MovieContainer.ts";
 
 document.addEventListener("DOMContentLoaded", async () => {
   const main = document.querySelector("main");

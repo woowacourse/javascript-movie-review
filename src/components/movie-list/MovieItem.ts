@@ -1,4 +1,4 @@
-import { Movie } from "../../types/movie";
+import { Movie } from "../../../types/movie";
 
 const MovieItem = ({ title, voteAverage, posterPath }: Movie) => {
   const movieItem = document.createElement("li");
