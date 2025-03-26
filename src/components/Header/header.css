@@ -3,24 +3,25 @@ header {
   top: 0;
   left: 0;
   display: flex;
+  flex-direction: column;
+  align-items: center;
   padding: 30px 40px;
   z-index: 100;
   width: 100%;
+  gap: 24px;
 }
 
 h1.logo {
   font-size: 2rem;
 }
 
+.search-bar-container {
+  width: min(525px, 100%);
+}
+
 .search-bar {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 525px;
-  padding: 3px 20px;
+  padding: 3px 10px;
   color: var(--color-white);
-  font-size: 16px;
   border-radius: 30px;
   border: 2px solid var(--color-white);
   display: flex;
@@ -30,13 +31,16 @@ h1.logo {
   background-color: transparent;
   border: none;
 }
-
+.search-bar button img {
+  width: 16px;
+  height: 16px;
+}
 .search-bar input {
   background-color: transparent;
   border: none;
   color: white;
   flex: 1;
-  font-size: 16px;
+  font-size: 1.6rem;
   &:focus {
     outline: none;
   }

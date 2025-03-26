@@ -91,6 +91,9 @@ video {
   font: inherit;
   vertical-align: baseline;
 }
+html {
+  font-size: 62.5%;
+}
 /* HTML5 display-role reset for older browsers */
 article,
 aside,
@@ -131,4 +134,13 @@ table {
 button {
   background-color: transparent;
   border: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
 }

@@ -1,0 +1,14 @@
+body {
+  font-size: 1.6rem;
+  color: var(--color-white);
+  background-color: var(--color-bluegray-100);
+  overflow-x: hidden;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  margin-bottom: 64px;
+  flex: 1;
+}

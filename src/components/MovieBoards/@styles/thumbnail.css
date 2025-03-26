@@ -11,16 +11,50 @@
   min-height: 500px;
 }
 
+.movie-list-container {
+  padding: 64px 80px;
+}
+
+.movie-list-container h2 {
+  font-size: 3.6rem;
+}
+
 .thumbnail-list {
   margin-bottom: 56px;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 70px;
+  gap: 24px;
+}
+
+@media screen and (max-width: 1024px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .movie-list-container {
+    padding: 0 20px;
+  }
+}
+@media screen and (max-width: 800px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .thumbnail-list {
+    grid-template-columns: 1fr;
+  }
 }
 
 .thumbnail {
-  width: 200px;
-  height: 300px;
+  width: 100%;
   border-radius: 8px;
 }
 

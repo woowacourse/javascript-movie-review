@@ -9,12 +9,23 @@ interface AppContract {
 }
 
 class App implements AppContract {
-  constructor() {}
+  constructor() {
+    this.#renderInitialLayout();
+  }
 
   public render() {
     this.#renderHeader();
     this.#renderPopularMovies();
-    this.#renderFooter();
+  }
+
+  #renderInitialLayout(): void {
+    const $body = document.querySelector("body");
+    if (!isHTMLElement($body)) return;
+    $body.innerHTML = /*html*/ `
+      <header></header>
+      <main></main>
+      ${Footer()}
+    `;
   }
 
   #renderHeader() {
@@ -35,11 +46,6 @@ class App implements AppContract {
   #renderPopularMovies() {
     const $section = document.querySelector("main");
     if (isHTMLElement($section)) new PopularMovieBoard($section);
-  }
-
-  #renderFooter() {
-    const root = document.querySelector("body");
-    root?.insertAdjacentHTML("beforeend", Footer());
   }
 }
 
