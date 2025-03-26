@@ -3,6 +3,7 @@ import fetchSearchMovies from "./api/fetchSearchMovies";
 import Header from "./components/Header/Header";
 import SearchInput from "./components/Header/SearchInput";
 import MovieList from "./components/MovieList/MovieList";
+import NoThumbnail from "./components/NoThumbnail/NoThumbnail";
 import SeeMoreButton from "./components/SeeMoreButton/SeeMoreButton";
 import Skeleton from "./components/Skeleton/Skeleton";
 import Subtitle from "./components/Subtitle/Subtitle";
@@ -60,6 +61,7 @@ async function getSearchMovieList(query: string) {
 
 async function search() {
   Header.setSearchMode();
+  NoThumbnail.hidden();
   MovieList.init([]);
   pageNumber = 1;
 
@@ -67,12 +69,18 @@ async function search() {
   const query = SearchInput.getSearchValue();
   const movieList = await getSearchMovieList(query);
   Subtitle.set(`"${query}" 검색 결과`);
+  Skeleton.hidden();
   MovieList.set(movieList);
+
+  if (movieList.length === 0) {
+    NoThumbnail.show();
+    return;
+  }
+
   SeeMoreButton.onButtonClick = async () => {
     Skeleton.show();
     const movieList = await getSearchMovieList(query);
     MovieList.add(movieList);
     Skeleton.hidden();
   };
-  Skeleton.hidden();
 }
