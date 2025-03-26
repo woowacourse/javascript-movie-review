@@ -1,0 +1,61 @@
+{
+  "adult": false,
+  "backdrop_path": "/gsQJOfeW45KLiQeEIsom94QPQwb.jpg",
+  "belongs_to_collection": null,
+  "budget": 0,
+  "genres": [
+    {
+      "id": 28,
+      "name": "액션"
+    },
+    {
+      "id": 53,
+      "name": "스릴러"
+    }
+  ],
+  "homepage": "",
+  "id": 1125899,
+  "imdb_id": "tt27812086",
+  "origin_country": ["GB"],
+  "original_language": "en",
+  "original_title": "Cleaner",
+  "overview": "​전직 군인 조이 록(데이지 리들리 분)은 런던의 고층 빌딩에서 창문 청소부로 일하며 조용한 삶을 살아간다. 그러나 환경 운동가들이 에너지 기업의 연례 갈라 행사에서 건물을 점거하고 인질을 잡는 사태가 발생한다. 그 인질 중에는 조이의 오빠 마이클 록(매튜 턱 분)이 포함되어 있다. 조이는 자신의 군사 경험을 바탕으로 인질들을 구출하기 위해 목숨을 건 사투를 벌이게 되는데...",
+  "popularity": 451.8095,
+  "poster_path": "/mwzDApMZAGeYCEVjhegKvCzDX0W.jpg",
+  "production_companies": [
+    {
+      "id": 138743,
+      "logo_path": "/abFJGmtPFs6Bq5cBavmrnXDcpf8.png",
+      "name": "Anton",
+      "origin_country": "GB"
+    },
+    {
+      "id": 892,
+      "logo_path": "/s7eFTMS1udDI1EG0Zxlx4ylx1Nl.png",
+      "name": "Qwerty Films",
+      "origin_country": "GB"
+    }
+  ],
+  "production_countries": [
+    {
+      "iso_3166_1": "GB",
+      "name": "United Kingdom"
+    }
+  ],
+  "release_date": "2025-02-19",
+  "revenue": 0,
+  "runtime": 96,
+  "spoken_languages": [
+    {
+      "english_name": "English",
+      "iso_639_1": "en",
+      "name": "English"
+    }
+  ],
+  "status": "Released",
+  "tagline": "",
+  "title": "클리너",
+  "video": false,
+  "vote_average": 6.4,
+  "vote_count": 68
+}

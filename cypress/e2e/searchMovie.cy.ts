@@ -11,7 +11,7 @@ describe('검색 e2e 테스트', () => {
 
   it('검색창에 검색어를 입력하면 스켈레톤을 보여준 후 검색 데이터를 보여준다.', () => {
     cy.intercept('GET', 'https://api.themoviedb.org/3/search/movie?*', {
-      fixture: 'searchMovie.json',
+      fixture: 'search-movie.json',
     }).as('getSearchMovie');
 
     cy.wait('@getPopular');
