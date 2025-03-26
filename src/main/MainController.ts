@@ -38,7 +38,6 @@ class MainController {
       const movieItem = await this.movieListController.render();
       await this.backgroundThumbnailController.render(movieItem);
     } catch (error) {
-      console.log(error);
       this.messageModalController.changeContentMessage(
         ERROR_MESSAGE[Number((error as Error).message)] ||
           "알 수 없는 오류가 발생했습니다.",
