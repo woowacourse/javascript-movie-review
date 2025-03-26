@@ -21,7 +21,9 @@ export default function createMovieLoader(
     try {
       response = await fetchUrl<TMDBResponse>(url, queryObject, options);
     } catch (error) {
-      Toast.showToast(error.message, "error", 5000);
+      if (error instanceof Error) {
+        Toast.showToast(error.message, "error", 5000);
+      }
       return { results: [], isLastPage: true };
     }
 

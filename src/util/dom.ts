@@ -1,14 +1,19 @@
-interface Props<K extends keyof HTMLElementTagNameMap>
-  extends Omit<Partial<HTMLElementTagNameMap[K]>, "className"> {
+type Props<K extends keyof HTMLElementTagNameMap> = Omit<
+  Partial<HTMLElementTagNameMap[K]>,
+  "className"
+> & {
   className?: string | string[];
-}
+};
+
 export function createElement<K extends keyof HTMLElementTagNameMap>(
   tag: K,
-  props: Props<K> = {}
+  props?: Props<K>
 ): HTMLElementTagNameMap[K] {
   const element = document.createElement(tag) as HTMLElementTagNameMap[K];
 
-  Object.entries(props).forEach(([key, value]) => {
+  const resolvedProps = props ?? {};
+
+  Object.entries(resolvedProps).forEach(([key, value]) => {
     if (key === "className") {
       if (Array.isArray(value)) {
         element.classList.add(...value);
