@@ -53,7 +53,10 @@ class App {
 
         this.#store.setState({ loading: true });
 
-        if (!state.query) {
+        if (
+          !state.query &&
+          state.movies.length < MOVIE_COUNT.MAX_PAGE * MOVIE_COUNT.UNIT
+        ) {
           const newMovies = await fetchPopularMovies(
             (error) => alert(error.message),
             currentPage
@@ -61,6 +64,8 @@ class App {
           this.#store.setState({ movies: [...state.movies, ...newMovies] });
           return;
         }
+
+        if (state.movies.length >= state.searchedMoviesLength) return;
 
         const newMoviesData = await fetchSearchedMovies(
           state.query,
