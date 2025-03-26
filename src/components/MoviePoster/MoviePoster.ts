@@ -3,12 +3,13 @@ import { MovieDetail } from "../../../types/type";
 const defaultPosterPath = "./default-poster.svg";
 const imagePathPreFix = "https://image.tmdb.org/t/p/w440_and_h660_face";
 
-const $MoviePoster = ({
-  title,
-  poster_path,
-}: Pick<MovieDetail, "title" | "poster_path">) => {
+interface MoviePosterProps extends Pick<MovieDetail, "title" | "poster_path"> {
+  className: string;
+}
+
+const $MoviePoster = ({ className, title, poster_path }: MoviePosterProps) => {
   const $poster = createElement("img", {
-    className: "thumbnail",
+    className,
     src: "./placeholder-poster.svg",
     alt: title,
     loading: "lazy",

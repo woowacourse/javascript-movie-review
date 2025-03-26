@@ -31,7 +31,9 @@ const $MovieItem = ({ title, poster_path, vote_average }: MovieDetail) => {
   const $posterBox = createElement("div", {
     className: "thumbnail-box",
   });
-  $posterBox.appendChild($MoviePoster({ title, poster_path }));
+  $posterBox.appendChild(
+    $MoviePoster({ className: "thumbnail", title, poster_path })
+  );
 
   $item.append($posterBox, $description);
 
