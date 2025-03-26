@@ -31,8 +31,32 @@ const initMovies = () =>
     URLS.popularMovieUrl,
     defaultQueryObject,
     defaultOptions,
-    (error) => Toast.showToast(error.message, "error", 5000)
+    handleError
   );
+
+function checkApiAvailability() {
+  const intervalId = setInterval(() => {
+    fetch("https://api.themoviedb.org/3/movie/popular")
+      .then((response) => {
+        if (response.ok) {
+          // API 사용 가능하면 infinite scroll을 재개하고, 체크를 중지합니다.
+          infiniteScrollInstance.resumeInfiniteScroll();
+          clearInterval(intervalId);
+        }
+      })
+      .catch((error) => {
+        console.error("API 재확인 중 에러 발생:", error);
+      });
+  }, 3000);
+}
+
+// 두 에러 핸들링 로직을 합친 handleError 함수
+const handleError = (error: Error) => {
+  // 에러 메시지 표시
+  Toast.showToast(error.message, "error", 5000);
+  // API 가용성 체크 시작
+  checkApiAvailability();
+};
 
 const initState = () => ({
   loadMovies: initMovies(),
@@ -83,7 +107,9 @@ document
       handleItemClick(id);
     }
   });
-
+window.addEventListener("online", () => {
+  infiniteScrollInstance.resumeInfiniteScroll();
+});
 async function handleItemClick(id: string) {
   const detailsUrl = "https://api.themoviedb.org/3/movie";
   try {
