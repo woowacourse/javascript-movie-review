@@ -1,40 +1,80 @@
 @import "./colors.css";
 
 .thumbnail-list {
-  margin: 0 auto 56px;
-  display: grid;
-  grid-template-columns: repeat(5, 200px);
-  gap: 70px;
+    margin: 0 auto 56px;
+    display: grid;
+    grid-template-columns: repeat(5, 200px);
+    gap: 70px;
 }
 
 .thumbnail {
-  width: 200px;
-  height: 300px;
-  border-radius: 8px;
+    width: 200px;
+    height: 300px;
+    border-radius: 8px;
 }
 
 .item {
-  user-select: none;
-  cursor: pointer;
+    user-select: none;
+    cursor: pointer;
 }
 
 .item-desc > *:not(:last-child) {
-  position: relative;
-  margin-bottom: 4px;
-  line-height: 1.2rem;
+    position: relative;
+    margin-bottom: 4px;
+    line-height: 1.2rem;
 }
 
 p.rate {
-  display: flex;
-  align-items: baseline;
-  color: var(--color-yellow);
+    display: flex;
+    align-items: baseline;
+    color: var(--color-yellow);
 }
 
 p.rate > span {
-  margin-left: 4px;
+    margin-left: 4px;
 }
 
 .item .star {
-  width: 16px;
-  top: 1px;
+    width: 16px;
+    top: 1px;
+}
+
+.skeleton-list {
+    background-color: #ccc;
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+    margin: 0 auto 56px;
+    display: grid;
+    grid-template-columns: repeat(5, 200px);
+    gap: 70px;
+}
+
+.skeleton::after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: -150px;
+    height: 100%;
+    width: 150px;
+    background: linear-gradient(
+            to right,
+            transparent 0%,
+            rgba(255, 255, 255, 0.4) 50%,
+            transparent 100%
+    );
+    animation: skeleton-loading 1s ease-in-out infinite;
+}
+
+@keyframes skeleton-loading {
+    0% {
+        left: -150px;
+    }
+    50% {
+        left: 100%;
+    }
+    100% {
+        left: 100%;
+    }
 }
