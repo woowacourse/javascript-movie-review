@@ -1,5 +1,6 @@
 import { Response } from "../types/response";
 import { fetchPopularMovieList } from "./api/fetchPopularMovieList.ts";
+import Modal from "./components/common/Modal.ts";
 import Footer from "./components/layout/Footer.ts";
 import Header from "./components/layout/Header.ts";
 import Caption from "./components/movie/Caption.ts";
@@ -27,6 +28,7 @@ addEventListener("load", async () => {
 
     processMovies();
 
+    app.appendChild(Modal());
     app.appendChild(footer);
   }
 });
