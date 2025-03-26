@@ -16,19 +16,29 @@ describe('클라이언트 테스트', () => {
       cy.wait('@getPopularMovies').then((interception) => {
         if (!interception.response) return;
 
-        const popularMovieItems = cy.get('.thumbnail-list > li');
-        expect(popularMovieItems.should('have.length', 20));
+        cy.get('.skeleton-thumbnail-list').should('not.exist');
+        cy.get('.thumbnail-list > li').should('have.length', 20);
       });
     });
 
-    it('사용자가 더 보기를 누르면 다음 목록을 보여준다.', () => {
+    it('스크롤을 최하단으로 내리면 영화 목록을 20개씩 추가한다.', () => {
       cy.wait('@getPopularMovies').then((interception) => {
         if (!interception.response) return;
 
-        cy.get('[data-action="show-more"]').click();
+        cy.get('.skeleton-thumbnail-list').should('not.exist');
+        cy.get('.thumbnail-list > li').should('have.length', 20);
 
-        const popularMovieItems = cy.get('.thumbnail-list > li');
-        expect(popularMovieItems.should('have.length', 40));
+        cy.get('#movie-more').scrollIntoView({ duration: 10 });
+        cy.get('.skeleton-thumbnail-list').should('not.exist');
+        cy.get('.thumbnail-list > li').should('have.length', 40);
+
+        cy.get('#movie-more').scrollIntoView({ duration: 10 });
+        cy.get('.skeleton-thumbnail-list').should('not.exist');
+        cy.get('.thumbnail-list > li').should('have.length', 60);
+
+        cy.get('#movie-more').scrollIntoView({ duration: 10 });
+        cy.get('.skeleton-thumbnail-list').should('not.exist');
+        cy.get('.thumbnail-list > li').should('have.length', 60);
       });
     });
   });
