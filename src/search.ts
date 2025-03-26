@@ -1,3 +1,3 @@
-import { initSearchApp } from "./app/search/initSearchApp";
+import { initSearchApp } from "./app/search/initSearchApp.ts";
 
 initSearchApp();
