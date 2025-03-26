@@ -1,6 +1,7 @@
 import { UnPack } from "../../types";
 import { debounce } from "./debounce";
 import { $, isTarget } from "./domHelper";
+import { deepEqual } from "./util";
 
 export interface EventCallback {
   (e: HTMLElementEventMap[keyof HTMLElementEventMap]): void;
@@ -41,7 +42,7 @@ function Core() {
     const state = states[key];
 
     const setState = (newState: S) => {
-      if (newState === state) return;
+      if (deepEqual(newState, state)) return;
 
       states[key] = newState;
       _render();
