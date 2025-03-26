@@ -19,7 +19,11 @@ export function addMoviePost(movieList: IMovie[], $movieList: HTMLElement) {
     $moreMoviesButton?.classList.remove("disabled");
   }
 
+  const fragment = document.createDocumentFragment();
+
   movieList.forEach((movie: IMovie) => {
-    $movieList.appendChild(MoviePost(movie));
+    fragment.appendChild(MoviePost(movie));
   });
+
+  $movieList.appendChild(fragment);
 }
