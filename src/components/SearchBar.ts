@@ -50,8 +50,6 @@ class SearchBar {
     if (isHTMLElement(moreButton)) moreButton.setAttribute("disabled", "true");
     if (isHTMLElement(inputElement))
       inputElement.setAttribute("disabled", "true");
-
-    console.log("disableButton");
   }
 
   #enableForm() {
@@ -60,8 +58,6 @@ class SearchBar {
 
     if (isHTMLElement(moreButton)) moreButton.removeAttribute("disabled");
     if (isHTMLElement(inputElement)) inputElement.removeAttribute("disabled");
-
-    console.log("enableButton");
   }
 }
 

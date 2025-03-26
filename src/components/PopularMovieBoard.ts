@@ -81,7 +81,6 @@ class PopularMovieBoard {
 
   async #loadMoreMovies(): Promise<void> {
     this.#page += 1;
-    console.log("load");
 
     const { movies: newMovies, total_pages } = await this.#movieData();
     if (!newMovies) return;

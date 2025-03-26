@@ -38,7 +38,6 @@ class SearchMovieBoard {
     const { movies } = await this.#movieData();
 
     if (movies.length === 0) {
-      console.log("no result");
       this.#renderNoResult();
       return;
     }
