@@ -1,4 +1,3 @@
-import Button from '../../component/common/button/Button';
 import MainBanner from '../../component/domain/main-banner/MainBanner';
 import MovieGrid from '../../component/domain/movie-grid/MovieGrid';
 import { Title } from '../../component/common/title/Title';
@@ -6,18 +5,24 @@ import { extractedData } from '../../domain/APIManager';
 import mainPageLoadingTemplate from './loadingTemplate';
 import { MOVIE_API } from '../../constants/systemConstants';
 import { MovieData } from '../../../types/movie';
+import { bindScroll, handleBottomScroll } from '../../util/web/scroll';
 
 export class MainPage {
   #container: HTMLElement;
   #movieListData: MovieData[] = [];
   #currentPage = 1;
   #isLoading: boolean = true;
+  #isFetching: boolean = false;
 
   constructor() {
     this.#container = document.createElement('div');
     this.#container.classList.add('main-page');
 
+    this.#isFetching;
+
     this.init();
+
+    bindScroll(() => handleBottomScroll(() => this.#guardedLoadMore()));
   }
 
   async init() {
@@ -42,12 +47,7 @@ export class MainPage {
   }
 
   renderDynamicSection() {
-    const loadMoreButton = document.querySelector('.button--full');
-    if (loadMoreButton) {
-      loadMoreButton.remove();
-    }
     this.#container.appendChild(this.#movieGridElement());
-    this.#container.appendChild(this.#loadMoreButtonElement());
   }
 
   #titleElement() {
@@ -62,16 +62,19 @@ export class MainPage {
     return new MovieGrid({ movieItems: this.#movieListData }).element;
   }
 
-  #loadMoreButtonElement() {
-    return new Button({ size: 'full', innerText: '더보기', onclick: this.#loadMoreData }).element;
-  }
-
   #loadMoreData = async () => {
     this.#currentPage += 1;
     const { movieListData } = await extractedData(MOVIE_API.getPopularUrl(this.#currentPage));
     this.#movieListData = movieListData;
     this.renderDynamicSection();
   };
+
+  #guardedLoadMore() {
+    if (this.#isFetching) return;
+    this.#isFetching = true;
+    this.#loadMoreData();
+    this.#isFetching = false;
+  }
 
   get element() {
     return this.#container;

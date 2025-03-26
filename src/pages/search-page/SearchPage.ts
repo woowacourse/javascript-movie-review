@@ -1,10 +1,10 @@
-import Button from '../../component/common/button/Button';
 import MovieGrid from '../../component/domain/movie-grid/MovieGrid';
 import { Title } from '../../component/common/title/Title';
 import { extractedData } from '../../domain/APIManager';
 import searchPageLoadingTemplate from './loadingTemplate';
 import { MOVIE_API } from '../../constants/systemConstants';
 import { MovieData } from '../../../types/movie';
+import { bindScroll, handleBottomScroll } from '../../util/web/scroll';
 
 class SearchPage {
   #container;
@@ -13,15 +13,20 @@ class SearchPage {
   #query: string;
   #currentPage = 1;
   #totalPage = 0;
+  #isFetching: boolean = false;
 
   constructor() {
     this.#container = document.createElement('div');
     this.#container.classList.add('search-page');
 
+    this.#isFetching;
+
     const params = new URLSearchParams(window.location.search);
 
     this.#query = params.get('query') ?? '';
     this.init();
+
+    bindScroll(() => handleBottomScroll(() => this.#guardedLoadMore()));
   }
 
   async init() {
@@ -48,20 +53,11 @@ class SearchPage {
   }
 
   renderDynamicSection() {
-    const loadMoreButton = document.querySelector('.button--full');
-    if (loadMoreButton) {
-      loadMoreButton.remove();
-    }
     this.#container.appendChild(this.#movieGridElement());
-    if (this.#currentPage !== this.#totalPage) this.#container.appendChild(this.#loadMoreButtonElement());
   }
 
   #movieGridElement() {
     return new MovieGrid({ movieItems: this.#movieListData }).element;
-  }
-
-  #loadMoreButtonElement() {
-    return new Button({ size: 'full', innerText: '더보기', onclick: this.#loadMoreData }).element;
   }
 
   #loadMoreData = async () => {
@@ -70,6 +66,15 @@ class SearchPage {
     this.#movieListData = movieListData;
     this.renderDynamicSection();
   };
+
+  async #guardedLoadMore() {
+    if (this.#currentPage >= this.#totalPage) return;
+    if (this.#isFetching) return;
+
+    this.#isFetching = true;
+    await this.#loadMoreData();
+    this.#isFetching = false;
+  }
 
   #titleElement() {
     return new Title({ text: `"${this.#query}" 검색 결과` }).element;

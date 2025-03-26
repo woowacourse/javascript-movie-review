@@ -3,6 +3,12 @@ import SearchPage from '../pages/search-page/SearchPage';
 import ErrorPage from '../pages/error-page/ErrorPage';
 import { APP_CONFIG } from '../constants/systemConstants';
 
+export function initRouter() {
+  window.addEventListener('popstate', () => {
+    renderContent();
+  });
+}
+
 function routes(): Record<string, () => HTMLElement> {
   return {
     '/': () => new MainPage().element,
