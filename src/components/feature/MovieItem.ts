@@ -3,6 +3,7 @@ import { MovieItem as MovieItemType } from '../../types/Movie.types';
 import { createElement } from '../../utils/createElement';
 import { Box } from '../common/Box';
 import { Img } from '../common/Img';
+import { Loading } from '../common/Loading';
 import { Modal } from '../common/Modal';
 import { Text } from '../common/Text';
 import { MovieDetailModal } from './MovieDetailModal';
@@ -71,27 +72,11 @@ export const MovieItem = ({ ...movieItem }: MovieItemType) => {
   const modal = document.querySelector('#modal');
 
   item.addEventListener('click', async () => {
-    const loadingModal = Modal(
-      Box({
-        classList: ['flex-center'],
-        props: {
-          children: [
-            Img({
-              src: './images/loading.png',
-              width: '50',
-              height: '50',
-              classList: ['loading-spinner'],
-            }),
-          ],
-        },
-      }),
-    );
-    modal?.appendChild(loadingModal);
+    modal?.appendChild(Modal(Loading()));
 
     const detailData = await movieFetcher.getMovieDetail(id);
     if (detailData) {
-      const modalElement = Modal(MovieDetailModal(detailData));
-      modal?.replaceChild(modalElement, loadingModal);
+      modal?.replaceChildren(Modal(MovieDetailModal(detailData)));
     }
   });
 
