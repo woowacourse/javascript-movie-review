@@ -7,19 +7,19 @@ import Toast from "../components/Toast/Toast";
 
 export default function createMovieLoader(
   url: string,
-  queryObj: URLSearchParams,
+  queryObject: Record<string, string>,
   options: FetchOptions,
   searchTerm?: string
 ) {
   let page = 1;
 
   return async () => {
-    const queryObject = searchTerm
-      ? { query: searchTerm, ...queryObj, page }
-      : { ...queryObj, page };
+    const newQueryObject = searchTerm
+      ? { query: searchTerm, ...queryObject, page: String(page) }
+      : { ...queryObject, page: String(page) };
     let response = null;
     try {
-      response = await fetchUrl<TMDBResponse>(url, queryObject, options);
+      response = await fetchUrl<TMDBResponse>(url, newQueryObject, options);
     } catch (error) {
       if (error instanceof Error) {
         Toast.showToast(error.message, "error", 5000);

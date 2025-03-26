@@ -8,9 +8,9 @@ export const defaultOptions = {
     Authorization: `Bearer ${import.meta.env.VITE_TMDB_TOKEN}`,
   },
 };
-export const defaultQueryObject = new URLSearchParams({
+export const defaultQueryObject = {
   language: "ko-KR",
   include_adult: String(false),
-});
+};
 
 export const TOTAL_PAGE = 500;

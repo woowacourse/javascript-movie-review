@@ -8,7 +8,7 @@ export interface FetchOptions {
 
 export async function fetchUrl<T>(
   url: string,
-  queryObject: URLSearchParams,
+  queryObject: Record<string, string>,
   options: FetchOptions = {}
 ): Promise<T> {
   const queryString = new URLSearchParams(queryObject).toString();
