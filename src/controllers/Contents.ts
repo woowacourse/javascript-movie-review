@@ -84,7 +84,7 @@ async function handleMoreMovies(
 }
 
 
-export async function ContentsContainer(
+export function ContentsContainer(
   moviesResults: MovieInfo[],
   contentTitle: string,
   movieService:MovieService,
