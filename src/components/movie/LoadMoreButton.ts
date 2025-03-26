@@ -11,12 +11,13 @@ type Props = {
 };
 
 const LoadMoreButton = ({ loadFn }: Props) => {
-  let currentPage = 1;
+  let currentPage = 2;
 
   const loadMoreButton = Button({
     text: "더보기",
     className: ["load-more"],
     onClick: async () => {
+      console.log(currentPage);
       showSkeleton();
 
       const movies = await loadFn(currentPage);

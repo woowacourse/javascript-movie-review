@@ -6,6 +6,8 @@ import NoSearchResults from "../movie/NoSearchResults.ts";
 import hideSkeleton from "../utils/hideSkeleton.ts";
 import showSkeleton from "../utils/showSkeleton.ts";
 
+const INITIAL_PAGE = 1;
+
 const SearchBar = () => {
   const searchBar = document.createElement("div");
   searchBar.classList.add("search-bar");
@@ -40,7 +42,7 @@ const searchMovie = async (input: string) => {
   $("#caption").innerText = `"${input}" 검색 결과`;
 
   showSkeleton();
-  const movies = await fetchSearchMovieList(input, 1);
+  const movies = await fetchSearchMovieList(input, INITIAL_PAGE);
 
   if (movies.status === "fail") {
     thumbnailList.before(NoSearchResults("영화 목록을 가져오지 못했습니다."));
