@@ -1,15 +1,16 @@
 import { MoviesResponse } from "../../types/movie";
 import { handleApiResponse } from "../api/handlers";
-import { searchMovies, getMovies } from "../api/movie";
+import { getMovies, searchMovies } from "../api/movie";
 import {
+  Modal,
   MovieList,
   MovieListSkeleton,
   TopRatedMovie,
 } from "../components/index";
 import {
-  PREFIX_BACKDROP_PATH,
+  DEFAULT_MOVIE_DATA,
   MAX_MOVIE_PAGE,
-  DEFAULT_TOP_RATED_DATA,
+  PREFIX_POSTER_PATH,
 } from "../constants/constants";
 import { store } from "./../stores";
 
@@ -33,10 +34,10 @@ const changeHeaderBackground = () => {
   const $backgroundContainer = document.querySelector(".background-container");
 
   if (store.searchKeyword === "") {
-    const backgroundImage = store.movies[0].backdrop_path
-      ? `${PREFIX_BACKDROP_PATH}${store.movies[0].backdrop_path}`
-      : DEFAULT_TOP_RATED_DATA.backdropPath;
-    ($backgroundContainer as HTMLElement)!.style.backgroundImage = `url(${backgroundImage})`;
+    const posterImage = store.movies[0].poster_path
+      ? `${PREFIX_POSTER_PATH}${store.movies[0].poster_path}`
+      : DEFAULT_MOVIE_DATA.posterPath;
+    ($backgroundContainer as HTMLElement)!.style.backgroundImage = `url(${posterImage})`;
   } else {
     ($backgroundContainer as HTMLElement)!.style.backgroundImage = "";
   }
@@ -47,9 +48,9 @@ const renderHeaderBackground = () => {
     const $topRatedContainer = document.querySelector(".top-rated-container");
     $topRatedContainer?.append(
       TopRatedMovie({
-        title: store.movies[0].title ?? DEFAULT_TOP_RATED_DATA.title,
+        title: store.movies[0].title ?? DEFAULT_MOVIE_DATA.title,
         voteAverage:
-          store.movies[0].vote_average ?? DEFAULT_TOP_RATED_DATA.voteAverage,
+          store.movies[0].vote_average ?? DEFAULT_MOVIE_DATA.voteAverage,
       })
     );
   }
@@ -94,6 +95,7 @@ const renderSearchList = async () => {
 };
 
 export const renderMoviesList = async () => {
+  Modal();
   const $skeleton = MovieListSkeleton();
   if ($skeleton) $mainSection?.appendChild($skeleton);
 

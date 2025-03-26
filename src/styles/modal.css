@@ -69,6 +69,11 @@ body.modal-open {
   top: 5px;
 }
 
+.modal-description .rate-average {
+  color: white;
+  padding-right: 8px;
+}
+
 .modal-description > *:not(:last-child) {
   margin-bottom: 8px;
 }
