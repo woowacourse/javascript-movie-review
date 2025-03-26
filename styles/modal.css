@@ -19,9 +19,7 @@ body.modal-open {
   z-index: 10;
   visibility: hidden; /* 모달이 기본적으로 보이지 않도록 설정 */
   opacity: 0;
-  transition:
-    opacity 0.3s ease,
-    visibility 0.3s ease;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
 .modal-background.active {
@@ -36,7 +34,7 @@ body.modal-open {
   color: white;
   z-index: 2;
   position: relative;
-  width: 1000px;
+  width: 90%;
 }
 
 .close-modal {
@@ -56,16 +54,51 @@ body.modal-open {
   display: flex;
 }
 
+@media (max-width: 768px) {
+  .modal-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .modal-image {
+    margin-bottom: 20px;
+  }
+}
+
+.modal-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40%;
+}
+
+@media (max-width: 480px) {
+  .modal-image {
+    display: none;
+  }
+}
+
 .modal-image img {
-  width: 380px;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
   border-radius: 16px;
 }
 
 .modal-description {
-  width: 100%;
+  flex: 1;
   padding: 8px;
   margin-left: 16px;
   line-height: 1.6rem;
+}
+
+@media (max-width: 768px) {
+  .modal-description {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 }
 
 .modal-description .rate > img {
