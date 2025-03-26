@@ -1,15 +1,6 @@
 /// <reference types="vite/client" />
 import { IMovieData } from '../../types/movieDataType'
 import { BASE_URL } from './constant'
-
-export interface ImportMetaEnv {
-  readonly VITE_TMDB_TOKEN: string
-}
-
-export interface ImportMeta {
-  readonly env: ImportMetaEnv
-}
-
 export interface TMDBResponse {
   page: number
   results: IMovieData[]
