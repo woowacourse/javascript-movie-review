@@ -1,8 +1,6 @@
 import createDOMElement from '../util/createDomElement';
-import { IMAGE_BASE_URL } from '../constant';
+import { DEFAULT_IMAGE_URL, IMAGE_BASE_URL } from '../constant';
 import { IMovie } from '../type';
-
-const DEFAULT_IMAGE_URL = 'https://placehold.co/200x300?text=No+Image';
 
 function Movie({ movie }: { movie: IMovie }) {
   const poster_path = movie.poster_path
