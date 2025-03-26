@@ -27,13 +27,17 @@ const Input = ({ type, placeholder, onSearch }: InputProps) => {
     }
   };
 
-  searchIcon?.addEventListener("click", handleSearch);
-
-  searchInput?.addEventListener("keydown", (event: KeyboardEvent) => {
+  const handleEnterKey = (event: KeyboardEvent, callback: () => void) => {
     if (event.key === "Enter") {
-      handleSearch();
+      callback();
     }
-  });
+  };
+
+  const handleKeyDown = (event: KeyboardEvent) =>
+    handleEnterKey(event, handleSearch);
+
+  searchIcon?.addEventListener("click", handleSearch);
+  searchInput?.addEventListener("keydown", handleKeyDown);
 
   return searchWrapper;
 };
