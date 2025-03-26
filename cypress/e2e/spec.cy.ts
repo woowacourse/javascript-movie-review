@@ -1,6 +1,10 @@
 describe("E2E테스트", () => {
   beforeEach(() => {
+    cy.intercept("GET", "https://api.themoviedb.org/3/movie/popular**").as(
+      "getMovies"
+    );
     cy.visit("http://localhost:5173/");
+    cy.wait("@getMovies");
   });
 
   describe("목록", () => {

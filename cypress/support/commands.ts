@@ -36,7 +36,11 @@ declare global {
 }
 
 Cypress.Commands.add("search", (title: string) => {
-  cy.get(".top-rated-search-input").should("exist").click();
-  cy.get(".top-rated-search-input").type(title);
-  cy.get(".top-rated-search-button").should("exist").click();
+  cy.get(".top-rated-search-input").should("be.visible").as("searchInput");
+
+  cy.get("@searchInput").click();
+  cy.get("@searchInput").type(title);
+
+  cy.get(".top-rated-search-button").should("be.visible").as("searchButton");
+  cy.get("@searchButton").click();
 });
