@@ -1,4 +1,4 @@
-import { Main } from "../components";
+import Main from "../components/Layout/Main";
 import { updateMoviesList } from "../domains/renderMoviesList";
 import { store } from "../stores";
 import { isElement } from "./guards";

@@ -1,9 +1,0 @@
-export { default as Button } from "./Common/Button";
-export { default as Skeleton } from "./Common/Skeleton";
-export { default as App } from "./Layout/App";
-export { default as Footer } from "./Layout/Footer";
-export { default as Header } from "./Layout/Header";
-export { default as Main } from "./Layout/Main";
-export { default as Modal } from "./Layout/Modal";
-export { default as Tab } from "./Layout/Tab";
-export { default as TopRatedMovie } from "./TopLayout/TopRatedMovie";

@@ -1,7 +1,9 @@
 import { MoviesResponse } from "../../types/movie";
 import { handleApiResponse } from "../api/handlers";
 import { getMovies, searchMovies } from "../api/movie";
-import { App, Main, TopRatedMovie } from "../components/index";
+import App from "../components/Layout/App";
+import Main from "../components/Layout/Main";
+import TopRatedMovie from "../components/TopLayout/TopRatedMovie";
 import {
   DEFAULT_MOVIE_DATA,
   MAX_MOVIE_PAGE,
