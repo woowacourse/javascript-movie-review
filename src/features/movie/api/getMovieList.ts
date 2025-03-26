@@ -7,7 +7,7 @@ export const getMovieList = async ({
   page: number;
 }): Promise<IMovieList | undefined> => {
   try {
-    return await apiClient("GET", `/tv/popular?page=${page}`);
+    return await apiClient("GET", `/movie/popular?page=${page}`);
   } catch (error) {
     if (error instanceof Error) {
       throw new Error(error.message);
