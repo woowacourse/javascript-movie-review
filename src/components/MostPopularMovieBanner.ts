@@ -1,18 +1,17 @@
-import { Movie } from "../../types/movie";
+import { popularMovieList } from "../store/movieService";
 
-type HeaderProps = {
-  movie?: Movie | null;
-};
-
-const Header = ({ movie }: HeaderProps) => {
+const MostPopularMovieBanner = () => {
   const header = document.createElement("header");
 
-  const backgroundImageUrl =
-    movie && movie.posterPath
-      ? `https://image.tmdb.org/t/p/original${movie.posterPath}`
-      : "images/default-background.jpg"; // 기본 이미지
+  const renderMostPopularMovieBanner = () => {
+    const movie = popularMovieList.list[0];
 
-  header.innerHTML = `
+    const backgroundImageUrl =
+      movie && movie.posterPath
+        ? `https://image.tmdb.org/t/p/original${movie.posterPath}`
+        : "images/default-background.jpg"; // 기본 이미지
+
+    header.innerHTML = `
   <div class="background-container" style="background-image: url('${backgroundImageUrl}');">
     <div class="overlay" aria-hidden="true"></div>
     <div class="top-rated-container">
@@ -28,8 +27,11 @@ const Header = ({ movie }: HeaderProps) => {
     </div>
   </div>
 `;
+  };
 
-  return header;
+  renderMostPopularMovieBanner();
+
+  return { mostPopularMovieBanner: header, renderMostPopularMovieBanner };
 };
 
-export default Header;
+export default MostPopularMovieBanner;
