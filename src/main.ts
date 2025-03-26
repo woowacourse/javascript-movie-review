@@ -33,7 +33,7 @@ const initPopularMovieListRender = async () => {
   const popularMovieListResult = await getPopularMovieList(1);
 
   replaceMovieListBox({
-    title: "인기있는 영화",
+    title: "지금 인기있는 영화",
     movieResult: popularMovieListResult,
   });
 };
