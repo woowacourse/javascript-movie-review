@@ -29,6 +29,20 @@
   font-size: 4rem;
 }
 
+@media (max-width: 390px) {
+  .text-title {
+    font-weight: 600;
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-height: 300px) {
+  .text-title {
+    font-weight: 600;
+    font-size: 1.5rem;
+  }
+}
+
 .text-subtitle {
   font-weight: 600;
   font-size: 2rem;
