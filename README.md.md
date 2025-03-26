@@ -20,6 +20,7 @@
 - [ ] api 호출 main에서 관리 (상위에서 -> list와 backgroundThumbnail 꾸며주기) -> 도메인 분리
 - [x] createDomElement 수정하기
 - [ ] 스크롤 시, 헤더 백그라운드 처리
+- [x] 기존 스켈레톤 제거
 
 2단계
 

@@ -1,5 +1,4 @@
 import BackgroundThumbnailSection from "../component/BackgroundThumbnailSection";
-import SkeletonBackgroundThumbnailSection from "../component/Skeleton/SkeletonBackgroundThumbnailSection";
 import { MovieItemType } from "../types/movieResultType";
 
 class BackgroundThumbnailController {
@@ -19,7 +18,6 @@ class BackgroundThumbnailController {
   }
 
   async render(movieItem: MovieItemType) {
-    this.renderSkeleton();
     await this.renderMovieList(movieItem);
     this.bindEvents();
   }
@@ -33,20 +31,12 @@ class BackgroundThumbnailController {
     );
   }
 
-  renderSkeleton() {
-    this.backgroundElement = SkeletonBackgroundThumbnailSection();
+  async renderMovieList(movieItem: MovieItemType) {
+    this.backgroundElement = BackgroundThumbnailSection(movieItem);
     this.mainElement?.insertAdjacentElement(
       "beforebegin",
       this.backgroundElement,
     );
-  }
-
-  async renderMovieList(movieItem: MovieItemType) {
-    const backgroundThumbnailSectionElement =
-      BackgroundThumbnailSection(movieItem);
-    this.backgroundElement.replaceWith(backgroundThumbnailSectionElement);
-
-    this.backgroundElement = backgroundThumbnailSectionElement;
   }
 }
 

@@ -1,8 +1,6 @@
 import { getPopularMovieResult } from "../api/getPopularMovieResult";
 import MovieItem from "../component/MovieItem";
 import MovieListSection from "../component/MovieListSection";
-import SkeletonMovieItem from "../component/Skeleton/SkeletonMovieItem";
-import SkeletonMovieListSection from "../component/Skeleton/SkeletonMovieListSection";
 import MovieResults from "../domain/MovieResults";
 import { MovieItemType, MovieResultType } from "../types/movieResultType";
 
@@ -16,7 +14,6 @@ class MovieListController {
   }
 
   async render() {
-    this.renderSkeleton();
     const { movieList, hasMore } = await this.fetchAndStoreMovies();
     this.renderMovieList({
       movieList,
@@ -46,11 +43,6 @@ class MovieListController {
     this.movieResults.initialTotalPage(totalPage);
 
     return { movieList, hasMore: newPage !== totalPage };
-  }
-
-  renderSkeleton() {
-    const skeletonSectionElement = SkeletonMovieListSection();
-    this.mainElement.replaceChildren(skeletonSectionElement);
   }
 
   renderMovieList({
@@ -87,20 +79,10 @@ class MovieListController {
     const movieListContainer = this.mainElement.querySelector("ul");
     if (!movieListContainer) return;
 
-    // 스켈레톤 추가
-    const skeletonElements = Array.from({ length: 20 }, () =>
-      SkeletonMovieItem(),
-    );
-    skeletonElements.forEach((skeleton) =>
-      movieListContainer.appendChild(skeleton),
-    );
-
     const { movieList, hasMore } = await this.fetchAndStoreMovies(
       this.movieResults.getPage() + 1,
     );
 
-    // 스켈레톤 제거 후 새로운 영화 추가
-    skeletonElements.forEach((skeleton) => skeleton.remove());
     movieList.forEach((movie) =>
       movieListContainer.appendChild(MovieItem(movie)),
     );

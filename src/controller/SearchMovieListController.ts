@@ -2,8 +2,6 @@ import { getSearchMovieResult } from "../api/getSearchMovieResult";
 import MovieEmptySection from "../component/MovieEmptySection";
 import MovieItem from "../component/MovieItem";
 import MovieListSection from "../component/MovieListSection";
-import SkeletonMovieItem from "../component/Skeleton/SkeletonMovieItem";
-import SkeletonMovieListSection from "../component/Skeleton/SkeletonMovieListSection";
 import { MovieItemType, MovieResultType } from "../types/movieResultType";
 
 class SearchMovieListController {
@@ -42,18 +40,11 @@ class SearchMovieListController {
   }
 
   async render() {
-    this.renderSkeleton();
-
     const { movieList, hasMore } = await this.fetchMovies();
 
     this.renderSearchMovieList({ movieList, hasMore });
 
     this.bindEvents();
-  }
-
-  renderSkeleton() {
-    const skeletonSectionElement = SkeletonMovieListSection();
-    this.mainElement.replaceChildren(skeletonSectionElement);
   }
 
   renderSearchMovieList({
@@ -81,20 +72,8 @@ class SearchMovieListController {
     const movieListContainer = this.mainElement.querySelector("ul");
     if (!movieListContainer) return;
 
-    // 스켈레톤 추가
-    const skeletonElements = Array.from({ length: 20 }, () =>
-      SkeletonMovieItem(),
-    );
-    skeletonElements.forEach((skeletonElement) => {
-      movieListContainer?.appendChild(skeletonElement);
-    });
-
     const { movieList, hasMore } = await this.fetchMovies();
 
-    // 스켈레톤 제거 후 새로운 영화 추가
-    skeletonElements.forEach((skeletonElement) => {
-      skeletonElement.remove();
-    });
     movieList.forEach((movie) => {
       movieListContainer?.appendChild(MovieItem(movie));
     });
