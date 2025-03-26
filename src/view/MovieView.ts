@@ -59,6 +59,7 @@ export function updateHero({ poster_path, title, vote_average }) {
   const heroTitle = document.getElementById("hero-title");
   const heroAverage = document.getElementById("hero-rate");
   const topRatedContainer = document.getElementById("top-rated-container");
+  const heroButton = document.getElementById("hero-details-button");
 
   let url = `https://image.tmdb.org/t/p/original${poster_path}`;
   if (!poster_path) url = "images/fallback.png";
@@ -67,9 +68,13 @@ export function updateHero({ poster_path, title, vote_average }) {
   const heroSkeleton = document.getElementById("hero-skeleton");
   img.addEventListener("load", () => {
     hideElement(heroSkeleton);
-    if (heroAverage) heroAverage.innerText = vote_average;
+    if (heroAverage) heroAverage.innerText = Number(vote_average).toFixed(1);
     if (heroTitle) heroTitle.innerText = title;
     showElement(topRatedContainer);
+  });
+  const modal = document.getElementById("modal-dialog");
+  heroButton.addEventListener("click", () => {
+    modal.showModal();
   });
 }
 export function updateDetails({
@@ -85,14 +90,16 @@ export function updateDetails({
   const detailsCategory = document.getElementById("details-category");
   const detailsRate = document.getElementById("details-rate");
   const detailsDescription = document.getElementById("details-description");
-  const categoryNames = `${new Date(release_date).getFullYear()} ${genres
-    .map((genre) => genre.name)
-    .join(", ")} `;
+  let categoryNames = "";
+  if (genres)
+    categoryNames = `${new Date(release_date).getFullYear()} ${genres
+      .map((genre) => genre.name)
+      .join(", ")} `;
   let imgUrl = "./images/fallback_no_movies.png";
   if (poster_path) imgUrl = "https://image.tmdb.org/t/p/original" + poster_path;
 
   detailsTitle.innerText = title;
-  detailsRate.innerText = vote_average;
+  detailsRate.innerText = Number(vote_average).toFixed(1);
   detailsCategory.innerText = categoryNames;
   detailsDescription.innerText = overview;
   detailsImage.src = imgUrl;

@@ -49,6 +49,7 @@ const renderApp = (data) => {
   renderHeaderAndHero();
   const firstMovieShown = data.results[0];
   updateHero(firstMovieShown);
+  updateDetails(firstMovieShown);
   renderMovieItems(data.results, false);
 };
 
@@ -122,9 +123,14 @@ document.getElementById("details-image").addEventListener("load", () => {
   showElement(detailsImage);
 });
 
+const modal = document.getElementById("modal-dialog");
 document.getElementById("closeModal").addEventListener("click", () => {
-  const modal = document.getElementById("modal-dialog");
   modal.close();
+});
+modal.addEventListener("click", (event) => {
+  if (event.target === modal) {
+    modal.close();
+  }
 });
 main();
 
