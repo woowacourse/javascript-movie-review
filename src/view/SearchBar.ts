@@ -33,6 +33,8 @@ const handleSearchMovies = async (e: Event) => {
   e.preventDefault();
   removeBanner();
 
+  $('.container')?.appendChild(renderSkeletons({ height: 300 }));
+
   const form = e.target as HTMLFormElement;
   const data = new FormData(form);
 
@@ -42,8 +44,6 @@ const handleSearchMovies = async (e: Event) => {
     include_adult: 'false',
     query: String(data.get('keyword'))
   };
-
-  $('.container')?.appendChild(renderSkeletons({ height: 300 }));
 
   const response = await getSearchMovies('/search/movie', params);
   renderMovieList(response, String(data.get('keyword')));

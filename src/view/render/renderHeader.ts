@@ -1,4 +1,4 @@
-import Header from '../../component/Header';
+import Header from '../Header';
 import { $ } from '../../util/selector';
 
 export const renderHeader = () => {

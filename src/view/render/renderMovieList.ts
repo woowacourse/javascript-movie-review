@@ -1,4 +1,4 @@
-import MovieList from '../../component/MovieList';
+import MovieList from '../MovieList';
 import { $ } from '../../util/selector';
 import { INITIAL_PAGE } from '../../constant';
 import { IMovie } from '../../type';

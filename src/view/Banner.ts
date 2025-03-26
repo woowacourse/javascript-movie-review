@@ -1,5 +1,5 @@
 import createDOMElement from '../util/createDomElement';
-import Button from './Button';
+import Button from '../component/Button';
 import { IMAGE_BASE_URL } from '../constant';
 import { IMovie } from '../type';
 

@@ -1,4 +1,4 @@
-import Footer from '../../component/Footer';
+import Footer from '../Footer';
 import { $ } from '../../util/selector';
 
 export const renderFooter = () => {

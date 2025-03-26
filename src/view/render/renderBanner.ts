@@ -1,4 +1,4 @@
-import Banner from '../../component/Banner';
+import Banner from '../Banner';
 import Skeleton from '../../component/Skeleton';
 import { IMovie } from '../../type';
 import { $ } from '../../util/selector';
