@@ -4,6 +4,7 @@ import Banner from "./components/Banner/index.js";
 import MovieList from "./components/MovieList/index.js";
 import { fetchPopularMovies } from "./APIs/movieAPI.ts";
 import Store from "./store/store.ts";
+import { MOVIE_COUNT } from "./constants/config.js";
 
 class App {
   #$target;
@@ -40,6 +41,39 @@ class App {
     if (this.#store.getState().movies.length === 0) {
       this.loadPopularMovies();
     }
+
+    window.addEventListener("scroll", async () => {
+      if (
+        window.innerHeight + window.scrollY >=
+        document.documentElement.scrollHeight - 180
+      ) {
+        const state = this.#store.getState();
+        const currentPage =
+          Math.floor(state.movies.length / MOVIE_COUNT.UNIT) + 1;
+
+        this.#store.setState({ loading: true });
+
+        if (!state.query) {
+          const newMovies = await fetchPopularMovies(
+            (error) => alert(error.message),
+            currentPage
+          );
+          this.#store.setState({ movies: [...state.movies, ...newMovies] });
+          return;
+        }
+
+        const newMoviesData = await fetchSearchedMovies(
+          state.query,
+          (error) => alert(error.message),
+          currentPage
+        );
+
+        this.#store.setState({
+          movies: [...state.movies, ...newMoviesData.results],
+          loading: false,
+        });
+      }
+    });
   }
 
   async loadPopularMovies() {
