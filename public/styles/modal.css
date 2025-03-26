@@ -5,7 +5,6 @@ dialog {
   background-color: var(--color-bluegray-90);
   width: 1000px;
   border: none;
-  position: relative;
 }
 
 dialog::backdrop {
