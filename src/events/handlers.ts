@@ -1,14 +1,8 @@
+import Header from "../components/Layout/Header";
 import Main from "../components/Layout/Main";
 import { updateMoviesList } from "../domains/renderMoviesList";
 import { store } from "../stores";
 import { isElement } from "./guards";
-
-const closeHeader = () => {
-  const $topRatedContainer = document.querySelector(".top-rated-container");
-  const $overlay = document.querySelector(".overlay");
-  $topRatedContainer?.classList.add("close");
-  $overlay?.classList.add("close");
-};
 
 window.addEventListener("click", async (event) => {
   const { target } = event;
@@ -43,6 +37,6 @@ window.addEventListener("submit", async (event) => {
     isLoading: true,
   });
 
-  closeHeader();
+  Header.getInstance().setState({ hasSearched: true });
   await updateMoviesList();
 });

@@ -1,14 +1,10 @@
 import { MoviesResponse } from "../../types/movie";
 import { handleApiResponse } from "../api/handlers";
 import { getMovies, searchMovies } from "../api/movie";
-import App from "../components/Layout/App";
+import App from "../components/App";
+import Header from "../components/Layout/Header";
 import Main from "../components/Layout/Main";
-import TopRatedMovie from "../components/TopLayout/TopRatedMovie";
-import {
-  DEFAULT_MOVIE_DATA,
-  MAX_MOVIE_PAGE,
-  PREFIX_POSTER_PATH,
-} from "../constants/constants";
+import { MAX_MOVIE_PAGE, PREFIX_POSTER_PATH } from "../constants/constants";
 import { store } from "./../stores";
 
 const toggleShowMoreButton = () => {
@@ -18,30 +14,17 @@ const toggleShowMoreButton = () => {
   else $showMore?.classList.remove("open");
 };
 
-const changeHeaderBackground = () => {
-  const $backgroundContainer = document.querySelector(".background-container");
+const setHeaderData = () => {
+  const header = Header.getInstance();
 
-  if (store.searchKeyword === "") {
-    const posterImage = store.movies[0].poster_path
-      ? `${PREFIX_POSTER_PATH}${store.movies[0].poster_path}`
-      : DEFAULT_MOVIE_DATA.posterPath;
-    ($backgroundContainer as HTMLElement)!.style.backgroundImage = `url(${posterImage})`;
-  } else {
-    ($backgroundContainer as HTMLElement)!.style.backgroundImage = "";
-  }
-};
+  const firstMovieData = store.movies[0];
+  if (!firstMovieData) return;
 
-const renderHeaderBackground = () => {
-  if (!document.querySelector(".top-rated-movie")) {
-    const $topRatedContainer = document.querySelector(".top-rated-container");
-    $topRatedContainer?.append(
-      TopRatedMovie({
-        title: store.movies[0].title ?? DEFAULT_MOVIE_DATA.title,
-        voteAverage:
-          store.movies[0].vote_average ?? DEFAULT_MOVIE_DATA.voteAverage,
-      })
-    );
-  }
+  header.setState({
+    posterImage: `${PREFIX_POSTER_PATH}${firstMovieData.poster_path}`,
+    title: firstMovieData.title,
+    voteAverage: firstMovieData.vote_average,
+  });
 };
 
 const renderTotalList = async (main: Main) => {
@@ -52,13 +35,12 @@ const renderTotalList = async (main: Main) => {
       store.movies = [...store.movies, ...data.results];
       store.totalPages = data.total_pages;
 
+      setHeaderData();
+
       main.setState({
         movies: store.movies,
         isLoading: false,
       });
-
-      renderHeaderBackground();
-      changeHeaderBackground();
     },
     onError: (error) => {
       main.setState({
@@ -70,7 +52,7 @@ const renderTotalList = async (main: Main) => {
 };
 
 const renderSearchList = async (main: Main) => {
-  changeHeaderBackground();
+  setHeaderData();
 
   const moviesResponse = await searchMovies({
     name: store.searchKeyword,
@@ -99,6 +81,7 @@ const renderSearchList = async (main: Main) => {
 
 export const updateMoviesList = async () => {
   const main = Main.getInstance();
+
   if (store.searchKeyword === "") await renderTotalList(main);
   else await renderSearchList(main);
 
