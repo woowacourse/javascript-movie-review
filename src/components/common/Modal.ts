@@ -1,13 +1,16 @@
 import createElement from "../utils/createElement";
 
 class Modal {
+  parentElement: HTMLElement;
   modalElement: HTMLDialogElement;
   openButtons: NodeListOf<HTMLButtonElement>;
   closeButton: HTMLButtonElement;
 
-  constructor() {
+  constructor(parentElement: HTMLElement) {
+    this.parentElement = parentElement;
+    this.render();
     this.modalElement = document.getElementById(
-      "modal-container"
+      "modalBackground"
     ) as HTMLDialogElement;
     this.openButtons = document.querySelectorAll(
       ".open_modal"
@@ -41,8 +44,8 @@ class Modal {
   }
 
   render() {
-    const $modalBackgroundActive = createElement({
-      tag: "div",
+    const $dialog = createElement({
+      tag: "dialog",
       classNames: ["modal-background", "active"],
       id: "modalBackground",
     });
@@ -116,7 +119,7 @@ class Modal {
       classNames: ["detail"],
     });
 
-    $modalBackgroundActive.appendChild($modal);
+    $dialog.appendChild($modal);
     $modal.appendChild($closeModal);
     $closeModal.appendChild($modalCloseButttonImg);
     $modal.appendChild($modalContainer);
@@ -131,7 +134,7 @@ class Modal {
     $modalDescription.appendChild($hr);
     $modalDescription.appendChild($detail);
 
-    return $modalBackgroundActive;
+    this.parentElement.appendChild($dialog);
   }
 }
 

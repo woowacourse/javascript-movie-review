@@ -1,7 +1,7 @@
 type createElementProps = {
   tag: string;
-  classNames: string[];
-};
+  classNames?: string[];
+} & Record<string, any>;
 
 const createElement = ({
   tag,

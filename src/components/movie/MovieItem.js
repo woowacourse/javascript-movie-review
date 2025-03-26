@@ -8,6 +8,7 @@ const MovieItem = ({ movie }) => {
 
   const $li = createElement({
     tag: "li",
+    classNames: ["open_modal"],
   });
 
   const $div = createElement({
