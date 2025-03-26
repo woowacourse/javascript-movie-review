@@ -7,3 +7,7 @@ export const ITEMS = {
   perPage: 20,
   initialCount: 0,
 };
+
+export const VOTE = {
+  rateDegit: 1,
+};
