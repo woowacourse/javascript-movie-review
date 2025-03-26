@@ -8,12 +8,17 @@ const Skeleton = {
     <li></li>
     <li></li>
     <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
 `;
 
     el.appendChild(skeletonUl);
   },
-  remove: (el: Element) => {
-    const skeletonUl = el.querySelector(".skeleton-list");
+  remove: () => {
+    const skeletonUl = document.querySelector(".skeleton-list");
     if (skeletonUl) {
       skeletonUl.remove();
     }
