@@ -5,7 +5,7 @@ const createPosterSkeleton = () => {
   return Box({
     classList: ['skeleton-animation'],
     props: {
-      style: `width: 100%; height: 300px;  border-radius: 8px; margin-bottom: 12px; `,
+      style: `width: 200px; height: 300px;  border-radius: 8px;`,
     },
   });
 };
@@ -14,7 +14,7 @@ const createTitleSkeleton = () => {
   return Box({
     classList: ['skeleton-animation'],
     props: {
-      style: `width: 80%; height: 24px;  border-radius: 4px; margin-bottom: 8px; `,
+      style: `width: 50px; height: 20px;  border-radius: 4px;`,
     },
   });
 };
@@ -23,7 +23,7 @@ const createDateSkeleton = () => {
   return Box({
     classList: ['skeleton-animation'],
     props: {
-      style: `width: 50%; height: 16px;  border-radius: 4px; `,
+      style: `width: 200px; height: 20px;  border-radius: 4px; margin-bottom: 18px;`,
     },
   });
 };
