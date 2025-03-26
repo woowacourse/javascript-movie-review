@@ -1,7 +1,7 @@
 import MostPopularMovieBanner from "./components/MostPopularMovieBanner.ts";
-import NavigationBar from "./components/NavigationBar.ts";
+import NavigationBar from "./components/navigation-bar/NavigationBar.ts";
 import MovieList from "./components/MovieList.ts";
-import Input from "./components/Input.ts";
+import Input from "./components/navigation-bar/Input.ts";
 import Button from "./components/Button.ts";
 import {
   fetchPopularMovies,
