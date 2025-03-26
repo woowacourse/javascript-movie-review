@@ -11,6 +11,7 @@ export const movieDetailModalHandler = () => {
 
       try {
         const {
+          id,
           title,
           backdrop_path,
           release_date,
@@ -19,6 +20,7 @@ export const movieDetailModalHandler = () => {
           overview,
         } = await getMovieDetails(Number(movieId));
         const movieDetails = {
+          id,
           title,
           backdrop_path,
           release_date,
