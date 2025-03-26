@@ -1,5 +1,5 @@
 import { createElement } from "../../util/dom";
-import handleSearch from "../../service/handleSearch";
+import redirectWithQuery from "../../service/redirectWithQuery";
 
 export default function Header() {
   const $headerContainer = createElement("div", {
@@ -39,11 +39,16 @@ export default function Header() {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const searchValue = formData.get("search-bar");
-    handleSearch(searchValue);
+    redirectWithQuery({
+      path: "/search.html",
+      query: { query: searchValue },
+    });
   });
 
   $logo.addEventListener("click", () => {
-    location.reload();
+    redirectWithQuery({
+      path: "/index.html",
+    });
   });
 
   $searchButton.appendChild($searchImg);
