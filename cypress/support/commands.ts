@@ -29,14 +29,25 @@ declare global {
   namespace Cypress {
     interface Chainable {
       search(title: string): Chainable<void>;
+      waitLoading(): Chainable<void>;
+      scrollBottom(): Chainable<void>;
     }
   }
 }
 
 Cypress.Commands.add('search', (title: string) => {
-  cy.get('.top-rated-search-input').type(title);
+  cy.waitLoading();
+  cy.get('#top-rated-search-input').type(`${title}`);
   cy.get('.top-rated-search-button').click();
 });
+Cypress.Commands.add('waitLoading', () => {
+  cy.get('.skeleton').should('not.exist');
+});
+Cypress.Commands.add('scrollBottom', () => {
+  cy.get('#movie-more').scrollIntoView({ duration: 10 });
+  cy.waitLoading();
+});
+
 Cypress.on('uncaught:exception', () => {
   return false;
 });
