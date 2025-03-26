@@ -29,10 +29,10 @@ async function initMovieList(movieList: HTMLElement) {
   Header(movies.results[0]);
 
   if (query) {
-    url.searchParams.set("page", "1");
-    window.history.replaceState({}, document.title, url.toString());
+    initializeUrl(url);
     updateSearchPageUI(movies.results, movies.total_pages, url.searchParams);
   } else {
+    initializeUrl(url);
     movieList.innerHTML = "";
     addMoviePost(movies.results, movieList);
   }
@@ -57,4 +57,9 @@ async function initAddMoreMoviesButton(movieList: HTMLElement) {
     if (!movieList) return;
     await addMoreMovies(movieList);
   });
+}
+
+function initializeUrl(url: URL) {
+  url.searchParams.set("page", "1");
+  window.history.replaceState({}, document.title, url.toString());
 }
