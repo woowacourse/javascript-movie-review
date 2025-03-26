@@ -6,5 +6,5 @@ export const $multiSelect = (
   parent: Document | Element = document
 ) => selector.split(" ").map((s) => parent.querySelector(s)) as HTMLElement[];
 
-export const $$ = (selector: string, parent = document) =>
+export const $$ = (selector: string, parent: Document | Element = document) =>
   Array.from(parent.querySelectorAll(selector)) as HTMLElement[];

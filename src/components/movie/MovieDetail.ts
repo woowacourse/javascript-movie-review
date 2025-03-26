@@ -1,5 +1,8 @@
 import { ProcessedMovieDetail } from "../../../types/movie";
 import { createElement } from "../../utils/createElement";
+import { $ } from "../../utils/dom";
+import Rate from "../common/Rate";
+import StarRating from "./StarRating";
 
 const MovieDetailContent = ({
   title,
@@ -28,12 +31,10 @@ const MovieDetailContent = ({
         <p class="category">
           ${releaseYear} · ${genre.join(", ")}
         </p>
-        <p class="rate">
-          <img src="./images/star_filled.png" class="star" /><span
-            >${vote_average}</span
-          >
-        </p>
         <hr />
+        <div class="average_rate">평균</div>
+        <div class="my_rate">내 별점</div>
+
         <p class="detail">
           ${overview}
         </p>
@@ -41,6 +42,11 @@ const MovieDetailContent = ({
     </div>
   `);
 
+  $(".average_rate", content).appendChild(
+    Rate({ rate: vote_average, filled: true })
+  );
+
+  $(".my_rate", content).appendChild(StarRating());
   return content;
 };
 
