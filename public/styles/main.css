@@ -51,14 +51,18 @@ main {
   align-items: baseline;
   color: var(--color-yellow);
 }
-
+.star {
+  margin-right: 4px;
+}
 .rate > img {
   position: relative;
   top: 2px;
 }
-
+.rate-description {
+  color: white;
+  margin-left: 0px;
+}
 span.rate-value {
-  margin-left: 8px;
   font-weight: bold;
   font-size: 1.66rem;
 }
