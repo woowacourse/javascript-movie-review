@@ -4,6 +4,7 @@ import Fetcher from '../api/Fetcher';
 import { movieFetcherEvent } from './MovieFetcherEvent';
 import { delay } from '../utils/delay';
 import { MovieDetailResponse } from '../types/MovieDetail.types';
+import HttpError from '../api/HttpError';
 
 export const API_PATH = {
   MOVIE: 'movie/popular',
@@ -16,6 +17,7 @@ type MovieFetcherState = {
   isSearch: boolean;
   movieResponse: MovieResponse;
   movieResult: MovieItem[];
+  error: Error | null;
 };
 
 class MovieFetcher {
@@ -23,7 +25,6 @@ class MovieFetcher {
   private state: MovieFetcherState;
   private query: string = '';
   private currentPage: number = 1;
-  private error: Error | null = null;
 
   constructor() {
     this.movieFetcher = new Fetcher(ENV.VITE_API_URL);
@@ -37,6 +38,7 @@ class MovieFetcher {
         total_results: 0,
       },
       movieResult: [],
+      error: null,
     };
 
     this.state = this.createStateProxy(initialState);
@@ -65,14 +67,20 @@ class MovieFetcher {
     url: string,
   ): Promise<MovieResponse | undefined> {
     this.state.isLoading = true;
-    this.error = null;
+    this.state.error = null;
 
-    const response = await this.movieFetcher.get<MovieResponse>(url);
+    try {
+      const response = await this.movieFetcher.get<MovieResponse>(url);
 
-    this.state.isLoading = false;
-    this.updateMovieData(response);
+      this.state.isLoading = false;
+      this.updateMovieData(response);
 
-    return response;
+      return response;
+    } catch (err) {
+      if (err instanceof HttpError) {
+        this.state.error = new HttpError(Number(err.status));
+      }
+    }
   }
 
   private updateMovieData(response: MovieResponse): void {
@@ -146,7 +154,7 @@ class MovieFetcher {
   }
 
   get errorState(): Error | null {
-    return this.error;
+    return this.state.error;
   }
 }
 
