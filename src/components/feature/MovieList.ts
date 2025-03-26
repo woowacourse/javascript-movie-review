@@ -7,29 +7,6 @@ import { MovieItem } from './MovieItem';
 import { MovieSkeleton } from './MovieSkeleton';
 import { Empty } from './Empty';
 
-const renderErrorState = () => {
-  const error = movieFetcher.errorState;
-  if (!error) return;
-
-  titleText.style.display = 'none';
-  movieUl.style.display = 'none';
-
-  const errorContainer = createElement('div', {
-    classList: 'error-container',
-  });
-
-  const errorMessage = Text({
-    classList: ['text-2xl', 'font-bold'],
-    props: {
-      textContent:
-        error.message || '영화 정보를 불러오는 중 오류가 발생했습니다.',
-    },
-  });
-
-  errorContainer.append(errorMessage);
-  sectionElement.insertBefore(errorContainer, movieUl);
-};
-
 const createSkeletonItems = (count = 20) => {
   return Array.from({ length: count }, () => MovieSkeleton());
 };
