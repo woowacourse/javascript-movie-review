@@ -8,12 +8,11 @@ export interface FetchOptions {
 
 export async function fetchUrl<T>(
   url: string,
-
   queryObject: URLSearchParams,
   options: FetchOptions = {},
   path?: string
 ): Promise<T> {
-  function buildMovieUrl(baseUrl: string, path: string, queryObject = {}) {
+  function buildMovieUrl(baseUrl: string, path?: string, queryObject = {}) {
     let url = baseUrl;
     if (path) {
       url += `/${path}`;
@@ -38,9 +37,7 @@ export async function fetchUrl<T>(
     const data = await response.json();
     return data;
   } catch (error) {
-    // fetch 요청이 취소된 경우
     if ((error as any).name === "AbortError") {
-      console.log("Fetch 요청이 취소되었습니다.");
       throw error;
     }
 
