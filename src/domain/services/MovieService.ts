@@ -22,6 +22,7 @@ export default class MovieService {
               title: movie.title,
               posterPath: movie.poster_path || "",
               voteAverage: movie.vote_average,
+              overview: movie.overview,
             })
         ),
         page: response.page,
@@ -53,6 +54,7 @@ export default class MovieService {
               title: movie.title,
               posterPath: movie.poster_path || "",
               voteAverage: movie.vote_average,
+              overview: movie.overview,
             })
         ),
         page: response.page,
