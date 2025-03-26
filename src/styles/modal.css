@@ -1,17 +1,13 @@
 @import './colors.css';
 
-body.modal-open {
-  overflow: hidden;
-}
-
 .modal-background {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경을 위해 설정 */
-  backdrop-filter: blur(10px); /* 블러 효과 적용 */
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -51,18 +47,26 @@ body.modal-open {
   cursor: pointer;
 }
 
-.modal-container {
+.modal-col {
   display: flex;
+  flex-direction: column;
   height: 100%;
   width: 100%;
+  box-sizing: border-box;
 }
 
-.modal-between {
+.modal-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.modal-container {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  gap: 4px;
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .modal-image {
@@ -78,6 +82,7 @@ body.modal-open {
   padding: 8px;
   margin-left: 16px;
   line-height: 1.6rem;
+  overflow-wrap: break-word;
 }
 
 .modal-description .rate > img {
@@ -89,23 +94,36 @@ body.modal-open {
   margin-bottom: 8px;
 }
 
-.modal-description h2 {
-  font-size: 2rem;
-  margin: 0 0 8px;
-}
-
 .modal-rate {
   display: flex;
-  gap: 2px;
   align-items: center;
-  color: var(--color-yellow);
+  gap: 6px;
+  width: 100%;
+  flex-wrap: wrap;
 }
 
 .modal-rate p {
-  margin-top: 4px; /* 텍스트만 아래로 내리기 */
+  margin-top: 4px;
 }
 
 .detail {
-  max-height: 350px;
+  max-height: 300px;
   overflow-y: auto;
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.modal-my-rate {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  margin-top: 16px;
 }

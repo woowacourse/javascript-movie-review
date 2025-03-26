@@ -54,35 +54,26 @@ button.primary {
 
 #app {
   width: 100vw;
-  /* margin: 64px 0; */
   display: flex;
   flex-direction: column;
   justify-content: center;
   background-color: var(--color-bluegray-100);
 }
 
-#app h2 {
-  font-size: 1.4rem;
-  font-weight: bold;
-  margin-bottom: 32px;
-}
-
 .container {
   max-width: 1280px;
   margin: 0 auto;
-  /* padding: 0 20px; */
+  padding: 0 20px;
 }
 
 .background-container {
   position: relative;
-  background-position: center center;
-  background-size: cover;
-  height: 500px;
-  padding: 48px;
   background-image: url('https://image.tmdb.org/t/p/w1920_and_h800_multi_faces/stKGOm8UyhuLPR9sZLjs5AkmncA.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  height: 500px;
+  padding: 48px;
 }
 
 .overlay {
@@ -104,32 +95,11 @@ button.primary {
 }
 
 .top-rated-movie {
-  margin-top: 64px;
+  margin-top: 128px;
 }
 
 .top-rated-movie > *:not(:last-child) {
   margin-bottom: 8px;
-}
-
-h1.logo {
-  font-size: 2rem;
-}
-
-.rate {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  color: var(--color-yellow);
-}
-
-.rate p {
-  margin-top: 4px;
-}
-
-span.rate-value {
-  margin-left: 8px;
-  font-weight: bold;
-  font-size: 1.66rem;
 }
 
 .title {
@@ -225,9 +195,21 @@ input:-webkit-autofill {
   gap: 10px;
 }
 
+.rate {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+
 .movie-rate {
   display: flex;
+  flex-direction: row;
+  align-items: center;
   gap: 8px;
+}
+
+.movie-rate p {
+  margin-top: 2px;
 }
 
 .skeleton-animation {
@@ -262,12 +244,13 @@ input:-webkit-autofill {
 .mt-2 {
   margin-top: 2px;
 }
+
 .mt-24 {
   margin-top: 24px;
 }
 
-.mb-32 {
-  margin-bottom: 32px;
+.mb-64 {
+  margin-bottom: 64px;
 }
 
 .hidden {
