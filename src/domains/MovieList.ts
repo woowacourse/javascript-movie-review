@@ -16,13 +16,8 @@ class MovieList {
     $listContainer.classList.add("thumbnail-list");
 
     this.movieList.forEach((movieInstance) => {
-      const $skeleton = Skeleton();
-      $listContainer.appendChild($skeleton);
-
-      setTimeout(() => {
-        const $movie = movieInstance.movieRender();
-        $listContainer.replaceChild($movie, $skeleton);
-      }, 2000);
+      const $movie = movieInstance.movieRender();
+      $listContainer.appendChild($movie);
     });
 
     return $listContainer;

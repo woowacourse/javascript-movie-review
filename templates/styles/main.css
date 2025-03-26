@@ -24,10 +24,17 @@ section {
 
 main {
   margin: 64px 0;
+  margin-top: 0;
 }
 
 .star {
   width: 24px;
+}
+
+header{
+  position: relative;
+  width: 100%;
+  top: 0;
 }
 
 button {
@@ -61,6 +68,7 @@ button.more {
 #wrap h2 {
   font-size: 1.4rem;
   font-weight: bold;
+  margin-top: 64px;
   margin-bottom: 32px;
 }
 
@@ -102,13 +110,6 @@ button.more {
   z-index: 3;
   max-width: 1280px;
   margin: 0 auto;
-}
-
-.search-container {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translate(-50%, 0);
 }
 
 .contentContainer {
@@ -199,4 +200,39 @@ footer.footer {
 
 footer.footer p:not(:last-child) {
   margin-bottom: 8px;
+}
+
+.logo-searchBar{
+  width: 100%;
+  position: absolute;
+  display: flex;
+  top: 20px;
+  left: 80px;
+  z-index: 3;
+}
+
+.thumbnail.skeleton{
+  width: 200px;
+  height: 300px;
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.6;
+  }
+}
+
+.search-container {
+  position: relative;
+  left: 40%;
+  transform: translate(-50%, 0); 
 }

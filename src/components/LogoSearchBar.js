@@ -1,5 +1,6 @@
 function LogoSearchBar() {
   const container = document.createElement("div");
+  container.classList.add("logo-searchBar");
 
   container.innerHTML = `
     <h1 class="logo">
