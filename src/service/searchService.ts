@@ -9,6 +9,8 @@ import { hideElement, showElement } from "../view/MovieView.ts";
 import Toast from "../components/Toast/Toast.ts";
 
 import { infiniteScrollInstance } from "../main.ts";
+import { ERROR_MESSAGE } from "../setting/ErrorMessage.ts";
+import { checkApiAvailability } from "./errorService.ts";
 export default async function handleSearch(searchValue: string) {
   setSearchResultTitle(searchValue);
   setSearchLoadingState();
@@ -53,11 +55,16 @@ function displaySearchResults(): void {
 }
 
 function handleSearchError(error: unknown): void {
-  const $thumbnailContainer = document.getElementById("thumbnail-container");
-  const $fallback = document.getElementById("fallback");
-  const $fallbackDetails = document.getElementById("fallback-details");
-  if (error instanceof Error) Toast.showToast(error.message, "error", 5000);
-  $fallbackDetails.innerText = "검색 결과가 없습니다.";
-  hideElement($thumbnailContainer);
-  showElement($fallback);
+  if (error.message !== ERROR_MESSAGE.NO_DATA) {
+    Toast.showToast(error.message, "error", 3000);
+    checkApiAvailability(3000);
+  } else {
+    const $thumbnailContainer = document.getElementById("thumbnail-container");
+    const $fallback = document.getElementById("fallback");
+    const $fallbackDetails = document.getElementById("fallback-details");
+    if (error instanceof Error) Toast.showToast(error.message, "error", 5000);
+    $fallbackDetails.innerText = "검색 결과가 없습니다.";
+    hideElement($thumbnailContainer);
+    showElement($fallback);
+  }
 }
