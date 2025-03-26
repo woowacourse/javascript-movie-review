@@ -1,12 +1,8 @@
 import Header from "../components/header/header";
 import Hero from "../components/hero/hero";
-import Button from "../components/button/button";
 import MovieItem from "../components/moveItem/movieItem";
 import type { Result } from "../../types/tmdb.types";
 import { createElementsFragment } from "../util/dom";
-import type { StateTypes } from "../state/state";
-
-import fetchAndSetLoadingEvent from "../service/fetchService";
 
 export function showElement(element: Element | null) {
   element?.classList.remove("hide");
