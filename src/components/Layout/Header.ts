@@ -24,7 +24,7 @@ export default class Header {
       title: DEFAULT_MOVIE_DATA.title,
       voteAverage: DEFAULT_MOVIE_DATA.voteAverage,
       hasSearched: false,
-    }; // TODO: default가 아니라 아예 없는 값으로 처리하고 isLoading 상태로 스켈레톤 추가
+    }; // TODO: default x 스켈레톤 O
     this.render();
   }
 
