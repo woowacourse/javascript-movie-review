@@ -1,7 +1,7 @@
-import { IMovie } from "../../types/domain";
+import { MovieData } from "../../types/data.ts";
 import { IMAGE } from "../constants/movie";
 
-type IMovieItem = Pick<IMovie, "title" | "vote_average" | "poster_path">;
+type IMovieItem = Pick<MovieData, "title" | "vote_average" | "poster_path">;
 
 class MovieItem {
   #title: string;

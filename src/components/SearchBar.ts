@@ -1,4 +1,4 @@
-import { IPage } from "../../types/domain";
+import { PageData } from "../../types/data.ts";
 import movieApi from "../api/movieApi.ts";
 import calculatePageNumber from "../domain/calculatePageNumber.ts";
 import { selectElement } from "../utils/dom.ts";
@@ -119,7 +119,7 @@ class SearchBar {
   }
 
   async #getSearchResult(pageNumber: number, query: string) {
-    return (await movieApi.getSearchData(pageNumber, query)) as IPage;
+    return (await movieApi.getSearchData(pageNumber, query)) as PageData;
   }
 }
 

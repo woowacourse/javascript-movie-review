@@ -1,5 +1,5 @@
 import { ITEMS } from "../../src/constants/movie.ts";
-import { IMovie } from "../../types/domain";
+import { MovieData } from "../../types/data.ts";
 
 /// <reference types="cypress" />
 
@@ -51,7 +51,7 @@ describe("비동기 API 테스트", () => {
       .its("body.results")
       .then((results) => {
         expect(
-          results.some((movie: IMovie) => movie.title.includes("해리 포터"))
+          results.some((movie: MovieData) => movie.title.includes("해리 포터"))
         ).to.be.true;
       });
   });

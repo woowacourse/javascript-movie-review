@@ -1,4 +1,4 @@
-import { IMovie, IPage } from "../types/domain";
+import { MovieData, PageData } from "../types/data.ts";
 import MovieItem from "./components/MovieItem";
 import SearchBar from "./components/SearchBar";
 import SkeletonUl from "./components/SkeletonUl";
@@ -13,10 +13,10 @@ import calculatePageNumber from "./domain/calculatePageNumber.ts";
 const getMovieData = async (currentItemCount: number = ITEMS.initialCount) => {
   const pageNumber = calculatePageNumber(currentItemCount);
 
-  return (await movieApi.getMovieData(pageNumber)) as IPage;
+  return (await movieApi.getMovieData(pageNumber)) as PageData;
 };
 
-const renderTitleMovie = (movieData: IMovie[]) => {
+const renderTitleMovie = (movieData: MovieData[]) => {
   const topMovieData = movieData[0];
   const movieTitle = topMovieData.title;
   const movieRate = topMovieData.vote_average;
@@ -37,7 +37,7 @@ const renderTitleMovie = (movieData: IMovie[]) => {
   backgroundOverlay.style.backgroundImage = `url("${movieBackdropUrl}")`;
 };
 
-const renderMovieData = (movieData: IMovie[]) => {
+const renderMovieData = (movieData: MovieData[]) => {
   toggleElementVisibility(".skeleton-list", "show");
 
   const movieItems = movieData.map(({ title, poster_path, vote_average }) => {
