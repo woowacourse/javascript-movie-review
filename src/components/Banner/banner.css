@@ -4,8 +4,9 @@
   position: relative;
   background-position: center center;
   background-size: cover;
+  width: 100dvw;
   height: 500px;
-  padding: 48px;
+  padding: 48px calc(50% - 640px);
   margin-top: -170.5px;
 }
 
@@ -24,7 +25,7 @@
   z-index: 2;
   max-width: 1280px;
   margin: 0 auto;
-  padding-top: 74.5px;
+  padding-top: 114.5px;
 }
 
 .top-rated-movie {
@@ -59,4 +60,29 @@ span.rate-value {
 .title {
   font-size: 3rem;
   font-weight: bold;
+}
+
+@media screen and (max-width: 1121px) {
+  .top-rated-container {
+    max-width: 525px;
+  }
+}
+
+@media screen and (max-width: 801px) {
+  .top-rated-container {
+    max-width: 300px;
+  }
+}
+
+@media screen and (max-width: 479px) {
+  .top-rated-container {
+    padding-top: 30px;
+    min-width: 300px;
+  }
+  .background-container {
+    min-width: 400px;
+    height: 300px;
+    margin-top: -130.5px;
+    padding: 48px calc(50dvw - 150px);
+  }
 }
