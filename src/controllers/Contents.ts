@@ -1,10 +1,9 @@
 import MovieService from "../services/MovieService.js";
 import MovieList from "../domains/MovieList.js";
 import Button from "../components/Button.js";
-import { MovieInfo } from "../../types/movieType.js";
+import { FetchMoviesCallback, MovieInfo } from "../../types/movieType.js";
 import { setState, state } from "./Main.ts";
 
-type FetchMoviesCallback = () => Promise<{ results: MovieInfo[] }>;
 
 const MAXIMUM_PAGE = 500;
 

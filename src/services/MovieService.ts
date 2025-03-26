@@ -1,3 +1,4 @@
+import { QueryParams } from "../../types/apiType";
 import { getApiOptions } from "../apis/config";
 
 class MovieService {
@@ -9,9 +10,13 @@ class MovieService {
     this.baseUrl = import.meta.env.VITE_REQUEST_URL;
   }
 
-  async getPopularMovies() {
+  async fetchMovies(endPoint: string, queryParams: QueryParams) {
+  const queryString = new URLSearchParams(
+    Object.entries(queryParams).map(([key, value]) => [key, String(value)])
+    ).toString();
+    const url = `${this.baseUrl}${endPoint}?${queryString}`;
     const response = await fetch(
-      `${this.baseUrl}/movie/popular?language=ko-KR&page=${this.currentPage}`,
+      url,
       getApiOptions(import.meta.env.VITE_TMDB_API_KEY)
     );
 
@@ -24,22 +29,6 @@ class MovieService {
       alert("데이터를 불러오는 중 문제가 발생했습니다. 다시 시도해주세요😅");
     }
 
-    return [];
-  }
-
-  async getSearchResult(searchWord: string) {
-    const response = await fetch(
-      `${this.baseUrl}/search/movie?query=${searchWord}&include_adult=false&language=ko-KR&page=${this.currentPage}`,
-      getApiOptions(import.meta.env.VITE_TMDB_API_KEY)
-    );
-
-    if (response.status === 200) {
-      const data = await response.json();
-      return data;
-    }
-    if (response.status === 500) {
-      alert("데이터를 불러오는 중 문제가 발생했습니다. 다시 시도해주세요😅");
-    }
     return [];
   }
 

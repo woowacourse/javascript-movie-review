@@ -59,15 +59,26 @@ export function setupSearchEvents() {
 }
 
 async function renderInitContent(movieService: MovieService) {
-  const data = await movieService.getPopularMovies();
+  const data = await movieService.fetchMovies("/movie/popular", {
+    language: "ko-KR",
+    page: movieService.currentPage,
+  });
 
-  ContentsContainer(data.results, "지금 인기 있는 영화", movieService, () => movieService.getPopularMovies());
+  ContentsContainer(data.results, "지금 인기 있는 영화", movieService, () =>
+    movieService.fetchMovies("/movie/popular", {
+      language: "ko-KR",
+      page: movieService.currentPage,
+    })
+  );
   setupSearchEvents();
 }
 
 async function main() {
   const movieService = new MovieService();
-  const data = await movieService.getPopularMovies();
+  const data = await movieService.fetchMovies("/movie/popular", {
+    language: "ko-KR",
+    page: movieService.currentPage,
+  });
 
   renderHeader(data.results[0]);
   renderInitContent(movieService);

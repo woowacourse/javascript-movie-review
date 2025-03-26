@@ -14,7 +14,12 @@ const EVENT_HANDLER = {
       alert("검색어를 입력해주세요.");
     } else {
       const movieService = new MovieService();
-      const data = await movieService.getSearchResult(inputValue);
+      const data = await movieService.fetchMovies("/search/movie", {
+        query: inputValue,
+        page: movieService.currentPage,
+        language: "ko-KR",
+        include_adult: "false",
+      });
       if ($moviesContainer) {
         $moviesContainer.innerHTML = "";
       }
@@ -22,7 +27,13 @@ const EVENT_HANDLER = {
         data.results,
         `"${inputValue}" 검색 결과`,
         movieService,
-        () => movieService.getSearchResult(inputValue)
+        () =>
+          movieService.fetchMovies("/search/movie", {
+            query: inputValue,
+            page: movieService.currentPage,
+            language: "ko-KR",
+            include_adult: "false",
+          })
       );
     }
   },
