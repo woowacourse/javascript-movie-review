@@ -111,3 +111,9 @@ body.modal-open {
     border-radius: 16px;
   }
 }
+
+@media (max-width: 390px) {
+  .modal-image img {
+    display: none;
+  }
+}
