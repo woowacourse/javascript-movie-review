@@ -14,9 +14,9 @@ class PopularMovieBoard {
   constructor(parentElement: HTMLElement) {
     this.#parentElement = parentElement;
     this.#page = 1;
+    window.scrollTo(0, 0);
     this.#renderInitialLayout();
     this.#fetchAndRenderMovies();
-    this.#addEventListeners();
   }
 
   #renderInitialLayout(): void {
@@ -45,6 +45,7 @@ class PopularMovieBoard {
 
     this.#renderTopRatedMovie(movies[0]);
     this.#renderMovies(movies);
+    this.#addEventListeners();
   }
 
   #renderTopRatedMovie(movie: Movie): void {

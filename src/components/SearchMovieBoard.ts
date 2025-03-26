@@ -19,10 +19,9 @@ class SearchMovieBoard {
     this.#parentElement = parentElement;
     this.#props = props;
     this.#page = 1;
-
+    window.scrollTo(0, 0);
     this.#renderInitialLayout();
     this.#fetchAndRenderMovies();
-    this.#addEventListeners();
   }
 
   #renderInitialLayout(): void {
@@ -45,14 +44,16 @@ class SearchMovieBoard {
     }
 
     this.#renderMovies(movies);
+    this.#addEventListeners();
     if (movies.length < SearchMovieBoard.LOAD_COUNT) return;
   }
 
   #renderMovies(movies: Movie[]): void {
     const ul = document.querySelector(".thumbnail-list");
     if (!isHTMLElement(ul)) return;
-
+    console.log(this.#page);
     if (this.#page === 1) {
+      console.log("초기화!");
       ul.innerHTML = "";
       new MovieList(ul, movies);
       return;
