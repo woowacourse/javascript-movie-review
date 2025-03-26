@@ -31,3 +31,7 @@ export function html(strings: TemplateStringsArray, ...values: any[]) {
     reduce((a, b) => a + b),
   ) as HTMLType;
 }
+
+export const variant = (object: Record<string, boolean>): string => {
+  return Object.entries(object).reduce((prev, [str, condition]) => (condition ? str + prev : prev), '');
+};
