@@ -25,13 +25,18 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 //
-// declare global {
-//   namespace Cypress {
-//     interface Chainable {
-//       login(email: string, password: string): Chainable<void>
-//       drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       dismiss(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       visit(originalFn: CommandOriginalFn, url: string, options: Partial<VisitOptions>): Chainable<Element>
-//     }
-//   }
-// }
+export {};
+
+declare global {
+  namespace Cypress {
+    interface Chainable {
+      search(title: string): Chainable<void>;
+    }
+  }
+}
+
+Cypress.Commands.add("search", (title: string) => {
+  cy.get(".top-rated-search-input").should("exist").click();
+  cy.get(".top-rated-search-input").type(title);
+  cy.get(".top-rated-search-button").should("exist").click();
+});
