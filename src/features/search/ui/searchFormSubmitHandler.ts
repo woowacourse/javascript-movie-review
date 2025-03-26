@@ -14,10 +14,10 @@ export const searchFormSubmitHandler = async (e: Event) => {
   const pageNum = params.get("page") ? parseInt(params.get("page")!) : 1;
   const searchedMovies = await getSearchedPost(searchQuery, pageNum);
 
-  updateSearchPageUI(
-    searchedMovies.results,
-    searchedMovies.total_pages,
-    params
+    updateSearchPageUI(searchedMovies.results, searchedMovies.total_pages, {
+      pageNum,
+      searchQuery,
+    });
   );
 
   const newUrl = `${window.location.pathname}?${params.toString()}`;
@@ -27,22 +27,19 @@ export const searchFormSubmitHandler = async (e: Event) => {
 export function updateSearchPageUI(
   searchedMovies: IMovie[],
   searchedMoviesTotalPages: number,
-  params: URLSearchParams
+  { pageNum, searchQuery }: { pageNum: number; searchQuery: string }
 ) {
   const $thumbnailList = document.querySelector(
     ".thumbnail-list"
   ) as HTMLElement;
   const $movieListTitle = document.querySelector(".movie-list-title");
 
-  const pageNum = params.get("page") ? parseInt(params.get("page")!) : 1;
-  const query = params.get("query") as string;
-
   if (!$thumbnailList || !$movieListTitle) return;
 
   $thumbnailList.innerHTML = "";
   showSkeletons($thumbnailList);
 
-  $movieListTitle.textContent = `"${query}" 검색 결과`;
+  $movieListTitle.textContent = `"${searchQuery}" 검색 결과`;
 
   $thumbnailList.innerHTML = "";
   addMoviePost(searchedMovies, $thumbnailList);
