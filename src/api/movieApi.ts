@@ -40,6 +40,21 @@ const movieApi = {
       }
     }
   },
+
+  getMovieDetailsData(id: number) {
+    try {
+      const params = new URLSearchParams({
+        ...defaultParams,
+      }).toString();
+
+      const endpoint = `/movie/${id}?${params}`;
+      return api.GETWithAuth(endpoint);
+    } catch (error) {
+      if (error instanceof Error && error.message in STATUS_MESSAGE) {
+        throw new Error(STATUS_MESSAGE[error.message]);
+      }
+    }
+  },
 };
 
 export default movieApi;
