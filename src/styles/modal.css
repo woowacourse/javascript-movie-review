@@ -85,6 +85,20 @@ body.modal-open {
   overflow-y: auto;
 }
 
+.star-container {
+  display: flex;
+
+  justify-content: start;
+  align-items: center;
+}
+
+.stars {
+  min-width: 250px;
+}
+.rate-comment {
+  flex-shrink: 0;
+}
+
 @media (max-width: 800px) {
   .modal-background {
     align-items: end;
@@ -110,10 +124,25 @@ body.modal-open {
     width: 200px !important;
     border-radius: 16px;
   }
+
+  .my-rate {
+    width: 100%;
+  }
 }
 
 @media (max-width: 390px) {
   .modal-image img {
     display: none;
+  }
+
+  .my-rate {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .star-container {
+    flex-direction: column;
   }
 }

@@ -1,7 +1,6 @@
 import { Movie } from "../types/movie";
 import { isHTMLElement } from "../utils/typeGuards";
-import Star from "./starRating/star";
-import StarRate from "./StarRate";
+import MyRate from "./MyRate";
 
 class Modal {
   #parentElement;
@@ -43,11 +42,9 @@ class Modal {
             >
           </p>
           <hr />
-          <div>내 별점</div>
-          <div class="stars">
-       
-          </div>
-          <div>명작이에요 (8/10)</div>
+          <div class="my-rate">
+         </div>
+          
           <hr />
           <p class="detail">
             ${this.#movie.overview}
@@ -58,9 +55,9 @@ class Modal {
   }
 
   #renderStarRate() {
-    const $stars = document.querySelector(".stars");
+    const $stars = document.querySelector(".my-rate");
     if (!isHTMLElement($stars)) return;
-    new StarRate($stars);
+    new MyRate($stars);
   }
 
   #posterImage(poster_path: Movie["poster_path"]): string {
