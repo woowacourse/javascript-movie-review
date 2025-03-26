@@ -7,6 +7,13 @@ import { addMoreMovies } from "./shared/domain/addMoreMovies";
 import { searchFormSubmitHandler } from "./features/search/ui/searchFormSubmitHandler";
 
 addEventListener("DOMContentLoaded", async () => {
+  const url = new URL(window.location.href);
+  if (url.searchParams.has("page")) {
+    url.searchParams.delete("page");
+    window.history.replaceState({}, document.title, url.pathname);
+    window.location.reload();
+  }
+
   const $movieList = document.querySelector(".thumbnail-list") as HTMLElement;
 
   if ($movieList) showSkeletons($movieList);
