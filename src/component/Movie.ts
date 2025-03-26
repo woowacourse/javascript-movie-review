@@ -36,13 +36,13 @@ function Movie({ movie }: { movie: IMovie }) {
               }),
               createDOMElement({
                 tag: 'span',
-                innerText: movie.vote_average.toFixed(1)
+                textContent: movie.vote_average.toFixed(1)
               })
             ]
           }),
           createDOMElement({
             tag: 'strong',
-            innerText: movie.title
+            textContent: movie.title
           })
         ]
       })

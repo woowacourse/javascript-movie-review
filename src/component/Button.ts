@@ -10,7 +10,7 @@ function Button({ text, onClick, id }: ButtonProps) {
   return createDOMElement({
     tag: 'button',
     className: 'primary',
-    innerText: text,
+    textContent: text,
     event: onClick ? { click: onClick } : undefined,
     attributes: {
       id

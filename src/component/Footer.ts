@@ -7,7 +7,7 @@ function Footer() {
     children: [
       createDOMElement({
         tag: 'p',
-        innerText: '© 우아한테크코스 All Rights Reserved.'
+        textContent: '© 우아한테크코스 All Rights Reserved.'
       }),
       createDOMElement({
         tag: 'p',
