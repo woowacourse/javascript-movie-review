@@ -1,7 +1,7 @@
 import { createElement } from '../../utils/createElement';
 import { Box } from '../common/Box';
 
-const createPosterSkeleton = () => {
+export const createPosterSkeleton = () => {
   return Box({
     classList: ['skeleton-animation'],
     props: {

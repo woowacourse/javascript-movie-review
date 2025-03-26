@@ -152,10 +152,6 @@
     grid-template-columns: repeat(2, 1fr);
   }
 
-  /* .text-2xl {
-    font-size: 24px;
-  } */
-
   .modal-rate {
     font-size: 24px;
     flex-direction: column;

@@ -7,6 +7,7 @@ import { Loading } from '../common/Loading';
 import { Modal } from '../common/Modal';
 import { Text } from '../common/Text';
 import { MovieDetailModal } from './MovieDetailModal';
+import { createPosterSkeleton, MovieSkeleton } from './MovieSkeleton';
 
 export const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w220_and_h330_face';
 export const DEFAULT_IMAGE_URL = './images/no_image.png';
@@ -50,13 +51,34 @@ const createDescriptionSection = (title: string, vote_average: number) => {
 };
 
 const createMovieImage = (title: string, poster_path: string) => {
-  return Img({
+  const imageContainer = Box({
+    classList: ['image-container'],
+  });
+
+  const skeletonElement = createPosterSkeleton();
+  skeletonElement.classList.add('skeleton-overlay');
+
+  const imgElement = Img({
     src: poster_path ? `${IMAGE_BASE_URL}${poster_path}` : DEFAULT_IMAGE_URL,
     classList: ['thumbnail'],
     props: {
       alt: title,
+      style: 'visibility: hidden',
     },
   });
+
+  const handleImageLoad = () => {
+    skeletonElement.classList.add('fade-out');
+    imgElement.style.visibility = 'visible';
+    setTimeout(() => {
+      skeletonElement.remove();
+    }, 300);
+  };
+
+  imgElement.addEventListener('load', handleImageLoad);
+  imageContainer.append(imgElement, skeletonElement);
+
+  return imageContainer;
 };
 
 export const MovieItem = ({
