@@ -2,7 +2,7 @@ import Header from "./components/Header/index.js";
 import Footer from "./components/Footer/index.js";
 import Banner from "./components/Banner/index.js";
 import MovieList from "./components/MovieList/index.js";
-import { fetchPopularMovies } from "./APIs/movieAPI.ts";
+import { fetchPopularMovies, fetchSearchedMovies } from "./APIs/movieAPI.ts";
 import Store from "./store/store.ts";
 import { MOVIE_COUNT } from "./constants/config.js";
 
