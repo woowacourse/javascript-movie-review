@@ -19,8 +19,8 @@ export default function MovieDetailModal(movieDetails: IMovieDetail) {
           <div class="modal-image">
             <img
               src=${
-                movieDetails.backdrop_path
-                  ? `https://image.tmdb.org/t/p/original/${movieDetails.backdrop_path}`
+                movieDetails.poster_path
+                  ? `https://image.tmdb.org/t/p/original/${movieDetails.poster_path}`
                   : "./images/nullImage.png"
               }
               alt=${movieDetails.title}

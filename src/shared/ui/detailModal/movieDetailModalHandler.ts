@@ -13,7 +13,7 @@ export const movieDetailModalHandler = () => {
         const {
           id,
           title,
-          backdrop_path,
+          poster_path,
           release_date,
           genres,
           vote_average,
@@ -22,7 +22,7 @@ export const movieDetailModalHandler = () => {
         const movieDetails = {
           id,
           title,
-          backdrop_path,
+          poster_path,
           release_date,
           genres,
           vote_average,

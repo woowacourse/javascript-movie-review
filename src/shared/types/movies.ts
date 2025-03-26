@@ -23,7 +23,7 @@ export interface IMovieList {
 }
 
 export interface IMovieDetail {
-  backdrop_path: string;
+  poster_path: string;
   genres: { id: number; name: string }[];
   overview: string;
   release_date: string;
