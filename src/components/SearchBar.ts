@@ -1,3 +1,5 @@
+import { isHTMLElement } from "../utils/typeGuards";
+
 interface Props {
   onSearchSubmitted: (params: string) => void;
 }
@@ -35,20 +37,31 @@ class SearchBar {
 
       if (!params) return; // 빈 문자열 입력 시 무시
 
-      this.#disableButton();
+      this.#disableForm();
       this.#props.onSearchSubmitted(params);
-      this.#enableButton();
+      this.#enableForm();
     });
   }
 
-  #disableButton() {
+  #disableForm() {
     const moreButton = document.querySelector(".search-button");
-    moreButton?.setAttribute("disabled", "true");
+    const inputElement = document.querySelector("input");
+
+    if (isHTMLElement(moreButton)) moreButton.setAttribute("disabled", "true");
+    if (isHTMLElement(inputElement))
+      inputElement.setAttribute("disabled", "true");
+
+    console.log("disableButton");
   }
 
-  #enableButton() {
+  #enableForm() {
     const moreButton = document.querySelector(".search-button");
-    moreButton?.removeAttribute("disabled");
+    const inputElement = document.querySelector("input");
+
+    if (isHTMLElement(moreButton)) moreButton.removeAttribute("disabled");
+    if (isHTMLElement(inputElement)) inputElement.removeAttribute("disabled");
+
+    console.log("enableButton");
   }
 }
 
