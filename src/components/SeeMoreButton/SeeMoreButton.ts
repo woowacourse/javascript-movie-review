@@ -1,4 +1,4 @@
-import toggleVisibility from "../../utils/toggleVisibility";
+import { toggleDisplay } from "../../utils/Render";
 import { $seeMoreButton } from "./Element";
 
 const SeeMoreButton = {
@@ -11,11 +11,11 @@ const SeeMoreButton = {
   },
 
   show() {
-    toggleVisibility($seeMoreButton, "show");
+    toggleDisplay($seeMoreButton, "show");
   },
 
   hidden() {
-    toggleVisibility($seeMoreButton, "hidden");
+    toggleDisplay($seeMoreButton, "hidden");
   },
 };
 

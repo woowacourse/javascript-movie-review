@@ -1,13 +1,13 @@
-import toggleVisibility from "../../utils/toggleVisibility";
+import { toggleDisplay } from "../../utils/Render";
 import { $noThumbnail } from "./Element";
 
 const NoThumbnail = {
   show() {
-    toggleVisibility($noThumbnail, "show");
+    toggleDisplay($noThumbnail, "show");
   },
 
   hidden() {
-    toggleVisibility($noThumbnail, "hidden");
+    toggleDisplay($noThumbnail, "hidden");
   },
 };
 

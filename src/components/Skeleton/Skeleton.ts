@@ -1,4 +1,4 @@
-import toggleVisibility from "../../utils/toggleVisibility";
+import { toggleDisplay } from "../../utils/Render";
 import { $skeletonList } from "./Element";
 
 const Skeleton = {
@@ -23,11 +23,11 @@ const Skeleton = {
   },
 
   show() {
-    toggleVisibility($skeletonList, "show");
+    toggleDisplay($skeletonList, "show");
   },
 
   hidden() {
-    toggleVisibility($skeletonList, "hidden");
+    toggleDisplay($skeletonList, "hidden");
   },
 };
 

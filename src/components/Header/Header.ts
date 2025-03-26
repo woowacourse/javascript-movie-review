@@ -1,6 +1,6 @@
 import { MovieItemProps } from "../../../types/domain";
 import { BACKDROP_IMG_PREFIX } from "../../constants/URL";
-import toggleVisibility from "../../utils/toggleVisibility";
+import { toggleDisplay } from "../../utils/Render";
 import {
   $backgroundContainer,
   $headerTitle,
@@ -24,8 +24,8 @@ const Header = {
 
   setSearchMode() {
     $backgroundContainer.style.height = "auto";
-    toggleVisibility($overlay, "hidden");
-    toggleVisibility($topRatedMovie, "hidden");
+    toggleDisplay($overlay, "hidden");
+    toggleDisplay($topRatedMovie, "hidden");
   },
 };
 
