@@ -84,7 +84,7 @@ class MovieFetcher {
     page: number,
   ): Promise<MovieResponse | undefined> {
     this.currentPage = page;
-    const url = `${API_PATH.MOVIE}?page=${page}`;
+    const url = `${API_PATH.MOVIE}?page=${page}&language=ko-KR`;
     const res = await this.fetchMovieData(url);
 
     await delay(1000);
@@ -116,7 +116,7 @@ class MovieFetcher {
   public async getMovieDetail(
     id: number,
   ): Promise<MovieDetailResponse | undefined> {
-    const url = `${API_PATH.DETAIL}/${id}`;
+    const url = `${API_PATH.DETAIL}/${id}?language=ko-KR`;
     const res = await this.movieFetcher.get<MovieDetailResponse>(url);
     return res;
   }
