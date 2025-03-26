@@ -22,6 +22,16 @@ interface MovieResponse {
   original_language: string;
 }
 
+export interface Genre {
+  id: number;
+  name: string;
+}
+
+interface MovieDetailResponse {
+  genres: Genre[];
+  release_date: string;
+}
+
 export default class TmdbApi {
   private apiKey: string;
   private baseUrl: string;
@@ -74,5 +84,11 @@ export default class TmdbApi {
       page: page.toString(),
     };
     return this.fetchData<APIResponse<MovieResponse>>(endpoint, params);
+  }
+
+  async getMovieDetail(movieId: number): Promise<MovieDetailResponse> {
+    const endpoint = `/movie/${movieId}`;
+
+    return this.fetchData<MovieDetailResponse>(endpoint, {});
   }
 }

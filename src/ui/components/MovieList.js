@@ -67,7 +67,7 @@ export default class MovieList {
 
     this.moviesData.forEach((movieData) => {
       const movie = new Movie(movieData);
-      const movieCard = new MovieCard(movie);
+      const movieCard = new MovieCard(movie, this.movieService);
       this.container.appendChild(movieCard.render());
     });
   }

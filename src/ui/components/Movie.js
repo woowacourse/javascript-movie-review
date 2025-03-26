@@ -1,8 +1,9 @@
 import MovieModal from './MovieModal.js'
 
 export default class MovieCard {
-  constructor(movie) {
+  constructor(movie, movieService) {
     this.movie = movie;
+    this.movieService = movieService;
   }
 
   render() {
@@ -27,7 +28,7 @@ export default class MovieCard {
 
     li.addEventListener("click", () => {
       console.log(this.movie.title)
-      const modal = new MovieModal(this.movie);
+      const modal = new MovieModal(this.movie, this.movieService);
       modal.render();
     });
 

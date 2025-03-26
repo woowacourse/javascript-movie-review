@@ -1,4 +1,4 @@
-import TmdbApi from "../../api/tmdbApi";
+import TmdbApi, { Genre } from "../../api/tmdbApi";
 import Movie from "../models/Movie";
 
 export default class MovieService {
@@ -63,6 +63,20 @@ export default class MovieService {
     } catch (error) {
       console.error("영화 검색 실패", error);
       alert("영화 검색 실패");
+      throw error;
+    }
+  }
+
+  async getMovieDetail(movieId: number): Promise<{
+    genres: Genre[];
+    releaseDate: string;
+  }> {
+    try {
+      const response = await this.api.getMovieDetail(movieId);
+      return { genres: response.genres, releaseDate: response.release_date };
+    } catch (error) {
+      console.error("영화 장르 가져오기 실패", error);
+      alert("영화 장르 가져오기 실패");
       throw error;
     }
   }

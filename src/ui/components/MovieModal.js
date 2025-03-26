@@ -1,8 +1,9 @@
 import StarRating from './StarRating.js';
 
 export default class MovieModal {
-  constructor(movie) {
+  constructor(movie, movieService) {
     this.movie = movie;
+    this.movieService = movieService;
     this.modalRoot = document.querySelector("#modalBackground");
   }
 
@@ -54,7 +55,10 @@ export default class MovieModal {
 
     const category = document.createElement("p");
     category.className = "category";
-    category.textContent = `${this.movie.getGenres ?? "장르 정보 없음"}`;
+    category.textContent = '불러오는 중...'
+    this.getMovieDetailText().then((text) => {
+      category.textContent = text;
+    });
 
     const rate = document.createElement("p");
     rate.className = "rate";
@@ -114,14 +118,21 @@ export default class MovieModal {
 
   getMessageByScore(score) {
     const messages = {
-      1: "최악이에요",   // 2점
-      2: "별로예요",     // 4점
-      3: "보통이에요",   // 6점
-      4: "재미있어요",   // 8점
-      5: "명작이에요",   // 10점
+      1: "최악이에요",
+      2: "별로예요",
+      3: "보통이에요",
+      4: "재미있어요",
+      5: "명작이에요",
     };
     const point = score * 2;
     const message = messages[score] ?? "";
     return `${message} (${point}/10)`;
+  }
+
+  async getMovieDetailText() {
+    const { genres, releaseDate } = await this.movieService.getMovieDetail(this.movie.id);
+    const releaseYear = releaseDate.split('-')[0];
+    const genreText = genres.map((g) => g.name).join(", ") || "장르 정보 없음";
+    return `${releaseYear} · ${genreText}`;
   }
 }
