@@ -8,6 +8,7 @@ type MovieRate = {
 };
 
 const STORAGE_KEY = 'movie-ratings';
+
 export default class MovieRating {
   private movieId: number;
   private movieName: string;
@@ -31,7 +32,6 @@ export default class MovieRating {
 
     if (movieIndex > -1) {
       storedData[movieIndex].rate = rate;
-      return;
     }
     if (rate > 0) {
       storedData.push({
