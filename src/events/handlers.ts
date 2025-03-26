@@ -1,4 +1,4 @@
-import { renderMoviesList } from "../domains/renderMoviesList";
+import { updateMoviesList } from "../domains/renderMoviesList";
 import { store } from "../stores";
 import { isElement } from "./guards";
 
@@ -8,7 +8,7 @@ window.addEventListener("click", async (event) => {
   if (!isElement(target) || !target.closest(".show-more")) return;
 
   store.page = store.page + 1;
-  renderMoviesList();
+  updateMoviesList();
 });
 
 window.addEventListener("submit", async (event) => {
@@ -43,5 +43,5 @@ window.addEventListener("submit", async (event) => {
 
   store.movies = [];
 
-  renderMoviesList();
+  updateMoviesList();
 });

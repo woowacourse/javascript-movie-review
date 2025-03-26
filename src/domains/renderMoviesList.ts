@@ -2,7 +2,7 @@ import { MoviesResponse } from "../../types/movie";
 import { handleApiResponse } from "../api/handlers";
 import { getMovies, searchMovies } from "../api/movie";
 import {
-  Modal,
+  App,
   MovieList,
   MovieListSkeleton,
   TopRatedMovie,
@@ -94,11 +94,7 @@ const renderSearchList = async () => {
   );
 };
 
-export const renderMoviesList = async () => {
-  Modal();
-  const $skeleton = MovieListSkeleton();
-  if ($skeleton) $mainSection?.appendChild($skeleton);
-
+export const updateMoviesList = async () => {
   if (store.searchKeyword === "") await renderTotalList();
   else await renderSearchList();
 
@@ -110,4 +106,12 @@ export const renderMoviesList = async () => {
   if ($thumbnailList) $thumbnailList.innerHTML = "";
   const $movies = MovieList(store.movies);
   if ($movies) $mainSection?.appendChild($movies);
+};
+
+export const initializeLayout = () => {
+  const $app = document.querySelector("#app");
+  $app?.append(App());
+
+  const $skeleton = MovieListSkeleton();
+  if ($skeleton) $mainSection?.appendChild($skeleton);
 };

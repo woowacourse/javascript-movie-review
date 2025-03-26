@@ -20,8 +20,9 @@ export default function Modal(
     genre_ids: DEFAULT_MOVIE_DATA.genreIds,
   }
 ) {
-  const $modal = document.querySelector(".modal-background");
-  if (!$modal) return;
+  const $modal = document.createElement("div");
+  $modal.className = "modal-background";
+  $modal.id = "modalBackground";
 
   $modal.innerHTML = /*html*/ `
     <div class="modal">
