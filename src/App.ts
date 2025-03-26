@@ -98,18 +98,11 @@ export default class App extends Component<null, AppState> {
       else this.setState({ error: new Error('에러 발생') });
     }
 
-    if (this.state.movies)
-      this.setState({
-        moviesResponse,
-        movies: [...this.state.movies, ...moviesResponse.results],
-        page,
-      });
-    else
-      this.setState({
-        moviesResponse,
-        movies: moviesResponse.results,
-        page,
-      });
+    this.setState({
+      moviesResponse,
+      movies: [...(this.state.movies ? this.state.movies : []), ...moviesResponse.results],
+      page,
+    });
   }
 
   async dataFetchAsync() {
