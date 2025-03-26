@@ -3,6 +3,7 @@ import Hero from "../components/hero/hero";
 import MovieItem from "../components/moveItem/movieItem";
 import type { Result } from "../../types/tmdb.types";
 import { createElementsFragment } from "../util/dom";
+import { ratingMessages, ratingNumbers } from "../setting/settings";
 
 export function showElement(element: Element | null) {
   element?.classList.remove("hide");
@@ -77,6 +78,8 @@ export function updateHero({ poster_path, title, vote_average }) {
     modal.showModal();
   });
 }
+
+//Todo: 이거 매직 넘버 없애고, 정돈하기.
 export function updateDetails({
   poster_path,
   release_date,
@@ -84,15 +87,31 @@ export function updateDetails({
   title,
   vote_average,
   genres,
+  id,
 }) {
   const detailsImage = document.getElementById("details-image");
   const detailsTitle = document.getElementById("details-title");
   const detailsCategory = document.getElementById("details-category");
   const detailsRate = document.getElementById("details-rate");
   const detailsDescription = document.getElementById("details-description");
+  const starRatingDetails = document.getElementById("star-rating-details");
+  const starRatingNumbers = document.getElementById("star-rating-numbers");
+  const savedRating = localStorage.getItem(id);
+  if (savedRating) {
+    const input = document.querySelector(
+      `input[name="star-rating"][value="${savedRating}"]`
+    );
+    if (input) input.checked = true;
+    starRatingDetails.innerText = ratingMessages[savedRating];
+    starRatingNumbers.innerText = ratingNumbers[savedRating];
+  } else {
+    starRatingDetails.innerText = ratingMessages[3];
+    starRatingNumbers.innerText = ratingNumbers[3];
+    document.getElementById("star3").checked = true;
+  }
   let categoryNames = "";
   if (genres)
-    categoryNames = `${new Date(release_date).getFullYear()} ${genres
+    categoryNames = `${new Date(release_date).getFullYear()} · ${genres
       .map((genre) => genre.name)
       .join(", ")} `;
   let imgUrl = "./images/fallback_no_movies.png";

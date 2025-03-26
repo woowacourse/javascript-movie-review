@@ -6,6 +6,8 @@ import {
   URLS,
   defaultOptions,
   defaultQueryObject,
+  ratingMessages,
+  ratingNumbers,
 } from "./setting/settings.ts";
 
 import state from "./state/state.ts";
@@ -28,6 +30,7 @@ import {
 import { fetchUrl } from "./util/fetch.ts";
 
 let infiniteScrollInstance = null;
+let showingItem = 0;
 const initMovies = () =>
   createMovieLoader(
     URLS.popularMovieUrl,
@@ -48,6 +51,7 @@ const initState = () => ({
 const renderApp = (data) => {
   renderHeaderAndHero();
   const firstMovieShown = data.results[0];
+  showingItem = data.results[0].id;
   updateHero(firstMovieShown);
   updateDetails(firstMovieShown);
   renderMovieItems(data.results, false);
@@ -110,6 +114,7 @@ async function handleItemClick(id: string) {
     const detailsImage = document.getElementById("details-image");
     showElement(skeleton);
     hideElement(detailsImage);
+    showingItem = id;
     modal.showModal();
   } catch (error) {
     Toast.showToast(error.message, "error", 5000);
@@ -132,6 +137,17 @@ modal.addEventListener("click", (event) => {
     modal.close();
   }
 });
+const radios = document.querySelectorAll('input[name="star-rating"]');
+radios.forEach((radio) => {
+  radio.addEventListener("change", () => {
+    const starRatingDetails = document.getElementById("star-rating-details");
+    const starRatingNumbers = document.getElementById("star-rating-numbers");
+    starRatingDetails.innerText = ratingMessages[radio.value];
+    starRatingNumbers.innerText = ratingNumbers[radio.value];
+    localStorage.setItem(showingItem, radio.value);
+  });
+});
+
 main();
 
 export { infiniteScrollInstance };
