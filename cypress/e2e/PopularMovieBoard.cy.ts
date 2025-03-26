@@ -65,9 +65,20 @@ describe("인기 있는 영화 페이지 E2E 테스트 ", () => {
   });
 
   it("마지막 페이지이면 더보기 버튼이 사라져야 한다.", () => {
-    // 마지막 페이지: 3
-    cy.get(".more-movies-button").should("exist").click().click();
-    cy.get(".more-movies-button").should("not.exist");
+    cy.wait("@getPopularMovies").then((interception) => {
+      // interception으로 fixture가 잘 불러와졌는지 확인하는 코드 샘플
+      if (!interception.response) {
+        throw new Error("No response received from interception");
+      }
+
+      const totalPages = interception.response.body.total_pages;
+
+      for (let i = 0; i < totalPages; i++) {
+        cy.get(".more-movies-button").should("exist").click();
+      }
+
+      cy.get(".more-movies-button").should("not.exist");
+    });
   });
 
   it("가장 인기있는 영화가 상단에 떠야 한다.", () => {
