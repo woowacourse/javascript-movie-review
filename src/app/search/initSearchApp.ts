@@ -10,28 +10,36 @@ import {
   defaultOptions,
   defaultQueryObject,
 } from "../../setting/settings";
+import type {
+  LongButtonInstance,
+  MovieItemListInstance,
+} from "../../../types/components";
 
-const movieItemList = MovieItemList();
-const loadMoreButton = LongButton("더보기");
+// 컴포넌트 인스턴스 타입 선언
+const movieItemList: MovieItemListInstance = MovieItemList();
+const loadMoreButton: LongButtonInstance = LongButton("더보기");
 
-export function initSearchApp() {
+export function initSearchApp(): void {
   mountSearchTitle();
   mountMovieItemList(movieItemList);
   mountLoadMoreButton(loadMoreButton);
 
-  const query = getSearchParams("query");
+  const query: string = getSearchParams("query");
+
   const loader = createMovieLoader(
     URLS.searchMovieUrl,
     defaultQueryObject,
     defaultOptions,
     query
   );
+
   const load = () => loadSearchMovie(loader, movieItemList, loadMoreButton);
 
   load();
   loadMoreButton.setOnClick(load);
 }
 
-function getSearchParams(key) {
-  return new URLSearchParams(window.location.search).get(key) || "";
+// 쿼리 파라미터 가져오는 함수에 명확한 타입 추가
+function getSearchParams(key: string): string {
+  return new URLSearchParams(window.location.search).get(key) ?? "";
 }
