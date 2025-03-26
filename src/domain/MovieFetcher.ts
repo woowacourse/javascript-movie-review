@@ -58,17 +58,13 @@ class MovieFetcher {
     this.movieResult = [...this.movieResult, ...response.results];
   }
 
-  private async fetchMovies(url: string): Promise<MovieResponse | undefined> {
-    return await this.fetchMovieData(url);
-  }
-
   public async getPopularMovies(
     page: number,
   ): Promise<MovieResponse | undefined> {
     this.isSearch = false;
     this.currentPage = page;
     const url = `${API_PATHS.MOVIE}?page=${page}`;
-    return await this.fetchMovies(url);
+    return await this.fetchMovieData(url);
   }
 
   public async getNextPagePopularMovies() {
@@ -85,7 +81,7 @@ class MovieFetcher {
     this.query = query;
 
     const url = `${API_PATHS.SEARCH}?query=${query}&page=${page}`;
-    return await this.fetchMovies(url);
+    return await this.fetchMovieData(url);
   }
 
   public async getNextPageSearchMovies() {
