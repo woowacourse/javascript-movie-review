@@ -1,7 +1,18 @@
-export const storageService = (id?: number, rating?: number) => {
-  if (id && rating) {
-    localStorage.setItem(String(id), rating?.toString());
+export const storageService = (id: number, rating?: number) => {
+  const storedRatings = JSON.parse(
+    localStorage.getItem("my-movie-rating") || "[]"
+  );
+
+  if (typeof rating === "undefined") {
+    return storedRatings.find((item: any) => item.id === id)?.rating || 0;
   }
 
-  return localStorage.getItem(String(id)) ?? 0;
+  const index = storedRatings.findIndex((item: any) => item.id === id);
+  if (index !== -1) {
+    storedRatings[index].rating = rating;
+  } else {
+    storedRatings.push({ id, rating });
+  }
+
+  localStorage.setItem("my-movie-rating", JSON.stringify(storedRatings));
 };

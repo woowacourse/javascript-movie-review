@@ -1,14 +1,17 @@
 import { IMovieDetail } from "../../types/movies";
-import { modalRating } from "../../utils/modalRating";
+import { storageService } from "../../utils/storageService";
 import { toElement } from "../../utils/toElement";
 import { removeDetailModal } from "../detailModal/removeDetailModal";
+import { updateMovieRating } from "../detailModal/updateMovieRating";
+import MyRatingInDetailModal from "./MyRatingInDetailModal";
 
 export default function MovieDetailModal(movieDetails: IMovieDetail) {
   const $container = document.getElementById("wrap");
-  const rating = 6;
+
+  const rating = storageService(movieDetails.id);
   const movieDetailModal = toElement(`
     <div class="modal-background active" id="modalBackground">
-      <div class="modal">
+      <div class="modal" data-id=${movieDetails.id}>
         <button class="close-modal" id="closeModal">
           <img src="./images/modal_button_close.png" />
         </button>
@@ -41,29 +44,8 @@ export default function MovieDetailModal(movieDetails: IMovieDetail) {
             </div>
             <hr class="bar"/>
             <div class="my-rating-container">
-                <h2>
-                  내 별점
-                </h2>
-                <div class="my-rating">
-                  <div class="star-rating">
-                    ${Array.from({ length: rating / 2 }, (_, idx) => {
-                      return `
-                      <button class="star-button key="${idx + 1}">
-                        <img src="./images/star_filled.png" class="rating-star" />
-                      </button>`;
-                    }).join("")}
-                    ${Array.from({ length: 5 - rating / 2 }, (_, idx) => {
-                      return `
-                      <button class="star-button key="${rating / 2 + idx + 1}>
-                        <img src="./images/star_empty.png" class="rating-star"/>
-                      </button>`;
-                    }).join("")}
-                  </div>
-                  <div class="rating-out-of-ten">
-                    ${modalRating[rating]}
-                    <span>(${rating}/10)</span>
-                  </div>
-                </div>
+              <h2>내 별점</h2>
+                ${MyRatingInDetailModal(rating)}
             </div>
             <hr class="bar"/>
             <div class="detail">
@@ -78,4 +60,5 @@ export default function MovieDetailModal(movieDetails: IMovieDetail) {
   $container?.appendChild(movieDetailModal);
 
   removeDetailModal();
+  updateMovieRating();
 }
