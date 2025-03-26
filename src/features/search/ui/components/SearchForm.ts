@@ -1,5 +1,3 @@
-import { searchFormSubmitHandler } from "../searchFormSubmitHandler";
-
 const SearchForm = () => {
   const searchForm = document.createElement("form");
   searchForm.classList.add("search-form");
