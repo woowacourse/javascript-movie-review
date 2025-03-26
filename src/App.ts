@@ -188,5 +188,19 @@ export default class App extends Component<null, AppState> {
 
       dataAction: 'change-rate',
     });
+    eventHandlerInstance.addEventListener({
+      eventType: 'offline',
+      callbackWindow: () => {
+        console.log('offline');
+        // "네트워크 오프라인이 감지되었습니다." 토스트로 보여주기
+      },
+    });
+    eventHandlerInstance.addEventListener({
+      eventType: 'online',
+      callbackWindow: () => {
+        console.log('online');
+        // "네트워크가 연결되었습니다." 토스트로 보여주기
+      },
+    });
   }
 }
