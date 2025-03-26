@@ -6,6 +6,7 @@ import { showSkeletons } from "./shared/ui/showSkeletons";
 import { addMoviePost } from "./shared/ui/addMoviePost";
 import { addMoreMovies } from "./shared/domain/addMoreMovies";
 import { updateSearchPageUI } from "./features/search/ui/searchFormSubmitHandler";
+import { showErrorPage } from "./shared/ui/showErrorPage";
 
 addEventListener("DOMContentLoaded", async () => {
   const $movieList = document.querySelector(".thumbnail-list") as HTMLElement;
@@ -15,26 +16,33 @@ addEventListener("DOMContentLoaded", async () => {
 });
 
 async function initMovieList(movieList: HTMLElement) {
-  const url = new URL(window.location.href);
-  const params = new URLSearchParams(url.search);
-  const query = params.get("query");
-  const movies = query
-    ? await getSearchedPost(query, 1)
-    : await getMovieList({ page: 1 });
+  try {
+    const url = new URL(window.location.href);
+    const params = new URLSearchParams(url.search);
+    const query = params.get("query");
+    const movies = query
+      ? await getSearchedPost(query, 1)
+      : await getMovieList({ page: 1 });
 
-  if (!movies || !movieList) return;
+    if (!movies || !movieList) return;
 
-  showSkeletons(movieList);
+    showSkeletons(movieList);
 
-  Header(movies.results[0]);
+    Header(movies.results[0]);
 
-  if (query) {
-    initializeUrl(url);
-    updateSearchPageUI(movies.results, movies.total_pages, url.searchParams);
-  } else {
-    initializeUrl(url);
-    movieList.innerHTML = "";
-    addMoviePost(movies.results, movieList);
+    if (query) {
+      initializeUrl(url);
+      updateSearchPageUI(movies.results, movies.total_pages, {
+        pageNum: 1,
+        searchQuery: query,
+      });
+    } else {
+      initializeUrl(url);
+      movieList.innerHTML = "";
+      addMoviePost(movies.results, movieList);
+    }
+  } catch (error) {
+    showErrorPage();
   }
 }
 
