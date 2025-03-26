@@ -1,7 +1,20 @@
-export default function Footer() {
-  // TODO: 화면에 렌더링 하기
-  return /*html*/ `
-    <footer class="footer">
+export default class Footer {
+  private static instance: Footer;
+  private $footer: HTMLElement;
+
+  private constructor() {
+    this.$footer = document.createElement("footer");
+    this.$footer.className = "footer";
+    this.render();
+  }
+
+  static getInstance(): Footer {
+    if (!Footer.instance) Footer.instance = new Footer();
+    return Footer.instance;
+  }
+
+  render() {
+    this.$footer.innerHTML = /*html*/ `
       <p>&copy; 우아한테크코스 All Rights Reserved.</p>
       <p>
         <img
@@ -10,6 +23,10 @@ export default function Footer() {
           alt="woowacourse_logo"
         />
       </p>
-    </footer>
-  `;
+    `;
+  }
+
+  getElement() {
+    return this.$footer;
+  }
 }
