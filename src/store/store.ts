@@ -1,10 +1,12 @@
 import { Movie } from "../../types/movieList";
+import { StarRating } from "../../types/starRating";
 
 export interface State {
   movies: Movie[];
   query: string;
   searchedMoviesLength: number;
   loading: boolean;
+  starRatings: StarRating[];
 }
 
 type Subscriber = (state: State) => void;
