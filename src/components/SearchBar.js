@@ -1,7 +1,8 @@
+import MovieList from "./MovieList";
 import fetchSearchMovies from "../fetch/fetchSearchMovies";
 import createElement from "./utils/createElement";
 import movies from "../store/Movies";
-import MovieList from "./MovieList";
+import page from "../store/page";
 
 const SEARCH_BUTTON_IMAGE_SRC = './images/searchButtonIcon.png';
 const PAGE = 1;
@@ -43,6 +44,7 @@ function createSearchBarUI(onSubmit) {
 function updateURLQueryParam(query) {
     const params = new URLSearchParams(window.location.search);
     params.set("query", query);
+    page.reset();
     window.history.replaceState({}, "", `${window.location.pathname}?${params.toString()}`);
 }
 
