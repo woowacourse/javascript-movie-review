@@ -23,6 +23,12 @@ class DetailModalController {
 
       const closeButton = $("#closeModal", this.detailModalElement);
       closeButton?.addEventListener("click", () => this.closeModal());
+
+      window.addEventListener("keydown", (e: KeyboardEvent) => {
+        if (e.key === "Escape") {
+          this.closeModal();
+        }
+      });
     }
   }
 

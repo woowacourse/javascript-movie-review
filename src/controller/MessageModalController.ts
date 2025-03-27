@@ -17,6 +17,12 @@ class MessageModalController {
     this.messageModalElement.addEventListener("click", (e) => {
       if (e.target === e.currentTarget) this.closeModal();
     });
+
+    window.addEventListener("keydown", (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        this.closeModal();
+      }
+    });
   }
 
   renderMessageModalFrame() {
