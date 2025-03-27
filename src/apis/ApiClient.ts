@@ -4,8 +4,8 @@ type HttpMethodType = 'GET' | 'POST' | 'DELETE' | 'PUT';
 type FetchURLParameterType = Parameters<typeof fetch>[0];
 
 export default class ApiClient {
-  static get(url: FetchURLParameterType, options: RequestInit) {
-    return this.#request('GET', url, options);
+  static async get<TResponse>(url: FetchURLParameterType, options: RequestInit) {
+    return this.#request('GET', url, options) as TResponse;
   }
 
   static async #request(method: HttpMethodType, url: FetchURLParameterType, options: RequestInit) {

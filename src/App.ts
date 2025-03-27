@@ -94,17 +94,17 @@ export default class App extends Component<null, AppState> {
           query: search,
         });
       else moviesResponse = await MovieApiClient.getAll({ page });
+
+      this.setState({
+        moviesResponse,
+        movies: [...(this.state.movies ? this.state.movies : []), ...moviesResponse.results],
+        page,
+      });
     } catch (error) {
       if (isError(error)) this.setState({ error });
       else if (isString(error)) this.setState({ error: new Error(error) });
       else this.setState({ error: new Error('에러 발생') });
     }
-
-    this.setState({
-      moviesResponse,
-      movies: [...(this.state.movies ? this.state.movies : []), ...moviesResponse.results],
-      page,
-    });
   }
 
   addEventListener() {

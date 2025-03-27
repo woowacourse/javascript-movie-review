@@ -1,3 +1,4 @@
+import { MovieDetailResponse, MoviesResponse } from '@/lib/types';
 import ApiClient from './ApiClient';
 
 interface GetAllRequest {
@@ -19,12 +20,12 @@ export default class MovieApiClient {
     headers: { Authorization: `Bearer ${import.meta.env.VITE_TMDB_TOKEN}` },
   };
 
-  static async getAll({ page }: GetAllRequest) {
+  static getAll({ page }: GetAllRequest) {
     const url = new URL('/3/movie/popular', this.#ORIGIN);
     url.searchParams.append('page', String(page));
     url.searchParams.append('language', 'ko-KR');
 
-    return ApiClient.get(url, this.#OPTIONS);
+    return ApiClient.get<MoviesResponse>(url, this.#OPTIONS);
   }
 
   static get({ page, query }: GetRequest) {
@@ -33,13 +34,13 @@ export default class MovieApiClient {
     url.searchParams.append('language', 'ko-KR');
     url.searchParams.append('query', query);
 
-    return ApiClient.get(url, this.#OPTIONS);
+    return ApiClient.get<MoviesResponse>(url, this.#OPTIONS);
   }
 
   static getDetail({ id }: GetDetailRequest) {
     const url = new URL(`/3/movie/${id}`, this.#ORIGIN);
     url.searchParams.append('language', 'ko-KR');
 
-    return ApiClient.get(url, this.#OPTIONS);
+    return ApiClient.get<MovieDetailResponse>(url, this.#OPTIONS);
   }
 }
