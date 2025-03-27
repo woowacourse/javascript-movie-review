@@ -1,14 +1,24 @@
+body {
+  position: relative;
+}
+
 header {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   display: flex;
-  flex-direction: column;
+
   align-items: center;
   padding: 30px 40px;
   z-index: 100;
   width: 100%;
-  gap: 24px;
+}
+
+@media screen and (max-width: 900px) {
+  header {
+    flex-direction: column;
+    gap: 16px;
+  }
 }
 
 h1.logo {
@@ -17,6 +27,15 @@ h1.logo {
 
 .search-bar-container {
   width: min(525px, 100%);
+}
+
+@media screen and (min-width: 901px) {
+  .search-bar-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
 }
 
 .search-bar {
