@@ -79,10 +79,15 @@ export default class MovieModal {
     const ratingMessage = document.createElement("p");
     ratingMessage.className = "rating-message";
 
-    const starRating = new StarRating((score) => {
+    const starRating = new StarRating(this.movie.id, (score) => {
       ratingMessage.textContent = this.getMessageByScore(score);
     });
     const starUI = starRating.render();
+
+    const rating = starRating.getRating();
+    if (rating > 0) {
+      ratingMessage.textContent = this.getMessageByScore(rating);
+    }
 
     const detail = document.createElement("p");
     detail.className = "detail";

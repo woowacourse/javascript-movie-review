@@ -1,6 +1,9 @@
+import { setRating, getRating } from "../../utils/localStorage.js";
+
 export default class StarRating {
-  constructor(onSelect) {
-    this.rating = 0;
+  constructor(movieId, onSelect) {
+    this.movieId = movieId;
+    this.rating = getRating(movieId);
     this.onSelect = onSelect
   }
 
@@ -16,12 +19,15 @@ export default class StarRating {
 
       star.addEventListener("click", () => {
         this.rating = i;
+        setRating(this.movieId, this.rating);
         this.updateStars(wrapper);
         if (this.onSelect) this.onSelect(i);
       });
 
       wrapper.appendChild(star);
     }
+
+    this.updateStars(wrapper);
 
     return wrapper;
   }
@@ -34,10 +40,6 @@ export default class StarRating {
           ? "./images/star_filled.png"
           : "./images/star_empty.png";
     });
-  }
-
-  setRating(score) {
-    this.rating = score;
   }
 
   getRating() {
