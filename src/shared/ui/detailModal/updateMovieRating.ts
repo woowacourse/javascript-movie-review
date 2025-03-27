@@ -10,9 +10,9 @@ export const updateMovieRating = () => {
       const starRatingButton = (target as HTMLElement).closest(
         ".star-button"
       ) as HTMLElement;
+
       if (!starRatingButton) return;
       const rating = Number(starRatingButton.dataset.key);
-
       const $modal = (target as HTMLElement).closest(".modal") as HTMLElement;
       const movieId = $modal.dataset.id;
 

@@ -52,18 +52,6 @@ describe("영화 리뷰 페이지 테스트", () => {
     });
   });
 
-  // describe("영화 무한 스크롤 테스트", () => {
-  //   it("지금 인기 있는 영화 페이지에서 스크롤이 가장 하단에 위치할 시 추가 영화 목록 20개를 받아온다.", () => {
-  //     cy.get(".item").should("have.length", 20);
-
-  //     cy.get("#target").should("exist").scrollIntoView();
-
-  //     cy.wait(1000);
-
-  //     cy.get(".item").should("have.length", 40);
-  //   });
-  // });
-
   describe("영화 상세 모달 테스트", () => {
     it("지금 인기 있는 영화 페이지에서 특정 Movie Card 클릭 시 영화 상세 모달이 띄어지고 삭제 버튼 클릭 시 모달이 삭제된다.", () => {
       cy.get(".movie-card-button").first().click();
