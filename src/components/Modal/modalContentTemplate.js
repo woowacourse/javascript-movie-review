@@ -13,11 +13,12 @@ const modalContentTemplate = async (id, store) => {
   const ratingHTML = ratingTemplate(id, store);
   const contentHTML = /* html */ `
     <div class="modal-image">
+      <div class="skeleton-detail-thumbnail"></div>
       <img src="${
         movie.poster_path
           ? import.meta.env.VITE_TMDB_API_BANNER_URL + movie.poster_path
           : "./images/logo.png"
-      }" alt="${movie.title}" />
+      }" alt="${movie.title}" class="detail-thumbnail" />
     </div>
     <div class="modal-description">
       <div class="description-information">

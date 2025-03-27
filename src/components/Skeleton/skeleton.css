@@ -12,6 +12,14 @@
   animation: pulse 1.5s infinite;
 }
 
+.skeleton-detail-thumbnail {
+  width: 380px;
+  height: 570px;
+  background-color: #ccc;
+  border-radius: 16px;
+  animation: pulse 1.5s infinite;
+}
+
 .skeleton-desc {
   padding: 8px 0;
 }

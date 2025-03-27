@@ -54,9 +54,10 @@ body.modal-open {
   display: flex;
 }
 
-.modal-image img {
+.detail-thumbnail {
   width: 380px;
   border-radius: 16px;
+  display: none;
 }
 
 .modal-description {
