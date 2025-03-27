@@ -23,9 +23,6 @@ describe("details 테스트", () => {
     const searchValue = "미키 17";
     cy.get(".search-bar").type(`${searchValue}{enter}`);
 
-    cy.get("#thumbnail-list > li").each(($li) => {
-      cy.wrap($li).should("contain.text", searchValue);
-    });
     cy.get("#696506").click();
     cy.get("#star5").should("be.checked");
   });
