@@ -14,7 +14,7 @@ const Header = (movie: IMovie) => {
     <div class="background-container">
       <div class="overlay" aria-hidden="true">
         <img src="https://media.themoviedb.org/t/p/w440_and_h660_face${
-          movie.poster_path
+          movie.backdrop_path
         }" alt="MovieList" />
       </div>
       <div class="top-rated-container">
