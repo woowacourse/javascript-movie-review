@@ -33,3 +33,9 @@
 #search {
   cursor: pointer;
 }
+
+@media screen and (max-width: 767px) {
+  .search-container {
+    width: 340px;
+  }
+}

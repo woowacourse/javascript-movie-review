@@ -58,3 +58,30 @@ p.rate > span {
 .hidden {
   display: none !important;
 }
+
+@media screen and (max-width: 1439px) {
+  .thumbnail-list {
+    margin: 0 auto 56px;
+    display: grid;
+    grid-template-columns: repeat(4, 200px);
+    gap: 50px;
+  }
+}
+
+@media screen and (max-width: 1023px) {
+  .thumbnail-list {
+    margin: 0 auto 56px;
+    display: grid;
+    grid-template-columns: repeat(3, 200px);
+    gap: 40px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .thumbnail-list {
+    margin: 0 auto 56px;
+    display: grid;
+    grid-template-columns: repeat(1, 200px);
+    gap: 40px;
+  }
+}

@@ -3,7 +3,7 @@ import { $observerTarget } from "./Element";
 const ScrollObserver = {
   get() {
     const option: IntersectionObserverInit = {
-      threshold: 1,
+      threshold: 0.5,
     };
 
     const onIntersect: IntersectionObserverCallback = (entries) => {

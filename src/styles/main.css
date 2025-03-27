@@ -48,7 +48,7 @@ button#seeMore {
 }
 
 #wrap {
-  min-width: 1440px;
+  min-width: var(--screen-mobile);
   background-color: var(--color-bluegray-100);
 }
 
@@ -104,7 +104,7 @@ button#seeMore {
 }
 
 .top-rated-movie > *:not(:last-child) {
-  margin-bottom: 8px;
+  margin-bottom: 16px;
 }
 
 .logo {
@@ -157,4 +157,14 @@ footer.footer {
 
 footer.footer p:not(:last-child) {
   margin-bottom: 8px;
+}
+
+@media screen and (max-width: 1439px) {
+  .logo {
+    flex-direction: column;
+  }
+
+  .logo > img {
+    margin-bottom: 10px;
+  }
 }
