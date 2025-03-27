@@ -1,8 +1,10 @@
 import { MovieDetail } from "../../../../../types/type";
-import { replaceMovieDetailModal } from "../../../Modal/MovieDetail/MovieDetailModal";
+import getMovieDetail from "../../../../apis/getMovieDetail";
+import { openModal } from "../../../Modal/Modal";
+import $MovieDetailModal from "../../../Modal/MovieDetail/MovieDetailModal";
 import $MoviePoster from "../../../MoviePoster/MoviePoster";
 
-const $MovieItem = ({ title, poster_path, vote_average }: MovieDetail) => {
+const $MovieItem = ({ id, title, poster_path, vote_average }: MovieDetail) => {
   const $rate = createElement("p", {
     className: "rate",
   });
@@ -37,8 +39,9 @@ const $MovieItem = ({ title, poster_path, vote_average }: MovieDetail) => {
 
   $item.append($posterBox, $description);
 
-  $item.addEventListener("click", () => {
-    replaceMovieDetailModal();
+  $item.addEventListener("click", async () => {
+    const movieDetail = await getMovieDetail(id);
+    openModal($MovieDetailModal(movieDetail));
   });
 
   return $item;
