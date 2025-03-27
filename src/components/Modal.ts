@@ -5,6 +5,7 @@ class Modal {
 
   constructor() {
     this.#element = this.create();
+    this.setEvent();
   }
 
   create() {
@@ -31,6 +32,45 @@ class Modal {
 
   renderContents(contents: HTMLDivElement) {
     this.#element.insertAdjacentElement("beforeend", contents);
+  }
+
+  #close() {
+    const modalBackground = selectElement<HTMLDivElement>("#modalBackground");
+    modalBackground.classList.remove("active");
+  }
+
+  #onClickCloseButton() {
+    const closeModalButton = selectElement<HTMLButtonElement>("#closeModal");
+    closeModalButton.addEventListener("click", this.#close);
+  }
+
+  #onClickBackground() {
+    const handleBackdropClick = (event: Event) => {
+      const target = event.target as HTMLDivElement;
+
+      if (target.closest("#modalBackground") && !target.closest(".modal")) {
+        this.#close();
+      }
+    };
+
+    const modalBackground = selectElement<HTMLDivElement>("#modalBackground");
+    modalBackground.addEventListener("click", handleBackdropClick);
+  }
+
+  #onKeydownEscape() {
+    const handleEscapeKeydown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        this.#close();
+      }
+    };
+
+    document.addEventListener("keydown", handleEscapeKeydown);
+  }
+
+  setEvent() {
+    this.#onClickCloseButton();
+    this.#onClickBackground();
+    this.#onKeydownEscape();
   }
 }
 
