@@ -1,4 +1,5 @@
 import { DetailMovieData } from "../movie/types";
+import { createRatingBox } from "../ratingBox/ratingBox";
 import { createElementWithAttributes } from "../utils/createElementWithAttributes";
 
 const movieDetailModal = (detailMovie: DetailMovieData) => {
@@ -51,7 +52,6 @@ const movieDetailModal = (detailMovie: DetailMovieData) => {
                 className: "category",
                 textContent: `${releaseYear} · ${genres}`,
               },
-
               {
                 tag: "p",
                 className: "rate",
@@ -84,9 +84,9 @@ const movieDetailModal = (detailMovie: DetailMovieData) => {
                 className: "modal-subtitle",
                 textContent: "내 별점",
               },
+              createRatingBox(detailMovie.id, detailMovie.title),
             ],
           },
-
           {
             tag: "div",
             className: "overview-container",
