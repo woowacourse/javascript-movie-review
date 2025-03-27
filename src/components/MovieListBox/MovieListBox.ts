@@ -3,8 +3,8 @@ import $MovieList, { addMovieItem } from "./MovieList/MovieList";
 import getPopularMovieList from "../../apis/getPopularMovieList";
 import getSearchedMovieList from "../../apis/getSearchedMovieList";
 import {
-  addSkeletonList,
-  removeSkeletonList,
+  addSkeletonItems,
+  removeSkeletonItems,
 } from "../Skeleton/MovieList/SkeletonList";
 import asyncErrorBoundary from "../ErrorBoundary/Async/asyncErrorBoundary";
 import { addErrorBox } from "../ErrorBox/ErrorBox";
@@ -34,10 +34,10 @@ const renderMoreMovieList = async ({
   currentPage,
   fetchFn,
 }: RenderMoreMovieListParameter) => {
-  addSkeletonList();
+  addSkeletonItems();
   const { page, total_pages, results } = await fetchFn(currentPage);
   removeMoreButton({ condition: page === total_pages });
-  removeSkeletonList();
+  removeSkeletonItems();
   addMovieItem(results);
 };
 
