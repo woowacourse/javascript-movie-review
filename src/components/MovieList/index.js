@@ -73,7 +73,7 @@ class MovieList {
   }
 
   #attachMovieItemEvents(store, container) {
-    const modal = new Modal();
+    const modal = new Modal(store, modalContentTemplate);
     const items = container.querySelectorAll("li[data-movie-id]");
     items.forEach((li) => {
       li.addEventListener("click", async () => {
@@ -81,7 +81,7 @@ class MovieList {
         const state = store.getState();
         const movie = state.movies.find((m) => m.id == movieId);
         if (movie) {
-          modal.open(await modalContentTemplate(movie.id, store));
+          modal.open(movie.id);
         }
       });
     });
