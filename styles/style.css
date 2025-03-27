@@ -42,6 +42,9 @@
   border-radius: 32px;
   padding-left: 20px;
 }
+.search-bar::placeholder {
+  color: #ffff;
+}
 
 .search-bar:focus {
   outline: none;
