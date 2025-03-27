@@ -5,36 +5,36 @@ body.modal-open {
   overflow: hidden;
 }
 
-.modal-background {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경을 위해 설정 */
-  backdrop-filter: blur(10px); /* 블러 효과 적용 */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 10;
-  visibility: hidden; /* 모달이 기본적으로 보이지 않도록 설정 */
-  opacity: 0;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
-}
-
-.modal-background.active {
-  visibility: visible;
-  opacity: 1;
+dialog:-internal-dialog-in-top-layer::backdrop {
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
 }
 
 .modal {
   background-color: var(--color-bluegray-90);
-  padding: 20px;
+  padding: 0;
   border-radius: 16px;
   color: white;
   z-index: 2;
-  position: relative;
+  /* position: relative; */
   width: 1000px;
+  margin: auto;
+  border: none;
+  opacity: 0;
+}
+
+dialog[open] {
+  animation: modalFadeIn 0.5s ease normal;
+  animation-fill-mode: forwards;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .close-modal {
@@ -52,15 +52,20 @@ body.modal-open {
 
 .modal-container {
   display: flex;
+  padding: 20px;
+}
+
+.modal-image {
+  width: 50%;
 }
 
 .modal-image img {
-  width: 380px;
+  width: 100%;
   border-radius: 16px;
 }
 
 .modal-description {
-  width: 100%;
+  width: 50%;
   padding: 8px;
   margin-left: 16px;
   line-height: 1.6rem;
@@ -78,4 +83,40 @@ body.modal-open {
 .modal-description h2 {
   font-size: 2rem;
   margin: 0 0 8px;
+}
+
+@media screen and (max-width: 768px) {
+  .modal {
+    width: 100%;
+    max-width: 100%;
+
+    margin: auto 0 0 0;
+  }
+
+  .modal-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .modal-image {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .modal-description {
+    width: 100%;
+    margin: 0;
+  }
+
+  .modal-image img {
+    width: 150px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .modal-image {
+    display: none;
+  }
 }
