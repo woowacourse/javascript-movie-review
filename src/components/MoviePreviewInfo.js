@@ -1,6 +1,5 @@
 import createElement from './utils/createElement';
-
-const STAR_IMG_SRC = './star_empty.png';
+import EmptyStarImage from '../../images/star_empty.png';
 
 const MoviePreviewInfo = ({ movie, bigFont = true }) => {
   const title = movie?.title;
@@ -14,7 +13,7 @@ const MoviePreviewInfo = ({ movie, bigFont = true }) => {
   const $starImg = createElement({
     tag: 'img',
     classNames: ['star'],
-    src: STAR_IMG_SRC,
+    src: EmptyStarImage,
   });
 
   const $rateValue = createElement({

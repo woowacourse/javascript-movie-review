@@ -3,8 +3,8 @@ import fetchSearchMovies from "../fetch/fetchSearchMovies";
 import createElement from "./utils/createElement";
 import movies from "../store/Movies";
 import page from "../store/page";
+import SearchButtonImage from '../../images/searchButtonIcon.png';
 
-const SEARCH_BUTTON_IMAGE_SRC = './images/searchButtonIcon.png';
 const PAGE = 1;
 const SEARCH_BAR_PLACEHOLDER = "검색어를 입력하세요";
 
@@ -27,7 +27,7 @@ function createSearchBarUI(onSubmit) {
 
     const $img = createElement({
         tag: 'img',
-        src: SEARCH_BUTTON_IMAGE_SRC,
+        src: SearchButtonImage,
     });
 
     $button.appendChild($img);

@@ -1,6 +1,6 @@
 import createElement from "./utils/createElement";
+import NothingImg from '../../images/으아아.png'; 
 
-const NOTHING_IMG_SRC = './images/으아아.png';
 const NOTHING_TEXT = '검색 결과가 없습니다.';
 
 const $fragment = document.createDocumentFragment();
@@ -13,7 +13,7 @@ const NothingMovieList = () => {
 
   const $img = createElement({
     tag: 'img',
-    src: NOTHING_IMG_SRC,
+    src: NothingImg,
     alt: '으아아',
     classNames: ['nothing-img']
   })

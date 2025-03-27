@@ -1,7 +1,6 @@
 import SearchBar from './SearchBar';
 import createElement from './utils/createElement';
-
-const LOGO_IMG_SRC = './images/logo.png';
+import LogoImg from '../../images/logo.png';
 
 const Gnb = () => {
   const $div = createElement({
@@ -16,7 +15,7 @@ const Gnb = () => {
 
   const $logoImg = createElement({
     tag: 'img',
-    src: LOGO_IMG_SRC,
+    src: LogoImg,
     alt: 'MovieList',
   });
 
