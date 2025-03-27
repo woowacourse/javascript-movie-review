@@ -47,6 +47,14 @@ class App {
     $wrap.appendChild($container);
 
     new Footer(body).render();
+
+    document.addEventListener("keydown", (e) => {
+      const $modalBg = document.querySelector("#modalBackground");
+
+      if ($modalBg.classList.contains("active") && e.key === "Escape") {
+        $modalBg.classList.remove("active");
+      }
+    });
   }
 
   onSubmit = async (e) => {
