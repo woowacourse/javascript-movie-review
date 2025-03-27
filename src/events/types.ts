@@ -1,10 +1,6 @@
 export const EVENT_TYPES = {
-  click: {
-    modalOpen: "modal-open",
-    modalClose: "modal-close",
-    showMore: "show-more",
-  },
-  submit: {
-    search: "search",
-  },
+  modalOpen: "modal-open",
+  modalClose: "modal-close",
+  showMore: "show-more",
+  search: "search",
 } as const;

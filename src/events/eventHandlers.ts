@@ -8,21 +8,21 @@ import { EVENT_TYPES } from "./types";
 
 const eventBus = EventBus.getInstance();
 
-eventBus.on(EVENT_TYPES.click.modalOpen, (movieId) => {
+eventBus.on(EVENT_TYPES.modalOpen, (movieId) => {
   const movieData = store.movies.find((m) => m.id === movieId);
   if (movieData) Modal.getInstance().open(movieData);
 });
 
-eventBus.on(EVENT_TYPES.click.modalClose, () => {
+eventBus.on(EVENT_TYPES.modalClose, () => {
   Modal.getInstance().close();
 });
 
-eventBus.on(EVENT_TYPES.click.showMore, async () => {
+eventBus.on(EVENT_TYPES.showMore, async () => {
   store.page = store.page + 1;
   await updateMoviesList();
 });
 
-eventBus.on(EVENT_TYPES.submit.search, async (value) => {
+eventBus.on(EVENT_TYPES.search, async (value) => {
   store.searchKeyword = value;
   store.page = 1;
   store.movies = [];

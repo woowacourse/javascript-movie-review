@@ -62,31 +62,31 @@ export default class Modal extends Component<ModalState> {
           <img src="./images/modal_button_close.png" />
         </button>
         <div class="modal-container">
-        ${
-          this.state.isLoading
-            ? this.renderSkeletonItem()
-            : /*html*/ `
-            <div class="modal-image">
-              <img src="${PREFIX_POSTER_PATH}${this.state.poster_path}" />
-            </div>
-            <div class="modal-description">
-              <h2>${this.state.title}</h2>
-              <p class="category">
-                2024 · 모험, 애니메이션, 코미디, 드라마, 가족
-              </p>
-              <p class="rate">
-                <span class="rate-average">평균</span>
-                <img src="./images/star_filled.png" class="star" /><span
-                  >${this.state.vote_average}</span
-                >
-              </p>
-              <hr />
-              <p class="detail">
-                ${this.state.overview}
-              </p>
-            </div>
-          `
-        }
+          ${
+            this.state.isLoading
+              ? this.renderSkeletonItem()
+              : /*html*/ `
+          <div class="modal-image">
+            <img src="${PREFIX_POSTER_PATH}${this.state.poster_path}" />
+          </div>
+          <div class="modal-description">
+            <h2>${this.state.title}</h2>
+            <p class="category">
+              2024 · 모험, 애니메이션, 코미디, 드라마, 가족
+            </p>
+            <p class="rate">
+              <span class="rate-average">평균</span>
+              <img src="./images/star_filled.png" class="star" /><span
+                >${this.state.vote_average}</span
+              >
+            </p>
+            <hr />
+            <p class="detail">
+              ${this.state.overview}
+            </p>
+          </div>
+        `
+          }
         </div>
       </div>
     `;
@@ -108,5 +108,9 @@ export default class Modal extends Component<ModalState> {
 
   close() {
     this.$element.classList.remove("active");
+  }
+
+  isActive() {
+    return this.$element.classList.contains("active");
   }
 }
