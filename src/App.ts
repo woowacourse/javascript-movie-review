@@ -1,24 +1,19 @@
-import { MovieDetailResponse, MovieType } from '@/lib/types';
 import { MovieApiClient } from './apis';
 import { Footer, Header, IntersectionObserble, MovieDetailModal, Movies, Toast } from './components';
 import { Component } from './components/core';
 import { TOAST_TYPE } from './components/Toast';
 import { eventHandlerInstance, LocalStorage, LocalStorageMovieRateValueType } from './lib/modules';
-import { moviesDetailStore, moviesResponseStore } from './lib/store';
+import { moviesDetailResponseStore, moviesResponseStore, moviesStore } from './lib/store';
 import { html, isError, isHTMLFormElement, isString } from './lib/utils';
 
 export interface AppState {
   page: number;
-  movieDetailResponse: MovieDetailResponse | null;
-  movies: MovieType[] | null;
   error: Error | null;
   search: string;
   movieRate: LocalStorageMovieRateValueType;
 }
 
 export default class App extends Component<null, AppState> {
-  movieDetailModal: MovieDetailModal | null = null;
-
   constructor() {
     super();
   }
@@ -26,14 +21,14 @@ export default class App extends Component<null, AppState> {
   override setup() {
     this.state = {
       page: 1,
-      movies: null,
       error: null,
       search: '',
-      movieDetailResponse: null,
       movieRate: LocalStorage.get<LocalStorageMovieRateValueType>('movieRate') ?? {},
     };
 
     this.getMovie(this.state.search, this.state.page);
+
+    new MovieDetailModal({ movieRate: this.state.movieRate });
   }
 
   override template() {
@@ -68,17 +63,12 @@ export default class App extends Component<null, AppState> {
       new IntersectionObserble({
         callback: async () => {
           await this.getMovie(this.state.search, this.state.page + 1);
-          this.setState({ movieDetailResponse: null });
+          moviesDetailResponseStore.setState(null);
         },
         id: 'movie-more',
       }),
       'obserable',
     );
-
-    this.movieDetailModal = new MovieDetailModal({
-      movieRate: this.state.movieRate,
-    });
-    this.movieDetailModal.show();
   }
 
   async getMovie(search: string, page: number) {
@@ -94,10 +84,10 @@ export default class App extends Component<null, AppState> {
 
       this.setState({
         moviesResponse,
-        movies: [...(this.state.movies ? this.state.movies : []), ...moviesResponse.results],
         page,
       });
       moviesResponseStore.setState(moviesResponse);
+      moviesStore.setState([...(moviesStore.getState() ? moviesStore.getState() : []), ...moviesResponse.results]);
     } catch (error) {
       if (isError(error)) this.setState({ error });
       else if (isString(error)) this.setState({ error: new Error(error) });
@@ -119,30 +109,9 @@ export default class App extends Component<null, AppState> {
         if (!currentTarget.dataset.id) throw new Error('data-id를 설정해주세요.');
 
         const movieDetailResponse = await MovieApiClient.getDetail({ id: Number(currentTarget.dataset.id) });
-        moviesDetailStore.setState(movieDetailResponse);
+        moviesDetailResponseStore.setState(movieDetailResponse);
       },
       dataAction: 'movie-detail',
-    });
-
-    eventHandlerInstance.addEventListener({
-      eventType: 'click',
-      callback: () => this.movieDetailModal?.remove(),
-      dataAction: 'close-movie-detail-modal-outside',
-      notTriggerDataAction: 'not-close-movie-detail-modal',
-    });
-
-    eventHandlerInstance.addEventListener({
-      eventType: 'click',
-      callback: () => this.movieDetailModal?.remove(),
-      dataAction: 'close-movie-detail-modal-button',
-    });
-
-    eventHandlerInstance.addEventListener({
-      eventType: 'keydown',
-      callback: ({ event }) => {
-        if (!this.state.movieDetailResponse) return;
-        if ((event as KeyboardEvent).key === 'Escape') this.movieDetailModal?.remove();
-      },
     });
   }
 
@@ -158,8 +127,9 @@ export default class App extends Component<null, AppState> {
         this.setState({
           search: String(modalInput.search),
           page: 1,
-          movies: null,
         });
+
+        moviesStore.setState([]);
 
         await this.getMovie(this.state.search, this.state.page);
       },

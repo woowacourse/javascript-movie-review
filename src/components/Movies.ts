@@ -2,6 +2,7 @@ import { AppState } from '@/App';
 import { html } from '@/lib/utils';
 import Component from './core/Component';
 import ThumbnailList from './ThumbnailList';
+import { moviesStore } from '@/lib/store';
 
 const TAB_LIST = ['상영 중', '인기순', '평점순', '상영 예정'];
 
@@ -12,6 +13,10 @@ interface MoviesProps {
 }
 
 export default class Movies extends Component<MoviesProps> {
+  setup() {
+    this.subsribe([moviesStore]);
+  }
+
   template() {
     if (this.props.error) return html`<div class="error">${this.props.error.message}</div>`;
     return html`

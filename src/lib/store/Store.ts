@@ -1,5 +1,5 @@
 import { forEach } from '@fxts/core';
-import { MovieDetailResponse, MoviesResponse } from '../types';
+import { MovieDetailResponse, MoviesResponse, MovieType } from '../types';
 
 export default class Store<TState> {
   #listeners: (() => void)[] = [];
@@ -14,7 +14,7 @@ export default class Store<TState> {
   }
 
   setState(nextState: TState) {
-    this.#state = { ...this.#state, ...nextState };
+    this.#state = nextState;
     this.notify();
   }
 
@@ -30,4 +30,6 @@ export default class Store<TState> {
 }
 
 export const moviesResponseStore = new Store<MoviesResponse | null>(null);
-export const moviesDetailStore = new Store<MovieDetailResponse | null>(null);
+export const moviesDetailResponseStore = new Store<MovieDetailResponse | null>(null);
+
+export const moviesStore = new Store<MovieType[] | null>(null);

@@ -24,8 +24,12 @@ export default abstract class Component<TProps extends Props = {}, TState extend
     if (!stores) return;
 
     forEach((store) => {
-      store.subscribe(() => this.render());
+      store.subscribe(() => this.update());
     }, stores);
+  }
+
+  update() {
+    this.render();
   }
 
   setup() {}

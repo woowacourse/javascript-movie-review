@@ -1,18 +1,14 @@
 import { DEFAULT_BACK_DROP_URL } from '@/lib/constants';
 
-import { moviesResponseStore } from '@/lib/store';
+import { moviesStore } from '@/lib/store';
 import { html } from '@/lib/utils';
 import { forEach } from '@fxts/core';
 import { MOVIE_ITEM_PER_PAGE } from '../lib/constants';
 import Component from './core/Component';
 
 export default class ThumbnailList extends Component {
-  setup() {
-    this.subsribe([moviesResponseStore]);
-  }
-
   template() {
-    const movies = moviesResponseStore.getState()?.results;
+    const movies = moviesStore.getState();
 
     if (!movies)
       return html`
