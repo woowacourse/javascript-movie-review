@@ -7,6 +7,8 @@ import { addMoviePost } from "./shared/ui/renderers/addMoviePost";
 import { addMoreMovies } from "./shared/domain/addMoreMovies";
 import { updateSearchPageUI } from "./features/search/ui/handlers/searchFormSubmitHandler";
 import { showErrorPage } from "./shared/ui/renderers/showErrorPage";
+import { getParams } from "./shared/domain/getParams";
+import { setParams } from "./shared/domain/setParams";
 
 addEventListener("DOMContentLoaded", async () => {
   const $movieList = document.querySelector(".thumbnail-list") as HTMLElement;
@@ -17,9 +19,7 @@ addEventListener("DOMContentLoaded", async () => {
 
 async function initMovieList(movieList: HTMLElement) {
   try {
-    const url = new URL(window.location.href);
-    const params = new URLSearchParams(url.search);
-    const query = params.get("query");
+    const { query } = getParams(new URL(window.location.href));
     const movies = query
       ? await getSearchedPost(query, 1)
       : await getMovieList({ page: 1 });
@@ -31,13 +31,13 @@ async function initMovieList(movieList: HTMLElement) {
     Header(movies.results[0]);
 
     if (query) {
-      initializeUrl(url);
+      initializeUrl();
       updateSearchPageUI(movies.results, movies.total_pages, {
         pageNum: 1,
         searchQuery: query,
       });
     } else {
-      initializeUrl(url);
+      initializeUrl();
       movieList.innerHTML = "";
       addMoviePost(movies.results, movieList);
     }
@@ -67,7 +67,6 @@ async function initAddMoreMoviesButton(movieList: HTMLElement) {
   });
 }
 
-function initializeUrl(url: URL) {
-  url.searchParams.set("page", "1");
-  window.history.replaceState({}, document.title, url.toString());
+function initializeUrl() {
+  setParams("", 1);
 }

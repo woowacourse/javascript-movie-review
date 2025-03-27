@@ -4,25 +4,21 @@ import { getSearchedPost } from "../../api/getSearchedPost";
 import { disableMoreButton } from "../../../../shared/ui/renderers/disabledMoreButton";
 import { IMovie } from "../../../../shared/types/movies";
 import { showErrorPage } from "../../../../shared/ui/renderers/showErrorPage";
+import { setParams } from "../../../../shared/domain/setParams";
+import { getParams } from "../../../../shared/domain/getParams";
 
 export const searchFormSubmitHandler = async (e: Event) => {
   try {
     const formData = new FormData(e.target as HTMLFormElement);
     const searchQuery = formData.get("search-input") as string;
-    const params = new URLSearchParams({
-      page: "1",
-      query: searchQuery as string,
-    });
-    const pageNum = params.get("page") ? parseInt(params.get("page")!) : 1;
-    const searchedMovies = await getSearchedPost(searchQuery, pageNum);
+    setParams(searchQuery, 1);
+    const { currentPage } = getParams(new URL(window.location.href));
+    const searchedMovies = await getSearchedPost(searchQuery, currentPage);
 
     updateSearchPageUI(searchedMovies.results, searchedMovies.total_pages, {
-      pageNum,
+      pageNum: currentPage,
       searchQuery,
     });
-
-    const newUrl = `${window.location.pathname}?${params.toString()}`;
-    history.pushState(null, "", newUrl);
   } catch (error) {
     showErrorPage();
   }
