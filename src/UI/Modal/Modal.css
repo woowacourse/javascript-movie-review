@@ -82,3 +82,46 @@ body.modal-open {
   max-height: 430px;
   overflow-y: auto;
 }
+
+.middle_font {
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 100%;
+  letter-spacing: 0.18px;
+}
+
+.star_count {
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 100%;
+  letter-spacing: 0.18px;
+  color: #95a1b2;
+}
+
+.average_star_container {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  gap: 15px;
+}
+
+.average_star_container p > span {
+  font-size: 20px;
+}
+
+.my_star_container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.my_star_container > .rate img {
+  width: 32px;
+  height: 32px;
+}
+
+.my_star_container > .rate {
+  display: flex;
+  text-align: center;
+}
