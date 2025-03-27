@@ -29,18 +29,7 @@ const createHeaderSection = () => {
       }),
       SearchBar({
         classList: ['search-bar'],
-        onSubmit: async (value) => {
-          const topRatedMovie = document.querySelector('.top-rated-movie');
-          const overlay = document.querySelector('.overlay');
-          const backgroundContainer = document.querySelector(
-            '.background-container',
-          );
-          topRatedMovie?.replaceChildren();
-          overlay?.classList.add('hidden');
-          backgroundContainer?.classList.add('search-header-container');
-
-          await movieFetcher.getSearchMovies(1, value);
-        },
+        onSubmit: async (value) => await movieFetcher.getSearchMovies(1, value),
       }),
     ],
   });
@@ -99,13 +88,24 @@ const createFeaturedMovieSection = (
 
 const createBackgroundContainer = (movie: MovieItem) => {
   const { id, title, vote_average, poster_path } = movie;
+  const isSearch = movieFetcher.isSearchState;
+
+  const backgroundClassList = [
+    'background-container',
+    ...(isSearch ? ['search-header-container'] : []),
+  ];
+
+  const backgroundStyle = isSearch
+    ? ''
+    : `background-image: url(https://image.tmdb.org/t/p/w1920_and_h800_multi_faces/${poster_path})`;
+
   return Box({
-    classList: ['background-container'],
+    classList: backgroundClassList,
     props: {
-      style: `background-image: url(https://image.tmdb.org/t/p/w1920_and_h800_multi_faces/${poster_path})`,
+      style: backgroundStyle,
       children: [
         Box({
-          classList: ['overlay'],
+          classList: !isSearch ? ['overlay'] : [],
           props: {
             'aria-hidden': 'true',
           },
@@ -115,7 +115,9 @@ const createBackgroundContainer = (movie: MovieItem) => {
           props: {
             children: [
               createHeaderSection(),
-              createFeaturedMovieSection(id, title, vote_average),
+              ...(isSearch
+                ? []
+                : [createFeaturedMovieSection(id, title, vote_average)]),
             ],
           },
         }),
@@ -125,14 +127,18 @@ const createBackgroundContainer = (movie: MovieItem) => {
 };
 
 const renderHeader = (headerElement: HTMLHeadElement) => {
-  const { isLoadingState: isLoading, movies } = movieFetcher;
+  const {
+    isLoadingState: isLoading,
+    isSearchState: isSearch,
+    movies,
+  } = movieFetcher;
 
   const existingSkeleton = headerElement.querySelector('.skeleton-gradient');
   if (existingSkeleton) {
     existingSkeleton.remove();
   }
 
-  if (isLoading && movies.length === 0) {
+  if (isLoading && !isSearch && movies.length === 0) {
     headerElement.appendChild(Skeleton({ width: 1980, height: 500 }));
     headerElement.classList.add('skeleton-animation');
     return;
@@ -141,6 +147,8 @@ const renderHeader = (headerElement: HTMLHeadElement) => {
   if (movies.length > 0) {
     headerElement.replaceChildren(createBackgroundContainer(movies[0]));
   }
+
+  headerElement.classList.remove('skeleton-animation');
 };
 
 export const Header = () => {
