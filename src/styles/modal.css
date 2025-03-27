@@ -48,9 +48,12 @@ body:has(dialog[open]) {
 
 .modal-description {
   width: 100%;
+  flex-direction: column;
+  gap: 16px;
   padding: 8px;
   margin-left: 16px;
   line-height: 1.6rem;
+  overflow-wrap: break-word;
 }
 
 .modal-description .rate > img {
@@ -59,15 +62,50 @@ body:has(dialog[open]) {
 }
 
 .modal-description > *:not(:last-child) {
-  margin-bottom: 8px;
+  margin-bottom: 24px;
 }
 
 .modal-description h2 {
   font-size: 2rem;
-  margin: 0 0 8px;
 }
 
-.detail {
+.movie-info-container {
+  border-bottom: 1px solid #67788e;
+}
+
+.my-star-container {
+  border-bottom: 1px solid #67788e;
+}
+.modal-subtitle {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.detail-overview {
   max-height: 430px;
-  overflow-y: auto;
+  font-size: 24px;
+  font-weight: 300;
+  line-height: 145%;
+}
+
+.category {
+  font-size: 20px;
+  font-weight: 300;
+  margin: 16px 0 8px;
+}
+
+.rate {
+  margin-bottom: 16px;
+}
+
+.average-rate {
+  font-size: 20px;
+}
+
+.rate-text {
+  font-size: 20px;
+  font-weight: 300;
+  color: white;
+  margin-right: 16px;
 }

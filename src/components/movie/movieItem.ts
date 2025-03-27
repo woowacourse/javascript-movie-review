@@ -1,3 +1,4 @@
+import { getDetailMovies } from "../../apis/getDetailMovies";
 import movieDetailModal from "../modal/movieDetailModal";
 import {
   createElementWithAttributes,
@@ -52,11 +53,12 @@ const movieItem = (movie: Movie): HTMLElement => {
 
   const $movieItemOptions = createElementWithAttributes(movieItemOptions);
 
-  $movieItemOptions.addEventListener("click", () => {
+  $movieItemOptions.addEventListener("click", async () => {
     const $modal = $(".modal") as HTMLDialogElement;
+    const detailMovie = await getDetailMovies(movie.id);
 
+    $modal.replaceChildren(movieDetailModal(detailMovie));
     $modal.showModal();
-    $modal.replaceChildren(movieDetailModal());
   });
 
   return $movieItemOptions;
