@@ -20,6 +20,21 @@ async function ContentsContainer(results: MovieInfo[], contentTitle: string) {
   const movieList = new MovieList(results);
   const $movieList = movieList.renderMovieList();
   $section?.appendChild($movieList);
+  const $thumbnails = document.querySelectorAll(".thumbnail");
+
+  $thumbnails.forEach(($thumbnail) => {
+    $thumbnail.addEventListener("click", async () => {
+      const id = ($thumbnail as HTMLElement).dataset.id;
+      if (id) {
+        const movieService = new MovieService();
+        const movieDetails = await movieService.getMovieDetails(Number(id));
+        const event = new CustomEvent("modalOpenClicked", {
+          detail: movieDetails,
+        });
+        document.dispatchEvent(event);
+      }
+    });
+  });
   hideSkeleton();
   removeButton();
 

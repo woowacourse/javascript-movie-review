@@ -3,10 +3,12 @@ import("./modal.css");
 export const Modal = ({
   title,
   poster_path,
-  //   genre_ids,
+  genres,
   overview,
   vote_average,
 }) => {
+  const genreNames = genres.map((genre) => genre.name).join(", ");
+
   return `    <div class="modal-background active" id="modalBackground">
     <div class="modal">
       <button class="close-modal" id="closeModal">
@@ -21,7 +23,7 @@ export const Modal = ({
         <div class="modal-description">
           <h2>${title}</h2>
           <p class="category">
-            2024 · 모험, 애니메이션, 코미디, 드라마, 가족
+            2024 · ${genreNames}
           </p>
           <p class="rate">
             <img src="./star_filled.png" class="star" /><span
