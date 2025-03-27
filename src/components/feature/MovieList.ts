@@ -6,6 +6,7 @@ import { Text } from '../common/Text';
 import { createSkeletonItems } from './MovieSkeleton';
 import { Empty } from './Empty';
 import { createMovieItems } from './MovieItem';
+import { initObserver, observeTarget } from '../../utils/observer';
 
 const titleText = Text({
   classList: ['text-2xl', 'font-bold', 'mb-64'],
@@ -58,13 +59,8 @@ const setupIntersectionObserver = () => {
   const lastMovieItem = document.querySelector('.movie-item:last-child');
   if (!lastMovieItem) return;
 
-  const observer = new IntersectionObserver(observerCallback, {
-    root: null,
-    rootMargin: '100px',
-    threshold: 1.0,
-  });
-
-  observer.observe(lastMovieItem);
+  initObserver(observerCallback);
+  observeTarget(lastMovieItem);
 };
 
 const renderMoreLoadingState = (itemCount: number) => {
@@ -97,7 +93,9 @@ const renderMovieList = () => {
 
   updateListTitle(titleText, isSearch, query);
   if (error) return;
-  if (isLoading) return renderMoreLoadingState(20);
+  if (isLoading && !(isSearch && results.length === 0)) {
+    return renderMoreLoadingState(20);
+  }
   if (isSearch && results.length === 0 && !isLoading) {
     return renderEmptyState();
   }
