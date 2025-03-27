@@ -10,6 +10,7 @@ import {
   showSkeleton,
 } from "./components/Skeleton/showSkeleton.ts";
 import { Modal } from "./components/Modal/Modal.js";
+import openModal from "./components/Modal/openModal.ts";
 
 function renderHeader({
   id,
@@ -53,39 +54,10 @@ function renderHeader({
 document.addEventListener("modalOpenClicked", (event: CustomEvent) => {
   const customEvent = event as CustomEvent<MovieInfo>;
 
-  const { title, poster_path, vote_average, overview } = customEvent.detail;
-  openModal({ title, poster_path, vote_average, overview });
+  const { title, genres, poster_path, vote_average, overview } =
+    customEvent.detail;
+  openModal({ title, genres, poster_path, vote_average, overview });
 });
-
-function openModal({ title, poster_path, vote_average, overview }: MovieInfo) {
-  const $modalContainer = document.createElement("div");
-  $modalContainer.classList.add("modalcontainer");
-
-  const modalElement = Modal({ title, poster_path, vote_average, overview });
-  $modalContainer.innerHTML = modalElement;
-  document.body.appendChild($modalContainer);
-
-  const closeButton = $modalContainer.querySelector("#closeModal");
-  if (closeButton) {
-    closeButton.addEventListener("click", () => {
-      $modalContainer.remove();
-    });
-  }
-
-  document.addEventListener("keydown", (event: KeyboardEvent) => {
-    console.log(event.key);
-    if (event.key === "Escape" && $modalContainer) {
-      $modalContainer.remove();
-    }
-  });
-
-  const $modalOverlay = $modalContainer.querySelector("#modalBackground");
-  if ($modalOverlay) {
-    $modalOverlay.addEventListener("click", () => {
-      $modalContainer.remove();
-    });
-  }
-}
 
 async function renderContent(movieService: MovieService, results: MovieInfo[]) {
   ContentsContainer(results, "지금 인기 있는 영화");
