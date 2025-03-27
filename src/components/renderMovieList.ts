@@ -3,18 +3,33 @@ import movies from "../store/Movies";
 import page from "../store/page";
 import MovieType from "../types/MovieType";
 import createElement from "./utils/createElement";
+import removeElement from "./utils/removeElement";
+import hideLoadMoreButton from "./utils/hideLoadMoreButton";
+
+function appendMovieList(section: HTMLElement, status: "loading" | "fetched") {
+  const list = MovieList({
+    movies: status === "loading" ? [] : movies.movieList,
+    status,
+  });
+  section.appendChild(list);
+  return list;
+}
+
+function renderErrorMessage(section: HTMLElement, message: string) {
+  const $error = createElement({ tag: "p" });
+  $error.textContent = message;
+  section.appendChild($error);
+}
 
 async function renderMovieList(
-  fetchFn: () => Promise<{ results: MovieType[]; totalPages: number }>,
-  $button: HTMLElement
+  fetchFn: () => Promise<{ results: MovieType[]; totalPages: number }>
 ) {
   const section = document.querySelector("section");
   if (!section) return;
 
-  document.querySelector(".thumbnail-list")?.remove();
+  removeElement(".thumbnail-list");
 
-  const loadingList = MovieList({ movies: [], status: "loading" });
-  section.appendChild(loadingList);
+  const loadingList = appendMovieList(section, "loading");
 
   try {
     const { results, totalPages } = await fetchFn();
@@ -23,23 +38,18 @@ async function renderMovieList(
     if (loadingList instanceof HTMLElement) {
       loadingList.remove();
     }
-
-    section.appendChild(
-      MovieList({
-        movies: movies.movieList,
-        status: "fetched",
-      })
-    );
+    appendMovieList(section, "fetched");
 
     if (totalPages === page.getCurrentPage()) {
-      $button.classList.add("disappear");
+      hideLoadMoreButton();
     }
   } catch (error) {
+    if (loadingList instanceof HTMLElement) {
+      loadingList.remove();
+    }
     console.error("영화 불러오기 실패:", error);
-
-    const $error = createElement({ tag: "p" });
-    $error.textContent = "영화 데이터를 불러오는 데 실패했습니다.";
-    section.appendChild($error);
+    hideLoadMoreButton();
+    renderErrorMessage(section, "영화 데이터를 불러오는 데 실패했습니다.");
   }
 }
 

@@ -12,7 +12,6 @@ interface MovieListProps {
 }
 
 const MovieList = ({ movies, status }: MovieListProps) => {
-  console.log(movies, status);
   const $ul = createElement({
     tag: "ul",
     classNames: ["thumbnail-list"],

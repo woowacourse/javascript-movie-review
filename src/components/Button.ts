@@ -31,7 +31,7 @@ const Button = ({ text, type }: ButtonProps) => {
         results: res.results,
         totalPages: res.totalPages,
       };
-    }, $button);
+    });
   });
 
   return $button;

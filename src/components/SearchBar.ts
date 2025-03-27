@@ -8,7 +8,6 @@ import renderMovieList from "./renderMovieList";
 const PAGE = 1;
 const SEARCH_BAR_PLACEHOLDER = "검색어를 입력하세요";
 
-// 🔹 1. SearchBar UI 생성
 function createSearchBarUI(onSubmit: (query: string) => void) {
   const $form = createElement({
     tag: "form",
@@ -45,7 +44,7 @@ function createSearchBarUI(onSubmit: (query: string) => void) {
 function updateURLQueryParam(query: string) {
   const params = new URLSearchParams(window.location.search);
   params.set("query", query);
-  page.reset(); // 페이지 초기화
+  page.reset();
   window.history.replaceState(
     {},
     "",
@@ -65,10 +64,6 @@ async function performSearch(query: string) {
   updateURLQueryParam(query);
   updateDOMForSearch(query);
 
-  const $button = document.querySelector(
-    ".search-bar-button"
-  ) as HTMLButtonElement;
-
   renderMovieList(async () => {
     const res = await fetchSearchMovies(query, PAGE);
     movies.updateMovies(res.results);
@@ -76,7 +71,7 @@ async function performSearch(query: string) {
       results: res.results,
       totalPages: res.totalPages,
     };
-  }, $button);
+  });
 }
 
 const SearchBar = () => {
