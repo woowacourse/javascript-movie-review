@@ -159,6 +159,11 @@ footer.footer p:not(:last-child) {
   margin-bottom: 8px;
 }
 
+.observer-target {
+  position: relative;
+  bottom: 450px;
+}
+
 @media screen and (max-width: 1439px) {
   .logo {
     flex-direction: column;
