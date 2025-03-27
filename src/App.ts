@@ -1,16 +1,21 @@
-import Header from "./components/Header/index.js";
-import Footer from "./components/Footer/index.js";
-import Banner from "./components/Banner/index.js";
-import MovieList from "./components/MovieList/index.js";
-import { fetchPopularMovies, fetchSearchedMovies } from "./APIs/movieAPI.ts";
-import Store from "./store/store.ts";
-import { MOVIE_COUNT } from "./constants/config.js";
+// App.ts
+import Header from "./components/Header/index";
+import Footer from "./components/Footer/index";
+import Banner from "./components/Banner/index";
+import MovieList from "./components/MovieList/index";
+import { fetchPopularMovies, fetchSearchedMovies } from "./APIs/movieAPI";
+import Store from "./store/store";
+import { MOVIE_COUNT } from "./constants/config";
 
 class App {
-  #$target;
-  #store;
+  #$target: HTMLElement;
+  #store: Store;
+  bannerContainer: HTMLElement;
+  mainContainer: HTMLElement;
+  bannerComponent: any;
+  movieListComponent: any;
 
-  constructor($target) {
+  constructor($target: HTMLElement) {
     this.#$target = $target;
     this.#store = new Store({
       movies: [],
@@ -18,7 +23,7 @@ class App {
       searchedMoviesLength: 0,
       loading: false,
       starRatings: localStorage.getItem("starRatings")
-        ? JSON.parse(localStorage.getItem("starRatings"))
+        ? JSON.parse(localStorage.getItem("starRatings") as string)
         : [],
     });
 
@@ -61,7 +66,7 @@ class App {
           state.movies.length < MOVIE_COUNT.MAX_PAGE * MOVIE_COUNT.UNIT
         ) {
           const newMovies = await fetchPopularMovies(
-            (error) => alert(error.message),
+            (error: Error) => alert(error.message),
             currentPage
           );
           this.#store.setState({ movies: [...state.movies, ...newMovies] });
@@ -72,7 +77,7 @@ class App {
 
         const newMoviesData = await fetchSearchedMovies(
           state.query,
-          (error) => alert(error.message),
+          (error: Error) => alert(error.message),
           currentPage
         );
 
@@ -84,9 +89,11 @@ class App {
     });
   }
 
-  async #loadPopularMovies() {
+  async #loadPopularMovies(): Promise<void> {
     this.#store.setState({ loading: true });
-    const movies = await fetchPopularMovies((error) => alert(error.message));
+    const movies = await fetchPopularMovies((error: Error) =>
+      alert(error.message)
+    );
     this.#store.setState({ movies, loading: false });
   }
 }

@@ -16,6 +16,7 @@ export const fetchPopularMovies = async (
 
     return response.results.map((movie: MovieResult) => ({
       ...movie,
+      id: movie.id.toString(),
       vote_average: movie.vote_average.toFixed(1),
     }));
   } catch (error) {
