@@ -36,7 +36,7 @@ class App {
       this.render(null);
       return;
     }
-    this.#uiManager.setShowMore(true);
+    this.#uiManager.setHasMore(true);
     this.render(results.results);
   }
 
@@ -78,19 +78,18 @@ class App {
     $container.appendChild($main);
     $main.appendChild($movieListSection);
 
-    if (movies && movies.length > 0 && this.#uiManager.getShowMore()) {
-      const $moreButton = new Button().render();
-      $main.appendChild($moreButton);
-      $moreButton.addEventListener("click", this.handleButtonClick);
-    }
+    window.addEventListener("scroll", () => {
+      if (!this.#uiManager.getHasMore()) {
+        return;
+      }
+
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+        this.handleScroll();
+      }
+    });
 
     const $footer = new Footer().render();
     app.appendChild($footer);
-
-    // if (this.#uiManager.getIsModalOpen() === true) {
-    //   const modal = new Modal(movies).render();
-    //   document.body.appendChild(modal);
-    // }
   }
 
   onSubmit = async (e) => {
@@ -106,13 +105,13 @@ class App {
 
     this.#movieManager.reset();
     this.#uiManager.setLoading(true);
-    this.#uiManager.setShowMore(true);
+    this.#uiManager.setHasMore(true);
     const { results, totalPage } = await this.#movieManager.fetchSearch(
       keyword
     );
 
     if (totalPage === 1) {
-      this.#uiManager.setShowMore(false);
+      this.#uiManager.setHasMore(false);
     }
     this.#uiManager.setLoading(false);
     this.render(results);
@@ -126,14 +125,14 @@ class App {
     window.history.pushState({}, "", url);
 
     this.#movieManager.reset();
-    this.#uiManager.setShowMore(true);
+    this.#uiManager.setHasMore(true);
 
     const { results } = await this.#movieManager.fetchPopular();
 
     this.render(results);
   };
 
-  handleButtonClick = async () => {
+  handleScroll = async () => {
     const keyword = this.getKeywordFromURL();
 
     const $main = document.querySelector("main");
@@ -146,8 +145,7 @@ class App {
       : await this.#movieManager.fetchPopular();
 
     if (currentPage >= totalPage) {
-      this.#uiManager.setShowMore(false);
-      this.#movieListSection.removeMoreButton();
+      this.#uiManager.setHasMore(false);
     }
 
     this.#movieListSection.removeSkeleton(skeletonElements);

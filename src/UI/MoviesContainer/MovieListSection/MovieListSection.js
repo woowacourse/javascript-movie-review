@@ -76,11 +76,6 @@ class MovieListSection {
     return skeletonElements;
   }
 
-  removeMoreButton() {
-    const $moreButton = document.querySelector(".more-button");
-    $moreButton.remove();
-  }
-
   removeSkeleton(skeletonElements) {
     skeletonElements.forEach(($el) => $el.remove());
   }

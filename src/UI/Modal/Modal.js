@@ -5,7 +5,6 @@ class Modal {
     this.movieDetail = movieDetail;
   }
   render() {
-    console.log(this.movieDetail);
     this.$div = document.createElement("div");
     this.$div.innerHTML =
       /*html*/
