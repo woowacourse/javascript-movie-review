@@ -50,11 +50,13 @@ export default class App extends Component<null, AppState> {
 
   async onRender() {
     this.fillSlot(
-      new Header({
-        search: this.state.search,
-      }),
+      new Header(
+        {
+          search: this.state.search,
+        },
+        [moviesResponseStore],
+      ),
       'header',
-      [moviesResponseStore],
     );
     this.fillSlot(
       new Movies({

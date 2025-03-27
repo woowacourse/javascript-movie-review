@@ -12,12 +12,18 @@ export default abstract class Component<TProps extends Props = {}, TState extend
   #props: TProps;
   #element: HTMLElement | null = null;
 
-  constructor(props?: TProps) {
+  constructor(props?: TProps, stores?: Store<any>[]) {
     this.#props = (props ?? {}) as TProps;
     this.setup();
 
     this.render();
     this.addEventListener();
+
+    if (!stores) return;
+
+    forEach((store) => {
+      store.subscribe(() => this.render());
+    }, stores);
   }
 
   setup() {}
@@ -49,17 +55,11 @@ export default abstract class Component<TProps extends Props = {}, TState extend
 
   onRender() {}
 
-  fillSlot(component: Component, slotName: string, stores?: Store<any>[]) {
+  fillSlot(component: Component, slotName: string) {
     const targetSlot = this.element.querySelector(`slot[name=${slotName}]`);
     if (!targetSlot) throw new Error(`name=${slotName} 속성을 가진 slot 요소를 만들어주세요.`);
 
     targetSlot.replaceWith(component.element);
-
-    if (!stores) return;
-
-    forEach((store) => {
-      store.subscribe(() => this.render());
-    }, stores);
   }
 
   get element() {
