@@ -11,17 +11,34 @@ class MovieListController {
   mainElement;
 
   onAfterFetchMovieList;
+  onDetailModalOpen;
 
-  constructor({ onAfterFetchMovieList }: { onAfterFetchMovieList: (movie: IMovieItem) => void }) {
+  constructor({
+    onAfterFetchMovieList,
+    onDetailModalOpen,
+  }: {
+    onAfterFetchMovieList: (movie: IMovieItem) => void;
+    onDetailModalOpen: (movieId: number) => void;
+  }) {
     this.movieResults = MovieResults();
     this.mainElement = mainElement;
     this.onAfterFetchMovieList = onAfterFetchMovieList;
+    this.onDetailModalOpen = onDetailModalOpen;
   }
 
   bindEvents() {
     const seeMoreElement = $(".see-more", this.mainElement);
     seeMoreElement?.addEventListener("click", () => {
       this.addMovieList();
+    });
+
+    this.mainElement.addEventListener("click", (event) => {
+      const target = event.target as HTMLElement;
+      const item = target.closest(".item");
+
+      if (item) {
+        this.onDetailModalOpen(Number(item.id));
+      }
     });
   }
 

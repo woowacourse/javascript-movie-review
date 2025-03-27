@@ -30,6 +30,9 @@ class MainController {
       onAfterFetchMovieList: (movie) => {
         this.backgroundThumbnailController.renderBackgroundThumbnail(movie);
       },
+      onDetailModalOpen: (movieId: number) => {
+        this.detailModalController.showModal(movieId);
+      },
     });
 
     new HeaderController({
