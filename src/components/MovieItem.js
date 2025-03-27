@@ -23,6 +23,9 @@ const MovieItem = ({ movie }) => {
     alt: `${title}`,
   });
 
+  $img.onerror = () => {
+    $img.src = nullImage;
+  };  
 
   $li.appendChild($div);
   $div.appendChild($img);
