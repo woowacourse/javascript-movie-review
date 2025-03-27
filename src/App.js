@@ -4,6 +4,8 @@ import { BannerRender } from "./components/Banner/index.js";
 import { SkeletonBannerRender } from "./components/Skeleton/SkeletonBanner.js";
 import store from "./store/store.ts";
 import * as MovieModule from "./domains/movie/MovieModule.js";
+import { fetchSearchedMovies } from "./APIs/movieAPI.ts";
+import { syncSearchStateWithURL } from "./domains/movie/urlStateSync.js";
 
 class App {
   constructor($target) {
@@ -12,7 +14,7 @@ class App {
   }
 
   async initialize() {
-    await MovieModule.initializeMovieDomain();
+    await syncSearchStateWithURL();
     this.render();
   }
 
