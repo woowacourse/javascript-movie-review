@@ -16,11 +16,13 @@ class MainController {
 
   constructor() {
     this.messageModalController = new MessageModalController();
-    this.detailModalController = new DetailModalController();
+    this.detailModalController = new DetailModalController({
+      onErrorModalOpen: this.#onErrorModalOpen.bind(this),
+    });
 
     this.backgroundThumbnailController = new BackgroundThumbnailController({
-      onMovieDetailButtonClick: () => {
-        this.detailModalController.showModal();
+      onMovieDetailButtonClick: (movieId: number) => {
+        this.detailModalController.showModal(movieId);
       },
     });
 
@@ -46,7 +48,7 @@ class MainController {
     try {
       await this.movieListController.render();
     } catch (error) {
-      this.#openModal(ERROR_MESSAGE[Number((error as Error).message)] || "알 수 없는 오류가 발생했습니다.");
+      this.#onErrorModalOpen(error as Error);
     }
   }
 
@@ -61,13 +63,17 @@ class MainController {
       const searchMovieListController = new SearchMovieListController(searchValue);
       await searchMovieListController.render();
     } catch (error) {
-      this.#openModal(ERROR_MESSAGE[Number((error as Error).message)] || "알 수 없는 오류가 발생했습니다.");
+      this.#onErrorModalOpen(error as Error);
     }
   }
 
   #onHomeLogoClick() {
     this.backgroundThumbnailController.showBackground();
     this.movieListController.renderExistingMovieList();
+  }
+
+  #onErrorModalOpen(error: Error) {
+    this.#openModal(ERROR_MESSAGE[Number(error.message)] || "알 수 없는 오류가 발생했습니다.");
   }
 }
 

@@ -8,7 +8,7 @@ class BackgroundThumbnailController {
 
   onMovieDetailButtonClick;
 
-  constructor({ onMovieDetailButtonClick }: { onMovieDetailButtonClick: (text: string) => void }) {
+  constructor({ onMovieDetailButtonClick }: { onMovieDetailButtonClick: (movieId: number) => void }) {
     this.onMovieDetailButtonClick = onMovieDetailButtonClick;
   }
 
@@ -25,9 +25,9 @@ class BackgroundThumbnailController {
   bindEvents() {
     const detailButtonElement = $<HTMLButtonElement>("button.detail", this.backgroundElement);
     if (this.movie) {
-      detailButtonElement?.addEventListener("click", () =>
-        this.onMovieDetailButtonClick("아직 지원되지 않은 기능입니다."),
-      );
+      detailButtonElement?.addEventListener("click", () => {
+        if (this.movie) this.onMovieDetailButtonClick(this.movie.id);
+      });
     }
   }
 
