@@ -28,6 +28,10 @@ const createDateSkeleton = () => {
   });
 };
 
+export const createSkeletonItems = (count = 20) => {
+  return Array.from({ length: count }, () => MovieSkeleton());
+};
+
 export const MovieSkeleton = () => {
   return createElement<HTMLLIElement>('li', {
     classList: 'movie-item skeleton-item',

@@ -1,4 +1,5 @@
 import { movieFetcher } from '../../domain/MovieFetcher';
+import { movieRating } from '../../domain/MovieRating';
 import { MovieItem as MovieItemType } from '../../types/Movie.types';
 import { createElement } from '../../utils/createElement';
 import { Box } from '../common/Box';
@@ -12,7 +13,12 @@ import { createPosterSkeleton } from './MovieSkeleton';
 export const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w220_and_h330_face';
 export const DEFAULT_IMAGE_URL = './images/no_image.png';
 
-const createRatingSection = (vote_average: number) => {
+export const createMovieItems = (movies: MovieItemType[]) => {
+  return movies.map((movie, index) => MovieItem({ ...movie, index }));
+};
+
+const createRatingSection = (id: number, vote_average: number) => {
+  const hasRating = movieRating.hasRating(id);
   return Box({
     classList: ['movie-rate'],
     props: {
@@ -20,7 +26,9 @@ const createRatingSection = (vote_average: number) => {
         Img({
           width: '16',
           height: '16',
-          src: './images/star_empty.png',
+          src: hasRating
+            ? './images/star_filled.png'
+            : './images/star_empty.png',
         }),
         Text({
           classList: ['text-lg', 'font-semibold', 'text-yellow', 'mt-2'],
@@ -33,12 +41,16 @@ const createRatingSection = (vote_average: number) => {
   });
 };
 
-const createDescriptionSection = (title: string, vote_average: number) => {
+const createDescriptionSection = (
+  id: number,
+  title: string,
+  vote_average: number,
+) => {
   return Box({
     classList: ['movie-description'],
     props: {
       children: [
-        createRatingSection(vote_average),
+        createRatingSection(id, vote_average),
         Text({
           classList: ['text-xl', 'font-bold'],
           props: {
@@ -70,9 +82,7 @@ const createMovieImage = (title: string, poster_path: string) => {
   const handleImageLoad = () => {
     skeletonElement.classList.add('fade-out');
     imgElement.style.visibility = 'visible';
-    setTimeout(() => {
-      skeletonElement.remove();
-    }, 300);
+    requestAnimationFrame(() => skeletonElement.remove());
   };
 
   imgElement.addEventListener('load', handleImageLoad);
@@ -90,7 +100,7 @@ export const MovieItem = ({
     classList: 'movie-item',
     children: [
       createMovieImage(title, poster_path),
-      createDescriptionSection(title, vote_average),
+      createDescriptionSection(id, title, vote_average),
     ],
   });
 
