@@ -99,4 +99,11 @@ describe("api 요청에 실패하면 에러 페이지가 나온다.", () => {
       cy.get(".error-page-container").should("exist");
     });
   });
+
+  it("영화 API 요청에 실패하면 에러 페이지가 보인다.", () => {
+    cy.visit("localhost:5173");
+    cy.wait("@getPopularMoviesError").then(() => {
+      cy.get(".error-page-container").should("exist");
+    });
+  });
 });
