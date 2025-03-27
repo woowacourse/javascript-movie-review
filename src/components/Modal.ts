@@ -26,7 +26,7 @@ class Modal {
   async #fetchAndRenderModal(id: number) {
     const details = await MovieApi.fetchMovieDetail(id);
     this.#render(details);
-    this.#renderStarRate();
+    this.#renderStarRate(details.id);
     this.#addEventListeners();
   }
 
@@ -47,8 +47,7 @@ class Modal {
           </p>
           <p class="rate">
             <img src="./images/star_filled.png" class="star" /><span
-              >0.0</span
-            >
+              >0.0</span>
           </p>
           <hr />
           <div class="my-rate">
@@ -101,10 +100,10 @@ class Modal {
   </div>`;
   }
 
-  #renderStarRate() {
+  #renderStarRate(id: number) {
     const $stars = document.querySelector(".my-rate");
     if (!isHTMLElement($stars)) return;
-    new MyRate($stars);
+    new MyRate($stars, id);
   }
 
   #posterImage(poster_path: Movie["poster_path"]): string {

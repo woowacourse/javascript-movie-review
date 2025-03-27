@@ -1,3 +1,4 @@
+import RateStorage from "../storages/RateStorage";
 import { isHTMLElement } from "../utils/typeGuards";
 
 export const MyRateSkeleton = () => {
@@ -17,11 +18,22 @@ export const MyRateSkeleton = () => {
 };
 class MyRate {
   #parentElement: HTMLElement;
+  #movieId: number;
 
-  constructor(parentElement: HTMLElement) {
+  constructor(parentElement: HTMLElement, movieId: number) {
     this.#parentElement = parentElement;
+    this.#movieId = movieId;
     this.#render();
     this.#addEventListeners();
+    this.#loadRate();
+  }
+
+  #loadRate() {
+    const rate = RateStorage.getRate(this.#movieId);
+    const $currentStar = this.#parentElement.querySelector(`#star-${rate / 2}`);
+
+    if (!isHTMLElement($currentStar)) return;
+    $currentStar.click();
   }
 
   #render() {
@@ -41,6 +53,11 @@ class MyRate {
     this.#parentElement.addEventListener("click", (event) => {
       const target = event.target as HTMLElement;
       if (!target.matches("img")) return;
+
+      RateStorage.saveRate({
+        id: this.#movieId,
+        rate: Number(target.id.split("-")[1]) * 2,
+      });
 
       const ratedStars = [1, 2, 3, 4, 5]
         .map((id) => {

@@ -51,9 +51,7 @@ class SearchMovieBoard {
   #renderMovies(movies: Movie[]): void {
     const ul = document.querySelector(".thumbnail-list");
     if (!isHTMLElement(ul)) return;
-    console.log(this.#page);
     if (this.#page === 1) {
-      console.log("초기화!");
       ul.innerHTML = "";
       new MovieList(ul, movies);
       return;

@@ -16,7 +16,6 @@ h1.logo {
 }
 
 .search-bar {
-  flex-grow: 1;
   width: 525px;
   padding: 3px 20px;
   color: var(--color-white);
@@ -49,5 +48,9 @@ h1.logo {
   header {
     display: flex;
     flex-direction: column;
+  }
+
+  .search-bar-container {
+    width: 100%;
   }
 }

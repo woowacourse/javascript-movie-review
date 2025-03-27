@@ -2,6 +2,7 @@ import Footer from "./components/Footer";
 import Header from "./components/Header";
 import PopularMovieBoard from "./components/PopularMovieBoard";
 import SearchMovieBoard from "./components/SearchMovieBoard";
+import RateStorage from "./storages/RateStorage";
 import { isHTMLElement } from "./utils/typeGuards";
 
 interface AppContract {
@@ -10,7 +11,9 @@ interface AppContract {
 
 class App implements AppContract {
   #currentBoard: PopularMovieBoard | SearchMovieBoard | null = null;
-  constructor() {}
+  constructor() {
+    RateStorage.init();
+  }
 
   public render() {
     this.#renderHeader();

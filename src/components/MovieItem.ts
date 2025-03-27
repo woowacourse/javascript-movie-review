@@ -11,7 +11,6 @@ class MovieItem {
   constructor(parentElement: HTMLElement, movie: Movie) {
     this.#parentElement = parentElement;
     this.#movie = movie;
-    console.log(this.#movie);
     this.#render();
     this.#addEventListeners();
   }

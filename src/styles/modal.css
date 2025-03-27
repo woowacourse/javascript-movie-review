@@ -87,7 +87,6 @@ body.modal-open {
 
 .star-container {
   display: flex;
-
   justify-content: start;
   align-items: center;
 }
