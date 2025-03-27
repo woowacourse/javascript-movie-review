@@ -11,11 +11,12 @@ export default function MovieItemList() {
     const $fragment = document.createDocumentFragment();
 
     movieData.forEach((movie) => {
-      const { title, poster_path, vote_average } = movie;
+      const { title, poster_path, vote_average, id } = movie;
       const movieItem = MovieItem({
         title,
         src: poster_path,
         rate: vote_average,
+        id,
       });
       $fragment.appendChild(movieItem);
     });
