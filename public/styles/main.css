@@ -48,12 +48,6 @@ button.primary {
   min-width: 375px;
 }
 
-#app h2 {
-  font-size: 1.85rem;
-  font-weight: bold;
-  margin-bottom: 3.5rem;
-}
-
 .header {
   position: relative;
 }

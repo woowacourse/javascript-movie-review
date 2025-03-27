@@ -31,6 +31,10 @@
 }
 
 .movie-list-title {
+  font-size: 1.85rem;
+  font-weight: bold;
+  margin-bottom: 3.5rem;
+
   @media screen and (max-width: 768px) {
     text-align: center;
   }
