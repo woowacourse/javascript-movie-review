@@ -1,3 +1,4 @@
+import { transformKeysToCamel } from '../util/transformKeysToCamel';
 import { BASE_URL, ERROR } from './constant';
 import { httpErrorStatus } from './error/httpErrorStatus';
 
@@ -22,7 +23,7 @@ const requestAppClient = async (method: HttpMethod, query: string, params: Recor
 
     const data = await response.json();
 
-    return data;
+    return transformKeysToCamel(data);
   } catch (error) {
     if (error instanceof Error && error.message.includes('Failed to fetch')) {
       throw new Error(ERROR.NETWORK);
