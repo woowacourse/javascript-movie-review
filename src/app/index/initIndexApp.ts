@@ -19,7 +19,7 @@ import type {
 const movieItemList: MovieItemListInstance = MovieItemList();
 const loadMoreButton: LongButtonInstance = LongButton("더보기");
 
-export function initApp() {
+export function initIndexApp() {
   mountHeader();
   mountHero();
   mountMovieItemList(movieItemList);
@@ -31,7 +31,7 @@ export function initApp() {
     defaultOptions
   );
   const load = () => loadMovies(loader, movieItemList, loadMoreButton);
-
   loadMoreButton.setOnClick(load);
+
   load();
 }
