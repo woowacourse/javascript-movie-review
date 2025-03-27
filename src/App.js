@@ -79,7 +79,7 @@ class App {
     $main.appendChild($movieListSection);
 
     window.addEventListener("scroll", () => {
-      if (!this.#uiManager.getHasMore()) {
+      if (!this.#uiManager.getHasMore() || this.#uiManager.getLoading()) {
         return;
       }
 
@@ -137,12 +137,14 @@ class App {
 
     const $main = document.querySelector("main");
     const $ul = document.querySelector(".thumbnail-list");
+    this.#uiManager.setLoading(true);
 
     const skeletonElements = this.#movieListSection.renderSkeleton($ul);
 
     const { results, totalPage, currentPage } = keyword
       ? await this.#movieManager.fetchSearch(keyword)
       : await this.#movieManager.fetchPopular();
+    this.#uiManager.setLoading(false);
 
     if (currentPage >= totalPage) {
       this.#uiManager.setHasMore(false);
