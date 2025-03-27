@@ -12,6 +12,7 @@ const parseGenre = (genres: Genre[]) => {
 };
 
 const $MovieDetailModal = ({
+  id,
   poster_path,
   release_date,
   genres,
@@ -79,7 +80,7 @@ const $MovieDetailModal = ({
     $title,
     $category,
     $movieRate,
-    $RateBox({ initialRateValue: 0 }),
+    $RateBox(id),
     $descriptionBox
   );
   $detailModal.append($imageBox, $detailBox);

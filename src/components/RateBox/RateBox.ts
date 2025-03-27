@@ -1,3 +1,5 @@
+import STORAGE_KEY from "../../constants/storageKey";
+import { getStorage, setStorage } from "../../utils/storage";
 import $StarIcon, { fillStarIcon, unFillStarIcon } from "../StarIcon/StarIcon";
 
 type RateValue = keyof typeof rateMessage;
@@ -10,7 +12,23 @@ const rateMessage = {
   10: "명작이에요",
 };
 
-const getRateValue = (element: HTMLElement): RateValue => {
+const getRateValue = () => {
+  return getStorage(STORAGE_KEY.rateValue) ?? {};
+};
+
+const getInitialRateValue = (id: number): RateValue => {
+  const rateValueObject = getRateValue();
+  const rateValue = rateValueObject[id] ?? 0;
+  return rateValue;
+};
+
+const setRateValue = (id: number, rateValue: RateValue) => {
+  const rateValueObject = getRateValue();
+  const newRateValue = { ...rateValueObject, [id]: rateValue };
+  setStorage(STORAGE_KEY.rateValue, newRateValue);
+};
+
+const getRateValueDataset = (element: HTMLElement): RateValue => {
   return Number(element.dataset.rateValue) as RateValue;
 };
 
@@ -30,7 +48,7 @@ const controlRateStarIconFill = (targetRateValue: RateValue) => {
   ) as NodeListOf<HTMLButtonElement>;
 
   $rateButtons.forEach(($rateButton) => {
-    const rateValue = getRateValue($rateButton);
+    const rateValue = getRateValueDataset($rateButton);
     const $starIcon = $rateButton.querySelector(".star-icon") as SVGSVGElement;
 
     if (rateValue <= targetRateValue) {
@@ -42,18 +60,19 @@ const controlRateStarIconFill = (targetRateValue: RateValue) => {
   });
 };
 
-const handleRateButtonClick = (event: MouseEvent) => {
-  const $targetRateButton = event.currentTarget as HTMLButtonElement;
-  const targetRateValue = getRateValue($targetRateButton as HTMLButtonElement);
+const handleRateButtonClick = (e: MouseEvent, id: number) => {
+  const $targetRateButton = e.currentTarget as HTMLButtonElement;
+  const targetRateValue = getRateValueDataset(
+    $targetRateButton as HTMLButtonElement
+  );
   controlRateStarIconFill(targetRateValue);
   setRateMessage(targetRateValue);
+  setRateValue(id, targetRateValue);
 };
 
-interface RatingBoxProps {
-  initialRateValue: RateValue;
-}
+const $RateBox = (id: number) => {
+  const initialRateValue = getInitialRateValue(id);
 
-const $RatingBox = ({ initialRateValue }: RatingBoxProps) => {
   const [zeroRate, ...rateValue] = Object.keys(rateMessage);
   const $rateButtonList = rateValue.map((rate) => {
     const $rateButton = createElement("button", {
@@ -70,7 +89,9 @@ const $RatingBox = ({ initialRateValue }: RatingBoxProps) => {
         fill: Number(rate) <= initialRateValue ? "#FFC700" : "none",
       })
     );
-    $rateButton.addEventListener("click", handleRateButtonClick);
+    $rateButton.addEventListener("click", (e: MouseEvent) =>
+      handleRateButtonClick(e, id)
+    );
 
     return $rateButton;
   });
@@ -108,4 +129,4 @@ const $RatingBox = ({ initialRateValue }: RatingBoxProps) => {
   return $rateBox;
 };
 
-export default $RatingBox;
+export default $RateBox;
