@@ -1,32 +1,53 @@
 import createMovieLoader from "./loaderService.ts";
-import state from "../state/state.ts";
 import {
   URLS,
   defaultOptions,
   defaultQueryObject,
 } from "../setting/settings.ts";
-import { hideElement, showElement } from "../view/MovieView.ts";
+import {
+  hideElement,
+  renderMovieItems,
+  showElement,
+} from "../view/MovieView.ts";
 import Toast from "../components/Toast/Toast.ts";
 
-import { infiniteScrollInstance } from "../main.ts";
 import { ERROR_MESSAGE } from "../setting/ErrorMessage.ts";
 import { checkApiAvailability } from "./errorService.ts";
+import { setLoadMovies } from "../state/movieState.ts";
+
+import { infiniteScrollInstance } from "../main.ts";
+import fetchAndSetLoadingEvent from "./fetchService.ts";
+
+// 으아....
+let isErrorHandled = false;
+
 export default async function handleSearch(searchValue: string) {
+  isErrorHandled = false;
+
   setSearchResultTitle(searchValue);
   setSearchLoadingState();
   window.scrollTo({ top: 0, behavior: "smooth" });
-  state.loadMovies = createMovieLoader(
-    URLS.searchMovieUrl,
-    defaultQueryObject,
-    defaultOptions,
-    (error) => handleSearchError(error),
-    searchValue
+
+  setLoadMovies(
+    createMovieLoader(
+      URLS.searchMovieUrl,
+      defaultQueryObject,
+      defaultOptions,
+      (error) => handleSearchError(error),
+      searchValue
+    )
   );
 
-  infiniteScrollInstance.resumeInfiniteScroll();
-  const $list = document.getElementById("thumbnail-list");
-  $list.innerHTML = "";
-  displaySearchResults();
+  try {
+    const data = await fetchAndSetLoadingEvent();
+    if (data && data.results) {
+      renderMovieItems(data.results, true);
+    }
+    displaySearchResults();
+    if (infiniteScrollInstance) infiniteScrollInstance.resumeInfiniteScroll();
+  } catch (error) {
+    return;
+  }
 }
 
 function setSearchResultTitle(searchValue: string): void {
@@ -54,16 +75,21 @@ function displaySearchResults(): void {
   showElement($thumbnailList);
 }
 
-function handleSearchError(error: unknown): void {
+function handleSearchError(error: Error): void {
+  if (isErrorHandled) return;
+  isErrorHandled = true;
+
   if (error.message !== ERROR_MESSAGE.NO_DATA) {
     Toast.showToast(error.message, "error", 3000);
-    checkApiAvailability(3000);
+    checkApiAvailability(infiniteScrollInstance, 3000);
   } else {
+    if (infiniteScrollInstance) infiniteScrollInstance.stopInfiniteScroll();
     const $thumbnailContainer = document.getElementById("thumbnail-container");
     const $fallback = document.getElementById("fallback");
     const $fallbackDetails = document.getElementById("fallback-details");
-    if (error instanceof Error) Toast.showToast(error.message, "error", 5000);
-    $fallbackDetails.innerText = "검색 결과가 없습니다.";
+    console.log(error);
+    Toast.showToast(error.message, "error", 5000);
+    if ($fallbackDetails) $fallbackDetails.innerText = "검색 결과가 없습니다.";
     hideElement($thumbnailContainer);
     showElement($fallback);
   }
