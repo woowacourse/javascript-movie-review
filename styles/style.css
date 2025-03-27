@@ -1,6 +1,8 @@
 .gnb {
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
   position: relative;
   z-index: 100;
   margin: 48px;
@@ -8,9 +10,8 @@
   margin-bottom: 50px;
 }
 
-.logo {
-  position: absolute;
-  left: 0;
+.logo-bar {
+  margin-bottom: 15px;
 }
 
 /* .overlay {

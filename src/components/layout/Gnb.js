@@ -9,6 +9,11 @@ const Gnb = () => {
     classNames: ["gnb"],
   });
 
+  const $logoBar = createElement({
+    tag: "div",
+    classNames: ["logo-bar"],
+  });
+
   const $logo = createElement({
     tag: "h1",
     classNames: ["logo"],
@@ -20,7 +25,8 @@ const Gnb = () => {
     alt: "MovieList",
   });
 
-  $div.appendChild($logo);
+  $div.appendChild($logoBar);
+  $logoBar.append($logo);
   $logo.appendChild($logoImg);
   $div.appendChild(SearchBar());
 
