@@ -13,6 +13,8 @@ class MovieListController {
   onAfterFetchMovieList;
   onDetailModalOpen;
 
+  isLoading = false;
+
   constructor({
     onAfterFetchMovieList,
     onDetailModalOpen,
@@ -27,11 +29,6 @@ class MovieListController {
   }
 
   bindEvents() {
-    const seeMoreElement = $(".see-more", this.mainElement);
-    seeMoreElement?.addEventListener("click", () => {
-      this.addMovieList();
-    });
-
     const ulElement = $("ul", this.mainElement);
     ulElement?.addEventListener("click", (event) => {
       const target = event.target as HTMLElement;
@@ -40,6 +37,20 @@ class MovieListController {
       if (item) {
         this.onDetailModalOpen(Number(item.id));
       }
+    });
+
+    this.bindScrollEvent();
+  }
+
+  bindScrollEvent() {
+    window.addEventListener("scroll", async () => {
+      const scrollBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 200;
+
+      if (!scrollBottom || this.isLoading || !this.movieResults.hasMore()) return;
+
+      this.isLoading = true;
+      await this.addMovieList();
+      this.isLoading = false;
     });
   }
 
@@ -57,33 +68,21 @@ class MovieListController {
   }
 
   async render() {
-    const { movieList, hasMore } = await this.fetchAndStoreMovies();
-    this.renderMovieList({
-      movieList,
-      hasMore,
-    });
+    const { movieList } = await this.fetchAndStoreMovies();
+    this.renderMovieList({ movieList });
     this.onAfterFetchMovieList(movieList[0]);
 
     this.bindEvents();
   }
 
-  renderMovieList({ movieList, hasMore }: { movieList: IMovieItem[]; hasMore: boolean }) {
-    const sectionElement = MovieListSection({
-      title: "지금 인기 있는 영화",
-      movieList,
-      hasMore,
-    });
+  renderMovieList({ movieList }: { movieList: IMovieItem[] }) {
+    const sectionElement = MovieListSection({ title: "지금 인기 있는 영화", movieList });
     this.mainElement.replaceChildren(sectionElement);
   }
 
   async renderExistingMovieList() {
     const movieList = this.movieResults.getMovieList();
-    const hasMore = this.movieResults.hasMore();
-    const sectionElement = MovieListSection({
-      title: "지금 인기 있는 영화",
-      movieList,
-      hasMore,
-    });
+    const sectionElement = MovieListSection({ title: "지금 인기 있는 영화", movieList });
 
     this.mainElement.replaceChildren(sectionElement);
 
@@ -94,11 +93,9 @@ class MovieListController {
     const movieListContainer = $("ul", this.mainElement);
     if (!movieListContainer) return;
 
-    const { movieList, hasMore } = await this.fetchAndStoreMovies(this.movieResults.getPage() + 1);
+    const { movieList } = await this.fetchAndStoreMovies(this.movieResults.getPage() + 1);
 
     movieListContainer.append(...movieList.map((movie) => MovieItem(movie)));
-
-    if (!hasMore) $(".see-more", this.mainElement)?.remove();
   }
 }
 

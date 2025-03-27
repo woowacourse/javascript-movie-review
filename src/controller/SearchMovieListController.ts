@@ -10,8 +10,11 @@ class SearchMovieListController {
   mainElement;
   searchValue;
   page = 0;
+  hasMore = false;
 
   onDetailModalOpen;
+
+  isLoading = false;
 
   constructor({
     searchValue,
@@ -27,8 +30,8 @@ class SearchMovieListController {
   }
 
   async render() {
-    const { movieList, hasMore } = await this.#fetchMovies();
-    this.#renderSearchMovieList({ movieList, hasMore });
+    const movieList = await this.#fetchMovies();
+    this.#renderSearchMovieList({ movieList });
 
     this.#bindEvents();
   }
@@ -37,11 +40,9 @@ class SearchMovieListController {
     const movieListContainer = $("ul", this.mainElement);
     if (!movieListContainer) return;
 
-    const { movieList, hasMore } = await this.#fetchMovies();
+    const movieList = await this.#fetchMovies();
 
     movieListContainer?.append(...movieList.map((movie) => MovieItem(movie)));
-
-    if (!hasMore) $(".see-more", this.mainElement)?.remove();
   }
 
   async #fetchMovies() {
@@ -52,19 +53,15 @@ class SearchMovieListController {
     }: IMovieResult = await getSearchMovieResult(this.searchValue, this.page + 1);
     this.page = newPage;
 
-    const hasMore = newPage !== totalPage;
+    this.hasMore = newPage !== totalPage;
 
-    return { movieList, hasMore };
+    return movieList;
   }
 
-  #renderSearchMovieList({ movieList, hasMore }: { movieList: IMovieItem[]; hasMore: boolean }) {
+  #renderSearchMovieList({ movieList }: { movieList: IMovieItem[] }) {
     let sectionElement;
     if (movieList.length !== 0) {
-      sectionElement = MovieListSection({
-        title: `"${this.searchValue}" 검색 결과`,
-        movieList,
-        hasMore,
-      });
+      sectionElement = MovieListSection({ title: `"${this.searchValue}" 검색 결과`, movieList });
     } else {
       sectionElement = MovieEmptySection(`"${this.searchValue}" 검색 결과`);
     }
@@ -73,11 +70,6 @@ class SearchMovieListController {
   }
 
   #bindEvents() {
-    const seeMoreElement = $(".see-more", this.mainElement);
-    seeMoreElement?.addEventListener("click", () => {
-      this.addMovieList();
-    });
-
     const ulElement = $("ul", this.mainElement);
     ulElement?.addEventListener("click", (event) => {
       const target = event.target as HTMLElement;
@@ -86,6 +78,20 @@ class SearchMovieListController {
       if (item) {
         this.onDetailModalOpen(Number(item.id));
       }
+    });
+
+    this.bindScrollEvent();
+  }
+
+  bindScrollEvent() {
+    window.addEventListener("scroll", async () => {
+      const scrollBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 200;
+
+      if (!scrollBottom || this.isLoading || !this.hasMore) return;
+
+      this.isLoading = true;
+      await this.addMovieList();
+      this.isLoading = false;
     });
   }
 }
