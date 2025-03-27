@@ -28,10 +28,7 @@ class SearchMovieListController {
       page: newPage,
       total_pages: totalPage,
       results: movieList,
-    }: MovieResultType = await getSearchMovieResult(
-      this.searchText,
-      this.page + 1,
-    );
+    }: MovieResultType = await getSearchMovieResult(this.searchText, this.page + 1);
     this.page = newPage;
 
     const hasMore = newPage !== totalPage;
@@ -40,6 +37,8 @@ class SearchMovieListController {
   }
 
   async render() {
+    this.mainElement.innerHTML = "";
+
     const { movieList, hasMore } = await this.fetchMovies();
 
     this.renderSearchMovieList({ movieList, hasMore });
@@ -47,13 +46,7 @@ class SearchMovieListController {
     this.bindEvents();
   }
 
-  renderSearchMovieList({
-    movieList,
-    hasMore,
-  }: {
-    movieList: MovieItemType[];
-    hasMore: boolean;
-  }) {
+  renderSearchMovieList({ movieList, hasMore }: { movieList: MovieItemType[]; hasMore: boolean }) {
     let sectionElement;
     if (movieList.length !== 0) {
       sectionElement = MovieListSection({
@@ -65,7 +58,7 @@ class SearchMovieListController {
       sectionElement = MovieEmptySection(`"${this.searchText}" 검색 결과`);
     }
 
-    this.mainElement.replaceChildren(sectionElement);
+    this.mainElement.appendChild(sectionElement);
   }
 
   async addMovieList() {
