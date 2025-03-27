@@ -1,5 +1,6 @@
 import { forEach } from '@fxts/core';
 import { MovieDetailResponse, MoviesResponse, MovieType } from '../types';
+import { LocalStorageMovieRateValueType } from '../modules';
 
 export default class Store<TState> {
   #listeners: (() => void)[] = [];
@@ -33,3 +34,7 @@ export const moviesResponseStore = new Store<MoviesResponse | null>(null);
 export const movieDetailResponseStore = new Store<MovieDetailResponse | null>(null);
 
 export const moviesStore = new Store<MovieType[] | null>(null);
+export const searchStore = new Store<string>('');
+export const errorStore = new Store<Error | null>(null);
+export const pageStore = new Store<number>(1);
+export const movieRateStore = new Store<LocalStorageMovieRateValueType>({});

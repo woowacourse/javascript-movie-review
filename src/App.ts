@@ -3,28 +3,22 @@ import { Footer, Header, IntersectionObserble, MovieDetailModal, Movies, Toast }
 import { Component } from './components/core';
 import { TOAST_TYPE } from './components/Toast';
 import { eventHandlerInstance, LocalStorage, LocalStorageMovieRateValueType } from './lib/modules';
-import { movieDetailResponseStore, moviesResponseStore, moviesStore } from './lib/store';
+import {
+  errorStore,
+  movieDetailResponseStore,
+  movieRateStore,
+  moviesResponseStore,
+  moviesStore,
+  pageStore,
+  searchStore,
+} from './lib/store';
 import { html, isError, isHTMLFormElement, isString } from './lib/utils';
 
-export interface AppState {
-  page: number;
-  error: Error | null;
-  search: string;
-  movieRate: LocalStorageMovieRateValueType;
-}
-
-export default class App extends Component<null, AppState> {
+export default class App extends Component<null> {
   override setup() {
-    this.state = {
-      page: 1,
-      error: null,
-      search: '',
-      movieRate: LocalStorage.get<LocalStorageMovieRateValueType>('movieRate') ?? {},
-    };
+    this.getMovie(searchStore.getState(), pageStore.getState());
 
-    this.getMovie(this.state.search, this.state.page);
-
-    new MovieDetailModal({ movieRate: this.state.movieRate });
+    new MovieDetailModal({ movieRate: movieRateStore.getState() });
   }
 
   override template() {
@@ -39,17 +33,12 @@ export default class App extends Component<null, AppState> {
   }
 
   async onRender() {
-    this.fillSlot(
-      new Header({
-        search: this.state.search,
-      }),
-      'header',
-    );
+    this.fillSlot(new Header(), 'header');
     this.fillSlot(
       new Movies({
-        page: this.state.page,
-        search: this.state.search,
-        error: this.state.error,
+        page: pageStore.getState(),
+        search: searchStore.getState(),
+        error: errorStore.getState(),
       }),
       'movies',
     );
@@ -57,7 +46,7 @@ export default class App extends Component<null, AppState> {
     this.fillSlot(
       new IntersectionObserble({
         callback: async () => {
-          await this.getMovie(this.state.search, this.state.page + 1);
+          await this.getMovie(searchStore.getState(), pageStore.getState() + 1);
           movieDetailResponseStore.setState(null);
         },
         id: 'movie-more',
@@ -121,13 +110,12 @@ export default class App extends Component<null, AppState> {
         const modalInput = Object.fromEntries(formData);
 
         this.setState({
-          search: String(modalInput.search),
           page: 1,
         });
 
+        searchStore.setState(String(modalInput.search));
         moviesStore.setState([]);
-
-        await this.getMovie(this.state.search, this.state.page);
+        await this.getMovie(String(modalInput.search), pageStore.getState());
       },
       dataAction: 'submit-search',
     });
@@ -142,7 +130,7 @@ export default class App extends Component<null, AppState> {
         if (!id || !rate) return;
 
         const newMovieRate = {
-          ...this.state.movieRate,
+          ...movieRateStore.getState(),
           [id]: Number(rate),
         };
 

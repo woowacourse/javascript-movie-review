@@ -1,23 +1,21 @@
 import { DEFAULT_BACK_DROP_URL } from '@/lib/constants';
-import { moviesResponseStore } from '@/lib/store';
+import { moviesResponseStore, searchStore } from '@/lib/store';
 import { html } from '@/lib/utils';
 import Component from './core/Component';
 
-interface HeaderProps {
-  search: string;
-}
-
-export default class Header extends Component<HeaderProps> {
+export default class Header extends Component {
   setup() {
-    this.subsribe([moviesResponseStore]);
+    this.subsribe([moviesResponseStore, searchStore]);
   }
 
   override template() {
     const movie = moviesResponseStore.getState()?.results.at(0);
+    const search = searchStore.getState();
+    console.log(search);
 
     return html`
       <header class="background-container">
-        ${this.props.search ? '' : '<div class="overlay" aria-hidden="true"></div>'}
+        ${search ? '' : '<div class="overlay" aria-hidden="true"></div>'}
         <div class="top-rated-header">
           <a href="/javascript-movie-review">
             <h1 class="logo">
@@ -30,14 +28,14 @@ export default class Header extends Component<HeaderProps> {
               class="top-rated-search-input"
               placeholder="검색어를 입력하세요"
               name="search"
-              value="${this.props.search}"
+              value="${search}"
             />
             <button type="submit" class="top-rated-search-button">
               <img src="./images/search.svg" alt="MovieSearch" />
             </button>
           </form>
         </div>
-        ${movie && !this.props.search
+        ${movie && !search
           ? `
           <div class="top-rated-container">
             <div class="rate">
@@ -59,10 +57,11 @@ export default class Header extends Component<HeaderProps> {
 
   setHeaderBackground() {
     const movie = moviesResponseStore.getState()?.results.at(0);
+    const search = searchStore.getState();
 
     if (!movie) return;
 
-    if (this.props.search) this.element!.style.backgroundImage = '';
+    if (search) this.element!.style.backgroundImage = '';
     else if (movie.backdrop_path)
       this.element!.style.backgroundImage = `url(${DEFAULT_BACK_DROP_URL}/${movie.backdrop_path})`;
   }
