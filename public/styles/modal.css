@@ -19,9 +19,7 @@ body.modal-open {
   z-index: 10;
   visibility: hidden; /* 모달이 기본적으로 보이지 않도록 설정 */
   opacity: 0;
-  transition:
-    opacity 0.3s ease,
-    visibility 0.3s ease;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
 .modal-background.active {
@@ -31,7 +29,7 @@ body.modal-open {
 
 .modal {
   background-color: var(--color-bluegray-90);
-  padding: 20px;
+  padding: 2.5rem 1.5rem;
   border-radius: 16px;
   color: white;
   z-index: 2;
@@ -43,13 +41,16 @@ body.modal-open {
   position: absolute;
   margin: 0;
   padding: 0;
-  top: 24px;
-  right: 24px;
+  top: 2.5rem;
+  right: 1.5rem;
   background: none;
   border: none;
-  color: white;
-  font-size: 20px;
   cursor: pointer;
+}
+
+.close-modal img {
+  width: 1.2rem;
+  height: 1.2rem;
 }
 
 .modal-container {
@@ -57,32 +58,121 @@ body.modal-open {
 }
 
 .modal-image img {
-  width: 380px;
-  border-radius: 16px;
+  width: 500px;
+  border-radius: 1rem;
 }
 
 .modal-description {
   width: 100%;
-  padding: 8px;
-  margin-left: 16px;
-  line-height: 1.6rem;
+  padding: 0.5rem;
+  margin-left: 1.5rem;
+  overflow: hidden;
+}
+
+.modal-description .title {
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding-right: 1.5rem;
+}
+
+.modal-description .rate-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.modal-description .rate-container > span {
+  font-size: 1.25rem;
+}
+
+.modal-description .rate {
+  display: flex;
+  align-items: baseline;
+  gap: 0.3rem;
 }
 
 .modal-description .rate > img {
-  position: relative;
-  top: 5px;
+  width: 1.5rem;
+  height: 1.5rem;
 }
 
-.modal-description > *:not(:last-child) {
-  margin-bottom: 8px;
+.modal-description .rate > span {
+  font-size: 1.5rem;
+  font-family: "Montserrat", sans-serif;
+  font-weight: bold;
+  margin: 0;
+}
+
+.modal-description .user-rate-container {
+  margin-bottom: 2rem;
+}
+
+.modal-description .user-rate-container .user-rate {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.modal-description .user-rate-container .user-rate .user-rate-stars {
+  display: flex;
+  flex-direction: row;
+  gap: 0.2rem;
+}
+
+.modal-description .user-rate-container .star {
+  width: 2rem;
+  height: 2rem;
+}
+
+.modal-description .user-rate-container .user-rate-text {
+  font-size: 1.8rem;
+  font-family: "Montserrat", sans-serif;
+  font-weight: bold;
+  line-height: 0;
+  margin-left: 1rem;
+}
+
+.modal-description .user-rate-container .user-rate-value {
+  font-size: 1.8rem;
+  font-family: "Montserrat", sans-serif;
+  font-weight: bold;
+  color: var(--color-95a1b2);
+  line-height: 0;
+  margin-left: 0.5rem;
 }
 
 .modal-description h2 {
   font-size: 2rem;
-  margin: 0 0 8px;
+  margin-bottom: 1rem;
 }
 
-.detail {
+.modal-description hr {
+  margin: 0 0 1.5rem;
+  height: 1px;
+}
+
+.modal-description .category {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.modal-description .container-title {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+.modal-description .detail-container {
   max-height: 430px;
   overflow-y: auto;
+}
+
+.modal-description .detail {
+  font-size: 1.5rem;
+  line-height: 2.2rem;
+  font-weight: 300;
 }

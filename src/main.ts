@@ -4,6 +4,7 @@ import $Banner from "./components/Banner/Banner";
 import asyncErrorBoundary from "./components/ErrorBoundary/Async/asyncErrorBoundary";
 import { addErrorBox } from "./components/ErrorBox/ErrorBox";
 import $HeaderBox from "./components/HeaderBox/HeaderBox";
+import $Modal from "./components/Modal/Modal";
 import {
   $MovieListBox,
   initCurrentPage,
@@ -41,6 +42,9 @@ const initPopularMovieListRender = async () => {
 
 const $header = document.querySelector("header");
 $header?.append($Banner(), $HeaderBox());
+
+const $modal = $Modal();
+document.body.append($modal);
 
 registerMovieDetailEventListener();
 

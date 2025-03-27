@@ -1,4 +1,5 @@
 import getMovieDetail from "../../apis/getMovieDetail";
+import { handleModal } from "../../components/Modal/Modal";
 import { MOVIE_ITEM_CLICK } from "../../components/MovieListBox/MovieList/MovieItem/MovieItem";
 
 export interface MovieItemClickEvent extends CustomEvent {
@@ -12,11 +13,10 @@ export const handleMovieDetailEvent = (event: MovieItemClickEvent) => {
 
   getMovieDetail(movieId)
     .then((movieDetail) => {
-      // TODO : 영화 상세 정보 모달 출력
-      console.log("영화 상세 정보:", movieDetail);
+      handleModal.updateModalContent(movieDetail);
     })
     .catch((error) => {
-      // TODO : 영화 상세 정보 가져오는 중 오류 발생 출력
+      console.error("영화 상세 정보를 가져오는 중 오류 발생:", error);
     });
 };
 
