@@ -1,8 +1,13 @@
 import fetchAndSetLoadingEvent from "./fetchService";
 import { renderMovieItems } from "../view/MovieView";
-import type { StateTypes } from "../state/state";
 
-export function setupInfiniteScroll(state: StateTypes) {
+export type InfiniteScrollInstance = {
+  observer: IntersectionObserver;
+  resumeInfiniteScroll: () => void;
+  stopInfiniteScroll: () => void;
+} | null;
+
+export function setupInfiniteScroll() {
   const $thumbnailContainer = document.getElementById("thumbnail-container");
   if (!$thumbnailContainer) return;
 
@@ -18,11 +23,12 @@ export function setupInfiniteScroll(state: StateTypes) {
       const entry = entries[0];
       if (entry.isIntersecting) {
         observer.unobserve(sentinel);
+        const data = await fetchAndSetLoadingEvent();
+        if (data?.results) {
+          renderMovieItems(data.results, false);
+        }
 
-        const data = await fetchAndSetLoadingEvent(state);
-        renderMovieItems(data.results, false);
-
-        if (data.isLastPage) {
+        if (data?.isLastPage) {
           infiniteScrollSuspended = true;
         } else {
           $thumbnailContainer.append(sentinel);
@@ -32,7 +38,7 @@ export function setupInfiniteScroll(state: StateTypes) {
     },
     {
       root: null,
-      threshold: 0.4,
+      threshold: 0.1,
     }
   );
 
@@ -42,7 +48,10 @@ export function setupInfiniteScroll(state: StateTypes) {
     if (infiniteScrollSuspended) {
       infiniteScrollSuspended = false;
 
-      if (!document.getElementById("infinite-scroll-sentinel")) {
+      if (
+        !document.getElementById("infinite-scroll-sentinel") &&
+        $thumbnailContainer
+      ) {
         $thumbnailContainer.append(sentinel);
       }
       observer.observe(sentinel);
@@ -52,7 +61,10 @@ export function setupInfiniteScroll(state: StateTypes) {
     if (infiniteScrollSuspended) {
       infiniteScrollSuspended = true;
 
-      if (!document.getElementById("infinite-scroll-sentinel")) {
+      if (
+        !document.getElementById("infinite-scroll-sentinel") &&
+        $thumbnailContainer
+      ) {
         $thumbnailContainer.append(sentinel);
       }
       observer.unobserve(sentinel);
