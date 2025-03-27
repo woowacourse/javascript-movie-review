@@ -137,6 +137,11 @@ class Modal {
     });
     $myStar.textContent = "내 별점";
 
+    const $stars = createElement({
+      tag: "div",
+      classNames: ["stars"],
+    });
+
     const $comment = createElement({
       tag: "p",
       classNames: ["comment"],
@@ -168,21 +173,55 @@ class Modal {
       $detail
     );
     $averageRate.append($labelspan, $starFilled, $rateScore);
-    $rateBox.append($myStar);
-    $rateBox.append(
+    $rateBox.append($myStar, $stars, $comment);
+    $stars.append(
       $starFilled.cloneNode(true),
       $starFilled.cloneNode(true),
       $starFilled.cloneNode(true),
       $starFilled.cloneNode(true),
-      $starEmpty.cloneNode(true),
-      $comment
+      $starEmpty.cloneNode(true)
     );
-    //$rateBox.append($comment);
+
+    const renderStars = (rating: number) => {
+      $stars.replaceChildren();
+
+      const filledCount = rating;
+      const emptyCount = 5 - rating;
+
+      for (let i = 0; i < filledCount; i++) {
+        const $countedStar = createElement({
+          tag: "img",
+          classNames: ["star"],
+          src: "./images/star_filled.png",
+        });
+
+        $countedStar.addEventListener("click", () => {
+          console.log(i + 1);
+          renderStars(i + 1);
+        });
+
+        $stars.appendChild($countedStar);
+      }
+
+      for (let i = 0; i < emptyCount; i++) {
+        const $unCountedStar = createElement({
+          tag: "img",
+          classNames: ["star"],
+          src: "./images/star_empty.png",
+        });
+
+        $unCountedStar.addEventListener("click", () => {
+          console.log(filledCount + i + 1);
+          renderStars(filledCount + i + 1);
+        });
+
+        $stars.appendChild($unCountedStar);
+      }
+    };
+    renderStars(4);
 
     this.modalElement.replaceChildren($modal);
   }
 }
 
 export default Modal;
-
-// $rateBox.append($myStar, $star, $rateScore);
