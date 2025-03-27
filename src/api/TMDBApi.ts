@@ -9,14 +9,14 @@ export class TMDBApi {
     this.#client = client;
   }
 
-  fetchPopularMovies(page = 1) {
+  popularMovies(page = 1) {
     return this.#client.get(`${TMDBApi.BASE_URL}/movie/popular`, {
       page,
       language: "ko-KR",
     });
   }
 
-  searchMovies(query: string, page = 1) {
+  searchedMovies(query: string, page = 1) {
     return this.#client.get(`${TMDBApi.BASE_URL}/search/movie`, {
       query,
       page,

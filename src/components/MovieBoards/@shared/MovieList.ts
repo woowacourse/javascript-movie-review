@@ -3,6 +3,7 @@ import { Movie } from "../../../types/movie";
 interface MovieListContract {
   skeleton: string;
   ui: string;
+  fallback: string;
 }
 
 class MovieList implements MovieListContract {
@@ -60,6 +61,15 @@ class MovieList implements MovieListContract {
           `
         )
         .join("")}
+    `;
+  }
+
+  public get fallback(): string {
+    return /*html*/ `
+      <div class="fallback-screen">
+        <img src="./images/dizzy_planet.png" alt="영화 정보 없음"/>
+        <p>현재 표시할 영화가 없습니다</p>
+      </div>
     `;
   }
 }
