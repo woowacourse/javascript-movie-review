@@ -1,9 +1,9 @@
-import { MovieDetail } from "../../../../../types/type";
+import { MovieData } from "../../../../../types/type";
 import { createElement } from "../../../../utils/dom";
 import { POSTER_PATH, ICON_PATH } from "../../../../constants/imagePaths";
 import { getPosterUrl } from "../../../../utils/getPosterUrl";
 
-const $MovieItem = ({ title, poster_path, vote_average }: MovieDetail) => {
+const $MovieItem = ({ title, poster_path, vote_average }: MovieData) => {
   const $rate = createElement("p", {
     className: "rate",
   });

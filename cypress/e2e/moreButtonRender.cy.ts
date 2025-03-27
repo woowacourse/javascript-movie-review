@@ -6,14 +6,14 @@ describe("더보기 버튼 렌더링 테스트", () => {
       id: "getPopularMovieList",
       url: "^https://api.themoviedb.org/3/movie/popular*",
       delay: 1000,
-      staticResponse: { fixture: "lastPageMovieData.json" },
+      staticResponse: { fixture: "lastPageMovieListData.json" },
     });
 
     createIntercept({
       id: "getSearchMovieList",
       url: "^https://api.themoviedb.org/3/search/movie*",
       delay: 1000,
-      staticResponse: { fixture: "lastPageMovieData.json" },
+      staticResponse: { fixture: "lastPageMovieListData.json" },
     });
 
     cy.visit("http://localhost:5173/");

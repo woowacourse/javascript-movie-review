@@ -1,6 +1,6 @@
 export type HTMLTagName = keyof HTMLElementTagNameMap;
 
-export interface MovieDetail {
+export interface MovieData {
   adult: boolean;
   backdrop_path: null | string;
   genre_ids: number[];
@@ -17,14 +17,14 @@ export interface MovieDetail {
   vote_count: number;
 }
 
-export interface MovieData {
+export interface MovieListData {
   page: number;
-  results: MovieDetail[];
+  results: MovieData[];
   total_pages: number;
   total_results: number;
 }
 
 export interface MovieListSectionProps {
   title: string;
-  movieResult: MovieData;
+  movieResult: MovieListData;
 }

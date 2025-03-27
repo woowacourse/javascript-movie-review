@@ -1,8 +1,8 @@
-import { MovieDetail } from "../../../../types/type";
+import { MovieData } from "../../../../types/type";
 import $EmptyList from "../../EmptyList/EmptyList";
 import $MovieItem from "./MovieItem/MovieItem";
 
-export const addMovieItem = (movieList: MovieDetail[]) => {
+export const addMovieItem = (movieList: MovieData[]) => {
   const $movieList = document.querySelector(
     ".thumbnail-list"
   ) as HTMLUListElement;
@@ -13,7 +13,7 @@ export const addMovieItem = (movieList: MovieDetail[]) => {
   $movieList.appendChild(movieListFragment);
 };
 
-const $MovieList = (movieList: MovieDetail[]) => {
+const $MovieList = (movieList: MovieData[]) => {
   if (!movieList.length) {
     return $EmptyList();
   }
