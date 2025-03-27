@@ -27,4 +27,5 @@ export interface State {
   query: string;
   searchedMoviesLength: number;
   isLoading: boolean;
+  errorMessage: string;
 }

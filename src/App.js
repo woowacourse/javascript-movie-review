@@ -4,13 +4,13 @@ import { BannerRender } from "./components/Banner/index.js";
 import { SkeletonBannerRender } from "./components/Skeleton/SkeletonBanner.js";
 import store from "./store/store.ts";
 import * as MovieModule from "./domains/movie/MovieModule.js";
-import { fetchSearchedMovies } from "./APIs/movieAPI.ts";
 import { syncSearchStateWithURL } from "./domains/movie/urlStateSync.js";
 
 class App {
   constructor($target) {
     this.$target = $target;
     store.subscribe(() => this.render());
+    this.toastTimeout = null;
   }
 
   async initialize() {
@@ -35,9 +35,20 @@ class App {
         </div>
         ${FooterRender()}
       </div>
+      ${
+        state.errorMessage
+          ? `<div class="toast">${state.errorMessage}</div>`
+          : ""
+      }
     `;
-
     this.mount();
+
+    if (state.errorMessage && !this.toastTimeout) {
+      this.toastTimeout = setTimeout(() => {
+        store.setState({ ...store.getState(), errorMessage: null });
+        this.toastTimeout = null;
+      }, 3000);
+    }
   }
 
   mount() {

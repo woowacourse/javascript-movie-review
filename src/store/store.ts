@@ -31,4 +31,5 @@ export default new Store({
   query: "",
   searchedMoviesLength: 0,
   isLoading: false,
+  errorMessage: "",
 });

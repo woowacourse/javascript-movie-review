@@ -1,5 +1,6 @@
 import { Movie, MovieResponse } from "../../types/movie";
 import { ERROR_MESSAGES } from "../constants/config";
+import store from "../store/store";
 
 export const fetchPopularMovies = async (
   page: number = 1
@@ -25,7 +26,7 @@ export const fetchPopularMovies = async (
     return data.results;
   } catch (error: unknown) {
     if (error instanceof Error) {
-      alert(error.message);
+      store.setState({ errorMessage: error.message });
     }
     return [];
   }
@@ -56,7 +57,7 @@ export const fetchSearchedMovies = async (
     return data;
   } catch (error: unknown) {
     if (error instanceof Error) {
-      alert(error.message);
+      store.setState({ errorMessage: error.message });
     }
     return null;
   }
