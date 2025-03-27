@@ -63,7 +63,12 @@ class MainController {
   async #onSearchKeywordSubmit(searchValue: string) {
     try {
       this.backgroundThumbnailController.hideBackground();
-      const searchMovieListController = new SearchMovieListController(searchValue);
+      const searchMovieListController = new SearchMovieListController({
+        searchValue,
+        onDetailModalOpen: (movieId: number) => {
+          this.detailModalController.showModal(movieId);
+        },
+      });
       await searchMovieListController.render();
     } catch (error) {
       this.#onErrorModalOpen(error as Error);

@@ -8,12 +8,22 @@ import { $ } from "../util/selector";
 
 class SearchMovieListController {
   mainElement;
-  searchText;
+  searchValue;
   page = 0;
 
-  constructor(searchText: string) {
+  onDetailModalOpen;
+
+  constructor({
+    searchValue,
+    onDetailModalOpen,
+  }: {
+    searchValue: string;
+    onDetailModalOpen: (movieId: number) => void;
+  }) {
     this.mainElement = mainElement;
-    this.searchText = searchText;
+    this.searchValue = searchValue;
+
+    this.onDetailModalOpen = onDetailModalOpen;
   }
 
   async render() {
@@ -39,7 +49,7 @@ class SearchMovieListController {
       page: newPage,
       total_pages: totalPage,
       results: movieList,
-    }: IMovieResult = await getSearchMovieResult(this.searchText, this.page + 1);
+    }: IMovieResult = await getSearchMovieResult(this.searchValue, this.page + 1);
     this.page = newPage;
 
     const hasMore = newPage !== totalPage;
@@ -51,12 +61,12 @@ class SearchMovieListController {
     let sectionElement;
     if (movieList.length !== 0) {
       sectionElement = MovieListSection({
-        title: `"${this.searchText}" 검색 결과`,
+        title: `"${this.searchValue}" 검색 결과`,
         movieList,
         hasMore,
       });
     } else {
-      sectionElement = MovieEmptySection(`"${this.searchText}" 검색 결과`);
+      sectionElement = MovieEmptySection(`"${this.searchValue}" 검색 결과`);
     }
 
     this.mainElement.replaceChildren(sectionElement);
@@ -66,6 +76,16 @@ class SearchMovieListController {
     const seeMoreElement = $(".see-more", this.mainElement);
     seeMoreElement?.addEventListener("click", () => {
       this.addMovieList();
+    });
+
+    const ulElement = $("ul", this.mainElement);
+    ulElement?.addEventListener("click", (event) => {
+      const target = event.target as HTMLElement;
+      const item = target.closest(".item");
+
+      if (item) {
+        this.onDetailModalOpen(Number(item.id));
+      }
     });
   }
 }

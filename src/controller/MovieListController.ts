@@ -32,7 +32,8 @@ class MovieListController {
       this.addMovieList();
     });
 
-    this.mainElement.addEventListener("click", (event) => {
+    const ulElement = $("ul", this.mainElement);
+    ulElement?.addEventListener("click", (event) => {
       const target = event.target as HTMLElement;
       const item = target.closest(".item");
 
