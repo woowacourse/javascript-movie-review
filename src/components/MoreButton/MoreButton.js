@@ -5,13 +5,13 @@ import {
 import { MOVIE_COUNT } from "../../constants/config.js";
 import store from "../../store/store.ts";
 
-const MoreButton = () => {
+export function MoreButtonRender() {
   return /* html */ `
     <button id="more-button" class="primary more" data-testid="more-button">더 보기</button>
   `;
-};
+}
 
-export function attachMoreButtonEvent() {
+export function MoreButtonMount() {
   const $button = document.querySelector("#more-button");
   if ($button) {
     $button.addEventListener("click", async () => {
@@ -38,5 +38,3 @@ export function attachMoreButtonEvent() {
     });
   }
 }
-
-export default MoreButton;

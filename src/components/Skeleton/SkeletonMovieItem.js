@@ -1,4 +1,4 @@
-const SkeletonMovieItem = () => {
+export function SkeletonMovieItemRender() {
   return /* html */ `
     <li class="skeleton-item">
       <div class="skeleton-thumbnail"></div>
@@ -8,6 +8,4 @@ const SkeletonMovieItem = () => {
       </div>
     </li>
   `;
-};
-
-export default SkeletonMovieItem;
+}

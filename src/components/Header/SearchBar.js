@@ -1,7 +1,7 @@
 import { fetchSearchedMovies } from "../../APIs/movieAPI.ts";
 import store from "../../store/store.ts";
 
-const SearchBar = () => {
+export function SearchBarRender() {
   return /* html */ `
     <div class="search-bar-container">
       <form id="search-form" class="search-form" data-testid='search-form'>
@@ -12,9 +12,9 @@ const SearchBar = () => {
       </form>
     </div>
   `;
-};
+}
 
-function attachSearchEvent() {
+export function SearchBarMount() {
   const $searchForm = document.querySelector("#search-form");
   if ($searchForm) {
     $searchForm.addEventListener("submit", async (event) => {
@@ -35,6 +35,3 @@ function attachSearchEvent() {
     });
   }
 }
-
-export { attachSearchEvent };
-export default SearchBar;

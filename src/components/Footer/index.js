@@ -1,4 +1,4 @@
-const Footer = () => {
+export function FooterRender() {
   return /*html*/ `
     <footer class="footer">
       <p>
@@ -7,6 +7,4 @@ const Footer = () => {
       <p>&copy; 우아한테크코스 All Rights Reserved.</p>
     </footer>
   `;
-};
-
-export default Footer;
+}

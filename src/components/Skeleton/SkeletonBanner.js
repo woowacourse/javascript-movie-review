@@ -1,4 +1,4 @@
-const SkeletonBanner = () => {
+export function SkeletonBannerRender() {
   return /* html */ `
     <div id="banner" class="background-container skeleton-banner">
       <div class="overlay" aria-hidden="true"></div>
@@ -6,6 +6,4 @@ const SkeletonBanner = () => {
       </div>
     </div>
   `;
-};
-
-export default SkeletonBanner;
+}

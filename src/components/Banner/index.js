@@ -1,4 +1,4 @@
-const Banner = ({ vote_average, title }) => {
+export function BannerRender({ vote_average, title }) {
   return /* html */ `
     <div id="banner" class="background-container">
       <div class="overlay" aria-hidden="true" ></div>
@@ -14,6 +14,4 @@ const Banner = ({ vote_average, title }) => {
       </div>
     </div>
   `;
-};
-
-export default Banner;
+}

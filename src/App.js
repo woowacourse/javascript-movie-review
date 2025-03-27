@@ -1,11 +1,11 @@
-import Header from "./components/Header/index.js";
-import Footer from "./components/Footer/index.js";
-import Banner from "./components/Banner/index.js";
-import SkeletonBanner from "./components/Skeleton/SkeletonBanner.js";
-import MovieList from "./components/MovieList/index.js";
+import { HeaderMount, HeaderRender } from "./components/Header/index.js";
+import { FooterRender } from "./components/Footer/index.js";
+import { BannerRender } from "./components/Banner/index.js";
+import { SkeletonBannerRender } from "./components/Skeleton/SkeletonBanner.js";
+import { MovieListRender } from "./components/MovieList/index.js";
 import { fetchPopularMovies } from "./APIs/movieAPI.ts";
+import { MoreButtonMount } from "./components/MoreButton/MoreButton.js";
 import store from "./store/store.ts";
-import { attachMoreButtonEvent } from "./components/MoreButton/MoreButton.js";
 
 class App {
   constructor($target) {
@@ -27,22 +27,22 @@ class App {
     const state = store.getState();
     this.$target.innerHTML = `
       <div id="wrap">
-        ${Header()}
+        ${HeaderRender()}
         ${
           !state.query
             ? state.movies.length
-              ? Banner(state.movies[0])
-              : SkeletonBanner()
+              ? BannerRender(state.movies[0])
+              : SkeletonBannerRender()
             : ""
         }
         <div class="container">
-          ${MovieList({
+          ${MovieListRender({
             movies: state.movies,
             query: state.query,
             searchedMoviesLength: state.searchedMoviesLength,
           })}
         </div>
-        ${Footer()}
+        ${FooterRender()}
       </div>
     `;
 
@@ -50,7 +50,8 @@ class App {
   }
 
   mount(state) {
-    attachMoreButtonEvent();
+    HeaderMount();
+    MoreButtonMount();
 
     const $banner = document.querySelector("#banner");
     if (state.movies.length && $banner) {
