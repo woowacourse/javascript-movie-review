@@ -12,13 +12,15 @@ export default abstract class Component<TProps extends Props = {}, TState extend
   #props: TProps;
   #element: HTMLElement | null = null;
 
-  constructor(props?: TProps, stores?: Store<any>[]) {
+  constructor(props?: TProps) {
     this.#props = (props ?? {}) as TProps;
     this.setup();
 
     this.render();
     this.addEventListener();
+  }
 
+  subsribe(stores?: Store<any>[]) {
     if (!stores) return;
 
     forEach((store) => {

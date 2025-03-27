@@ -8,6 +8,10 @@ interface HeaderProps {
 }
 
 export default class Header extends Component<HeaderProps> {
+  setup() {
+    this.subsribe([moviesResponseStore]);
+  }
+
   override template() {
     const movie = moviesResponseStore.getState()?.results.at(0);
 

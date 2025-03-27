@@ -1,5 +1,5 @@
 import { forEach } from '@fxts/core';
-import { MoviesResponse } from '../types';
+import { MovieDetailResponse, MoviesResponse } from '../types';
 
 export default class Store<TState> {
   #listeners: (() => void)[] = [];
@@ -30,3 +30,4 @@ export default class Store<TState> {
 }
 
 export const moviesResponseStore = new Store<MoviesResponse | null>(null);
+export const moviesDetailStore = new Store<MovieDetailResponse | null>(null);

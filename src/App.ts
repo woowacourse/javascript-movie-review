@@ -4,7 +4,7 @@ import { Footer, Header, IntersectionObserble, MovieDetailModal, Movies, Toast }
 import { Component } from './components/core';
 import { TOAST_TYPE } from './components/Toast';
 import { eventHandlerInstance, LocalStorage, LocalStorageMovieRateValueType } from './lib/modules';
-import { moviesResponseStore } from './lib/store';
+import { moviesDetailStore, moviesResponseStore } from './lib/store';
 import { html, isError, isHTMLFormElement, isString } from './lib/utils';
 
 export interface AppState {
@@ -50,12 +50,9 @@ export default class App extends Component<null, AppState> {
 
   async onRender() {
     this.fillSlot(
-      new Header(
-        {
-          search: this.state.search,
-        },
-        [moviesResponseStore],
-      ),
+      new Header({
+        search: this.state.search,
+      }),
       'header',
     );
     this.fillSlot(
@@ -79,13 +76,10 @@ export default class App extends Component<null, AppState> {
       'obserable',
     );
 
-    if (this.state.movieDetailResponse) {
-      this.movieDetailModal = new MovieDetailModal({
-        movieDetailResponse: this.state.movieDetailResponse,
-        movieRate: this.state.movieRate,
-      });
-      this.movieDetailModal.show();
-    }
+    this.movieDetailModal = new MovieDetailModal({
+      movieRate: this.state.movieRate,
+    });
+    this.movieDetailModal.show();
   }
 
   async getMovie(search: string, page: number) {
@@ -126,7 +120,7 @@ export default class App extends Component<null, AppState> {
         if (!currentTarget.dataset.id) throw new Error('data-id를 설정해주세요.');
 
         const movieDetailResponse = await MovieApiClient.getDetail({ id: Number(currentTarget.dataset.id) });
-        this.setState({ movieDetailResponse });
+        moviesDetailStore.setState(movieDetailResponse);
       },
       dataAction: 'movie-detail',
     });

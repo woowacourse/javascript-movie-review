@@ -1,12 +1,11 @@
 import { DEFAULT_BACK_DROP_URL } from '@/lib/constants';
 import { LocalStorageMovieRateValueType } from '@/lib/modules/LocalStorage/type';
-import { MovieDetailResponse } from '@/lib/types';
-import { $, html } from '@/lib/utils';
+import { moviesDetailStore } from '@/lib/store';
+import { html } from '@/lib/utils';
 import { join, map, pipe, toArray } from '@fxts/core';
 import Modal from './common/Modal';
 
 interface MovieDetailModalProps {
-  movieDetailResponse: MovieDetailResponse | null;
   movieRate: LocalStorageMovieRateValueType;
 }
 
@@ -21,10 +20,16 @@ const RATE_MAP: Record<number, string> = {
 export default class MovieDetailModal extends Modal<MovieDetailModalProps> {
   override id = 'movie-detail-modal';
 
-  template() {
-    if (!this.props.movieDetailResponse) return html`<div></div>`;
+  setup() {
+    this.subsribe([moviesDetailStore]);
+  }
 
-    const { backdrop_path, title, release_date, genres, overview, vote_average, id } = this.props.movieDetailResponse;
+  template() {
+    const movieDetail = moviesDetailStore.getState();
+
+    if (!movieDetail) return html`<div></div>`;
+
+    const { backdrop_path, title, release_date, genres, overview, vote_average, id } = movieDetail;
 
     const currentMovieRate = this.props.movieRate[id] ?? 6;
 
