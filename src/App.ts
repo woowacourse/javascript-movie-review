@@ -2,18 +2,18 @@ import { LocalStorageMovieRateValueType, MovieDetailResponse, MovieResult, Movie
 import { MovieApiClient } from './apis';
 import { Footer, Header, MovieDetailModal, Movies, IntersectionObserble, Toast } from './components';
 import { Component } from './components/core';
-import eventHandlerInstance from './lib/modules/EventHandler';
-import LocalStorage from './lib/modules/LocalStorage';
+import { eventHandlerInstance } from './lib/modules';
+import { LocalStorage } from './lib/modules';
 import { html, isError, isHTMLFormElement, isString } from './lib/utils';
 import { TOAST_TYPE } from './components/Toast';
 
 export interface AppState {
   page: number;
   moviesResponse: MoviesResponse | null;
+  movieDetailResponse: MovieDetailResponse | null;
   movies: MovieResult[] | null;
   search: string;
   error: Error | null;
-  movieDetailResponse: MovieDetailResponse | null;
   movieRate: LocalStorageMovieRateValueType;
 }
 
