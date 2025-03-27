@@ -7,45 +7,44 @@ type MovieRate = {
   rateDate: Date;
 };
 
-const STORAGE_KEY = 'movie-ratings';
+class MovieRating {
+  private static readonly STORAGE_KEY = 'movie-ratings';
 
-export default class MovieRating {
-  private movieId: number;
-  private movieName: string;
-
-  constructor(movieId: number, movieName: string) {
-    this.movieId = movieId;
-    this.movieName = movieName;
+  hasRating(movieId: number): boolean {
+    const storedData = SessionStorage.getItems<MovieRate>(
+      MovieRating.STORAGE_KEY,
+    );
+    return storedData.some((item) => item.movieId === movieId);
   }
 
-  getRating(): number | null {
-    const storedData = SessionStorage.getItems<MovieRate>(STORAGE_KEY);
-    const movieIndex = storedData.find((item) => item.movieId === this.movieId);
+  getRating(movieId: number): number | null {
+    const storedData = SessionStorage.getItems<MovieRate>(
+      MovieRating.STORAGE_KEY,
+    );
+    const movieIndex = storedData.find((item) => item.movieId === movieId);
     return movieIndex ? movieIndex.rate : null;
   }
 
-  setRating(rate: number): void {
-    const storedData = SessionStorage.getItems<MovieRate>(STORAGE_KEY);
-    const movieIndex = storedData.findIndex(
-      (item) => item.movieId === this.movieId,
+  setRating(movieId: number, movieName: string, rate: number): void {
+    const storedData = SessionStorage.getItems<MovieRate>(
+      MovieRating.STORAGE_KEY,
     );
+    const movieIndex = storedData.findIndex((item) => item.movieId === movieId);
 
     if (movieIndex > -1) {
       storedData[movieIndex].rate = rate;
     }
     if (rate > 0) {
       storedData.push({
-        movieId: this.movieId,
-        movieName: this.movieName,
+        movieId: movieId,
+        movieName: movieName,
         rate,
         rateDate: new Date(),
       });
     }
 
-    this.updateStorage(storedData ?? []);
-  }
-
-  private updateStorage(data: MovieRate[]): void {
-    SessionStorage.saveItems(data, STORAGE_KEY);
+    SessionStorage.saveItems(storedData ?? [], MovieRating.STORAGE_KEY);
   }
 }
+
+export const movieRating = new MovieRating();
