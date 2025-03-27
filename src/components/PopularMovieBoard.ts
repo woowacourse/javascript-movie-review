@@ -104,7 +104,7 @@ class PopularMovieBoard {
     const windowHeight = window.innerHeight;
     const documentHeight = document.body.scrollHeight;
 
-    if (scrollTop + windowHeight >= documentHeight - 100) {
+    if (scrollTop + windowHeight >= documentHeight - 150) {
       this.#loadMoreMovies();
     }
   };
