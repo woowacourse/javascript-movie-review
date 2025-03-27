@@ -25,7 +25,7 @@ const initializeMovie = async () => {
 
   showSkeletonContainer($main, true);
 
-  createMovieDisplay($main);
+  await createMovieDisplay($main);
 
   hideSkeletonContainer();
 };
