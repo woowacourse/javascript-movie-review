@@ -1,9 +1,13 @@
 import Header from "../components/header/header";
 import Hero from "../components/hero/hero";
 import MovieItem from "../components/moveItem/movieItem";
-import type { Result } from "../../types/tmdb.types";
+import type { Result, TMDBDetails } from "../../types/tmdb.types";
 import { createElementsFragment } from "../util/dom";
-import { ratingMessages, ratingNumbers } from "../setting/settings";
+import {
+  ratingMessages,
+  ratingNumbers,
+  defaultRating,
+} from "../setting/settings";
 
 export function showElement(element: Element | null) {
   element?.classList.remove("hide");
@@ -32,6 +36,7 @@ export function hideImgSkeleton(event: Event) {
 
 export function renderMovieItems(results: Result[], reset?: boolean) {
   const $list = document.getElementById("thumbnail-list");
+
   if (reset && $list) $list.innerHTML = "";
 
   const movieItems = results.map((result: Result) => {
@@ -55,7 +60,7 @@ export function renderHeaderAndHero() {
     $wrap.prepend(Hero());
   }
 }
-export function updateHero({ poster_path, title, vote_average }) {
+export function updateHero({ poster_path, title, vote_average }: Result) {
   const heroImg = document.getElementById("hero-img");
   const heroTitle = document.getElementById("hero-title");
   const heroAverage = document.getElementById("hero-rate");
@@ -67,16 +72,18 @@ export function updateHero({ poster_path, title, vote_average }) {
   if (heroImg) heroImg.src = url;
   const img = document.getElementById("hero-img");
   const heroSkeleton = document.getElementById("hero-skeleton");
-  img.addEventListener("load", () => {
-    hideElement(heroSkeleton);
-    if (heroAverage) heroAverage.innerText = Number(vote_average).toFixed(1);
-    if (heroTitle) heroTitle.innerText = title;
-    showElement(topRatedContainer);
-  });
+  if (img)
+    img.addEventListener("load", () => {
+      hideElement(heroSkeleton);
+      if (heroAverage) heroAverage.innerText = Number(vote_average).toFixed(1);
+      if (heroTitle) heroTitle.innerText = title;
+      showElement(topRatedContainer);
+    });
   const modal = document.getElementById("modal-dialog");
-  heroButton.addEventListener("click", () => {
-    modal.showModal();
-  });
+  if (heroButton)
+    heroButton.addEventListener("click", () => {
+      modal.showModal();
+    });
 }
 
 //Todo: 이거 매직 넘버 없애고, 정돈하기.
@@ -88,34 +95,52 @@ export function updateDetails({
   vote_average,
   genres,
   id,
-}) {
-  const detailsImage = document.getElementById("details-image");
-  const detailsTitle = document.getElementById("details-title");
-  const detailsCategory = document.getElementById("details-category");
-  const detailsRate = document.getElementById("details-rate");
-  const detailsDescription = document.getElementById("details-description");
-  const starRatingDetails = document.getElementById("star-rating-details");
-  const starRatingNumbers = document.getElementById("star-rating-numbers");
-  const savedRating = localStorage.getItem(id);
+}: TMDBDetails) {
+  const detailsImage = document.getElementById(
+    "details-image"
+  ) as HTMLImageElement;
+  const detailsTitle = document.getElementById("details-title") as HTMLElement;
+  const detailsCategory = document.getElementById(
+    "details-category"
+  ) as HTMLElement;
+  const detailsRate = document.getElementById("details-rate") as HTMLElement;
+  const detailsDescription = document.getElementById(
+    "details-description"
+  ) as HTMLElement;
+  const starRatingDetails = document.getElementById(
+    "star-rating-details"
+  ) as HTMLElement;
+  const starRatingNumbers = document.getElementById(
+    "star-rating-numbers"
+  ) as HTMLElement;
+
+  const savedRating = localStorage.getItem(String(id));
   if (savedRating) {
     const input = document.querySelector(
       `input[name="star-rating"][value="${savedRating}"]`
-    );
+    ) as HTMLInputElement;
     if (input) input.checked = true;
-    starRatingDetails.innerText = ratingMessages[savedRating];
-    starRatingNumbers.innerText = ratingNumbers[savedRating];
+    starRatingDetails.innerText =
+      ratingMessages[savedRating as keyof typeof ratingMessages];
+    starRatingNumbers.innerText =
+      ratingNumbers[savedRating as keyof typeof ratingNumbers];
   } else {
-    starRatingDetails.innerText = ratingMessages[3];
-    starRatingNumbers.innerText = ratingNumbers[3];
-    document.getElementById("star3").checked = true;
+    starRatingDetails.innerText = ratingMessages[defaultRating];
+    starRatingNumbers.innerText = ratingNumbers[defaultRating];
+    (document.getElementById("star3") as HTMLInputElement).checked = true;
   }
+
   let categoryNames = "";
-  if (genres)
+  if (genres) {
     categoryNames = `${new Date(release_date).getFullYear()} · ${genres
       .map((genre) => genre.name)
       .join(", ")} `;
+  }
+
   let imgUrl = "./images/fallback_no_movies.png";
-  if (poster_path) imgUrl = "https://image.tmdb.org/t/p/original" + poster_path;
+  if (poster_path) {
+    imgUrl = `https://image.tmdb.org/t/p/original${poster_path}`;
+  }
 
   detailsTitle.innerText = title;
   detailsRate.innerText = Number(vote_average).toFixed(1);
