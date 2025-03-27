@@ -14,6 +14,10 @@ class Page {
     this.#page++;
     return this.#page;
   }
+
+  getCurrentPage() {
+    return this.#page;
+  }
 }
 
 const page = new Page();

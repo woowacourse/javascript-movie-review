@@ -32,7 +32,7 @@ const MovieList = ({ movies, status }: MovieListProps) => {
     });
   }
 
-  if (movies.length === 0) {
+  if (status === "fetched" && movies.length === 0) {
     return NothingMovieList();
   }
   return $ul;
