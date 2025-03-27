@@ -2,11 +2,11 @@ import { getMovieList } from "./features/movie/api/getMovieList";
 import { getSearchedPost } from "./features/search/api/getSearchedPost";
 import Header from "./shared/ui/components/Header";
 import { CustomButton } from "./shared/ui/components/CustomButton";
-import { showSkeletons } from "./shared/ui/showSkeletons";
-import { addMoviePost } from "./shared/ui/addMoviePost";
+import { showSkeletons } from "./shared/ui/renderers/showSkeletons";
+import { addMoviePost } from "./shared/ui/renderers/addMoviePost";
 import { addMoreMovies } from "./shared/domain/addMoreMovies";
-import { updateSearchPageUI } from "./features/search/ui/searchFormSubmitHandler";
-import { showErrorPage } from "./shared/ui/showErrorPage";
+import { updateSearchPageUI } from "./features/search/ui/handlers/searchFormSubmitHandler";
+import { showErrorPage } from "./shared/ui/renderers/showErrorPage";
 
 addEventListener("DOMContentLoaded", async () => {
   const $movieList = document.querySelector(".thumbnail-list") as HTMLElement;

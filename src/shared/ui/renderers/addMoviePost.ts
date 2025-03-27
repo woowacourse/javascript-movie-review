@@ -1,6 +1,6 @@
-import MoviePost from "../../features/movie/ui/components/MoviePost";
-import { showEmptySearchResult } from "../../features/search/ui/showEmptySearchResult";
-import { IMovie } from "../types/movies";
+import MoviePost from "../../../features/movie/ui/components/MoviePost";
+import { showEmptySearchResult } from "../../../features/search/ui/renderers/showEmptySearchResult";
+import { IMovie } from "../../types/movies";
 
 export function addMoviePost(movieList: IMovie[], $movieList: HTMLElement) {
   if (movieList.length === 0) {

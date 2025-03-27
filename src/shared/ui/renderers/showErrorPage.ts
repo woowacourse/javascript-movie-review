@@ -1,4 +1,4 @@
-import ErrorPage from "./components/ErrorPage";
+import ErrorPage from "../components/ErrorPage";
 
 export const showErrorPage = () => {
   const $container = document.querySelector(".container");

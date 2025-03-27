@@ -1,9 +1,9 @@
-import { addMoviePost } from "../../../shared/ui/addMoviePost";
-import { showSkeletons } from "../../../shared/ui/showSkeletons";
-import { getSearchedPost } from "../api/getSearchedPost";
-import { disableMoreButton } from "../../../shared/ui/disabledMoreButton";
-import { IMovie } from "../../../shared/types/movies";
-import { showErrorPage } from "../../../shared/ui/showErrorPage";
+import { addMoviePost } from "../../../../shared/ui/renderers/addMoviePost";
+import { showSkeletons } from "../../../../shared/ui/renderers/showSkeletons";
+import { getSearchedPost } from "../../api/getSearchedPost";
+import { disableMoreButton } from "../../../../shared/ui/renderers/disabledMoreButton";
+import { IMovie } from "../../../../shared/types/movies";
+import { showErrorPage } from "../../../../shared/ui/renderers/showErrorPage";
 
 export const searchFormSubmitHandler = async (e: Event) => {
   try {

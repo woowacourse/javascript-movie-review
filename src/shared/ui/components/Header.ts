@@ -1,7 +1,7 @@
 import { IMovie } from "../../types/movies";
 import { CustomButton } from "./CustomButton";
 import SearchForm from "../../../features/search/ui/components/SearchForm";
-import { searchFormSubmitHandler } from "../../../features/search/ui/searchFormSubmitHandler";
+import { searchFormSubmitHandler } from "../../../features/search/ui/handlers/searchFormSubmitHandler";
 
 const Header = (movie: IMovie) => {
   const $header = document.getElementById("header");

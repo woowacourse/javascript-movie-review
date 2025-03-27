@@ -1,8 +1,8 @@
 import { getMovieList } from "../../features/movie/api/getMovieList";
 import { getSearchedPost } from "../../features/search/api/getSearchedPost";
-import { addMoviePost } from "../ui/addMoviePost";
-import { disableMoreButton } from "../ui/disabledMoreButton";
-import { showErrorPage } from "../ui/showErrorPage";
+import { addMoviePost } from "../ui/renderers/addMoviePost";
+import { disableMoreButton } from "../ui/renderers/disabledMoreButton";
+import { showErrorPage } from "../ui/renderers/showErrorPage";
 
 export async function addMoreMovies($movieList: HTMLElement) {
   const params = new URLSearchParams(window.location.search);
