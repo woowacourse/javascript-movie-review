@@ -153,6 +153,40 @@ h1.logo {
   z-index: 3;
 }
 
+@media screen and (max-width: 992px) {
+  .search-bar {
+    max-width: 400px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .search-bar {
+    max-width: 300px;
+  }
+  h1.logo, h1.logo img {
+    width: 100px;
+  }
+}
+
+@media screen and (max-width: 615px) {
+  .logo-search-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  h1.logo {
+    position: static;
+    text-align: center;
+  }
+
+  .search-bar {
+    width: 100%;
+    max-width: 280px;
+  }
+}
+
+
 .search-bar input {
   flex: 1;
   border: none;
