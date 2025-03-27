@@ -1,9 +1,10 @@
+import { IMovieItem } from "./../types/movieResultType";
 import BackgroundThumbnailSection from "../component/BackgroundThumbnailSection";
-import { IMovieItem } from "../types/movieResultType";
 import { $ } from "../util/selector";
 
 class BackgroundThumbnailController {
   backgroundElement!: HTMLElement;
+  movie: IMovieItem | null = null;
 
   onMovieDetailButtonClick;
 
@@ -12,6 +13,7 @@ class BackgroundThumbnailController {
   }
 
   renderBackgroundThumbnail(movie: IMovieItem) {
+    this.movie = movie;
     this.backgroundElement = BackgroundThumbnailSection(movie);
 
     const headerElement = $("header");
@@ -22,9 +24,11 @@ class BackgroundThumbnailController {
 
   bindEvents() {
     const detailButtonElement = $<HTMLButtonElement>("button.detail", this.backgroundElement);
-    detailButtonElement?.addEventListener("click", () =>
-      this.onMovieDetailButtonClick("아직 지원되지 않은 기능입니다."),
-    );
+    if (this.movie) {
+      detailButtonElement?.addEventListener("click", () =>
+        this.onMovieDetailButtonClick("아직 지원되지 않은 기능입니다."),
+      );
+    }
   }
 
   hideBackground() {

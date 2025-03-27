@@ -1,5 +1,6 @@
 import { ERROR_MESSAGE } from "../constant/errorMessage";
 import BackgroundThumbnailController from "./BackgroundThumbnailController";
+import DetailModalController from "./DetailModalController";
 import HeaderController from "./HeaderController";
 import MessageModalController from "./MessageModalController";
 import MovieListController from "./MovieListController";
@@ -9,14 +10,18 @@ class MainController {
   static instance: MainController;
 
   backgroundThumbnailController;
-  messageModalController;
   movieListController;
+  messageModalController;
+  detailModalController;
 
   constructor() {
     this.messageModalController = new MessageModalController();
+    this.detailModalController = new DetailModalController();
 
     this.backgroundThumbnailController = new BackgroundThumbnailController({
-      onMovieDetailButtonClick: this.#openModal.bind(this),
+      onMovieDetailButtonClick: () => {
+        this.detailModalController.showModal();
+      },
     });
 
     this.movieListController = new MovieListController({
