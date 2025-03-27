@@ -3,6 +3,7 @@ class Modal {
     this.movieDetail = movieDetail;
   }
   render() {
+    console.log(this.movieDetail);
     this.$div = document.createElement("div");
     this.$div.innerHTML =
       /*html*/
@@ -38,12 +39,12 @@ class Modal {
             <hr />
             <p class="middle_font">내 별점</p>
             <div class="my_star_container">
-              <p class="rate">
-                <img src="./images/star_empty.png" class="star1" />
-                <img src="./images/star_empty.png" class="star2" />
-                <img src="./images/star_empty.png" class="star3" />
-                <img src="./images/star_empty.png" class="star4" />
-                <img src="./images/star_empty.png" class="star5" />
+              <p class="rate" id="myStars">
+              <img src="./images/star_empty.png" class="star" />
+              <img src="./images/star_empty.png" class="star" />
+              <img src="./images/star_empty.png" class="star" />
+              <img src="./images/star_empty.png" class="star" />
+              <img src="./images/star_empty.png" class="star" />
               </p>
               <p class="middle_font"> 명작이에요</p>
               <p class="star_count">(8/10)</p>
@@ -59,13 +60,54 @@ class Modal {
     </div>
         `;
 
-    const closeButton = this.$div.querySelector("#closeModal");
-    closeButton.addEventListener("click", () => this.closeModal());
-    document.addEventListener("keydown", () => this.handleKeyDown(event));
-
+    this.addCloseModal();
+    this.addHandleStar();
+    this.loadRating();
     return this.$div;
   }
 
+  loadRating() {
+    const savedRating = localStorage.getItem(this.movieDetail.id);
+
+    if (savedRating) {
+      const { rating } = JSON.parse(savedRating);
+      const starImages = this.$div.querySelectorAll("#myStars img");
+
+      starImages.forEach((star, index) => {
+        star.src =
+          index < rating / 2
+            ? "./images/star_filled.png"
+            : "./images/star_empty.png";
+      });
+    }
+  }
+
+  addHandleStar() {
+    const starImages = this.$div.querySelectorAll("#myStars img");
+    starImages.forEach((star, index) => {
+      star.addEventListener("click", () => {
+        const score = (index + 1) * 2;
+
+        starImages.forEach((s, i) => {
+          s.src =
+            i < index + 1
+              ? "./images/star_filled.png"
+              : "./images/star_empty.png";
+        });
+        const ratingData = {
+          id: this.movieDetail.id,
+          rating: score,
+        };
+        localStorage.setItem(this.movieDetail.id, JSON.stringify(ratingData));
+      });
+    });
+  }
+
+  addCloseModal() {
+    const closeButton = this.$div.querySelector("#closeModal");
+    closeButton.addEventListener("click", () => this.closeModal());
+    document.addEventListener("keydown", () => this.handleKeyDown(event));
+  }
   handleKeyDown(e) {
     if (e.key === "Escape") {
       this.closeModal();
