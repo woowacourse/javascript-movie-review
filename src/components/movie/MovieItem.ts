@@ -17,8 +17,13 @@ const MovieItem = ({ id, src, rate, title }: Props) => {
     const { title, genres, vote_average, poster_path, overview, release_date } =
       movie.data;
 
+    const url = new URL(location.href);
+    url.search = new URLSearchParams(`movieID=${id}`).toString();
+    window.history.replaceState({}, "", url.toString());
+
     $("#modalBackground").classList.add("active");
 
+    // 해당 모달이 닫힐 때 평점과 해당 영화의 ID값만 localStorage에 저장해도 됨
     $(".modal").appendChild(
       MovieDetailContent({
         title,

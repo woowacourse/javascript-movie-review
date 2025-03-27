@@ -69,3 +69,15 @@ export type MovieDetail = {
   vote_average: number;
   vote_count: number;
 };
+
+export type ProcessedMovieDetail = {
+  title: string;
+  genres: {
+    id: number;
+    name: string;
+  }[];
+  vote_average: number;
+  poster_path: string;
+  overview: string;
+  release_date: string;
+};
