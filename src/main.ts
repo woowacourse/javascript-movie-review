@@ -1,35 +1,73 @@
-import image from "../templates/images/star_filled.png";
+import { getMovieList } from "./features/movie/api/getMovieList";
+import { getSearchedPost } from "./features/search/api/getSearchedPost";
+import Header from "./shared/ui/components/Header";
+import { CustomButton } from "./shared/ui/components/CustomButton";
+import { showSkeletons } from "./shared/ui/showSkeletons";
+import { addMoviePost } from "./shared/ui/addMoviePost";
+import { addMoreMovies } from "./shared/domain/addMoreMovies";
+import { updateSearchPageUI } from "./features/search/ui/searchFormSubmitHandler";
+import { showErrorPage } from "./shared/ui/showErrorPage";
 
-console.log("npm run dev 명령어를 통해 영화 리뷰 미션을 시작하세요");
+addEventListener("DOMContentLoaded", async () => {
+  const $movieList = document.querySelector(".thumbnail-list") as HTMLElement;
 
-console.log(
-  "%c" +
-    " _____ ______   ________  ___      ___ ___  _______                \n" +
-    "|\\   _ \\  _   \\|\\   __  \\|\\  \\    /  /|\\  \\|\\  ___ \\               \n" +
-    "\\ \\  \\\\\\__\\ \\  \\ \\  \\|\\  \\ \\  \\  /  / | \\  \\ \\   __/|              \n" +
-    " \\ \\  \\\\|__| \\  \\ \\  \\\\\\  \\ \\  \\/  / / \\ \\  \\ \\  \\_|/__            \n" +
-    "  \\ \\  \\    \\ \\  \\ \\  \\\\\\  \\ \\    / /   \\ \\  \\ \\  \\_|\\ \\           \n" +
-    "   \\ \\__\\    \\ \\__\\ \\_______\\ \\__/ /     \\ \\__\\ \\_______\\          \n" +
-    "    \\|__|     \\|__|\\|_______|\\|__|/       \\|__|\\|_______|          \n" +
-    "                                                                   \n" +
-    "                                                                   \n" +
-    "                                                                   \n" +
-    " ________  _______   ___      ___ ___  _______   ___       __      \n" +
-    "|\\   __  \\|\\  ___ \\ |\\  \\    /  /|\\  \\|\\  ___ \\ |\\  \\     |\\  \\    \n" +
-    "\\ \\  \\|\\  \\ \\   __/|\\ \\  \\  /  / | \\  \\ \\   __/|\\ \\  \\    \\ \\  \\   \n" +
-    " \\ \\   _  _\\ \\  \\_|/_\\ \\  \\/  / / \\ \\  \\ \\  \\_|/_\\ \\  \\  __\\ \\  \\  \n" +
-    "  \\ \\  \\\\  \\\\ \\  \\_|\\ \\ \\    / /   \\ \\  \\ \\  \\_|\\ \\ \\  \\|\\__\\_\\  \\ \n" +
-    "   \\ \\__\\\\ _\\\\ \\_______\\ \\__/ /     \\ \\__\\ \\_______\\ \\____________\\\n" +
-    "    \\|__|\\|__|\\|_______|\\|__|/       \\|__|\\|_______|\\|____________|",
-  "color: #d81b60; font-size: 14px; font-weight: bold;"
-);
-
-addEventListener("load", () => {
-  const app = document.querySelector("#app");
-  const buttonImage = document.createElement("img");
-  buttonImage.src = image;
-
-  if (app) {
-    app.appendChild(buttonImage);
-  }
+  await initMovieList($movieList);
+  await initAddMoreMoviesButton($movieList);
 });
+
+async function initMovieList(movieList: HTMLElement) {
+  try {
+    const url = new URL(window.location.href);
+    const params = new URLSearchParams(url.search);
+    const query = params.get("query");
+    const movies = query
+      ? await getSearchedPost(query, 1)
+      : await getMovieList({ page: 1 });
+
+    if (!movies || !movieList) return;
+
+    showSkeletons(movieList);
+
+    Header(movies.results[0]);
+
+    if (query) {
+      initializeUrl(url);
+      updateSearchPageUI(movies.results, movies.total_pages, {
+        pageNum: 1,
+        searchQuery: query,
+      });
+    } else {
+      initializeUrl(url);
+      movieList.innerHTML = "";
+      addMoviePost(movies.results, movieList);
+    }
+  } catch (error) {
+    showErrorPage();
+  }
+}
+
+async function initAddMoreMoviesButton(movieList: HTMLElement) {
+  const $movieContainer = document.getElementById("movie-container");
+  if (!$movieContainer) return;
+
+  const addMoreMoviesButton = CustomButton({
+    title: "더보기",
+    className: "add-more-button",
+    id: "more-movies-button",
+  });
+
+  $movieContainer.appendChild(addMoreMoviesButton);
+
+  const $moreMoviesButton = document.getElementById("more-movies-button");
+  if (!$moreMoviesButton) return;
+
+  $moreMoviesButton.addEventListener("click", async () => {
+    if (!movieList) return;
+    await addMoreMovies(movieList);
+  });
+}
+
+function initializeUrl(url: URL) {
+  url.searchParams.set("page", "1");
+  window.history.replaceState({}, document.title, url.toString());
+}
