@@ -15,7 +15,7 @@
 }
 
 .hide {
-  display: none;
+  display: none !important;
 }
 
 .width-100 {
@@ -47,6 +47,17 @@
   box-shadow: 0 0 5px rgba(52, 152, 219, 0.2);
 }
 
+.skeleton-thumbnail.details-thumbnail {
+  width: 350px;
+  height: 525px;
+}
+
+.skeleton-thumbnail.details-thumbnail::before {
+  width: 60px;
+  height: 60px;
+  border-width: 4px;
+}
+
 @keyframes spin {
   to {
     transform: rotate(360deg);
@@ -60,15 +71,4 @@
   100% {
     transform: translateX(100%);
   }
-}
-
-.skeleton-thumbnail.details-thumbnail {
-  width: 350px;
-  height: 525px;
-}
-
-.skeleton-thumbnail.details-thumbnail::before {
-  width: 60px;
-  height: 60px;
-  border-width: 4px;
 }
