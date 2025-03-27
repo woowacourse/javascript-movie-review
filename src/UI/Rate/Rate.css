@@ -1,0 +1,17 @@
+.rating-selector {
+  font-size: 20px;
+}
+
+.rate-button {
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
+.rate-text {
+  font-weight: bold;
+}
+
+.rate-number {
+  color: #95a1b2;
+}
