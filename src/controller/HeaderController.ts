@@ -1,12 +1,13 @@
 class HeaderController {
   searchBarElement;
   headerLogoElement;
+
   constructor({
-    renderSearchMovieList,
-    renderMovieList,
+    onSearchKeywordSubmit,
+    onHomeLogoClick,
   }: {
-    renderSearchMovieList: (searchValue: string) => void;
-    renderMovieList: () => void;
+    onSearchKeywordSubmit: (searchValue: string) => void;
+    onHomeLogoClick: () => void;
   }) {
     this.searchBarElement = document.querySelector(
       ".search-bar",
@@ -15,11 +16,11 @@ class HeaderController {
       ".header-wrapper .logo",
     ) as HTMLDivElement;
 
-    this.bindSearchEvent(renderSearchMovieList);
-    this.bindHomeLogoEvent(renderMovieList);
+    this.bindSearchEvent(onSearchKeywordSubmit);
+    this.bindHomeLogoEvent(onHomeLogoClick);
   }
 
-  bindSearchEvent(renderSearchMovieList: (searchValue: string) => void) {
+  bindSearchEvent(onSearchKeywordSubmit: (searchValue: string) => void) {
     this.searchBarElement.addEventListener(
       "submit",
       async (event: SubmitEvent) => {
@@ -29,14 +30,14 @@ class HeaderController {
         const target = formElement.querySelector("input") as HTMLInputElement;
         const searchValue = target.value;
 
-        renderSearchMovieList(searchValue);
+        onSearchKeywordSubmit(searchValue);
       },
     );
   }
 
-  bindHomeLogoEvent(renderMovieList: () => void) {
+  bindHomeLogoEvent(onHomeLogoClick: () => void) {
     this.headerLogoElement?.addEventListener("click", () => {
-      renderMovieList();
+      onHomeLogoClick();
 
       const inputElement = this.searchBarElement.querySelector(
         "input",

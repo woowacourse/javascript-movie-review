@@ -3,11 +3,16 @@ import SkeletonBackgroundThumbnailSection from "../component/Skeleton/SkeletonBa
 import { IMovieItem } from "../types/movieResultType";
 
 class BackgroundThumbnailController {
-  openModal;
   backgroundElement!: HTMLElement;
 
-  constructor({ openModal }: { openModal: (text: string) => void }) {
-    this.openModal = openModal;
+  onMovieDetailButtonClick;
+
+  constructor({
+    onMovieDetailButtonClick,
+  }: {
+    onMovieDetailButtonClick: (text: string) => void;
+  }) {
+    this.onMovieDetailButtonClick = onMovieDetailButtonClick;
   }
 
   renderSkeleton() {
@@ -31,7 +36,7 @@ class BackgroundThumbnailController {
       "button.detail",
     ) as HTMLButtonElement;
     detailButtonElement.addEventListener("click", () =>
-      this.openModal("아직 지원되지 않은 기능입니다."),
+      this.onMovieDetailButtonClick("아직 지원되지 않은 기능입니다."),
     );
   }
 

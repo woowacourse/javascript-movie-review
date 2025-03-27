@@ -1,4 +1,3 @@
-import { IMovieItem } from "./../types/movieResultType";
 import { ERROR_MESSAGE } from "../constant/errorMessage";
 import BackgroundThumbnailController from "./BackgroundThumbnailController";
 import HeaderController from "./HeaderController";
@@ -17,24 +16,24 @@ class MainController {
     this.messageModalController = new MessageModalController();
 
     this.backgroundThumbnailController = new BackgroundThumbnailController({
-      openModal: this.#openModal.bind(this),
+      onMovieDetailButtonClick: this.#openModal.bind(this),
     });
 
     this.movieListController = new MovieListController({
-      renderBackgroundThumbnailSkeleton: () => {
+      onBeforeFetchMovieList: () => {
         this.backgroundThumbnailController.renderSkeleton();
       },
-      renderBackgroundThumbnail: (movie: IMovieItem) => {
+      onAfterFetchMovieList: (movie) => {
         this.backgroundThumbnailController.renderBackgroundThumbnail(movie);
       },
     });
 
     new HeaderController({
-      renderSearchMovieList: (searchValue) => {
+      onSearchKeywordSubmit: (searchValue) => {
         this.backgroundThumbnailController.hideBackground();
         new SearchMovieListController(searchValue);
       },
-      renderMovieList: () => {
+      onHomeLogoClick: () => {
         this.backgroundThumbnailController.showBackground();
         this.movieListController.renderExistingMovieList();
       },

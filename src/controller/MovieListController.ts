@@ -11,20 +11,20 @@ class MovieListController {
   movieResults;
   mainElement;
 
-  renderBackgroundThumbnailSkeleton;
-  renderBackgroundThumbnail;
+  onBeforeFetchMovieList;
+  onAfterFetchMovieList;
 
   constructor({
-    renderBackgroundThumbnailSkeleton,
-    renderBackgroundThumbnail,
+    onBeforeFetchMovieList,
+    onAfterFetchMovieList,
   }: {
-    renderBackgroundThumbnailSkeleton: () => void;
-    renderBackgroundThumbnail: (movie: IMovieItem) => void;
+    onBeforeFetchMovieList: () => void;
+    onAfterFetchMovieList: (movie: IMovieItem) => void;
   }) {
     this.movieResults = MovieResults();
     this.mainElement = mainElement;
-    this.renderBackgroundThumbnailSkeleton = renderBackgroundThumbnailSkeleton;
-    this.renderBackgroundThumbnail = renderBackgroundThumbnail;
+    this.onBeforeFetchMovieList = onBeforeFetchMovieList;
+    this.onAfterFetchMovieList = onAfterFetchMovieList;
   }
 
   bindEvents() {
@@ -49,14 +49,14 @@ class MovieListController {
 
   async render() {
     this.renderSkeleton();
-    this.renderBackgroundThumbnailSkeleton();
+    this.onBeforeFetchMovieList();
 
     const { movieList, hasMore } = await this.fetchAndStoreMovies();
     this.renderMovieList({
       movieList,
       hasMore,
     });
-    this.renderBackgroundThumbnail(movieList[0]);
+    this.onAfterFetchMovieList(movieList[0]);
 
     this.bindEvents();
   }
