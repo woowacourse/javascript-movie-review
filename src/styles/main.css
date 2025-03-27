@@ -1,0 +1,276 @@
+@import './colors.css';
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+body {
+  font-size: 16px;
+  color: var(--color-white);
+  background-color: var(--color-bluegray-80);
+}
+
+main {
+  margin: 64px 0;
+}
+
+button {
+  border: 0;
+  padding: 4px 8px;
+  cursor: pointer;
+}
+
+button.primary {
+  color: var(--color-white);
+  font-weight: bold;
+  background-color: var(--color-lightblue-90);
+  border-radius: 4px;
+}
+
+.section-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 250px;
+}
+
+.form-container {
+  width: 525px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 32px;
+  border: 2px solid var(--color-white);
+  padding: 6px 16px;
+}
+
+#app {
+  min-width: 1440px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: var(--color-bluegray-100);
+}
+
+#app h2 {
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin-bottom: 32px;
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.background-container {
+  position: relative;
+  background-position: center center;
+  background-size: cover;
+  height: 500px;
+  padding: 48px;
+  background-image: url('https://image.tmdb.org/t/p/w1920_and_h800_multi_faces/stKGOm8UyhuLPR9sZLjs5AkmncA.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.top-rated-container {
+  user-select: none;
+  position: relative;
+  z-index: 2;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.top-rated-movie {
+  margin-top: 64px;
+}
+
+.top-rated-movie > *:not(:last-child) {
+  margin-bottom: 8px;
+}
+
+h1.logo {
+  font-size: 2rem;
+}
+
+.rate {
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+  color: var(--color-yellow);
+}
+
+.rate > img {
+  position: relative;
+  top: 4px;
+}
+
+span.rate-value {
+  margin-left: 8px;
+  font-weight: bold;
+  font-size: 1.66rem;
+}
+
+.title {
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+footer.footer {
+  min-height: 180px;
+  background-color: var(--color-bluegray-80);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  font-size: 1.1rem;
+}
+
+.footer img {
+  display: block;
+  margin: 0 auto;
+}
+
+footer.footer p:not(:last-child) {
+  margin-bottom: 8px;
+}
+
+.search-input {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  width: 100%;
+  color: white;
+}
+
+.search-input::placeholder {
+  color: white;
+}
+
+.search-input:focus {
+  background-color: transparent;
+}
+
+.loading-spinner {
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+}
+
+.error-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-header-container {
+  background-image: none;
+  height: 40px;
+}
+
+.result-container {
+  grid-column: 1 / -1;
+  width: 100%;
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.border-none {
+  background: none;
+  border: none;
+}
+
+.movie-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+input:-webkit-autofill {
+  -webkit-text-fill-color: white !important;
+  -webkit-box-shadow: 0 0 0px 1000px transparent inset;
+  transition-property: background-color, box-shadow;
+  transition-delay: 86400s;
+}
+
+.movie-description {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.movie-rate {
+  display: flex;
+  gap: 8px;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.mt-24 {
+  margin-top: 24px;
+}
+
+.mb-32 {
+  margin-bottom: 32px;
+}
+
+.hidden {
+  display: none;
+}
+
+.skeleton-base {
+  background-color: rgb(165, 165, 165);
+  animation: skeleton-gradient 1.5s infinite;
+}
+
+.poster-skeleton {
+  width: 100%;
+  height: 300px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.title-skeleton {
+  width: 80%;
+  height: 24px;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+
+.date-skeleton {
+  width: 50%;
+  height: 16px;
+  border-radius: 4px;
+}
+
+.skeleton-animation {
+  border-radius: 8px;
+  animation: skeleton-gradient 1.5s infinite;
+  background-color: rgb(165, 165, 165);
+}
