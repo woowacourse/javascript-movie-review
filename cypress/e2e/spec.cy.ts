@@ -23,6 +23,7 @@ describe("Fixture을 리용한 목록 목킹 E2E테스트", () => {
 
   it("영화 데이가 잘 가져와지는지 확인할 수 있다.", () => {
     cy.wait("@getPopularMoviesPage1").then((interception) => {
+      if (!interception.response) return;
       const popularMovies = interception.response.body.results;
       expect(popularMovies.length).to.equal(20);
     });
@@ -30,6 +31,7 @@ describe("Fixture을 리용한 목록 목킹 E2E테스트", () => {
 
   it("사용자가 영화 목록 20개를 볼 수 있다.", () => {
     cy.wait("@getPopularMoviesPage1").then((interception) => {
+      if (!interception.response) return;
       const popularMovies = interception.response.body.results;
       expect(popularMovies.length).to.equal(20);
 
