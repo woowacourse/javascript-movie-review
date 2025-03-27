@@ -1,4 +1,5 @@
-import { MovieListResponse } from "../../../shared/types/movies";
+import { MovieList } from "../../../shared/types/movies";
+import { mapToMovieList } from "../../../shared/domain/mapToMovie";
 
 const url = (query: string, page: number) =>
   `https://api.themoviedb.org/3/search/movie?query=${query}&include_adult=true&language=ko-KR&page=${page}`;
@@ -13,12 +14,14 @@ const options = {
 export const getSearchedPost = async (
   query: string,
   page: number
-): Promise<MovieListResponse> => {
+): Promise<MovieList> => {
   const response = await fetch(url(query, page), options);
 
   if (!response.ok) {
     throw new Error("Failed to fetch searched post");
   }
 
-  return response.json();
+  const data = await response.json();
+
+  return mapToMovieList(data);
 };

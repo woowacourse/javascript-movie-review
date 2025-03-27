@@ -1,4 +1,5 @@
-import { MovieListResponse } from "../../../shared/types/movies";
+import { MovieList } from "../../../shared/types/movies";
+import { mapToMovieList } from "../../../shared/domain/mapToMovie";
 
 const url = (page: number) =>
   `https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=${page}`;
@@ -14,12 +15,14 @@ export const getMovieList = async ({
   page,
 }: {
   page: number;
-}): Promise<MovieListResponse> => {
+}): Promise<MovieList> => {
   const response = await fetch(url(page), options);
 
   if (!response.ok) {
     throw new Error("Failed to fetch movie list");
   }
 
-  return response.json();
+  const data = await response.json();
+
+  return mapToMovieList(data);
 };
