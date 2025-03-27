@@ -19,11 +19,11 @@ const myRateStorage = {
 class MyRate implements MyRateContract {
   static readonly #RATING_MESSAGES: Record<number, string> = {
     0: "아직 평가가 없어요",
-    2: "별로에요",
-    4: "그냥 그래요",
-    6: "볼만해요",
-    8: "명작이에요",
-    10: "인생 영화에요",
+    2: "최악이예요",
+    4: "별로예요",
+    6: "보통이에요",
+    8: "재미있어요",
+    10: "명작이에요",
   };
 
   #movieId: number;

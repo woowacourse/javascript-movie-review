@@ -21,9 +21,9 @@ class TopRatedMovie implements TopRatedMovieContract {
       <div class="top-rated-movie">
           <div class="rate">
               <img src="./images/star_empty.png" class="star" />
-              <span class="rate-value">${this.#movie.vote_average}</span>
+              <span class="rate-value">0.0</span>
           </div>
-          <div class="title">${this.#movie.title}</div>
+          <div class="title">로딩중...</div>
           <button class="primary detail">자세히 보기</button>
       </div>
     </div>
@@ -39,7 +39,9 @@ class TopRatedMovie implements TopRatedMovieContract {
       <div class="top-rated-movie">
         <div class="rate">
             <img src="./images/star_empty.png" class="star" />
-            <span class="rate-value">${this.#movie.vote_average}</span>
+            <span class="rate-value">${this.#movie.vote_average
+              .toFixed(1)
+              .toString()}</span>
         </div>
         <div class="title">${this.#movie.title}</div>
         <button class="primary detail">자세히 보기</button>
