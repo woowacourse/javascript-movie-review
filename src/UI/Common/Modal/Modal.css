@@ -74,9 +74,40 @@ body.modal-open {
 }
 
 .modal-description h2 {
+  line-height: normal;
+}
+
+.modal-description h2 {
   font-size: 2rem;
   margin: 0 0 8px;
 }
+
+.average-container {
+  display: flex;
+  align-items: center;
+}
+
+.average-info-text {
+  color: white;
+}
+
+/* .rating-selector {
+  font-size: 20px;
+}
+
+.rate-button {
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
+.rate-text {
+  font-weight: bold;
+}
+
+.rate-number {
+  color: #95a1b2;
+} */
 
 .detail {
   max-height: 430px;
@@ -84,7 +115,7 @@ body.modal-open {
 }
 
 .overview-text {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: bold;
 }
 
@@ -107,6 +138,10 @@ body.modal-open {
     text-align: center;
   }
 
+  .modal-image > img {
+    width: 200px;
+  }
+
   .modal-description h2 {
     margin-top: 32px;
   }
@@ -118,10 +153,6 @@ body.modal-open {
 
   p.rate {
     justify-content: center;
-  }
-
-  .overview-text {
-    text-align: center;
   }
 }
 
@@ -149,7 +180,7 @@ body.modal-open {
     justify-content: center;
   }
 
-  .overview-text {
+  .info-text {
     text-align: center;
   }
 }

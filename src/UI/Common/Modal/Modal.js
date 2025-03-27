@@ -1,5 +1,6 @@
 import "./Modal.css";
 import { getMovieDetail } from "../../../Domain/getMovieDetail";
+import Rate from "../../Rate/Rate";
 
 class Modal {
   #movie;
@@ -100,24 +101,42 @@ class Modal {
             src=${`https://image.tmdb.org/t/p/w300${poster_path}`}
           />
         </div>
-        <div class="modal-description">
-          <h2>${title}</h2>
-          <p class="category">
-          ${release_date.substr(0, 4)} · ${genres
+
+    `;
+
+    const $modalDescription = document.createElement("div");
+    $modalDescription.classList.add("modal-description");
+    $modalDescription.innerHTML = /*html*/ `
+        <h2>${title}</h2>
+        <p class="category">
+        ${release_date.substr(0, 4)} · ${genres
       .map((genre) => genre.name)
       .join(", ")}
-          </p>
-          <p class="rate">
-            <img src="./images/star_filled.png" class="star" />
-            <span>${vote_average.toFixed(1)}</span>
-          </p>
-          <hr />
-          <p class="overview-text">줄거리</p>
-          <p class="detail">
-            ${overview}
-          </p>
+        </p>
+        <div class="average-container">
+            <span class="average-info-text">평균</span>
+            <p class="rate">
+              <img src="./images/star_filled.png" class="star" />
+              <span>${vote_average.toFixed(1)}</span>
+            </p>
         </div>
+        <hr />
+        <p class="info-text">내 별점</p>
+        <div class="rate-container"></div>
     `;
+
+    $modalContainer.appendChild($modalDescription);
+    new Rate($modalDescription.querySelector(".rate-container")).render();
+    const $hr = document.createElement("hr");
+    const $overviewText = document.createElement("p");
+    $overviewText.classList.add("info-text");
+    $overviewText.textContent = "줄거리";
+
+    const $detail = document.createElement("p");
+    $detail.classList.add("detail");
+    $detail.textContent = overview;
+
+    $modalDescription.append($hr, $overviewText, $detail);
 
     $modal.appendChild($closeButton);
     $modal.appendChild($modalContainer);
@@ -132,3 +151,42 @@ class Modal {
 }
 
 export default Modal;
+
+// $modalContainer.innerHTML = /*html*/ `
+// <div class="modal-image">
+//   <img
+//     src=${`https://image.tmdb.org/t/p/w300${poster_path}`}
+//   />
+// </div>
+// <div class="modal-description">
+//   <h2>${title}</h2>
+//   <p class="category">
+//   ${release_date.substr(0, 4)} · ${genres
+// .map((genre) => genre.name)
+// .join(", ")}
+//   </p>
+//   <p class="rate">
+//     <img src="./images/star_filled.png" class="star" />
+//     <span>${vote_average.toFixed(1)}</span>
+//   </p>
+//   <hr />
+//   <p class="overview-text">내 별점</p>
+//   <div class="rating-selector">
+//     ${Array.from({ length: 5 }, (v, i) => (i + 1) * 2)
+//       .map(
+//         (el) =>
+//           `<button class="rate-button">
+//           <img src="./images/star_filled.png" class="star" />
+//         </button>`
+//       )
+//       .join("")}
+//       <span class="rate-text">${this.getRateText(this.#rate)}</span>
+//       <span class="rate-number">(${this.#rate}/10)</span>
+//   </div>
+//   <hr />
+//   <p class="overview-text">줄거리</p>
+//   <p class="detail">
+//     ${overview}
+//   </p>
+// </div>
+// `;
