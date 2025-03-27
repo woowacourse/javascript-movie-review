@@ -90,8 +90,8 @@ export default class App extends Component<null, AppState> {
     try {
       if (search)
         moviesResponse = await MovieApiClient.get({
-          query: search,
           page,
+          query: search,
         });
       else moviesResponse = await MovieApiClient.getAll({ page });
     } catch (error) {

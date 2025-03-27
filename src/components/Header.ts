@@ -41,7 +41,6 @@ export default class Header extends Component<HeaderProps> {
             <div class="title">${this.props.movie.title}</div>
             <button class="primary" data-action="show-detail">자세히 보기</button>
           </div>
-          
           `
           : ''}
       </header>
@@ -49,6 +48,10 @@ export default class Header extends Component<HeaderProps> {
   }
 
   onRender() {
+    this.setHeaderBackground();
+  }
+
+  setHeaderBackground() {
     if (!this.props.movie) return;
 
     if (this.props.search) this.element!.style.backgroundImage = '';

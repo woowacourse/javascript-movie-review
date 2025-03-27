@@ -27,7 +27,7 @@ export default class MovieApiClient {
     return ApiClient.get(url, this.#OPTIONS);
   }
 
-  static get({ query, page }: GetRequest) {
+  static get({ page, query }: GetRequest) {
     const url = new URL('/3/search/movie', this.#ORIGIN);
     url.searchParams.append('page', String(page));
     url.searchParams.append('language', 'ko-KR');
