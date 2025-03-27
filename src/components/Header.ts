@@ -1,14 +1,16 @@
+import { DEFAULT_BACK_DROP_URL } from '@/lib/constants';
+import { moviesResponseStore } from '@/lib/store';
 import { html } from '@/lib/utils';
 import Component from './core/Component';
-import { DEFAULT_BACK_DROP_URL } from '@/lib/constants';
-import { MovieType } from '@/lib/types';
 
 interface HeaderProps {
   search: string;
-  movie?: MovieType;
 }
+
 export default class Header extends Component<HeaderProps> {
   override template() {
+    const movie = moviesResponseStore.getState()?.results.at(0);
+
     return html`
       <header class="background-container">
         ${this.props.search ? '' : '<div class="overlay" aria-hidden="true"></div>'}
@@ -31,14 +33,14 @@ export default class Header extends Component<HeaderProps> {
             </button>
           </form>
         </div>
-        ${this.props.movie && !this.props.search
+        ${movie && !this.props.search
           ? `
           <div class="top-rated-container">
             <div class="rate">
               <img src="./images/star_empty.png" class="star" />
-              <span class="rate-value">${this.props.movie.vote_average}</span>
+              <span class="rate-value">${movie.vote_average}</span>
             </div>
-            <div class="title">${this.props.movie.title}</div>
+            <div class="title">${movie.title}</div>
             <button class="primary" data-action="show-detail">자세히 보기</button>
           </div>
           `
@@ -52,10 +54,12 @@ export default class Header extends Component<HeaderProps> {
   }
 
   setHeaderBackground() {
-    if (!this.props.movie) return;
+    const movie = moviesResponseStore.getState()?.results.at(0);
+
+    if (!movie) return;
 
     if (this.props.search) this.element!.style.backgroundImage = '';
-    else if (this.props.movie.backdrop_path)
-      this.element!.style.backgroundImage = `url(${DEFAULT_BACK_DROP_URL}/${this.props.movie.backdrop_path})`;
+    else if (movie.backdrop_path)
+      this.element!.style.backgroundImage = `url(${DEFAULT_BACK_DROP_URL}/${movie.backdrop_path})`;
   }
 }

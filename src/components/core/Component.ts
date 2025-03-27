@@ -1,5 +1,7 @@
+import { Store } from '@/lib/store';
 import { HTMLType, StrictObject } from '@/lib/types';
 import { html } from '@/lib/utils';
+import { forEach } from '@fxts/core';
 
 export type Props = StrictObject | null;
 export type State = StrictObject | null;
@@ -47,11 +49,17 @@ export default abstract class Component<TProps extends Props = {}, TState extend
 
   onRender() {}
 
-  fillSlot(component: Component, slotName: string) {
+  fillSlot(component: Component, slotName: string, stores?: Store<any>[]) {
     const targetSlot = this.element.querySelector(`slot[name=${slotName}]`);
     if (!targetSlot) throw new Error(`name=${slotName} 속성을 가진 slot 요소를 만들어주세요.`);
 
     targetSlot.replaceWith(component.element);
+
+    if (!stores) return;
+
+    forEach((store) => {
+      store.subscribe(() => this.render());
+    }, stores);
   }
 
   get element() {

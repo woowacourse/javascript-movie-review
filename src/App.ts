@@ -6,6 +6,7 @@ import { eventHandlerInstance, LocalStorageMovieRateValueType } from './lib/modu
 import { LocalStorage } from './lib/modules';
 import { html, isError, isHTMLFormElement, isString } from './lib/utils';
 import { TOAST_TYPE } from './components/Toast';
+import { moviesResponseStore } from './lib/store';
 
 export interface AppState {
   page: number;
@@ -54,9 +55,9 @@ export default class App extends Component<null, AppState> {
     this.fillSlot(
       new Header({
         search: this.state.search,
-        movie: this.state.movies?.at(0),
       }),
       'header',
+      [moviesResponseStore],
     );
     this.fillSlot(
       new Movies({
@@ -105,6 +106,7 @@ export default class App extends Component<null, AppState> {
         movies: [...(this.state.movies ? this.state.movies : []), ...moviesResponse.results],
         page,
       });
+      moviesResponseStore.setState(moviesResponse);
     } catch (error) {
       if (isError(error)) this.setState({ error });
       else if (isString(error)) this.setState({ error: new Error(error) });
@@ -113,6 +115,13 @@ export default class App extends Component<null, AppState> {
   }
 
   addEventListener() {
+    this.addMovieDetailEvents();
+    this.addSearchEvents();
+    this.addRatingEvents();
+    this.addNetworkEvents();
+  }
+
+  private addMovieDetailEvents() {
     eventHandlerInstance.addEventListener({
       eventType: 'click',
       callback: async ({ currentTarget }) => {
@@ -144,7 +153,9 @@ export default class App extends Component<null, AppState> {
         if ((event as KeyboardEvent).key === 'Escape') this.movieDetailModal?.remove();
       },
     });
+  }
 
+  private addSearchEvents() {
     eventHandlerInstance.addEventListener({
       eventType: 'submit',
       callback: async ({ target }) => {
@@ -163,6 +174,9 @@ export default class App extends Component<null, AppState> {
       },
       dataAction: 'submit-search',
     });
+  }
+
+  private addRatingEvents() {
     eventHandlerInstance.addEventListener({
       eventType: 'click',
       callback: ({ target }) => {
@@ -178,15 +192,18 @@ export default class App extends Component<null, AppState> {
         LocalStorage.set('movieRate', newMovieRate);
         this.setState({ movieRate: newMovieRate });
       },
-
       dataAction: 'change-rate',
     });
+  }
+
+  private addNetworkEvents() {
     eventHandlerInstance.addEventListener({
       eventType: 'offline',
       callbackWindow: () => {
         new Toast({ message: '네트워크 오프라인이 감지되었습니다.', type: TOAST_TYPE.error }).show();
       },
     });
+
     eventHandlerInstance.addEventListener({
       eventType: 'online',
       callbackWindow: () => {
