@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-describe("", () => {
+describe("사용자는 영화 목록을 조회하고 검색할 수 있다", () => {
   beforeEach(() => {
     cy.visit("localhost:5173");
     cy.viewport(1280, 720);
