@@ -8,7 +8,7 @@ import ModalDetail from "./components/Modal/ModalDetail/ModalDetail";
 import MovieItem from "./components/MovieItem";
 import MovieList from "./components/MovieList/MovieList";
 import NoThumbnail from "./components/NoThumbnail/NoThumbnail";
-import SeeMoreButton from "./components/SeeMoreButton/SeeMoreButton";
+import ScrollObserver from "./components/ScrollObserver/ScrollObserver";
 import Skeleton from "./components/Skeleton/Skeleton";
 import Subtitle from "./components/Subtitle/Subtitle";
 import ErrorMessage from "./constants/ErrorMessage";
@@ -23,6 +23,8 @@ addEventListener("load", async () => {
       LocalStorage.setJSON(MOVIE_RATE_LIST_KEY, {});
 
     const { movies } = await getPopularMovieList();
+    const observer = ScrollObserver.get();
+
     Header.init({
       id: movies[0].id,
       title: movies[0].title,
@@ -31,24 +33,12 @@ addEventListener("load", async () => {
     });
 
     SearchInput.init();
-    SearchInput.onButtonClick = async () => search();
-    SearchInput.onEnterKeydown = async () => search();
+    SearchInput.onButtonClick = async () => search(observer);
+    SearchInput.onEnterKeydown = async () => search(observer);
 
     Subtitle.init();
 
     MovieList.init(movies);
-
-    Skeleton.init();
-
-    SeeMoreButton.init();
-    SeeMoreButton.show();
-    SeeMoreButton.onButtonClick = async () => {
-      Skeleton.show();
-      const { movies, canMore } = await getPopularMovieList();
-      if (!canMore) SeeMoreButton.hidden();
-      MovieList.add(movies);
-      Skeleton.hidden();
-    };
 
     MovieItem.onClickItem = async (e) => {
       const clickedMovieItem = e.currentTarget as HTMLLIElement;
@@ -70,6 +60,12 @@ addEventListener("load", async () => {
         })
       );
     };
+
+    Skeleton.init();
+
+    ScrollObserver.intersect = () => seeMorePopularMovies(observer);
+
+    ScrollObserver.on(observer);
 
     Modal.init();
   } catch (error) {
@@ -93,12 +89,21 @@ async function getSearchMovieList(query: string) {
   return movieList;
 }
 
-async function search() {
+async function seeMorePopularMovies(observer: IntersectionObserver) {
+  Skeleton.show();
+  ScrollObserver.on(observer);
+  const { movies, canMore } = await getPopularMovieList();
+  if (!canMore) ScrollObserver.off(observer);
+  MovieList.add(movies);
+  Skeleton.hidden();
+}
+
+async function search(observer: IntersectionObserver) {
   Header.setSearchMode();
   NoThumbnail.hidden();
   MovieList.init([]);
-  SeeMoreButton.show();
   pageNumber = 1;
+  ScrollObserver.on(observer);
 
   Skeleton.show();
   const query = SearchInput.getSearchValue();
@@ -106,18 +111,23 @@ async function search() {
   Subtitle.set(`"${query}" 검색 결과`);
   Skeleton.hidden();
   MovieList.set(movies);
-  if (!canMore) SeeMoreButton.hidden();
+  if (!canMore) ScrollObserver.off(observer);
 
   if (movies.length === 0) {
     NoThumbnail.show();
     return;
   }
 
-  SeeMoreButton.onButtonClick = async () => {
-    Skeleton.show();
-    const { movies, canMore } = await getSearchMovieList(query);
-    if (!canMore) SeeMoreButton.hidden();
-    MovieList.add(movies);
-    Skeleton.hidden();
-  };
+  ScrollObserver.intersect = () => seeMoreSearchMovies(query, observer);
+}
+
+async function seeMoreSearchMovies(
+  query: string,
+  observer: IntersectionObserver
+) {
+  Skeleton.show();
+  const { movies, canMore } = await getSearchMovieList(query);
+  if (!canMore) ScrollObserver.off(observer);
+  MovieList.add(movies);
+  Skeleton.hidden();
 }
