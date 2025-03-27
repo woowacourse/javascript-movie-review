@@ -68,8 +68,7 @@ class MovieDetailModal {
     const container = this.#dialogElement.querySelector(".modal-container");
     if (!isHTMLElement(container)) return;
 
-    const content = new MovieDetailModalContent(detail);
-    container.innerHTML = content.imageSection + content.descriptionSection;
+    new MovieDetailModalContent(container, detail);
   }
 
   #renderError(): void {

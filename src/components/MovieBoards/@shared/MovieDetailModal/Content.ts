@@ -1,50 +1,47 @@
 import { MovieDetail } from "../../../../types/movie";
 import Date from "../../../../utils/Date";
+import MyRate from "./MyRate";
+class MovieDetailModalContent {
+  #myRate;
 
-interface ContentContract {
-  imageSection: string;
-  descriptionSection: string;
-}
+  constructor(private parentElement: HTMLElement, private detail: MovieDetail) {
+    this.#myRate = new MyRate(this.detail.id);
 
-class MovieDetailModalContent implements ContentContract {
-  constructor(private detail: MovieDetail) {}
+    this.#initialRender();
+    this.#attachMyRateEvents();
+  }
 
-  public get imageSection(): string {
+  #initialRender(): void {
+    this.parentElement.innerHTML = `
+      ${this.#imageSection}
+      ${this.#descriptionSection}
+    `;
+  }
+
+  #imageSection(): string {
     const imageUrl = this.detail.poster_path
       ? "https://image.tmdb.org/t/p/original" + this.detail.poster_path
       : "./images/null_image.png";
-    return /*html*/ `
-        <div class="modal-image">
-          <img src="${imageUrl}" alt="${this.detail.title}"/>
-        </div>
-      `;
+    return `
+      <div class="modal-image">
+        <img src="${imageUrl}" alt="${this.detail.title}"/>
+      </div>
+    `;
   }
 
-  public get descriptionSection(): string {
-    return /*html*/ `
-        <div class="modal-description">
-          ${this.#mainInfoSection()}
-          ${this.#myRateSection()}
-          ${this.#overviewSection()}
-        </div>
-      `;
-  }
-
-  #myRateSection(): string {
-    return /*html*/ `
-      <div class="divider"></div>
-      <div class="modal-section myRate">
-        <h3>별점</h3>
-        <!-- TODO -->
+  #descriptionSection(): string {
+    return `
+      <div class="modal-description">
+        ${this.#mainInfoSection()}
+        ${this.#myRate.ui}
+        ${this.#overviewSection()}
       </div>
     `;
   }
 
   #mainInfoSection(): string {
     const releaseYear = new Date(this.detail.release_date).year;
-    const genres =
-      this.detail.genres.map((genre) => genre.name).join(", ") || "";
-
+    const genres = this.detail.genres.map((g) => g.name).join(", ") || "";
     return /*html*/ `
       <h2>${this.detail.title}</h2>
       <div class="modal-description--yearCategory">
@@ -61,15 +58,18 @@ class MovieDetailModalContent implements ContentContract {
   }
 
   #overviewSection(): string {
-    return this.detail.overview
-      ? /*html*/ `
-          <div class="divider"></div>
-          <div class="modal-section detail">
-            <h3>줄거리</h3>
-            <p>${this.detail.overview}</p>
-          </div>
-        `
-      : "";
+    if (!this.detail.overview) return "";
+    return `
+      <div class="divider"></div>
+      <div class="modal-section detail">
+        <h3>줄거리</h3>
+        <p>${this.detail.overview}</p>
+      </div>
+    `;
+  }
+
+  #attachMyRateEvents(): void {
+    this.#myRate.attachEvents();
   }
 }
 

@@ -68,6 +68,12 @@ dialog::backdrop {
   align-items: center;
 }
 
+.myRate-container {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
 .modal-description .rate {
   display: flex;
   align-items: center;
