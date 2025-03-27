@@ -6,6 +6,7 @@ import SkeletonMovieItem from "../component/Skeleton/SkeletonMovieItem";
 import SkeletonMovieListSection from "../component/Skeleton/SkeletonMovieListSection";
 import mainElement from "../dom/mainElement";
 import { IMovieItem, IMovieResult } from "../types/movieResultType";
+import { $ } from "../util/selector";
 
 class SearchMovieListController {
   mainElement;
@@ -27,7 +28,7 @@ class SearchMovieListController {
   }
 
   async addMovieList() {
-    const movieListContainer = this.mainElement.querySelector("ul");
+    const movieListContainer = $("ul", this.mainElement);
     if (!movieListContainer) return;
 
     // 스켈레톤 추가
@@ -42,7 +43,7 @@ class SearchMovieListController {
     skeletonElements.forEach((skeleton) => skeleton.remove());
     movieListContainer?.append(...movieList.map((movie) => MovieItem(movie)));
 
-    if (!hasMore) this.mainElement.querySelector(".see-more")?.remove();
+    if (!hasMore) $(".see-more", this.mainElement)?.remove();
   }
 
   #renderSkeleton() {
@@ -88,7 +89,7 @@ class SearchMovieListController {
   }
 
   #bindEvents() {
-    const seeMoreElement = this.mainElement.querySelector(".see-more");
+    const seeMoreElement = $(".see-more", this.mainElement);
     seeMoreElement?.addEventListener("click", () => {
       this.addMovieList();
     });

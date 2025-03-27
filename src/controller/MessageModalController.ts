@@ -1,5 +1,6 @@
 import MessageModal from "../component/MessageModal";
 import mainElement from "../dom/mainElement";
+import { $ } from "../util/selector";
 
 class MessageModalController {
   mainElement;
@@ -27,9 +28,7 @@ class MessageModalController {
   }
 
   changeContentMessage(text: string) {
-    const spanElement = this.messageModalElement.querySelector(
-      "span",
-    ) as HTMLSpanElement;
+    const spanElement = $("span", this.messageModalElement);
 
     if (spanElement) spanElement.innerText = text;
   }

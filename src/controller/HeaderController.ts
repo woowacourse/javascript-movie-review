@@ -1,3 +1,5 @@
+import { $ } from "../util/selector";
+
 class HeaderController {
   searchBarElement;
   headerLogoElement;
@@ -9,28 +11,26 @@ class HeaderController {
     onSearchKeywordSubmit: (searchValue: string) => void;
     onHomeLogoClick: () => void;
   }) {
-    this.searchBarElement = document.querySelector(
-      ".search-bar",
-    ) as HTMLFormElement;
-    this.headerLogoElement = document.querySelector(
-      ".header-wrapper .logo",
-    ) as HTMLDivElement;
+    this.searchBarElement = $<HTMLFormElement>(".search-bar")!;
+    this.headerLogoElement = $<HTMLDivElement>(".header-wrapper .logo")!;
 
     this.bindSearchEvent(onSearchKeywordSubmit);
     this.bindHomeLogoEvent(onHomeLogoClick);
   }
 
   bindSearchEvent(onSearchKeywordSubmit: (searchValue: string) => void) {
-    this.searchBarElement.addEventListener(
+    this.searchBarElement?.addEventListener(
       "submit",
       async (event: SubmitEvent) => {
         event.preventDefault();
 
         const formElement = event.target as HTMLElement;
-        const target = formElement.querySelector("input") as HTMLInputElement;
-        const searchValue = target.value;
+        const target = $<HTMLInputElement>("input", formElement);
+        const searchValue = target?.value;
 
-        onSearchKeywordSubmit(searchValue);
+        if (searchValue) {
+          onSearchKeywordSubmit(searchValue);
+        }
       },
     );
   }
@@ -39,10 +39,10 @@ class HeaderController {
     this.headerLogoElement?.addEventListener("click", () => {
       onHomeLogoClick();
 
-      const inputElement = this.searchBarElement.querySelector(
-        "input",
-      ) as HTMLInputElement;
-      inputElement.value = "";
+      const inputElement = $<HTMLInputElement>("input", this.searchBarElement);
+      if (inputElement) {
+        inputElement.value = "";
+      }
     });
   }
 }

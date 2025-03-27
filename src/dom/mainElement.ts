@@ -1,2 +1,4 @@
-const mainElement = document.querySelector("main") as HTMLElement;
+import { $ } from "../util/selector";
+
+const mainElement = $("main")!;
 export default mainElement;

@@ -1,6 +1,7 @@
 import BackgroundThumbnailSection from "../component/BackgroundThumbnailSection";
 import SkeletonBackgroundThumbnailSection from "../component/Skeleton/SkeletonBackgroundThumbnailSection";
 import { IMovieItem } from "../types/movieResultType";
+import { $ } from "../util/selector";
 
 class BackgroundThumbnailController {
   backgroundElement!: HTMLElement;
@@ -18,7 +19,7 @@ class BackgroundThumbnailController {
   renderSkeleton() {
     this.backgroundElement = SkeletonBackgroundThumbnailSection();
 
-    const headerElement = document.querySelector("header");
+    const headerElement = $("header");
     headerElement?.insertAdjacentElement("afterend", this.backgroundElement);
   }
 
@@ -32,10 +33,11 @@ class BackgroundThumbnailController {
   }
 
   bindEvents() {
-    const detailButtonElement = this.backgroundElement.querySelector(
+    const detailButtonElement = $<HTMLButtonElement>(
       "button.detail",
-    ) as HTMLButtonElement;
-    detailButtonElement.addEventListener("click", () =>
+      this.backgroundElement,
+    );
+    detailButtonElement?.addEventListener("click", () =>
       this.onMovieDetailButtonClick("아직 지원되지 않은 기능입니다."),
     );
   }
