@@ -1,3 +1,4 @@
+import { pipe } from "@zoeykr/function-al";
 import { Movie } from "../../../types/movie";
 import { isHTMLElement } from "../../../utils/typeGuards";
 import MovieDetailModal from "./MovieDetailModal";
@@ -73,18 +74,20 @@ abstract class BaseMovieBoard {
     const container = this.parentElement.querySelector(".thumbnail-list");
     if (!isHTMLElement(container)) return;
 
-    container.addEventListener("click", (event) => {
-      const target = event.target as HTMLElement;
-      const movieItem = target.closest(".item");
-
-      if (movieItem) {
-        const movieIdStr = movieItem.getAttribute("data-id");
-        if (movieIdStr) {
-          const movieId = parseInt(movieIdStr, 10);
-          new MovieDetailModal(movieId);
+    container.addEventListener(
+      "click",
+      pipe(
+        (event: Event) => event.target as HTMLElement,
+        (target: HTMLElement) => target.closest(".item"),
+        (item: Element | null) => (item ? item.getAttribute("data-id") : null),
+        (idStr: string | null) => (idStr ? parseInt(idStr, 10) : null),
+        (movieId: number | null) => {
+          if (movieId !== null) {
+            new MovieDetailModal(movieId);
+          }
         }
-      }
-    });
+      )
+    );
   }
 
   #renderNoResult(): void {
