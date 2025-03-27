@@ -1,7 +1,11 @@
-const bannerTemplate = ({ vote_average, title }) => {
+import { Movie } from "../../../types/movieList";
+
+interface BannerData extends Movie {}
+
+const bannerTemplate = ({ vote_average, title }: BannerData): string => {
   return /* html */ `
     <div id="banner" class="background-container">
-      <div class="overlay" aria-hidden="true" ></div>
+      <div class="overlay" aria-hidden="true"></div>
       <div class="top-rated-container">
         <div class="top-rated-movie">
           <div class="rate">
