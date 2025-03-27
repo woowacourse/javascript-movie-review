@@ -11,12 +11,12 @@ class Banner {
   constructor($container, store) {
     this.#$container = $container;
     this.#store = store;
-    this.#modal = new Modal();
-    this.#store.subscribe(this.render.bind(this));
-    this.render(this.#store.getState());
+    this.#modal = new Modal(store, modalContentTemplate);
+    this.#store.subscribe(this.#render.bind(this));
+    this.#render(this.#store.getState());
   }
 
-  render(state) {
+  #render(state) {
     if (!state.query) {
       if (state.movies.length) {
         this.#$container.innerHTML = bannerTemplate(state.movies[0]);
@@ -26,12 +26,10 @@ class Banner {
             import.meta.env.VITE_TMDB_API_BANNER_URL
           }${state.movies[0].backdrop_path})`;
         }
-        const detailButton = this.#$container.querySelector(".detail");
-        if (detailButton) {
-          detailButton.addEventListener("click", async () => {
-            this.#modal.open(
-              await modalContentTemplate(state.movies[0].id, this.#store)
-            );
+        const $detailButton = this.#$container.querySelector(".detail");
+        if ($detailButton) {
+          $detailButton.addEventListener("click", async () => {
+            this.#modal.open(state.movies[0].id);
           });
         }
       } else {
