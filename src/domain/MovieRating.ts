@@ -1,5 +1,4 @@
 import { SessionStorage } from '../utils/storage';
-import { movieFetcherEvent } from './MovieFetcherEvent';
 
 type MovieRate = {
   movieId: number;
