@@ -57,7 +57,7 @@ const MovieDetailModal = (movie: MovieDetail): HTMLElement => {
   };
 
   $(".close-modal", modalDetailModal)?.addEventListener("click", closeModal);
-  $(".my-rate-container", modalDetailModal).appendChild(MyRating());
+  $(".my-rate-container", modalDetailModal).appendChild(MyRating(movie));
 
   modalDetailModal.addEventListener("click", (e) => {
     if (e.target === modalDetailModal) closeModal();

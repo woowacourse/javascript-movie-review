@@ -1,5 +1,7 @@
+import { MovieDetail } from "../../../types/movie";
 import { createElement } from "../../utils/createElement.ts";
 import { $, $$ } from "../../utils/dom.ts";
+import { getUserRating, saveUserRating } from "../../utils/localStorage.ts";
 
 const SCORE_AND_LABEL: Record<number, string> = {
   0: "평가하지 않았어요",
@@ -10,12 +12,18 @@ const SCORE_AND_LABEL: Record<number, string> = {
   10: "명작이에요",
 };
 
-const MyRating = () => {
+const MyRating = (movie: MovieDetail) => {
+  const myRate = getUserRating(movie.id);
+  const myScore = myRate ? myRate.score : 0;
+  const filledCount = myRate ? myRate.score / 2 : 0;
   const starsHTML = Array.from({ length: 5 })
-    .map(
-      (_, i) =>
-        `<img src="./images/star_empty.png" class="star" data-index="${i}" />`
-    )
+    .map((_, i) => {
+      const src =
+        i < filledCount
+          ? "./images/star_filled.png"
+          : "./images/star_empty.png";
+      return `<img src="${src}" class="star" data-index="${i}" />`;
+    })
     .join("");
 
   const myRating = createElement(/*html*/ `
@@ -26,8 +34,8 @@ const MyRating = () => {
           ${starsHTML}
         </div>
         <div class="label">
-          <div>${SCORE_AND_LABEL[0]}</div>
-          <div class="score">(0/10)</div>
+          <div>${SCORE_AND_LABEL[myScore]}</div>
+          <div class="score">(${myScore}/10)</div>
         </div>
       </div>
     </div>
@@ -57,6 +65,13 @@ const MyRating = () => {
       score.textContent = `(${currentScore}/10)`;
     });
     star.addEventListener("mouseleave", () => {
+      console.log(
+        `선택한 점수: ${selectedScore}, 로컬 스토리지 점수: ${myScore}`
+      );
+      if (selectedScore === 0 && myScore !== 0) {
+        selectedScore = myScore;
+        selectedStarIdx = filledCount - 1;
+      }
       if (selectedStarIdx === -1) {
         stars.forEach((s) => {
           s.setAttribute("src", "./images/star_empty.png");
@@ -92,6 +107,8 @@ const MyRating = () => {
 
       label.textContent = SCORE_AND_LABEL[currentScore];
       score.textContent = `(${currentScore}/10)`;
+
+      saveUserRating(movie.id, currentScore);
     });
   });
 
