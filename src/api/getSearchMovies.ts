@@ -1,11 +1,13 @@
+import { convertMovieData } from '../domain/convertMovieData';
 import { errorUi } from '../view/errorUi';
 import { getAppClient } from './appClient';
 
 const getSearchMovies = async (query: string, params: Record<string, string>) => {
   try {
-    const searchMovies = await getAppClient(query, params);
+    const movies = await getAppClient(query, params);
+    const convertMovies = { ...movies, results: movies.results.map(convertMovieData) };
 
-    return searchMovies;
+    return convertMovies;
   } catch (error) {
     if (error instanceof Error) {
       errorUi(error.message);

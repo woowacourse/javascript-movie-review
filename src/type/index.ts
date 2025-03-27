@@ -5,7 +5,7 @@ export interface ResponseType {
   totalResults: number;
 }
 
-export interface MoveType {
+export interface MoveResponseType {
   adult: boolean;
   backdropPath: null;
   genreIds: number[];
@@ -18,6 +18,15 @@ export interface MoveType {
   releaseDate: Date;
   title: string;
   video: boolean;
+  voteAverage: number;
+  voteCount: number;
+}
+
+export interface MoveType {
+  backdropPath: null;
+  id: number;
+  posterPath: string;
+  title: string;
   voteAverage: number;
   voteCount: number;
 }
