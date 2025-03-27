@@ -92,6 +92,7 @@ class MyRate implements MyRateContract {
 
   #updateStarUI(starNodes: Element[], rating: number): void {
     const filledCount = rating / 2;
+
     starNodes.forEach((starNode, index) => {
       const img = starNode as HTMLImageElement;
       img.src =
@@ -99,15 +100,20 @@ class MyRate implements MyRateContract {
           ? "./images/star_filled.png"
           : "./images/star_empty.png";
     });
-    const parent = starNodes[0].closest(".myRate-container");
-    if (!parent) return;
-    const messageElem = parent.querySelector(".myRate-message");
-    if (!messageElem) return;
-    const text =
-      rating === 0
-        ? MyRate.#RATING_MESSAGES[0]
-        : `${MyRate.#RATING_MESSAGES[rating]} (${rating}/10)`;
-    messageElem.textContent = text;
+
+    pipe(
+      () => starNodes[0].closest(".myRate-container"),
+      (parent) => (parent ? parent.querySelector(".myRate-message") : null),
+      (messageElem) => {
+        if (messageElem) {
+          const text =
+            rating === 0
+              ? MyRate.#RATING_MESSAGES[0]
+              : `${MyRate.#RATING_MESSAGES[rating]} (${rating}/10)`;
+          messageElem.textContent = text;
+        }
+      }
+    )(null);
   }
 }
 
