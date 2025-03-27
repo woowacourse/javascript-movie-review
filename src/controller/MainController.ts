@@ -29,14 +29,8 @@ class MainController {
     });
 
     new HeaderController({
-      onSearchKeywordSubmit: (searchValue) => {
-        this.backgroundThumbnailController.hideBackground();
-        new SearchMovieListController(searchValue);
-      },
-      onHomeLogoClick: () => {
-        this.backgroundThumbnailController.showBackground();
-        this.movieListController.renderExistingMovieList();
-      },
+      onSearchKeywordSubmit: this.#onSearchKeywordSubmit.bind(this),
+      onHomeLogoClick: this.#onHomeLogoClick.bind(this),
     });
 
     // 싱글톤 패턴 적용
@@ -60,6 +54,26 @@ class MainController {
   #openModal(text: string) {
     this.messageModalController.changeContentMessage(text);
     this.messageModalController.messageModalElement.showModal();
+  }
+
+  async #onSearchKeywordSubmit(searchValue: string) {
+    try {
+      this.backgroundThumbnailController.hideBackground();
+      const searchMovieListController = new SearchMovieListController(
+        searchValue,
+      );
+      await searchMovieListController.render();
+    } catch (error) {
+      this.#openModal(
+        ERROR_MESSAGE[Number((error as Error).message)] ||
+          "알 수 없는 오류가 발생했습니다.",
+      );
+    }
+  }
+
+  #onHomeLogoClick() {
+    this.backgroundThumbnailController.showBackground();
+    this.movieListController.renderExistingMovieList();
   }
 }
 

@@ -15,18 +15,42 @@ class SearchMovieListController {
   constructor(searchText: string) {
     this.mainElement = mainElement;
     this.searchText = searchText;
-
-    this.render();
   }
 
-  bindEvents() {
-    const seeMoreElement = this.mainElement.querySelector(".see-more");
-    seeMoreElement?.addEventListener("click", () => {
-      this.addMovieList();
-    });
+  async render() {
+    this.#renderSkeleton();
+
+    const { movieList, hasMore } = await this.#fetchMovies();
+    this.#renderSearchMovieList({ movieList, hasMore });
+
+    this.#bindEvents();
   }
 
-  async fetchMovies() {
+  async addMovieList() {
+    const movieListContainer = this.mainElement.querySelector("ul");
+    if (!movieListContainer) return;
+
+    // 스켈레톤 추가
+    const skeletonElements = Array.from({ length: 20 }, () =>
+      SkeletonMovieItem(),
+    );
+    movieListContainer?.append(...skeletonElements);
+
+    const { movieList, hasMore } = await this.#fetchMovies();
+
+    // 스켈레톤 제거 후 새로운 영화 추가
+    skeletonElements.forEach((skeleton) => skeleton.remove());
+    movieListContainer?.append(...movieList.map((movie) => MovieItem(movie)));
+
+    if (!hasMore) this.mainElement.querySelector(".see-more")?.remove();
+  }
+
+  #renderSkeleton() {
+    const skeletonSectionElement = SkeletonMovieListSection();
+    this.mainElement.replaceChildren(skeletonSectionElement);
+  }
+
+  async #fetchMovies() {
     const {
       page: newPage,
       total_pages: totalPage,
@@ -42,22 +66,7 @@ class SearchMovieListController {
     return { movieList, hasMore };
   }
 
-  async render() {
-    this.renderSkeleton();
-
-    const { movieList, hasMore } = await this.fetchMovies();
-
-    this.renderSearchMovieList({ movieList, hasMore });
-
-    this.bindEvents();
-  }
-
-  renderSkeleton() {
-    const skeletonSectionElement = SkeletonMovieListSection();
-    this.mainElement.replaceChildren(skeletonSectionElement);
-  }
-
-  renderSearchMovieList({
+  #renderSearchMovieList({
     movieList,
     hasMore,
   }: {
@@ -78,23 +87,11 @@ class SearchMovieListController {
     this.mainElement.replaceChildren(sectionElement);
   }
 
-  async addMovieList() {
-    const movieListContainer = this.mainElement.querySelector("ul");
-    if (!movieListContainer) return;
-
-    // 스켈레톤 추가
-    const skeletonElements = Array.from({ length: 20 }, () =>
-      SkeletonMovieItem(),
-    );
-    movieListContainer?.append(...skeletonElements);
-
-    const { movieList, hasMore } = await this.fetchMovies();
-
-    // 스켈레톤 제거 후 새로운 영화 추가
-    skeletonElements.forEach((skeleton) => skeleton.remove());
-    movieListContainer?.append(...movieList.map((movie) => MovieItem(movie)));
-
-    if (!hasMore) this.mainElement.querySelector(".see-more")?.remove();
+  #bindEvents() {
+    const seeMoreElement = this.mainElement.querySelector(".see-more");
+    seeMoreElement?.addEventListener("click", () => {
+      this.addMovieList();
+    });
   }
 }
 
