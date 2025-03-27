@@ -112,6 +112,7 @@ class Modal {
             <span>${vote_average.toFixed(1)}</span>
           </p>
           <hr />
+          <p class="overview-text">줄거리</p>
           <p class="detail">
             ${overview}
           </p>

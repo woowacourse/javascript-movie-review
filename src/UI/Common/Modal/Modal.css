@@ -82,3 +82,74 @@ body.modal-open {
   max-height: 430px;
   overflow-y: auto;
 }
+
+.overview-text {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+@media screen and (min-width: 390px) and (max-width: 800px) {
+  .modal-background {
+    padding: 0px;
+  }
+
+  .modal {
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+  }
+
+  .modal-container {
+    flex-direction: column;
+  }
+
+  .modal-image {
+    text-align: center;
+  }
+
+  .modal-description h2 {
+    margin-top: 32px;
+  }
+
+  .modal-description h2,
+  .modal-description .category {
+    text-align: center;
+  }
+
+  p.rate {
+    justify-content: center;
+  }
+
+  .overview-text {
+    text-align: center;
+  }
+}
+
+@media screen and (max-width: 390px) {
+  .modal-background {
+    padding: 0px;
+  }
+
+  .modal {
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+  }
+
+  .modal-image {
+    display: none;
+  }
+
+  .modal-description h2,
+  .modal-description .category {
+    text-align: center;
+  }
+
+  p.rate {
+    justify-content: center;
+  }
+
+  .overview-text {
+    text-align: center;
+  }
+}
