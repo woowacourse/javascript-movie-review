@@ -8,10 +8,8 @@
  * @param {number} [scale=1] - 스피너 전체를 비율 조정하기 위한 값입니다.
  *   예를 들어, scale이 2이면 스피너 크기가 2배로 렌더링됩니다.
  *   기본값은 1이며, 1배 크기(약 50px x 50px)로 표시됩니다.
- *
- * @returns {string} - 스피너의 HTML 문자열을 반환합니다.
  */
-const Spinner = (scale: number = 1) => {
+const Spinner = (scale: number = 1): string => {
   return /*html*/ `
   <div class="orbit-spinner" style="scale: ${scale}">
       <div class="planet"></div>

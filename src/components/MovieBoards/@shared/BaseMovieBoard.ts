@@ -21,9 +21,14 @@ abstract class BaseMovieBoard {
 
   constructor(protected readonly config: MovieBoardConfig) {
     this.parentElement = config.parentElement;
+    this.#initialize();
+  }
+
+  #initialize(): void {
     this.config.initialRender();
     this.fetchAndRenderMovies();
     this.initInfiniteScroll();
+    this.#attachMovieItemClickListener();
   }
 
   protected async fetchAndRenderMovies(): Promise<void> {
@@ -62,11 +67,12 @@ abstract class BaseMovieBoard {
         this.config.renderMovieList(movies)
       );
     }
-
-    this.#attachMovieItemClickListener(movieListContainer);
   }
 
-  #attachMovieItemClickListener(container: HTMLElement): void {
+  #attachMovieItemClickListener(): void {
+    const container = this.parentElement.querySelector(".thumbnail-list");
+    if (!isHTMLElement(container)) return;
+
     container.addEventListener("click", (event) => {
       const target = event.target as HTMLElement;
       const movieItem = target.closest(".item");

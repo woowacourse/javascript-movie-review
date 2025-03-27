@@ -59,6 +59,7 @@ dialog::backdrop {
   margin-left: 16px;
   line-height: 1.6rem;
   flex: 1;
+  width: 100%;
 }
 
 .modal-description--yearCategory {
@@ -83,7 +84,6 @@ dialog::backdrop {
 }
 
 .modal-description h2 {
-  /* width: 100%; */
   font-size: 3rem;
   margin: 0 0 8px;
   font-weight: 700;
