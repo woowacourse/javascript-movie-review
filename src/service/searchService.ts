@@ -89,7 +89,7 @@ function handleSearchError(error: Error): void {
     const $fallbackDetails = document.getElementById("fallback-details");
     console.log(error);
     Toast.showToast(error.message, "error", 5000);
-    if ($fallbackDetails) $fallbackDetails.innerText = "검색 결과가 없습니다.";
+    if ($fallbackDetails) $fallbackDetails.innerText = ERROR_MESSAGE.NO_DATA;
     hideElement($thumbnailContainer);
     showElement($fallback);
   }
