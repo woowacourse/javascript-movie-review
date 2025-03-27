@@ -4,6 +4,7 @@ import CustomButton from "./CustomButton.js";
 import { ADD_MOVIE_BUTTON } from "../../shared/CustomButton.ts";
 import NoResultsMessage from "./NoResultsMessage.js";
 import DetailModal from "./DetailModal.js";
+import TmdbApi from "../../api/tmdbApi.ts";
 export default class MovieList {
   constructor(
     containerSelector,
@@ -29,12 +30,14 @@ export default class MovieList {
     const movieCards = document.querySelectorAll(".thumbnail");
     movieCards.forEach((movieCard) => {
       movieCard.addEventListener("click", async () => {
-        //TODO : 영화 상세 정보 가져오기  
         const movieId = movieCard.dataset.id;
-        const movieDetail = await this.movieService.getMovieDetail(movieId);
-        
-        const detailModal = new DetailModal(movieDetail);
-        detailModal.addDetailModal(movieDetail);
+        try {
+          const movieDetail = await this.movieService.getMovieDetail(movieId);
+          const detailModal = new DetailModal(movieDetail);
+          detailModal.addDetailModal(movieDetail);
+        } catch (error) {
+          console.error('영화 상세 정보를 가져오는데 실패했습니다:', error);
+        }
       });
     });
   }
