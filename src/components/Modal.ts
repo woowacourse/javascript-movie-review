@@ -23,6 +23,15 @@ class Modal {
 
     return selectElement<HTMLDivElement>("#modal");
   }
+
+  open() {
+    const modalBackground = selectElement<HTMLDivElement>("#modalBackground");
+    modalBackground.classList.add("active");
+  }
+
+  renderContents(contents: HTMLDivElement) {
+    this.#element.insertAdjacentElement("beforeend", contents);
+  }
 }
 
 export default Modal;

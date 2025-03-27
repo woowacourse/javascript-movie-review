@@ -1,4 +1,7 @@
+import { MovieDetails } from "../../types/domain.ts";
 import { selectElement } from "../utils/dom.ts";
+import Modal from "./Modal.ts";
+import MovieItemDetails from "./MovieItemDetails.ts";
 
 class MovieList {
   #movieList: string[];
@@ -30,6 +33,27 @@ class MovieList {
 
   getTotalItems() {
     return this.#totalItems;
+  }
+
+  onMovieClick(getDetail: (id: number) => Promise<MovieDetails>) {
+    const handleMovieClick = async (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      if (!target.closest("ul.thumbnail-list")) {
+        return;
+      }
+
+      const movieContainer = target.closest("li.item") as HTMLLIElement;
+      const id = Number(movieContainer.dataset.id);
+
+      const details = await getDetail(id);
+
+      const modalDetails = new MovieItemDetails(details).create();
+      const modal = new Modal();
+      modal.renderContents(modalDetails);
+      modal.open();
+    };
+
+    this.#container.addEventListener("click", handleMovieClick);
   }
 }
 
