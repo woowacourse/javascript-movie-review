@@ -1,4 +1,3 @@
-import MoreMoviesButton from "../../../shared/ui/components/MoreMoviesButton";
 import { toElement } from "../../../shared/utils/toElement";
 
 export function showEmptySearchResult() {
@@ -20,6 +19,4 @@ export function showEmptySearchResult() {
   </div>
   `)
   );
-
-  MoreMoviesButton.addDisable();
 }

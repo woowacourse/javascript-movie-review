@@ -1,7 +1,6 @@
 import { getMovieList } from "../../../features/movie/api/getMovieList";
 import { getSearchedMovie } from "../../../features/search/api/getSearchedMovie";
 import { addMovieCard } from "./addMovieCard";
-import { disableMoreButton } from "./disabledMoreButton";
 import { getUrlParams } from "../../utils/getUrlParams";
 
 export async function addMoreMovies($movieList: HTMLElement) {
@@ -25,10 +24,6 @@ export async function addMoreMovies($movieList: HTMLElement) {
       return;
     }
     addMovieCard(searchedMovies.results, $movieList);
-    disableMoreButton(
-      searchedMovies.total_pages,
-      parseInt(params.get("page")!)
-    );
   } else {
     const movies = await getMovieList({ page: parseInt(params.get("page")!) });
 
@@ -36,7 +31,6 @@ export async function addMoreMovies($movieList: HTMLElement) {
       return;
     }
     addMovieCard(movies.results, $movieList);
-    disableMoreButton(movies.total_pages, parseInt(params.get("page")!));
   }
 
   const newUrl = `${window.location.pathname}?${params.toString()}`;
