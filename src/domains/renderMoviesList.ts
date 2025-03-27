@@ -91,7 +91,9 @@ export const updateMoviesList = async () => {
   toggleShowMoreButton();
 };
 
-export const initializeLayout = () => {
+export const initializeLayout = async () => {
   const $app = document.querySelector("#app");
   $app?.append(App.getInstance().getElement());
+
+  await updateMoviesList();
 };

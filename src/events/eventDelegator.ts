@@ -5,23 +5,29 @@ import { EVENT_TYPES } from "./types";
 
 const eventBus = EventBus.getInstance();
 
+const SELECTORS = {
+  showMore: ".show-more",
+  modalClose: "#closeModal",
+  movieItem: ".thumbnail-list .item, .top-rated-movie",
+  searchForm: ".top-rated-search",
+  searchInput: ".top-rated-search-input",
+};
+
 window.addEventListener("click", async (event) => {
   const { target } = event;
   if (!isElement(target)) return;
 
-  if (target.closest(".show-more")) {
+  if (target.closest(SELECTORS.showMore)) {
     eventBus.emit(EVENT_TYPES.showMore);
     return;
   }
 
-  if (target.closest("#closeModal")) {
+  if (target.closest(SELECTORS.modalClose)) {
     eventBus.emit(EVENT_TYPES.modalClose);
     return;
   }
 
-  const movieItem =
-    target.closest(".thumbnail-list .item") ||
-    target.closest(".top-rated-movie");
+  const movieItem = target.closest(SELECTORS.movieItem);
   if (movieItem) {
     const movieId = Number((movieItem as HTMLElement).dataset.movieId);
     if (movieId) {
@@ -36,9 +42,9 @@ window.addEventListener("submit", async (event) => {
   const { target } = event;
   if (!isElement(target)) return;
 
-  if (target.closest(".top-rated-search")) {
+  if (target.closest(SELECTORS.searchForm)) {
     const $searchInput = target.querySelector(
-      ".top-rated-search-input"
+      SELECTORS.searchInput
     ) as HTMLInputElement;
     const keyword = $searchInput?.value;
     if (!keyword) return;
