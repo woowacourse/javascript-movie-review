@@ -1,12 +1,12 @@
 import { DEFAULT_BACK_DROP_URL } from '@/lib/constants';
 import { LocalStorageMovieRateValueType } from '@/lib/modules/LocalStorage/type';
 import { MovieDetailResponse } from '@/lib/types';
-import { html } from '@/lib/utils';
+import { $, html } from '@/lib/utils';
 import { join, map, pipe, toArray } from '@fxts/core';
-import { Component } from './core';
+import Modal from './common/Modal';
 
 interface MovieDetailModalProps {
-  movieDetailResponse: MovieDetailResponse;
+  movieDetailResponse: MovieDetailResponse | null;
   movieRate: LocalStorageMovieRateValueType;
 }
 
@@ -18,8 +18,12 @@ const RATE_MAP: Record<number, string> = {
   10: '명작이에요',
 };
 
-export default class MovieDetailModal extends Component<MovieDetailModalProps> {
+export default class MovieDetailModal extends Modal<MovieDetailModalProps> {
+  override id = 'movie-detail-modal';
+
   template() {
+    if (!this.props.movieDetailResponse) return html`<div></div>`;
+
     const { backdrop_path, title, release_date, genres, overview, vote_average, id } = this.props.movieDetailResponse;
 
     const currentMovieRate = this.props.movieRate[id] ?? 6;
@@ -84,5 +88,13 @@ export default class MovieDetailModal extends Component<MovieDetailModalProps> {
         </div>
       </div>
     `;
+  }
+
+  onRender() {
+    this.disableScrollOutside();
+  }
+
+  protected onUnmount() {
+    this.enableScrollOutside();
   }
 }

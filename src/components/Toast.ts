@@ -25,4 +25,10 @@ export default class Toast extends Modal<ToastProps> {
       ${this.props.message}
     </div>`;
   }
+
+  onRender() {
+    setTimeout(() => {
+      this.remove();
+    }, 1000);
+  }
 }

@@ -1,17 +1,17 @@
 import { HTMLType, StrictObject } from '@/lib/types';
 import { html } from '@/lib/utils';
 
-export default abstract class Component<
-  Props extends StrictObject | null = {},
-  State extends StrictObject | null = {},
-> {
-  state = {} as State;
+export type Props = StrictObject | null;
+export type State = StrictObject | null;
 
-  #props: Props;
+export default abstract class Component<TProps extends Props = {}, TState extends State = {}> {
+  state = {} as TState;
+
+  #props: TProps;
   #element: HTMLElement | null = null;
 
-  constructor(props?: Props) {
-    this.#props = (props ?? {}) as Props;
+  constructor(props?: TProps) {
+    this.#props = (props ?? {}) as TProps;
     this.setup();
 
     this.render();
@@ -65,5 +65,12 @@ export default abstract class Component<
 
   get props() {
     return this.#props;
+  }
+
+  protected onUnmount() {}
+
+  remove() {
+    this.onUnmount();
+    this.element.remove();
   }
 }

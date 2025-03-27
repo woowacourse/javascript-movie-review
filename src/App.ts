@@ -18,6 +18,8 @@ export interface AppState {
 }
 
 export default class App extends Component<null, AppState> {
+  movieDetailModal: MovieDetailModal | null = null;
+
   constructor() {
     super();
   }
@@ -67,11 +69,6 @@ export default class App extends Component<null, AppState> {
       'movies',
     );
     this.fillSlot(new Footer(), 'footer');
-    if (this.state.movieDetailResponse)
-      this.fillSlot(
-        new MovieDetailModal({ movieDetailResponse: this.state.movieDetailResponse, movieRate: this.state.movieRate }),
-        'movie-detail-modal',
-      );
     this.fillSlot(
       new IntersectionObserble({
         callback: async () => {
@@ -82,6 +79,14 @@ export default class App extends Component<null, AppState> {
       }),
       'obserable',
     );
+
+    if (this.state.movieDetailResponse) {
+      this.movieDetailModal = new MovieDetailModal({
+        movieDetailResponse: this.state.movieDetailResponse,
+        movieRate: this.state.movieRate,
+      });
+      this.movieDetailModal.show();
+    }
   }
 
   async getMovie(search: string, page: number) {
@@ -121,18 +126,14 @@ export default class App extends Component<null, AppState> {
 
     eventHandlerInstance.addEventListener({
       eventType: 'click',
-      callback: () => {
-        this.setState({ movieDetailResponse: null });
-      },
+      callback: () => this.movieDetailModal?.remove(),
       dataAction: 'close-movie-detail-modal-outside',
       notTriggerDataAction: 'not-close-movie-detail-modal',
     });
 
     eventHandlerInstance.addEventListener({
       eventType: 'click',
-      callback: () => {
-        this.setState({ movieDetailResponse: null });
-      },
+      callback: () => this.movieDetailModal?.remove(),
       dataAction: 'close-movie-detail-modal-button',
     });
 
@@ -140,7 +141,7 @@ export default class App extends Component<null, AppState> {
       eventType: 'keydown',
       callback: ({ event }) => {
         if (!this.state.movieDetailResponse) return;
-        if ((event as KeyboardEvent).key === 'Escape') this.setState({ movieDetailResponse: null });
+        if ((event as KeyboardEvent).key === 'Escape') this.movieDetailModal?.remove();
       },
     });
 
