@@ -40,8 +40,8 @@ dialog::backdrop {
   color: white;
   z-index: 2;
   position: relative;
-  /* width: 1000px; */
   width: 960px;
+  max-height: fit-content;
 }
 
 .close-modal {
@@ -57,9 +57,39 @@ dialog::backdrop {
   cursor: pointer;
 }
 
-.modal-image img {
+.modal-image {
   width: 380px;
+  height: 570px;
+  flex-shrink: 0;
   border-radius: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+.modal-image.loading::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  animation: skeleton-gradient 1.2s infinite;
+  z-index: 1;
+}
+
+.modal-image.loading img {
+  opacity: 0;
+}
+
+.modal-image:not(.loading) img {
+  opacity: 1;
+}
+
+.modal-image img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
 }
 
 .modal-description {
@@ -98,11 +128,13 @@ dialog::backdrop {
 .modal-description h2.movie-title {
   font-size: 2rem !important;
   line-height: 1;
+  margin-bottom: 0 !important;
+  width: 80%;
 }
 
 .detail {
   font-size: 24px;
-  max-height: 430px;
+  max-height: 230px;
   overflow-y: auto;
   line-height: 150%;
   font-weight: 300;
@@ -189,5 +221,19 @@ dialog::backdrop {
     .description-section {
       align-items: center;
     }
+  }
+}
+
+@keyframes skeleton-gradient {
+  0% {
+    background-color: rgba(165, 165, 165, 0.1);
+  }
+
+  50% {
+    background-color: rgba(165, 165, 165, 0.3);
+  }
+
+  100% {
+    background-color: rgba(165, 165, 165, 0.1);
   }
 }
