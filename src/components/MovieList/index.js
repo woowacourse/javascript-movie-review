@@ -81,7 +81,7 @@ class MovieList {
         const state = store.getState();
         const movie = state.movies.find((m) => m.id == movieId);
         if (movie) {
-          modal.open(await modalContentTemplate(movie.id));
+          modal.open(await modalContentTemplate(movie.id, store));
         }
       });
     });

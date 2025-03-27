@@ -17,6 +17,9 @@ class App {
       query: "",
       searchedMoviesLength: 0,
       loading: false,
+      starRatings: localStorage.getItem("starRatings")
+        ? JSON.parse(localStorage.getItem("starRatings"))
+        : [],
     });
 
     const $headerTemplate = document.createElement("template");
@@ -39,7 +42,7 @@ class App {
     this.movieListComponent = new MovieList(this.mainContainer, this.#store);
 
     if (this.#store.getState().movies.length === 0) {
-      this.loadPopularMovies();
+      this.#loadPopularMovies();
     }
 
     window.addEventListener("scroll", async () => {
@@ -81,7 +84,7 @@ class App {
     });
   }
 
-  async loadPopularMovies() {
+  async #loadPopularMovies() {
     this.#store.setState({ loading: true });
     const movies = await fetchPopularMovies((error) => alert(error.message));
     this.#store.setState({ movies, loading: false });

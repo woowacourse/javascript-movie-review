@@ -29,7 +29,9 @@ class Banner {
         const detailButton = this.#$container.querySelector(".detail");
         if (detailButton) {
           detailButton.addEventListener("click", async () => {
-            this.#modal.open(await modalContentTemplate(state.movies[0].id));
+            this.#modal.open(
+              await modalContentTemplate(state.movies[0].id, this.#store)
+            );
           });
         }
       } else {
