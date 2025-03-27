@@ -26,11 +26,11 @@ describe('상세 조회 e2e 테스트', () => {
 
     cy.get('.modal-rate .flex-row button').eq(2).click();
 
-    cy.get('.modal-rate p').first().should('have.text', '보통이에요');
+    cy.get('.modal-rate p').first().should('have.text', '보통이에요.');
     cy.get('.modal-rate p').last().should('have.text', '(6/10)');
 
     cy.get('.modal-rate .flex-row button').eq(4).click();
-    cy.get('.modal-rate p').first().should('have.text', '명작이에요');
+    cy.get('.modal-rate p').first().should('have.text', '명작이에요.');
     cy.get('.modal-rate p').last().should('have.text', '(10/10)');
 
     cy.get('.modal-close-btn').click();
@@ -38,7 +38,7 @@ describe('상세 조회 e2e 테스트', () => {
 
     cy.get('.movie-item[data-index="0"]').click();
 
-    cy.get('.modal-rate p').first().should('have.text', '명작이에요');
+    cy.get('.modal-rate p').first().should('have.text', '명작이에요.');
     cy.get('.modal-rate p').last().should('have.text', '(10/10)');
   });
 });

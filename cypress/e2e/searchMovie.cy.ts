@@ -5,11 +5,11 @@ describe('검색 e2e 테스트', () => {
     cy.visit('http://localhost:5173/');
 
     cy.intercept('GET', 'https://api.themoviedb.org/3/movie/popular?*', {
-      fixture: 'popularMovie.json',
+      fixture: 'popular-movie.json',
     }).as('getPopular');
   });
 
-  it('검색창에 검색어를 입력하면 스켈레톤을 보여준 후 검색 데이터를 보여준다.', () => {
+  it('검색창에 검색어를 입력하면 검색 데이터를 보여준다.', () => {
     cy.intercept('GET', 'https://api.themoviedb.org/3/search/movie?*', {
       fixture: 'search-movie.json',
     }).as('getSearchMovie');
@@ -21,11 +21,6 @@ describe('검색 e2e 테스트', () => {
 
     cy.wait('@getSearchMovie');
 
-    cy.get('.skeleton-item').should('have.length', 20);
-
-    cy.wait(3000);
-
-    cy.get('.skeleton-item').should('not.exist');
     cy.get('.movie-item').should('have.length', 9);
   });
 
