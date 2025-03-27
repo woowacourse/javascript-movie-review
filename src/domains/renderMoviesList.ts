@@ -21,6 +21,7 @@ const setHeaderData = () => {
   if (!firstMovieData) return;
 
   header.setState({
+    id: firstMovieData.id,
     posterImage: `${PREFIX_POSTER_PATH}${firstMovieData.poster_path}`,
     title: firstMovieData.title,
     voteAverage: firstMovieData.vote_average,

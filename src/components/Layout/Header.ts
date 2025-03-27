@@ -3,6 +3,7 @@ import Button from "../common/Button";
 import Skeleton from "../common/Skeleton";
 
 interface HeaderState {
+  id: number | null;
   posterImage: `http://${string}` | `https://${string}` | null;
   title: string | null;
   voteAverage: number | null;
@@ -15,6 +16,7 @@ export default class Header extends Component<HeaderState> {
 
   protected constructor() {
     super({
+      id: null,
       posterImage: null,
       title: null,
       voteAverage: null,
@@ -78,23 +80,22 @@ export default class Header extends Component<HeaderState> {
       !this.state.hasSearched
         ? /*html*/ `
         <div class="top-rated-container">
-          <div class="top-rated-movie">
-          ${
-            this.state.isLoading
-              ? this.renderSkeletonItem()
-              : /*html*/ `
-                <div class="rate">
-                  <img src="./images/star_empty.png" class="star" alt="star_empty" />
-                  <span class="rate-value">${this.state.voteAverage}</span>
-                </div>
-                <div class="title">${this.state.title}</div>
-                ${
-                  Button({ className: "detail", textContent: "자세히 보기" })
-                    .outerHTML
-                }
-              `
-          }
-            
+          <div class="top-rated-movie"  data-movie-id="${this.state.id}">
+            ${
+              this.state.isLoading
+                ? this.renderSkeletonItem()
+                : /*html*/ `
+                  <div class="rate">
+                    <img src="./images/star_empty.png" class="star" alt="star_empty" />
+                    <span class="rate-value">${this.state.voteAverage}</span>
+                  </div>
+                  <div class="title">${this.state.title}</div>
+                  ${
+                    Button({ className: "detail", textContent: "자세히 보기" })
+                      .outerHTML
+                  }
+                `
+            }
           </div>
         </div>`
         : ""

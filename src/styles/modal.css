@@ -21,7 +21,7 @@ body.modal-open {
   transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
-.modal-background.active {
+.active {
   visibility: visible;
   opacity: 1;
 }

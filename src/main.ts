@@ -1,5 +1,6 @@
 import { initializeLayout, updateMoviesList } from "./domains/renderMoviesList";
-import "./events/handlers";
+import "./events/eventDelegator";
+import "./events/eventHandlers";
 
 addEventListener("load", async () => {
   initializeLayout();

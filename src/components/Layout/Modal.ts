@@ -28,7 +28,7 @@ export default class Modal extends Component<ModalState> {
 
   protected createElement(): HTMLElement {
     const $modal = document.createElement("div");
-    $modal.className = "modal-background active"; // TODO: active 상태 토글
+    $modal.className = "modal-background";
     $modal.id = "modalBackground";
     return $modal;
   }
@@ -90,5 +90,23 @@ export default class Modal extends Component<ModalState> {
         </div>
       </div>
     `;
+  }
+
+  open(movieData: MovieResult) {
+    this.$element.classList.add("active");
+    this.setState({
+      isLoading: false,
+      title: movieData.title,
+      poster_path: movieData.poster_path,
+      vote_average: movieData.vote_average,
+      overview: movieData.overview,
+      genre_ids: movieData.genre_ids,
+      // TODO: 외부 or 내부에서 genre_ids를 API로 받아서 가공해서 처리 (genre_ids 타입 재정의?)
+      // TODO: 내부 데이터로 만들어서 임시처리 ?
+    });
+  }
+
+  close() {
+    this.$element.classList.remove("active");
   }
 }

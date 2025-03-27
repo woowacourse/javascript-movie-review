@@ -54,7 +54,7 @@ export default class Main extends Component<MainState> {
 
     return /*html*/ `
       <li>
-        <div class="item">
+        <div class="item" data-movie-id="${movie.id}">
           <img
             class="thumbnail"
             src="${posterImage}"
