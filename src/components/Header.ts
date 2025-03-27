@@ -13,7 +13,6 @@ export default class Header extends Component {
   override template() {
     const movie = moviesResponseStore.getState()?.results.at(0);
     const search = searchStore.getState();
-    console.log(search);
 
     return html`
       <header class="background-container">

@@ -1,9 +1,12 @@
 import { forEach } from '@fxts/core';
 import { MovieDetailResponse, MoviesResponse, MovieType } from '../types';
 import { LocalStorageMovieRateValueType } from '../modules';
+import { Component } from '@/components/core';
+
+type ObserverType = Component<any, any>;
 
 export default class Store<TState> {
-  #listeners: (() => void)[] = [];
+  #observers: ObserverType[] = [];
   #state = {} as TState;
 
   constructor(initialState: TState) {
@@ -19,14 +22,14 @@ export default class Store<TState> {
     this.notify();
   }
 
-  subscribe(listener: () => void) {
-    this.#listeners = [...this.#listeners, listener];
+  subscribe(observer: ObserverType) {
+    this.#observers = [...this.#observers, observer];
   }
 
   notify() {
-    forEach((listener) => {
-      listener();
-    }, this.#listeners);
+    forEach((observer) => {
+      observer.update();
+    }, this.#observers);
   }
 }
 
