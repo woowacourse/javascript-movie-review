@@ -19,9 +19,13 @@ body.modal-open {
   z-index: 10;
   visibility: hidden; /* 모달이 기본적으로 보이지 않도록 설정 */
   opacity: 0;
-  transition:
-    opacity 0.3s ease,
-    visibility 0.3s ease;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .modal-background {
+    align-items: end;
+  }
 }
 
 .modal-background.active {
@@ -68,6 +72,67 @@ body.modal-open {
   line-height: 1.6rem;
 }
 
+@media (max-width: 768px) {
+  .modal-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  .modal-image img {
+    width: 200px;
+  }
+  .main-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px 0;
+  }
+}
+
+.modal-description .average_rate {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.modal-description .intro {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 20px 0;
+}
+
+.modal-description .average_rate .rate {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.modal-description .my_rate {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.modal-description .star-rating {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.modal-description .description-score {
+  display: flex;
+  gap: 5px;
+}
+
+@media (max-width: 479px) {
+  .modal-description .star-rating {
+    flex-direction: column;
+  }
+  .modal-description .intro {
+    text-align: center;
+  }
+  .modal-image img {
+    display: none;
+  }
+}
+
 .modal-description .rate > img {
   position: relative;
   top: 5px;
@@ -79,6 +144,7 @@ body.modal-open {
 
 .modal-description h2 {
   font-size: 2rem;
+  font-weight: bold;
   margin: 0 0 8px;
 }
 

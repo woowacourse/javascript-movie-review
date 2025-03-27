@@ -27,14 +27,19 @@ const MovieDetailContent = ({
         />
       </div>
       <div class="modal-description">
-        <h2>${title}</h2>
-        <p class="category">
-          ${releaseYear} · ${genre.join(", ")}
-        </p>
-        <hr />
-        <div class="average_rate">평균</div>
-        <div class="my_rate">내 별점</div>
+        <div class="main-info">
+          <h2>${title}</h2>
+          <p class="category">
+            ${releaseYear} · ${genre.join(", ")}
+          </p>
+          <div class="average_rate">평균</div>
+        </div>
+        <hr/>
+        
+        <div class="my_rate"><div class="intro">내 별점</div></div>
+        <hr/> 
 
+        <div class="intro">줄거리</div>
         <p class="detail">
           ${overview}
         </p>

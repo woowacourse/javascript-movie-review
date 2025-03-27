@@ -16,20 +16,20 @@ const StarRating = () => {
     parseInt(new URL(location.href).searchParams.get("movieID") || "0")
   );
 
-  const startRating = document.createElement("div");
-  startRating.classList.add("star-rating");
-
-  const description = document.createElement("p");
-  description.classList.add("description");
-
-  const totalScore = createElement(/*html*/ `
-    <span>(<span class="check-score">0</span>/10)</span>
+  const startRating = createElement(/*html*/ `
+    <div class="star-rating">
+      <div class="stars"></div>
+      <div class="description-score">
+        <p class="description"></p>
+        <span>(<span class="check-score">0</span>/10)</span>
+      </div>
+    </div>  
   `);
 
   Object.entries(RATE_DESCRIPTION).forEach(([, value]) => {
     if (value.score === score) {
-      description.innerText = value.description;
-      $(".check-score", totalScore).innerText = value.score.toString();
+      $(".description", startRating).innerText = value.description;
+      $(".check-score", startRating).innerText = value.score.toString();
     }
   });
 
@@ -64,16 +64,14 @@ const StarRating = () => {
 
       Object.entries(RATE_DESCRIPTION).forEach(([, value]) => {
         if (value.score === (index + 1) * 2) {
-          description.innerText = value.description;
+          $(".description", startRating).innerText = value.description;
         }
       });
 
-      $(".check-score", totalScore).innerText = ((index + 1) * 2).toString();
+      $(".check-score", startRating).innerText = ((index + 1) * 2).toString();
     });
 
-    startRating.appendChild(star);
-    startRating.appendChild(description);
-    startRating.appendChild(totalScore);
+    $(".stars", startRating).appendChild(star);
   });
 
   return startRating;
