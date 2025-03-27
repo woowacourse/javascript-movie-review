@@ -13,7 +13,7 @@ export async function fetchPopularMovies(pageIndex: number) {
   return await fetchUtil(popularMovieUrl)
 }
 
-export async function fetchSearchMovies(searchKeyword: string, pageIndex: number) {
+export async function fetchSearchMovies(pageIndex: number, searchKeyword: string) {
   const searchMovieUrl = `${BASE_URL}/search/movie?query=${searchKeyword}&include_adult=false&language=en-US&page=${pageIndex}`
   return await fetchUtil(searchMovieUrl)
 }
