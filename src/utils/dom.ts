@@ -1,6 +1,6 @@
 export const selectElement = <T extends Element>(
   selector: string,
-  ancestor = document
+  ancestor: Document | HTMLElement = document
 ): T => {
   const element = ancestor.querySelector<T>(selector);
   if (!element) {
