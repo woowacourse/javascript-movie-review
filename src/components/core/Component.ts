@@ -48,7 +48,7 @@ export default abstract class Component<TProps extends Props = {}, TState extend
     return this.#element;
   }
 
-  setState(nextState: Partial<State>) {
+  setState(nextState: Partial<TState>) {
     this.state = { ...this.state, ...nextState };
     this.render();
   }

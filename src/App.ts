@@ -14,10 +14,6 @@ export interface AppState {
 }
 
 export default class App extends Component<null, AppState> {
-  constructor() {
-    super();
-  }
-
   override setup() {
     this.state = {
       page: 1,
@@ -37,7 +33,6 @@ export default class App extends Component<null, AppState> {
         <slot name="header"></slot>
         <slot name="movies"></slot>
         <slot name="footer"></slot>
-        <slot name="movie-detail-modal"></slot>
         <slot name="obserable"></slot>
       </div>
     `;
@@ -83,11 +78,12 @@ export default class App extends Component<null, AppState> {
       else moviesResponse = await MovieApiClient.getAll({ page });
 
       this.setState({
-        moviesResponse,
         page,
       });
       moviesResponseStore.setState(moviesResponse);
-      moviesStore.setState([...(moviesStore.getState() ? moviesStore.getState() : []), ...moviesResponse.results]);
+
+      const movies = moviesStore.getState();
+      moviesStore.setState([...(movies ? movies : []), ...moviesResponse.results]);
     } catch (error) {
       if (isError(error)) this.setState({ error });
       else if (isString(error)) this.setState({ error: new Error(error) });
