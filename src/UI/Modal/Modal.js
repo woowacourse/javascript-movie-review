@@ -1,3 +1,5 @@
+import { STAR_COMMENT } from "../../constants/constants";
+
 class Modal {
   constructor(movieDetail) {
     this.movieDetail = movieDetail;
@@ -46,8 +48,8 @@ class Modal {
               <img src="./images/star_empty.png" class="star" />
               <img src="./images/star_empty.png" class="star" />
               </p>
-              <p class="middle_font"> 명작이에요</p>
-              <p class="star_count">(8/10)</p>
+              <p class="middle_font" id="comment"> 명작이에요</p>
+              <p class="star_count"></p>
             </div>
             <hr/>
             <p class="middle_font">줄거리</p>
@@ -72,6 +74,8 @@ class Modal {
     if (savedRating) {
       const { rating } = JSON.parse(savedRating);
       const starImages = this.$div.querySelectorAll("#myStars img");
+      const comment = this.$div.querySelector("#comment");
+      const count = this.$div.querySelector(".star_count");
 
       starImages.forEach((star, index) => {
         star.src =
@@ -79,11 +83,15 @@ class Modal {
             ? "./images/star_filled.png"
             : "./images/star_empty.png";
       });
+      comment.innerHTML = `${STAR_COMMENT[rating]}`;
+      count.innerHTML = `(${rating}/10)`;
     }
   }
 
   addHandleStar() {
     const starImages = this.$div.querySelectorAll("#myStars img");
+    const comment = this.$div.querySelector("#comment");
+    const count = this.$div.querySelector(".star_count");
     starImages.forEach((star, index) => {
       star.addEventListener("click", () => {
         const score = (index + 1) * 2;
@@ -99,6 +107,8 @@ class Modal {
           rating: score,
         };
         localStorage.setItem(this.movieDetail.id, JSON.stringify(ratingData));
+        comment.innerHTML = `${STAR_COMMENT[score]}`;
+        count.innerHTML = `(${score}/10)`;
       });
     });
   }

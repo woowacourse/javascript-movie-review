@@ -119,6 +119,7 @@ body.modal-open {
 .my_star_container > .rate img {
   width: 32px;
   height: 32px;
+  cursor: pointer;
 }
 
 .my_star_container > .rate {
