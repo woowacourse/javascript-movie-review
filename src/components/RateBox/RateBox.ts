@@ -2,6 +2,7 @@ import $StarIcon, { fillStarIcon, unFillStarIcon } from "../StarIcon/StarIcon";
 
 type RateValue = keyof typeof rateMessage;
 const rateMessage = {
+  0: "-",
   2: "최악이예요",
   4: "별로예요",
   6: "보통이에요",
@@ -52,8 +53,9 @@ interface RatingBoxProps {
   initialRateValue: RateValue;
 }
 
-const RatingBox = ({ initialRateValue }: RatingBoxProps) => {
-  const $rateButtonList = Object.keys(rateMessage).map((rate) => {
+const $RatingBox = ({ initialRateValue }: RatingBoxProps) => {
+  const [zeroRate, ...rateValue] = Object.keys(rateMessage);
+  const $rateButtonList = rateValue.map((rate) => {
     const $rateButton = createElement("button", {
       type: "button",
       className: "rate-button",
@@ -72,17 +74,17 @@ const RatingBox = ({ initialRateValue }: RatingBoxProps) => {
 
     return $rateButton;
   });
-  const $ratingButtonBox = createElement("div", {
-    className: "rating-button-box",
+  const $rateButtonBox = createElement("div", {
+    className: "rate-button-box",
   });
-  $ratingButtonBox.append(...$rateButtonList);
+  $rateButtonBox.append(...$rateButtonList);
 
   const $rateMessageBox = createElement("div", {
     className: "rate-message-box",
   });
   const $rateMessage = createElement("p", {
     className: "rate-message",
-    textContent: initialRateValue ? rateMessage[initialRateValue] : "-",
+    textContent: rateMessage[initialRateValue],
   });
   const $rateValueMessage = createElement("span", {
     className: "rate-value-message",
@@ -90,11 +92,20 @@ const RatingBox = ({ initialRateValue }: RatingBoxProps) => {
   });
   $rateMessageBox.append($rateMessage, $rateValueMessage);
 
-  const $ratingBox = createElement("div", {
-    className: "rating-box",
+  const $rateContentBox = createElement("div", {
+    className: "rating-content-box",
   });
-  $ratingBox.append($ratingButtonBox, $rateMessageBox);
-  return $ratingBox;
+  $rateContentBox.append($rateButtonBox, $rateMessageBox);
+
+  const $rateTitle = createElement("h3", {
+    className: "rate-title",
+    textContent: "내 별점",
+  });
+  const $rateBox = createElement("div", {
+    className: "rate-box",
+  });
+  $rateBox.append($rateTitle, $rateContentBox);
+  return $rateBox;
 };
 
-export default RatingBox;
+export default $RatingBox;

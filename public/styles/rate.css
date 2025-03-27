@@ -1,11 +1,25 @@
-.rating-box {
+.rate-box {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid #67788e;
 }
 
-.rating-button-box {
+.rate-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.rating-content-box {
   display: flex;
-  gap: 0.25rem;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.rate-button-box {
+  display: flex;
+  gap: 0.1rem;
   align-items: center;
 }
 
@@ -17,12 +31,12 @@
 
 .rate-message {
   color: #fff;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: 600;
 }
 
 .rate-value-message {
   color: #95a1b2;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: 600;
 }
