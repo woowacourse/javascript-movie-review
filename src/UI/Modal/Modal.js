@@ -33,6 +33,7 @@ class Modal {
               >
             </p>
             <hr />
+            <p class="subtitle">줄거리</p>
             <p class="detail">
               ${this.movieDetail.overview}
             </p>
