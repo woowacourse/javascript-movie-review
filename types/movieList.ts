@@ -15,7 +15,7 @@ export interface MovieResult {
   overview: string;
   popularity: number;
   poster_path: null | string;
-  release_date: Date;
+  release_date: string;
   title: string;
   video: boolean;
   vote_average: number;
@@ -23,12 +23,12 @@ export interface MovieResult {
 }
 
 export interface Movie {
-  id: number;
+  id: string;
   title: string;
   backdrop_path: null | string;
   poster_path: null | string;
   vote_average: number;
   gernes: string[];
-  release_date: Date;
+  release_date: string;
   overview: string;
 }

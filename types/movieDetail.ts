@@ -15,7 +15,7 @@ export interface DetailMovieResult {
   poster_path: null | string;
   production_companies: ProductionCompany[];
   production_countries: ProductionCountry[];
-  release_date: Date;
+  release_date: string;
   revenue: number;
   runtime: number;
   spoken_languages: SpokenLanguage[];
@@ -57,5 +57,5 @@ export interface MovieDetail {
   poster_path: null | string;
   overview: string;
   vote_average: number;
-  release_date: Date;
+  release_date: string;
 }
