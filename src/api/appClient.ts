@@ -1,11 +1,12 @@
+import { MovePramsType } from '../type';
 import { transformKeysToCamel } from '../util/transformKeysToCamel';
 import { BASE_URL, ERROR } from './constant';
 import { httpErrorStatus } from './error/httpErrorStatus';
 
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
-const requestAppClient = async (method: HttpMethod, query: string, params: Record<string, string>) => {
-  const newParams = new URLSearchParams(params);
+const requestAppClient = async <T>(method: HttpMethod, query: string, params: T) => {
+  const newParams = new URLSearchParams(params as Record<string, string>);
   const newUrl = `${BASE_URL}${query}?${newParams.toString()}`;
   const options = {
     method,
@@ -35,6 +36,6 @@ const requestAppClient = async (method: HttpMethod, query: string, params: Recor
   }
 };
 
-export const getAppClient = (query: string, params: Record<string, string>) => {
+export const getAppClient = (query: string, params: MovePramsType) => {
   return requestAppClient('GET', query, params);
 };

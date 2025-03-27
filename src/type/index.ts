@@ -22,6 +22,13 @@ export interface MoveResponseType {
   voteCount: number;
 }
 
+export interface MovePramsType {
+  page: string;
+  language: string;
+  include_adult?: string;
+  query?: string;
+}
+
 export interface MoveType {
   backdropPath: null;
   id: number;
