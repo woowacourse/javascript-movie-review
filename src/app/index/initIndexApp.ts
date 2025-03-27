@@ -1,6 +1,8 @@
 import mountHeader from "../mount/mountHeader";
 import mountMovieItemList from "../mount/mountMovieItemList";
 import mountLoadMoreButton from "../mount/mountLoadMoreButton";
+import mountModal from "../mount/mountModal";
+import Modal from "../../components/modal/modal";
 import createMovieLoader from "../../service/createMovieLoader";
 import loadMovies from "../../service/loadMovies";
 import {
@@ -18,12 +20,14 @@ import type {
 
 const movieItemList: MovieItemListInstance = MovieItemList();
 const loadMoreButton: LongButtonInstance = LongButton("더보기");
+const modal = Modal();
 
 export function initIndexApp() {
   mountHeader();
   mountHero();
   mountMovieItemList(movieItemList);
   mountLoadMoreButton(loadMoreButton);
+  mountModal(modal);
 
   const loader = createMovieLoader(
     URLS.popularMovieUrl,
