@@ -1,12 +1,23 @@
-import myRateStorage from "./myRateStorage";
-
+import { localStorageStore } from "../../../../storage";
 interface MyRateContract {
   ui: string;
   attachEvents: () => void;
 }
 
+const myRateStorage = {
+  getRate(movieId: number): number {
+    const key = `myRate-${movieId}`;
+    const rate = localStorageStore.get<number>(key);
+    return rate !== null ? rate : 0;
+  },
+  setRate(movieId: number, rate: number): void {
+    const key = `myRate-${movieId}`;
+    localStorageStore.set<number>(key, rate);
+  },
+};
+
 class MyRate implements MyRateContract {
-  static #RATING_MESSAGES: Record<number, string> = {
+  static readonly #RATING_MESSAGES: Record<number, string> = {
     0: "아직 평가가 없어요",
     2: "별로에요",
     4: "그냥 그래요",
@@ -15,10 +26,14 @@ class MyRate implements MyRateContract {
     10: "인생 영화에요",
   };
 
-  constructor(private movieId: number) {}
+  #movieId: number;
+
+  constructor(movieId: number) {
+    this.#movieId = movieId;
+  }
 
   public get ui() {
-    const currentRate = myRateStorage.getRate(this.movieId);
+    const currentRate = myRateStorage.getRate(this.#movieId);
     const message =
       currentRate === 0
         ? MyRate.#RATING_MESSAGES[0]
@@ -55,11 +70,11 @@ class MyRate implements MyRateContract {
     const starNodes = Array.from(container.querySelectorAll(".star"));
     if (!starNodes.length) return;
 
-    this.#updateStarUI(starNodes, myRateStorage.getRate(this.movieId));
+    this.#updateStarUI(starNodes, myRateStorage.getRate(this.#movieId));
     starNodes.forEach((starNode, index) => {
       starNode.addEventListener("click", () => {
         const newRating = (index + 1) * 2;
-        myRateStorage.setRate(this.movieId, newRating);
+        myRateStorage.setRate(this.#movieId, newRating);
         this.#updateStarUI(starNodes, newRating);
       });
     });

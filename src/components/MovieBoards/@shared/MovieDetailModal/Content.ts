@@ -1,8 +1,9 @@
 import { MovieDetail } from "../../../../types/movie";
 import Date from "../../../../utils/Date";
 import MyRate from "./MyRate";
+
 class MovieDetailModalContent {
-  #myRate;
+  #myRate: MyRate;
 
   constructor(private parentElement: HTMLElement, private detail: MovieDetail) {
     this.#myRate = new MyRate(this.detail.id);
@@ -13,8 +14,8 @@ class MovieDetailModalContent {
 
   #initialRender(): void {
     this.parentElement.innerHTML = `
-      ${this.#imageSection}
-      ${this.#descriptionSection}
+      ${this.#imageSection()}
+      ${this.#descriptionSection()}
     `;
   }
 
