@@ -30,17 +30,19 @@ class App implements AppContract {
 
   #renderHeader() {
     const $header = document.querySelector("header");
-    if (isHTMLElement($header))
-      new Header($header, {
-        onSearchSubmitted: (params: string) => this.#renderSearchResult(params),
-        onLogoClicked: () => this.#renderPopularMovies(),
-      });
+    if (!isHTMLElement($header)) return;
+    new Header($header, {
+      onSearchSubmitted: (params: string) => this.#renderSearchResult(params),
+      onLogoClicked: () => this.#renderPopularMovies(),
+    });
   }
 
   #renderSearchResult(searchParams: string) {
     const $section = document.querySelector("main");
-    if (isHTMLElement($section))
-      new SearchMovieBoard($section, { searchParams });
+    window.scrollTo(0, 0);
+
+    if (!isHTMLElement($section)) return;
+    new SearchMovieBoard($section, { searchParams });
   }
 
   #renderPopularMovies() {
