@@ -1,4 +1,4 @@
-const SkeletonMovieItem = () => {
+const SkeletonMovieItem = (): string => {
   return /* html */ `
     <li class="skeleton-item">
       <div class="skeleton-thumbnail"></div>

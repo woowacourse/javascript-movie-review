@@ -1,6 +1,8 @@
-import SearchBar from "./SearchBar.js";
+// Header.ts
+import SearchBar from "./SearchBar";
+import Store from "../../store/store";
 
-const Header = (store) => {
+const Header = (store: Store): string => {
   setTimeout(attachHeaderStyle, 0);
 
   return /* html */ `
@@ -18,16 +20,15 @@ const Header = (store) => {
   `;
 };
 
-function attachHeaderStyle() {
-  const $header = document.querySelector("#header");
-
+function attachHeaderStyle(): void {
+  const $header = document.querySelector("#header") as HTMLElement | null;
   if ($header) {
-    window.addEventListener("scroll", async (event) => {
+    window.addEventListener("scroll", () => {
       if (window.scrollY > 0) {
         $header.classList.add("scrolled");
-        return;
+      } else {
+        $header.classList.remove("scrolled");
       }
-      $header.classList.remove("scrolled");
     });
   }
 }
