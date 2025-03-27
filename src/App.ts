@@ -1,8 +1,8 @@
-import { LocalStorageMovieRateValueType, MovieDetailResponse, MovieResult, MoviesResponse } from '@/lib/types';
+import { MovieDetailResponse, MovieResult, MoviesResponse } from '@/lib/types';
 import { MovieApiClient } from './apis';
 import { Footer, Header, MovieDetailModal, Movies, IntersectionObserble, Toast } from './components';
 import { Component } from './components/core';
-import { eventHandlerInstance } from './lib/modules';
+import { eventHandlerInstance, LocalStorageMovieRateValueType } from './lib/modules';
 import { LocalStorage } from './lib/modules';
 import { html, isError, isHTMLFormElement, isString } from './lib/utils';
 import { TOAST_TYPE } from './components/Toast';

@@ -1,9 +1,9 @@
 import { AppState } from '@/App';
 import { DEFAULT_BACK_DROP_URL } from '@/lib/constants';
-import { LocalStorageMovieRateValueType } from '@/lib/types';
 import { html } from '@/lib/utils';
 import { join, map, pipe, toArray } from '@fxts/core';
 import { Component } from './core';
+import { LocalStorageMovieRateValueType } from '@/lib/modules/LocalStorage/type';
 
 interface MovieDetailModalProps {
   movieDetailResponse: AppState['movieDetailResponse'];
