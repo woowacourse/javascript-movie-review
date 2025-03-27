@@ -41,6 +41,8 @@ button.primary {
   font-weight: bold;
   background-color: var(--color-lightblue-90);
   border-radius: 4px;
+
+  width: 100px;
 }
 
 #wrap {
@@ -156,10 +158,6 @@ span.rate-value {
 .title {
   font-size: 3rem;
   font-weight: bold;
-}
-
-.detail {
-  width: 100px;
 }
 
 .movie-container {

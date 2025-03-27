@@ -54,7 +54,7 @@ const backgroundContainer = () => {
               },
               {
                 tag: "button",
-                className: "primary detail",
+                className: "primary",
                 textContent: "자세히 보기",
               },
             ],
