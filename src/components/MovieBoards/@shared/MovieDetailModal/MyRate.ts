@@ -1,4 +1,6 @@
+import { pipe } from "@zoeykr/function-al";
 import { localStorageStore } from "../../../../storage";
+
 interface MyRateContract {
   ui: string;
   attachEvents: () => void;
@@ -70,14 +72,22 @@ class MyRate implements MyRateContract {
     const starNodes = Array.from(container.querySelectorAll(".star"));
     if (!starNodes.length) return;
 
-    this.#updateStarUI(starNodes, myRateStorage.getRate(this.#movieId));
     starNodes.forEach((starNode, index) => {
       starNode.addEventListener("click", () => {
-        const newRating = (index + 1) * 2;
-        myRateStorage.setRate(this.#movieId, newRating);
-        this.#updateStarUI(starNodes, newRating);
+        const handleStarClick = pipe(
+          (i: number) => (i + 1) * 2,
+          (newRating: number) => {
+            myRateStorage.setRate(this.#movieId, newRating);
+            return newRating;
+          },
+          (newRating: number) => this.#updateStarUI(starNodes, newRating)
+        );
+
+        handleStarClick(index);
       });
     });
+
+    this.#updateStarUI(starNodes, myRateStorage.getRate(this.#movieId));
   }
 
   #updateStarUI(starNodes: Element[], rating: number): void {
