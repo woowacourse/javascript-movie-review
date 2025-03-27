@@ -15,6 +15,10 @@ body {
   background-color: var(--color-bluegray-80);
 }
 
+#target {
+  height: 100px;
+}
+
 #wrap,
 section {
   display: flex;
@@ -120,10 +124,6 @@ button.logo {
 button.logo :hover {
   scale: 1.1;
   transition: 0.3s;
-}
-
-button.add-more-button {
-  width: 100%;
 }
 
 .rate {
