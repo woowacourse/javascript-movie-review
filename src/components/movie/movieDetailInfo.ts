@@ -1,7 +1,8 @@
+import { MovieDetail } from "../../domain/types";
 import { createElementWithAttributes } from "../utils/createElementWithAttributes";
 import noImage from "/images/no_image.png";
 
-const movieDetailInfo = (movie) => {
+const movieDetailInfo = (movie: MovieDetail) => {
   const $movieDetailInfo = createElementWithAttributes({
     tag: "div",
     className: "modal-container",
@@ -39,7 +40,9 @@ const movieDetailInfo = (movie) => {
                 tag: "img",
                 className: "star",
                 attributes: { src: "./images/star_filled.png" },
-                children: [{ tag: "span", textContent: movie.vote_average }],
+                children: [
+                  { tag: "span", textContent: movie.vote_average.toString() },
+                ],
               },
             ],
           },
