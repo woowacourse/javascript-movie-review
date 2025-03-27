@@ -1,16 +1,16 @@
-// modalContentTemplate.js
+// modalContentTemplate.ts
 import { fetchMovieDetail } from "../../APIs/movieAPI";
-import { Rating, attachRatingEvents } from "./Rating.js";
+import { Rating, attachRatingEvents } from "./Rating";
+import Store from "../../store/store";
 
-export const ratingTemplate = (id, store) => {
-  const scores = store.getState().starRatings || [];
-  const currentScore = scores.find((rating) => rating.id === id)?.score || 0;
-  return Rating(id, store, currentScore);
-};
-
-const modalContentTemplate = async (id, store) => {
-  const movie = await fetchMovieDetail(id, (error) => alert(error.message));
-  const ratingHTML = ratingTemplate(id, store);
+const modalContentTemplate = async (
+  id: string,
+  store: Store
+): Promise<string> => {
+  const movie = await fetchMovieDetail(id, (error: Error) =>
+    alert(error.message)
+  );
+  const ratingHTML = Rating(getCurrentScore(id, store));
   const contentHTML = /* html */ `
     <div class="modal-image">
       <div class="skeleton-detail-thumbnail"></div>
@@ -39,14 +39,20 @@ const modalContentTemplate = async (id, store) => {
       <div id="modal-rating">${ratingHTML}</div>
       <hr />
       <p class="subtitle">줄거리</p>
-      <p class="detail">${movie.overview}</p>
+      <p class="detail">${movie.overview || "줄거리 정보가 없습니다"}</p>
     </div>
   `;
-  // 별점 이벤트 등록 (한 번 초기화)
+  // 별점 이벤트 등록
   setTimeout(() => {
     attachRatingEvents(id, store);
   }, 0);
   return contentHTML;
 };
 
+const getCurrentScore = (id: string, store: Store): number => {
+  const scores = store.getState().starRatings || [];
+  return scores.find((rating) => rating.id === id)?.score || 0;
+};
+
+export { modalContentTemplate };
 export default modalContentTemplate;
