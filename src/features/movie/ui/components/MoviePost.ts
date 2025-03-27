@@ -8,7 +8,7 @@ const MoviePost = (movie: IMovie) => {
     : "images/nullImage.png";
 
   moviePost.innerHTML = /*html*/ `
-    <div class="item">
+    <div class="item" id=${movie.id}>
       <img
         class="thumbnail"
         src=${movieImgPath}
