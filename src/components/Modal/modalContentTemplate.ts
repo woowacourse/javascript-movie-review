@@ -20,7 +20,7 @@ const modalContentTemplate = async (
           : "./images/logo.png"
       }" alt="${movie.title}" class="detail-thumbnail" />
     </div>
-    <div class="modal-description">
+    <div class="modal-description" data-testid="modal">
       <div class="description-information">
         <h2>${movie.title}</h2>
         <p class="category">${movie.release_date.slice(

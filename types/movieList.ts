@@ -31,4 +31,5 @@ export interface Movie {
   gernes: string[];
   release_date: string;
   overview: string;
+  original_title: string;
 }
