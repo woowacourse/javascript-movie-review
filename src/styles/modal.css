@@ -56,6 +56,13 @@ body.modal-open {
   display: flex;
 }
 
+.modal-text {
+  width: 100%;
+  padding: 8px;
+  line-height: 1.6rem;
+  color: black;
+}
+
 .modal-image img {
   width: 380px;
   border-radius: 16px;

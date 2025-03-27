@@ -47,7 +47,7 @@ class MainController {
 
   #openModal(text: string) {
     this.messageModalController.changeContentMessage(text);
-    this.messageModalController.messageModalElement.showModal();
+    this.messageModalController.showModal();
   }
 
   async #onSearchKeywordSubmit(searchValue: string) {

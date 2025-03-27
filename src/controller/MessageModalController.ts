@@ -15,15 +15,12 @@ class MessageModalController {
 
   bindEvents() {
     this.messageModalElement.addEventListener("click", (e) => {
-      if (e.target === e.currentTarget) this.messageModalElement.close();
+      if (e.target === e.currentTarget) this.closeModal();
     });
   }
 
   renderMessageModalFrame() {
-    this.mainElement.insertAdjacentElement(
-      "afterend",
-      this.messageModalElement,
-    );
+    this.mainElement.insertAdjacentElement("afterend", this.messageModalElement);
     this.bindEvents();
   }
 
@@ -31,6 +28,14 @@ class MessageModalController {
     const spanElement = $("span", this.messageModalElement);
 
     if (spanElement) spanElement.innerText = text;
+  }
+
+  showModal() {
+    this.messageModalElement.classList.add("active");
+  }
+
+  closeModal() {
+    this.messageModalElement.classList.remove("active");
   }
 }
 export default MessageModalController;
