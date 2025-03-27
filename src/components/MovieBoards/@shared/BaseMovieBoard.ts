@@ -1,5 +1,6 @@
 import { Movie } from "../../../types/movie";
 import { isHTMLElement } from "../../../utils/typeGuards";
+import MovieDetailModal from "./MovieDetailModal";
 import MovieList from "./MovieList";
 
 export interface MovieBoardConfig {
@@ -34,7 +35,7 @@ abstract class BaseMovieBoard {
       );
       this.totalPages = total_pages;
       if (movies.length === 0 && this.currentPage === 1) {
-        this.renderNoResult();
+        this.#renderNoResult();
         this.disableInfiniteScroll();
         return;
       }
@@ -51,7 +52,8 @@ abstract class BaseMovieBoard {
   protected renderMovies(movies: Movie[]): void {
     const movieListContainer =
       this.parentElement.querySelector(".thumbnail-list");
-    if (!movieListContainer) return;
+    if (!isHTMLElement(movieListContainer)) return;
+
     if (this.currentPage === 1) {
       movieListContainer.innerHTML = this.config.renderMovieList(movies);
     } else {
@@ -60,9 +62,26 @@ abstract class BaseMovieBoard {
         this.config.renderMovieList(movies)
       );
     }
+
+    this.#attachMovieItemClickListener(movieListContainer);
   }
 
-  private renderNoResult(): void {
+  #attachMovieItemClickListener(container: HTMLElement): void {
+    container.addEventListener("click", (event) => {
+      const target = event.target as HTMLElement;
+      const movieItem = target.closest(".item");
+
+      if (movieItem) {
+        const movieIdStr = movieItem.getAttribute("data-id");
+        if (movieIdStr) {
+          const movieId = parseInt(movieIdStr, 10);
+          new MovieDetailModal(movieId);
+        }
+      }
+    });
+  }
+
+  #renderNoResult(): void {
     const container = this.config.parentElement.querySelector(
       ".movie-list-container"
     );

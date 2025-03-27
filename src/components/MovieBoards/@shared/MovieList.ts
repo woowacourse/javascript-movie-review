@@ -1,8 +1,8 @@
 import { Movie } from "../../../types/movie";
 
 interface MovieListContract {
-  skeleton: string;
   ui: string;
+  skeleton: string;
   fallback: string;
 }
 
@@ -13,6 +13,37 @@ class MovieList implements MovieListContract {
 
   constructor(movies: Movie[]) {
     this.#movies = movies;
+  }
+
+  #posterImage(poster_path: Movie["poster_path"]): string {
+    return poster_path
+      ? `${MovieList.IMAGE_BASE_URL}${poster_path}`
+      : "./images/null_image.png";
+  }
+
+  public get ui() {
+    return /*html*/ `
+      ${this.#movies
+        .map(
+          ({ id, poster_path, title, vote_average }) => /*html*/ `
+            <li class="item" data-id="${id}">
+                <img 
+                  class="thumbnail" 
+                  src="${this.#posterImage(poster_path)}" alt="${title}" 
+                  onerror="this.onerror=null; this.src='./images/dizzy_planet.png';"
+                  />
+                <div class="item-desc">
+                  <p class="rate">
+                    <img src="./images/star_empty.png" class="star" />
+                    <span>${vote_average}</span>
+                  </p>
+                  <strong>${title}</strong>
+                </div>
+            </li>
+          `
+        )
+        .join("")}
+    `;
   }
 
   public get skeleton(): string {
@@ -29,39 +60,6 @@ class MovieList implements MovieListContract {
     `
       .repeat(10)
       .trim();
-  }
-
-  #posterImage(poster_path: Movie["poster_path"]): string {
-    return poster_path
-      ? `${MovieList.IMAGE_BASE_URL}${poster_path}`
-      : "./images/null_image.png";
-  }
-
-  public get ui() {
-    return /*html*/ `
-      ${this.#movies
-        .map(
-          ({ poster_path, title, vote_average }) => /*html*/ `
-            <li>
-              <div class="item">
-                <img 
-                  class="thumbnail" 
-                  src="${this.#posterImage(poster_path)}" alt="${title}" 
-                  onerror="this.onerror=null; this.src='./images/dizzy_planet.png';"
-                  />
-                <div class="item-desc">
-                  <p class="rate">
-                    <img src="./images/star_empty.png" class="star" />
-                    <span>${vote_average}</span>
-                  </p>
-                  <strong>${title}</strong>
-                </div>
-              </div>
-            </li>
-          `
-        )
-        .join("")}
-    `;
   }
 
   public get fallback(): string {

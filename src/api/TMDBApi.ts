@@ -1,3 +1,4 @@
+import { Movie, MovieDetail } from "../types/movie";
 import { ApiContract } from "./types";
 
 export class TMDBApi {
@@ -9,18 +10,27 @@ export class TMDBApi {
     this.#client = client;
   }
 
-  popularMovies(page = 1) {
+  popularMovies(page = 1): Promise<{ results: Movie[]; total_pages: number }> {
     return this.#client.get(`${TMDBApi.BASE_URL}/movie/popular`, {
       page,
       language: "ko-KR",
     });
   }
 
-  searchedMovies(query: string, page = 1) {
+  searchedMovies(
+    query: string,
+    page = 1
+  ): Promise<{ results: Movie[]; total_pages: number }> {
     return this.#client.get(`${TMDBApi.BASE_URL}/search/movie`, {
       query,
       page,
       include_adult: false,
+      language: "ko-KR",
+    });
+  }
+
+  movieDetail(id: number): Promise<MovieDetail> {
+    return this.#client.get(`${TMDBApi.BASE_URL}/movie/${id}`, {
       language: "ko-KR",
     });
   }
