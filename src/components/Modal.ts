@@ -72,8 +72,33 @@ class Modal {
     if (!isHTMLElement($closeModal) || !isHTMLElement($modalBackground)) return;
 
     $closeModal.addEventListener("click", () => {
-      $modalBackground.classList.remove("active");
+      this.#closeModal();
     });
+
+    $modalBackground.addEventListener("click", (e) => {
+      if (e.target === $modalBackground) {
+        this.#closeModal();
+      }
+    });
+
+    document.addEventListener("keydown", this.#keyDownHandler);
   }
+
+  #closeModal() {
+    const $modalBackground = document.querySelector(".modal-background");
+    if (!isHTMLElement($modalBackground)) return;
+    $modalBackground.classList.remove("active");
+    document.removeEventListener("keydown", this.#keyDownHandler);
+  }
+
+  #keyDownHandler = (e: KeyboardEvent) => {
+    const $modalBackground = document.querySelector(".modal-background");
+    if (!isHTMLElement($modalBackground)) return;
+
+    if (e.key === "Escape") {
+      $modalBackground.classList.remove("active");
+      document.removeEventListener("keydown", this.#keyDownHandler);
+    }
+  };
 }
 export default Modal;
