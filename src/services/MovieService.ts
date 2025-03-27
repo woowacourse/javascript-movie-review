@@ -11,8 +11,8 @@ class MovieService {
   }
 
   async fetchMovies(endPoint: string, queryParams: QueryParams) {
-  const queryString = new URLSearchParams(
-    Object.entries(queryParams).map(([key, value]) => [key, String(value)])
+    const queryString = new URLSearchParams(
+      Object.entries(queryParams).map(([key, value]) => [key, String(value)])
     ).toString();
     const url = `${this.baseUrl}${endPoint}?${queryString}`;
     const response = await fetch(
@@ -22,18 +22,18 @@ class MovieService {
 
     if (response.status === 200) {
       const data = await response.json();
+      this.currentPage++
       return data;
     }
 
     if (response.status === 500) {
       alert("데이터를 불러오는 중 문제가 발생했습니다. 다시 시도해주세요😅");
     }
-
-    return [];
+    return []
   }
 
-  nextPage() {
-    this.currentPage = this.currentPage + 1;
+  initPage() {
+    this.currentPage = 1;
   }
 
   getCurrentPage() {
