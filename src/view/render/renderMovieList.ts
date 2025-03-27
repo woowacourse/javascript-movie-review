@@ -1,17 +1,11 @@
 import MovieList from '../MovieList';
 import { $ } from '../../util/selector';
 import { INITIAL_PAGE } from '../../constant';
-import { MoveType } from '../../type';
+import { ResponseType } from '../../type';
 import { moreButton } from '../moreButton';
-interface ResponseType {
-  page: number;
-  results: MoveType[];
-  total_pages: number;
-  total_results: number;
-}
 
 export const renderMovieList = async (response: ResponseType, keyword?: string) => {
-  const { results, total_pages } = response;
+  const { results, totalPages } = response;
   const container = $('.container');
 
   const movieList = MovieList({
@@ -20,7 +14,7 @@ export const renderMovieList = async (response: ResponseType, keyword?: string) 
   });
   container?.replaceChildren(movieList);
 
-  if (INITIAL_PAGE < total_pages) {
-    container?.appendChild(moreButton(INITIAL_PAGE, total_pages, keyword));
+  if (INITIAL_PAGE < totalPages) {
+    container?.appendChild(moreButton(INITIAL_PAGE, totalPages, keyword));
   }
 };

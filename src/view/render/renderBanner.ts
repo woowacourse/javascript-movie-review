@@ -9,7 +9,7 @@ export const renderBanner = async (movies: MoveType[]) => {
   const bannerSkeleton = Skeleton({ height: 500 });
   wrap?.prepend(bannerSkeleton);
 
-  const hasBackdropMovies = movies.filter((movie) => movie.backdrop_path !== null);
+  const hasBackdropMovies = movies.filter((movie) => movie.backdropPath !== null);
   const bannerMovie = hasBackdropMovies.length ? hasBackdropMovies[0] : movies[0];
 
   bannerSkeleton?.replaceWith(Banner({ movie: bannerMovie }));

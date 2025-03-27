@@ -21,9 +21,9 @@ const requestAppClient = async (method: HttpMethod, query: string, params: Recor
       httpErrorStatus(response.status);
     }
 
-    const data = await response.json();
+    const data = transformKeysToCamel(await response.json());
 
-    return transformKeysToCamel(data);
+    return data;
   } catch (error) {
     if (error instanceof Error && error.message.includes('Failed to fetch')) {
       throw new Error(ERROR.NETWORK);

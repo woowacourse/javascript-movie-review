@@ -3,7 +3,7 @@ import { addMovies } from '../domain/addMovies';
 import { $ } from '../util/selector';
 import { renderSkeletons } from './render/renderSkeletons';
 
-const handleMoreButtonClick = async (page: number, total_pages: number, keyword?: string) => {
+const handleMoreButtonClick = async (page: number, totalPages: number, keyword?: string) => {
   const container = $('.thumbnail-list') as HTMLElement;
   if (!container) return;
 
@@ -15,15 +15,15 @@ const handleMoreButtonClick = async (page: number, total_pages: number, keyword?
 
   skeletonList.remove();
 
-  if (page === total_pages) {
+  if (page === totalPages) {
     $('#moreButton')?.remove();
   }
 };
 
-export const moreButton = (page: number, total_pages: number, keyword?: string) => {
+export const moreButton = (page: number, totalPages: number, keyword?: string) => {
   return Button({
     text: '더보기',
     id: 'moreButton',
-    onClick: () => handleMoreButtonClick(++page, total_pages, keyword)
+    onClick: () => handleMoreButtonClick(++page, totalPages, keyword)
   });
 };

@@ -3,9 +3,7 @@ import { DEFAULT_IMAGE_URL, IMAGE_BASE_URL } from '../constant';
 import { MoveType } from '../type';
 
 function Movie({ movie }: { movie: MoveType }) {
-  const poster_path = movie.poster_path
-    ? IMAGE_BASE_URL + '/w440_and_h660_face/' + movie.poster_path
-    : DEFAULT_IMAGE_URL;
+  const posterPath = movie.posterPath ? IMAGE_BASE_URL + '/w440_and_h660_face/' + movie.posterPath : DEFAULT_IMAGE_URL;
 
   return createDOMElement({
     tag: 'li',
@@ -15,7 +13,7 @@ function Movie({ movie }: { movie: MoveType }) {
         tag: 'img',
         className: 'thumbnail',
         attributes: {
-          src: poster_path,
+          src: posterPath,
           alt: movie.title
         }
       }),
@@ -34,7 +32,7 @@ function Movie({ movie }: { movie: MoveType }) {
               }),
               createDOMElement({
                 tag: 'span',
-                textContent: movie.vote_average.toFixed(1)
+                textContent: movie.voteAverage.toFixed(1)
               })
             ]
           }),

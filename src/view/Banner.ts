@@ -4,14 +4,14 @@ import { IMAGE_BASE_URL } from '../constant';
 import { MoveType } from '../type';
 
 function Banner({ movie }: { movie: MoveType }) {
-  const { backdrop_path, vote_average, title } = movie;
+  const { backdropPath, voteAverage, title } = movie;
   return createDOMElement({
     tag: 'header',
     children: [
       createDOMElement({
         tag: 'div',
         className: 'background-container',
-        children: [BackDrop({ backDropUrl: backdrop_path }), TopRatedMovie({ vote_average, title })]
+        children: [BackDrop({ backDropUrl: backdropPath }), TopRatedMovie({ voteAverage, title })]
       })
     ]
   });
@@ -31,7 +31,7 @@ function BackDrop({ backDropUrl }: { backDropUrl: string | null }) {
   });
 }
 
-function TopRatedMovie({ vote_average, title }: { vote_average: number; title: string }) {
+function TopRatedMovie({ voteAverage, title }: { voteAverage: number; title: string }) {
   return createDOMElement({
     tag: 'div',
     className: 'top-rated-container',
@@ -52,7 +52,7 @@ function TopRatedMovie({ vote_average, title }: { vote_average: number; title: s
               createDOMElement({
                 tag: 'span',
                 className: 'rate-value',
-                textContent: vote_average.toFixed(1)
+                textContent: voteAverage.toFixed(1)
               })
             ]
           }),
