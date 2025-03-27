@@ -3,11 +3,16 @@ body.modal-open {
 }
 
 dialog.modal-background {
+  width: 100%;
+  height: 100dvh;
   border: none;
   padding: 0;
   margin: 0;
   background: transparent;
-  margin: auto;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 dialog::backdrop {
@@ -16,13 +21,13 @@ dialog::backdrop {
 }
 
 .modal {
+  width: min(800px, 100%);
   background-color: var(--color-bluegray-90);
   padding: 20px;
   border-radius: 16px;
   color: white;
   z-index: 2;
   position: relative;
-  width: 1000px;
 }
 
 .close-modal {
@@ -40,10 +45,12 @@ dialog::backdrop {
 
 .modal-container {
   display: flex;
+  overflow-y: scroll;
 }
 
 .modal-image img {
-  width: 380px;
+  height: 570px;
+  aspect-ratio: 2/3;
   border-radius: 16px;
 }
 
@@ -71,4 +78,51 @@ dialog::backdrop {
 .detail {
   max-height: 430px;
   overflow-y: auto;
+  line-height: 2.5rem;
+  font-weight: 300;
+}
+
+@media screen and (max-width: 768px) {
+  dialog.modal-background {
+    padding: 0;
+  }
+  .modal {
+    margin-top: auto;
+  }
+  .modal-container {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .modal-image img,
+  .modal-spinner {
+    height: 300px;
+  }
+
+  .modal-container {
+    height: 500px;
+  }
+
+  .detail {
+    text-align: left;
+  }
+}
+
+@media screen and (max-width: 380px) {
+  .modal-image {
+    display: none;
+  }
+
+  .modal-container {
+    height: 500px;
+  }
+}
+
+.modal-spinner {
+  height: 570px;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

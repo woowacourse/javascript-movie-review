@@ -1,6 +1,7 @@
 import { createApi } from "../../../api/ApiFactory";
 import { MovieDetail } from "../../../types/movie";
 import { isHTMLElement } from "../../../utils/typeGuards";
+import Spinner from "../../@shared/Spinner";
 import ErrorScreen from "./ErrorScreen";
 
 class MovieDetailModal {
@@ -27,18 +28,8 @@ class MovieDetailModal {
                 <img src="./images/modal_button_close.png" alt="Close"/>
             </button>
             <div class="modal-container">
-                <div class="modal-image">
-                    <img src="" alt="Movie Poster"/>
-                </div>
-                <div class="modal-description">
-                    <h2>Loading...</h2>
-                    <p class="category"></p>
-                    <p class="rate">
-                        <img src="./images/star_filled.png" class="star" alt="Star"/>
-                        <span></span>
-                    </p>
-                    <hr />
-                    <p class="detail"></p>
+                <div class="modal-spinner">
+                ${Spinner(1)}
                 </div>
             </div>
         </div>
@@ -72,41 +63,35 @@ class MovieDetailModal {
   }
 
   #renderDetail(detail: MovieDetail): void {
-    const modalImage = this.#dialogElement.querySelector(
-      ".modal-image img"
-    ) as HTMLImageElement;
-    const titleElem = this.#dialogElement.querySelector(
-      ".modal-description h2"
-    );
-    const categoryElem = this.#dialogElement.querySelector(
-      ".modal-description .category"
-    );
-    const rateElem = this.#dialogElement.querySelector(
-      ".modal-description .rate span"
-    );
-    const detailElem = this.#dialogElement.querySelector(
-      ".modal-description .detail"
-    );
+    const modalContainer =
+      this.#dialogElement.querySelector(".modal-container");
+    if (!isHTMLElement(modalContainer)) return;
 
-    if (modalImage) {
-      modalImage.src = detail.poster_path
-        ? "https://image.tmdb.org/t/p/original" + detail.poster_path
-        : "./images/null_image.png";
-      modalImage.alt = detail.title;
-    }
-    if (titleElem) {
-      titleElem.textContent = detail.title;
-    }
-    if (categoryElem) {
-      categoryElem.textContent =
-        detail.genres.map((genre) => genre.name).join(", ") || "";
-    }
-    if (rateElem) {
-      rateElem.textContent = detail.vote_average.toString();
-    }
-    if (detailElem) {
-      detailElem.textContent = detail.overview;
-    }
+    modalContainer.innerHTML = /*html*/ `
+        <div class="modal-image">
+            <img src="${
+              detail.poster_path
+                ? "https://image.tmdb.org/t/p/original" + detail.poster_path
+                : "./images/null_image.png"
+            }" alt="${detail.title}"/>
+        </div>
+        <div class="modal-description">
+            <h2>${detail.title}</h2>
+            <div>
+                <span>${detail.release_date}</span>
+                <p class="category">${
+                  detail.genres.map((genre) => genre.name).join(", ") || ""
+                }</p>
+            </div>
+            <p class="rate">
+                <span>평균</span>
+                <img src="./images/star_filled.png" class="star" alt="Star"/>
+                <span>${detail.vote_average.toString()}</span>
+            </p>
+            <hr />
+            <p class="detail">${detail.overview}</p>
+        </div>
+    `;
   }
 
   #renderError(): void {
