@@ -18,8 +18,11 @@
   gap: 1rem;
   border-radius: 2rem;
   padding: 1rem;
-  background-color: rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease;
+}
+.header.dim {
   backdrop-filter: blur(2px);
+  background-color: #39414d6d;
 }
 
 .search-bar {

@@ -74,7 +74,15 @@ const main = async () => {
     handleConnectionError();
   }
 };
-
+window.addEventListener("scroll", () => {
+  const header = document.querySelector(".header");
+  // 스크롤 위치가 50px 이상이면 dim 클래스를 추가
+  if (window.scrollY > 50) {
+    header.classList.add("dim");
+  } else {
+    header.classList.remove("dim");
+  }
+});
 main();
 
 export { infiniteScrollInstance };
