@@ -1,4 +1,5 @@
 import { MovieDetail } from "../../../../types/movie";
+import Date from "../../../../utils/Date";
 
 interface ContentContract {
   imageSection: string;
@@ -20,10 +21,47 @@ class MovieDetailModalContent implements ContentContract {
   }
 
   public get descriptionSection(): string {
-    const releaseYear = this.detail.release_date.split("-")[0] || "";
+    return /*html*/ `
+        <div class="modal-description">
+          ${this.#mainInfoSection()}
+          ${this.#myRateSection()}
+          ${this.#overviewSection()}
+        </div>
+      `;
+  }
+
+  #myRateSection(): string {
+    return /*html*/ `
+      <div class="divider"></div>
+      <div class="modal-section myRate">
+        <h3>별점</h3>
+        <!-- TODO -->
+      </div>
+    `;
+  }
+
+  #mainInfoSection(): string {
+    const releaseYear = new Date(this.detail.release_date).year;
     const genres =
       this.detail.genres.map((genre) => genre.name).join(", ") || "";
-    const overviewSection = this.detail.overview
+
+    return /*html*/ `
+      <h2>${this.detail.title}</h2>
+      <div class="modal-description--yearCategory">
+        <span>${releaseYear}</span>
+        <span>•</span>
+        <p class="category">${genres}</p>
+      </div>
+      <p class="rate">
+        <span>평균</span>
+        <img src="./images/star_filled.png" class="star" alt="Star"/>
+        <span>${this.detail.vote_average.toString()}</span>
+      </p>
+    `;
+  }
+
+  #overviewSection(): string {
+    return this.detail.overview
       ? /*html*/ `
           <div class="divider"></div>
           <div class="modal-section detail">
@@ -32,27 +70,6 @@ class MovieDetailModalContent implements ContentContract {
           </div>
         `
       : "";
-    return /*html*/ `
-        <div class="modal-description">
-          <h2>${this.detail.title}</h2>
-          <div class="modal-description--yearCategory">
-            <span>${releaseYear}</span>
-            <span>•</span>
-            <p class="category">${genres}</p>
-          </div>
-          <p class="rate">
-            <span>평균</span>
-            <img src="./images/star_filled.png" class="star" alt="Star"/>
-            <span>${this.detail.vote_average.toString()}</span>
-          </p>
-          <div class="divider"></div>
-          <div class="modal-section myRate">
-            <h3>별점</h3>
-            <!-- TODO -->
-          </div>
-          ${overviewSection}
-        </div>
-      `;
   }
 }
 
