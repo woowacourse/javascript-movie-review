@@ -129,3 +129,19 @@ footer.footer {
 footer.footer p:not(:last-child) {
   margin-bottom: 8px;
 }
+
+@media screen and (max-width: 800px) {
+  #wrap {
+    min-width: auto;
+  }
+
+  .container {
+    padding: 20px;
+  }
+}
+
+@media screen and (max-width: 390px) {
+  #wrap h2 {
+    text-align: center;
+  }
+}
