@@ -163,18 +163,26 @@ dialog::backdrop {
   display: flex;
   gap: 2px;
 }
+
 .description-second-section img {
   width: 24px;
   height: 24px;
   display: block;
+  cursor: pointer;
 }
 
-.star-description {
+.star-description,
+.star-description-ment {
   line-height: 1;
   font-size: 24px;
 }
 
-.star-description .star-number {
+.star-description-ment {
+  display: flex;
+  gap: 20px;
+}
+
+.star-description-ment .rating-number {
   color: var(--color-bluegray-40);
 }
 

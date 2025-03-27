@@ -124,16 +124,17 @@ const DetailModal = (movieItem: MovieItemType) => {
                           }),
                           createDOMElement({
                             tag: "span",
-                            className: "star-description",
+                            className: "star-description-ment",
                             children: [
                               createDOMElement({
                                 tag: "span",
-                                textContent: "명작이에요 ",
+                                className: "rating-ment",
+                                textContent: "",
                               }),
                               createDOMElement({
                                 tag: "span",
-                                className: "star-number",
-                                textContent: "(8/10)",
+                                className: "rating-number",
+                                textContent: "",
                               }),
                             ],
                           }),
