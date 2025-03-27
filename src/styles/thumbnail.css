@@ -5,9 +5,37 @@
   display: grid;
   grid-template-columns: repeat(5, 200px);
   gap: 70px;
-
   justify-content: center;
 }
+
+@media screen and (max-width: 1200px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(4, 200px);
+    gap: 60px;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(3, 200px);
+    gap: 50px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(2, 200px);
+    gap: 40px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(1, 200px);
+    gap: 30px;
+  }
+}
+
 
 .thumbnail {
   width: 200px;
