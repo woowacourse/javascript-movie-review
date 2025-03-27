@@ -1,13 +1,13 @@
-import Header from "../components/header/header";
-import Hero from "../components/hero/hero";
-import MovieItem from "../components/moveItem/movieItem";
 import type { Result, TMDBDetails } from "../../types/tmdb.types";
-import { createElementsFragment } from "../util/dom";
 import {
   ratingMessages,
   ratingNumbers,
   defaultRating,
 } from "../setting/settings";
+import Header from "../components/header/header";
+import Hero from "../components/hero/hero";
+import MovieItem from "../components/moveItem/movieItem";
+import { createElementsFragment } from "../util/dom";
 
 export function showElement(element: Element | null) {
   element?.classList.remove("hide");
@@ -86,7 +86,6 @@ export function updateHero({ poster_path, title, vote_average }: Result) {
     });
 }
 
-//Todo: 이거 매직 넘버 없애고, 정돈하기.
 export function updateDetails({
   poster_path,
   release_date,

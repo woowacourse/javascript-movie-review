@@ -100,7 +100,7 @@ function bindStarRatingEvents() {
         return;
       }
 
-      const ratingValue = Number(radio.value) as keyof typeof ratingMessages;
+      const ratingValue = radio.value as keyof typeof ratingMessages;
 
       if (!ratingMessages[ratingValue] || !ratingNumbers[ratingValue]) {
         return;

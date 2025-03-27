@@ -1,28 +1,26 @@
 /// <reference types="vite/client" />
 
-import Toast from "./components/Toast/Toast";
-import createMovieLoader from "./service/loaderService.ts";
+import type { InfiniteScrollInstance } from "./service/scrollService.ts";
 import {
   URLS,
   defaultOptions,
   defaultQueryObject,
 } from "./setting/settings.ts";
-
+import { setLoadMovies, setShowingItem } from "./state/movieState.ts";
 import {
   renderHeaderAndHero,
   renderMovieItems,
   updateDetails,
   updateHero,
 } from "./view/MovieView.ts";
-
+import Toast from "./components/Toast/Toast";
+import createMovieLoader from "./service/loaderService.ts";
 import fetchAndSetLoadingEvent from "./service/fetchService.ts";
 import { setupInfiniteScroll } from "./service/scrollService.ts";
-import type { InfiniteScrollInstance } from "./service/scrollService.ts";
 import {
   handleConnectionError,
   checkApiAvailability,
 } from "./service/errorService.ts";
-
 import {
   bindDetailsImageLoadEvent,
   bindLoadingEvents,
@@ -30,9 +28,7 @@ import {
   bindOnlineEvent,
   bindStarRatingEvents,
   bindThumbnailClickEvent,
-} from "./handlers/event-binders.ts";
-import { setLoadMovies } from "./state/movieState.ts";
-import { setShowingItem } from "./state/movieState";
+} from "./binders/event-binders";
 
 let infiniteScrollInstance: InfiniteScrollInstance = null;
 
