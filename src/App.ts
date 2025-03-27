@@ -1,16 +1,14 @@
-import { MovieDetailResponse, MovieType, MoviesResponse } from '@/lib/types';
+import { MovieDetailResponse, MovieType } from '@/lib/types';
 import { MovieApiClient } from './apis';
-import { Footer, Header, MovieDetailModal, Movies, IntersectionObserble, Toast } from './components';
+import { Footer, Header, IntersectionObserble, MovieDetailModal, Movies, Toast } from './components';
 import { Component } from './components/core';
-import { eventHandlerInstance, LocalStorageMovieRateValueType } from './lib/modules';
-import { LocalStorage } from './lib/modules';
-import { html, isError, isHTMLFormElement, isString } from './lib/utils';
 import { TOAST_TYPE } from './components/Toast';
+import { eventHandlerInstance, LocalStorage, LocalStorageMovieRateValueType } from './lib/modules';
 import { moviesResponseStore } from './lib/store';
+import { html, isError, isHTMLFormElement, isString } from './lib/utils';
 
 export interface AppState {
   page: number;
-  moviesResponse: MoviesResponse | null;
   movieDetailResponse: MovieDetailResponse | null;
   movies: MovieType[] | null;
   error: Error | null;
@@ -28,7 +26,6 @@ export default class App extends Component<null, AppState> {
   override setup() {
     this.state = {
       page: 1,
-      moviesResponse: null,
       movies: null,
       error: null,
       search: '',
@@ -62,7 +59,6 @@ export default class App extends Component<null, AppState> {
     this.fillSlot(
       new Movies({
         movies: this.state.movies,
-        totalPages: this.state.moviesResponse?.total_pages ?? 1,
         page: this.state.page,
         search: this.state.search,
         error: this.state.error,
