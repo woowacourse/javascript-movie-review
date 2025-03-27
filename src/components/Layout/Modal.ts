@@ -1,34 +1,34 @@
 import { MovieResult } from "../../api/types/movie/response";
-import {
-  DEFAULT_MOVIE_DATA,
-  PREFIX_POSTER_PATH,
-} from "../../constants/constants";
+import { PREFIX_POSTER_PATH } from "../../constants/constants";
 import Component from "../base/Component";
+import Skeleton from "../common/Skeleton";
 
-type ModalState = Pick<
-  MovieResult,
-  "title" | "poster_path" | "vote_average" | "overview" | "genre_ids"
->;
-
-// TODO: active 상태 토글
-// TODO: DEFAULT 제거 및 스켈레톤 추가
+type ModalState = {
+  [K in keyof Pick<
+    MovieResult,
+    "title" | "poster_path" | "vote_average" | "overview" | "genre_ids"
+  >]: K extends "genre_ids" ? MovieResult[K] : MovieResult[K] | null;
+} & {
+  isLoading: boolean;
+};
 
 export default class Modal extends Component<ModalState> {
   private static instance: Modal;
 
   protected constructor() {
     super({
-      title: DEFAULT_MOVIE_DATA.title,
-      poster_path: DEFAULT_MOVIE_DATA.posterPath,
-      vote_average: DEFAULT_MOVIE_DATA.voteAverage,
-      overview: DEFAULT_MOVIE_DATA.overview,
-      genre_ids: DEFAULT_MOVIE_DATA.genreIds,
+      title: null,
+      poster_path: null,
+      vote_average: null,
+      overview: null,
+      genre_ids: [],
+      isLoading: true,
     });
   }
 
   protected createElement(): HTMLElement {
     const $modal = document.createElement("div");
-    $modal.className = "modal-background";
+    $modal.className = "modal-background active"; // TODO: active 상태 토글
     $modal.id = "modalBackground";
     return $modal;
   }
@@ -38,6 +38,23 @@ export default class Modal extends Component<ModalState> {
     return Modal.instance;
   }
 
+  private renderSkeletonItem() {
+    return /*html*/ `
+      <div class="modal-image">
+        ${Skeleton({ width: 500, height: 700 }).outerHTML}
+      </div>
+      <div class="modal-description">
+        ${Skeleton({ width: 300, height: 40 }).outerHTML}
+        <p class="rate">
+          ${Skeleton({ width: 370, height: 25 }).outerHTML}
+        </p>
+        <p class="detail">
+          ${Skeleton({ width: 150, height: 30 }).outerHTML}
+        </p>
+      </div>
+    `;
+  }
+
   protected template(): string {
     return /*html*/ `
       <div class="modal">
@@ -45,25 +62,31 @@ export default class Modal extends Component<ModalState> {
           <img src="./images/modal_button_close.png" />
         </button>
         <div class="modal-container">
-          <div class="modal-image">
-            <img src="${PREFIX_POSTER_PATH}${this.state.poster_path}" />
-          </div>
-          <div class="modal-description">
-            <h2>${this.state.title}</h2>
-            <p class="category">
-              2024 · 모험, 애니메이션, 코미디, 드라마, 가족
-            </p>
-            <p class="rate">
-              <span class="rate-average">평균</span>
-              <img src="./images/star_filled.png" class="star" /><span
-                >${this.state.vote_average}</span
-              >
-            </p>
-            <hr />
-            <p class="detail">
-              ${this.state.overview}
-            </p>
-          </div>
+        ${
+          this.state.isLoading
+            ? this.renderSkeletonItem()
+            : /*html*/ `
+            <div class="modal-image">
+              <img src="${PREFIX_POSTER_PATH}${this.state.poster_path}" />
+            </div>
+            <div class="modal-description">
+              <h2>${this.state.title}</h2>
+              <p class="category">
+                2024 · 모험, 애니메이션, 코미디, 드라마, 가족
+              </p>
+              <p class="rate">
+                <span class="rate-average">평균</span>
+                <img src="./images/star_filled.png" class="star" /><span
+                  >${this.state.vote_average}</span
+                >
+              </p>
+              <hr />
+              <p class="detail">
+                ${this.state.overview}
+              </p>
+            </div>
+          `
+        }
         </div>
       </div>
     `;

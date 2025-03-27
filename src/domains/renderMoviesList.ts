@@ -24,6 +24,7 @@ const setHeaderData = () => {
     posterImage: `${PREFIX_POSTER_PATH}${firstMovieData.poster_path}`,
     title: firstMovieData.title,
     voteAverage: firstMovieData.vote_average,
+    isLoading: false,
   });
 };
 

@@ -1,6 +1,6 @@
 @keyframes skeleton-loading {
   0% {
-    background-color: var(--color-bluegray-90);
+    background-color: var(--color-bluegray-80);
   }
   100% {
     background-color: var(--color-bluegray-70);

@@ -1,15 +1,13 @@
-import {
-  DEFAULT_MOVIE_DATA,
-  PREFIX_POSTER_PATH,
-} from "../../constants/constants";
 import Component from "../base/Component";
 import Button from "../common/Button";
+import Skeleton from "../common/Skeleton";
 
 interface HeaderState {
-  posterImage: `http://${string}` | `https://${string}`;
-  title: string;
-  voteAverage: number;
+  posterImage: `http://${string}` | `https://${string}` | null;
+  title: string | null;
+  voteAverage: number | null;
   hasSearched: boolean;
+  isLoading: boolean;
 }
 
 export default class Header extends Component<HeaderState> {
@@ -17,11 +15,12 @@ export default class Header extends Component<HeaderState> {
 
   protected constructor() {
     super({
-      posterImage: `${PREFIX_POSTER_PATH}${DEFAULT_MOVIE_DATA.posterPath}`,
-      title: DEFAULT_MOVIE_DATA.title,
-      voteAverage: DEFAULT_MOVIE_DATA.voteAverage,
+      posterImage: null,
+      title: null,
+      voteAverage: null,
       hasSearched: false,
-    }); // TODO: default x 스켈레톤 O
+      isLoading: true,
+    });
   }
 
   protected createElement(): HTMLElement {
@@ -41,6 +40,14 @@ export default class Header extends Component<HeaderState> {
       : "";
 
     super.render();
+  }
+
+  private renderSkeletonItem() {
+    return /*html*/ `
+      ${Skeleton({ width: 100, height: 20 }).outerHTML}
+      ${Skeleton({ width: 170, height: 30 }).outerHTML}
+      ${Skeleton({ width: 120, height: 20 }).outerHTML}
+    `;
   }
 
   protected template(): string {
@@ -72,15 +79,22 @@ export default class Header extends Component<HeaderState> {
         ? /*html*/ `
         <div class="top-rated-container">
           <div class="top-rated-movie">
-            <div class="rate">
-              <img src="./images/star_empty.png" class="star" alt="star_empty" />
-              <span class="rate-value">${this.state.voteAverage}</span>
-            </div>
-            <div class="title">${this.state.title}</div>
-            ${
-              Button({ className: "detail", textContent: "자세히 보기" })
-                .outerHTML
-            }
+          ${
+            this.state.isLoading
+              ? this.renderSkeletonItem()
+              : /*html*/ `
+                <div class="rate">
+                  <img src="./images/star_empty.png" class="star" alt="star_empty" />
+                  <span class="rate-value">${this.state.voteAverage}</span>
+                </div>
+                <div class="title">${this.state.title}</div>
+                ${
+                  Button({ className: "detail", textContent: "자세히 보기" })
+                    .outerHTML
+                }
+              `
+          }
+            
           </div>
         </div>`
         : ""
