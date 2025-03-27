@@ -1,4 +1,5 @@
 import { SessionStorage } from '../utils/storage';
+import { movieFetcherEvent } from './MovieFetcherEvent';
 
 type MovieRate = {
   movieId: number;
@@ -34,7 +35,7 @@ class MovieRating {
     if (movieIndex > -1) {
       storedData[movieIndex].rate = rate;
     }
-    if (rate > 0) {
+    if (movieIndex === -1 && rate > 0) {
       storedData.push({
         movieId: movieId,
         movieName: movieName,
@@ -43,7 +44,7 @@ class MovieRating {
       });
     }
 
-    SessionStorage.saveItems(storedData ?? [], MovieRating.STORAGE_KEY);
+    SessionStorage.saveItems(storedData, MovieRating.STORAGE_KEY);
   }
 }
 
