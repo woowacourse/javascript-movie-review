@@ -2,35 +2,12 @@ import MovieService from "../services/MovieService.js";
 import MovieList from "../domains/MovieList.js";
 import Button from "../components/Button.js";
 import { FetchMoviesCallback, MovieInfo } from "../../types/movieType.js";
-import { setState, state } from "./Main.ts";
-
+import MovieItem from "../components/MovieItem.js";
+import Skeleton from "../components/Skeleton.js";
 
 const MAXIMUM_PAGE = 500;
 
-export function render() {
-  const $moviesContainer = document.getElementById("movies-container");
-
-  if (!$moviesContainer) return;
-
-
-  if (state.isLoading) {
-    $moviesContainer.style.display = "none";
-  } else {
-    if (state.movies.length % 20 > 0) {
-      const $main = document.querySelector("main") as HTMLElement;
-      removeMoreButton($main);
-    }
-    $moviesContainer.style.display = "block";
-    const movieList = new MovieList(state.movies);
-    const listContainer = movieList.renderMovieList();
-    $moviesContainer.innerHTML = "";
-    $moviesContainer.appendChild(listContainer);
-  }
-}
-
-// 콘텐츠 헤더 렌더링 함수
 function renderContentHeader($section: HTMLElement, contentTitle: string) {
-  // 기존 헤더가 있다면 제거
   const existingHeader = $section.querySelector("h2");
   if (existingHeader) existingHeader.remove();
 
@@ -39,11 +16,64 @@ function renderContentHeader($section: HTMLElement, contentTitle: string) {
   $section.prepend($h2); 
 }
 
-// "더 보기" 버튼 제거
 function removeMoreButton($main:HTMLElement) {
   const existingButton = $main.querySelector("button.more");
   if (existingButton) {
     existingButton.remove();
+  }
+}
+
+async function handleMoreMovies(
+  event: MouseEvent,
+  movieService:MovieService,
+  fetchMoviesCallback: FetchMoviesCallback
+) {
+  showSkeleton(20);
+  const data = await fetchMoviesCallback();
+  const movieList = new MovieList(data.results);
+  replaceSkeletonWithMovies(movieList.movieList);
+
+  const $moreButton = event.target as HTMLButtonElement;
+
+  if (movieService.currentPage === MAXIMUM_PAGE) {
+    $moreButton.remove();
+  }
+}
+
+export function showSkeleton(count: number) {
+  const $moviesContainer = document.getElementById("movies-container");
+  const $listContainer = document.createElement("ul");
+  $listContainer.classList.add("thumbnail-list");
+  for (let index = 0; index < count; index++) {
+    const skeleton = Skeleton();
+    $listContainer.appendChild(skeleton);
+  }
+  $moviesContainer?.appendChild($listContainer);
+}
+
+export function replaceSkeletonWithMovies(movies: MovieInfo[]) {
+  const $moviesContainer = document.getElementById("movies-container");
+  if (!$moviesContainer) return;
+  const itemContainerCount =
+    $moviesContainer.querySelectorAll("ul.thumbnail-list").length;
+  const $listContainer =
+    $moviesContainer.querySelectorAll("ul.thumbnail-list")[
+      itemContainerCount - 1
+    ];
+  if (!$listContainer) return;
+
+  movies.forEach((movie, index) => {
+    const $movieItem = MovieItem(movie);
+    const $skeleton = $listContainer.children[index];
+    if ($skeleton) {
+      $listContainer.replaceChild($movieItem, $skeleton);
+    } else {
+      $listContainer.appendChild($movieItem);
+    }
+  });
+
+  while ($listContainer.children.length > movies.length) {
+    $listContainer.removeChild($listContainer.lastChild!);
   }
 }
 
@@ -63,29 +93,9 @@ function renderNoResults($main: HTMLElement) {
   removeMoreButton($main);
 }
 
-// "더 보기" 버튼 클릭 시 추가 영화 데이터를 불러와 상태 업데이트
-async function handleMoreMovies(
-  event: MouseEvent,
-  movieService:MovieService,
-  fetchMoviesCallback: FetchMoviesCallback
-) {
-  movieService.nextPage();
-  const additionalData = await fetchMoviesCallback();
-
-  // 기존 영화 데이터에 추가
-  setState({ movies: state.movies.concat(additionalData.results) });
-
-  const $moreButton = event.target as HTMLButtonElement;
-  if (
-    movieService.currentPage === MAXIMUM_PAGE) {
-    $moreButton.remove();
-  }
-}
-
-
 export function ContentsContainer(
-  moviesResults: MovieInfo[],
   contentTitle: string,
+  movieList:MovieList,
   movieService:MovieService,
   fetchMoviesCallback: FetchMoviesCallback
 ) {
@@ -93,25 +103,22 @@ export function ContentsContainer(
 
   // 콘텐츠 헤더 렌더링
   renderContentHeader($main, contentTitle);
-
-  // 시작 전 스켈레톤 UI 표시
-  setState({ isLoading: true });
-
-  // 로딩 완료 후 영화 데이터 업데이트
-  setState({ isLoading: false, movies: moviesResults });
-
+  replaceSkeletonWithMovies(movieList.movieList);
   removeMoreButton($main);
 
-  if (state.movies.length === 0) {
+  if (movieList.movieList.length === 0) {
     renderNoResults($main);
   } else {
-    const $moreButton = Button("더 보기", "more", async (event: MouseEvent) => {
-      await handleMoreMovies(event, movieService, fetchMoviesCallback);
-    });
+    const $moreButton = Button("더 보기", "more", (event: MouseEvent) =>
+      handleMoreMovies(event,movieService, fetchMoviesCallback)
+    );
     $main.appendChild($moreButton);
   }
 
-  if (state.movies.length < 20) {
+  if (
+    movieList.movieList.length < 20 ||
+    movieService.currentPage === MAXIMUM_PAGE
+  ) {
     removeMoreButton($main);
   }
 }

@@ -1,6 +1,5 @@
 import { MovieInfo } from "../../types/movieType.ts";
 import Movie from "./Movie.ts";
-import Skeleton from "../components/Skeleton.js";
 
 class MovieList {
   movieList: Movie[];
@@ -9,18 +8,6 @@ class MovieList {
       ({ id, poster_path, title, vote_average }) =>
         new Movie({ id, poster_path, title, vote_average })
     );
-  }
-
-  renderMovieList() {
-    const $listContainer = document.createElement("ul");
-    $listContainer.classList.add("thumbnail-list");
-
-    this.movieList.forEach((movieInstance) => {
-      const $movie = movieInstance.movieRender();
-      $listContainer.appendChild($movie);
-    });
-
-    return $listContainer;
   }
 }
 
