@@ -29,10 +29,8 @@ dialog::backdrop {
   filter: invert(100);
 }
 
-.detail-modal-container {
-  /* position: absolute;
-  top: 250px;
-  left: 0; */
+.detail-modal-container .modal-container {
+  display: flex;
 }
 
 .modal {
@@ -57,10 +55,6 @@ dialog::backdrop {
   color: white;
   font-size: 20px;
   cursor: pointer;
-}
-
-.modal-container {
-  display: flex;
 }
 
 .modal-image img {
