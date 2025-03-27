@@ -18,19 +18,16 @@ class MessageModalController {
   }
 
   renderMessageModalFrame() {
-    this.mainElement.insertAdjacentElement(
-      "afterend",
-      this.messageModalElement,
-    );
+    this.mainElement.insertAdjacentElement("afterend", this.messageModalElement);
     this.bindEvents();
   }
 
   changeContentMessage(text: string) {
-    const spanElement = this.messageModalElement.querySelector(
-      "span",
-    ) as HTMLSpanElement;
+    const spanElement = this.messageModalElement.querySelector("span") as HTMLSpanElement;
 
     if (spanElement) spanElement.innerText = text;
+
+    this.messageModalElement.showModal();
   }
 }
 export default MessageModalController;
