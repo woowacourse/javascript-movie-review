@@ -1,9 +1,9 @@
 import MovieList from "../../components/MovieList";
 import MovieListSkeleton from "../../components/MovieListSkeleton";
 import TopRatedMovie from "../../components/TopRatedMovie";
+import { errorMessages } from "../../constants/message";
 import { DEFAULT_BACK_DROP_URL } from "../../constants/movieApi";
 import { movieStore } from "../../store/movieStore";
-import { errorMessages } from "../../utils/errorUtils";
 import { fetchSearchList, fetchTotalList } from "./movieListService";
 
 const $mainSection = document.querySelector("main section");
@@ -45,7 +45,6 @@ const renderSkeleton = () => {
 const renderErrorPage = (error: any) => {
   $ul?.classList.add("close");
   $error?.classList.remove("close");
-
   $ul && ($ul.innerHTML = "");
   if (!$h2 || !error.message) {
     return;
@@ -85,6 +84,7 @@ export const renderMoviesList = async () => {
     changeHeaderBackground();
   } catch (error) {
     if (error instanceof Error) {
+      console.log("error :", error);
       renderErrorPage(error);
     }
   }
