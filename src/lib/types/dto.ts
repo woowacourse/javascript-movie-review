@@ -1,11 +1,12 @@
+// 영화 목록 / 영화 검색
 export interface MoviesResponse {
   page: number;
-  results: MovieResult[];
+  results: MovieType[];
   total_pages: number;
   total_results: number;
 }
 
-export interface MovieResult {
+export type MovieType = {
   adult: boolean;
   backdrop_path?: string;
   genre_ids: number[];
@@ -20,7 +21,9 @@ export interface MovieResult {
   video: boolean;
   vote_average: number;
   vote_count: number;
-}
+};
+
+// 영화 상세 정보
 
 export interface MovieDetailResponse {
   adult: boolean;

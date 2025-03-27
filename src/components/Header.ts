@@ -1,11 +1,11 @@
 import { html } from '@/lib/utils';
 import Component from './core/Component';
 import { DEFAULT_BACK_DROP_URL } from '@/lib/constants';
-import { MovieResult } from '@/lib/types';
+import { MovieType } from '@/lib/types';
 
 interface HeaderProps {
   search: string;
-  movie?: MovieResult;
+  movie?: MovieType;
 }
 export default class Header extends Component<HeaderProps> {
   override template() {

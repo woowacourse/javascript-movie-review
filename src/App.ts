@@ -1,4 +1,4 @@
-import { MovieDetailResponse, MovieResult, MoviesResponse } from '@/lib/types';
+import { MovieDetailResponse, MovieType, MoviesResponse } from '@/lib/types';
 import { MovieApiClient } from './apis';
 import { Footer, Header, MovieDetailModal, Movies, IntersectionObserble, Toast } from './components';
 import { Component } from './components/core';
@@ -11,9 +11,9 @@ export interface AppState {
   page: number;
   moviesResponse: MoviesResponse | null;
   movieDetailResponse: MovieDetailResponse | null;
-  movies: MovieResult[] | null;
-  search: string;
+  movies: MovieType[] | null;
   error: Error | null;
+  search: string;
   movieRate: LocalStorageMovieRateValueType;
 }
 
