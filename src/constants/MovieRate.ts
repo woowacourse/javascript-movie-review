@@ -9,3 +9,5 @@ export const MOVIE_RATE_COMMENT: MOVIE_RATE_COMMENT = Object.freeze({
   10: "명작이에요",
 });
 export const MOVIE_NO_RATE_COMMENT = "아직 평가를 하지 않았어요";
+export const MOVIE_NO_DESCRIPTION =
+  "이런! 아직 영화의 상세정보가 영화 정보 사이트에 등록되지 않았습니다. 🥲";

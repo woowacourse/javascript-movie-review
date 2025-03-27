@@ -1,4 +1,5 @@
 import { MovieDetailProps } from "../../../../types/domain";
+import { MOVIE_NO_DESCRIPTION } from "../../../constants/MovieRate";
 import { CATEGORY_SEPARATOR } from "../../../constants/UI";
 import { DETAIL_POSTER_PREFIX } from "../../../constants/URL";
 import MyRateSelect from "../../MyRateSelect";
@@ -39,7 +40,9 @@ const ModalDetail = {
             <div class="my-rate-container"></div>
             <hr />
             <p class="subtitle">줄거리</p>
-            <p class="detail">${detail}</p>
+            <p class="detail">${
+              detail !== "" ? detail : MOVIE_NO_DESCRIPTION
+            }</p>
         </div>
     `;
     modalContainerElement.insertAdjacentHTML("beforeend", content);
