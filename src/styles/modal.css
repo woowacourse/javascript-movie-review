@@ -1,32 +1,38 @@
 @import "./colors.css";
 
-/* modal.css */
-body.modal-open {
-  overflow: hidden;
+dialog {
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  background: transparent; /* 기본 배경 제거 */
 }
 
-.modal-background {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경을 위해 설정 */
+dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(10px); /* 블러 효과 적용 */
+}
+
+.modal-content-box {
+  padding: 30px;
+  border-radius: 20px;
+  background-color: var(--color-white);
+  font-size: 20px;
   display: flex;
+  flex-direction: column;
+  gap: 20px;
   justify-content: center;
   align-items: center;
-  z-index: 10;
-  visibility: hidden; /* 모달이 기본적으로 보이지 않도록 설정 */
-  opacity: 0;
-  transition:
-    opacity 0.3s ease,
-    visibility 0.3s ease;
+  border: none;
 }
 
-.modal-background.active {
-  visibility: visible;
-  opacity: 1;
+.modal-content-box img {
+  filter: invert(100);
+}
+
+.detail-modal-container {
+  /* position: absolute;
+  top: 250px;
+  left: 0; */
 }
 
 .modal {
@@ -36,7 +42,8 @@ body.modal-open {
   color: white;
   z-index: 2;
   position: relative;
-  width: 1000px;
+  /* width: 1000px; */
+  width: 960px;
 }
 
 .close-modal {
@@ -66,23 +73,127 @@ body.modal-open {
   padding: 8px;
   margin-left: 16px;
   line-height: 1.6rem;
+  display: flex;
+  flex-direction: column;
 }
 
-.modal-description .rate > img {
-  position: relative;
-  top: 5px;
+.description-title {
+  font-size: 24px;
 }
 
-.modal-description > *:not(:last-child) {
-  margin-bottom: 8px;
+.modal-description .category {
+  font-size: 20px;
 }
 
-.modal-description h2 {
-  font-size: 2rem;
-  margin: 0 0 8px;
+.modal-description .rate {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+.modal-description .rate .average {
+  color: var(--color-white);
+  font-size: 20px;
+}
+
+.modal-description .rate-star {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.modal-description h2.movie-title {
+  font-size: 2rem !important;
+  line-height: 1;
 }
 
 .detail {
+  font-size: 24px;
   max-height: 430px;
   overflow-y: auto;
+  line-height: 150%;
+  font-weight: 300;
+}
+
+.description-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.description-second-section {
+  padding: 24px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.description-second-section .my-star {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.description-second-section .star-wrapper {
+  display: flex;
+  gap: 2px;
+}
+.description-second-section img {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+
+.star-description {
+  line-height: 1;
+  font-size: 24px;
+}
+
+.star-description .star-number {
+  color: var(--color-bluegray-40);
+}
+
+.description-first-section::after,
+.description-second-section::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 1px;
+  background-color: var(--color-bluegray-50);
+}
+
+@media (max-width: 960px) {
+  .detail-modal-container {
+    position: relative;
+  }
+
+  .modal {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100vw;
+    max-height: 50vh;
+    overflow-y: auto;
+  }
+
+  .modal-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .description-first-section {
+    align-items: center;
+  }
+
+  .modal-image img {
+    width: 200px;
+  }
+
+  @media (max-width: 530px) {
+    .modal-image img {
+      display: none;
+    }
+    .description-section {
+      align-items: center;
+    }
+  }
 }
