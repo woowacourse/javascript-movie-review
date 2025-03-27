@@ -39,30 +39,14 @@ class SearchBar {
       currentItemCount: number
     ) => Promise<Movie[]>
   ) {
-    this.#changeTitleStyle();
-
     const movieList = new MovieList([]);
     movieList.clearList();
 
     const searchBar = selectElement<HTMLInputElement>(".search-bar");
     this.#query = searchBar.value;
 
+    this.#changeTitleStyle();
     await this.#onSearch(movieList, getSearchResults);
-
-    this.#onSeeMoreButtonClick(movieList, getSearchResults);
-  }
-
-  #onSeeMoreButtonClick(
-    movieList: MovieList,
-    getSearchResults: (
-      query: string,
-      currentItemCount: number
-    ) => Promise<Movie[]>
-  ) {
-    const seeMoreButton = selectElement<HTMLButtonElement>("#seeMore");
-    seeMoreButton.onclick = async () => {
-      await this.#onSearch(movieList, getSearchResults);
-    };
   }
 
   async setEvent(
