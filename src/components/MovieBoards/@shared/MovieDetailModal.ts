@@ -1,5 +1,6 @@
 import { createApi } from "../../../api/ApiFactory";
 import { MovieDetail } from "../../../types/movie";
+import Date from "../../../utils/Date";
 import { isHTMLElement } from "../../../utils/typeGuards";
 import Spinner from "../../@shared/Spinner";
 import ErrorScreen from "./ErrorScreen";
@@ -77,8 +78,9 @@ class MovieDetailModal {
         </div>
         <div class="modal-description">
             <h2>${detail.title}</h2>
-            <div>
-                <span>${detail.release_date}</span>
+            <div class="modal-description--yearCategory">
+                <span>${new Date(detail.release_date).year}</span>
+                <span>•</span>
                 <p class="category">${
                   detail.genres.map((genre) => genre.name).join(", ") || ""
                 }</p>
@@ -88,8 +90,16 @@ class MovieDetailModal {
                 <img src="./images/star_filled.png" class="star" alt="Star"/>
                 <span>${detail.vote_average.toString()}</span>
             </p>
-            <hr />
-            <p class="detail">${detail.overview}</p>
+            <div class="divider"></div>
+            <div class="modal-section myRate">
+                <h3>별점</h3>
+                
+            </div>
+            <div class="divider"></div>
+            <div class="modal-section detail">
+                <h3>줄거리</h3>
+                <p>${detail.overview}</p>
+            </div>
         </div>
     `;
   }

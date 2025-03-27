@@ -55,15 +55,27 @@ dialog::backdrop {
 }
 
 .modal-description {
-  width: 100%;
   padding: 8px;
   margin-left: 16px;
   line-height: 1.6rem;
+  flex: 1;
 }
 
-.modal-description .rate > img {
-  position: relative;
-  top: 5px;
+.modal-description--yearCategory {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.modal-description .rate {
+  display: flex;
+  align-items: center;
+}
+.modal-description .rate span:first-child {
+  padding-right: 10px;
+}
+.modal-description .rate img {
+  top: -2px;
 }
 
 .modal-description > *:not(:last-child) {
@@ -71,15 +83,28 @@ dialog::backdrop {
 }
 
 .modal-description h2 {
-  font-size: 2rem;
+  /* width: 100%; */
+  font-size: 3rem;
   margin: 0 0 8px;
+  font-weight: 700;
+  line-height: 3.5rem;
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
-.detail {
+.modal-section {
   max-height: 430px;
   overflow-y: auto;
   line-height: 2.5rem;
-  font-weight: 300;
+
+  & > h3 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-block: 8px;
+  }
+  & > p {
+    font-weight: 300;
+  }
 }
 
 @media screen and (max-width: 768px) {
@@ -125,4 +150,12 @@ dialog::backdrop {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+  background-color: var(--color-white);
+  opacity: 0.5;
+  margin-block: 12px;
 }
