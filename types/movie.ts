@@ -22,8 +22,9 @@ export interface Movie {
   vote_count: number;
 }
 
-export interface AppState {
+export interface State {
   movies: Movie[];
   query: string;
   searchedMoviesLength: number;
+  isLoading: boolean;
 }

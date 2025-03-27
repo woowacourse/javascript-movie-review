@@ -1,10 +1,4 @@
-import { Movie } from "../../types/movie";
-
-export interface State {
-  movies: Movie[];
-  query: string;
-  searchedMoviesLength: number;
-}
+import { State } from "../../types/movie";
 
 type Subscriber = (state: State) => void;
 
@@ -36,4 +30,5 @@ export default new Store({
   movies: [],
   query: "",
   searchedMoviesLength: 0,
+  isLoading: false,
 });
