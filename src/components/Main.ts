@@ -2,23 +2,28 @@ import Header from "./Header";
 import MovieContainer from "./MovieContainer";
 import Footer from "./Footer";
 import createElement from "./utils/createElement";
+import MovieType from "../types/MovieType";
 
-const Main = ({ movies }) => {
+interface MainProps {
+  movies: MovieType[];
+  status: "loading" | "fetched" | "error";
+}
+
+const Main = ({ movies, status }: MainProps) => {
   const $body = document.querySelector("body");
 
   if ($body) {
     const $wrap = createElement({
-        tag: "div",
-        id: "wrap",
+      tag: "div",
+      id: "wrap",
     });
 
     const $container = createElement({
-        tag: "div",
-        id: "container"
+      tag: "div",
+      id: "container",
     });
 
     $body.appendChild($wrap);
-
 
     $container.appendChild(
       Header({
@@ -29,6 +34,7 @@ const Main = ({ movies }) => {
     $container.appendChild(
       MovieContainer({
         movies,
+        status,
       })
     );
 

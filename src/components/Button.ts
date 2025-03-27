@@ -48,6 +48,7 @@ const Button = ({ text, type }: ButtonProps) => {
       section.appendChild(
         MovieList({
           movies: movies.movieList,
+          status: "fetched",
         })
       );
     }

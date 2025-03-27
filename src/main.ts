@@ -6,7 +6,8 @@ import deleteParams from "./utils/deleteParams";
 deleteParams();
 
 Main({
-  movies: "loading",
+  status: "loading",
+  movies: [],
 });
 
 async function init() {
@@ -17,6 +18,7 @@ async function init() {
   document.querySelector("#wrap")?.remove();
 
   Main({
+    status: "fetched",
     movies: movies.movieList,
   });
 }

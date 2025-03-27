@@ -65,7 +65,7 @@ async function performSearch(query) {
     const searchMovieData = await fetchSearchMovies(query, PAGE);
     movies.updateMovies(searchMovieData.results);
 
-    const $movieList = MovieList({ movies: movies.movieList });
+    const $movieList = MovieList({ movies: movies.movieList, status: "fetched"});
     document.querySelector('section').appendChild($movieList);
 }
 
