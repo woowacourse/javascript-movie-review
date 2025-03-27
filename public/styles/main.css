@@ -153,10 +153,18 @@ h1.logo {
   height: 32px;
 }
 
+.rate > span {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 0.0075rem;
+}
+
 .banner-rate > span.rate-value {
+  font-family: "Montserrat", sans-serif;
   margin: 8px 0 0 8px;
   font-weight: bold;
-  font-size: 32px;
+  font-size: 2rem;
 }
 
 .title {
