@@ -32,7 +32,6 @@ main {
 }
 
 header{
-  position: relative;
   width: 100%;
   top: 0;
 }
@@ -82,7 +81,7 @@ button.more {
   background-position: center center;
   background-size: cover;
   height: 500px;
-  padding: 48px;
+  padding: 84px;
 }
 
 .banner {
@@ -206,8 +205,8 @@ footer.footer p:not(:last-child) {
   width: 100%;
   position: absolute;
   display: flex;
+  margin-left: 84px;
   top: 20px;
-  left: 80px;
   z-index: 3;
 }
 
