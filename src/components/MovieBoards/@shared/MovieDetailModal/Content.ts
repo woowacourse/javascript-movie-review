@@ -53,8 +53,9 @@ class MovieDetailModalContent {
       <p class="rate">
         <span>평균</span>
         <img src="./images/star_filled.png" class="star" alt="Star"/>
-        <span>${this.detail.vote_average.toString()}</span>
+        <span>${this.detail.vote_average.toFixed(1).toString()}</span>
       </p>
+      <div class="divider"></div>
     `;
   }
 

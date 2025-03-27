@@ -35,7 +35,7 @@ class MovieList implements MovieListContract {
                 <div class="item-desc">
                   <p class="rate">
                     <img src="./images/star_empty.png" class="star" />
-                    <span>${vote_average}</span>
+                    <span>${vote_average.toFixed(1).toString()}</span>
                   </p>
                   <strong>${title}</strong>
                 </div>
