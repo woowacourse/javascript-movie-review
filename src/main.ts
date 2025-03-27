@@ -59,7 +59,7 @@ const bindEventListeners = () => {
   bindModalEvents();
   bindStarRatingEvents();
   bindDetailsImageLoadEvent();
-  bindOnlineEvent(infiniteScrollInstance);
+  // bindOnlineEvent(infiniteScrollInstance);
 };
 
 const main = async () => {
