@@ -14,29 +14,39 @@ import type {
   LongButtonInstance,
   MovieItemListInstance,
 } from "../../../types/components";
+import { hideSkeleton, showSkeleton } from "../../service/skeleton";
 
 // 컴포넌트 인스턴스 타입 선언
 const movieItemList: MovieItemListInstance = MovieItemList();
 const loadMoreButton: LongButtonInstance = LongButton("더보기");
 
-export function initSearchApp(): void {
+async function searchMovies({ query }: any) {
+  return createMovieLoader(
+    URLS.searchMovieUrl,
+    defaultQueryObject,
+    defaultOptions,
+    query
+  )();
+}
+
+const loadSearchItems = async ({ query }: any) => {
+  showSkeleton();
+  const { results, isLastPage } = await searchMovies({ query });
+  hideSkeleton();
+
+  if (isLastPage) loadMoreButton.hide();
+  movieItemList.render(results);
+};
+
+export async function initSearchApp(): Promise<void> {
   mountSearchTitle();
   mountMovieItemList(movieItemList);
   mountLoadMoreButton(loadMoreButton);
 
   const query: string = getSearchParams("query");
 
-  const loader = createMovieLoader(
-    URLS.searchMovieUrl,
-    defaultQueryObject,
-    defaultOptions,
-    query
-  );
-
-  const load = () => loadSearchMovie(loader, movieItemList, loadMoreButton);
-
-  load();
-  loadMoreButton.setOnClick(load);
+  await loadSearchItems({ query });
+  loadMoreButton.setOnClick(() => loadSearchItems({ query }));
 }
 
 // 쿼리 파라미터 가져오는 함수에 명확한 타입 추가
