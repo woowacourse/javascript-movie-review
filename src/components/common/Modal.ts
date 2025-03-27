@@ -11,12 +11,14 @@ export default abstract class Modal<TProps extends Props = {}, TState extends St
   update() {
     this.render();
     this.show();
-    console.log(this);
   }
 
   show() {
     $(`#${this.id}`)?.appendChild(this.element);
+    this.onShow();
   }
+
+  onShow() {}
 
   disableScrollOutside() {
     document.body.style.overflow = 'hidden';

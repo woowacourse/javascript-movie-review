@@ -72,6 +72,7 @@ export default class ThumbnailList extends Component {
       (thumbnail) =>
         (thumbnail as HTMLElement).addEventListener('load', () => {
           thumbnail.className = 'thumbnail loaded';
+          if (thumbnail.parentElement) thumbnail.parentElement.classList.remove('skeleton');
         }),
       this.element.querySelectorAll('img.thumbnail'),
     );

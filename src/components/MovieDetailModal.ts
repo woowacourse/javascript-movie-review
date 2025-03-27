@@ -101,8 +101,6 @@ export default class MovieDetailModal extends Modal<MovieDetailModalProps> {
   }
 
   onRender() {
-    this.disableScrollOutside();
-
     eventHandlerInstance.addEventListener({
       eventType: 'click',
       callback: () => this.remove(),
@@ -122,6 +120,10 @@ export default class MovieDetailModal extends Modal<MovieDetailModalProps> {
         if ((event as KeyboardEvent).key === 'Escape') this.remove();
       },
     });
+  }
+
+  onShow() {
+    this.disableScrollOutside();
   }
 
   protected onUnmount() {
