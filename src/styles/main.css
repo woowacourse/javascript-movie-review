@@ -59,13 +59,13 @@ header {
   max-width: 1280px;
   margin: 0 auto;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 24px;
   padding: 40px 0;
   align-items: center;
 }
 
 .header-wrapper .logo {
-  width: 200px;
   cursor: pointer;
 }
 
@@ -87,6 +87,7 @@ header .search-bar {
   padding-right: 16px;
   padding-bottom: 6px;
   padding-left: 16px;
+  box-sizing: content-box;
 }
 
 .search-input {
@@ -178,16 +179,16 @@ header .search-bar {
   user-select: none;
   position: relative;
   z-index: 2;
-  max-width: 1280px;
+  max-width: 800px;
   margin: 0 auto;
 }
 
 .top-rated-movie {
-  margin-top: 64px;
+  margin-top: 200px;
 }
 
 .top-rated-movie > *:not(:last-child) {
-  margin-bottom: 8px;
+  margin-bottom: 25px;
 }
 
 h1.logo {
