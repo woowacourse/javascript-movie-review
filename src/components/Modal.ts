@@ -6,7 +6,7 @@ import MyRate, { MyRateSkeleton } from "./MyRate";
 type MovieDetail = {
   poster_path: string;
   title: string;
-  genres: string;
+  genres: { id: number; name: string }[];
   vote_average: number;
   overview: string;
 };
@@ -80,7 +80,7 @@ class Modal {
         <div class="modal-description">
           <h2>${details.title}</h2>
           <p class="category">
-            ${details.genres}
+            ${details.genres.map(({ name }) => name).join(", ")}
           </p>
           <p class="rate">
             <img src="./images/star_filled.png" class="star" /><span
