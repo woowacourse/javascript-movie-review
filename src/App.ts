@@ -3,7 +3,7 @@ import { Footer, Header, IntersectionObserble, MovieDetailModal, Movies, Toast }
 import { Component } from './components/core';
 import { TOAST_TYPE } from './components/Toast';
 import { eventHandlerInstance, LocalStorage, LocalStorageMovieRateValueType } from './lib/modules';
-import { moviesDetailResponseStore, moviesResponseStore, moviesStore } from './lib/store';
+import { movieDetailResponseStore, moviesResponseStore, moviesStore } from './lib/store';
 import { html, isError, isHTMLFormElement, isString } from './lib/utils';
 
 export interface AppState {
@@ -63,7 +63,7 @@ export default class App extends Component<null, AppState> {
       new IntersectionObserble({
         callback: async () => {
           await this.getMovie(this.state.search, this.state.page + 1);
-          moviesDetailResponseStore.setState(null);
+          movieDetailResponseStore.setState(null);
         },
         id: 'movie-more',
       }),
@@ -109,7 +109,7 @@ export default class App extends Component<null, AppState> {
         if (!currentTarget.dataset.id) throw new Error('data-id를 설정해주세요.');
 
         const movieDetailResponse = await MovieApiClient.getDetail({ id: Number(currentTarget.dataset.id) });
-        moviesDetailResponseStore.setState(movieDetailResponse);
+        movieDetailResponseStore.setState(movieDetailResponse);
       },
       dataAction: 'movie-detail',
     });

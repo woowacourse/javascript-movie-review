@@ -1,6 +1,6 @@
 import { DEFAULT_BACK_DROP_URL } from '@/lib/constants';
 import { LocalStorageMovieRateValueType } from '@/lib/modules/LocalStorage/type';
-import { moviesDetailResponseStore } from '@/lib/store';
+import { movieDetailResponseStore } from '@/lib/store';
 import { html } from '@/lib/utils';
 import { join, map, pipe, toArray } from '@fxts/core';
 import Modal from './common/Modal';
@@ -22,11 +22,11 @@ export default class MovieDetailModal extends Modal<MovieDetailModalProps> {
   override id = 'movie-detail-modal';
 
   setup() {
-    this.subsribe([moviesDetailResponseStore]);
+    this.subsribe([movieDetailResponseStore]);
   }
 
   template() {
-    const movieDetail = moviesDetailResponseStore.getState();
+    const movieDetail = movieDetailResponseStore.getState();
 
     console.log(movieDetail);
 

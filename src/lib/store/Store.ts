@@ -30,6 +30,6 @@ export default class Store<TState> {
 }
 
 export const moviesResponseStore = new Store<MoviesResponse | null>(null);
-export const moviesDetailResponseStore = new Store<MovieDetailResponse | null>(null);
+export const movieDetailResponseStore = new Store<MovieDetailResponse | null>(null);
 
 export const moviesStore = new Store<MovieType[] | null>(null);
