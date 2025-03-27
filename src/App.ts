@@ -2,7 +2,7 @@ import { MovieApiClient } from './apis';
 import { Footer, Header, IntersectionObserble, MovieDetailModal, Movies, Toast } from './components';
 import { Component } from './components/core';
 import { TOAST_TYPE } from './components/Toast';
-import { eventHandlerInstance, LocalStorage, LocalStorageMovieRateValueType } from './lib/modules';
+import { eventHandlerInstance, LocalStorage } from './lib/modules';
 import {
   errorStore,
   movieDetailResponseStore,
@@ -72,26 +72,6 @@ export default class App extends Component<null> {
   }
 
   addEventListener() {
-    this.addMovieDetailEvents();
-    this.addSearchEvents();
-    this.addRatingEvents();
-    this.addNetworkEvents();
-  }
-
-  private addMovieDetailEvents() {
-    eventHandlerInstance.addEventListener({
-      eventType: 'click',
-      callback: async ({ currentTarget }) => {
-        if (!currentTarget.dataset.id) throw new Error('data-id를 설정해주세요.');
-
-        const movieDetailResponse = await MovieApiClient.getDetail({ id: Number(currentTarget.dataset.id) });
-        movieDetailResponseStore.setState(movieDetailResponse);
-      },
-      dataAction: 'movie-detail',
-    });
-  }
-
-  private addSearchEvents() {
     eventHandlerInstance.addEventListener({
       eventType: 'submit',
       callback: async ({ target }) => {
@@ -107,9 +87,7 @@ export default class App extends Component<null> {
       },
       dataAction: 'submit-search',
     });
-  }
 
-  private addRatingEvents() {
     eventHandlerInstance.addEventListener({
       eventType: 'click',
       callback: ({ target }) => {
@@ -127,9 +105,6 @@ export default class App extends Component<null> {
       },
       dataAction: 'change-rate',
     });
-  }
-
-  private addNetworkEvents() {
     eventHandlerInstance.addEventListener({
       eventType: 'offline',
       callbackWindow: () => {

@@ -1,10 +1,12 @@
 import { DEFAULT_BACK_DROP_URL } from '@/lib/constants';
 
-import { moviesStore } from '@/lib/store';
+import { movieDetailResponseStore, moviesStore } from '@/lib/store';
 import { html } from '@/lib/utils';
 import { forEach } from '@fxts/core';
 import { MOVIE_ITEM_PER_PAGE } from '../lib/constants';
 import Component from './core/Component';
+import { eventHandlerInstance } from '@/lib/modules';
+import { MovieApiClient } from '@/apis';
 
 export default class ThumbnailList extends Component {
   template() {
@@ -67,7 +69,7 @@ export default class ThumbnailList extends Component {
     `;
   }
 
-  onRender(): void {
+  onRender() {
     forEach(
       (thumbnail) =>
         (thumbnail as HTMLElement).addEventListener('load', () => {
@@ -76,5 +78,16 @@ export default class ThumbnailList extends Component {
         }),
       this.element.querySelectorAll('img.thumbnail'),
     );
+
+    eventHandlerInstance.addEventListener({
+      eventType: 'click',
+      callback: async ({ currentTarget }) => {
+        if (!currentTarget.dataset.id) throw new Error('data-id를 설정해주세요.');
+
+        const movieDetailResponse = await MovieApiClient.getDetail({ id: Number(currentTarget.dataset.id) });
+        movieDetailResponseStore.setState(movieDetailResponse);
+      },
+      dataAction: 'movie-detail',
+    });
   }
 }
