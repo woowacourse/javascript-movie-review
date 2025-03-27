@@ -1,5 +1,5 @@
 import { forEach } from '@fxts/core';
-import { isHTMLElement } from '../utils';
+import { isHTMLElement } from '../../utils';
 
 interface EventCallbackProps {
   event: WindowEventMap[keyof WindowEventMap];
