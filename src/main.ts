@@ -70,9 +70,9 @@ const renderTitleMovie = (movieData: Movie[]) => {
   backgroundOverlay.style.backgroundImage = `url("${movieBackdropUrl}")`;
 };
 
-const renderMovieData = (movieData: Movie[]) => {
-  const movieItems = movieData.map(({ title, posterPath, voteAverage }) => {
-    const movieItem = new MovieItem({ title, voteAverage, posterPath });
+const createMovieList = (movieData: Movie[]) => {
+  const movieItems = movieData.map(({ id, title, posterPath, voteAverage }) => {
+    const movieItem = new MovieItem({ id, title, voteAverage, posterPath });
     return movieItem.create();
   });
 
@@ -96,10 +96,11 @@ const app = async () => {
     searchBar.setEvent(getSearchResults);
 
     const movieData = await getTotalMovies();
+    const movieList = createMovieList(movieData);
 
     renderTitleMovie(movieData);
-    const totalMovieList = renderMovieData(movieData);
-    totalMovieList.create();
+    movieList.create();
+    movieList.onMovieClick(getDetail);
   } catch (error) {
     if (error instanceof Error) alert(error.message);
   }

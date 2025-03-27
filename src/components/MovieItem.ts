@@ -1,13 +1,18 @@
 import { Movie } from "../../types/domain.ts";
 
-type MovieItemParams = Pick<Movie, "title" | "voteAverage" | "posterPath">;
+type MovieItemParams = Pick<
+  Movie,
+  "id" | "title" | "voteAverage" | "posterPath"
+>;
 
 class MovieItem {
+  #id: number;
   #title: string;
   #voteAverage: number;
   #posterPath: string;
 
-  constructor({ title, voteAverage, posterPath }: MovieItemParams) {
+  constructor({ id, title, voteAverage, posterPath }: MovieItemParams) {
+    this.#id = id;
     this.#title = title;
     this.#voteAverage = voteAverage;
     this.#posterPath = posterPath;
@@ -15,7 +20,7 @@ class MovieItem {
 
   create() {
     const content = /*html*/ `
-    <li class="item">
+    <li class="item" data-id="${this.#id}">
         <img
         class="thumbnail"
         src=${this.#posterPath}

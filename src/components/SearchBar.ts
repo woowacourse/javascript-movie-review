@@ -115,8 +115,8 @@ class SearchBar {
   }
 
   #renderMovieList(movies: Movie[], movieList: MovieList) {
-    const movieItems = movies.map(({ title, posterPath, voteAverage }) => {
-      const movieItem = new MovieItem({ title, voteAverage, posterPath });
+    const movieItems = movies.map(({ id, title, posterPath, voteAverage }) => {
+      const movieItem = new MovieItem({ id, title, voteAverage, posterPath });
       return movieItem.create();
     });
 
