@@ -91,5 +91,5 @@ export const updateMoviesList = async () => {
 
 export const initializeLayout = () => {
   const $app = document.querySelector("#app");
-  $app?.append(App());
+  $app?.append(App.getInstance().getElement());
 };

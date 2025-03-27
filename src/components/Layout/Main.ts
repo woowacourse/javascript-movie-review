@@ -1,5 +1,6 @@
 import { MovieResult } from "../../api/types/movie/response";
 import { PREFIX_POSTER_PATH } from "../../constants/constants";
+import Component from "../base/Component";
 import Skeleton from "../common/Skeleton";
 
 const SKELETON_COUNT = 20;
@@ -11,20 +12,20 @@ interface MainState {
   error: string | null;
 }
 
-export default class Main {
+export default class Main extends Component<MainState> {
   private static instance: Main;
-  private $main: HTMLElement;
-  private state: MainState;
 
-  private constructor() {
-    this.$main = document.createElement("main");
-    this.state = {
+  protected constructor() {
+    super({
       movies: [],
       isLoading: true,
       title: "지금 인기 있는 영화",
       error: null,
-    };
-    this.render();
+    });
+  }
+
+  protected createElement(): HTMLElement {
+    return document.createElement("main");
   }
 
   static getInstance(): Main {
@@ -72,43 +73,34 @@ export default class Main {
     `;
   }
 
-  render() {
-    this.$main.innerHTML = /*html*/ `
-    <section>
-      <h2 class="thumbnail-title">${this.state.title}</h2>
-      ${
-        !this.state.error
-          ? /*html*/ `
-        <ul class="thumbnail-list">
+  protected template(): string {
+    return /*html*/ `
+      <section>
+        <h2 class="thumbnail-title">${this.state.title}</h2>
         ${
-          this.state.isLoading
-            ? Array.from(
-                { length: SKELETON_COUNT },
-                this.renderSkeletonItem
-              ).join("")
-            : this.state.movies
-                .map((movie) => this.renderMovieItem(movie))
-                .join("")
+          !this.state.error
+            ? /*html*/ `
+          <ul class="thumbnail-list">
+          ${
+            this.state.isLoading
+              ? Array.from(
+                  { length: SKELETON_COUNT },
+                  this.renderSkeletonItem
+                ).join("")
+              : this.state.movies
+                  .map((movie) => this.renderMovieItem(movie))
+                  .join("")
+          }
+        </ul>
+          `
+            : /*html*/ `
+          <div class="error">
+            <img src="./images/woowawa_planet.svg" alt="woowawa_planet" />
+            <h2 class="error-message">${this.state.error}</h2>
+          </div>
+          `
         }
-      </ul>
-        `
-          : /*html*/ `
-        <div class="error">
-          <img src="./images/woowawa_planet.svg" alt="woowawa_planet" />
-          <h2 class="error-message">${this.state.error}</h2>
-        </div>
-        `
-      }
-    </section>
-  `;
-  }
-
-  setState(newState: Partial<MainState>) {
-    this.state = { ...this.state, ...newState };
-    this.render();
-  }
-
-  getElement() {
-    return this.$main;
+      </section>
+    `;
   }
 }

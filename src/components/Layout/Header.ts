@@ -2,6 +2,7 @@ import {
   DEFAULT_MOVIE_DATA,
   PREFIX_POSTER_PATH,
 } from "../../constants/constants";
+import Component from "../base/Component";
 import Button from "../common/Button";
 
 interface HeaderState {
@@ -11,21 +12,22 @@ interface HeaderState {
   hasSearched: boolean;
 }
 
-export default class Header {
+export default class Header extends Component<HeaderState> {
   private static instance: Header;
-  private $header: HTMLElement;
-  private state: HeaderState;
 
-  private constructor() {
-    this.$header = document.createElement("header");
-    this.$header.className = "background-container";
-    this.state = {
+  protected constructor() {
+    super({
       posterImage: `${PREFIX_POSTER_PATH}${DEFAULT_MOVIE_DATA.posterPath}`,
       title: DEFAULT_MOVIE_DATA.title,
       voteAverage: DEFAULT_MOVIE_DATA.voteAverage,
       hasSearched: false,
-    }; // TODO: default x 스켈레톤 O
-    this.render();
+    }); // TODO: default x 스켈레톤 O
+  }
+
+  protected createElement(): HTMLElement {
+    const $header = document.createElement("header");
+    $header.className = "background-container";
+    return $header;
   }
 
   static getInstance(): Header {
@@ -34,11 +36,15 @@ export default class Header {
   }
 
   render() {
-    this.$header.style.backgroundImage = !this.state.hasSearched
+    this.$element.style.backgroundImage = !this.state.hasSearched
       ? `url(${this.state.posterImage})`
       : "";
 
-    this.$header.innerHTML = /*html*/ `
+    super.render();
+  }
+
+  protected template(): string {
+    return /*html*/ `
     ${
       !this.state.hasSearched
         ? /*html*/ `<div class="overlay" aria-hidden="true"></div>`
@@ -79,16 +85,6 @@ export default class Header {
         </div>`
         : ""
     }
-    
   `;
-  }
-
-  setState(newState: Partial<HeaderState>) {
-    this.state = { ...this.state, ...newState };
-    this.render();
-  }
-
-  getElement() {
-    return this.$header;
   }
 }

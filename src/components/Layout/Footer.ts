@@ -1,11 +1,12 @@
-export default class Footer {
-  private static instance: Footer;
-  private $footer: HTMLElement;
+import Component from "../base/Component";
 
-  private constructor() {
-    this.$footer = document.createElement("footer");
-    this.$footer.className = "footer";
-    this.render();
+export default class Footer extends Component {
+  private static instance: Footer;
+
+  protected createElement(): HTMLElement {
+    const $footer = document.createElement("footer");
+    $footer.className = "footer";
+    return $footer;
   }
 
   static getInstance(): Footer {
@@ -14,7 +15,7 @@ export default class Footer {
   }
 
   render() {
-    this.$footer.innerHTML = /*html*/ `
+    this.$element.innerHTML = /*html*/ `
       <p>&copy; 우아한테크코스 All Rights Reserved.</p>
       <p>
         <img
@@ -24,9 +25,5 @@ export default class Footer {
         />
       </p>
     `;
-  }
-
-  getElement() {
-    return this.$footer;
   }
 }

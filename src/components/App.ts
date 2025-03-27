@@ -1,25 +1,38 @@
+import Component from "./base/Component";
 import Button from "./common/Button";
 import Footer from "./layout/Footer";
 import Header from "./layout/Header";
 import Main from "./layout/Main";
 import Modal from "./layout/Modal";
 
-export default function App() {
-  const $wrap = document.createElement("div");
-  $wrap.id = "wrap";
+export default class App extends Component {
+  private static instance: App;
 
-  const $container = document.createElement("div");
-  $container.className = "container";
+  protected createElement(): HTMLElement {
+    const $wrap = document.createElement("div");
+    $wrap.id = "wrap";
+    return $wrap;
+  }
 
-  const $showMore = Button({ className: "show-more", textContent: "더 보기" });
+  static getInstance(): App {
+    if (!App.instance) App.instance = new App();
+    return App.instance;
+  }
 
-  const $main = Main.getInstance().getElement();
-  const $header = Header.getInstance().getElement();
-  const $modal = Modal.getInstance().getElement();
-  const $footer = Footer.getInstance().getElement();
+  render() {
+    const $container = document.createElement("div");
+    $container.className = "container";
 
-  $container.append($main, $showMore);
-  $wrap.append($header, $container, $footer, $modal);
+    const $showMore = Button({
+      className: "show-more",
+      textContent: "더 보기",
+    });
+    const $main = Main.getInstance().getElement();
+    const $header = Header.getInstance().getElement();
+    const $modal = Modal.getInstance().getElement();
+    const $footer = Footer.getInstance().getElement();
 
-  return $wrap;
+    $container.append($main, $showMore);
+    this.$element.append($header, $container, $footer, $modal);
+  }
 }
