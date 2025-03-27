@@ -3,6 +3,8 @@ import SkeletonMovieItem from './SkeletonMovieItem';
 import NothingMovieList from './NothingMovieList';
 import createElement from './utils/createElement';
 
+const SKELETON_ITEMS_COUNT = 20;
+
 const MovieList = ({ movies }) => {
   const $ul = createElement({
     tag: 'ul',
@@ -14,10 +16,9 @@ const MovieList = ({ movies }) => {
   }
 
   if(movies === "loading") {
-    [1,1,1].forEach(() => {
+    Array(SKELETON_ITEMS_COUNT).fill(null).forEach(() => {
       $ul.appendChild(SkeletonMovieItem());
     });
-    
   }
 
   else {
