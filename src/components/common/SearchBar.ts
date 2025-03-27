@@ -35,6 +35,7 @@ const searchMovie = async (input: string) => {
   movieState.setMode("search");
   $(".thumbnail-list").replaceChildren();
   $("#caption").innerText = `"${input}" 검색 결과`;
+  $(".no-result")?.remove();
 
   try {
     movieState.setSearchKeyword(input);
@@ -49,10 +50,10 @@ const searchMovie = async (input: string) => {
     $(".overlay-img").classList.add("hidden");
 
     if (movies.results.length === 0 && !$(".no-result")) {
+      console.log("검색 결과가 없어여");
       $(".thumbnail-list").after(NoSearchResults("검색 결과가 없습니다."));
       return;
     }
-    if ($(".no-result")) $(".no-result").remove();
     loadMovies(movies);
   } catch (error) {
     console.log(error);

@@ -50,6 +50,7 @@ export const fetchSearchMovieList = async (
   currentPage: number
 ): Promise<MovieResponse> => {
   showSkeleton();
+  console.log("검색 api 호출");
 
   try {
     const url = `https://api.themoviedb.org/3/search/movie?query=${search}&include_adult=false&language=ko-KR&page=${currentPage}`;

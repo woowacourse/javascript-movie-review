@@ -49,7 +49,7 @@ button.primary {
   min-height: calc(100vh - 180px);
 }
 
-#wrap h2 {
+#caption {
   font-size: 1.4rem;
   font-weight: bold;
   margin: 35px 0px 35px 75px;
@@ -185,7 +185,7 @@ h1.logo {
     max-width: 280px;
   }
 
-  #wrap h2 {
+  #caption {
     font-size: 1.2rem;
     font-weight: bold;
   }
@@ -305,13 +305,14 @@ footer.footer p:not(:last-child) {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 20px;
 }
 
 .no-result img {
   width: 72px;
 }
 
-.no-result h1 {
-  font-size: 3rem;
+.no-result h2 {
+  font-size: 1.3rem;
   font-weight: bold;
 }
