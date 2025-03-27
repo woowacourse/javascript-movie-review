@@ -53,6 +53,20 @@ class DetailModal {
     closeModal.addEventListener('click', () => {
       this.removeDetailModal();
     });
+
+
+    //esc를 누르거나 화면 바깥을 누르면꺼지도록
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        this.removeDetailModal();
+      }
+    });
+
+    document.addEventListener('click', (e) => {
+      if (e.target.classList.contains('modal-background')) {
+        this.removeDetailModal();
+      }
+    });
   }
 
   removeDetailModal() {
