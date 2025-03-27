@@ -1,10 +1,13 @@
 type Mode = "popularAdd" | "searchAdd";
 
 class Store {
-  private state: { currentMode: Mode };
+  private state: { currentMode: Mode; query: string | null };
 
   constructor() {
-    this.state = { currentMode: "popularAdd" };
+    this.state = {
+      currentMode: "popularAdd",
+      query: null,
+    };
   }
 
   setMode(newMode: Mode) {
@@ -13,6 +16,14 @@ class Store {
 
   getMode(): Mode {
     return this.state.currentMode;
+  }
+
+  setQuery(query: string | null) {
+    this.state.query = query;
+  }
+
+  getQuery(): string | null {
+    return this.state.query;
   }
 }
 

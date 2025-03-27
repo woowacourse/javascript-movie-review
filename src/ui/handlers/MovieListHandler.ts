@@ -8,6 +8,7 @@ import { MOVIES_PER_ROW } from "../../constants/ui.js";
 export default class MovieListHandler {
   private movieList: MovieList | undefined;
   private movieService: MovieService;
+  private isLoadingMore: boolean = false;
 
   constructor(movieService: MovieService) {
     this.movieService = movieService;
@@ -23,8 +24,8 @@ export default class MovieListHandler {
       : await this.movieService.getPopularResults();
 
     this.updateMovieList(moviesData);
-    this.handleMoreClickButton(query);
     this.movieList?.updateMovieListTitle(query);
+    this.setupInfiniteScroll();
   }
 
   private updateMovieList(moviesData: {
@@ -51,11 +52,14 @@ export default class MovieListHandler {
     loadMoreButton.parentNode?.replaceChild(newButton, loadMoreButton);
 
     newButton.addEventListener("click", async () => {
-      await this.handleLoadMore(query);
+      await this.handleLoadMore();
     });
   }
 
-  async handleLoadMore(query: string | undefined) {
+  async handleLoadMore() {
+    if (this.isLoadingMore) return; // 로딩 중이면 실행하지 않음
+    this.isLoadingMore = true; // 로딩 시작
+
     const pageNumber = this.movieList?.currentPage + 1;
     this.movieList?.addPageNumber();
 
@@ -66,12 +70,17 @@ export default class MovieListHandler {
       this.movieList?.container.appendChild(skeletonCard);
     }
 
+    const query = store.getQuery();
+
     let newMoviesData: { movies: Movie[]; page: number; totalPages: number };
     setTimeout(async () => {
       if (store.getMode() === "popularAdd") {
         newMoviesData = await this.movieService.getPopularResults(pageNumber);
       } else {
-        newMoviesData = await this.movieService.searchMovies(query, pageNumber);
+        newMoviesData = await this.movieService.searchMovies(
+          query ?? undefined,
+          pageNumber
+        );
       }
 
       skeletonCards.forEach((skeleton) => skeleton.remove());
@@ -89,6 +98,7 @@ export default class MovieListHandler {
         const loadMoreButton = document.querySelector(".add-movie");
         loadMoreButton?.remove();
       }
+      this.isLoadingMore = false; //로딩 끝
     }, 1000);
   }
 
@@ -108,10 +118,13 @@ export default class MovieListHandler {
         this.movieService
       );
       this.movieList.init();
+      this.setupInfiniteScroll();
     });
   }
 
   handleLogoClick() {
+    store.setMode("popularAdd");
+    store.setQuery(null);
     this.initMovieList();
   }
 
@@ -121,5 +134,23 @@ export default class MovieListHandler {
     document
       .querySelector(".background-container")
       ?.classList.remove("hide-background");
+  }
+
+  setupInfiniteScroll() {
+    window.addEventListener("scroll", async () => {
+      const scrollTop = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const bodyHeight = document.body.scrollHeight;
+
+      const nearBottom = scrollTop + windowHeight >= bodyHeight - 200;
+
+      if (
+        nearBottom &&
+        this.movieList &&
+        this.movieList.currentPage < this.movieList.totalPage
+      ) {
+        await this.handleLoadMore();
+      }
+    });
   }
 }

@@ -20,7 +20,6 @@ export default class MovieList {
 
   init() {
     this.loadInitMovie();
-    this.addLoadMoreButton();
   }
 
   loadInitMovie() {

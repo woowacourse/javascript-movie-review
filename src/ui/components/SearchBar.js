@@ -41,12 +41,14 @@ class SearchBar {
     if (e.key === "Enter") {
       await this.searchHandler.handleSearch(input.value);
       store.setMode('searchAdd');
+      store.setQuery(input.value);
     }
   }
 
   async handleSearchButtonClick(input) {
     await this.searchHandler.handleSearch(input.value);
     store.setMode('searchAdd');
+    store.setQuery(input.value);
   }
 }
 
