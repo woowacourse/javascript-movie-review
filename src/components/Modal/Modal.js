@@ -1,6 +1,6 @@
 import("./modal.css");
 
-export const modal = ({
+export const Modal = ({
   title,
   poster_path,
   //   genre_ids,
@@ -29,6 +29,7 @@ export const modal = ({
             >
           </p>
           <hr />
+          // 별점 입력
           <p class="detail">
             ${overview}
           </p>

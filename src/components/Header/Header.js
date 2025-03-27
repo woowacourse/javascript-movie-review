@@ -1,25 +1,25 @@
+import { Modal } from "../Modal/Modal";
 import LogoSearchBar from "./LogoSearchBar";
 
-function Header({ title, backdrop_path, poster_path, vote_average }) {
+function Header({ title, backdrop_path, poster_path, vote_average, overview }) {
   const $header = document.createElement("header");
 
   $header.innerHTML = `
   <div class="background-container">
-    <div class="overlay" aria-hidden="true">  
-    </div>
+    <div class="overlay" aria-hidden="true"></div>
     <img src="https://image.tmdb.org/t/p/w1920_and_h800_multi_faces${backdrop_path}" class="banner"/>
     <div class="top-rated-container">
-    <div class="top-rated-movie">
-      <div class="rate">
-        <img src="./star_empty.png" class="star" />
-        <span class="rate-value">${vote_average.toFixed(1)}</span>
+      <div class="top-rated-movie">
+        <div class="rate">
+          <img src="./star_empty.png" class="star" />
+          <span class="rate-value">${vote_average.toFixed(1)}</span>
+        </div>
+        <div class="title">${title}</div>
+        <button class="primary detail">자세히 보기</button>
       </div>
-      <div class="title">${title}</div>
-      <button class="primary detail">자세히 보기</button>
     </div>
   </div>
-</div>
-`;
+  `;
 
   return $header;
 }
