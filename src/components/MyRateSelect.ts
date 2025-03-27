@@ -26,6 +26,7 @@ const MyRateSelect = {
 
     const score: number = LocalStorage.getJSON(MOVIE_RATE_LIST_KEY)[movieId];
     this.set(score, myRateElement);
+    this.handleClickStar(movieId, myRateElement);
 
     return myRateElement;
   },
@@ -51,6 +52,28 @@ const MyRateSelect = {
       MOVIE_RATE_COMMENT[score] ?? MOVIE_NO_RATE_COMMENT
     } <span class="my-rate-score">(${score !== 0 ? score : "-"}/10)</span>
     `;
+  },
+
+  handleClickStar(
+    movieId: number,
+    myRateElement: HTMLDivElement = $<HTMLDivElement>(".my-rate")
+  ) {
+    const starContainer = $<HTMLDivElement>(".star-container", myRateElement);
+    starContainer.addEventListener("click", (e) =>
+      this.onClickStar(movieId, e)
+    );
+  },
+
+  onClickStar(movieId: number, e: MouseEvent) {
+    if (!(e.target instanceof HTMLElement)) return;
+    if (!e.target.classList.contains("star")) return;
+
+    const updatedMovieRate = LocalStorage.getJSON(MOVIE_RATE_LIST_KEY);
+    const score = Number(e.target.dataset.value);
+    updatedMovieRate[movieId] = score;
+
+    LocalStorage.setJSON(MOVIE_RATE_LIST_KEY, updatedMovieRate);
+    this.set(score);
   },
 };
 
