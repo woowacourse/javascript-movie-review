@@ -2,16 +2,24 @@
   height: 50px;
 }
 
+/* 헤더에 스크롤 타임라인 적용 */
 .header {
-  display: flex;
   position: fixed;
   left: 50%;
   transform: translateX(-50%);
-  gap: 240px;
   top: 10px;
-  max-width: 1280px;
+  max-width: 640px;
   width: 100%;
   z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  border-radius: 2rem;
+  padding: 1rem;
+  background-color: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(2px);
 }
 
 .search-bar {
