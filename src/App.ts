@@ -57,7 +57,6 @@ export default class App extends Component<null, AppState> {
     );
     this.fillSlot(
       new Movies({
-        movies: this.state.movies,
         page: this.state.page,
         search: this.state.search,
         error: this.state.error,

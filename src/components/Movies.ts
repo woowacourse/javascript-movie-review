@@ -6,7 +6,6 @@ import ThumbnailList from './ThumbnailList';
 const TAB_LIST = ['상영 중', '인기순', '평점순', '상영 예정'];
 
 interface MoviesProps {
-  movies: AppState['movies'];
   page: AppState['page'];
   search: AppState['search'];
   error: AppState['error'];
@@ -48,11 +47,6 @@ export default class Movies extends Component<MoviesProps> {
   }
 
   async onRender() {
-    this.fillSlot(
-      new ThumbnailList({
-        movies: this.props.movies,
-      }),
-      'thumbnail-list',
-    );
+    this.fillSlot(new ThumbnailList(), 'thumbnail-list');
   }
 }

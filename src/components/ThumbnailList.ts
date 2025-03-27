@@ -1,18 +1,20 @@
 import { DEFAULT_BACK_DROP_URL } from '@/lib/constants';
 
-import { AppState } from '@/App';
+import { moviesResponseStore } from '@/lib/store';
 import { html } from '@/lib/utils';
-import Component from './core/Component';
 import { forEach } from '@fxts/core';
 import { MOVIE_ITEM_PER_PAGE } from '../lib/constants';
+import Component from './core/Component';
 
-interface ThumbnailListProps {
-  movies: AppState['movies'];
-}
+export default class ThumbnailList extends Component {
+  setup() {
+    this.subsribe([moviesResponseStore]);
+  }
 
-export default class ThumbnailList extends Component<ThumbnailListProps> {
   template() {
-    if (!this.props.movies)
+    const movies = moviesResponseStore.getState()?.results;
+
+    if (!movies)
       return html`
         <ul class="thumbnail-list">
           ${new Array(MOVIE_ITEM_PER_PAGE).fill(null).map(
@@ -27,7 +29,7 @@ export default class ThumbnailList extends Component<ThumbnailListProps> {
           )}
         </ul>
       `;
-    if (this.props.movies.length === 0)
+    if (movies.length === 0)
       return html`
         <div class="result-not-found">
           <img src="./images/woowawa_planet.svg" alt="woowawa_planet" />
@@ -41,7 +43,7 @@ export default class ThumbnailList extends Component<ThumbnailListProps> {
       `;
     return html`
       <ul class="thumbnail-list">
-        ${this.props.movies.map((movie) => {
+        ${movies.map((movie) => {
           const backgroundImage = movie.backdrop_path
             ? `${DEFAULT_BACK_DROP_URL}/${movie.backdrop_path}`
             : './images/default_thumbnail.jpeg';
