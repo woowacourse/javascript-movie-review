@@ -63,14 +63,14 @@ async function renderInitContent(movieList:MovieList, movieService: MovieService
 async function main() {
   const movieService = new MovieService();
   showSkeleton(20)
-  const dataArr = await movieService.fetchMovies(
+  const movies = await movieService.fetchMovies(
     "/movie/popular",
     getPopularParam(movieService.currentPage)
   );
-  const movieList = new MovieList(dataArr.results)
+  const movieList = new MovieList(movies.results);
   replaceSkeletonWithMovies(movieList.movieList);
 
-  renderHeader(dataArr.results[0]);
+  renderHeader(movies.results[0]);
   renderFooter();
   renderInitContent(movieList, movieService);
 }

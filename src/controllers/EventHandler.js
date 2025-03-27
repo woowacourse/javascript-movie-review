@@ -20,11 +20,11 @@ const EVENT_HANDLER = {
         $moviesContainer.innerHTML = "";
       }
       showSkeleton(10);
-      const data = await movieService.fetchMovies(
+      const movies = await movieService.fetchMovies(
         "/search/movie",
         getSearchParam(inputValue, movieService.currentPage)
       );
-      const movieList = new MovieList(data.results);
+      const movieList = new MovieList(movies.results);
       replaceSkeletonWithMovies(movieList.movieList);
 
       ContentsContainer(

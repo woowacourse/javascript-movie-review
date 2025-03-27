@@ -29,8 +29,8 @@ async function handleMoreMovies(
   fetchMoviesCallback: FetchMoviesCallback
 ) {
   showSkeleton(20);
-  const data = await fetchMoviesCallback();
-  const movieList = new MovieList(data.results);
+  const movies = await fetchMoviesCallback();
+  const movieList = new MovieList(movies.results);
   replaceSkeletonWithMovies(movieList.movieList);
 
   const $moreButton = event.target as HTMLButtonElement;
