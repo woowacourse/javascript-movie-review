@@ -9,6 +9,7 @@ import {
   initCurrentPage,
 } from "./components/MovieListBox/MovieListBox";
 import { replaceSkeletonList } from "./components/Skeleton/MovieList/SkeletonList";
+import registerMovieDetailEventListener from "./domains/movie/movieDetailHandler";
 
 export const replaceMovieListBox = ({
   title,
@@ -40,6 +41,8 @@ const initPopularMovieListRender = async () => {
 
 const $header = document.querySelector("header");
 $header?.append($Banner(), $HeaderBox());
+
+registerMovieDetailEventListener();
 
 asyncErrorBoundary({
   asyncFn: () => initPopularMovieListRender(),

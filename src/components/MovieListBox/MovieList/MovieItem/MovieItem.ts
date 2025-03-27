@@ -3,7 +3,9 @@ import { createElement } from "../../../../utils/dom";
 import { POSTER_PATH, ICON_PATH } from "../../../../constants/imagePaths";
 import { getPosterUrl } from "../../../../utils/getPosterUrl";
 
-const $MovieItem = ({ title, poster_path, vote_average }: MovieData) => {
+export const MOVIE_ITEM_CLICK = "movie-item:click";
+
+const $MovieItem = ({ id, title, poster_path, vote_average }: MovieData) => {
   const $rate = createElement("p", {
     className: "rate",
   });
@@ -28,6 +30,7 @@ const $MovieItem = ({ title, poster_path, vote_average }: MovieData) => {
   const $item = createElement("li", {
     className: "item",
   });
+
   const $poster = createElement("img", {
     className: "thumbnail",
     src: POSTER_PATH.LOADING,
@@ -53,6 +56,15 @@ const $MovieItem = ({ title, poster_path, vote_average }: MovieData) => {
   }
 
   $item.append($poster, $description);
+
+  $item.addEventListener("click", () => {
+    const event = new CustomEvent(MOVIE_ITEM_CLICK, {
+      detail: { movieId: id },
+      bubbles: true,
+    });
+    $item.dispatchEvent(event);
+  });
+
   return $item;
 };
 
