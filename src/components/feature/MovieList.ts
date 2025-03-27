@@ -11,6 +11,7 @@ import { MovieItem } from './MovieItem';
 import { MovieSkeleton } from './MovieSkeleton';
 import { Empty } from './Empty';
 import { Img } from '../common/Img';
+
 const renderErrorState = () => {
   const error = movieFetcher.errorState;
   if (!error) return;
@@ -32,7 +33,6 @@ const renderErrorState = () => {
 
   // 오류 UI 추가
   errorContainer.append(errorMessage);
-
   sectionElement.insertBefore(errorContainer, movieUl);
 };
 
@@ -180,17 +180,15 @@ const renderMovieList = () => {
   renderMovies(results, response);
 };
 
-export const MovieList = async (): Promise<HTMLElement> => {
+export const MovieList = (): HTMLElement => {
   const app = document.querySelector('#app');
-  if (app?.firstChild) {
-    app.insertBefore(mainElement, app.firstChild.nextSibling);
-  }
-  if (app) {
-    app.appendChild(mainElement);
+
+  if (!app) {
+    throw new Error('#app에 해당하는 요소가 없습니다.');
   }
 
-  renderMoreLoadingState(20);
-  await movieFetcher.getPopularMovies(1);
+  app.appendChild(mainElement);
+  movieFetcher.getPopularMovies(1);
 
   renderMovieList();
   movieFetcherEvent.subscribe(renderMovieList);
