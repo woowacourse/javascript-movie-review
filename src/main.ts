@@ -7,6 +7,7 @@ import $HeaderBox from "./components/HeaderBox/HeaderBox";
 import { $MovieListBox } from "./components/MovieListBox/MovieListBox";
 import $ScrollToTopButton from "./components/ScrollToTop/ScrollToTopButton";
 import { replaceSkeletonList } from "./components/Skeleton/MovieList/SkeletonList";
+import $Modal from "./components/Modal/Modal";
 
 export const replaceMovieListBox = ({
   title,
@@ -40,6 +41,7 @@ $header?.append($Banner(), $HeaderBox());
 
 const $app = document.querySelector("#app");
 $app?.appendChild($ScrollToTopButton());
+$app?.appendChild($Modal());
 
 asyncErrorBoundary({
   asyncFn: () => initPopularMovieListRender(),
