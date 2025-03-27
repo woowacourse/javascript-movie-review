@@ -1,10 +1,19 @@
-import { getMovieByName, getMovies } from "../../apis/MovieApi";
+import { getMovieByName, getMovies, MoviesResponse } from "../../apis/MovieApi";
 import { movieStore } from "../../store/movieStore";
+
+const updateMovieStore = (response: MoviesResponse) => {
+  const summary = response.results.map((movie) => ({
+    backdrop_path: movie.backdrop_path,
+    title: movie.title,
+    vote_average: movie.vote_average,
+  }));
+  movieStore.movies = [...movieStore.movies, ...summary];
+  movieStore.totalPages = response.total_pages;
+};
 
 export const fetchTotalList = async () => {
   const moviesResponse = await getMovies({ page: movieStore.page });
-  movieStore.movies = [...movieStore.movies, ...moviesResponse.results];
-  movieStore.totalPages = moviesResponse.total_pages;
+  updateMovieStore(moviesResponse);
 };
 
 export const fetchSearchList = async () => {
@@ -12,6 +21,5 @@ export const fetchSearchList = async () => {
     name: movieStore.searchKeyword,
     page: movieStore.page,
   });
-  movieStore.movies = [...movieStore.movies, ...moviesResponse.results];
-  movieStore.totalPages = moviesResponse.total_pages;
+  updateMovieStore(moviesResponse);
 };

@@ -1,8 +1,8 @@
-import { MovieResult } from "../apis/MovieApi";
+import { MovieSummary } from "../../types/movieApiType";
 import { DEFAULT_BACK_DROP_URL } from "../constants/movieApi";
 import { toElement } from "../utils/domUtils";
 
-export default function MovieList(moviesResult: MovieResult[]) {
+export default function MovieList(moviesResult: MovieSummary[]) {
   const $ul = document.querySelector(".thumbnail-list");
   const $movieListFragment = document.createDocumentFragment();
 

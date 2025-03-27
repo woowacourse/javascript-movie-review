@@ -9,7 +9,7 @@ export interface MoviesResponse {
 
 export interface MovieResult {
   adult: boolean;
-  backdrop_path?: string;
+  backdrop_path?: string; //needs
   genre_ids: number[];
   id: number;
   original_language: string;
@@ -18,9 +18,9 @@ export interface MovieResult {
   popularity: number;
   poster_path: string;
   release_date: string;
-  title: string;
+  title: string; //needs
   video: boolean;
-  vote_average: number;
+  vote_average: number; //needs
   vote_count: number;
 }
 

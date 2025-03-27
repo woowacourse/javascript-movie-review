@@ -1,8 +1,8 @@
-import { MovieResult } from "../apis/MovieApi";
+import { MovieSummary } from "../../types/movieApiType";
 
 export const movieStore = {
   page: 1,
   totalPages: 1,
-  movies: [] as MovieResult[],
+  movies: [] as MovieSummary[],
   searchKeyword: "",
 };
