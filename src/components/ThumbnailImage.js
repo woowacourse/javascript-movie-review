@@ -1,11 +1,6 @@
 function ThumbnailImage({ title, poster_path }) {
   const $thumbnailImage = document.createElement("img");
   $thumbnailImage.classList.add("thumbnail");
-  $thumbnailImage.classList.add("skeleton");
-
-  $thumbnailImage.onload = () => {
-    $thumbnailImage.classList.remove("skeleton");
-  };
 
   if (!poster_path) {
     $thumbnailImage.src = "./default_poster_image.png";
