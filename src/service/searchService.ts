@@ -22,11 +22,14 @@ import fetchAndSetLoadingEvent from "./fetchService.ts";
 let isErrorHandled = false;
 
 export default async function handleSearch(searchValue: string) {
+  window.scrollTo({
+    top: 0,
+  });
+  infiniteScrollInstance?.resumeInfiniteScroll();
   isErrorHandled = false;
 
   setSearchResultTitle(searchValue);
   setSearchLoadingState();
-  window.scrollTo({ top: 0, behavior: "smooth" });
 
   setLoadMovies(
     createMovieLoader(
@@ -40,11 +43,15 @@ export default async function handleSearch(searchValue: string) {
 
   try {
     const data = await fetchAndSetLoadingEvent();
+
     if (data && data.results) {
       renderMovieItems(data.results, true);
     }
+    if (data.isLastPage) {
+      infiniteScrollInstance?.stopInfiniteScroll();
+    }
+
     displaySearchResults();
-    if (infiniteScrollInstance) infiniteScrollInstance.resumeInfiniteScroll();
   } catch (error) {
     return;
   }

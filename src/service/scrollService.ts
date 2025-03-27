@@ -38,7 +38,7 @@ export function setupInfiniteScroll() {
     },
     {
       root: null,
-      threshold: 0.1,
+      threshold: 0.7,
     }
   );
 
@@ -58,9 +58,8 @@ export function setupInfiniteScroll() {
     }
   }
   function stopInfiniteScroll() {
-    if (infiniteScrollSuspended) {
+    if (!infiniteScrollSuspended) {
       infiniteScrollSuspended = true;
-
       if (
         !document.getElementById("infinite-scroll-sentinel") &&
         $thumbnailContainer
