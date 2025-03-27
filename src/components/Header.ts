@@ -1,7 +1,9 @@
 import { DEFAULT_BACK_DROP_URL } from '@/constants';
-import { moviesResponseStore, searchStore } from '@/store';
-import { html } from '@/utils';
+import { moviesResponseStore, moviesStore, pageStore, searchStore } from '@/store';
+import { html, isHTMLFormElement } from '@/utils';
 import Component from './core/Component';
+import { eventHandlerInstance } from '@/modules';
+import { getMovie } from '@/hooks';
 
 export default class Header extends Component {
   setup() {
@@ -53,6 +55,24 @@ export default class Header extends Component {
 
   onRender() {
     this.setHeaderBackground();
+  }
+
+  addEventListener() {
+    eventHandlerInstance.addEventListener({
+      eventType: 'submit',
+      callback: async ({ target }) => {
+        if (!isHTMLFormElement(target)) return;
+
+        const formData = new FormData(target);
+        const modalInput = Object.fromEntries(formData);
+
+        pageStore.setState(1);
+        searchStore.setState(String(modalInput.search));
+        moviesStore.setState([]);
+        await getMovie(String(modalInput.search), pageStore.getState());
+      },
+      dataAction: 'submit-search',
+    });
   }
 
   setHeaderBackground() {

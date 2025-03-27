@@ -1,14 +1,9 @@
 import { DEFAULT_BACK_DROP_URL } from '@/constants';
-import { LocalStorageMovieRateValueType } from '@/modules/LocalStorage/type';
-import { movieDetailResponseStore } from '@/store';
+import { eventHandlerInstance, LocalStorage } from '@/modules';
+import { movieDetailResponseStore, movieRateStore } from '@/store';
 import { html } from '@/utils';
 import { join, map, pipe, toArray } from '@fxts/core';
 import Modal from './common/Modal';
-import { eventHandlerInstance } from '@/modules';
-
-interface MovieDetailModalProps {
-  movieRate: LocalStorageMovieRateValueType;
-}
 
 const RATE_MAP: Record<number, string> = {
   2: '최악이에요',
@@ -18,11 +13,11 @@ const RATE_MAP: Record<number, string> = {
   10: '명작이에요',
 };
 
-export default class MovieDetailModal extends Modal<MovieDetailModalProps> {
+export default class MovieDetailModal extends Modal {
   override id = 'movie-detail-modal';
 
   setup() {
-    this.subsribe([movieDetailResponseStore]);
+    this.subsribe([movieDetailResponseStore, movieRateStore]);
   }
 
   template() {
@@ -32,7 +27,7 @@ export default class MovieDetailModal extends Modal<MovieDetailModalProps> {
 
     const { backdrop_path, title, release_date, genres, overview, vote_average, id } = movieDetail;
 
-    const currentMovieRate = this.props.movieRate[id] ?? 6;
+    const currentMovieRate = movieRateStore.getState()[id] ?? 6;
 
     const backgroundImage = backdrop_path
       ? `${DEFAULT_BACK_DROP_URL}/${backdrop_path}`
@@ -98,7 +93,7 @@ export default class MovieDetailModal extends Modal<MovieDetailModalProps> {
     `;
   }
 
-  onRender() {
+  addEventListener() {
     eventHandlerInstance.addEventListener({
       eventType: 'click',
       callback: () => this.remove(),
@@ -117,6 +112,24 @@ export default class MovieDetailModal extends Modal<MovieDetailModalProps> {
       callback: ({ event }) => {
         if ((event as KeyboardEvent).key === 'Escape') this.remove();
       },
+    });
+
+    eventHandlerInstance.addEventListener({
+      eventType: 'click',
+      callback: ({ target }) => {
+        const { id, rate } = target.dataset;
+
+        if (!id || !rate) return;
+
+        const newMovieRate = {
+          ...movieRateStore.getState(),
+          [id]: Number(rate),
+        };
+
+        LocalStorage.set('movieRate', newMovieRate);
+        movieRateStore.setState(newMovieRate);
+      },
+      dataAction: 'change-rate',
     });
   }
 

@@ -1,13 +1,20 @@
-import { errorStore, moviesStore, searchStore } from '@/store';
+import { errorStore, movieRateStore, moviesStore, pageStore, searchStore } from '@/store';
 import { html } from '@/utils';
 import Component from './core/Component';
 import ThumbnailList from './ThumbnailList';
+import { getMovie } from '@/hooks';
+import IntersectionObserble from './IntersectionObserble';
+import MovieDetailModal from './MovieDetailModal';
 
 const TAB_LIST = ['상영 중', '인기순', '평점순', '상영 예정'];
 
 export default class Movies extends Component {
-  setup() {
+  override setup() {
     this.subsribe([moviesStore, errorStore, searchStore]);
+
+    getMovie(searchStore.getState(), pageStore.getState());
+
+    new MovieDetailModal({ movieRate: movieRateStore.getState() });
   }
 
   template() {
@@ -34,6 +41,7 @@ export default class Movies extends Component {
             <slot name="thumbnail-list"> </slot>
 
             <slot name="error"></slot>
+            <slot name="obserable"></slot>
 
             <div class="error close">
               <img src="./images/woowawa_planet.svg" alt="woowawa_planet" />
@@ -47,5 +55,14 @@ export default class Movies extends Component {
 
   async onRender() {
     this.fillSlot(new ThumbnailList(), 'thumbnail-list');
+    this.fillSlot(
+      new IntersectionObserble({
+        callback: async () => {
+          await getMovie(searchStore.getState(), pageStore.getState() + 1);
+        },
+        id: 'movie-more',
+      }),
+      'obserable',
+    );
   }
 }
