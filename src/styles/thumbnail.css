@@ -7,6 +7,29 @@
   gap: 70px;
 }
 
+.thumbnail-wrapper {
+  width: 200px;
+  height: 300px;
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+.thumbnail-wrapper.loading::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  animation: skeleton-gradient 1.2s infinite;
+  z-index: 1;
+}
+
+.thumbnail-wrapper.loading img {
+  opacity: 0;
+}
+.thumbnail-wrapper:not(.loading) img {
+  opacity: 1;
+}
+
 .thumbnail {
   width: 200px;
   height: 300px;
@@ -37,4 +60,18 @@ p.rate > span {
 .item .star {
   width: 16px;
   top: 1px;
+}
+
+@keyframes skeleton-gradient {
+  0% {
+    background-color: rgba(165, 165, 165, 0.1);
+  }
+
+  50% {
+    background-color: rgba(165, 165, 165, 0.3);
+  }
+
+  100% {
+    background-color: rgba(165, 165, 165, 0.1);
+  }
 }

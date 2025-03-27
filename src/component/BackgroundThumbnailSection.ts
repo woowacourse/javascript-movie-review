@@ -7,9 +7,17 @@ const BackgroundThumbnailSection = (movie: IMovieItem) => {
     class: "background-container",
     children: [
       createDOMElement({
-        tag: "img",
-        class: "background-thumbnail",
-        src: `https://media.themoviedb.org/t/p/w440_and_h660_face${movie.backdrop_path}`,
+        tag: "div",
+        className: "background-thumbnail-wrapper loading",
+        children: createDOMElement({
+          tag: "img",
+          class: "background-thumbnail",
+          src: `https://media.themoviedb.org/t/p/w440_and_h660_face${movie.backdrop_path}`,
+          alt: movie.title,
+          onload: function () {
+            this.parentElement?.classList.remove("loading");
+          },
+        }),
       }),
       createDOMElement({
         tag: "div",

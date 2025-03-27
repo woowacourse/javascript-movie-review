@@ -20,9 +20,6 @@ class MainController {
     });
 
     this.movieListController = new MovieListController({
-      onBeforeFetchMovieList: () => {
-        this.backgroundThumbnailController.renderSkeleton();
-      },
       onAfterFetchMovieList: (movie) => {
         this.backgroundThumbnailController.renderBackgroundThumbnail(movie);
       },
@@ -44,10 +41,7 @@ class MainController {
     try {
       await this.movieListController.render();
     } catch (error) {
-      this.#openModal(
-        ERROR_MESSAGE[Number((error as Error).message)] ||
-          "알 수 없는 오류가 발생했습니다.",
-      );
+      this.#openModal(ERROR_MESSAGE[Number((error as Error).message)] || "알 수 없는 오류가 발생했습니다.");
     }
   }
 
@@ -59,15 +53,10 @@ class MainController {
   async #onSearchKeywordSubmit(searchValue: string) {
     try {
       this.backgroundThumbnailController.hideBackground();
-      const searchMovieListController = new SearchMovieListController(
-        searchValue,
-      );
+      const searchMovieListController = new SearchMovieListController(searchValue);
       await searchMovieListController.render();
     } catch (error) {
-      this.#openModal(
-        ERROR_MESSAGE[Number((error as Error).message)] ||
-          "알 수 없는 오류가 발생했습니다.",
-      );
+      this.#openModal(ERROR_MESSAGE[Number((error as Error).message)] || "알 수 없는 오류가 발생했습니다.");
     }
   }
 

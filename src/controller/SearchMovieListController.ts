@@ -2,8 +2,6 @@ import { getSearchMovieResult } from "../api/getSearchMovieResult";
 import MovieEmptySection from "../component/MovieEmptySection";
 import MovieItem from "../component/MovieItem";
 import MovieListSection from "../component/MovieListSection";
-import SkeletonMovieItem from "../component/Skeleton/SkeletonMovieItem";
-import SkeletonMovieListSection from "../component/Skeleton/SkeletonMovieListSection";
 import mainElement from "../dom/mainElement";
 import { IMovieItem, IMovieResult } from "../types/movieResultType";
 import { $ } from "../util/selector";
@@ -19,8 +17,6 @@ class SearchMovieListController {
   }
 
   async render() {
-    this.#renderSkeleton();
-
     const { movieList, hasMore } = await this.#fetchMovies();
     this.#renderSearchMovieList({ movieList, hasMore });
 
@@ -31,24 +27,11 @@ class SearchMovieListController {
     const movieListContainer = $("ul", this.mainElement);
     if (!movieListContainer) return;
 
-    // 스켈레톤 추가
-    const skeletonElements = Array.from({ length: 20 }, () =>
-      SkeletonMovieItem(),
-    );
-    movieListContainer?.append(...skeletonElements);
-
     const { movieList, hasMore } = await this.#fetchMovies();
 
-    // 스켈레톤 제거 후 새로운 영화 추가
-    skeletonElements.forEach((skeleton) => skeleton.remove());
     movieListContainer?.append(...movieList.map((movie) => MovieItem(movie)));
 
     if (!hasMore) $(".see-more", this.mainElement)?.remove();
-  }
-
-  #renderSkeleton() {
-    const skeletonSectionElement = SkeletonMovieListSection();
-    this.mainElement.replaceChildren(skeletonSectionElement);
   }
 
   async #fetchMovies() {
@@ -56,10 +39,7 @@ class SearchMovieListController {
       page: newPage,
       total_pages: totalPage,
       results: movieList,
-    }: IMovieResult = await getSearchMovieResult(
-      this.searchText,
-      this.page + 1,
-    );
+    }: IMovieResult = await getSearchMovieResult(this.searchText, this.page + 1);
     this.page = newPage;
 
     const hasMore = newPage !== totalPage;
@@ -67,13 +47,7 @@ class SearchMovieListController {
     return { movieList, hasMore };
   }
 
-  #renderSearchMovieList({
-    movieList,
-    hasMore,
-  }: {
-    movieList: IMovieItem[];
-    hasMore: boolean;
-  }) {
+  #renderSearchMovieList({ movieList, hasMore }: { movieList: IMovieItem[]; hasMore: boolean }) {
     let sectionElement;
     if (movieList.length !== 0) {
       sectionElement = MovieListSection({
