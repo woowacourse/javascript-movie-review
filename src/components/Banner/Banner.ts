@@ -42,10 +42,15 @@ const $Banner = () => {
     textContent: "인사이드 아웃2",
   });
 
+  const $detailButton = createElement("button", {
+    className: "detail-button",
+    textContent: "자세히 보기",
+  });
+
   const $topRatedContainer = createElement("div", {
     className: "top-rated-container",
   });
-  $topRatedContainer.append($rate, $title);
+  $topRatedContainer.append($rate, $title, $detailButton);
 
   $backgroundContainer.append($overlay, $topRatedContainer);
 

@@ -170,6 +170,16 @@ h1.logo {
 .title {
   font-size: 64px;
   font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.detail-button {
+  padding: 0.63rem;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-white);
+  background-color: var(--color-lightblue-90);
 }
 
 .loading-observer {
