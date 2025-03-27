@@ -3,7 +3,7 @@ import MovieCard from "./MovieCard.js";
 import CustomButton from "./CustomButton.js";
 import { ADD_MOVIE_BUTTON } from "../../shared/CustomButton.ts";
 import NoResultsMessage from "./NoResultsMessage.js";
-
+import DetailModal from "./DetailModal.js";
 export default class MovieList {
   constructor(
     containerSelector,
@@ -22,6 +22,21 @@ export default class MovieList {
   init() {
     this.loadInitMovie();
     this.addLoadMoreButton();
+    this.addMovieClickEvent();
+  }
+
+   addMovieClickEvent() {
+    const movieCards = document.querySelectorAll(".thumbnail");
+    movieCards.forEach((movieCard) => {
+      movieCard.addEventListener("click", async () => {
+        //TODO : 영화 상세 정보 가져오기  
+        const movieId = movieCard.dataset.id;
+        const movieDetail = await this.movieService.getMovieDetail(movieId);
+        
+        const detailModal = new DetailModal(movieDetail);
+        detailModal.addDetailModal(movieDetail);
+      });
+    });
   }
 
   loadInitMovie() {
@@ -64,6 +79,7 @@ export default class MovieList {
     const section = document.querySelector("section");
     section.appendChild(loadMoreButton.render());
   }
+
 
   static removeMovieList() {
     const movieList = document.querySelector(".thumbnail-list");

@@ -4,6 +4,7 @@ import MovieService from '../../domain/services/MovieService.js';
 import MovieCard from '../components/MovieCard.js';
 import { store } from '../../store/store.js';
 import { APIResponse, MovieResponse } from '../../api/tmdbApi.js';
+import DetailModal from '../components/DetailModal.js';
 
 export default class MovieListHandler {
   private movieList: MovieList | undefined;
@@ -116,4 +117,8 @@ export default class MovieListHandler {
   handleLogoClick() {
     this.initMovieList();
   }
+
+
+
+  
 }

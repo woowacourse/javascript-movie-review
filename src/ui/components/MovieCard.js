@@ -6,12 +6,13 @@ export default class MovieCard {
   render() {
     const li = document.createElement("li");
 
-    li.innerHTML = `
+    li.innerHTML = /*html*/`
       <div class="item">
         <img
           class="thumbnail"
           src="${this.movie.getPosterUrl()}"
           alt="${this.movie.title}"
+          data-id="${this.movie.id}"
         />
         <div class="item-desc">
           <p class="rate">

@@ -1,4 +1,4 @@
-import TmdbApi, { TmdbApiError, APIResponse, MovieResponse } from "../../api/tmdbApi";
+import TmdbApi, { TmdbApiError, APIResponse, MovieResponse, MovieDetailResponse } from "../../api/tmdbApi";
 import Movie from "../models/Movie";
 
 export default class MovieService {
@@ -39,6 +39,21 @@ export default class MovieService {
       }
       
       alert(errorMessage);
+      throw error;
+    }
+  }
+
+  async getMovieDetail(movieId: number): Promise<MovieDetailResponse> {
+    try {
+      return await this.api.getMovieDetail(movieId);
+    } catch (error) {
+      console.error("영화 상세 정보 가져오기 실패", error);
+      let errorMessage = "영화 상세 정보 가져오기 실패";
+      if (error instanceof TmdbApiError) {
+        errorMessage = error.message;
+      } else if (error instanceof Error) {
+        errorMessage = error.message;
+      }
       throw error;
     }
   }
