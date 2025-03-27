@@ -8,7 +8,7 @@ const eventBus = EventBus.getInstance();
 const SELECTORS = {
   showMore: ".show-more",
   modalClose: "#closeModal",
-  movieItem: ".thumbnail-list .item, .top-rated-movie",
+  movieItem: ".thumbnail-list .item, .top-rated-button",
   searchForm: ".top-rated-search",
   searchInput: ".top-rated-search-input",
 };

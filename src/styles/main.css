@@ -131,6 +131,10 @@ button.primary {
   margin-bottom: 8px;
 }
 
+.top-rated-button {
+  display: inline-flex;
+}
+
 h1.logo {
   position: absolute;
   font-size: 2rem;

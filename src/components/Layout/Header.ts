@@ -80,7 +80,7 @@ export default class Header extends Component<HeaderState> {
       !this.state.hasSearched
         ? /*html*/ `
         <div class="top-rated-container">
-          <div class="top-rated-movie"  data-movie-id="${this.state.id}">
+          <div class="top-rated-movie">
             ${
               this.state.isLoading
                 ? this.renderSkeletonItem()
@@ -90,10 +90,14 @@ export default class Header extends Component<HeaderState> {
                     <span class="rate-value">${this.state.voteAverage}</span>
                   </div>
                   <div class="title">${this.state.title}</div>
+                  <div class="top-rated-button" data-movie-id="${
+                    this.state.id
+                  }">
                   ${
                     Button({ className: "detail", textContent: "자세히 보기" })
                       .outerHTML
                   }
+                  </div>
                 `
             }
           </div>
