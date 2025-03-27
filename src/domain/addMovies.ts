@@ -11,7 +11,7 @@ const searchAddMovies = async (page: number, keyword: string) => {
     query: keyword
   };
 
-  const response = await getSearchMovies('/search/movie', params);
+  const response = await getSearchMovies(params);
 
   return response;
 };
@@ -22,7 +22,7 @@ const popularAddMovies = async (page: number) => {
     language: 'ko-KR'
   };
 
-  const response = await getPopularMovies('/movie/popular', params);
+  const response = await getPopularMovies(params);
 
   return response;
 };

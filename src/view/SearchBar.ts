@@ -45,7 +45,7 @@ const handleSearchMovies = async (e: Event) => {
     query: String(data.get('keyword'))
   };
 
-  const response = await getSearchMovies('/search/movie', params);
+  const response = await getSearchMovies(params);
   renderMovieList(response, String(data.get('keyword')));
 };
 

@@ -6,7 +6,7 @@ export const initMovies = async () => {
     language: 'ko-KR'
   };
 
-  const movies = await getPopularMovies('/movie/popular', params);
+  const movies = await getPopularMovies(params);
 
   return movies;
 };
