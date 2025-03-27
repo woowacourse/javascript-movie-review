@@ -1,8 +1,8 @@
 import createDOMElement from '../util/createDomElement';
 import { DEFAULT_IMAGE_URL, IMAGE_BASE_URL } from '../constant';
-import { IMovie } from '../type';
+import { MoveType } from '../type';
 
-function Movie({ movie }: { movie: IMovie }) {
+function Movie({ movie }: { movie: MoveType }) {
   const poster_path = movie.poster_path
     ? IMAGE_BASE_URL + '/w440_and_h660_face/' + movie.poster_path
     : DEFAULT_IMAGE_URL;

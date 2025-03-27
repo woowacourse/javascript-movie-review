@@ -1,9 +1,9 @@
 import createDOMElement from '../util/createDomElement';
 import MessageDisplay from '../component/MessageDisplay';
 import Movie from '../component/Movie';
-import { IMovie } from '../type';
+import { MoveType } from '../type';
 
-function MovieList({ title, movies }: { title: string; movies: IMovie[] }) {
+function MovieList({ title, movies }: { title: string; movies: MoveType[] }) {
   return createDOMElement({
     tag: 'div',
     children: [

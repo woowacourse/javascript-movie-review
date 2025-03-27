@@ -1,9 +1,9 @@
 import createDOMElement from '../util/createDomElement';
 import Button from '../component/Button';
 import { IMAGE_BASE_URL } from '../constant';
-import { IMovie } from '../type';
+import { MoveType } from '../type';
 
-function Banner({ movie }: { movie: IMovie }) {
+function Banner({ movie }: { movie: MoveType }) {
   const { backdrop_path, vote_average, title } = movie;
   return createDOMElement({
     tag: 'header',

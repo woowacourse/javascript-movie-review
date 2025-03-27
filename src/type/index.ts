@@ -1,4 +1,4 @@
-export interface IMovie {
+export interface MoveType {
   adult: boolean;
   backdrop_path: null;
   genre_ids: number[];

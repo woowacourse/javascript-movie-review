@@ -1,9 +1,9 @@
 import Banner from '../Banner';
 import Skeleton from '../../component/Skeleton';
-import { IMovie } from '../../type';
+import { MoveType } from '../../type';
 import { $ } from '../../util/selector';
 
-export const renderBanner = async (movies: IMovie[]) => {
+export const renderBanner = async (movies: MoveType[]) => {
   const wrap = $('#wrap');
 
   const bannerSkeleton = Skeleton({ height: 500 });
