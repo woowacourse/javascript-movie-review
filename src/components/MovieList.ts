@@ -6,12 +6,13 @@ export default function MovieList(moviesResult: MovieSummary[]) {
   const $ul = document.querySelector(".thumbnail-list");
   const $movieListFragment = document.createDocumentFragment();
 
-  moviesResult.forEach((movie) => {
-    const backgroundImage = movie.backdrop_path
-      ? `${DEFAULT_BACK_DROP_URL}${movie.backdrop_path}`
-      : "./images/default_thumbnail.jpeg";
+  $movieListFragment.append(
+    ...moviesResult.map((movie) => {
+      const backgroundImage = movie.backdrop_path
+        ? `${DEFAULT_BACK_DROP_URL}${movie.backdrop_path}`
+        : "./images/default_thumbnail.jpeg";
 
-    const movieItemHTML = /*html*/ `
+      return toElement(`
       <li>
         <div class="item">
           <img
@@ -29,11 +30,9 @@ export default function MovieList(moviesResult: MovieSummary[]) {
           </div>
         </div>
       </li>
-    `;
-
-    const $movieItem = toElement(movieItemHTML);
-    $movieListFragment.appendChild($movieItem);
-  });
+    `);
+    })
+  );
 
   $ul?.appendChild($movieListFragment);
   return $ul;
