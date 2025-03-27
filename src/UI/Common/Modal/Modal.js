@@ -78,8 +78,15 @@ class Modal {
 
     if (!this.#movie) return;
 
-    const { title, poster_path, vote_average, genres, release_date, overview } =
-      this.#movie;
+    const {
+      title,
+      poster_path,
+      vote_average,
+      genres,
+      release_date,
+      overview,
+      id,
+    } = this.#movie;
 
     const $modal = document.createElement("div");
     $modal.classList.add("modal");
@@ -126,7 +133,7 @@ class Modal {
     `;
 
     $modalContainer.appendChild($modalDescription);
-    new Rate($modalDescription.querySelector(".rate-container")).render();
+    new Rate($modalDescription.querySelector(".rate-container"), id).render();
     const $hr = document.createElement("hr");
     const $overviewText = document.createElement("p");
     $overviewText.classList.add("info-text");
@@ -151,42 +158,3 @@ class Modal {
 }
 
 export default Modal;
-
-// $modalContainer.innerHTML = /*html*/ `
-// <div class="modal-image">
-//   <img
-//     src=${`https://image.tmdb.org/t/p/w300${poster_path}`}
-//   />
-// </div>
-// <div class="modal-description">
-//   <h2>${title}</h2>
-//   <p class="category">
-//   ${release_date.substr(0, 4)} · ${genres
-// .map((genre) => genre.name)
-// .join(", ")}
-//   </p>
-//   <p class="rate">
-//     <img src="./images/star_filled.png" class="star" />
-//     <span>${vote_average.toFixed(1)}</span>
-//   </p>
-//   <hr />
-//   <p class="overview-text">내 별점</p>
-//   <div class="rating-selector">
-//     ${Array.from({ length: 5 }, (v, i) => (i + 1) * 2)
-//       .map(
-//         (el) =>
-//           `<button class="rate-button">
-//           <img src="./images/star_filled.png" class="star" />
-//         </button>`
-//       )
-//       .join("")}
-//       <span class="rate-text">${this.getRateText(this.#rate)}</span>
-//       <span class="rate-number">(${this.#rate}/10)</span>
-//   </div>
-//   <hr />
-//   <p class="overview-text">줄거리</p>
-//   <p class="detail">
-//     ${overview}
-//   </p>
-// </div>
-// `;

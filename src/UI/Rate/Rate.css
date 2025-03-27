@@ -1,5 +1,7 @@
 .rating-selector {
   font-size: 20px;
+  display: flex;
+  gap: 10px;
 }
 
 .rate-button {
