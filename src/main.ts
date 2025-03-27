@@ -9,15 +9,24 @@ import {
   hideSkeleton,
   showSkeleton,
 } from "./components/Skeleton/showSkeleton.ts";
+import { Modal } from "./components/Modal/Modal.js";
 
 function renderHeader({
+  id,
   title,
   backdrop_path,
   poster_path,
+  overview,
   vote_average,
 }: MovieInfo) {
   const $container = document.querySelector("#wrap");
-  const $header = Header({ title, backdrop_path, poster_path, vote_average });
+  const $header = Header({
+    title,
+    backdrop_path,
+    poster_path,
+    overview,
+    vote_average,
+  });
   const $logoSearchBar = LogoSearchBar();
   $header.querySelector(".top-rated-container")?.prepend($logoSearchBar);
   const $headerSkeleton = document
@@ -26,7 +35,56 @@ function renderHeader({
   if ($headerSkeleton) {
     $headerSkeleton.remove();
   }
+
   $container?.prepend($header);
+  const $openModalButton = $header.querySelector(".detail");
+  if ($openModalButton) {
+    $openModalButton.addEventListener("click", async () => {
+      const movieService = new MovieService();
+      const movieDetails = await movieService.getMovieDetails(id);
+      const event = new CustomEvent("modalOpenClicked", {
+        detail: movieDetails,
+      });
+      document.dispatchEvent(event);
+    });
+  }
+}
+
+document.addEventListener("modalOpenClicked", (event: CustomEvent) => {
+  const customEvent = event as CustomEvent<MovieInfo>;
+
+  const { title, poster_path, vote_average, overview } = customEvent.detail;
+  openModal({ title, poster_path, vote_average, overview });
+});
+
+function openModal({ title, poster_path, vote_average, overview }: MovieInfo) {
+  const $modalContainer = document.createElement("div");
+  $modalContainer.classList.add("modalcontainer");
+
+  const modalElement = Modal({ title, poster_path, vote_average, overview });
+  $modalContainer.innerHTML = modalElement;
+  document.body.appendChild($modalContainer);
+
+  const closeButton = $modalContainer.querySelector("#closeModal");
+  if (closeButton) {
+    closeButton.addEventListener("click", () => {
+      $modalContainer.remove();
+    });
+  }
+
+  document.addEventListener("keydown", (event: KeyboardEvent) => {
+    console.log(event.key);
+    if (event.key === "Escape" && $modalContainer) {
+      $modalContainer.remove();
+    }
+  });
+
+  const $modalOverlay = $modalContainer.querySelector("#modalBackground");
+  if ($modalOverlay) {
+    $modalOverlay.addEventListener("click", () => {
+      $modalContainer.remove();
+    });
+  }
 }
 
 async function renderContent(movieService: MovieService, results: MovieInfo[]) {
@@ -37,9 +95,9 @@ async function renderContent(movieService: MovieService, results: MovieInfo[]) {
   const $button = document.querySelector(".search-button") as HTMLButtonElement;
   const $section = document.querySelector("section") as HTMLDivElement;
 
-  $input?.addEventListener("keypress", async (event) => {
+  $input?.addEventListener("keydown", async (event) => {
     const keyboardEvent = event as KeyboardEvent;
-    if (keyboardEvent.key === "Enter") {
+    if (keyboardEvent.key === "Enter" && !event.isComposing) {
       const inputValue = (event.target as HTMLInputElement).value;
       showSkeleton(20, "section");
       if (inputValue === "") {
