@@ -37,7 +37,10 @@ class MainController {
 
     this.backgroundThumbnailController = new BackgroundThumbnailController({
       mainElement: this.mainElement,
-      openModal: (text: string) => this.messageModalController.changeContentMessage(text),
+      openDetailModal: async (id: number) => {
+        const movieItem = await getDetailMovieResult(id);
+        this.detailModalController.changeContent(movieItem);
+      },
     });
 
     new HeaderController({

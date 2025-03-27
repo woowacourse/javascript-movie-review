@@ -3,40 +3,27 @@ import { MovieItemType } from "../types/movieResultType";
 
 class BackgroundThumbnailController {
   mainElement;
-  openModal;
+  openDetailModal;
   backgroundElement!: HTMLElement;
 
-  constructor({
-    mainElement,
-    openModal,
-  }: {
-    mainElement: HTMLElement;
-    openModal: (text: string) => void;
-  }) {
+  constructor({ mainElement, openDetailModal }: { mainElement: HTMLElement; openDetailModal: (id: number) => void }) {
     this.mainElement = mainElement;
-    this.openModal = openModal;
+    this.openDetailModal = openDetailModal;
   }
 
   async render(movieItem: MovieItemType) {
     await this.renderMovieList(movieItem);
-    this.bindEvents();
+    this.bindEvents(movieItem);
   }
 
-  bindEvents() {
-    const detailButtonElement = this.backgroundElement.querySelector(
-      "button.detail",
-    ) as HTMLButtonElement;
-    detailButtonElement.addEventListener("click", () =>
-      this.openModal("아직 지원되지 않은 기능입니다."),
-    );
+  bindEvents(movieItem: MovieItemType) {
+    const detailButtonElement = this.backgroundElement.querySelector("button.detail") as HTMLButtonElement;
+    detailButtonElement.addEventListener("click", () => this.openDetailModal(movieItem.id));
   }
 
   async renderMovieList(movieItem: MovieItemType) {
     this.backgroundElement = BackgroundThumbnailSection(movieItem);
-    this.mainElement?.insertAdjacentElement(
-      "beforebegin",
-      this.backgroundElement,
-    );
+    this.mainElement?.insertAdjacentElement("beforebegin", this.backgroundElement);
   }
 }
 
