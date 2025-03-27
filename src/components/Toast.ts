@@ -1,5 +1,5 @@
-import { $, html, variant } from '@/lib/utils';
-import Component from './core/Component';
+import { html, variant } from '@/lib/utils';
+import { Modal } from './common';
 
 interface ToastProps {
   message: string;
@@ -11,7 +11,9 @@ export const enum TOAST_TYPE {
   error = 'error',
 }
 
-export default class Toast extends Component<ToastProps> {
+export default class Toast extends Modal<ToastProps> {
+  override id = 'toast';
+
   template() {
     return html`<div
       class="toast 
@@ -22,17 +24,5 @@ export default class Toast extends Component<ToastProps> {
     >
       ${this.props.message}
     </div>`;
-  }
-
-  show() {
-    $('#toast')?.appendChild(this.element);
-
-    setTimeout(() => {
-      this.remove();
-    }, 1000);
-  }
-
-  remove() {
-    this.element.remove();
   }
 }
