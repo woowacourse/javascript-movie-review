@@ -6,147 +6,78 @@ import {
   URLS,
   defaultOptions,
   defaultQueryObject,
-  ratingMessages,
-  ratingNumbers,
 } from "./setting/settings.ts";
-
-import state from "./state/state.ts";
 
 import {
   renderHeaderAndHero,
   renderMovieItems,
-  showElement,
-  hideElement,
   updateDetails,
   updateHero,
 } from "./view/MovieView.ts";
-import type { TMDBDetails } from "../types/tmdb.types.ts";
+
 import fetchAndSetLoadingEvent from "./service/fetchService.ts";
 import { setupInfiniteScroll } from "./service/scrollService.ts";
+import type { InfiniteScrollInstance } from "./service/scrollService.ts";
 import {
   handleConnectionError,
   checkApiAvailability,
 } from "./service/errorService.ts";
-import { fetchUrl } from "./util/fetch.ts";
 
-let infiniteScrollInstance = null;
-let showingItem = 0;
-const initMovies = () =>
-  createMovieLoader(
+import {
+  bindDetailsImageLoadEvent,
+  bindLoadingEvents,
+  bindModalEvents,
+  bindOnlineEvent,
+  bindStarRatingEvents,
+  bindThumbnailClickEvent,
+} from "./handlers/event-binders.ts";
+import { setLoadMovies } from "./state/movieState.ts";
+import { setShowingItem } from "./state/movieState";
+
+let infiniteScrollInstance: InfiniteScrollInstance = null;
+
+const initMovies = () => {
+  return createMovieLoader(
     URLS.popularMovieUrl,
     defaultQueryObject,
     defaultOptions,
     handleError
   );
-
+};
 const handleError = (error: Error) => {
   Toast.showToast(error.message, "error", 5000);
   checkApiAvailability(infiniteScrollInstance);
 };
 
-const initState = () => ({
-  loadMovies: initMovies(),
-});
-
 const renderApp = (data) => {
   renderHeaderAndHero();
   const firstMovieShown = data.results[0];
-  showingItem = data.results[0].id;
+  setShowingItem(data.results[0].id);
   updateHero(firstMovieShown);
   updateDetails(firstMovieShown);
   renderMovieItems(data.results, false);
 };
+const bindEventListeners = () => {
+  bindLoadingEvents();
+  bindThumbnailClickEvent();
+  bindModalEvents();
+  bindStarRatingEvents();
+  bindDetailsImageLoadEvent();
+  bindOnlineEvent(infiniteScrollInstance);
+};
 
 const main = async () => {
-  Object.assign(state, initState());
   try {
-    const data = await fetchAndSetLoadingEvent(state);
-    infiniteScrollInstance = setupInfiniteScroll(state);
+    const loadMovies = initMovies();
+    setLoadMovies(loadMovies);
+    const data = await fetchAndSetLoadingEvent();
+    infiniteScrollInstance = setupInfiniteScroll();
     renderApp(data);
-  } catch {
+    bindEventListeners();
+  } catch (error) {
     handleConnectionError();
   }
 };
-
-if (!window._loadingEventRegistered) {
-  document.addEventListener("loading:start", () => {
-    const skeleton = document.querySelector(".skeleton-list");
-    const loadMore = document.getElementById("load-more");
-    if (skeleton) showElement(skeleton);
-    if (loadMore) hideElement(loadMore);
-  });
-
-  document.addEventListener("loading:end", (e) => {
-    const skeleton = document.querySelector(".skeleton-list");
-    const loadMore = document.getElementById("load-more");
-    if (skeleton) hideElement(skeleton);
-    if (loadMore && (!e.detail || !e.detail.isLastPage)) {
-      showElement(loadMore);
-    }
-  });
-
-  window._loadingEventRegistered = true;
-}
-document
-  .getElementById("thumbnail-list")
-  ?.addEventListener("click", ({ target }) => {
-    const { id } = target?.closest("li") ?? {};
-    if (id) {
-      handleItemClick(id);
-    }
-  });
-window.addEventListener("online", () => {
-  infiniteScrollInstance.resumeInfiniteScroll();
-});
-async function handleItemClick(id: string) {
-  const detailsUrl = "https://api.themoviedb.org/3/movie";
-  try {
-    const result: TMDBDetails = await fetchUrl(
-      detailsUrl,
-      defaultQueryObject,
-      defaultOptions,
-      id
-    );
-    const modal = document.getElementById("modal-dialog");
-    updateDetails(result);
-    updateHero(result);
-    const skeleton = document.getElementById("details-skeleton");
-    const detailsImage = document.getElementById("details-image");
-    showElement(skeleton);
-    hideElement(detailsImage);
-    showingItem = id;
-    modal.showModal();
-  } catch (error) {
-    Toast.showToast(error.message, "error", 5000);
-  }
-}
-
-document.getElementById("details-image").addEventListener("load", () => {
-  const skeleton = document.getElementById("details-skeleton");
-  const detailsImage = document.getElementById("details-image");
-  hideElement(skeleton);
-  showElement(detailsImage);
-});
-
-const modal = document.getElementById("modal-dialog");
-document.getElementById("closeModal").addEventListener("click", () => {
-  modal.close();
-});
-modal.addEventListener("click", (event) => {
-  if (event.target === modal) {
-    modal.close();
-  }
-});
-const radios = document.querySelectorAll('input[name="star-rating"]');
-radios.forEach((radio) => {
-  radio.addEventListener("change", () => {
-    const starRatingDetails = document.getElementById("star-rating-details");
-    const starRatingNumbers = document.getElementById("star-rating-numbers");
-    starRatingDetails.innerText = ratingMessages[radio.value];
-    starRatingNumbers.innerText = ratingNumbers[radio.value];
-    localStorage.setItem(showingItem, radio.value);
-  });
-});
 
 main();
 
