@@ -1,1 +1,1 @@
-export { default as EventHandler } from './EventHandler';
+export { default as eventHandlerInstance } from './EventHandler';

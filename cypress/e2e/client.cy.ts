@@ -59,7 +59,7 @@ describe('클라이언트 테스트', () => {
     });
   });
 
-  describe.only('영화 상세정보 조회', () => {
+  describe('영화 상세정보 조회', () => {
     beforeEach(() => {
       cy.get('.thumbnail-list > li').first().click();
     });
