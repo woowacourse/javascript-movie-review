@@ -1,11 +1,11 @@
 import createElement from "./utils/createElement";
 
 const SkeletonMovieItem = () => {
-    const $div = createElement({
-        tag: 'div'
-    })
-    
-    $div.innerHTML  =`
+  const $div = createElement({
+    tag: "div",
+  });
+
+  $div.innerHTML = `
                   <li>
                     <div class="item">
                       <div class="thumbnail skeleton"></div>
@@ -17,10 +17,8 @@ const SkeletonMovieItem = () => {
                     </div>
                   </li>
         `;
-    
-        return $div;
 
-}
-
+  return $div;
+};
 
 export default SkeletonMovieItem;
