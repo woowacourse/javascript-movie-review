@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="./src/styles/thumbnail.css" />
     <link rel="stylesheet" href="./src/styles/searchBar.css" />
     <link rel="stylesheet" href="./src/styles/skeleton.css" />
+    <link rel="stylesheet" href="./src/styles/modal.css" />
     <script type="module" src="/src/main.ts"></script>
     <title>영화 리뷰</title>
   </head>
@@ -50,6 +51,15 @@
         <p><img src="./images/woowacourse_logo.png" width="180" /></p>
       </footer>
     </div>
+
+    <dialog id="movie-detail-modal" class="modal">
+      <div id="detail-modal-container" class="detail-modal-container">
+        <button class="close-modal" id="closeModal">
+          <img src="./images/modal_button_close.png" />
+        </button>
+        <div class="modal-container"></div>
+      </div>
+    </dialog>
   </body>
 </html>
 
