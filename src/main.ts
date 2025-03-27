@@ -12,11 +12,16 @@ import SeeMoreButton from "./components/SeeMoreButton/SeeMoreButton";
 import Skeleton from "./components/Skeleton/Skeleton";
 import Subtitle from "./components/Subtitle/Subtitle";
 import ErrorMessage from "./constants/ErrorMessage";
+import { MOVIE_RATE_LIST_KEY } from "./constants/MovieRate";
+import LocalStorage from "./utils/localStorage";
 
 let pageNumber = 1;
 
 addEventListener("load", async () => {
   try {
+    if (!LocalStorage.getJSON(MOVIE_RATE_LIST_KEY))
+      LocalStorage.setJSON(MOVIE_RATE_LIST_KEY, {});
+
     const { movies } = await getPopularMovieList();
     Header.init({
       id: movies[0].id,
@@ -55,6 +60,7 @@ addEventListener("load", async () => {
 
       Modal.setContent(
         ModalDetail.create({
+          id: movieDetail.id,
           posterPath: movieDetail.posterPath,
           category: movieDetail.category,
           title: movieDetail.title,

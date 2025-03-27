@@ -1,6 +1,6 @@
 interface LocalStorage {
   setJSON: (key: string, JSONdata: Object | any[]) => void;
-  getJSON: (key: string) => any | null;
+  getJSON: (key: string) => any | undefined;
 }
 
 const LocalStorage: LocalStorage = {
@@ -11,7 +11,7 @@ const LocalStorage: LocalStorage = {
   getJSON(key: string) {
     const data = localStorage.getItem(key);
     if (data) return JSON.parse(data);
-    return null;
+    return undefined;
   },
 };
 

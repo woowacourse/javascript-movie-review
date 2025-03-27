@@ -104,3 +104,7 @@ body.modal-open {
 .my-rate-score {
   color: var(--color-bluegray-30);
 }
+
+.star-container > img {
+  cursor: pointer;
+}

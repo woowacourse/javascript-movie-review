@@ -13,6 +13,7 @@ async function fetchMovieDetail(id: string) {
       `/movie/${id}?` + params.toString()
     );
     const movieDetail: MovieDetailProps = {
+      id: TMDB_movieDetail.id,
       posterPath: TMDB_movieDetail.poster_path,
       title: TMDB_movieDetail.title,
       releaseYear: TMDB_movieDetail.release_date.split("-")[0],

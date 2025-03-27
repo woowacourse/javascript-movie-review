@@ -5,6 +5,7 @@ import MyRateSelect from "../../MyRateSelect";
 
 const ModalDetail = {
   create({
+    id,
     posterPath,
     title,
     releaseYear,
@@ -42,12 +43,12 @@ const ModalDetail = {
         </div>
     `;
     modalContainerElement.insertAdjacentHTML("beforeend", content);
-    this.createMyRate(modalContainerElement);
+    this.createMyRate(modalContainerElement, id);
     return modalContainerElement;
   },
 
-  createMyRate(modalContainerElement: HTMLDivElement) {
-    const myRateSelect = MyRateSelect.create();
+  createMyRate(modalContainerElement: HTMLDivElement, movieId: number) {
+    const myRateSelect = MyRateSelect.create(movieId);
 
     modalContainerElement
       .querySelector(".my-rate-container")

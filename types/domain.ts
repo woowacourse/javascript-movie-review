@@ -6,6 +6,7 @@ export interface MovieItemProps {
 }
 
 export interface MovieDetailProps {
+  id: number;
   posterPath: string;
   title: string;
   releaseYear: string;

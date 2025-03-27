@@ -1,6 +1,6 @@
 export const $ = <T extends Element>(
   selector: string,
-  ancestor = document
+  ancestor: HTMLElement | Document = document
 ): T => {
   const element = ancestor.querySelector<T>(selector);
   if (!element) {
@@ -12,7 +12,7 @@ export const $ = <T extends Element>(
 
 export const $$ = <T extends Element>(
   selector: string,
-  ancestor = document
+  ancestor: HTMLElement | Document = document
 ): NodeListOf<T> => {
   const elements = ancestor.querySelectorAll<T>(selector);
   if (!elements) {
