@@ -1,6 +1,6 @@
 import Modal from "../components/layout/Modal";
 import EventBus from "./EventBus";
-import { isElement } from "./guards";
+import { isElement, isForm, isHTMLElement, isInput } from "./guards";
 import { EVENT_TYPES } from "./types";
 
 const eventBus = EventBus.getInstance();
@@ -17,42 +17,50 @@ window.addEventListener("click", async (event) => {
   const { target } = event;
   if (!isElement(target)) return;
 
-  if (target.closest(SELECTORS.showMore)) {
-    eventBus.emit(EVENT_TYPES.showMore);
-    return;
-  }
+  const elementMap = [
+    {
+      selector: SELECTORS.showMore,
+      action: () => eventBus.emit(EVENT_TYPES.showMore),
+    },
+    {
+      selector: SELECTORS.modalClose,
+      action: () => eventBus.emit(EVENT_TYPES.modalClose),
+    },
+    {
+      selector: SELECTORS.movieItem,
+      action: (movieItem: Element | null) => {
+        if (!movieItem || !isHTMLElement(movieItem)) return;
 
-  if (target.closest(SELECTORS.modalClose)) {
-    eventBus.emit(EVENT_TYPES.modalClose);
-    return;
-  }
+        const movieId = Number(movieItem.dataset.movieId);
+        if (!movieId) return;
 
-  const movieItem = target.closest(SELECTORS.movieItem);
-  if (movieItem) {
-    const movieId = Number((movieItem as HTMLElement).dataset.movieId);
-    if (movieId) {
-      eventBus.emit(EVENT_TYPES.modalOpen, movieId);
-      return;
-    }
+        eventBus.emit(EVENT_TYPES.modalOpen, movieId);
+      },
+    },
+  ];
+
+  for (const { selector, action } of elementMap) {
+    const element = target.closest(selector);
+    if (!element) continue;
+    action(element);
+    return;
   }
 });
 
 window.addEventListener("submit", async (event) => {
   event.preventDefault();
+
   const { target } = event;
-  if (!isElement(target)) return;
+  if (!isForm(target)) return;
 
-  if (target.closest(SELECTORS.searchForm)) {
-    const $searchInput = target.querySelector(
-      SELECTORS.searchInput
-    ) as HTMLInputElement;
-    const keyword = $searchInput?.value;
-    if (!keyword) return;
+  const $searchInput = target.querySelector(SELECTORS.searchInput);
+  if (!isInput($searchInput)) return;
 
-    (target as HTMLFormElement).reset();
-    eventBus.emit(EVENT_TYPES.search, keyword);
-    return;
-  }
+  const keyword = $searchInput.value.trim();
+  if (!keyword) return;
+
+  target.reset();
+  eventBus.emit(EVENT_TYPES.search, keyword);
 });
 
 window.addEventListener("keydown", (event) => {
