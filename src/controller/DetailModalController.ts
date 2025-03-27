@@ -16,9 +16,14 @@ class DetailModalController {
   }
 
   bindEvents() {
-    this.detailModalElement?.addEventListener("click", (e) => {
-      if (e.target === e.currentTarget) this.closeModal();
-    });
+    if (this.detailModalElement) {
+      this.detailModalElement.addEventListener("click", (e) => {
+        if (e.target === e.currentTarget) this.closeModal();
+      });
+
+      const closeButton = $("#closeModal", this.detailModalElement);
+      closeButton?.addEventListener("click", () => this.closeModal());
+    }
   }
 
   async showModal(movieId: number) {
