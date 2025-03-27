@@ -26,6 +26,6 @@ export async function fetchMovies(
       throw error;
     }
 
-    return { results: [], total_pages: 0, page: 1, total_results: 0 };
+    return { id: -1, results: [], total_pages: 0, page: 1, total_results: 0 };
   }
 }
