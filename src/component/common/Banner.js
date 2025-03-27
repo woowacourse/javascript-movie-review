@@ -1,4 +1,5 @@
 import roundRating from '../../util/roundRating.js'
+import Button from './Button.js'
 
 function Banner(data) {
   return `
@@ -12,7 +13,8 @@ function Banner(data) {
               <span class="rate-value">${roundRating(data.vote_average)}</span>
             </div>
             <div class="title">${data.title}</div>
-            <button class="primary detail" style="width: 120px">자세히 보기</button>
+            ${Button({ content: '자세히 보기', class: 'primary detail', style: 'width: 120px' })}
+            
           </div>
         </div>
       </div>
