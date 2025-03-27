@@ -39,11 +39,6 @@ export default abstract class Component<TProps extends Props = {}, TState extend
     this.render();
   }
 
-  appendChild(element: HTMLElement, selector?: string) {
-    if (selector) this.element.querySelector(selector)?.appendChild(element);
-    else this.element.appendChild(element);
-  }
-
   template(): HTMLType {
     return html`<div></div>`;
   }
