@@ -1,9 +1,9 @@
-import { MoviesResponse } from "../../types/movie";
-import { handleApiResponse } from "../api/handlers";
-import { getMovies, searchMovies } from "../api/movie";
+import { getMovies, searchMovies } from "../api/services/movie";
+import { MoviesResponse } from "../api/types/movie/response";
+import { handleApiResponse } from "../api/utils/handlers";
 import App from "../components/App";
-import Header from "../components/Layout/Header";
-import Main from "../components/Layout/Main";
+import Header from "../components/layout/Header";
+import Main from "../components/layout/Main";
 import { MAX_MOVIE_PAGE, PREFIX_POSTER_PATH } from "../constants/constants";
 import { store } from "./../stores";
 
@@ -55,8 +55,8 @@ const renderSearchList = async (main: Main) => {
   setHeaderData();
 
   const moviesResponse = await searchMovies({
-    name: store.searchKeyword,
     page: store.page,
+    title: store.searchKeyword,
   });
 
   handleApiResponse<MoviesResponse>(moviesResponse, {

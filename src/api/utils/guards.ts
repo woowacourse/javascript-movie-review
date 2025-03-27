@@ -1,4 +1,4 @@
-import { ApiError, BaseApiResponse } from "../../types/api";
+import { ApiError, BaseApiResponse } from "../types/base/response";
 
 export const isErrorResponse = <T>(
   response: BaseApiResponse<T>

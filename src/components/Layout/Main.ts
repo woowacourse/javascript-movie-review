@@ -1,6 +1,6 @@
-import { MovieResult } from "../../../types/movie";
+import { MovieResult } from "../../api/types/movie/response";
 import { PREFIX_POSTER_PATH } from "../../constants/constants";
-import Skeleton from "../Common/Skeleton";
+import Skeleton from "../common/Skeleton";
 
 const SKELETON_COUNT = 20;
 

@@ -1,4 +1,4 @@
-import { BaseApiResponse } from "../../types/api";
+import { BaseApiResponse } from "../types/base/response";
 
 export async function fetchWithErrorHandling<T>(
   url: string

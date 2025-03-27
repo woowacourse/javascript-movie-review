@@ -2,7 +2,7 @@ import {
   ApiErrorCallback,
   ApiSuccessCallback,
   BaseApiResponse,
-} from "../../types/api";
+} from "../types/base/response";
 import { isErrorResponse } from "./guards";
 
 export function handleApiResponse<T>(

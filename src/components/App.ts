@@ -1,8 +1,8 @@
-import Button from "./Common/Button";
-import Header from "./Layout/Header";
-import Modal from "./Layout/Modal";
-import Footer from "./Layout/Footer";
-import Main from "./Layout/Main";
+import Button from "./common/Button";
+import Footer from "./layout/Footer";
+import Header from "./layout/Header";
+import Main from "./layout/Main";
+import Modal from "./layout/Modal";
 
 export default function App() {
   const $wrap = document.createElement("div");

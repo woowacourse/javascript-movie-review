@@ -1,4 +1,4 @@
-import { MovieResult } from "../../../types/movie";
+import { MovieResult } from "../../api/types/movie/response";
 import {
   DEFAULT_MOVIE_DATA,
   PREFIX_POSTER_PATH,

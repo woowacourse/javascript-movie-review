@@ -1,4 +1,4 @@
-import { BaseApiResponse } from "./api";
+import { BaseApiResponse } from "../base/response";
 
 export interface MoviesResponse {
   page: number;

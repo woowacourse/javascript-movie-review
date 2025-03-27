@@ -2,7 +2,7 @@ import {
   DEFAULT_MOVIE_DATA,
   PREFIX_POSTER_PATH,
 } from "../../constants/constants";
-import Button from "../Common/Button";
+import Button from "../common/Button";
 
 interface HeaderState {
   posterImage: `http://${string}` | `https://${string}`;

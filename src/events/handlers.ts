@@ -1,5 +1,5 @@
-import Header from "../components/Layout/Header";
-import Main from "../components/Layout/Main";
+import Header from "../components/layout/Header";
+import Main from "../components/layout/Main";
 import { updateMoviesList } from "../domains/renderMoviesList";
 import { store } from "../stores";
 import { isElement } from "./guards";
