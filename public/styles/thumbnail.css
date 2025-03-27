@@ -70,27 +70,22 @@
 
 p.rate {
   display: flex;
-  align-items: flex-start;
+  align-items: stretch;
   color: var(--color-yellow);
 }
 
 p.rate > img {
-  width: 16px;
-  height: 16px;
+  width: 1rem;
+  height: 1rem;
 }
 
 p.rate > span {
-  margin-left: 4px;
+  margin-left: 0.25rem;
   line-height: normal;
   font-size: 1rem;
 }
 strong.movie-title {
   font-size: 1.25rem;
-}
-
-.item .star {
-  width: 16px;
-  top: 1px;
 }
 
 .more-button {
@@ -127,7 +122,6 @@ strong.movie-title {
   .movie-list-box {
     max-width: 390px;
     margin: 4rem auto;
-    /* padding: 0 1rem; */
   }
 
   .thumbnail-list {
