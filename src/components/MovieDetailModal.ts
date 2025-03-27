@@ -28,8 +28,6 @@ export default class MovieDetailModal extends Modal<MovieDetailModalProps> {
   template() {
     const movieDetail = movieDetailResponseStore.getState();
 
-    console.log(movieDetail);
-
     if (!movieDetail) return html`<div></div>`;
 
     const { backdrop_path, title, release_date, genres, overview, vote_average, id } = movieDetail;
@@ -123,6 +121,10 @@ export default class MovieDetailModal extends Modal<MovieDetailModalProps> {
   }
 
   onShow() {
+    const movieDetail = movieDetailResponseStore.getState();
+
+    if (!movieDetail) return;
+
     this.disableScrollOutside();
   }
 

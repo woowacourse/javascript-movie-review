@@ -34,14 +34,7 @@ export default class App extends Component<null> {
 
   async onRender() {
     this.fillSlot(new Header(), 'header');
-    this.fillSlot(
-      new Movies({
-        page: pageStore.getState(),
-        search: searchStore.getState(),
-        error: errorStore.getState(),
-      }),
-      'movies',
-    );
+    this.fillSlot(new Movies(), 'movies');
     this.fillSlot(new Footer(), 'footer');
     this.fillSlot(
       new IntersectionObserble({
@@ -66,17 +59,15 @@ export default class App extends Component<null> {
         });
       else moviesResponse = await MovieApiClient.getAll({ page });
 
-      this.setState({
-        page,
-      });
+      pageStore.setState(page);
       moviesResponseStore.setState(moviesResponse);
 
       const movies = moviesStore.getState();
       moviesStore.setState([...(movies ? movies : []), ...moviesResponse.results]);
     } catch (error) {
-      if (isError(error)) this.setState({ error });
-      else if (isString(error)) this.setState({ error: new Error(error) });
-      else this.setState({ error: new Error('에러 발생') });
+      if (isError(error)) errorStore.setState(error);
+      else if (isString(error)) errorStore.setState(new Error(error));
+      else errorStore.setState(new Error('에러 발생'));
     }
   }
 
@@ -109,10 +100,7 @@ export default class App extends Component<null> {
         const formData = new FormData(target);
         const modalInput = Object.fromEntries(formData);
 
-        this.setState({
-          page: 1,
-        });
-
+        pageStore.setState(1);
         searchStore.setState(String(modalInput.search));
         moviesStore.setState([]);
         await this.getMovie(String(modalInput.search), pageStore.getState());
@@ -135,7 +123,7 @@ export default class App extends Component<null> {
         };
 
         LocalStorage.set('movieRate', newMovieRate);
-        this.setState({ movieRate: newMovieRate });
+        movieRateStore.setState(newMovieRate);
       },
       dataAction: 'change-rate',
     });

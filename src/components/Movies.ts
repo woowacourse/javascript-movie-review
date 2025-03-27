@@ -1,24 +1,20 @@
-import { AppState } from '@/App';
+import { errorStore, moviesStore, searchStore } from '@/lib/store';
 import { html } from '@/lib/utils';
 import Component from './core/Component';
 import ThumbnailList from './ThumbnailList';
-import { moviesStore } from '@/lib/store';
 
 const TAB_LIST = ['상영 중', '인기순', '평점순', '상영 예정'];
 
-interface MoviesProps {
-  page: AppState['page'];
-  search: AppState['search'];
-  error: AppState['error'];
-}
-
-export default class Movies extends Component<MoviesProps> {
+export default class Movies extends Component {
   setup() {
-    this.subsribe([moviesStore]);
+    this.subsribe([moviesStore, errorStore, searchStore]);
   }
 
   template() {
-    if (this.props.error) return html`<div class="error">${this.props.error.message}</div>`;
+    const error = errorStore.getState();
+    const search = searchStore.getState();
+
+    if (error) return html`<div class="error">${error.message}</div>`;
     return html`
       <div class="container">
         <ul class="tab">
@@ -34,9 +30,7 @@ export default class Movies extends Component<MoviesProps> {
         </ul>
         <main>
           <section>
-            <h2 class="thumbnail-title">
-              ${this.props.search ? `"${this.props.search}" 검색 결과` : '지금 인기 있는 영화'}
-            </h2>
+            <h2 class="thumbnail-title">${search ? `"${search}" 검색 결과` : '지금 인기 있는 영화'}</h2>
             <slot name="thumbnail-list"> </slot>
 
             <slot name="error"></slot>
