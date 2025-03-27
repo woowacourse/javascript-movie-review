@@ -92,8 +92,57 @@ body.modal-open {
 
 .subtitle {
   font-size: 1.5rem;
-  margin: 16px 0;
+  margin-top: 16px;
+  margin-bottom: 16px;
   font-weight: 600;
+}
+
+.rating {
+  float: none;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.rating-bar {
+  display: flex;
+  align-items: center;
+}
+
+.rating-information {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.rating__input {
+  display: none;
+}
+
+.rating__label {
+  width: 32px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.rating__label .star-icon {
+  width: 32px;
+  height: 32px;
+  display: block;
+  position: relative;
+  left: 0;
+  background-image: url("../../../public/images/star_empty.png");
+  background-repeat: no-repeat;
+  background-size: 32px;
+}
+
+.rating__label .star-icon.filled {
+  background-image: url("../../../public/images/star_filled.png");
+}
+
+.rating__label--full .star-icon {
+  background-position: right;
 }
 
 @media screen and (max-width: 940px) {
@@ -134,5 +183,9 @@ body.modal-open {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+  .rating {
+    flex-direction: column;
+    gap: 0;
   }
 }

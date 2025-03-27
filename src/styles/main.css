@@ -71,3 +71,7 @@ h1.logo {
   align-items: center;
   gap: 30px;
 }
+
+.color-95a1b2 {
+  color: var(--color-95a1b2);
+}
