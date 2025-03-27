@@ -2,24 +2,18 @@ import { HeaderMount, HeaderRender } from "./components/Header/index.js";
 import { FooterRender } from "./components/Footer/index.js";
 import { BannerRender } from "./components/Banner/index.js";
 import { SkeletonBannerRender } from "./components/Skeleton/SkeletonBanner.js";
-import { MovieListRender } from "./components/MovieList/index.js";
-import { fetchPopularMovies } from "./APIs/movieAPI.ts";
-import { MoreButtonMount } from "./components/MoreButton/MoreButton.js";
 import store from "./store/store.ts";
+import * as MovieModule from "./domains/movie/MovieModule.js";
 
 class App {
   constructor($target) {
     this.$target = $target;
-
     store.subscribe(() => this.render());
-    if (store.getState().movies.length === 0) {
-      this.loadPopularMovies();
-    }
   }
 
-  async loadPopularMovies() {
-    const movies = await fetchPopularMovies();
-    store.setState({ movies });
+  async initialize() {
+    await MovieModule.initializeMovieDomain();
+    this.render();
   }
 
   render() {
@@ -35,23 +29,20 @@ class App {
             : ""
         }
         <div class="container">
-          ${MovieListRender({
-            movies: state.movies,
-            query: state.query,
-            searchedMoviesLength: state.searchedMoviesLength,
-          })}
+          ${MovieModule.renderMovieDomain()}
         </div>
         ${FooterRender()}
       </div>
     `;
 
-    this.mount(state);
+    this.mount();
   }
 
-  mount(state) {
+  mount() {
     HeaderMount();
-    MoreButtonMount();
+    MovieModule.mountMovieDomain();
 
+    const state = store.getState();
     const $banner = document.querySelector("#banner");
     if (state.movies.length && $banner) {
       $banner.style.backgroundImage = `url(${

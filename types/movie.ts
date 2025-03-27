@@ -21,3 +21,9 @@ export interface Movie {
   vote_average: number;
   vote_count: number;
 }
+
+export interface AppState {
+  movies: Movie[];
+  query: string;
+  searchedMoviesLength: number;
+}
