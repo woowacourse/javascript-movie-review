@@ -3,7 +3,7 @@ import { Header } from './components/common/Header';
 import { Toast } from './components/common/Toast';
 import { MovieList } from './components/feature/MovieList';
 
-export const App = async () => {
+export const App = () => {
   Toast();
-  document.querySelector('#app')?.append(Header(), await MovieList(), Footer());
+  document.querySelector('#app')?.append(Header(), MovieList(), Footer());
 };
