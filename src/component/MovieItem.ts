@@ -9,6 +9,7 @@ const MovieItem = (movie: MovieItemType) => {
       createDOMElement({
         tag: "div",
         className: "item",
+        id: movie.id,
         children: [
           createDOMElement({
             tag: "div",
