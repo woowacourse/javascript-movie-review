@@ -46,6 +46,7 @@ button.primary {
 
 #wrap {
   min-width: 1440px;
+  width: 100%;
   background-color: var(--color-bluegray-100);
 }
 
@@ -149,6 +150,11 @@ button.primary {
   color: var(--color-white);
 }
 
+.search-form > input:-webkit-autofill {
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: white;
+}
+
 .search-form > button {
   padding: 0;
 }
@@ -241,4 +247,53 @@ footer.footer p:not(:last-child) {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.search-movie-main {
+  padding: 100px 0 64px;
+}
+
+@media screen and (max-width: 1440px) {
+  #wrap {
+    min-width: auto;
+  }
+}
+
+@media screen and (max-width: 1380px) {
+  .container:not(.search-movie-main) {
+    padding: 64px 30px;
+  }
+  .search-movie-main {
+    padding: 100px 30px 64px;
+  }
+}
+
+@media screen and (max-width: 1280px) {
+  .logo {
+    width: 100%;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .logo-img {
+    position: inherit;
+    transform: none;
+  }
+
+  .search-movie-main {
+    padding: 125px 30px 64px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .search-form {
+    width: 90%;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  #wrap h2 {
+    font-size: 1.5rem;
+    text-align: center;
+  }
 }
