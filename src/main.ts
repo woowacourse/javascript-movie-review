@@ -2,7 +2,13 @@ import Button from "./components/Button";
 import "./event/movieEventHandler";
 import { renderMoviesList } from "./features/movies/movieListRenderer";
 
-addEventListener("load", async () => {
+if (document.readyState === "complete") {
+  setupUI();
+} else {
+  window.addEventListener("load", setupUI);
+}
+
+function setupUI() {
   const $container = document.querySelector(".container");
 
   $container?.appendChild(
@@ -10,4 +16,4 @@ addEventListener("load", async () => {
   );
 
   renderMoviesList();
-});
+}
