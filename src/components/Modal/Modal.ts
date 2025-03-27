@@ -177,6 +177,10 @@ const $Modal = () => {
     $userRateStar5
   );
 
+  const $userRateTextContainer = createElement("div", {
+    className: "user-rate-text-container",
+  });
+
   const $userRateText = createElement("p", {
     textContent: "최악이예요",
     className: "user-rate-text",
@@ -189,7 +193,8 @@ const $Modal = () => {
     id: "userRateValue",
   });
 
-  $userRate.append($userRateStars, $userRateText, $userRateValue);
+  $userRateTextContainer.append($userRateText, $userRateValue);
+  $userRate.append($userRateStars, $userRateTextContainer);
 
   $userRateContainer.append($userRateTitle, $userRate);
 

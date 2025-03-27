@@ -117,7 +117,7 @@ body.modal-open {
   align-items: center;
 }
 
-.modal-description .user-rate-container .user-rate .user-rate-stars {
+.modal-description .user-rate-container .user-rate-stars {
   display: flex;
   flex-direction: row;
   gap: 0.2rem;
@@ -126,6 +126,12 @@ body.modal-open {
 .modal-description .user-rate-container .star {
   width: 2rem;
   height: 2rem;
+}
+
+.modal-description .user-rate-container .user-rate-text-container {
+  display: flex;
+  flex-direction: row;
+  margin-left: 1rem;
 }
 
 .modal-description .user-rate-container .user-rate-text {
@@ -175,4 +181,102 @@ body.modal-open {
   font-size: 1.5rem;
   line-height: 2.2rem;
   font-weight: 300;
+}
+
+@media screen and (max-width: 1120px) {
+  .modal-background {
+    align-items: flex-end;
+  }
+
+  .modal {
+    width: 100%;
+    border-radius: 1rem 1rem 0 0;
+    padding: 2.5rem 1.5rem;
+  }
+
+  .modal-container {
+    flex-direction: column;
+  }
+
+  .modal-image {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .modal-image img {
+    width: 200px;
+    margin-bottom: 2rem;
+  }
+
+  .modal-description {
+    margin-left: 0;
+    padding: 0;
+  }
+
+  .close-modal {
+    top: 2.5rem;
+    right: 2rem;
+  }
+
+  .modal-description .detail-container {
+    max-height: 200px;
+  }
+
+  .modal-description .title,
+  .modal-description .category,
+  .modal-description .rate-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    text-align: center;
+  }
+
+  .modal-description .rate-container {
+    justify-content: center;
+  }
+
+  .modal-description .title {
+    font-size: 1.8rem;
+  }
+
+  .modal-description .container-title {
+    font-size: 1.5rem;
+  }
+
+  .modal-description .user-rate-container .user-rate-text,
+  .modal-description .user-rate-container .user-rate-value {
+    font-size: 1.5rem;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .modal-image img {
+    display: none;
+  }
+
+  .modal-description .container-title {
+    width: 100%;
+    text-align: center;
+  }
+
+  .modal-description .user-rate-container .user-rate {
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .modal-description .user-rate-container .user-rate-text {
+    margin-left: 0;
+  }
+
+  .modal-description .detail-container {
+    max-height: 250px;
+    overflow-y: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+  }
 }
