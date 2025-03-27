@@ -7,13 +7,21 @@ import { MOVIE } from "../../../constants/movie";
 class MovieListSection {
   #modalId;
 
-  constructor(title, movies, isLoading, $target) {
+  constructor(title, movies, isLoading, $target, handleButtonClick) {
     this.title = title;
     this.movies = movies;
     this.isLoading = isLoading;
     this.$target = $target;
+    this.handleButtonClick = handleButtonClick;
 
     this.#modalId;
+
+    this.observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => this.handleIntersect(entry));
+      },
+      { threshold: 0 }
+    );
   }
 
   async setMovieId(movieId) {
@@ -71,6 +79,12 @@ class MovieListSection {
 
     this.$target.append($title, $ul);
 
+    const $nextLi = $ul.querySelector("li:last-child");
+
+    if ($nextLi !== null) {
+      this.observer.observe($nextLi);
+    }
+
     const $body = document.querySelector("body");
     const $modalContainer = document.createElement("div");
     $modalContainer.classList.add("modal-background-container");
@@ -86,6 +100,12 @@ class MovieListSection {
 
     const modal = new Modal($modalContainer, this.#modalId);
     modal.init();
+  }
+
+  handleIntersect(entry) {
+    if (entry.isIntersecting && !this.isLoading) {
+      this.handleButtonClick(entry);
+    }
   }
 
   handleMovieItemClick = (movieId) => {

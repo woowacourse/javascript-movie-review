@@ -116,7 +116,8 @@ class MoviesCotainer {
       this.#searchKeyword,
       this.#movies,
       this.#isLoading,
-      $div
+      $div,
+      this.handleButtonClick
     ).render();
 
     $container.appendChild($main);
