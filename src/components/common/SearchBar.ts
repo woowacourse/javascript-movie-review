@@ -1,6 +1,7 @@
 import { fetchSearchMovieList } from "../../api/fetchSearchMovieList.ts";
+import observeLoadMore from "../../domain/observeLoadMore.ts";
 import { $ } from "../../utils/dom.ts";
-import LoadMoreButton from "../movie/LoadMoreButton.ts";
+import LoadMoreSection from "../movie/LoadMoreSection.ts";
 import MovieList from "../movie/MovieList.ts";
 import NoSearchResults from "../movie/NoSearchResults.ts";
 import hideSkeleton from "../utils/hideSkeleton.ts";
@@ -54,12 +55,14 @@ const searchMovie = async (input: string) => {
 
     MovieList(movies.data);
 
-    thumbnailList.after(
-      LoadMoreButton({
-        loadFn: (currentPage: number) =>
-          fetchSearchMovieList(input, currentPage),
-      })
-    );
+    thumbnailList.after(LoadMoreSection());
+
+    let currentPage = 2;
+
+    observeLoadMore({
+      currentPage,
+      loadFn: (currentPage: number) => fetchSearchMovieList(input, currentPage),
+    });
   }
 
   hideSkeleton();

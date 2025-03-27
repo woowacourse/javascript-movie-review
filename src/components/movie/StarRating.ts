@@ -26,7 +26,7 @@ const StarRating = () => {
     <span>(<span class="check-score">0</span>/10)</span>
   `);
 
-  Object.entries(RATE_DESCRIPTION).forEach(([key, value]) => {
+  Object.entries(RATE_DESCRIPTION).forEach(([, value]) => {
     if (value.score === score) {
       description.innerText = value.description;
       $(".check-score", totalScore).innerText = value.score.toString();
@@ -62,7 +62,7 @@ const StarRating = () => {
         star.setAttribute("src", "./images/star_empty.png")
       );
 
-      Object.entries(RATE_DESCRIPTION).forEach(([key, value]) => {
+      Object.entries(RATE_DESCRIPTION).forEach(([, value]) => {
         if (value.score === (index + 1) * 2) {
           description.innerText = value.description;
         }

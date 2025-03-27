@@ -4,11 +4,12 @@ import Modal from "./components/common/Modal.ts";
 import Footer from "./components/layout/Footer.ts";
 import Header from "./components/layout/Header.ts";
 import Caption from "./components/movie/Caption.ts";
-import LoadMoreButton from "./components/movie/LoadMoreButton.ts";
+import LoadMoreSection from "./components/movie/LoadMoreSection.ts";
 import MovieList from "./components/movie/MovieList.ts";
 import NoSearchResults from "./components/movie/NoSearchResults.ts";
 import hideSkeleton from "./components/utils/hideSkeleton.ts";
 import showSkeleton from "./components/utils/showSkeleton.ts";
+import observeLoadMore from "./domain/observeLoadMore.ts";
 import { createElement } from "./utils/createElement.ts";
 import { $ } from "./utils/dom.ts";
 
@@ -65,11 +66,10 @@ async function processMovies() {
 
   MovieList(movies.data);
 
-  wrapper.appendChild(
-    LoadMoreButton({
-      loadFn: fetchPopularMovieList,
-    })
-  );
+  wrapper.appendChild(LoadMoreSection());
 
   hideSkeleton();
+
+  let currentPage = 2;
+  observeLoadMore({ currentPage, loadFn: fetchPopularMovieList });
 }
