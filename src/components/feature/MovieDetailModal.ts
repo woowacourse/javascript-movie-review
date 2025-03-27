@@ -18,9 +18,13 @@ const SCORE_TEXT: Record<number, string> = {
 const handleCloseBtnClick = () => {
   const modalBackground = document.querySelector('.modal-background');
   modalBackground?.classList.remove('active');
-  modalBackground?.addEventListener('transitionend', () => {
-    modalBackground?.remove();
-  });
+  modalBackground?.addEventListener(
+    'transitionend',
+    () => {
+      modalBackground?.remove();
+    },
+    { once: true },
+  );
 };
 
 const scoreTextElement = Text({

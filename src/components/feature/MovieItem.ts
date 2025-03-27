@@ -22,6 +22,7 @@ const createRatingSection = (id: number, vote_average: number) => {
   return Box({
     classList: ['movie-rate'],
     props: {
+      'data-movie-id': id.toString(),
       children: [
         Img({
           width: '16',
