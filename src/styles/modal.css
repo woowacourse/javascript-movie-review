@@ -99,6 +99,13 @@ body.modal-open {
   flex-shrink: 0;
 }
 
+.modal-image-skeleton {
+  width: 380px;
+  height: 570px;
+  border-radius: 16px;
+  background-color: var(--color-bluegray-80);
+}
+
 @media (max-width: 800px) {
   .modal-background {
     align-items: end;

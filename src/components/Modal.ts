@@ -1,7 +1,7 @@
 import MovieApi from "../api/MovieApi";
 import { Movie } from "../types/movie";
 import { isHTMLElement } from "../utils/typeGuards";
-import MyRate from "./MyRate";
+import MyRate, { MyRateSkeleton } from "./MyRate";
 
 type MovieDetail = {
   poster_path: string;
@@ -23,22 +23,45 @@ class Modal {
     this.#fetchAndRenderModal(id);
   }
 
-  #renderInitial() {
-    this.#render({
-      poster_path: "",
-      title: "로딩중...",
-      genres: "로딩중...",
-      vote_average: 0,
-      overview: "로딩중...",
-    });
-    this.#renderStarRate();
-  }
-
   async #fetchAndRenderModal(id: number) {
     const details = await MovieApi.fetchMovieDetail(id);
     this.#render(details);
     this.#renderStarRate();
     this.#addEventListeners();
+  }
+
+  #renderInitial() {
+    this.#parentElement.innerHTML = /*html*/ `
+    <div class="modal">
+      <button class="close-modal" id="closeModal">
+        <img src="./images/modal_button_close.png" />
+      </button>
+      <div class="modal-container">
+        <div class="modal-image">
+          <div class="modal-image-skeleton"></div>
+        </div>
+        <div class="modal-description">
+          <h2>로딩중...</h2>
+          <p class="category">
+            로딩중...
+          </p>
+          <p class="rate">
+            <img src="./images/star_filled.png" class="star" /><span
+              >0.0</span
+            >
+          </p>
+          <hr />
+          <div class="my-rate">
+            ${MyRateSkeleton()}
+         </div>
+          
+          <hr />
+          <p class="detail">
+            로딩중...
+          </p>
+        </div>
+      </div>
+  </div>`;
   }
 
   #render(details: MovieDetail) {
@@ -66,6 +89,7 @@ class Modal {
           </p>
           <hr />
           <div class="my-rate">
+          
          </div>
           
           <hr />

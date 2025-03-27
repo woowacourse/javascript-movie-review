@@ -1,5 +1,20 @@
 import { isHTMLElement } from "../utils/typeGuards";
 
+export const MyRateSkeleton = () => {
+  return `
+  <div>내 별점</div>
+  <div class="star-container"> 
+    <span class="stars">
+      <img src="./images/star_empty.png" id="star-1" />
+      <img src="./images/star_empty.png" id="star-2" />
+      <img src="./images/star_empty.png" id="star-3" />
+      <img src="./images/star_empty.png" id="star-4" />
+      <img src="./images/star_empty.png" id="star-5" />
+    </span>
+    <span class="rate-comment">   (0/10)</span>
+  </div>
+  `;
+};
 class MyRate {
   #parentElement: HTMLElement;
 
