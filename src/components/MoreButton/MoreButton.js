@@ -19,9 +19,15 @@ export function MoreButtonMount() {
       const currentPage =
         Math.floor(state.movies.length / MOVIE_COUNT.UNIT) + 1;
 
+      store.setState({ ...state, isLoading: true });
+
       if (!state.query) {
         const newMovies = await fetchPopularMovies(currentPage);
-        store.setState({ movies: [...state.movies, ...newMovies] });
+        store.setState({
+          ...store.getState(),
+          movies: [...state.movies, ...newMovies],
+          isLoading: false,
+        });
         if (state.movies.length >= MOVIE_COUNT.MAX_PAGE * MOVIE_COUNT.UNIT) {
           $button.remove();
         }
@@ -30,7 +36,11 @@ export function MoreButtonMount() {
           state.query,
           currentPage
         );
-        store.setState({ movies: [...state.movies, ...newMoviesData.results] });
+        store.setState({
+          ...store.getState(),
+          movies: [...state.movies, ...newMoviesData.results],
+          isLoading: false,
+        });
         if (state.movies.length >= state.searchedMoviesLength) {
           $button.remove();
         }

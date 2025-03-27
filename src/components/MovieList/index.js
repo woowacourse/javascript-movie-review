@@ -4,11 +4,16 @@ import { MoreButtonMount, MoreButtonRender } from "../MoreButton/MoreButton.js";
 import { SkeletonMovieItemRender } from "../Skeleton/SkeletonMovieItem.js";
 import { ERROR_MESSAGES, MOVIE_COUNT } from "../../constants/config.js";
 
-export function MovieListRender({ movies, query, searchedMoviesLength }) {
+export function MovieListRender({
+  movies,
+  query,
+  searchedMoviesLength,
+  isLoading,
+}) {
   const showMoreButton = !query || movies.length < searchedMoviesLength;
 
   let movieContent = "";
-  if (movies.length === 0 && !query) {
+  if (isLoading) {
     movieContent = new Array(MOVIE_COUNT.UNIT)
       .fill(0)
       .map(() => SkeletonMovieItemRender())
