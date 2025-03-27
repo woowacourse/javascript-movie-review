@@ -31,6 +31,15 @@ class MovieApi {
 
     return { movies, total_pages: data.total_pages };
   }
+
+  static async fetchMovieDetail(movieId: number) {
+    const data = await ApiClient.fetch({
+      url: `${this.BASE_URL}/movie/${movieId}?language=ko-KR`,
+      options: this.options,
+    });
+
+    return data;
+  }
 }
 
 export default MovieApi;

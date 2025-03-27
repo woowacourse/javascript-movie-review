@@ -1,24 +1,47 @@
+import MovieApi from "../api/MovieApi";
 import { Movie } from "../types/movie";
 import { isHTMLElement } from "../utils/typeGuards";
 import MyRate from "./MyRate";
 
+type MovieDetail = {
+  poster_path: string;
+  title: string;
+  genres: string;
+  vote_average: number;
+  overview: string;
+};
 class Modal {
   #parentElement;
-  #movie;
+
   private static readonly IMAGE_BASE_URL =
     "https://image.tmdb.org/t/p/original";
   // #props;
 
-  constructor(parentElement: HTMLElement, movie: Movie) {
+  constructor(parentElement: HTMLElement, id: number) {
     this.#parentElement = parentElement;
-    this.#movie = movie;
-    console.log(this.#movie);
-    this.#render();
+    this.#renderInitial();
+    this.#fetchAndRenderModal(id);
+  }
+
+  #renderInitial() {
+    this.#render({
+      poster_path: "",
+      title: "로딩중...",
+      genres: "로딩중...",
+      vote_average: 0,
+      overview: "로딩중...",
+    });
+    this.#renderStarRate();
+  }
+
+  async #fetchAndRenderModal(id: number) {
+    const details = await MovieApi.fetchMovieDetail(id);
+    this.#render(details);
     this.#renderStarRate();
     this.#addEventListeners();
   }
 
-  #render() {
+  #render(details: MovieDetail) {
     this.#parentElement.innerHTML = /*html*/ `
     <div class="modal">
       <button class="close-modal" id="closeModal">
@@ -27,18 +50,18 @@ class Modal {
       <div class="modal-container">
         <div class="modal-image">
           <img
-            src=${this.#posterImage(this.#movie.poster_path)}
-            alt=${this.#movie.title}
+            src=${this.#posterImage(details.poster_path)}
+            alt=${details.title}
           />
         </div>
         <div class="modal-description">
-          <h2>${this.#movie.title}</h2>
+          <h2>${details.title}</h2>
           <p class="category">
-            ${this.#movie.genre_ids?.map((genre) => genre).join(", ")}
+            ${details.genres}
           </p>
           <p class="rate">
             <img src="./images/star_filled.png" class="star" /><span
-              >${this.#movie.vote_average}</span
+              >${details.vote_average}</span
             >
           </p>
           <hr />
@@ -47,7 +70,7 @@ class Modal {
           
           <hr />
           <p class="detail">
-            ${this.#movie.overview}
+            ${details.overview}
           </p>
         </div>
       </div>
