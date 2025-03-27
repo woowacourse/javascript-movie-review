@@ -1,4 +1,4 @@
-import { MovieDetailResponse, MoviesResponse } from '@/lib/types';
+import { MovieDetailResponse, MoviesResponse } from '@/types';
 import ApiClient from './ApiClient';
 
 interface GetAllRequest {

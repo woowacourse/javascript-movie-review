@@ -1,4 +1,4 @@
-import { html, variant } from '@/lib/utils';
+import { html, variant } from '@/utils';
 import { Modal } from './common';
 
 interface ToastProps {

@@ -2,7 +2,7 @@ import { MovieApiClient } from './apis';
 import { Footer, Header, IntersectionObserble, MovieDetailModal, Movies, Toast } from './components';
 import { Component } from './components/core';
 import { TOAST_TYPE } from './components/Toast';
-import { eventHandlerInstance, LocalStorage } from './lib/modules';
+import { eventHandlerInstance, LocalStorage } from './modules';
 import {
   errorStore,
   movieDetailResponseStore,
@@ -11,8 +11,8 @@ import {
   moviesStore,
   pageStore,
   searchStore,
-} from './lib/store';
-import { html, isError, isHTMLFormElement, isString } from './lib/utils';
+} from './store';
+import { html, isError, isHTMLFormElement, isString } from './utils';
 
 export default class App extends Component<null> {
   override setup() {

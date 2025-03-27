@@ -1,11 +1,11 @@
-import { DEFAULT_BACK_DROP_URL } from '@/lib/constants';
+import { DEFAULT_BACK_DROP_URL } from '@/constants';
 
-import { movieDetailResponseStore, moviesStore } from '@/lib/store';
-import { html } from '@/lib/utils';
+import { movieDetailResponseStore, moviesStore } from '@/store';
+import { html } from '@/utils';
 import { forEach } from '@fxts/core';
-import { MOVIE_ITEM_PER_PAGE } from '../lib/constants';
+import { MOVIE_ITEM_PER_PAGE } from '../constants';
 import Component from './core/Component';
-import { eventHandlerInstance } from '@/lib/modules';
+import { eventHandlerInstance } from '@/modules';
 import { MovieApiClient } from '@/apis';
 
 export default class ThumbnailList extends Component {

@@ -1,4 +1,4 @@
-import { isError, isString } from '@/lib/utils';
+import { isError, isString } from '@/utils';
 
 type HttpMethodType = 'GET' | 'POST' | 'DELETE' | 'PUT';
 type FetchURLParameterType = Parameters<typeof fetch>[0];

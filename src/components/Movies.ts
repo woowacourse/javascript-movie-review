@@ -1,5 +1,5 @@
-import { errorStore, moviesStore, searchStore } from '@/lib/store';
-import { html } from '@/lib/utils';
+import { errorStore, moviesStore, searchStore } from '@/store';
+import { html } from '@/utils';
 import Component from './core/Component';
 import ThumbnailList from './ThumbnailList';
 

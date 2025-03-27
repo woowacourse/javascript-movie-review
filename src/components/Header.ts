@@ -1,6 +1,6 @@
-import { DEFAULT_BACK_DROP_URL } from '@/lib/constants';
-import { moviesResponseStore, searchStore } from '@/lib/store';
-import { html } from '@/lib/utils';
+import { DEFAULT_BACK_DROP_URL } from '@/constants';
+import { moviesResponseStore, searchStore } from '@/store';
+import { html } from '@/utils';
 import Component from './core/Component';
 
 export default class Header extends Component {

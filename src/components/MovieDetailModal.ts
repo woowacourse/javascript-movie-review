@@ -1,10 +1,10 @@
-import { DEFAULT_BACK_DROP_URL } from '@/lib/constants';
-import { LocalStorageMovieRateValueType } from '@/lib/modules/LocalStorage/type';
-import { movieDetailResponseStore } from '@/lib/store';
-import { html } from '@/lib/utils';
+import { DEFAULT_BACK_DROP_URL } from '@/constants';
+import { LocalStorageMovieRateValueType } from '@/modules/LocalStorage/type';
+import { movieDetailResponseStore } from '@/store';
+import { html } from '@/utils';
 import { join, map, pipe, toArray } from '@fxts/core';
 import Modal from './common/Modal';
-import { eventHandlerInstance } from '@/lib/modules';
+import { eventHandlerInstance } from '@/modules';
 
 interface MovieDetailModalProps {
   movieRate: LocalStorageMovieRateValueType;

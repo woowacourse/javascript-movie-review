@@ -1,4 +1,4 @@
-import { $ } from '@/lib/utils';
+import { $ } from '@/utils';
 import { Component } from '../core';
 import { Props, State } from '../core/Component';
 

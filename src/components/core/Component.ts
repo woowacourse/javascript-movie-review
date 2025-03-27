@@ -1,6 +1,6 @@
-import { Store } from '@/lib/store';
-import { HTMLType, StrictObject } from '@/lib/types';
-import { html } from '@/lib/utils';
+import { Store } from '@/store';
+import { HTMLType, StrictObject } from '@/types';
+import { html } from '@/utils';
 import { forEach } from '@fxts/core';
 
 export type Props = StrictObject | null;
