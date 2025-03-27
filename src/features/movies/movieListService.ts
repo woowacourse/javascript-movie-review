@@ -1,5 +1,5 @@
 import { getMovieByName, getMovies, MoviesResponse } from "../../apis/MovieApi";
-import { movieStore } from "../../store/movieStore";
+import { movieStore } from "../../state/movieStore";
 
 const updateMovieStore = (response: MoviesResponse) => {
   const summary = response.results.map((movie) => ({
@@ -11,12 +11,12 @@ const updateMovieStore = (response: MoviesResponse) => {
   movieStore.totalPages = response.total_pages;
 };
 
-export const fetchTotalList = async () => {
+export const loadTotalList = async () => {
   const moviesResponse = await getMovies({ page: movieStore.page });
   updateMovieStore(moviesResponse);
 };
 
-export const fetchSearchList = async () => {
+export const loadSearchList = async () => {
   const moviesResponse = await getMovieByName({
     name: movieStore.searchKeyword,
     page: movieStore.page,

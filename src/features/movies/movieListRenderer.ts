@@ -1,16 +1,23 @@
 import MovieList from "../../components/MovieList";
 import MovieListSkeleton from "../../components/MovieListSkeleton";
 import TopRatedMovie from "../../components/TopRatedMovie";
-import { errorMessages } from "../../constants/message";
 import { DEFAULT_BACK_DROP_URL } from "../../constants/movieApi";
-import { movieStore } from "../../store/movieStore";
-import { fetchSearchList, fetchTotalList } from "./movieListService";
+import { movieStore } from "../../state/movieStore";
+import { loadSearchList, loadTotalList } from "./movieListService";
 
 const $mainSection = document.querySelector("main section");
 const $ul = document.querySelector(".thumbnail-list");
 const $error = document.querySelector(".error");
 const $h2 = $error?.querySelector("h2");
 const MAX_MOVIE_PAGE = 500;
+
+const ErrorMessages: { [key: number]: string } = {
+  400: "검색 가능한 페이지 수를 넘겼습니다.",
+  401: "사용자 인증 정보가 잘못되었습니다.",
+};
+export const errorMessages = (status: number) => {
+  return ErrorMessages[status] ?? "예상치 못한 오류가 발생했습니다.";
+};
 
 const changeHeaderBackground = () => {
   const $backgroundContainer = document.querySelector(".background-container");
@@ -75,10 +82,10 @@ export const renderMoviesList = async () => {
 
   try {
     if (movieStore.searchKeyword === "") {
-      await fetchTotalList();
+      await loadTotalList();
       renderHeaderBackground();
     } else {
-      await fetchSearchList();
+      await loadSearchList();
       toggleEmptySearchError();
     }
     changeHeaderBackground();

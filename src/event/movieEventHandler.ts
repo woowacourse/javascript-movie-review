@@ -1,4 +1,4 @@
-import { movieStore } from "../store/movieStore";
+import { movieStore } from "../state/movieStore";
 import { renderMoviesList } from "../features/movies/movieListRenderer";
 
 interface addEventProps {
