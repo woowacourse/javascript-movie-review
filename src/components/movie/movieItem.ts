@@ -1,7 +1,9 @@
+import movieDetailModal from "../modal/movieDetailModal";
 import {
   createElementWithAttributes,
   ElementOptions,
 } from "../utils/createElementWithAttributes";
+import { $ } from "../utils/selectors";
 import { Movie } from "./types";
 import noImage from "/images/no_image.png";
 
@@ -48,7 +50,16 @@ const movieItem = (movie: Movie): HTMLElement => {
     ],
   };
 
-  return createElementWithAttributes(movieItemOptions);
+  const $movieItemOptions = createElementWithAttributes(movieItemOptions);
+
+  $movieItemOptions.addEventListener("click", () => {
+    const $modal = $(".modal") as HTMLDialogElement;
+
+    $modal.showModal();
+    $modal.replaceChildren(movieDetailModal());
+  });
+
+  return $movieItemOptions;
 };
 
 export default movieItem;
