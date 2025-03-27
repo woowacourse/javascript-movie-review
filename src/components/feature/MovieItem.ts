@@ -7,7 +7,7 @@ import { Loading } from '../common/Loading';
 import { Modal } from '../common/Modal';
 import { Text } from '../common/Text';
 import { MovieDetailModal } from './MovieDetailModal';
-import { createPosterSkeleton, MovieSkeleton } from './MovieSkeleton';
+import { createPosterSkeleton } from './MovieSkeleton';
 
 export const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w220_and_h330_face';
 export const DEFAULT_IMAGE_URL = './images/no_image.png';
