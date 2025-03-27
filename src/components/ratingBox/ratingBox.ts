@@ -49,9 +49,21 @@ export const createRatingBox = (movieId: number, title: string) => {
     });
   };
 
+  const starsWrapper = createElementWithAttributes({
+    tag: "div",
+    className: "stars-wrapper",
+    children: [...$stars],
+  });
+
+  const myStarText = createElementWithAttributes({
+    tag: "div",
+    className: "my-star-text",
+    children: [$scoreText, $score],
+  });
+
   return createElementWithAttributes({
     tag: "div",
-    className: "star-wrapper",
-    children: [...$stars, $scoreText, $score],
+    className: "my-star-box",
+    children: [starsWrapper, myStarText],
   });
 };

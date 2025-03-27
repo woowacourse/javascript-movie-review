@@ -109,3 +109,21 @@ body:has(dialog[open]) {
   color: white;
   margin-right: 16px;
 }
+
+.my-star-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.score-text {
+  font-size: 24px;
+  font-weight: 600;
+  margin-right: 8px;
+}
+
+.score {
+  color: #95a1b2;
+  font-size: 24px;
+  font-weight: 600;
+}
