@@ -31,6 +31,13 @@ class MovieService {
     return searchResult;
   }
 
+  async getMovieDetails(movieId: number) {
+    const movieDetails = await APIHandler.get(
+      `/movie/${movieId}?language=ko-KR`
+    );
+    return movieDetails;
+  }
+
   nextPage() {
     this.currentPage = this.currentPage + 1;
   }
