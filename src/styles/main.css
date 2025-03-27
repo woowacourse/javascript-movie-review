@@ -101,6 +101,8 @@ button.primary {
 .search-box {
   position: relative;
   z-index: 3;
+  max-width: 1280px;
+  margin: 0 auto;
 }
 
 .search-active {
@@ -109,17 +111,21 @@ button.primary {
 
 .top-bar {
   width: 100%;
-  max-width: 1280px;
   position: absolute;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding: 48px 374px 72px 84px;
+  gap: 24px;
+  padding: 48px 0;
 }
 
 .top-rated-movie {
-  margin-top: 128px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+  padding: 220px 350px 0;
 }
 
 .top-rated-movie > *:not(:last-child) {
@@ -150,6 +156,10 @@ span.rate-value {
 .title {
   font-size: 3rem;
   font-weight: bold;
+}
+
+.detail {
+  width: 100px;
 }
 
 .movie-container {
