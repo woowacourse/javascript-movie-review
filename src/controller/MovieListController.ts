@@ -2,18 +2,30 @@ import { getPopularMovieResult } from "../api/getPopularMovieResult";
 import MovieItem from "../component/MovieItem";
 import MovieListSection from "../component/MovieListSection";
 import SkeletonMovieItem from "../component/Skeleton/SkeletonMovieItem";
+import SkeletonMovieListSection from "../component/Skeleton/SkeletonMovieListSection";
 import mainElement from "../dom/mainElement";
 import MovieResults from "../domain/MovieResults";
-import { IMovieResult } from "../types/movieResultType";
+import { IMovieItem, IMovieResult } from "../types/movieResultType";
 import { $ } from "../util/selector";
 
 class MovieListController {
   movieResults;
   mainElement;
 
-  constructor() {
+  onBeforeFetchMovieList;
+  onAfterFetchMovieList;
+
+  constructor({
+    onBeforeFetchMovieList,
+    onAfterFetchMovieList,
+  }: {
+    onBeforeFetchMovieList: () => void;
+    onAfterFetchMovieList: (movie: IMovieItem) => void;
+  }) {
     this.movieResults = MovieResults();
     this.mainElement = mainElement;
+    this.onBeforeFetchMovieList = onBeforeFetchMovieList;
+    this.onAfterFetchMovieList = onAfterFetchMovieList;
   }
 
   bindEvents() {
@@ -36,7 +48,39 @@ class MovieListController {
     return { movieList, hasMore: newPage !== totalPage };
   }
 
-  async render() {}
+  async render() {
+    this.renderSkeleton();
+    this.onBeforeFetchMovieList();
+
+    const { movieList, hasMore } = await this.fetchAndStoreMovies();
+    this.renderMovieList({
+      movieList,
+      hasMore,
+    });
+    this.onAfterFetchMovieList(movieList[0]);
+
+    this.bindEvents();
+  }
+
+  renderSkeleton() {
+    const skeletonSectionElement = SkeletonMovieListSection();
+    this.mainElement.replaceChildren(skeletonSectionElement);
+  }
+
+  renderMovieList({
+    movieList,
+    hasMore,
+  }: {
+    movieList: IMovieItem[];
+    hasMore: boolean;
+  }) {
+    const sectionElement = MovieListSection({
+      title: "지금 인기 있는 영화",
+      movieList,
+      hasMore,
+    });
+    this.mainElement.replaceChildren(sectionElement);
+  }
 
   async renderExistingMovieList() {
     const movieList = this.movieResults.getMovieList();

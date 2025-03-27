@@ -19,7 +19,14 @@ class MainController {
       onMovieDetailButtonClick: this.#openModal.bind(this),
     });
 
-    this.movieListController = new MovieListController();
+    this.movieListController = new MovieListController({
+      onBeforeFetchMovieList: () => {
+        this.backgroundThumbnailController.renderSkeleton();
+      },
+      onAfterFetchMovieList: (movie) => {
+        this.backgroundThumbnailController.renderBackgroundThumbnail(movie);
+      },
+    });
 
     new HeaderController({
       onSearchKeywordSubmit: this.#onSearchKeywordSubmit.bind(this),
