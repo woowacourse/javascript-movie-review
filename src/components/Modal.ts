@@ -34,6 +34,14 @@ class Modal {
     this.#element.insertAdjacentElement("beforeend", contents);
   }
 
+  clearContents() {
+    while (this.#element.childNodes.length > 1) {
+      if (this.#element.lastChild) {
+        this.#element.removeChild(this.#element.lastChild);
+      }
+    }
+  }
+
   #close() {
     const modalBackground = selectElement<HTMLDivElement>("#modalBackground");
     modalBackground.classList.remove("active");
