@@ -3,34 +3,16 @@ import { movieFetcherEvent } from '../../domain/MovieFetcherEvent';
 import { MovieItem as MovieItemType } from '../../types/Movie.types';
 import { createElement } from '../../utils/createElement';
 import { Text } from '../common/Text';
-import { MovieItem } from './MovieItem';
-import { MovieSkeleton } from './MovieSkeleton';
+import { createSkeletonItems } from './MovieSkeleton';
 import { Empty } from './Empty';
-
-const createSkeletonItems = (count = 20) => {
-  return Array.from({ length: count }, () => MovieSkeleton());
-};
-
-const createMovieItems = (movies: MovieItemType[]) => {
-  return movies.map((movie, index) => MovieItem({ ...movie, index }));
-};
-
-const updateListTitle = (
-  titleElement: HTMLElement,
-  isSearch: boolean,
-  query: string,
-) => {
-  titleElement.textContent = isSearch
-    ? `검색 결과: ${query}`
-    : '지금 인기 있는 영화';
-};
+import { createMovieItems } from './MovieItem';
 
 const titleText = Text({
   classList: ['text-2xl', 'font-bold', 'mb-64'],
   props: { textContent: '지금 인기 있는 영화' },
 });
 
-let movieUl = createElement<HTMLUListElement>('ul', {
+const movieUl = createElement<HTMLUListElement>('ul', {
   classList: 'thumbnail-list',
 });
 
@@ -42,6 +24,16 @@ const sectionElement = createElement('section', {
 const mainElement = createElement('main', {
   children: [sectionElement],
 });
+
+const updateListTitle = (
+  titleElement: HTMLElement,
+  isSearch: boolean,
+  query: string,
+) => {
+  titleElement.textContent = isSearch
+    ? `검색 결과: ${query}`
+    : '지금 인기 있는 영화';
+};
 
 const handleMoreMovieData = async () => {
   const response = movieFetcher.currentMovieResponse;
@@ -114,12 +106,11 @@ const renderMovieList = () => {
   setupIntersectionObserver();
 };
 
-export const MovieList = async (): Promise<HTMLElement> => {
+export const MovieList = (): HTMLElement => {
   const app = document.querySelector('#app');
   app?.append(mainElement);
 
-  renderMoreLoadingState(20);
-  await movieFetcher.getPopularMovies(1);
+  movieFetcher.getPopularMovies(1);
 
   renderMovieList();
   movieFetcherEvent.subscribe(renderMovieList);

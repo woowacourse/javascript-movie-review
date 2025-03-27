@@ -1,4 +1,4 @@
-import MovieRating from '../../domain/MovieRating';
+import { movieRating } from '../../domain/MovieRating';
 import { MovieDetailResponse } from '../../types/MovieDetail.types';
 import { Box } from '../common/Box';
 import { Horizon } from '../common/Horizon';
@@ -8,11 +8,11 @@ import { Text } from '../common/Text';
 import { DEFAULT_IMAGE_URL, IMAGE_BASE_URL } from './MovieItem';
 
 const SCORE_TEXT: Record<number, string> = {
-  2: '최악이에요',
-  4: '별로예요',
-  6: '보통이에요',
-  8: '재미있어요',
-  10: '명작이에요',
+  2: '최악이에요.',
+  4: '별로예요.',
+  6: '보통이에요.',
+  8: '재미있어요.',
+  10: '명작이에요.',
 };
 
 const handleCloseBtnClick = () => {
@@ -25,9 +25,6 @@ const handleCloseBtnClick = () => {
 
 const scoreTextElement = Text({
   classList: ['text-xl', 'font-semibold', 'text-white'],
-  props: {
-    textContent: '0점',
-  },
 });
 
 const scoreElement = Text({
@@ -97,10 +94,8 @@ const movieInfo = (
 };
 
 const myRatingSection = (movieId: number, title: string) => {
-  const movieRate = new MovieRating(movieId, title);
-
   const updateStars = (score: number) => {
-    movieRate.setRating(score);
+    movieRating.setRating(movieId, title, score);
 
     starElements.forEach((star, index) => {
       const starScore = (index + 1) * 2;
@@ -114,7 +109,7 @@ const myRatingSection = (movieId: number, title: string) => {
       }
     });
 
-    scoreTextElement.textContent = SCORE_TEXT[score] || '0점';
+    scoreTextElement.textContent = SCORE_TEXT[score] || '별점을 남겨주세요! 🌟';
     scoreElement.textContent = `(${score}/10)`;
   };
 
@@ -132,7 +127,7 @@ const myRatingSection = (movieId: number, title: string) => {
     });
   });
 
-  const storedRating = movieRate.getRating();
+  const storedRating = movieRating.getRating(movieId);
   updateStars(storedRating || 0);
 
   return Box({
