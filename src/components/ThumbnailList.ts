@@ -4,6 +4,7 @@ import { AppState } from '@/App';
 import { html } from '@/lib/utils';
 import Component from './core/Component';
 import { forEach } from '@fxts/core';
+import { MOVIE_ITEM_PER_PAGE } from '../lib/constants';
 
 interface ThumbnailListProps {
   movies: AppState['movies'];
@@ -14,7 +15,7 @@ export default class ThumbnailList extends Component<ThumbnailListProps> {
     if (!this.props.movies)
       return html`
         <ul class="thumbnail-list">
-          ${new Array(20).fill(null).map(
+          ${new Array(MOVIE_ITEM_PER_PAGE).fill(null).map(
             () => `
               <li class="item">
                 <div class="skeleton" style="width:200px; height:300px"></div>
@@ -42,7 +43,7 @@ export default class ThumbnailList extends Component<ThumbnailListProps> {
       <ul class="thumbnail-list">
         ${this.props.movies.map((movie) => {
           const backgroundImage = movie.backdrop_path
-            ? `${DEFAULT_BACK_DROP_URL}${movie.backdrop_path}`
+            ? `${DEFAULT_BACK_DROP_URL}/${movie.backdrop_path}`
             : './images/default_thumbnail.jpeg';
           return `
               <li class="item" data-action="movie-detail" data-id="${movie.id}">

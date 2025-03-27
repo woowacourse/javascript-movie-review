@@ -53,6 +53,6 @@ export default class Header extends Component<HeaderProps> {
 
     if (this.props.search) this.element!.style.backgroundImage = '';
     else if (this.props.movie.backdrop_path)
-      this.element!.style.backgroundImage = `url(${DEFAULT_BACK_DROP_URL}${this.props.movie.backdrop_path})`;
+      this.element!.style.backgroundImage = `url(${DEFAULT_BACK_DROP_URL}/${this.props.movie.backdrop_path})`;
   }
 }

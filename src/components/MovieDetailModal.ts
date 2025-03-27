@@ -27,7 +27,7 @@ export default class MovieDetailModal extends Component<MovieDetailModalProps> {
     const currentMovieRate = this.props.movieRate[id] ?? 6;
 
     const backgroundImage = backdrop_path
-      ? `${DEFAULT_BACK_DROP_URL}${backdrop_path}`
+      ? `${DEFAULT_BACK_DROP_URL}/${backdrop_path}`
       : './images/default_thumbnail.jpeg';
     return html`
       <div class="modal-background active" id="modalBackground" data-action="close-movie-detail-modal-outside">
