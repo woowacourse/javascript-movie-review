@@ -43,7 +43,6 @@ button.primary {
 }
 
 #wrap {
-  /* min-width: 1440px; */
   background-color: var(--color-bluegray-100);
   min-height: calc(100vh - 180px);
 }
@@ -137,6 +136,18 @@ h1.logo {
   left: 0;
   z-index: 3;
   cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .logo-search-container {
+    flex-direction: column;
+  }
+  h1.logo {
+    position: relative;
+  }
+  .search-bar {
+    width: 100%;
+  }
 }
 
 .search-bar {
