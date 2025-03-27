@@ -7,6 +7,8 @@ import BackgroundThumbnailController from "../controller/BackgroundThumbnailCont
 import { MovieResultType } from "../types/movieResultType";
 import { getPopularMovieResult } from "../api/getPopularMovieResult";
 import MovieResults from "../domain/MovieResults";
+import DetailModalController from "../controller/DetailModalController";
+import { getDetailMovieResult } from "../api/getDetailMovieResult";
 
 class MainController {
   movieResults;
@@ -14,6 +16,7 @@ class MainController {
   messageModalController;
   movieListController;
   backgroundThumbnailController;
+  detailModalController;
 
   constructor() {
     this.movieResults = new MovieResults();
@@ -21,15 +24,20 @@ class MainController {
     this.mainElement = document.querySelector("main") as HTMLElement;
 
     this.messageModalController = new MessageModalController(this.mainElement);
+    this.detailModalController = new DetailModalController(this.mainElement);
 
-    this.movieListController = new MovieListController(this.mainElement, this.handleSeeMore.bind(this));
+    this.movieListController = new MovieListController({
+      mainElement: this.mainElement,
+      handleSeeMore: this.handleSeeMore.bind(this),
+      openDetailModal: async (id) => {
+        const movieItem = await getDetailMovieResult(id);
+        this.detailModalController.changeContent(movieItem);
+      },
+    });
 
     this.backgroundThumbnailController = new BackgroundThumbnailController({
       mainElement: this.mainElement,
-      openModal: (text: string) => {
-        this.messageModalController.changeContentMessage(text);
-        this.messageModalController.messageModalElement.showModal();
-      },
+      openModal: (text: string) => this.messageModalController.changeContentMessage(text),
     });
 
     new HeaderController({

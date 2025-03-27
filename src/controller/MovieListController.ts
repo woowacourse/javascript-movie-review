@@ -2,13 +2,21 @@ import MovieItem from "../component/MovieItem";
 import MovieListSection from "../component/MovieListSection";
 import { MovieItemType } from "../types/movieResultType";
 
+interface MovieListControllerType {
+  mainElement: HTMLElement;
+  handleSeeMore: () => void;
+  openDetailModal: (id: number) => void;
+}
+
 class MovieListController {
   mainElement;
   handleSeeMore;
+  openDetailModal;
 
-  constructor(mainElement: HTMLElement, handleSeeMore: () => void) {
+  constructor({ mainElement, handleSeeMore, openDetailModal }: MovieListControllerType) {
     this.mainElement = mainElement;
     this.handleSeeMore = handleSeeMore;
+    this.openDetailModal = openDetailModal;
   }
 
   async render({ movieList, hasMore }: { movieList: MovieItemType[]; hasMore: boolean }) {
@@ -24,6 +32,15 @@ class MovieListController {
     const seeMoreElement = this.mainElement.querySelector(".see-more");
     seeMoreElement?.addEventListener("click", () => {
       this.handleSeeMore();
+    });
+
+    this.mainElement.addEventListener("click", (event) => {
+      const target = event.target as HTMLElement;
+      const item = target.closest("div.item");
+
+      if (item) {
+        this.openDetailModal(Number(item.id));
+      }
     });
   }
 
