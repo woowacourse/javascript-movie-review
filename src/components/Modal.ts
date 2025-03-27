@@ -10,7 +10,7 @@ class Modal {
 
   create() {
     const template = /*html*/ `
-    <div class="modal-background active" id="modalBackground">
+    <div class="modal-background" id="modalBackground">
       <div class="modal" id="modal">
         <button class="close-modal" id="closeModal">
           <img src="./images/modal_button_close.png" />
