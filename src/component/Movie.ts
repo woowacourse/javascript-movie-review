@@ -2,7 +2,7 @@ import createDOMElement from '../util/createDomElement';
 import { DEFAULT_IMAGE_URL, IMAGE_BASE_URL } from '../constant';
 import { MoveType } from '../type';
 
-function Movie({ movie }: { movie: MoveType }) {
+function Movie({ movie, onClick }: { movie: MoveType; onClick?: () => void }) {
   const posterPath = movie.posterPath ? IMAGE_BASE_URL + '/w440_and_h660_face/' + movie.posterPath : DEFAULT_IMAGE_URL;
 
   return createDOMElement({
@@ -42,7 +42,8 @@ function Movie({ movie }: { movie: MoveType }) {
           })
         ]
       })
-    ]
+    ],
+    event: onClick ? { click: onClick } : undefined
   });
 }
 

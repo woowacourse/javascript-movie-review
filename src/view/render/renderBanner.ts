@@ -21,5 +21,5 @@ export const removeBanner = () => {
 
   const main = document.querySelector('main');
   if (!main) return;
-  main.style.padding = '100px 0 64px';
+  main.classList.add('search-movie-main');
 };

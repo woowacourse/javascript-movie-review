@@ -41,3 +41,20 @@ p.rate > span {
   width: 16px;
   top: 1px;
 }
+
+@media screen and (max-width: 1380px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+  .thumbnail {
+    width: 100%;
+    height: auto;
+  }
+}
+
+@media screen and (max-width: 530px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 0));
+    justify-content: center;
+  }
+}
