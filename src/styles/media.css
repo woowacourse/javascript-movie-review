@@ -10,9 +10,9 @@
   }
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 1024px) {
   .container {
-    max-width: 1000px;
+    max-width: 1024px;
     width: 100%;
     padding: 0 40px;
   }
@@ -123,28 +123,23 @@
     position: fixed;
     bottom: 0;
     left: 50%;
-    transform: translate(-50%, 100%);
     width: 100%;
     max-width: 600px;
     height: auto;
     max-height: 80%;
     border-radius: 16px 16px 0 0;
-    transition: transform 0.3s ease-out;
+    animation: slideUp 300ms ease-out forwards;
     overflow-y: auto;
   }
 
   .modal-info {
     align-items: center;
   }
-
-  .modal-background.active .modal {
-    transform: translate(-50%, 0);
-  }
 }
 
 @media (max-width: 680px) {
   .container {
-    max-width: 600px;
+    max-width: 680px;
   }
 
   .thumbnail-list {
