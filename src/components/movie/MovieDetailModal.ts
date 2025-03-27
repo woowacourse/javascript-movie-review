@@ -21,8 +21,8 @@ const MovieDetailModal = (movie: MovieDetail): HTMLElement => {
             />
           </div>
           <div class="modal-description">
-            <h2>${movie.title}</h2>
-            <div>
+            <h2 class="movie-title">${movie.title}</h2>
+            <div class="movie-genre">
                 ${movie.release_date.slice(0, 4)} ·
                 ${movie.genres.map((genre) => genre.name).join(", ")}
             </div>

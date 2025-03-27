@@ -34,7 +34,8 @@ body.modal-open {
   color: white;
   z-index: 2;
   position: relative;
-  width: 1000px;
+  width: 90%;
+  /* max-height: 700px; */
 }
 
 .close-modal {
@@ -83,11 +84,12 @@ body.modal-open {
   top: 5px;
 }
 
-.modal-description h2 {
+.movie-title  {
   font-size: 2rem;
   font-weight: 600;
   margin-top: 15px;
   padding-bottom: 15px;
+  line-height: 1.2;
 }
 
 .modal-description h3 {
@@ -115,7 +117,7 @@ body.modal-open {
 .my-rate {
   display: flex;
   align-items: center;
-  gap: 15px
+  gap: 15px;
 }
 
 .my-rate .label {
@@ -125,4 +127,43 @@ body.modal-open {
 
 .my-rate .score {
   color: gray;
+}
+
+@media screen and (max-width: 768px) {
+  .modal {
+    max-height: 900px;
+  }
+  .modal-image img {
+    width: 250px;
+    border-radius: 16px;
+  }
+  .modal-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  .movie-title, .movie-genre {
+    text-align: center;
+  }
+  .modal-rate-container {
+    display: flex;
+    justify-content: center;
+  }
+  .detail {
+    max-height: 150px;
+    overflow-y: auto;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .modal-image img {
+    width: 200px;
+    border-radius: 16px;
+  }
+}
+
+@media screen and (max-width: 385px) {
+  .my-rate {
+    display: flex;
+    flex-direction: column;
+  }
 }

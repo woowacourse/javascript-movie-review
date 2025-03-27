@@ -65,9 +65,6 @@ const MyRating = (movie: MovieDetail) => {
       score.textContent = `(${currentScore}/10)`;
     });
     star.addEventListener("mouseleave", () => {
-      console.log(
-        `선택한 점수: ${selectedScore}, 로컬 스토리지 점수: ${myScore}`
-      );
       if (selectedScore === 0 && myScore !== 0) {
         selectedScore = myScore;
         selectedStarIdx = filledCount - 1;
