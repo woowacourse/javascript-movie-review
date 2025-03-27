@@ -6,9 +6,7 @@ class MovieResults {
   maxPage: number = 0;
 
   addMovieList(newPage: number, list: MovieItemType[]) {
-    list.forEach((movie) => {
-      this.movieList.push({ ...movie, star: 0 });
-    });
+    this.movieList.push(...list);
     this.page = newPage;
   }
 
