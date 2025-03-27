@@ -1,4 +1,4 @@
-@import "./colors.css";
+@import "../../../templates/styles/colors.css";
 
 /* modal.css */
 body.modal-open {
@@ -19,9 +19,7 @@ body.modal-open {
   z-index: 10;
   visibility: hidden; /* 모달이 기본적으로 보이지 않도록 설정 */
   opacity: 0;
-  transition:
-    opacity 0.3s ease,
-    visibility 0.3s ease;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
 .modal-background.active {
@@ -37,6 +35,7 @@ body.modal-open {
   z-index: 2;
   position: relative;
   width: 1000px;
+  height: 820px;
 }
 
 .close-modal {
@@ -57,7 +56,8 @@ body.modal-open {
 }
 
 .modal-image img {
-  width: 380px;
+  width: 500px;
+  height: 700px;
   border-radius: 16px;
 }
 
