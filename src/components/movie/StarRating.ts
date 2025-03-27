@@ -1,3 +1,4 @@
+import getRatings from "../../domain/getRating";
 import { createElement } from "../../utils/createElement";
 import { $, $$ } from "../../utils/dom";
 
@@ -11,20 +12,35 @@ const RATE_DESCRIPTION = {
 };
 
 const StarRating = () => {
+  const score: number = getRatings(
+    parseInt(new URL(location.href).searchParams.get("movieID") || "0")
+  );
+
   const startRating = document.createElement("div");
   startRating.classList.add("star-rating");
 
   const description = document.createElement("p");
   description.classList.add("description");
-  description.innerText = RATE_DESCRIPTION.ZERO.description;
 
   const totalScore = createElement(/*html*/ `
     <span>(<span class="check-score">0</span>/10)</span>
   `);
 
+  Object.entries(RATE_DESCRIPTION).forEach(([key, value]) => {
+    if (value.score === score) {
+      description.innerText = value.description;
+      $(".check-score", totalScore).innerText = value.score.toString();
+    }
+  });
+
   Array.from({ length: 5 }).forEach((_, index) => {
     const star = document.createElement("img");
-    star.setAttribute("src", "./images/star_empty.png");
+    if (score >= (index + 1) * 2) {
+      star.setAttribute("src", "./images/star_filled.png");
+    } else {
+      star.setAttribute("src", "./images/star_empty.png");
+    }
+
     star.classList.add("star");
 
     star.setAttribute("id", `star_${index + 1}`);
