@@ -7,7 +7,7 @@ const SEARCH_BUTTON_IMAGE_SRC = './images/searchButtonIcon.png';
 const PAGE = 1;
 const SEARCH_BAR_PLACEHOLDER = "검색어를 입력하세요";
 
-const SearchBar = () => {
+function createSearchBarUI(onSubmit) {
     const $form = createElement({
         tag: 'form',
         classNames: ['search-bar-container']
@@ -32,34 +32,43 @@ const SearchBar = () => {
     $button.appendChild($img);
     $form.append($input, $button);
 
-    const handleSearch = async (event) => {
+    $form.addEventListener('submit', (event) => {
         event.preventDefault();
-       
-        const query = $input.value.trim();    
-        if (!query) return;
-
-        document.querySelector('.background-container').classList.add('disappear');
-
-        const params = new URLSearchParams(window.location.search);
-        params.set("query", query);
-        window.history.replaceState({}, "", `${window.location.pathname}?${params.toString()}`);
-
-        document.querySelector('.list-title').textContent = `"${query}" 검색 결과`;
-
-        const searchMovieData = await fetchSearchMovies(query, PAGE);
-        movies.updateMovies(searchMovieData.results);
-
-        const $thumbnailList = document.querySelector('.thumbnail-list');
-        if ($thumbnailList) $thumbnailList.remove();
-
-        document.querySelector('section').appendChild(
-            MovieList({ movies: movies.movieList })
-        );
-    };
-
-    $form.addEventListener('submit', handleSearch);
+        onSubmit($input.value.trim());
+    });
 
     return $form;
+}
+
+function updateURLQueryParam(query) {
+    const params = new URLSearchParams(window.location.search);
+    params.set("query", query);
+    window.history.replaceState({}, "", `${window.location.pathname}?${params.toString()}`);
+}
+
+function updateDOMForSearch(query) {
+    document.querySelector('.background-container').classList.add('disappear');
+    document.querySelector('.list-title').textContent = `"${query}" 검색 결과`;
+
+    const $thumbnailList = document.querySelector('.thumbnail-list');
+    if ($thumbnailList) $thumbnailList.remove();
+}
+
+async function performSearch(query) {
+    if (!query) return;
+
+    updateURLQueryParam(query);
+    updateDOMForSearch(query);
+
+    const searchMovieData = await fetchSearchMovies(query, PAGE);
+    movies.updateMovies(searchMovieData.results);
+
+    const $movieList = MovieList({ movies: movies.movieList });
+    document.querySelector('section').appendChild($movieList);
+}
+
+const SearchBar = () => {
+    return createSearchBarUI(performSearch);
 };
 
 export default SearchBar;
