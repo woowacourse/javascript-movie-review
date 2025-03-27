@@ -52,7 +52,7 @@ button.primary {
 #wrap h2 {
   font-size: 1.4rem;
   font-weight: bold;
-  margin: 35px 120px;
+  margin: 35px 0px 35px 75px;
 }
 
 .container {
@@ -183,6 +183,11 @@ h1.logo {
   .search-bar {
     width: 100%;
     max-width: 280px;
+  }
+
+  #wrap h2 {
+    font-size: 1.2rem;
+    font-weight: bold;
   }
 }
 
