@@ -49,6 +49,7 @@ describe("홈 화면 테스트", () => {
     cy.get(".search-bar").type(`${firstLegalSearchValue}{enter}`);
 
     cy.scrollTo("bottom");
+    cy.wait(1000);
     cy.get("#thumbnail-list > li").should("have.length", 35);
 
     cy.get("#thumbnail-list > li").each(($li) => {
@@ -72,7 +73,7 @@ describe("홈 화면 테스트", () => {
     });
 
     cy.scrollTo("bottom");
-
+    cy.wait(1000);
     cy.get("#thumbnail-list > li").should("have.length", 22);
 
     cy.get("#thumbnail-list > li").each(($li) => {
@@ -80,6 +81,7 @@ describe("홈 화면 테스트", () => {
     });
 
     cy.get("#logo").click();
+    cy.wait(1000);
     cy.get("#thumbnail-list > li").should("have.length", 20);
   });
 });
