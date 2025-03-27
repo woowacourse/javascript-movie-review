@@ -21,11 +21,11 @@ class MovieList {
     this.#container.replaceChildren();
   }
 
-  updateList(newMovieList: string[]) {
-    this.#movieList = [...this.#movieList, ...newMovieList];
+  updateList(newMovieItems: string[]) {
+    this.#movieList = [...this.#movieList, ...newMovieItems];
     this.#totalItems = this.#movieList.length;
 
-    this.#container.insertAdjacentHTML("beforeend", newMovieList.join(""));
+    this.#container.insertAdjacentHTML("beforeend", newMovieItems.join(""));
   }
 
   getTotalItems() {
