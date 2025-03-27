@@ -1,5 +1,5 @@
-export default async function fetchPopularMovies(page: number) {
-  const popularMovieUrl = `https://api.themoviedb.org/3/movie/movie_id?language=ko-KR&page=${page}`;
+export const fetchDetailMovie = async (movieId: number) => {
+  const detailMovieUrl = `https://api.themoviedb.org/3/movie/${movieId}?language=ko-KR`;
   const options = {
     method: "GET",
     headers: {
@@ -8,11 +8,11 @@ export default async function fetchPopularMovies(page: number) {
     },
   };
   try {
-    const response = await fetch(popularMovieUrl, options);
-    const { results, total_pages } = await response.json();
-    const totalPages = total_pages;
-    return { results, totalPages };
+    const response = await fetch(detailMovieUrl, options);
+    const { title, release_date, genres, vote_average, overview, poster_path } =
+      await response.json();
+    return { title, release_date, genres, vote_average, overview, poster_path };
   } catch (error) {
     alert("영화 정보를 불러오는데 실패했습니다.");
   }
-}
+};

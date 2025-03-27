@@ -1,4 +1,4 @@
-import MovieType from "../types/MovieType";
+import { MovieType } from "../types/MovieType";
 
 class Movies {
   #movieList: MovieType[];

@@ -1,4 +1,4 @@
-import Modal from "./common/Modal";
+import Modal from "./movie/movieModal/Modal";
 import Footer from "./layout/Footer";
 import Header from "./layout/Header";
 import MovieContainer from "./movie/MovieContainer";
@@ -32,10 +32,13 @@ const Main = ({ movies }) => {
       })
     );
 
-    $wrap.appendChild($container);
-    $wrap.appendChild(Footer());
+    const $dialog = createElement({
+      tag: "dialog",
+      classNames: ["modal-background", "active"],
+      id: "modalBackground",
+    });
 
-    new Modal($wrap, movies);
+    $wrap.append($container, Footer(), $dialog);
   }
 };
 
