@@ -164,6 +164,11 @@ h1.logo {
   font-weight: bold;
 }
 
+.loading-observer {
+  height: 10px;
+  margin-top: 20px;
+}
+
 footer.footer {
   min-height: 180px;
   background-color: var(--color-bluegray-80);
