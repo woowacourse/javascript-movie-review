@@ -1,5 +1,5 @@
 import Button from "./components/Button";
-import "./features/movies/movieEventHandlers";
+import "./event/movieEventHandler";
 import { renderMoviesList } from "./features/movies/movieListRenderer";
 
 addEventListener("load", async () => {
