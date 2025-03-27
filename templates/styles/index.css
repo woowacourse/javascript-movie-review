@@ -1,6 +1,8 @@
-@import "./colors.css";
-@import "./main.css";
-@import "./modal.css";
-@import "./reset.css";
-@import "./tab.css";
-@import "./thumbnail.css";
+@import './colors.css';
+@import './layout.css';
+@import './main.css';
+@import './modal.css';
+@import './reset.css';
+@import './tab.css';
+@import './thumbnail.css';
+@import './text.css';
