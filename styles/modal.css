@@ -99,7 +99,7 @@ dialog:-internal-dialog-in-top-layer {
 }
 
 #modalTitle {
-  font-size: 1.4rem;
+  font-size: 1.8rem;
   font-weight: bold;
   margin-bottom: 2px;
 }
@@ -110,11 +110,45 @@ dialog:-internal-dialog-in-top-layer {
 
 .category {
   padding-top: 15px;
+  font-size: 1.2rem;
+}
+
+.rate-score {
+  font-size: 1.2rem;
+  font-weight: bold;
 }
 
 .rate-box {
   border-top: 1.5px solid var(--color-bluegray-custom);
   border-bottom: 1.5px solid var(--color-bluegray-custom);
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.star-comment-box {
+  display: flex;
+  flex-direction: row;
+}
+
+.comment {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-left: 10px;
+  margin-right: 5px;
+}
+
+.score {
+  color: var(--color-bluegray-custom);
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+p.rate > span {
+  font-size: 1.2rem;
+  margin-left: 4px;
+  margin-right: 10px;
+}
+
+.overview {
+  padding-top: 15px;
 }
