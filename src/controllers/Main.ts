@@ -1,34 +1,23 @@
 import Footer from "../components/Footer.js";
 import Header from "../components/Header.js";
 import { MovieInfo } from "../../types/movieType.ts";
-import {ContentsContainer, render} from "./Contents.ts";
+import { ContentsContainer, replaceSkeletonWithMovies, showSkeleton } from "./Contents.ts";
 import MovieService from "../services/MovieService.ts";
 import LogoSearchBar from "../components/LogoSearchBar.js";
 import EVENT_HANDLER from "./EventHandler.js";
+import { getPopularParam } from "../apis/config.js";
+import MovieList from '../domains/MovieList';
 
-export const state = {
-  isLoading: false as Boolean,
-  movies: [] as MovieInfo[],
-};
-
-type stateProps = {
-  isLoading?: boolean;
-  movies?: MovieInfo[];
-};
-
-export function setState(newState: stateProps) {
-  Object.assign(state, newState);
-  render();
-}
-
-
-function renderHeader({ title, poster_path, vote_average }: MovieInfo) {
+async function renderHeader({ title, poster_path, vote_average }: MovieInfo) {
   const container = document.querySelector("#wrap");
   const logoSearchBar = LogoSearchBar();
-  const $header = Header({ title, poster_path, vote_average });
+  const $header = Header({
+    title,
+    poster_path,
+    vote_average
+  });
 
   container?.prepend($header);
-  
   $header.prepend(logoSearchBar);
   container?.prepend(logoSearchBar);
 }
@@ -39,50 +28,51 @@ function renderFooter() {
   $wrap?.appendChild(footer);
 }
 
-export function setupSearchEvents() {
+export function setupSearchEvents(movieService: MovieService) {
   const input = document.querySelector(".search-input");
   const button = document.querySelector(".search-button");
 
   input?.addEventListener("keydown", (event) => {
     const keyboardEvent = event as KeyboardEvent;
-
+    
     if (keyboardEvent.key === "Enter" && keyboardEvent.isComposing === false) {
       const inputValue = (event.target as HTMLInputElement).value;
-      EVENT_HANDLER.SEARCH_MOVIE(inputValue);
+      movieService.initPage(); 
+      EVENT_HANDLER.SEARCH_MOVIE(inputValue, movieService);
     }
   });
 
   button?.addEventListener("click", () => {
     const inputValue = (input as HTMLInputElement)?.value;
-    EVENT_HANDLER.SEARCH_MOVIE(inputValue);
+    movieService.initPage();
+    EVENT_HANDLER.SEARCH_MOVIE(inputValue, movieService);
   });
 }
 
-async function renderInitContent(movieService: MovieService) {
-  const data = await movieService.fetchMovies("/movie/popular", {
-    language: "ko-KR",
-    page: movieService.currentPage,
-  });
-
-  ContentsContainer(data.results, "지금 인기 있는 영화", movieService, () =>
-    movieService.fetchMovies("/movie/popular", {
-      language: "ko-KR",
-      page: movieService.currentPage,
-    })
+async function renderInitContent(movieList:MovieList, movieService: MovieService) {
+  ContentsContainer("지금 인기 있는 영화", movieList, movieService, () =>
+     movieService.fetchMovies(
+      "/movie/popular",
+      getPopularParam(movieService.currentPage)
+    )
   );
-  setupSearchEvents();
+
+  setupSearchEvents(movieService);
 }
 
 async function main() {
   const movieService = new MovieService();
-  const data = await movieService.fetchMovies("/movie/popular", {
-    language: "ko-KR",
-    page: movieService.currentPage,
-  });
+  showSkeleton(20)
+  const dataArr = await movieService.fetchMovies(
+    "/movie/popular",
+    getPopularParam(movieService.currentPage)
+  );
+  const movieList = new MovieList(dataArr.results)
+  replaceSkeletonWithMovies(movieList.movieList);
 
-  renderHeader(data.results[0]);
-  renderInitContent(movieService);
+  renderHeader(dataArr.results[0]);
   renderFooter();
+  renderInitContent(movieList, movieService);
 }
 
 main();

@@ -7,3 +7,19 @@ export function getApiOptions(token) {
   };
   return options;
 }
+
+export function getPopularParam(currentPage) {
+  return {
+    language: "ko-KR",
+    page: currentPage,
+  };
+}
+
+export function getSearchParam(inputValue, currentPage) {
+  return {
+    query: inputValue,
+    page: currentPage,
+    language: "ko-KR",
+    include_adult: "false",
+  };
+}
