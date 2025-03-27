@@ -15,7 +15,6 @@ class App {
     if (store.getState().movies.length === 0) {
       this.loadPopularMovies();
     }
-    this.render();
   }
 
   async loadPopularMovies() {

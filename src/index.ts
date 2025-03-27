@@ -1,4 +1,5 @@
 import App from "./App";
 
 const $app = document.querySelector("#app");
-new App($app);
+const app = new App($app);
+app.render();
