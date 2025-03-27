@@ -50,6 +50,8 @@ FE 레벨1 영화 리뷰 미션
 - [x] MovieList.js
 - [x] MovieLayout.js
 - [x] Banner.js
+- [x] Modal.js
+- [x] MovieDetail.js
 
 [feature]
 

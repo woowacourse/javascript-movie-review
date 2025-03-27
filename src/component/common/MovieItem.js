@@ -1,4 +1,4 @@
-const BASE_IMAGE_URL = "https://image.tmdb.org/t/p/w500";
+import { BASE_IMAGE_URL } from "../../constant/constant.js";
 
 function MovieItem({ img, rating, title }) {
   
