@@ -1,6 +1,9 @@
-const POSTER_URL = import.meta.env.VITE_TMDB_API_POSTER_URL;
+// MovieItem.ts
+import { Movie } from "../../../types/movieList";
 
-const MovieItem = ({ id, poster_path, title, vote_average }) => {
+const POSTER_URL = import.meta.env.VITE_TMDB_API_POSTER_URL as string;
+
+const MovieItem = ({ id, poster_path, title, vote_average }: Movie): string => {
   const imageUrl = poster_path
     ? `${POSTER_URL}${poster_path}`
     : "./images/logo.png";
