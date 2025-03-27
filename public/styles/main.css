@@ -178,10 +178,6 @@ footer.footer p:not(:last-child) {
   margin-bottom: 8px;
 }
 
-/* 반응형 디자인 */
-@media screen and (max-width: 1120px) {
-}
-
 @media screen and (max-width: 800px) {
   .title {
     font-size: 1.5rem;
