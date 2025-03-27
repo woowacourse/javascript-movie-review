@@ -47,7 +47,7 @@ export default class ThumbnailList extends Component<ThumbnailListProps> {
             : './images/default_thumbnail.jpeg';
           return `
               <li class="item" data-action="movie-detail" data-id="${movie.id}">
-                <div class="thumbnail image-container">
+                <div class="thumbnail skeleton">
                   <img
                     class="thumbnail picture"
                     alt="${movie.title}"
