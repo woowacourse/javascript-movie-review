@@ -1,6 +1,12 @@
 import { createElement } from "../../util/dom";
 import Modal from "../modal/modal";
 import DetailModal from "../detailModal/detailModal";
+import { fetchUrl } from "../../util/fetch";
+import {
+  defaultOptions,
+  URLS,
+  defaultQueryObject,
+} from "../../setting/settings";
 
 export default function MovieItem({ src, title, rate, id }) {
   const $li = createElement("li");
@@ -24,8 +30,14 @@ export default function MovieItem({ src, title, rate, id }) {
         </div>
     `;
 
-  $li.addEventListener("click", () => {
-    Modal(DetailModal(id));
+  $li.addEventListener("click", async () => {
+    const data = await fetchUrl(
+      `${URLS.detailMovieUrl}${id}`,
+      defaultQueryObject,
+      defaultOptions
+    );
+
+    Modal(DetailModal({ ...data }));
   });
 
   return $li;

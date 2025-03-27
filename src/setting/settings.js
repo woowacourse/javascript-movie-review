@@ -1,6 +1,7 @@
 export const URLS = {
   popularMovieUrl: "https://api.themoviedb.org/3/movie/popular",
   searchMovieUrl: "https://api.themoviedb.org/3/search/movie",
+  detailMovieUrl: "https://api.themoviedb.org/3/movie/",
 };
 
 export const defaultOptions = {
