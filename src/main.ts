@@ -8,6 +8,7 @@ import { toggleElementVisibility } from "./utils/Render.ts";
 import MovieList from "./components/MovieList.ts";
 import calculatePageNumber from "./domain/calculatePageNumber.ts";
 import movieService from "./service/movieService.ts";
+import Modal from "./components/Modal.ts";
 
 const getTotalMovies = async (
   currentItemCount: number = ITEMS.initialCount
@@ -97,10 +98,11 @@ const app = async () => {
 
     const movieData = await getTotalMovies();
     const movieList = createMovieList(movieData);
+    const modal = new Modal();
 
     renderTitleMovie(movieData);
     movieList.create();
-    movieList.onMovieClick(getDetail);
+    movieList.onMovieClick(getDetail, modal);
   } catch (error) {
     if (error instanceof Error) alert(error.message);
   }

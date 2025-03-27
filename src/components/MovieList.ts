@@ -35,7 +35,7 @@ class MovieList {
     return this.#totalItems;
   }
 
-  onMovieClick(getDetail: (id: number) => Promise<MovieDetails>) {
+  onMovieClick(getDetail: (id: number) => Promise<MovieDetails>, modal: Modal) {
     const handleMovieClick = async (event: MouseEvent) => {
       const target = event.target as HTMLElement;
       if (!target.closest("ul.thumbnail-list")) {
@@ -48,7 +48,8 @@ class MovieList {
       const details = await getDetail(id);
 
       const modalDetails = new MovieItemDetails(details).create();
-      const modal = new Modal();
+
+      modal.clearContents();
       modal.renderContents(modalDetails);
       modal.open();
     };
