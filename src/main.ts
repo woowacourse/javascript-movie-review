@@ -1,10 +1,8 @@
 import fetchPopularMovies from "./fetch/fetchPopularMovies";
+import fetchSearchMovies from "./fetch/fetchSearchMovies";
 import Main from "./components/Main";
 import movies from "./store/Movies";
-import deleteParams from "./utils/deleteParams";
 import MovieType from "./types/MovieType";
-
-deleteParams();
 
 async function fetchAndRender(fetchFn: () => Promise<MovieType[]>) {
   renderMain("loading");
@@ -21,7 +19,12 @@ async function fetchAndRender(fetchFn: () => Promise<MovieType[]>) {
 
 fetchAndRender(async () => {
   const PAGE = 1;
-  const res = await fetchPopularMovies(PAGE);
+  const params = new URLSearchParams(window.location.search);
+
+  const res = params.has("query")
+    ? await fetchSearchMovies(params.get("query") || "", PAGE)
+    : await fetchPopularMovies(PAGE);
+
   movies.updateMovies(res.results);
   return movies.movieList;
 });

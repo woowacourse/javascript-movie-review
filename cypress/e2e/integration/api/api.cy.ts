@@ -1,3 +1,5 @@
+/// <reference types="cypress" />
+
 describe("비동기 API 테스트", () => {
   it("영화 목록 API를 호출하면 한 번에 20개씩 목록에 나열되어야 한다.", () => {
     cy.visit("localhost:5173");
