@@ -1,6 +1,7 @@
 import MoviePreviewInfo from './MoviePreviewInfo';
 import createElement from './utils/createElement';
 import imageUrl from '../utils/imageUrl';
+import nullImage from '../../images/nullImage.png';
 
 const MovieItem = ({ movie }) => {
   const title = movie?.title;
@@ -18,9 +19,10 @@ const MovieItem = ({ movie }) => {
   const $img = createElement({
     tag: 'img',
     classNames: ['thumbnail'],
-    src: `${imageUrl(posterPath)}`,
+    src: posterPath ? `${imageUrl(posterPath)}` : nullImage,
     alt: `${title}`,
   });
+
 
   $li.appendChild($div);
   $div.appendChild($img);
