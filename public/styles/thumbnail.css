@@ -120,8 +120,14 @@ strong.movie-title {
 
 @media screen and (max-width: 800px) {
   .movie-list-section {
-    max-width: 300px;
+    max-width: 390px;
     margin: 0 auto;
+  }
+
+  .movie-list-box {
+    max-width: 390px;
+    margin: 4rem auto;
+    /* padding: 0 1rem; */
   }
 
   .thumbnail-list {
@@ -136,9 +142,6 @@ strong.movie-title {
     width: 100%;
     display: flex;
     justify-content: center;
-  }
-
-  .movie-list-box {
-    padding: 0 1rem;
+    font-size: 2.25rem;
   }
 }
