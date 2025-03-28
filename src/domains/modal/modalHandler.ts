@@ -1,6 +1,7 @@
 import { getPosterUrl } from "../../utils/getPosterUrl";
 import { MovieDetail } from "../../../types/type";
 import { ICON_PATH } from "../../constants/imagePaths";
+import RATING_TEXTS from "../../constants/ratingTexts";
 
 const movieRatingUtil = {
   getRatings() {
@@ -88,20 +89,13 @@ const handleModal = {
   },
 
   updateRatingText(ratingValue: number) {
-    const ratingTexts = [
-      "내 평점을 남겨주세요",
-      "최악이예요",
-      "별로예요",
-      "보통이에요",
-      "재미있어요",
-      "명작이예요",
-    ];
-
     const $rateText = document.getElementById("userRateText");
     const $rateValue = document.getElementById("userRateValue");
 
     if ($rateText) {
-      $rateText.textContent = ratingTexts[ratingValue];
+      $rateText.textContent =
+        RATING_TEXTS[String(ratingValue) as keyof typeof RATING_TEXTS] ||
+        RATING_TEXTS["0"];
     }
 
     if ($rateValue) {
