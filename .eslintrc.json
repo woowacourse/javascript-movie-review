@@ -1,11 +1,19 @@
 {
-  "rules": {},
   "env": {
-    "es6": true,
-    "node": true
+    "browser": true,
+    "es2021": true,
+    "jest": true
   },
+  "extends": "xo",
+  "overrides": [
+    {
+      "extends": ["xo-typescript"],
+      "files": ["*.js", "*.ts", "*.tsx"]
+    }
+  ],
   "parserOptions": {
-    "ecmaVersion": "latest"
+    "ecmaVersion": "latest",
+    "sourceType": "module"
   },
-  "extends": ["eslint:recommended", "plugin:prettier/recommended"]
+  "rules": {}
 }

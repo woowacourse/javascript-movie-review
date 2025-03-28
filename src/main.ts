@@ -1,35 +1,40 @@
-import image from "../templates/images/star_filled.png";
+import fetchPopularMovies from "./fetch/fetchPopularMovies";
+import fetchSearchMovies from "./fetch/fetchSearchMovies";
+import Main from "./components/Main";
+import movies from "./store/Movies";
+import MovieType from "./types/MovieType";
 
-console.log("npm run dev 명령어를 통해 영화 리뷰 미션을 시작하세요");
+async function fetchAndRender(fetchFn: () => Promise<MovieType[]>) {
+  renderMain("loading");
+  document.querySelector("#wrap")?.remove();
 
-console.log(
-  "%c" +
-    " _____ ______   ________  ___      ___ ___  _______                \n" +
-    "|\\   _ \\  _   \\|\\   __  \\|\\  \\    /  /|\\  \\|\\  ___ \\               \n" +
-    "\\ \\  \\\\\\__\\ \\  \\ \\  \\|\\  \\ \\  \\  /  / | \\  \\ \\   __/|              \n" +
-    " \\ \\  \\\\|__| \\  \\ \\  \\\\\\  \\ \\  \\/  / / \\ \\  \\ \\  \\_|/__            \n" +
-    "  \\ \\  \\    \\ \\  \\ \\  \\\\\\  \\ \\    / /   \\ \\  \\ \\  \\_|\\ \\           \n" +
-    "   \\ \\__\\    \\ \\__\\ \\_______\\ \\__/ /     \\ \\__\\ \\_______\\          \n" +
-    "    \\|__|     \\|__|\\|_______|\\|__|/       \\|__|\\|_______|          \n" +
-    "                                                                   \n" +
-    "                                                                   \n" +
-    "                                                                   \n" +
-    " ________  _______   ___      ___ ___  _______   ___       __      \n" +
-    "|\\   __  \\|\\  ___ \\ |\\  \\    /  /|\\  \\|\\  ___ \\ |\\  \\     |\\  \\    \n" +
-    "\\ \\  \\|\\  \\ \\   __/|\\ \\  \\  /  / | \\  \\ \\   __/|\\ \\  \\    \\ \\  \\   \n" +
-    " \\ \\   _  _\\ \\  \\_|/_\\ \\  \\/  / / \\ \\  \\ \\  \\_|/_\\ \\  \\  __\\ \\  \\  \n" +
-    "  \\ \\  \\\\  \\\\ \\  \\_|\\ \\ \\    / /   \\ \\  \\ \\  \\_|\\ \\ \\  \\|\\__\\_\\  \\ \n" +
-    "   \\ \\__\\\\ _\\\\ \\_______\\ \\__/ /     \\ \\__\\ \\_______\\ \\____________\\\n" +
-    "    \\|__|\\|__|\\|_______|\\|__|/       \\|__|\\|_______|\\|____________|",
-  "color: #d81b60; font-size: 14px; font-weight: bold;"
-);
-
-addEventListener("load", () => {
-  const app = document.querySelector("#app");
-  const buttonImage = document.createElement("img");
-  buttonImage.src = image;
-
-  if (app) {
-    app.appendChild(buttonImage);
+  try {
+    const data = await fetchFn();
+    renderMain("fetched", data);
+  } catch (error) {
+    console.error("영화 불러오기 실패:", error);
+    renderMain("error");
   }
+}
+
+fetchAndRender(async () => {
+  const PAGE = 1;
+  const params = new URLSearchParams(window.location.search);
+
+  const res = params.has("query")
+    ? await fetchSearchMovies(params.get("query") || "", PAGE)
+    : await fetchPopularMovies(PAGE);
+
+  movies.updateMovies(res.results);
+  return movies.movieList;
 });
+
+function renderMain(
+  status: "loading" | "fetched" | "error",
+  movies: MovieType[] = []
+) {
+  Main({
+    status,
+    movies,
+  });
+}

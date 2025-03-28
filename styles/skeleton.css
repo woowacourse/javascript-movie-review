@@ -1,0 +1,14 @@
+.skeleton {
+  background-color: grey;
+  border-radius: 8px;
+}
+
+.skeleton-star {
+  width: 40px;
+  height: 20px;
+}
+
+.skeleton-text-title {
+  width: 150px;
+  height: 20px;
+}
