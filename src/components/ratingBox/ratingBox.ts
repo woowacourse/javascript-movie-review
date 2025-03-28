@@ -10,17 +10,20 @@ const SCORE_TEXT = {
   10: "명작이에요",
 };
 
-export const createRatingBox = (movieId: number, title: string) => {
+export const createRatingBox = (movieId: number) => {
+  const savedRatings = JSON.parse(localStorage.getItem("rateValue") || "{}");
+  const initialScore = savedRatings[movieId] || 0;
+
   const $scoreText = createElementWithAttributes({
     tag: "span",
     className: "score-text",
-    textContent: "0점",
+    textContent: initialScore ? SCORE_TEXT[initialScore as Score] : "0점",
   });
 
   const $score = createElementWithAttributes({
     tag: "span",
     className: "score",
-    textContent: "(0/10)",
+    textContent: `(${initialScore}/10)`,
   });
 
   const $stars = Object.keys(SCORE_TEXT).map((score) => {
@@ -31,7 +34,10 @@ export const createRatingBox = (movieId: number, title: string) => {
       attributes: { src: "./images/star_empty.png", alt: `${starScore}` },
     }) as HTMLImageElement;
 
-    $star.addEventListener("click", () => updateStars(starScore));
+    $star.addEventListener("click", () => {
+      updateStars(starScore);
+      saveRating(movieId, starScore);
+    });
 
     return $star;
   });
@@ -47,6 +53,16 @@ export const createRatingBox = (movieId: number, title: string) => {
           ? "./images/star_filled.png"
           : "./images/star_empty.png";
     });
+  };
+
+  if (initialScore) updateStars(initialScore as Score);
+
+  const saveRating = (movieId: number, score: Score) => {
+    const updatedRatings = {
+      ...JSON.parse(localStorage.getItem("rateValue") || "{}"),
+      [movieId]: score,
+    };
+    localStorage.setItem("rateValue", JSON.stringify(updatedRatings));
   };
 
   const starsWrapper = createElementWithAttributes({

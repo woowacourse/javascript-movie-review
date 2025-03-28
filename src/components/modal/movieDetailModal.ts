@@ -3,8 +3,6 @@ import { createRatingBox } from "../ratingBox/ratingBox";
 import { createElementWithAttributes } from "../utils/createElementWithAttributes";
 
 const movieDetailModal = (detailMovie: DetailMovieData) => {
-  console.log(detailMovie);
-
   const genres = detailMovie.genres.map((genre) => genre.name).join(", ");
   const releaseYear = new Date(detailMovie.release_date).getFullYear();
 
@@ -84,7 +82,7 @@ const movieDetailModal = (detailMovie: DetailMovieData) => {
                 className: "modal-subtitle",
                 textContent: "내 별점",
               },
-              createRatingBox(detailMovie.id, detailMovie.title),
+              createRatingBox(detailMovie.id),
             ],
           },
           {
