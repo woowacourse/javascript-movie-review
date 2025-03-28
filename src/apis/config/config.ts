@@ -19,4 +19,6 @@ export const url = {
     `https://api.themoviedb.org/3/search/movie?include_adult=false&language=ko-KR&page=${page}&query=${encodeURIComponent(
       searchInputValue
     )}`,
+  detail: (id: number) =>
+    `https://api.themoviedb.org/3/movie/${id}?language=ko-KR`,
 } as const;
