@@ -21,7 +21,7 @@ const Header = (store: Store): string => {
 };
 
 function attachHeaderStyle(): void {
-  const $header = document.querySelector("#header") as HTMLElement | null;
+  const $header = document.querySelector("#header") as HTMLElement;
   if ($header) {
     window.addEventListener("scroll", () => {
       if (window.scrollY > 0) {
