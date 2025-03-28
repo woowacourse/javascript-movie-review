@@ -22,7 +22,6 @@ export class MovieDetail {
   }
 
   render() {
-    //@TODO : 몇 년도 영화인지 넣을 것
     this.#container.innerHTML = `
    <div class="movie__detail-container">
     <div class="movie__detail-image">
@@ -30,11 +29,11 @@ export class MovieDetail {
     </div>
     <div class="movie__detail-description">
       <h2>${this.#data.title}</h2>
-      <p class="category">${this.#data.category}</p>
+      <p class="category">${this.#data.releasedDate} · ${this.#data.category}</p>
       <p class="rate"><img src="./star_filled.png" class="star" /><span>${this.#data.score}</span></p>
       <hr />
       <p class="detail">
-      ${this.#data.description}
+      ${this.#data.description.length === 0 ? this.#data.description : '줄거리가 없습니다'}
       </p>
     </div>
   </div>

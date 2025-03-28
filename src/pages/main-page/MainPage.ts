@@ -21,6 +21,7 @@ export class MainPage {
     title: '',
     description: '',
     category: [''],
+    releasedDate: new Date().getFullYear(),
   };
 
   #isLoading: boolean = true;

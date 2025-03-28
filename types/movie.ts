@@ -4,4 +4,5 @@ export interface MovieData {
   title: string;
   description: string;
   category: string[];
+  releasedDate: number;
 }

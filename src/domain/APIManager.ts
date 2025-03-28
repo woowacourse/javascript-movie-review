@@ -6,6 +6,7 @@ interface MovieListResponse {
   total_pages: number;
   page: number;
   total_results: number;
+  release_date: Date;
 }
 
 interface MovieListJSON {
@@ -33,6 +34,7 @@ export async function extractedData(url: string) {
     score: Number(movieItem.vote_average.toFixed(1)),
     category: movieItem.genre_ids.map((genre) => GENRE_MAP[genre]),
     description: movieItem.overview,
+    releasedDate: new Date(movieItem.release_date).getFullYear(),
   }));
 
   const totalPage = movieJSON.total_pages;
