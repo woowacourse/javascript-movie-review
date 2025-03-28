@@ -3,7 +3,7 @@ import EmptyStarImage from "../../images/star_empty.png";
 
 const MoviePreviewInfo = ({ movie, bigFont = true }) => {
   const title = movie?.title;
-  const voteAverage = movie?.vote_average;
+  const voteAverage = movie?.vote_average.toFixed(1);
 
   const $fragment = document.createDocumentFragment();
 

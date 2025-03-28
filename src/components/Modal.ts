@@ -2,7 +2,6 @@ import imageUrl from "../utils/imageUrl";
 import createElement from "./utils/createElement";
 
 const Modal = ({ movieDetails }) => {
-  console.log(movieDetails);
   const year = extractReleaseYear(movieDetails);
   const genres = extractGenres(movieDetails);
 
@@ -36,6 +35,11 @@ const Modal = ({ movieDetails }) => {
             </div>
           </div>
       `;
+
+  const $closeModal = $div.querySelector("#closeModal");
+  $closeModal?.addEventListener("click", () => {
+    $div.remove();
+  });
 
   return $div;
 };
