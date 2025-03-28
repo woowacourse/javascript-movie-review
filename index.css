@@ -153,3 +153,32 @@
     transform: translateX(100%);
   }
 }
+
+/* 자세히 보기 버튼 스타일 */
+button.detail {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: all 0.2s ease;
+  background-color: var(--color-lightblue-90);
+  color: var(--color-white);
+  border: none;
+  cursor: pointer;
+  margin-top: 12px;
+  display: inline-block;
+}
+
+button.detail:hover {
+  background-color: var(--color-lightblue-80);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 768px) {
+  button.detail {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    margin-top: 8px;
+  }
+}

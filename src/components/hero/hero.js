@@ -19,7 +19,7 @@ export default function Hero() {
             <span class="rate-value" id="hero-rate"></span>
           </div>
           <div class="title" id="hero-title"></div>
-          <button class="primary detail" id="hero-details-button">자세히 보기</button>
+          <button class="detail" id="hero-details-button">자세히 보기</button>
         </div>
       </div>
     </div>
