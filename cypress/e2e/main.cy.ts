@@ -24,12 +24,12 @@ describe("메인 화면 테스트", () => {
     });
   });
 
-  it("더보기 클릭시 다음 페이지의 영화 20개 가져와서 보여준다.", () => {
-    cy.get(".load-more").click();
-
+  it("현재 영화 리스트 아래로 스크롤시 추가로 20개의 영화를 보여준다.(무한 스크롤)", () => {
     cy.wait("@getPopularMovies").then((interception) => {
       const popularMovies = interception.response.body.results;
       cy.wrap(popularMovies).should("have.length", 20);
+
+      cy.scrollTo("bottom");
 
       const popularMovieItems = cy.get(".thumbnail-list > li");
       expect(popularMovieItems.should("have.length", 40));
