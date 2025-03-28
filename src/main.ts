@@ -100,7 +100,6 @@ const app = async () => {
     const movieList = createMovieList(movieData);
 
     const detailsModal = new Modal();
-    detailsModal.create();
 
     renderTitleMovie(movieData);
     movieList.create();
