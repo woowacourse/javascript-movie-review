@@ -1,4 +1,4 @@
-describe('초기 음식점 목록 페이지를 디자인 화면과 같이 구성한다.', () => {
+describe('검색 페이지 테스트', () => {
   beforeEach(() => {
     cy.visit('http://localhost:5173');
   });
@@ -16,9 +16,9 @@ describe('초기 음식점 목록 페이지를 디자인 화면과 같이 구성
   });
 
   it('검색어를 입력하고, 더보기 버튼을 누르면 아이템을 띄워줘야 한다.', () => {
-    cy.get('.searchbar__input').type('미키');
+    cy.get('.searchbar__input').type('헬로');
     cy.get('.searchbar__icon').click();
-    cy.get('.button--medium').click();
+    cy.scrollTo('bottom');
 
     cy.get('.item').should('have.length', 40);
   });
