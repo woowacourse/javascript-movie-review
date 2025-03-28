@@ -9,3 +9,14 @@ export const getMovieRate = (movieId: number) => {
 
   return targetRate ?? VOTE.defaultRate;
 };
+
+export const ratingMovie = (id: number, rate: number) => {
+  const movieRate = { id, rate };
+  const isRated = movieService.checkHasRated(id);
+  if (isRated) {
+    movieService.updateRateById(id, movieRate);
+    return;
+  }
+
+  movieService.addRate(movieRate);
+};
