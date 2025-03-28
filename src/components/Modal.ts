@@ -132,9 +132,11 @@ class Modal {
 
   #closeModal() {
     const $modalBackground = document.querySelector(".modal-background");
-    if (!isHTMLElement($modalBackground)) return;
+    const $body = document.querySelector("body");
+    if (!isHTMLElement($modalBackground) || !isHTMLElement($body)) return;
     $modalBackground.classList.remove("active");
     document.removeEventListener("keydown", this.#keyDownHandler);
+    $body.classList.remove("active");
   }
 
   #keyDownHandler = (e: KeyboardEvent) => {

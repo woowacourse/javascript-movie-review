@@ -18,6 +18,10 @@ body {
   flex-direction: column;
 }
 
+body.active {
+  overflow: hidden;
+}
+
 #wrap {
   flex: 1;
   display: flex;

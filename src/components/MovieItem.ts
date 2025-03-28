@@ -38,11 +38,13 @@ class MovieItem {
 
   #addEventListeners() {
     const $modalBackground = document.querySelector(".modal-background");
-    if (!isHTMLElement($modalBackground)) return;
+    const $body = document.querySelector("body");
+    if (!isHTMLElement($modalBackground) || !isHTMLElement($body)) return;
 
     this.#parentElement.addEventListener("click", () => {
       new Modal($modalBackground, this.#movie.id);
       $modalBackground.classList.add("active");
+      $body.classList.add("active");
     });
   }
 }
