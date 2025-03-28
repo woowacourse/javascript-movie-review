@@ -53,8 +53,8 @@ function renderHeader({
   }
 }
 
-document.addEventListener("modalOpenClicked", (event: CustomEvent) => {
-  const customEvent = event as CustomEvent<MovieInfo>;
+document.addEventListener("modalOpenClicked", (event: Event) => {
+  const customEvent = event as unknown as CustomEvent<MovieInfo>;
 
   const { title, release_date, genres, poster_path, vote_average, overview } =
     customEvent.detail;
@@ -151,6 +151,7 @@ async function main() {
   hideSkeleton();
 
   renderContent(data.results, "지금 인기 있는 영화");
+
   handleSearchEvent(movieService);
 
   renderFooter();
