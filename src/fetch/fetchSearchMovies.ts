@@ -1,4 +1,4 @@
-import safeFetchJson from "./utils/safeFetchJson";
+import fetchJson from "./utils/fetchJson";
 import MovieType from "../types/MovieType";
 
 interface SearchMoviesResponse {
@@ -19,7 +19,7 @@ export default async function fetchSearchMovies(query: string, page: number) {
     },
   };
 
-  const { results, total_pages } = await safeFetchJson<SearchMoviesResponse>(
+  const { results, total_pages } = await fetchJson<SearchMoviesResponse>(
     url,
     options
   );

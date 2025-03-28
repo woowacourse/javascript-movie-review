@@ -1,4 +1,4 @@
-export default async function safeFetchJson<T>(
+export default async function fetchJson<T>(
   url: string,
   options: RequestInit
 ): Promise<T> {
