@@ -1,12 +1,16 @@
 import { MovieData } from '../../../../types/movie';
 import Button from '../../common/button/Button';
+import { Modal } from '../../common/modal/Modal';
+import { MovieDetail } from '../movie-detail/MovieDetail';
 
 interface MovieBannerProps {
   data: MovieData;
 }
 
 class MainBanner {
-  #container;
+  #container: HTMLElement;
+  #modal: Modal | null = null;
+
   #data: MovieData;
 
   constructor({ data }: MovieBannerProps) {
@@ -31,14 +35,37 @@ class MainBanner {
          </div>
 
          <div class="main-banner__title text-title">${this.#data.title}</div>
-
-         <div class="main-banner__button">${this.#detailButtonElement()}</div>
        </div>
     `;
+    const buttonContainer = document.createElement('div');
+    buttonContainer.classList.add('main-banner__button');
+    buttonContainer.appendChild(this.#detailButtonElement());
+
+    const mainBannerInfo = this.#container.querySelector('.main-banner__info');
+    if (mainBannerInfo) {
+      mainBannerInfo.appendChild(buttonContainer);
+    }
+    this.#container.appendChild(this.#modalElement());
   }
 
   #detailButtonElement() {
-    return new Button({ size: 'small', innerText: '자세히 보기', onclick: () => {} }).element.outerHTML;
+    return new Button({
+      size: 'small',
+      innerText: '자세히 보기',
+      onclick: () => this.#bindDetailButtonClickEvent(),
+    }).element;
+  }
+
+  #modalElement() {
+    this.#modal = new Modal();
+    return this.#modal.element;
+  }
+
+  #bindDetailButtonClickEvent() {
+    const movieDetail = new MovieDetail({ data: this.#data }).element;
+    if (!this.#modal) return;
+    this.#modal.setContent(movieDetail);
+    this.#modal.open();
   }
 
   get element() {
