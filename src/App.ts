@@ -1,6 +1,7 @@
 import useGetMoreMovieList from "./apis/movies/useGetMoreMovieList";
 import useGetMovieList from "./apis/movies/useGetMovieList";
 import Button from "./components/@common/Button";
+import Modal from "./components/@common/Modal";
 import Footer from "./components/footer/Footer";
 import Header from "./components/header/Header";
 import MovieItem from "./components/movieItem/MovieItem";
@@ -79,6 +80,7 @@ const App = () => {
               ${displayMovieList
                 .map((movie) => {
                   return MovieItem({
+                    id: movie.id,
                     title: movie.title,
                     rate: movie.vote_count,
                     src: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
@@ -103,6 +105,7 @@ const App = () => {
     }`
       }
     </div>
+    ${Modal()}
     ${Footer()}
     `;
 };
