@@ -60,7 +60,7 @@ const App = () => {
 
   const subTitle = renderIfString(
     isSearchMode,
-    `검색 결과`,
+    "검색 결과",
     "지금 인기 있는 영화"
   );
 
