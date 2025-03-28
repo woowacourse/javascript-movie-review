@@ -1,10 +1,12 @@
 import useGetMoreMovieList from "./apis/movies/useGetMoreMovieList";
+import useGetMovieDetail from "./apis/movies/useGetMovieDetail";
 import useGetMovieList from "./apis/movies/useGetMovieList";
 import Footer from "./components/footer/Footer";
 import Header from "./components/header/Header";
+import MovieDetailModal from "./components/modal/MovieDetailModal";
 import MovieItem from "./components/movieItem/MovieItem";
 import SkeletonList from "./components/skeletonList/SkeletonList";
-import useInfiniteScroll from "./hooks/useInfitniteScroll";
+import useInfiniteScroll from "./hooks/useInfiniteScroll";
 import {
   movies,
   searchInputValue,
@@ -13,11 +15,38 @@ import {
   totalResults,
   isError,
   isSearchError,
+  setSelectedMovieId,
+  setMovieDetail,
+  movieDetail,
+  setIsOpenModal,
+  isOpenModal,
 } from "./store/store";
+import { useEvents } from "./utils/Core";
 
 const App = () => {
   const { fetchMovies, isLoading } = useGetMovieList();
   const { fetchMoreMovies, isMoreError } = useGetMoreMovieList();
+  const { fetchMovieDetail } = useGetMovieDetail();
+  const [addEvent] = useEvents(".thumbnail-list");
+
+  addEvent("click", ".item-container", async (e) => {
+    const itemContainer = (e.target as HTMLElement).closest(
+      ".item-container"
+    ) as HTMLElement;
+
+    if (itemContainer) {
+      const movieId = itemContainer.dataset.id;
+      if (movieId) {
+        setSelectedMovieId(movieId);
+
+        const detail = await fetchMovieDetail(movieId);
+        if (detail) {
+          setMovieDetail(detail);
+          setIsOpenModal(true);
+        }
+      }
+    }
+  });
 
   if (movies.length < totalResults) {
     useInfiniteScroll(() => {
@@ -68,6 +97,7 @@ const App = () => {
                           title: movie.title,
                           rate: movie.vote_count,
                           src: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
+                          id: movie.id.toString(),
                         })
                       )
                       .join("")}
@@ -78,6 +108,20 @@ const App = () => {
       }
     </div>
     ${Footer()}
+    ${
+      isOpenModal && movieDetail
+        ? MovieDetailModal({
+            title: movieDetail.title,
+            rate: movieDetail.vote_average,
+            src: `https://image.tmdb.org/t/p/w500${movieDetail.poster_path}`,
+            description: movieDetail.overview,
+            genres: movieDetail.genres
+              ? movieDetail.genres.map((g) => g.name).join(", ")
+              : "",
+            releaseDate: movieDetail.release_date,
+          })
+        : ""
+    }
     `;
 };
 
