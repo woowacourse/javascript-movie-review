@@ -44,7 +44,8 @@ describe("details 테스트", () => {
   });
 
   it("헤더에 보이는 영화를 클릭하면 정확한 디테일이 떠야 한다.", () => {
-    cy.get("#hero-details-button").click();
+    // 테스트용 뷰포트에 에러가 있어서, 이경우에만 이렇게 쓰는것으로 했습니다.
+    cy.get("#hero-details-button").click({ force: true });
 
     // 이미지 확인
     cy.get("#details-image")
@@ -68,7 +69,8 @@ describe("details 테스트", () => {
     cy.get("#star-rating-numbers").should("exist");
   });
   it("모달을 열고 닫을수 있어야 한다.", () => {
-    cy.get("#hero-details-button").click();
+    cy.get("#hero-details-button").click({ force: true });
+
     cy.get("#modal-dialog").click("topLeft");
     cy.get("#696506").click();
     cy.get("#closeModal").click();

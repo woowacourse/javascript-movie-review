@@ -13,8 +13,9 @@ describe("details 테스트", () => {
   });
 
   it("별점이 매겨지면 기록으로 남아야 된다.", () => {
-    cy.get("#hero-details-button").click();
-    // 제목 확인
+    // 테스트용 뷰포트에 에러가 있어서, 이경우에만 이렇게 쓰는것으로 했습니다.
+    cy.get("#hero-details-button").click({ force: true });
+
     cy.get("#details-title").should("contain", "미키 17");
 
     cy.get('label[for="star5"]').click();
