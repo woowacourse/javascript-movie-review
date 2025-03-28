@@ -1,7 +1,21 @@
+import { SCORE_RATING_TEXT } from "../constant/scoreRatingText";
 import { IMovieDetail } from "../types/movieResultType";
 import createDOMElement from "../util/createDomElement";
 
 const DetailModal = (movieDetail: IMovieDetail) => {
+  const starButtons = Array.from({ length: 5 }, (_, index) =>
+    createDOMElement({
+      tag: "img",
+      id: `starButton${index}`,
+      src: "./images/star_empty.png",
+      class: "modal-star-button",
+    }),
+  );
+  starButtons.forEach((btn, i) => {
+    const img = btn as HTMLImageElement;
+    img.src = i < movieDetail.starScore / 2 ? "./images/star_filled.png" : "./images/star_empty.png";
+  });
+
   return createDOMElement({
     tag: "div",
     class: "modal-background active",
@@ -76,24 +90,21 @@ const DetailModal = (movieDetail: IMovieDetail) => {
                         createDOMElement({
                           tag: "div",
                           class: "modal-star-button-wrapper",
-                          children: Array.from({ length: 5 }, (_, index) =>
-                            createDOMElement({
-                              tag: "img",
-                              id: `starButton${index}`,
-                              src: "./images/star_empty.png",
-                              class: "modal-star-button",
-                            }),
-                          ),
+                          children: starButtons,
                         }),
                         createDOMElement({
                           tag: "span",
                           class: "modal-star-text",
-                          textContent: "별점을 등록해주세요",
-                          // children: createDOMElement({
-                          //   tag: "span",
-                          //   class: "modal-star-score",
-                          //   textContent: " (0/10)",
-                          // }),
+                          textContent: SCORE_RATING_TEXT[movieDetail.starScore],
+                          children: [
+                            movieDetail.starScore > 0
+                              ? createDOMElement({
+                                  tag: "span",
+                                  class: "modal-star-score",
+                                  textContent: ` (${movieDetail.starScore}/10)`,
+                                })
+                              : null,
+                          ],
                         }),
                       ],
                     }),

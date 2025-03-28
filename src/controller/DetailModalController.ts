@@ -1,23 +1,24 @@
-import { getMovieDetailResult } from "../api/getMovieDetailResult";
 import DetailModal from "../component/DetailModal";
 import { SCORE_RATING_TEXT } from "../constant/scoreRatingText";
+import MovieDetailModel from "../domain/MovieDetailModel";
 import { calculateScore } from "../domain/util/calculateScore";
-import { IMovieDetail } from "../types/movieResultType";
 import { $, $all } from "../util/selector";
 
 class DetailModalController {
+  movieDetailModel;
   wrapElement;
   detailModalElement: HTMLElement | null = null;
 
   onErrorModalOpen;
 
   constructor({ onErrorModalOpen }: { onErrorModalOpen: (error: Error) => void }) {
+    this.movieDetailModel = MovieDetailModel();
     this.wrapElement = $("#wrap");
 
     this.onErrorModalOpen = onErrorModalOpen;
   }
 
-  bindEvents() {
+  bindEvents(movieId: number) {
     if (this.detailModalElement) {
       this.detailModalElement.addEventListener("click", (e) => {
         if (e.target === e.currentTarget) this.closeModal();
@@ -37,6 +38,9 @@ class DetailModalController {
 
       starButtons.forEach((button, index) => {
         button.addEventListener("click", () => {
+          const score = calculateScore(index);
+          this.movieDetailModel.updateStarScore(movieId, score);
+
           // 별 이미지 업데이트
           starButtons.forEach((btn, i) => {
             const img = btn as HTMLImageElement;
@@ -45,7 +49,6 @@ class DetailModalController {
 
           // 텍스트 업데이트
           if (ratingText) {
-            const score = calculateScore(index);
             const text = SCORE_RATING_TEXT[score];
 
             ratingText.textContent = text;
@@ -61,10 +64,10 @@ class DetailModalController {
 
   async showModal(movieId: number) {
     try {
-      const movieDetail: IMovieDetail = await getMovieDetailResult(movieId);
+      const movieDetail = await this.movieDetailModel.getMovieDetailById(movieId);
       this.detailModalElement = DetailModal(movieDetail);
       this.wrapElement?.insertAdjacentElement("afterend", this.detailModalElement);
-      this.bindEvents();
+      this.bindEvents(movieId);
     } catch (error) {
       this.onErrorModalOpen(error as Error);
     }
