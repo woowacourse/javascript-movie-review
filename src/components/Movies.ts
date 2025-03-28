@@ -38,15 +38,9 @@ export default class Movies extends Component {
         <main>
           <section>
             <h2 class="thumbnail-title">${search ? `"${search}" 검색 결과` : '지금 인기 있는 영화'}</h2>
+
             <slot name="thumbnail-list"> </slot>
-
-            <slot name="error"></slot>
             <slot name="obserable"></slot>
-
-            <div class="error close">
-              <img src="./images/woowawa_planet.svg" alt="woowawa_planet" />
-              <h2></h2>
-            </div>
           </section>
         </main>
       </div>
