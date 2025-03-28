@@ -223,7 +223,7 @@ dialog::backdrop {
   letter-spacing: 0.01em;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   dialog {
     top: auto;
     bottom: 0;
