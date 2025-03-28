@@ -1,4 +1,5 @@
 import { MovieDetails } from "../../types/domain.ts";
+import { VOTE } from "../constants/movie.ts";
 import { selectElement } from "../utils/dom.ts";
 
 class MovieItemDetails {
@@ -47,6 +48,8 @@ class MovieItemDetails {
     this.#createCategory(description);
     this.#createRate(description);
     this.#createDivider(description);
+    this.#createVotingRate(description);
+    this.#createDivider(description);
     this.#createOverview(description);
   }
 
@@ -91,6 +94,31 @@ class MovieItemDetails {
     const hr = document.createElement("hr");
 
     description.insertAdjacentElement("beforeend", hr);
+  }
+
+  #createVotingRate(description: HTMLDivElement) {
+    const starMarks = Array.from({ length: VOTE.maximumIconCount })
+      .map((_, index) => {
+        return /*html*/ `
+          <button class="star-mark" id="star-mark-${index}">
+            <img src="./images/star_empty.png" data-mark="empty"/>
+          </button>
+        `;
+      })
+      .join("");
+
+    const votingRate = /*html*/ `
+      <div class="voting-rate">
+        <div class="star-marks-container">${starMarks}</div>
+        <p>${VOTE.noticeMessage}<span>(${VOTE.defaultRate}/${VOTE.MaximumRate})</span></p>
+      </div>
+    `;
+
+    const h3 = document.createElement("h3");
+    h3.textContent = "내 별점";
+
+    description.insertAdjacentElement("beforeend", h3);
+    description.insertAdjacentHTML("beforeend", votingRate);
   }
 }
 

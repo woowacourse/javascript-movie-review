@@ -11,4 +11,7 @@ export const ITEMS = {
 export const VOTE = {
   rateDegit: 1,
   defaultRate: 0,
+  MaximumRate: 10,
+  maximumIconCount: 5,
+  noticeMessage: "평점을 남겨주세요",
 };
