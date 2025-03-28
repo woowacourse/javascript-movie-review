@@ -1,3 +1,4 @@
+import deleteParams from "../../utils/deleteParams";
 import SearchBar from "../search/SearchBar";
 import createElement from "../utils/createElement";
 
