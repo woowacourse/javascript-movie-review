@@ -22,30 +22,34 @@ export const Modal = ({
           />
         </div>
         <div class="modal-description">
-          <div class="movie-title">${title}</div>
-          <p class="category">
-            ${release_date.slice(0, 4)} · ${genreNames}
-          </p>
-          <p class="rate">
-            <img src="./star_filled.png" class="star" />
-            <span>${vote_average.toFixed(1)}</span>
-          </p>
+          <div class="movie-description">
+            <div class="movie-title">${title}</div>
+              <p class="category">
+                ${release_date.slice(0, 4)} · ${genreNames}
+              </p>
+              <div class="rate">
+                <strong>평균</strong>
+                <img src="./star_filled.png" class="star" />
+                <div class="average_rate">${vote_average.toFixed(1)}</div>
+              </div>
+          </div>
+            
           <hr />
           <div class="rating">
-          <div class="caption-title"><strong>내 별점</strong></div>
-          <div class="user_rate">
-            <img src="./star_empty.png" class="rate-star" />
-            <img src="./star_empty.png" class="rate-star" />
-            <img src="./star_empty.png" class="rate-star" />
-            <img src="./star_empty.png" class="rate-star" />
-            <img src="./star_empty.png" class="rate-star" />
-          </div>
+            <div class="caption-title"><strong>내 별점</strong></div>
+            <div class="user_rate">
+              <img src="./star_empty.png" class="rate-star" />
+              <img src="./star_empty.png" class="rate-star" />
+              <img src="./star_empty.png" class="rate-star" />
+              <img src="./star_empty.png" class="rate-star" />
+              <img src="./star_empty.png" class="rate-star" />
+            </div>
           </div>
           <hr />
-          <div class="caption-title"><strong>줄거리</strong></div>
-          <p class="detail">
-            ${overview}
-          </p>
+          <div class="movie-detail">
+            <div class="caption-title"><strong>줄거리</strong></div>
+            <div class="detail">${overview}</div>
+          </div>
         </div>
       </div>
     </div>

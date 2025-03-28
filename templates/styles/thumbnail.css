@@ -24,14 +24,14 @@
   line-height: 1.2rem;
 }
 
-p.rate {
+.average_rate {
   display: flex;
   align-items: baseline;
   color: var(--color-yellow);
 }
 
-p.rate > span {
-  margin-left: 4px;
+.rate img {
+  margin-left: 8px;
 }
 
 .item .star {
