@@ -1,9 +1,10 @@
+import { getMovies, MovieApiClient } from '@/apis';
 import { DEFAULT_BACK_DROP_URL } from '@/constants';
+import { eventHandlerInstance } from '@/modules';
 import { moviesResponseStore, moviesStore, pageStore, searchStore } from '@/store';
+import { serverStore } from '@/store';
 import { html, isHTMLFormElement } from '@/utils';
 import Component from './core/Component';
-import { eventHandlerInstance } from '@/modules';
-import { getMovie } from '@/hooks';
 
 export default class Header extends Component {
   setup() {
@@ -67,8 +68,9 @@ export default class Header extends Component {
 
         pageStore.setState(1);
         searchStore.setState(String(modalInput.search));
-        moviesStore.setState([]);
-        await getMovie(String(modalInput.search), pageStore.getState());
+        moviesStore.setState(null);
+
+        await getMovies({ query: searchStore.getState(), page: pageStore.getState() });
       },
       dataAction: 'submit-search',
     });

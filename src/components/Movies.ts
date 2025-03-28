@@ -2,9 +2,9 @@ import { errorStore, movieRateStore, moviesStore, pageStore, searchStore } from 
 import { html } from '@/utils';
 import Component from './core/Component';
 import ThumbnailList from './ThumbnailList';
-import { getMovie } from '@/hooks';
 import IntersectionObserble from './IntersectionObserble';
 import MovieDetailModal from './MovieDetailModal';
+import { getMovies } from '@/apis';
 
 const TAB_LIST = ['상영 중', '인기순', '평점순', '상영 예정'];
 
@@ -12,7 +12,7 @@ export default class Movies extends Component {
   override setup() {
     this.subsribe([moviesStore, errorStore, searchStore]);
 
-    getMovie(searchStore.getState(), pageStore.getState());
+    getMovies({ query: searchStore.getState(), page: pageStore.getState() });
 
     new MovieDetailModal({ movieRate: movieRateStore.getState() });
   }
@@ -58,7 +58,7 @@ export default class Movies extends Component {
     this.fillSlot(
       new IntersectionObserble({
         callback: async () => {
-          await getMovie(searchStore.getState(), pageStore.getState() + 1);
+          await getMovies({ query: searchStore.getState(), page: pageStore.getState() + 1 });
         },
         id: 'movie-more',
       }),
