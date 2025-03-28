@@ -17,6 +17,10 @@ const MovieDetail = () => {
     $(".modal-background").classList.remove("active");
   });
 
+  addEvent("click", ".my-vote-star", (event) => {
+    window.localStorage.setItem(movieDetail.id, event.target.dataset.index);
+  });
+
   addEvent("mouseover", ".my-vote-star", (event) => {
     const index = parseInt(event.target.dataset.index);
 
@@ -31,14 +35,20 @@ const MovieDetail = () => {
     });
   });
 
-  addEvent("mouseout", ".my-vote-star", (event) => {
+  addEvent("mouseout", ".my-vote-star", () => {
+    const vIndex = Number(window.localStorage.getItem(movieDetail.id));
     const starElements = $$(".my-vote-star");
-    starElements.forEach((element) => (element.src = "./star_empty.png"));
-    $(".my-vote-text").textContent = "";
+    starElements.forEach((element) => {
+      const index = parseInt(element.dataset.index);
+      if (vIndex >= index) element.src = "./star_filled.png";
+      else element.src = "./star_empty.png";
+    });
+    $(".my-vote-text").textContent = VOTE_TEXT[vIndex];
   });
 
   if (!movieDetail) return;
 
+  const voteIndex = window.localStorage.getItem(movieDetail.id) || -1;
   return `
         <button class="close-modal" id="closeModal">
           <img src=/modal_button_close.png />
@@ -69,9 +79,11 @@ const MovieDetail = () => {
               ${Array.from(
                 { length: 5 },
                 (_, index) =>
-                  `<img src="./star_empty.png" class="star my-vote-star" data-index="${index}" />`
+                  `<img src=${
+                    voteIndex < index ? "./star_empty.png" : "./star_filled.png"
+                  } class="star my-vote-star" data-index="${index}" />`
               ).join("")}
-              <span class="my-vote-text"></span>
+              <span class="my-vote-text">${VOTE_TEXT[voteIndex] || ""}</span>
             </div>
             <hr />
             <h4>줄거리</h4>
