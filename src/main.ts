@@ -1,7 +1,10 @@
 import Footer from "./components/Footer/Footer.js";
 import Header from "./components/Header/Header.js";
 import { MovieInfo } from "../types/movieType.ts";
-import ContentsContainer from "./components/Main/ContentsContainer.ts";
+import {
+  ContentsContainer,
+  handleAdditionalData,
+} from "./components/Main/ContentsContainer.ts";
 import MovieService from "./services/MovieService.ts";
 import LogoSearchBar from "./components/Header/LogoSearchBar.js";
 import HeaderSkeleton from "./components/Skeleton/HeaderSkeleton.js";
@@ -9,7 +12,6 @@ import {
   hideSkeleton,
   showSkeleton,
 } from "./components/Skeleton/showSkeleton.ts";
-import { Modal } from "./components/Modal/Modal.js";
 import openModal from "./components/Modal/openModal.ts";
 
 function renderHeader({
@@ -66,9 +68,7 @@ document.addEventListener("modalOpenClicked", (event: CustomEvent) => {
   });
 });
 
-async function renderContent(movieService: MovieService, results: MovieInfo[]) {
-  ContentsContainer(results, "지금 인기 있는 영화");
-
+function handleSearchEvent(movieService: MovieService) {
   // 이벤트 등록
   const $input = document.querySelector(".search-input") as HTMLInputElement;
   const $button = document.querySelector(".search-button") as HTMLButtonElement;
@@ -86,8 +86,7 @@ async function renderContent(movieService: MovieService, results: MovieInfo[]) {
         if ($section) {
           $section.innerHTML = "";
         }
-
-        ContentsContainer(searchResult.results, `"${inputValue}" 검색 결과`);
+        renderContent(searchResult.results, `"${inputValue}" 검색 결과`);
       }
     }
   });
@@ -102,10 +101,32 @@ async function renderContent(movieService: MovieService, results: MovieInfo[]) {
       if ($section) {
         $section.innerHTML = "";
       }
-
-      ContentsContainer(searchResult.results, `"${inputValue}" 검색 결과`);
+      renderContent(searchResult.results, `"${inputValue}" 검색 결과`);
     }
   });
+}
+let currentObserver: IntersectionObserver | null = null;
+
+async function renderContent(results: MovieInfo[], title: string) {
+  if (currentObserver) {
+    currentObserver.disconnect();
+  }
+
+  ContentsContainer(results, title);
+  const $main = document.querySelector("main");
+  const $lastItem = document.createElement("div");
+  $lastItem.style.height = "10px";
+  $main?.appendChild($lastItem);
+  const movieService = new MovieService();
+  currentObserver = new IntersectionObserver((entries) => {
+    entries.forEach(async (entry) => {
+      if (entry.isIntersecting) {
+        handleAdditionalData(movieService, title, currentObserver);
+      }
+    });
+  });
+
+  currentObserver.observe($lastItem);
 }
 
 function renderFooter() {
@@ -129,7 +150,8 @@ async function main() {
 
   hideSkeleton();
 
-  renderContent(movieService, data.results);
+  renderContent(data.results, "지금 인기 있는 영화");
+  handleSearchEvent(movieService);
 
   renderFooter();
 }
