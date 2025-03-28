@@ -182,11 +182,14 @@ h1.logo {
   display: flex;
   align-items: baseline;
   color: var(--color-yellow);
+  font-family: "Montserrat";
+  font-weight: 600;
 }
 
 .rate > img {
   position: relative;
   top: 2px;
+  margin-right: 2px;
 }
 
 span.rate-value {

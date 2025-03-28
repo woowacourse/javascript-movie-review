@@ -30,10 +30,6 @@
   color: var(--color-yellow);
 }
 
-.rate img {
-  margin-left: 8px;
-}
-
 .item .star {
   width: 16px;
   top: 1px;
