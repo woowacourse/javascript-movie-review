@@ -1,5 +1,5 @@
 import { store } from '../../store/store.js';
-import SearchHandler from '../handlers/SearchHandler.js';
+import SearchHandler from '../../handlers/SearchHandler.js';
 
 class SearchBar {
   constructor(searchHandler) {

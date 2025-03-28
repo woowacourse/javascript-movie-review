@@ -1,10 +1,10 @@
-import Movie from '../../domain/models/Movie.ts';
-import MovieCard from './MovieCard.js';
-import CustomButton from './CustomButton.js';
-import { ADD_MOVIE_BUTTON } from '../../shared/CustomButton.ts';
-import NoResultsMessage from './NoResultsMessage.js';
-import DetailModal from './DetailModal.js';
-import TmdbApi from '../../api/tmdbApi.ts';
+import Movie from '../../domain/Movie.ts';
+import MovieCard from '../movie/MovieCard.js';
+import CustomButton from '../common/CustomButton.js';
+import { ADD_MOVIE_BUTTON } from '../common/CustomButton.ts';
+import NoResultsMessage from '../search/NoResultsMessage.js';
+import DetailModal from '../modal/DetailModal.js';
+import TmdbApi from '../../domain/tmdbApi.ts';
 export default class MovieList {
   constructor(
     containerSelector,

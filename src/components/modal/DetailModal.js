@@ -94,7 +94,6 @@ class DetailModal {
       5: '(10/10)',
     };
 
-    
     if (this.userRating > 0) {
       stars.forEach((s, index) => {
         if (index < this.userRating) {

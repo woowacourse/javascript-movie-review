@@ -86,3 +86,33 @@ body.modal-open {
   max-height: 430px;
   overflow-y: auto;
 }
+
+
+hr {
+  border: 0.5px solid #67788e;
+}
+
+.star-rating {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.rating-text {
+  font-weight: 600;
+}
+
+.rating-score {
+  margin-left: 8px;
+  color: #95a1b2;
+}
+
+.my-rate > span:last-child {
+  font-weight: 600;
+}
+
+.movie-overview > h3 {
+  font-weight: 600;
+}
+

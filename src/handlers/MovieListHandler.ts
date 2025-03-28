@@ -1,10 +1,9 @@
-import Movie from '../../domain/models/Movie.js';
-import MovieList from '../components/MovieList.js';
-import MovieService from '../../domain/services/MovieService.js';
-import MovieCard from '../components/MovieCard.js';
-import { store } from '../../store/store.js';
-import { APIResponse, MovieResponse } from '../../api/tmdbApi.js';
-import DetailModal from '../components/DetailModal.js';
+import Movie from '../domain/Movie.ts';
+import MovieList from '../components/movie/MovieList.js';
+import MovieService from '../domain/MovieService.ts';
+import MovieCard from '../components/movie/MovieCard.js';
+import { store } from '../store/store.ts';
+import { APIResponse, MovieResponse } from '../domain/tmdbApi.ts';
 
 export default class MovieListHandler {
   private movieList: MovieList | undefined;
@@ -117,8 +116,4 @@ export default class MovieListHandler {
   handleLogoClick() {
     this.initMovieList();
   }
-
-
-
-  
 }
