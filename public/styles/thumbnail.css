@@ -41,13 +41,16 @@ p.rate {
 }
 @media (max-width: 768px) {
   .thumbnail-list {
-    grid-template-columns: repeat(
-      1,
-      300px
-    ); /* 썸네일 너비에 맞게 컬럼 크기를 변경 */
+    grid-template-columns: repeat(1, 300px);
   }
+
   .thumbnail {
     width: 300px;
     height: 450px;
+  }
+
+  .item-desc strong {
+    font-size: 1.2rem;
+    line-height: 1.4;
   }
 }
