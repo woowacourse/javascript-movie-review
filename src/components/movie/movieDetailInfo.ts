@@ -5,6 +5,7 @@ import noImage from "/images/no_image.png";
 const movieDetailInfo = (movie: MovieDetail) => {
   const $movieDetailInfo = createElementWithAttributes({
     tag: "div",
+    id: "modal-container",
     className: "modal-container",
     children: [
       {
