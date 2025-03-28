@@ -1,14 +1,16 @@
-import { MovieDetail } from "../../../../../types/type";
+import { MovieData } from "../../../../../types/type";
+import { createElement } from "../../../../utils/dom";
+import { POSTER_PATH, ICON_PATH } from "../../../../constants/imagePaths";
+import { getPosterUrl } from "../../../../utils/getPosterUrl";
 
-const defaultPosterPath = "./default-poster.svg";
-const imagePathPreFix = "https://image.tmdb.org/t/p/w440_and_h660_face";
+export const MOVIE_ITEM_CLICK = "movie-item:click";
 
-const $MovieItem = ({ title, poster_path, vote_average }: MovieDetail) => {
+const $MovieItem = ({ id, title, poster_path, vote_average }: MovieData) => {
   const $rate = createElement("p", {
     className: "rate",
   });
   const $star = createElement("img", {
-    src: "./star_empty.png",
+    src: ICON_PATH.STAR_EMPTY,
     className: "star",
   });
   const $rateValue = createElement("span", {
@@ -28,13 +30,41 @@ const $MovieItem = ({ title, poster_path, vote_average }: MovieDetail) => {
   const $item = createElement("li", {
     className: "item",
   });
+
   const $poster = createElement("img", {
     className: "thumbnail",
-    src: poster_path ? imagePathPreFix + poster_path : defaultPosterPath,
+    src: POSTER_PATH.LOADING,
     alt: title,
     loading: "lazy",
-  });
+  }) as HTMLImageElement;
+
+  if (poster_path) {
+    const posterUrl = getPosterUrl(poster_path);
+
+    const actualImage = new Image();
+    actualImage.src = posterUrl;
+
+    actualImage.onload = () => {
+      $poster.src = posterUrl;
+    };
+
+    actualImage.onerror = () => {
+      $poster.src = POSTER_PATH.ERROR;
+    };
+  } else {
+    $poster.src = POSTER_PATH.DEFAULT;
+  }
+
   $item.append($poster, $description);
+
+  $item.addEventListener("click", () => {
+    const event = new CustomEvent(MOVIE_ITEM_CLICK, {
+      detail: { movieId: id },
+      bubbles: true,
+    });
+    $item.dispatchEvent(event);
+  });
+
   return $item;
 };
 

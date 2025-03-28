@@ -7,16 +7,18 @@ export const replaceSkeletonList = () => {
   $movieListSection.replaceChildren($SkeletonList());
 };
 
-export const addSkeletonList = () => {
-  const $movieListSection = document.querySelector(
-    ".thumbnail-list"
-  ) as HTMLElement;
-  $movieListSection.appendChild($SkeletonList());
+export const addSkeletonItems = () => {
+  const $thumbnailList = document.querySelector(".thumbnail-list");
+  if (!$thumbnailList) return;
+  const $skeletonList = Array.from({ length: 20 }, () => $SkeletonItem());
+  $thumbnailList.append(...$skeletonList);
 };
 
-export const removeSkeletonList = () => {
-  const $skeletonList = document.querySelector(".skeleton-list");
-  $skeletonList?.remove();
+export const removeSkeletonItems = () => {
+  const $skeletonItems = document.querySelectorAll(".skeleton-item");
+  $skeletonItems.forEach((item) => {
+    item.remove();
+  });
 };
 
 const $SkeletonList = () => {

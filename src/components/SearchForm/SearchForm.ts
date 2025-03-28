@@ -4,6 +4,7 @@ import { removeBanner } from "../Banner/Banner";
 import { addErrorBox } from "../ErrorBox/ErrorBox";
 import { setKeyword, setMovieListType } from "../MovieListBox/MovieListBox";
 import { replaceSkeletonList } from "../Skeleton/MovieList/SkeletonList";
+import { ICON_PATH } from "../../constants/imagePaths";
 
 const handleSearchFormSubmit = async (event: Event) => {
   event.preventDefault();
@@ -47,7 +48,7 @@ const $SearchForm = () => {
     type: "submit",
   });
   const $searchIcon = createElement("img", {
-    src: "./search.svg",
+    src: ICON_PATH.SEARCH,
     alt: "search",
   });
   $searchButton.appendChild($searchIcon);

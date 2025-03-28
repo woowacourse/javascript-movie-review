@@ -3,8 +3,8 @@ import $MovieList, { addMovieItem } from "./MovieList/MovieList";
 import getPopularMovieList from "../../apis/getPopularMovieList";
 import getSearchedMovieList from "../../apis/getSearchedMovieList";
 import {
-  addSkeletonList,
-  removeSkeletonList,
+  addSkeletonItems,
+  removeSkeletonItems,
 } from "../Skeleton/MovieList/SkeletonList";
 import asyncErrorBoundary from "../ErrorBoundary/Async/asyncErrorBoundary";
 import { addErrorBox } from "../ErrorBox/ErrorBox";
@@ -14,15 +14,12 @@ interface MovieState {
   type: MovieListType;
   keyword: string;
   page: number;
+  isLoading: boolean;
 }
 
-const removeMoreButton = ({ condition }: { condition: boolean }) => {
-  if (!condition) {
-    return;
-  }
-
-  const $moreButton = document.querySelector(".more-button");
-  $moreButton?.remove();
+const removeLoadingObserver = () => {
+  const $loadingObserver = document.querySelector(".loading-observer");
+  $loadingObserver?.remove();
 };
 
 interface RenderMoreMovieListParameter {
@@ -34,10 +31,14 @@ const renderMoreMovieList = async ({
   currentPage,
   fetchFn,
 }: RenderMoreMovieListParameter) => {
-  addSkeletonList();
+  addSkeletonItems();
   const { page, total_pages, results } = await fetchFn(currentPage);
-  removeMoreButton({ condition: page === total_pages });
-  removeSkeletonList();
+
+  if (page === total_pages) {
+    removeLoadingObserver();
+  }
+
+  removeSkeletonItems();
   addMovieItem(results);
 };
 
@@ -46,10 +47,19 @@ const $MovieListBoxRender = () => {
     type: "popular",
     keyword: "",
     page: 1,
+    isLoading: false,
   };
+
+  let observer: IntersectionObserver | null = null;
 
   const initCurrentPage = () => {
     movieState.page = 1;
+    movieState.isLoading = false;
+
+    if (observer) {
+      observer.disconnect();
+      observer = null;
+    }
   };
 
   const setMovieListType = (type: MovieListType) => {
@@ -60,11 +70,14 @@ const $MovieListBoxRender = () => {
     movieState.keyword = keyword;
   };
 
-  const handleMoreButtonClick = async () => {
+  const loadMoreMovies = async () => {
+    if (movieState.isLoading) return;
+
+    movieState.isLoading = true;
     movieState.page += 1;
 
     if (movieState.type === "popular") {
-      asyncErrorBoundary({
+      await asyncErrorBoundary({
         asyncFn: () =>
           renderMoreMovieList({
             currentPage: movieState.page,
@@ -72,41 +85,64 @@ const $MovieListBoxRender = () => {
           }),
         fallbackComponent: (errorMessage) => addErrorBox(errorMessage),
       });
-      return;
+    } else {
+      await asyncErrorBoundary({
+        asyncFn: () =>
+          renderMoreMovieList({
+            currentPage: movieState.page,
+            fetchFn: (page) => getSearchedMovieList(movieState.keyword, page),
+          }),
+        fallbackComponent: (errorMessage) => addErrorBox(errorMessage),
+      });
     }
 
-    asyncErrorBoundary({
-      asyncFn: () =>
-        renderMoreMovieList({
-          currentPage: movieState.page,
-          fetchFn: (page) => getSearchedMovieList(movieState.keyword, page),
-        }),
-      fallbackComponent: (errorMessage) => addErrorBox(errorMessage),
-    });
+    movieState.isLoading = false;
+  };
+
+  const setupInfiniteScroll = (totalPages: number) => {
+    if (movieState.page >= totalPages) return;
+
+    const $loadingObserver =
+      document.querySelector(".loading-observer") ||
+      createElement("div", {
+        className: "loading-observer",
+      });
+
+    document.querySelector(".movie-list-box")?.appendChild($loadingObserver);
+
+    observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (entry.isIntersecting && !movieState.isLoading) {
+          loadMoreMovies();
+        }
+      },
+      {
+        rootMargin: "100px",
+      }
+    );
+
+    observer.observe($loadingObserver);
   };
 
   const $MovieListBox = ({ title, movieResult }: MovieListSectionProps) => {
     const $fragment = document.createDocumentFragment();
     const $title = createElement("h2", {
       textContent: title,
+      className: "thumbnail-list-title",
     });
     const $movieList = $MovieList(movieResult.results);
     $fragment.append($title, $movieList);
-
-    if (movieResult.page !== movieResult.total_pages) {
-      const $moreButton = createElement("button", {
-        type: "button",
-        className: "more-button",
-        textContent: "더 보기",
-      });
-      $moreButton.addEventListener("click", handleMoreButtonClick);
-      $fragment.appendChild($moreButton);
-    }
 
     const $movieListBox = createElement("div", {
       className: "movie-list-box",
     });
     $movieListBox.appendChild($fragment);
+
+    setTimeout(() => {
+      setupInfiniteScroll(movieResult.total_pages);
+    }, 0);
+
     return $movieListBox;
   };
 
