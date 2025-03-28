@@ -9,6 +9,7 @@ export const Modal = ({
   vote_average,
 }) => {
   const genreNames = genres.map((genre) => genre.name).join(", ");
+  const defaultOverview = "등록된 줄거리 정보가 없습니다.🥲";
 
   return `    <div class="modal-background active" id="modalBackground">
     <div class="modal">
@@ -48,8 +49,8 @@ export const Modal = ({
           <hr />
           <div class="movie-detail">
             <div class="caption-title"><strong>줄거리</strong></div>
-            <div class="detail">${overview}</div>
-          </div>
+            <div class="detail">${overview ? overview : defaultOverview}</div>
+            </div>
         </div>
       </div>
     </div>
