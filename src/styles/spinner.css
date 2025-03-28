@@ -1,0 +1,59 @@
+.orbit-spinner {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  scale: 2;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.planet {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 40%;
+  height: 40%;
+  background-color: var(--color-white);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.orbit {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 2px solid var(--color-white);
+  animation: orbit-spin 2s linear infinite;
+  width: 100%;
+  height: 100%;
+}
+
+.satellite {
+  position: absolute;
+  width: 22%;
+  height: 22%;
+  background-color: var(--color-white);
+  border-radius: 50%;
+}
+
+.orbit .satellite-1 {
+  top: 25%;
+  right: -10%;
+}
+
+.orbit .satellite-2 {
+  bottom: 25%;
+  left: -10%;
+}
+
+@keyframes orbit-spin {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
