@@ -20,7 +20,7 @@ function addEvent({ type, selector, handler }: addEventProps) {
 addEvent({
   type: "click",
   selector: ".show-more",
-  handler: (event) => {
+  handler: () => {
     movieStore.page = movieStore.page + 1;
     renderMoviesList();
   },
@@ -68,6 +68,17 @@ addEvent({
   handler: (event, target) => {
     console.log(event, target.id);
     movieStore.selectedMovie = Number(target.id);
+    const $modal = document.querySelector("#modalBackground");
+    $modal?.classList.toggle("active");
     movieDetailRenderer();
+  },
+});
+
+addEvent({
+  type: "click",
+  selector: "#closeModal",
+  handler: () => {
+    const $modal = document.querySelector("#modalBackground");
+    $modal?.classList.toggle("active");
   },
 });
