@@ -23,7 +23,7 @@ export const loadMovies = async (movies: MovieResponse): Promise<void> => {
   // $(".load-more").classList.add("hidden");
 };
 
-const showMovieDetailInfo = async (movie: Movie): Promise<void> => {
+export const showMovieDetailInfo = async (movie: Movie): Promise<void> => {
   const movieInfo = await fetchMovieDetails(movie.id);
   document.body.classList.add("modal-open");
   $("#app").appendChild(MovieDetailModal(movieInfo));

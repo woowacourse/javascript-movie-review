@@ -116,6 +116,7 @@ const updateTopMovieInfo = (
       title: topMovie.title,
       imageUrl: `${IMG_BASE_URL}${topMovie.poster_path}`,
       voteAverage: topMovie.vote_average,
+      topMovieInfo: topMovie,
     });
 
     if (updatedHeader && initialHeader)

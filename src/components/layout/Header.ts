@@ -1,5 +1,7 @@
+import { Movie } from "../../../types/movie";
 import { createElement } from "../../utils/createElement.ts";
 import { $ } from "../../utils/dom.ts";
+import { showMovieDetailInfo } from "../../utils/loadMovies.ts";
 import Button from "../common/Button.ts";
 import Rate from "../common/Rate.ts";
 import SearchBar from "../common/SearchBar.ts";
@@ -8,9 +10,15 @@ type HeaderProps = {
   title: string;
   imageUrl: string;
   voteAverage: number;
+  topMovieInfo?: Movie;
 };
 
-const Header = ({ title, imageUrl, voteAverage }: HeaderProps) => {
+const Header = ({
+  title,
+  imageUrl,
+  voteAverage,
+  topMovieInfo,
+}: HeaderProps) => {
   const header = createElement(/*html*/ `
     <header>
       <div class="background-container">
@@ -39,6 +47,8 @@ const Header = ({ title, imageUrl, voteAverage }: HeaderProps) => {
     text: "자세히 보기",
     className: ["primary", "detail"],
   });
+  if (topMovieInfo)
+    button.addEventListener("click", () => showMovieDetailInfo(topMovieInfo));
 
   if (!rate) return;
 
