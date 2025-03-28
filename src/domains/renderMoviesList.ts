@@ -4,8 +4,58 @@ import { handleApiResponse } from "../api/utils/handlers";
 import App from "../components/App";
 import Header from "../components/layout/Header";
 import Main from "../components/layout/Main";
-import { PREFIX_POSTER_PATH } from "../constants/constants";
+import { MAX_MOVIE_PAGE, PREFIX_POSTER_PATH } from "../constants/constants";
 import { store } from "../stores";
+
+let isLoading = false;
+let hasReachedEnd = false;
+
+const initInfiniteScroll = () => {
+  window.removeEventListener("scroll", handleScroll);
+
+  isLoading = false;
+  hasReachedEnd = false;
+
+  window.addEventListener("scroll", handleScroll);
+};
+
+const handleScroll = () => {
+  if (isLoading || hasReachedEnd) return;
+
+  checkAndLoadMoreItems();
+};
+
+const checkAndLoadMoreItems = () => {
+  const viewportHeight = window.innerHeight;
+  const scrollY = window.scrollY;
+  const documentHeight = document.documentElement.scrollHeight;
+  const scrolledToBottom = viewportHeight + scrollY >= documentHeight;
+
+  if (scrolledToBottom) loadMoreItems();
+};
+
+const loadMoreItems = async () => {
+  if (
+    hasReachedEnd ||
+    isLoading ||
+    store.page >= Math.min(MAX_MOVIE_PAGE, store.totalPages)
+  ) {
+    hasReachedEnd = true;
+    return;
+  }
+
+  isLoading = true;
+
+  store.page = store.page + 1;
+
+  await updateMoviesList();
+
+  isLoading = false;
+};
+
+const checkLastPage = () => {
+  return store.page >= Math.min(MAX_MOVIE_PAGE, store.totalPages);
+};
 
 const setHeaderData = () => {
   const header = Header.getInstance();
@@ -30,6 +80,8 @@ const renderTotalList = async (main: Main) => {
       store.movies = [...store.movies, ...data.results];
       store.totalPages = data.total_pages;
 
+      if (checkLastPage()) hasReachedEnd = true;
+
       setHeaderData();
 
       main.setState({
@@ -42,6 +94,7 @@ const renderTotalList = async (main: Main) => {
         isLoading: false,
         error: error,
       });
+      isLoading = false;
     },
   });
 };
@@ -59,6 +112,8 @@ const renderSearchList = async (main: Main) => {
       store.movies = [...store.movies, ...data.results];
       store.totalPages = data.total_pages;
 
+      if (checkLastPage()) hasReachedEnd = true;
+
       main.setState({
         movies: store.movies,
         isLoading: false,
@@ -70,6 +125,7 @@ const renderSearchList = async (main: Main) => {
         isLoading: false,
         error: error,
       });
+      isLoading = false;
     },
   });
 };
@@ -89,7 +145,8 @@ export const updateMoviesList = async () => {
   else await renderSearchList(main);
 
   main.render();
-  // TODO: 무한 스크롤 로직 추가
+
+  if (store.page === 1) initInfiniteScroll();
 };
 
 export const initializeLayout = async () => {
