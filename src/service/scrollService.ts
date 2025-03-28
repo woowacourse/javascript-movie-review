@@ -24,14 +24,11 @@ export function setupInfiniteScroll() {
 
     const entry = entries[0];
     if (entry.isIntersecting) {
-      // 이미 진행 중인 디바운스가 있으면 취소
       if (debounceTimeoutId) {
         clearTimeout(debounceTimeoutId);
       }
 
-      // 디바운스 시간을 300ms로 줄임
       debounceTimeoutId = window.setTimeout(async () => {
-        // 이미 fetch 중이거나 일시 중지 상태면 중단
         if (isFetching || infiniteScrollSuspended) {
           debounceTimeoutId = null;
           return;
@@ -44,20 +41,14 @@ export function setupInfiniteScroll() {
           const data = await fetchAndSetLoadingEvent();
 
           if (data?.results) {
-            // 현재 스크롤 위치 저장
             const scrollY = window.scrollY;
-
             renderMovieItems(data.results, false);
-
-            // 스크롤 위치 유지 (스크롤 튐 방지)
-            window.scrollTo(0, scrollY);
+            window.scrollTo(0, scrollY + 10);
           }
 
-          // 마지막 페이지인 경우
           if (data?.isLastPage) {
             infiniteScrollSuspended = true;
           } else {
-            // sentinel 요소 다시 추가 및 관찰
             if (sentinel.parentNode) {
               sentinel.parentNode.removeChild(sentinel);
             }
@@ -70,14 +61,14 @@ export function setupInfiniteScroll() {
           isFetching = false;
           debounceTimeoutId = null;
         }
-      }, 500); // 디바운스 시간 단축
+      }, 300);
     }
   };
 
   const observer = new IntersectionObserver(observerCallback, {
     root: null,
-    rootMargin: "100px", // 약간의 여유 공간 제공
-    threshold: 0.5, // 임계값 조정
+    rootMargin: "100px",
+    threshold: 0.2,
   });
 
   observer.observe(sentinel);
