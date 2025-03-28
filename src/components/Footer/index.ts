@@ -1,4 +1,4 @@
-const Footer = () => {
+const Footer = (): string => {
   return /*html*/ `
     <footer class="footer">
       <p>

@@ -1,28 +1,29 @@
-.header {
+.header-container {
   position: sticky;
   top: 0;
-  z-index: 9999;
-  width: 100%;
-  padding: 40px calc(50% - 640px);
+  z-index: 3;
+  width: 100dvw;
   transition: backdrop-filter 0.3s ease;
+  padding: 40px calc(50% - 640px);
 }
 
-.header.scrolled {
+.scrolled {
   backdrop-filter: blur(10px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
-.header-container {
+.header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
   max-width: 1280px;
 }
 
 .search-bar-container {
   width: 100%;
-  max-width: 525px;
   position: relative;
+  max-width: 525px;
 }
 
 .search-bar {
@@ -34,10 +35,10 @@
   font-size: 1rem;
   width: 100%;
   outline: none;
+}
 
-  &::placeholder {
-    color: var(--color-white);
-  }
+.search-bar::placeholder {
+  color: var(--color-white);
 }
 
 .search-button {
@@ -46,4 +47,43 @@
   top: 8px;
   right: 16px;
   cursor: pointer;
+}
+
+@media screen and (max-width: 1300px) {
+  .header-container {
+    padding: 40px calc(50dvw - 480px);
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: center;
+    max-width: 960px;
+  }
+  .search-bar-container {
+    margin-top: 24px;
+  }
+}
+
+@media screen and (max-width: 940px) {
+  .header-container {
+    padding: 40px calc(50dvw - 320px);
+  }
+
+  .header {
+    max-width: 640px;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .header-container {
+    padding: 30px calc(50dvw - 150px) 10px;
+  }
+
+  .header {
+    max-width: 300px;
+  }
+
+  .search-bar-container {
+    min-width: 300px;
+  }
 }

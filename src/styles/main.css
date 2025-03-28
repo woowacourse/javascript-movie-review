@@ -41,7 +41,7 @@ button.primary {
 
 #wrap {
   position: relative;
-  min-width: 1440px;
+  min-width: 100dvw;
   background-color: var(--color-bluegray-100);
 }
 
@@ -70,4 +70,8 @@ h1.logo {
   justify-content: center;
   align-items: center;
   gap: 30px;
+}
+
+.color-95a1b2 {
+  color: var(--color-95a1b2);
 }
