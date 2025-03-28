@@ -48,6 +48,11 @@ button.primary {
   border-radius: 8px;
 }
 
+button.primary:hover {
+  background-color: var(--color-darkblue-90);
+  transition: 0.2s;
+}
+
 #wrap {
   width: 100%;
   background-color: var(--color-bluegray-100);
