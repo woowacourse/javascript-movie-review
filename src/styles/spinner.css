@@ -1,3 +1,18 @@
+.spinner-wrapper {
+  background-color: rgba(0, 0, 0, 0.7);
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999999;
+  display: none;
+}
+
+.spinner-wrapper.active {
+  display: block;
+}
+
 .orbit-spinner {
   position: absolute;
   width: 50px;
