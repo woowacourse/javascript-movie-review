@@ -64,8 +64,10 @@ export class Modal {
   }
 
   #bindBackgroundClickEvent() {
-    this.#background.addEventListener('click', () => {
-      this.close();
+    this.#background.addEventListener('click', (event) => {
+      if (event.target === this.#background) {
+        this.close();
+      }
     });
   }
 }
