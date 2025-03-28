@@ -25,7 +25,6 @@ import {
   bindDetailsImageLoadEvent,
   bindLoadingEvents,
   bindModalEvents,
-  bindOnlineEvent,
   bindStarRatingEvents,
   bindThumbnailClickEvent,
 } from "./binders/event-binders";
@@ -59,7 +58,6 @@ const bindEventListeners = () => {
   bindModalEvents();
   bindStarRatingEvents();
   bindDetailsImageLoadEvent();
-  // bindOnlineEvent(infiniteScrollInstance);
 };
 
 const main = async () => {
