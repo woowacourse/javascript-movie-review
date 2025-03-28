@@ -25,3 +25,24 @@
   align-items: center;
   z-index: 100;
 }
+
+@media (max-width: 1024px) {
+  .header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: auto;
+  }
+
+  .logo {
+    position: static;
+    transform: none;
+    margin-bottom: 10px;
+  }
+
+  .header__searchbar {
+    position: static;
+    transform: none;
+    width: 90%;
+  }
+}
