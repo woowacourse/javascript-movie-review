@@ -47,7 +47,7 @@ class Modal {
               <img src="./images/star_empty.png" class="star" />
               <img src="./images/star_empty.png" class="star" />
               </p>
-              <p class="middle_font" id="comment"> 명작이에요</p>
+              <p class="middle_font" id="comment"></p>
               <p class="star_count"></p>
             </div>
             <hr/>
@@ -94,6 +94,7 @@ class Modal {
     starImages.forEach((star, index) => {
       star.addEventListener("click", () => {
         const score = (index + 1) * 2;
+        console.log(score);
 
         starImages.forEach((s, i) => {
           s.src =

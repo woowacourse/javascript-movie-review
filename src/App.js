@@ -48,17 +48,17 @@ class App {
 
     const $wrap = document.createElement("div");
     $wrap.id = "wrap";
-
-    const $header = new TitleSearchBar(
-      this.onSubmit,
-      this.onLogoClick
-    ).render();
+    $wrap.style.position = "relative";
 
     const $thumbnail = new Thumbnail(
       !isLoading && movies && movies.length > 0 ? movies[0] : null,
       isLoading
     ).render();
-    $wrap.append($thumbnail);
+
+    const $header = new TitleSearchBar(
+      this.onSubmit,
+      this.onLogoClick
+    ).render();
 
     const $container = document.createElement("div");
     $container.classList.add("container");
@@ -73,7 +73,11 @@ class App {
     ).render();
 
     app.appendChild($wrap);
-    $wrap.append($header);
+
+    $wrap.appendChild($thumbnail);
+
+    $wrap.appendChild($header);
+
     $wrap.appendChild($container);
     $container.appendChild($main);
     $main.appendChild($movieListSection);
@@ -133,6 +137,7 @@ class App {
   };
 
   handleScroll = async () => {
+    console.log("호출");
     const keyword = this.getKeywordFromURL();
 
     const $main = document.querySelector("main");
