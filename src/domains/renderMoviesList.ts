@@ -1,5 +1,5 @@
-import { getMovies, searchMovies } from "../api/services/movie";
-import { MoviesResponse } from "../api/types/movie/response";
+import { getGenres, getMovies, searchMovies } from "../api/services/movie";
+import { GenresResponse, MoviesResponse } from "../api/types/movie/response";
 import { handleApiResponse } from "../api/utils/handlers";
 import App from "../components/App";
 import Header from "../components/layout/Header";
@@ -78,6 +78,14 @@ const renderSearchList = async (main: Main) => {
         error: error,
       });
     },
+  });
+};
+
+export const getGenreList = async () => {
+  const genreResponse = await getGenres();
+
+  handleApiResponse<GenresResponse>(genreResponse, {
+    onSuccess: (data) => (store.genres = data.genres),
   });
 };
 

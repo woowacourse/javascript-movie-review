@@ -9,10 +9,10 @@ export function handleApiResponse<T>(
   response: BaseApiResponse<T>,
   callbacks: {
     onSuccess: ApiSuccessCallback<T>;
-    onError: ApiErrorCallback;
+    onError?: ApiErrorCallback;
   }
 ) {
-  if (isErrorResponse<T>(response)) {
+  if (callbacks.onError && isErrorResponse<T>(response)) {
     callbacks.onError(response.error);
     return;
   }

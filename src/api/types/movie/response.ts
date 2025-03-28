@@ -24,4 +24,14 @@ export interface MovieResult {
   vote_count: number;
 }
 
+export interface Genre {
+  id: number;
+  name: string;
+}
+
+export interface GenresResponse {
+  genres: Genre[];
+}
+
 export type MovieApiResponse = BaseApiResponse<MoviesResponse>;
+export type GenreApiResponse = BaseApiResponse<GenresResponse>;

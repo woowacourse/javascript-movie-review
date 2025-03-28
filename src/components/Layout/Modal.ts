@@ -6,9 +6,11 @@ import Skeleton from "../common/Skeleton";
 type ModalState = {
   [K in keyof Pick<
     MovieResult,
-    "title" | "poster_path" | "vote_average" | "overview" | "genre_ids"
-  >]: K extends "genre_ids" ? MovieResult[K] : MovieResult[K] | null;
+    "title" | "poster_path" | "vote_average" | "overview"
+  >]: MovieResult[K] | null;
 } & {
+  genres: string[];
+  release_date: string;
   isLoading: boolean;
 };
 
@@ -21,7 +23,8 @@ export default class Modal extends Component<ModalState> {
       poster_path: null,
       vote_average: null,
       overview: null,
-      genre_ids: [],
+      genres: [],
+      release_date: "",
       isLoading: true,
     });
   }
@@ -72,7 +75,7 @@ export default class Modal extends Component<ModalState> {
           <div class="modal-description">
             <h2>${this.state.title}</h2>
             <p class="category">
-              2024 · 모험, 애니메이션, 코미디, 드라마, 가족
+              ${this.state.release_date} · ${this.state.genres.join(", ")}
             </p>
             <p class="rate">
               <span class="rate-average">평균</span>
@@ -92,7 +95,7 @@ export default class Modal extends Component<ModalState> {
     `;
   }
 
-  open(movieData: MovieResult) {
+  open(movieData: ModalState) {
     this.$element.classList.add("active");
     this.setState({
       isLoading: false,
@@ -100,9 +103,8 @@ export default class Modal extends Component<ModalState> {
       poster_path: movieData.poster_path,
       vote_average: movieData.vote_average,
       overview: movieData.overview,
-      genre_ids: movieData.genre_ids,
-      // TODO: 외부 or 내부에서 genre_ids를 API로 받아서 가공해서 처리 (genre_ids 타입 재정의?)
-      // TODO: 내부 데이터로 만들어서 임시처리 ?
+      genres: movieData.genres,
+      release_date: movieData.release_date,
     });
   }
 

@@ -1,16 +1,43 @@
 import Header from "../components/layout/Header";
 import Main from "../components/layout/Main";
 import Modal from "../components/layout/Modal";
-import { updateMoviesList } from "../domains/renderMoviesList";
+import { getGenreList, updateMoviesList } from "../domains/renderMoviesList";
 import { store } from "../stores";
 import EventBus from "./EventBus";
 import { EVENT_TYPES } from "./types";
 
 const eventBus = EventBus.getInstance();
 
-eventBus.on(EVENT_TYPES.modalOpen, (movieId) => {
+eventBus.on(EVENT_TYPES.modalOpen, async (movieId) => {
   const movieData = store.movies.find((m) => m.id === movieId);
-  if (movieData) Modal.getInstance().open(movieData);
+  if (!movieData) return;
+  await getGenreList();
+
+  const {
+    genre_ids,
+    title,
+    poster_path,
+    vote_average,
+    overview,
+    release_date,
+  } = movieData;
+
+  const genres = store.genres
+    .filter(({ id }) => genre_ids.includes(id))
+    .map(({ name }) => name);
+  const releaseDate = release_date.split("-")[0];
+
+  const finalMovieData = {
+    title,
+    poster_path,
+    vote_average,
+    overview,
+    genres: genres,
+    release_date: releaseDate,
+    isLoading: false,
+  };
+
+  Modal.getInstance().open(finalMovieData);
 });
 
 eventBus.on(EVENT_TYPES.modalClose, () => {
