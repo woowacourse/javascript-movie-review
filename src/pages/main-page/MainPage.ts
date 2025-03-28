@@ -16,6 +16,7 @@ export class MainPage {
   #movieListData: MovieData[] = [];
   #currentPage = 1;
   #modalData: MovieData = {
+    id: 0,
     imgUrl: '/',
     score: 10,
     title: '',

@@ -29,6 +29,7 @@ interface MovieListJSON {
 export async function extractedData(url: string) {
   const movieJSON = await fetchMovieList(url);
   const movieListData = movieJSON.results.map((movieItem: MovieListJSON) => ({
+    id: movieItem.id,
     title: movieItem.title,
     imgUrl: `${ASSET_PATHS.IMAGE_BASE}${movieItem.poster_path}`,
     score: Number(movieItem.vote_average.toFixed(1)),

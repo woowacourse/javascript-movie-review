@@ -16,7 +16,8 @@ export class MovieDetail {
     this.#container.classList.add('movie__detail-container');
 
     this.#data = data;
-    this.#selectedStars;
+
+    this.#getStoredRating();
 
     this.render();
     this.#bindIconClickEvent();
@@ -57,6 +58,13 @@ export class MovieDetail {
       </p>
     </div>
      `;
+  }
+
+  #getStoredRating() {
+    const storedSelectedStars = localStorage.getItem(String(this.#data.id));
+    if (storedSelectedStars) {
+      this.#selectedStars = Number(storedSelectedStars);
+    }
   }
 
   #updateMyRateIcons() {
@@ -101,6 +109,8 @@ export class MovieDetail {
         if (!(event.target instanceof HTMLElement)) return;
 
         this.#selectedStars = Number(event.target.dataset.index);
+        localStorage.setItem(String(this.#data.id), String(this.#selectedStars));
+
         this.#updateMyRateIcons();
         this.#updateMyRateScore();
         this.#updateMyRateMessage();

@@ -21,6 +21,7 @@ class SearchPage {
   #unbindScrollEvent: () => void;
 
   #modalData: MovieData = {
+    id: 0,
     imgUrl: '/',
     score: 10,
     title: '',
