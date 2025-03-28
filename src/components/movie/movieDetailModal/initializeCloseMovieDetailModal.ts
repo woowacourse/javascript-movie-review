@@ -3,7 +3,6 @@ import {
   addCloseEventOnModalBackground,
   closeMovieDetailModal,
 } from "./internal/closeMovieDetailModal";
-import showMovieDetailModal from "./internal/showMovieDetailModal";
 
 const initializeCloseMovieDetailModal = () => {
   addCloseEventOnModalBackground();
@@ -15,12 +14,6 @@ const initializeCloseMovieDetailModal = () => {
       "click",
       closeMovieDetailModal
     );
-  }
-
-  const $openMovieDetailModalButton = $("#movie-detail-button");
-
-  if ($openMovieDetailModalButton) {
-    $openMovieDetailModalButton.addEventListener("click", showMovieDetailModal);
   }
 };
 
