@@ -5,4 +5,5 @@ export const movieStore = {
   totalPages: 1,
   movies: [] as MovieSummary[],
   searchKeyword: "",
+  selectedMovie: 0,
 };

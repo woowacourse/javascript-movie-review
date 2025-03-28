@@ -14,7 +14,7 @@ export default function MovieList(moviesResult: MovieSummary[]) {
 
       return toElement(`
       <li>
-        <div class="item">
+        <div class="item" id=${movie.id}>
           <img
             class="thumbnail"
             src="${backgroundImage}"

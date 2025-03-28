@@ -56,3 +56,26 @@
 - [ ] 영화 목록과 영화 상세 정보가 뜨는 모달창에 대한 반응형 레이아웃을 구성한다.
 - [ ] 영화 목록에서 더보기 버튼을 눌렀을 때 페이징하는 방식에서 무한 스크롤 방식으로 변경한다.
   - [ ] 검색 결과 화면에서 사용자가 브라우저 화면의 끝에 도달하면 그 다음 20개의 목록을 서버에 요청하여 추가로 불러올 수 있다.
+
+<br/>
+<br/>
+
+## PR 질문 목록
+
+- [ ] 객체를 관리할 때에
+
+```javascript
+  export const movieStore = {
+    page: 1,
+    totalPages: 1,
+    movies: [] as MovieSummary[],
+    searchKeyword: "",
+    selectedMovie: null as MovieDetail | null,
+  };
+```
+
+이런 식으로 관리하는게 맞는지 잘 모르겠다.
+movieStore이라는 이름으로 검색 키워드랑 선정된 movie를 저장하는게 맞나? 하는 생각도 들고
+특히나 선택된 영화 이름을 movieStore에 저장하는게 조금 논리적으로 동떨어진게 아닌가 하는 생각도 든다.
+차라리 selectedMovie를 다른 state로 관리할까 싶기도 했지만 selectedMovie가 혼자서 관리되는 모습도 조금 어색해 보여서 우선 같이 묶기는 했지만
+상태를 관리할 수 있는 조금 더 좋은 방식이 궁금하다.

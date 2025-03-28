@@ -28,6 +28,7 @@ body.modal-open {
 }
 
 .modal {
+  display: flex;
   background-color: var(--color-bluegray-90);
   padding: 20px;
   border-radius: 16px;

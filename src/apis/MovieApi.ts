@@ -1,30 +1,10 @@
+import { MovieDetail, MoviesResponse } from "./apiTypes";
+
 const TMDB_BASE_URL = "https://api.themoviedb.org/3";
 
-export interface MoviesResponse {
-  page: number;
-  results: MovieResult[];
-  total_pages: number;
-  total_results: number;
-}
-
-export interface MovieResult {
-  adult: boolean;
-  backdrop_path?: string; //needs
-  genre_ids: number[];
-  id: number;
-  original_language: string;
-  original_title: string;
-  overview: string;
-  popularity: number;
-  poster_path: string;
-  release_date: string;
-  title: string; //needs
-  video: boolean;
-  vote_average: number; //needs
-  vote_count: number;
-}
-
-async function fetchWithErrorHandling(url: string): Promise<MoviesResponse> {
+async function fetchWithErrorHandling(
+  url: string
+): Promise<MoviesResponse | MovieDetail> {
   const options = {
     method: "GET",
     headers: {
@@ -64,5 +44,14 @@ export async function getMovieByName({
   });
 
   const url = `${TMDB_BASE_URL}/search/movie?${params.toString()}`;
+  return fetchWithErrorHandling(url);
+}
+
+export async function getMovieDetail({ id }: { id: number }) {
+  const params = new URLSearchParams({
+    language: "ko-KR",
+  });
+
+  const url = `${TMDB_BASE_URL}/movie/${id}?${params.toString()}`;
   return fetchWithErrorHandling(url);
 }

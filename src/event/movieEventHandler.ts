@@ -1,5 +1,6 @@
 import { movieStore } from "../state/movieStore";
 import { renderMoviesList } from "../features/movies/movieListRenderer";
+import { movieDetailRenderer } from "../features/movies/movieDetailRenderer";
 
 interface addEventProps {
   type: string;
@@ -11,7 +12,7 @@ function addEvent({ type, selector, handler }: addEventProps) {
   window.addEventListener(type, (event) => {
     const target = event.target as HTMLElement;
     if (target && target.closest(selector)) {
-      handler(event, target);
+      handler(event, target.closest(selector)!);
     }
   });
 }
@@ -58,5 +59,15 @@ addEvent({
 
       renderMoviesList();
     }
+  },
+});
+
+addEvent({
+  type: "click",
+  selector: ".item",
+  handler: (event, target) => {
+    console.log(event, target.id);
+    movieStore.selectedMovie = Number(target.id);
+    movieDetailRenderer();
   },
 });

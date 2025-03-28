@@ -1,9 +1,11 @@
+import { MovieDetail } from "../../apis/apiTypes";
+import { getMovieDetail } from "../../apis/MovieApi";
 import MovieList from "../../components/MovieList";
 import MovieListSkeleton from "../../components/MovieListSkeleton";
 import TopRatedMovie from "../../components/TopRatedMovie";
 import { DEFAULT_BACK_DROP_URL } from "../../constants/movieApi";
 import { movieStore } from "../../state/movieStore";
-import { loadSearchList, loadTotalList } from "./movieListService";
+import { loadSearchList, loadTotalList } from "./movieService";
 
 const $mainSection = document.querySelector("main section");
 const $ul = document.querySelector(".thumbnail-list");
