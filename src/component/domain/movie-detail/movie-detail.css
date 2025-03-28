@@ -1,6 +1,8 @@
 .movie__detail-container {
   display: flex;
   z-index: 1000;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 .movie__detail-image img {
@@ -19,10 +21,12 @@
 }
 
 .movie__detail-description hr {
+  border: none;
+  border: 1px solid var(--color-bluegray-80);
   width: 100%;
 }
 
-.movie__detail-description .rate > img {
+.movie__detail-rate > img {
   position: relative;
   top: 5px;
   width: 24px;
@@ -47,8 +51,18 @@
   align-items: center;
 }
 
+.myrate__panel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .myrate__score {
   color: var(--color-bluegray-30);
+}
+
+.myrate__icon {
+  width: 24px;
 }
 
 .movie__detail-description .myrate > img {
@@ -59,4 +73,32 @@
 .detail {
   max-height: 430px;
   overflow-y: auto;
+}
+
+@media (max-width: 800px) {
+  .movie__detail-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  .movie__detail-image img {
+    width: 200px;
+  }
+  .movie__detail-title {
+    text-align: center;
+  }
+  .movie__detail-category {
+    text-align: center;
+  }
+  .movie__detail-rate {
+    text-align: center;
+  }
+}
+
+@media (max-width: 320px) {
+  .movie__detail-image img {
+    display: none;
+  }
+  .myrate {
+    flex-direction: column;
+  }
 }

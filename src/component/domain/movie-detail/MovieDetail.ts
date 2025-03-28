@@ -33,20 +33,22 @@ export class MovieDetail {
       <img src=${this.#data.imgUrl} />
     </div>
     <div class="movie__detail-description">
-      <h2>${this.#data.title}</h2>
-      <p class="category">${this.#data.releasedDate} · ${this.#data.category}</p>
-      <p class="rate"><img src="./star_filled.png" class="star" /><span class="text-body rate__detail">${
+      <h2 class="movie__detail-title">${this.#data.title}</h2>
+      <p class="movie__detail-category">${this.#data.releasedDate} · ${this.#data.category}</p>
+      <p class="movie__detail-rate"><img src="./star_filled.png" class="star" /><span class="text-body rate__detail">${
         this.#data.score
       }</span></p>
       <hr />
       <h3 class="text-body">내 별점</h3>
       <div class="myrate"> 
+      <div class="myrate__panel">
         <div class="myrate__icons">
       ${this.#renderStarIcons()}
         </div>
         <p class="myrate__score text-body">
       (${calculateRate(this.#selectedStars)}/10)
         </p>
+    </div>
         <p class="myrate__message text-body">
       ${getRatingMessage(this.#selectedStars)}
         </p>
