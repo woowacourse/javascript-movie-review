@@ -129,7 +129,7 @@ const DetailModal = (movieItem: MovieItemType) => {
                               createDOMElement({
                                 tag: "span",
                                 className: "rating-ment",
-                                textContent: "",
+                                textContent: "별점 미등록",
                               }),
                               createDOMElement({
                                 tag: "span",

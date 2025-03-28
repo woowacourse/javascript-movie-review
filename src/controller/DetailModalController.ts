@@ -53,7 +53,7 @@ class DetailModalController {
       ".star-description-ment .rating-number",
     ) as HTMLSpanElement;
 
-    ratingMent.textContent = newScore === 0 ? "" : RATING_MESSAGE[newScore];
+    ratingMent.textContent = RATING_MESSAGE[newScore];
     ratingNumber.textContent = newScore === 0 ? "" : `${newScore}`;
   }
 
