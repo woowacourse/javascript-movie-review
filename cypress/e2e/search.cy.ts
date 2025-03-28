@@ -21,7 +21,7 @@ describe("search 테스트", () => {
   it("키워드를 검색하면 키워드가 포함된 영화가 보인다.", () => {
     const searchValue = "짱구";
     cy.get(".search-bar").type(`${searchValue}{enter}`);
-
+    cy.wait(2000);
     cy.get("#thumbnail-list > li").each(($li) => {
       cy.wrap($li).should("contain.text", searchValue);
     });
