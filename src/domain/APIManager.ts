@@ -26,6 +26,7 @@ export async function extractedMovieDetails(id: number) {
     score: Number(details.vote_average.toFixed(1)),
     overview: details.overview,
     genres: details.genres.map((genre: { name: string }) => genre.name).join(', '),
+    release_date: details.release_date.split('-')[0],
   };
 }
 

@@ -18,6 +18,7 @@ interface MovieDetailData {
   title: string;
   genres: string;
   overview: string;
+  release_date: string;
 }
 
 interface MovieItem {
