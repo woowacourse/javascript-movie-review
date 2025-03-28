@@ -205,8 +205,6 @@ class Modal {
             [this.movieId]: String(i + 1),
           });
           localStorage.setItem("myRating", newState);
-          console.log(saved);
-          console.log(newState);
           renderStars(i + 1);
         });
 

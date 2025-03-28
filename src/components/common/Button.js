@@ -35,13 +35,13 @@ const Button = ({ text, type }) => {
 
     document.querySelector(".thumbnail-list").remove();
 
-    const 주렁이 = document.querySelector(".주렁이");
+    const oberserver = document.querySelector(".oberserver");
     const section = document.querySelector("section");
     section.insertBefore(
       MovieList({
         movies: movies.movieList,
       }),
-      주렁이
+      oberserver
     );
   });
 

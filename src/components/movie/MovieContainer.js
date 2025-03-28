@@ -41,7 +41,6 @@ const MovieContainer = ({ movies }) => {
   const callback = (entries, observer) => {
     entries.forEach(async (entry) => {
       if (entry.isIntersecting) {
-        console.log("fetched?");
         const params = new URLSearchParams(window.location.search);
 
         let fetchedMovies;
