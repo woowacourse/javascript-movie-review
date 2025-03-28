@@ -9,7 +9,9 @@ header {
   z-index: 10;
   width: 100%;
 }
-
+.header-dummy {
+  width: 155px;
+}
 h1.logo {
   font-size: 2rem;
   display: block;
@@ -51,6 +53,11 @@ h1.logo {
   }
 
   .search-bar-container {
+    display: flex;
     width: 100%;
+    justify-content: center;
+  }
+
+  .search-bar {
   }
 }

@@ -24,7 +24,7 @@ class Header {
           </h1>
         </button>
         <div class="search-bar-container"></div>
-        <div></div>
+        <div class="header-dummy" style=""></div>
     `;
   }
 
