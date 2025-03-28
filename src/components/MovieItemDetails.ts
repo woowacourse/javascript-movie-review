@@ -22,9 +22,7 @@ class MovieItemDetails {
   #createContainer() {
     const template = /*html*/ `
     <div class="modal-image"></div>
-    <div class="modal-description">
-      <hr />
-    </div>
+    <div class="modal-description"></div>
     `;
 
     this.#element.insertAdjacentHTML("beforeend", template);
@@ -48,6 +46,7 @@ class MovieItemDetails {
     this.#createTitle(description);
     this.#createCategory(description);
     this.#createRate(description);
+    this.#createDivider(description);
     this.#createOverview(description);
   }
 
@@ -85,7 +84,13 @@ class MovieItemDetails {
     overview.classList.add("detail");
     overview.textContent = this.#details.overview;
 
-    description.insertAdjacentElement("afterend", overview);
+    description.insertAdjacentElement("beforeend", overview);
+  }
+
+  #createDivider(description: HTMLDivElement) {
+    const hr = document.createElement("hr");
+
+    description.insertAdjacentElement("beforeend", hr);
   }
 }
 
