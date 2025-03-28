@@ -1,4 +1,4 @@
-import { Movie, MovieResponse } from "../../../types/movie";
+import { MovieData, MovieResponse } from "../../../types/movie";
 import { $ } from "../../utils/dom";
 import MovieItem from "./MovieItem";
 import NoSearchResults from "./NoSearchResults";
@@ -10,9 +10,10 @@ const MovieList = (movies: MovieResponse) => {
   }
 
   const fragment = document.createDocumentFragment();
-  movies?.results.forEach((movie: Movie) => {
+  movies?.results.forEach((movie: MovieData) => {
     const posterPath = movie.poster_path;
     const movieElement = MovieItem({
+      id: movie.id,
       src: posterPath
         ? `https://image.tmdb.org/t/p/w440_and_h660_face/${movie.poster_path}`
         : "./images/default_poster.png",

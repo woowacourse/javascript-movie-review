@@ -83,7 +83,7 @@ describe("오류 테스트", () => {
     cy.wait("@getSearchMovies").then(() => {
       cy.get(".no-result h2")
         .invoke("text")
-        .should("eq", "영화 목록을 가져오는 데 실패했습니다.");
+        .should("eq", "영화 목록을 가져오지 못했습니다.");
     });
   });
 });

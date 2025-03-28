@@ -1,10 +1,13 @@
-import { fetchSearchMovieList } from "../../utils/api.ts";
+import { fetchSearchMovieList } from "../../api/fetchSearchMovieList.ts";
+import observeLoadMore from "../../domain/observeLoadMore.ts";
 import { $ } from "../../utils/dom.ts";
-import LoadMoreButton from "../movie/LoadMoreButton.ts";
+import LoadMoreSection from "../movie/LoadMoreSection.ts";
 import MovieList from "../movie/MovieList.ts";
 import NoSearchResults from "../movie/NoSearchResults.ts";
 import hideSkeleton from "../utils/hideSkeleton.ts";
 import showSkeleton from "../utils/showSkeleton.ts";
+
+const INITIAL_PAGE = 1;
 
 const SearchBar = () => {
   const searchBar = document.createElement("div");
@@ -40,7 +43,7 @@ const searchMovie = async (input: string) => {
   $("#caption").innerText = `"${input}" 검색 결과`;
 
   showSkeleton();
-  const movies = await fetchSearchMovieList(input, 1);
+  const movies = await fetchSearchMovieList(input, INITIAL_PAGE);
 
   if (movies.status === "fail") {
     thumbnailList.before(NoSearchResults("영화 목록을 가져오지 못했습니다."));
@@ -52,12 +55,14 @@ const searchMovie = async (input: string) => {
 
     MovieList(movies.data);
 
-    thumbnailList.after(
-      LoadMoreButton({
-        loadFn: (currentPage: number) =>
-          fetchSearchMovieList(input, currentPage),
-      })
-    );
+    thumbnailList.after(LoadMoreSection());
+
+    let currentPage = 2;
+
+    observeLoadMore({
+      currentPage,
+      loadFn: (currentPage: number) => fetchSearchMovieList(input, currentPage),
+    });
   }
 
   hideSkeleton();
