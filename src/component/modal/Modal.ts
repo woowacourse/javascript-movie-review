@@ -1,11 +1,13 @@
 import { extractedMovieDetails } from '../../domain/APIManager';
 import LocalStorage from '../../domain/LocalStorage';
 import { $ } from '../../utils/selector';
+import modalLoadingTemplate from './loadingTemplate';
 import ModalStar from './ModalStar';
 
 class Modal {
   #container;
   #movieData!: MovieData;
+  #isLoading = true;
 
   constructor() {
     this.#container = document.createElement('div');
@@ -15,7 +17,11 @@ class Modal {
     this.#bindESCEvent();
   }
 
-  #renderModalContent(movieDetails: MovieDetailData) {
+  #renderModalContent(movieDetails?: MovieDetailData) {
+    if (this.#isLoading) {
+      this.#container.innerHTML = modalLoadingTemplate;
+      return;
+    }
     this.#container.innerHTML = `
       <div class="modal">
         <button class="close-modal" id="closeModal">
@@ -23,21 +29,27 @@ class Modal {
         </button>
         <div class="modal-container">
           <div class="modal-image">
-            <img src="${movieDetails.imgUrl}" />
+            <img src="${movieDetails!.imgUrl}" />
           </div>
           <div class="modal-description">
-            <h2>${movieDetails.title}</h2>
-            <p class="category">${movieDetails.release_date} ${movieDetails.genres}</p>
-            <p class="rate"><img src="https://h0ngju.github.io/javascript-movie-review/star_filled.png" class="modal-rate-star" /><span>${movieDetails.score}</span></p>
+            <h2>${movieDetails!.title}</h2>
+            <p class="category">${movieDetails!.release_date} ${movieDetails!.genres}</p>
+            <p class="rate"><img src="https://h0ngju.github.io/javascript-movie-review/star_filled.png" class="modal-rate-star" /><span>${
+              movieDetails!.score
+            }</span></p>
             <hr />
             <section></section>
             <hr/>
-            <p class="detail">${movieDetails.overview}</p>
+            <p class="detail">${movieDetails!.overview}</p>
           </div>
         </div>
       </div>
     `;
 
+    this.#appendStars();
+  }
+
+  #appendStars() {
     const starSection = $({ root: this.#container, selector: 'section' });
     const savedStars = LocalStorage.getMovieStarById(this.#movieData.id);
     const modalStar = new ModalStar(this.#movieData.id, savedStars);
@@ -76,7 +88,19 @@ class Modal {
   };
 
   async openModal(movieData: MovieData) {
+    this.#isLoading = true;
+    this.#renderModalContent();
+    this.#container.classList.add('active');
     document.body.style.overflow = 'hidden';
+
+    const movieDetails = await this.#fetchMovieDetails(movieData);
+    this.#isLoading = false;
+    this.#renderModalContent(movieDetails);
+    this.#bindCloseButton();
+    this.#bindClickBarckDrop();
+  }
+
+  async #fetchMovieDetails(movieData: MovieData) {
     this.#movieData = movieData;
     const movieDetails = await extractedMovieDetails(movieData.id);
     const stored = {
@@ -85,10 +109,7 @@ class Modal {
     };
     LocalStorage.saveMovie(stored);
 
-    this.#renderModalContent(movieDetails);
-    this.#bindCloseButton();
-    this.#bindClickBarckDrop();
-    this.#container.classList.add('active');
+    return movieDetails;
   }
 
   closeModal() {
