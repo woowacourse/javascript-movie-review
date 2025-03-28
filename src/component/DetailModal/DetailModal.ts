@@ -1,8 +1,9 @@
-import { MovieItemType } from "../types/movieResultType";
-import createDOMElement from "../util/createDomElement";
-import defaultImage from "../../public/images/default_poster_image.png";
+import { MovieItemType, storedMovieItemType } from "../../types/movieResultType";
+import createDOMElement from "../../util/createDomElement";
+import defaultImage from "../../../public/images/default_poster_image.png";
+import MyStarRatingComponent from "./MyStarRatingComponent";
 
-const DetailModal = (movieItem: MovieItemType) => {
+const DetailModal = (movieItem: MovieItemType | storedMovieItemType) => {
   return createDOMElement({
     tag: "dialog",
     className: "detail-modal-container",
@@ -31,6 +32,7 @@ const DetailModal = (movieItem: MovieItemType) => {
           createDOMElement({
             tag: "div",
             className: "modal-container",
+            id: movieItem.id,
             children: [
               // Left Image
               createDOMElement({
@@ -108,38 +110,7 @@ const DetailModal = (movieItem: MovieItemType) => {
                         className: "description-title",
                         textContent: "내 별점",
                       }),
-                      createDOMElement({
-                        tag: "div",
-                        className: "my-star",
-                        children: [
-                          createDOMElement({
-                            tag: "div",
-                            className: "star-wrapper",
-                            children: Array.from({ length: 5 }, () =>
-                              createDOMElement({
-                                tag: "img",
-                                src: "./images/star-empty.png",
-                              }),
-                            ),
-                          }),
-                          createDOMElement({
-                            tag: "span",
-                            className: "star-description-ment",
-                            children: [
-                              createDOMElement({
-                                tag: "span",
-                                className: "rating-ment",
-                                textContent: "별점 미등록",
-                              }),
-                              createDOMElement({
-                                tag: "span",
-                                className: "rating-number",
-                                textContent: "",
-                              }),
-                            ],
-                          }),
-                        ],
-                      }),
+                      MyStarRatingComponent("starScore" in movieItem ? movieItem.starScore : 0),
                     ],
                   }),
                   // 세 번째 섹션 (줄거리)
