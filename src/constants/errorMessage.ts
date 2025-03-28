@@ -10,4 +10,4 @@ export const STATUS_CODE_MESSAGE: { [key: number]: string } = {
   404: '찾을 수 없는 페이지입니다.',
   429: '요청이 너무 많습니다.',
   500: '서버 에러가 발생했습니다.',
-};
+} as const;
