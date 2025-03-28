@@ -1,8 +1,7 @@
-import { getMovies, MovieApiClient } from '@/apis';
+import { getMovies } from '@/apis';
 import { DEFAULT_BACK_DROP_URL } from '@/constants';
 import { eventHandlerInstance } from '@/modules';
 import { moviesResponseStore, moviesStore, pageStore, searchStore } from '@/store';
-import { serverStore } from '@/store';
 import { html, isHTMLFormElement } from '@/utils';
 import Component from './core/Component';
 

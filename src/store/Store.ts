@@ -1,15 +1,14 @@
-import { forEach } from '@fxts/core';
-import { MovieDetailResponse, MoviesResponse, MovieType } from '../types';
-import { LocalStorageMovieRateValueType } from '../modules';
 import { Component } from '@/components/core';
+import { LocalStorageMovieRateValueType } from '../modules';
+import { MovieDetailResponse, MoviesResponse, MovieType } from '../types';
+import Obserable from './Obserable';
 
-type ObserverType = Component<any, any>;
-
-export default class Store<TState> {
-  #observers: ObserverType[] = [];
+export default class Store<TState> extends Obserable<Component<any, any>> {
   #state = {} as TState;
 
   constructor(initialState: TState) {
+    super();
+
     this.#state = initialState;
   }
 
@@ -20,16 +19,6 @@ export default class Store<TState> {
   setState(nextState: TState) {
     this.#state = nextState;
     this.notify();
-  }
-
-  subscribe(observer: ObserverType) {
-    this.#observers = [...this.#observers, observer];
-  }
-
-  notify() {
-    forEach((observer) => {
-      observer.update();
-    }, this.#observers);
   }
 }
 
