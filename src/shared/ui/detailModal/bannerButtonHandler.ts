@@ -1,5 +1,5 @@
 import { getMovieDetails } from "../../../features/movie/api/getMovieDetails";
-import ErrorPage from "../components/ErrorPage";
+import ErrorModal from "../components/ErrorModal";
 import MovieDetailModal from "../components/MovieDetailModal";
 
 export const bannerButtonHandler = () => {
@@ -34,7 +34,7 @@ export const bannerButtonHandler = () => {
       MovieDetailModal(movieDetails);
     } catch (error) {
       if (error instanceof Error) {
-        ErrorPage("영화 상세 정보를 불러오는데 실패하였습니다.");
+        ErrorModal("영화 상세 정보를 불러오는데 실패하였습니다.");
       }
     }
   });

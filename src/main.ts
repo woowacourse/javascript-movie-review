@@ -2,7 +2,7 @@ import { getMovieList } from "./features/movie/api/getMovieList";
 import Header from "./shared/ui/components/Header";
 import { searchFormSubmitHandler } from "./features/search/ui/searchFormSubmitHandler";
 import { addMovieCard } from "./shared/ui/movies/addMovieCard";
-import ErrorPage from "./shared/ui/components/ErrorPage";
+import ErrorModal from "./shared/ui/components/ErrorModal";
 import { withSkeleton } from "./shared/ui/skeletons/withSkeleton";
 import { initUrl } from "./shared/utils/updateUrl";
 import { movieDetailModalHandler } from "./shared/ui/detailModal/movieDetailModalHandler";
@@ -12,7 +12,7 @@ async function init() {
   const $movieList = document.querySelector(".thumbnail-list") as HTMLElement;
 
   if (!$movieList) {
-    ErrorPage("영화 리스트를 불러오는데 실패하였습니다.");
+    ErrorModal("영화 리스트를 불러오는데 실패하였습니다.");
     return;
   }
 
@@ -25,7 +25,7 @@ async function init() {
       addMovieCard(movies.results, $movieList);
     }
   } catch (error) {
-    ErrorPage("영화 리스트를 불러오는데 실패하였습니다.");
+    ErrorModal("영화 리스트를 불러오는데 실패하였습니다.");
   }
 
   const searchForm = document.querySelector(".search-form");
@@ -35,7 +35,7 @@ async function init() {
     try {
       await searchFormSubmitHandler(e);
     } catch (error) {
-      ErrorPage("영화 리스트를 불러오는데 실패하였습니다.");
+      ErrorModal("영화 리스트를 불러오는데 실패하였습니다.");
     }
   });
 

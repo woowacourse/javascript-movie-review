@@ -1,4 +1,4 @@
-import ErrorPage from "../components/ErrorPage";
+import ErrorModal from "../components/ErrorModal";
 import { addMoreMovies } from "../movies/addMoreMovies";
 import { withSkeleton } from "../skeletons/withSkeleton";
 
@@ -11,7 +11,7 @@ export const intersectionObserver = (movieList: HTMLElement) => {
         try {
           withSkeleton(movieList, addMoreMovies(movieList));
         } catch (error) {
-          ErrorPage("영화 리스트를 불러오는데 실패하였습니다.");
+          ErrorModal("영화 리스트를 불러오는데 실패하였습니다.");
         }
       }
     });
