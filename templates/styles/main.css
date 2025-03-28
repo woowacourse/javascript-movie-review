@@ -24,10 +24,16 @@ section {
 
 main {
   margin: 64px 0;
+  margin-top: 0;
 }
 
 .star {
   width: 24px;
+}
+
+header{
+  width: 100%;
+  top: 0;
 }
 
 button {
@@ -43,6 +49,16 @@ button.primary {
   border-radius: 4px;
 }
 
+button.more {
+  color: var(--color-white);
+  font-weight: bold;
+  background-color: var(--color-lightblue-90);
+  width: 100%;
+  padding: 10px 0px;
+  border-radius: 8px;
+  font-size: 24px;
+}
+
 #wrap {
   min-width: 1440px;
   background-color: var(--color-bluegray-100);
@@ -51,6 +67,7 @@ button.primary {
 #wrap h2 {
   font-size: 1.4rem;
   font-weight: bold;
+  margin-top: 64px;
   margin-bottom: 32px;
 }
 
@@ -64,7 +81,16 @@ button.primary {
   background-position: center center;
   background-size: cover;
   height: 500px;
-  padding: 48px;
+  padding: 84px;
+}
+
+.banner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 500px;
+  z-index: 1;
+  width: 100%;
 }
 
 .overlay {
@@ -74,15 +100,57 @@ button.primary {
   background-color: rgba(0, 0, 0, 0.5);
   width: 100%;
   height: 100%;
-  z-index: 1;
+  z-index: 2;
 }
 
 .top-rated-container {
   user-select: none;
   position: relative;
-  z-index: 2;
+  z-index: 3;
   max-width: 1280px;
   margin: 0 auto;
+}
+
+.contentContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  font-size: 36px;
+  font-weight: 600;
+  gap: 16px;
+}
+.contentContainer img {
+  width: 72px;
+  height: 64px;
+}
+
+.search-input {
+  display: flex;
+  width: 525px;
+  padding: 6px 16px;
+  border-radius: 32px;
+  outline: none;
+  border: 2px solid #d1d5db;
+  color: #fff;
+  background-color: transparent;
+}
+
+.search-input::placeholder {
+  color: #fff;
+}
+
+.search-input:focus {
+  outline: none;
+}
+
+.search-button {
+  position: absolute;
+  top: 50%;
+  right: -20px;
+  border: none;
+  transform: translate(-50%, -50%);
+  background-color: transparent;
 }
 
 .top-rated-movie {
@@ -131,4 +199,39 @@ footer.footer {
 
 footer.footer p:not(:last-child) {
   margin-bottom: 8px;
+}
+
+.logo-searchBar{
+  width: 100%;
+  position: absolute;
+  display: flex;
+  margin-left: 84px;
+  top: 20px;
+  z-index: 3;
+}
+
+.thumbnail.skeleton{
+  width: 200px;
+  height: 300px;
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.6;
+  }
+}
+
+.search-container {
+  position: relative;
+  left: 40%;
+  transform: translate(-50%, 0); 
 }

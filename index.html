@@ -3,10 +3,48 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./templates/styles/reset.css" />
+    <link rel="stylesheet" href="./templates/styles/main.css" />
+    <link rel="stylesheet" href="./templates/styles/tab.css" />
+    <link rel="stylesheet" href="./templates/styles/thumbnail.css" />
     <title>영화 리뷰</title>
   </head>
   <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.ts"></script>
+    <div id="wrap">
+      <div class="container">
+        <!-- <ul class="tab">
+          <li>
+            <a href="#">
+              <div class="tab-item selected"><h3>상영 중</h3></div>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <div class="tab-item"><h3>인기순</h3></div>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <div class="tab-item"><h3>평점순</h3></div>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <div class="tab-item"><h3>상영 예정</h3></div>
+            </a>
+          </li>
+        </ul> -->
+        <main>
+          <section id="movies-container"></section>
+        </main>
+      </div>
+    </div>
+    <script type="module" src="/src/controllers/Main.ts"></script>
   </body>
 </html>
+
+<!--
+  포스터 원본: https://image.tmdb.org/t/p/original//pmemGuhr450DK8GiTT44mgwWCP7.jpg
+  포스터 썸네일: https://media.themoviedb.org/t/p/w440_and_h660_face/pmemGuhr450DK8GiTT44mgwWCP7.jpg
+  배너 원본: https://image.tmdb.org/t/p/w1920_and_h800_multi_faces/stKGOm8UyhuLPR9sZLjs5AkmncA.jpg
+-->
