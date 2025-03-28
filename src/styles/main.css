@@ -190,3 +190,7 @@ footer.footer p:not(:last-child) {
 .open {
   display: block;
 }
+
+.lock-scroll {
+  overflow: hidden;
+}

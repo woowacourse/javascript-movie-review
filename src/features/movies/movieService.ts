@@ -43,10 +43,3 @@ export const loadSearchList = async () => {
   })) as MoviesResponse;
   updateMovieList(moviesResponse);
 };
-
-export const loadMovieDetail = async () => {
-  const movieDetail = (await getMovieDetail({
-    id: movieStore.selectedMovie,
-  })) as MovieDetail;
-  console.log("mvDetail : ", movieDetail);
-};

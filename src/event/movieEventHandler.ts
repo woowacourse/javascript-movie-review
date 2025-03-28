@@ -69,6 +69,7 @@ addEvent({
     console.log(event, target.id);
     movieStore.selectedMovie = Number(target.id);
     const $modal = document.querySelector("#modalBackground");
+    document.body.classList.add("lock-scroll");
     $modal?.classList.toggle("active");
     movieDetailRenderer();
   },
@@ -80,5 +81,6 @@ addEvent({
   handler: () => {
     const $modal = document.querySelector("#modalBackground");
     $modal?.classList.toggle("active");
+    document.body.classList.remove("lock-scroll");
   },
 });
