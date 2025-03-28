@@ -12,6 +12,7 @@ class Modal {
     this.#container.classList.add('modal-background');
     this.#container.id = 'modalBackground';
     this.#bindMovieClickedEvent();
+    this.#bindESCEvent();
   }
 
   #renderModalContent(movieDetails: MovieDetailData) {
@@ -56,7 +57,16 @@ class Modal {
     $close.addEventListener('click', () => this.closeModal());
   };
 
+  #bindESCEvent = () => {
+    document.addEventListener('keyup', (event) => {
+      if (event.key === 'Escape') {
+        this.closeModal();
+      }
+    });
+  };
+
   async openModal(movieData: MovieData) {
+    document.body.style.overflow = 'hidden';
     this.#movieData = movieData;
     const movieDetails = await extractedMovieDetails(movieData.id);
     const stored = {
