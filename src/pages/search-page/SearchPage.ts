@@ -5,9 +5,13 @@ import searchPageLoadingTemplate from './loadingTemplate';
 import { MOVIE_API } from '../../constants/systemConstants';
 import { MovieData } from '../../../types/movie';
 import { bindScrollEvent, handleBottomScroll } from '../../util/web/scroll';
+import { Modal } from '../../component/common/modal/Modal';
+import { MovieDetail } from '../../component/domain/movie-detail/MovieDetail';
 
 class SearchPage {
-  #container;
+  #container: HTMLElement;
+  #modal: Modal | null = null;
+
   #movieListData: MovieData[] = [];
   #isLoading: boolean = true;
   #query: string;
@@ -15,6 +19,15 @@ class SearchPage {
   #totalPage = 0;
   #isFetching: boolean = false;
   #unbindScrollEvent: () => void;
+
+  #modalData: MovieData = {
+    imgUrl: '/',
+    score: 10,
+    title: '',
+    description: '',
+    category: [''],
+    releasedDate: new Date().getFullYear(),
+  };
 
   constructor() {
     this.#container = document.createElement('div');
@@ -41,6 +54,7 @@ class SearchPage {
     }
     this.#isLoading = false;
     this.render();
+    this.#bindMovieSelectEvent();
   }
 
   render() {
@@ -55,6 +69,7 @@ class SearchPage {
 
   renderDynamicSection() {
     this.#container.appendChild(this.#movieGridElement());
+    this.#container.appendChild(this.#modalElement());
   }
 
   #movieGridElement() {
@@ -79,6 +94,23 @@ class SearchPage {
 
   #titleElement() {
     return new Title({ text: `"${this.#query}" 검색 결과` }).element;
+  }
+
+  #modalElement() {
+    this.#modal = new Modal();
+    return this.#modal.element;
+  }
+
+  #bindMovieSelectEvent() {
+    this.#container.addEventListener('movieSelect', (event) => {
+      this.#modalData = (event as CustomEvent).detail;
+      const movieDetail = new MovieDetail({ data: this.#modalData }).element;
+
+      if (!this.#modal) return;
+
+      this.#modal.setContent(movieDetail);
+      this.#modal.open();
+    });
   }
 
   destroy() {

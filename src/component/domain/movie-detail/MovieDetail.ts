@@ -33,7 +33,7 @@ export class MovieDetail {
       <p class="rate"><img src="./star_filled.png" class="star" /><span>${this.#data.score}</span></p>
       <hr />
       <p class="detail">
-      ${this.#data.description.length === 0 ? this.#data.description : '줄거리가 없습니다'}
+      ${this.#data.description.length !== 0 ? this.#data.description : '줄거리가 없습니다'}
       </p>
     </div>
   </div>
