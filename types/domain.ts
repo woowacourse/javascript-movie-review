@@ -24,4 +24,5 @@ export interface MovieDetails {
   readonly releaseYear: number;
   readonly title: string;
   readonly voteAverage: number;
+  readonly rate: number;
 }
