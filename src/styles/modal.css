@@ -129,6 +129,10 @@ body.modal-open {
   color: gray;
 }
 
+.star-container:hover {
+  cursor: pointer;
+}
+
 @media screen and (max-width: 768px) {
   .modal {
     max-height: 900px;
