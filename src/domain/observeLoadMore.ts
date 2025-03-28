@@ -1,6 +1,6 @@
 import { Response } from "../../types/response";
 import { $ } from "../utils/dom";
-import loadMoreMovies from "./loadMoreMovies";
+import loadMoreMovies from "../components/utils/loadMoreMovies";
 
 type Props = {
   currentPage: number;

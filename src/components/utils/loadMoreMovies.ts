@@ -1,9 +1,9 @@
-import { Response } from "../../types/response";
-import MovieList from "../components/movie/MovieList";
-import NoSearchResults from "../components/movie/NoSearchResults";
-import hideSkeleton from "../components/utils/hideSkeleton";
-import showSkeleton from "../components/utils/showSkeleton";
-import { $ } from "../utils/dom";
+import { Response } from "../../../types/response";
+import MovieList from "../movie/MovieList";
+import NoSearchResults from "../movie/NoSearchResults";
+import hideSkeleton from "./hideSkeleton";
+import showSkeleton from "./showSkeleton";
+import { $ } from "../../utils/dom";
 
 type Props = {
   loadFn: () => Promise<Response>;

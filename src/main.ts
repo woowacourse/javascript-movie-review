@@ -37,7 +37,12 @@ addEventListener("load", async () => {
 // 이런 것들은 어디에 위치해야하는가?
 // components 내의 utils ??
 function createLayout() {
-  const header = Header({ title: "로딩중 ...", imageUrl: "", voteAverage: 0 });
+  const header = Header({
+    id: 0,
+    title: "로딩중 ...",
+    imageUrl: "",
+    voteAverage: 0,
+  });
   const movieList = createElement(/*html*/ `<ul class="thumbnail-list"></ul>`);
   const footer = Footer();
 
@@ -57,6 +62,7 @@ async function processMovies() {
   const topMovie = movies.data.results[0];
 
   const updatedHeader = Header({
+    id: topMovie.id,
     title: topMovie.title,
     imageUrl: `https://image.tmdb.org/t/p/w500${topMovie.poster_path}`,
     voteAverage: topMovie.vote_average,

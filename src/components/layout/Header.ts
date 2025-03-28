@@ -3,14 +3,16 @@ import { $multiSelect } from "../../utils/dom.ts";
 import Button from "../common/Button.ts";
 import Rate from "../common/Rate.ts";
 import SearchBar from "../common/SearchBar.ts";
+import loadDetailMovie from "../utils/loadDetailMovie.ts";
 
 type Props = {
+  id: number;
   title: string;
   imageUrl: string;
   voteAverage: number;
 };
 
-const Header = ({ title, imageUrl, voteAverage }: Props) => {
+const Header = ({ id, title, imageUrl, voteAverage }: Props) => {
   const header = createElement(/*html*/ `
     <header>
       <div class="background-container">
@@ -38,7 +40,7 @@ const Header = ({ title, imageUrl, voteAverage }: Props) => {
   const button = Button({
     text: "자세히 보기",
     className: ["primary", "detail"],
-    onClick: () => {},
+    onClick: () => loadDetailMovie(id),
   });
 
   const [logoSearchContainer, topRateMovie, logo] = $multiSelect(

@@ -1,8 +1,7 @@
-import { fetchDetailMovie } from "../../api/fetchDetailMovie.ts";
 import { createElement } from "../../utils/createElement.ts";
 import { $ } from "../../utils/dom.ts";
 import Rate from "../common/Rate.ts";
-import MovieDetailContent from "./MovieDetail.ts";
+import loadDetailMovie from "../utils/loadDetailMovie.ts";
 
 type Props = {
   id: number;
@@ -12,28 +11,6 @@ type Props = {
 };
 
 const MovieItem = ({ id, src, rate, title }: Props) => {
-  async function onClick() {
-    const movie = await fetchDetailMovie(id);
-    const { title, genres, vote_average, poster_path, overview, release_date } =
-      movie.data;
-
-    const url = new URL(location.href);
-    url.search = new URLSearchParams(`movieID=${id}`).toString();
-    window.history.replaceState({}, "", url.toString());
-
-    $("#modalBackground").classList.add("active");
-
-    $(".modal").appendChild(
-      MovieDetailContent({
-        title,
-        genres,
-        vote_average,
-        poster_path,
-        overview,
-        release_date,
-      })
-    );
-  }
   const movieItem = createElement(
     /*html*/ `
     <li>
@@ -49,7 +26,7 @@ const MovieItem = ({ id, src, rate, title }: Props) => {
       </div>
     </li>
   `,
-    { click: onClick }
+    { click: () => loadDetailMovie(id) }
   );
 
   $(".item-desc", movieItem).prepend(Rate({ rate: rate }));
