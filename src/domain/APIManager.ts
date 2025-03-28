@@ -2,34 +2,31 @@ import { STATUS_CODE_MESSAGE } from '../constants/errorMessage';
 import { SYSTEM_CONSTANTS } from '../constants/systemConstants';
 import { redirectToPage } from '../route/router';
 
-interface MovieItem {
-  id: number;
-  title: string;
-  original_title: string;
-  release_date: string;
-  overview: string;
-  popularity: number;
-  poster_path: string;
-  backdrop_path: string | null;
-  genres: number[];
-  original_language: string;
-  vote_average: number;
-  vote_count: number;
-  video: boolean;
-  adult: boolean;
-}
-
 export async function extractedData(url: string) {
   const movieList = await fetchMovieList(url);
   const movieListData = movieList.results.map((movieItem: MovieItem) => ({
+    id: movieItem.id,
     title: movieItem.title,
     imgUrl: `${SYSTEM_CONSTANTS.BASE_IMG_URL}${movieItem.poster_path}`,
     score: Number(movieItem.vote_average.toFixed(1)),
+    overview: movieItem.overview,
   }));
 
   const totalPage = movieList.total_pages;
 
   return { movieListData, totalPage };
+}
+
+export async function extractedMovieDetails(id: number) {
+  const details = await fetchMovieDetail(id);
+  return {
+    id: details.id,
+    title: details.title,
+    imgUrl: `${SYSTEM_CONSTANTS.BASE_IMG_URL}${details.poster_path}`,
+    score: Number(details.vote_average.toFixed(1)),
+    overview: details.overview,
+    genres: details.genres.map((genre: { name: string }) => genre.name).join(', '),
+  };
 }
 
 function fetchErrorHandler(error: Error) {
@@ -43,6 +40,30 @@ async function fetchMovieList(url: string) {
     headers: {
       accept: 'application/json',
       Authorization: `Bearer ${import.meta.env.VITE_API_TOKEN}`,
+    },
+  };
+
+  try {
+    const response = await fetch(url, options);
+    if (!response.ok) errorHandlerByStatusCode(response.status);
+
+    const responsedData = await response.json();
+    return responsedData;
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      fetchErrorHandler(error);
+    }
+  }
+}
+
+async function fetchMovieDetail(id: number) {
+  const url = `https://api.themoviedb.org/3/movie/${id}?language=ko-KR`;
+  const options = {
+    method: 'GET',
+    headers: {
+      accept: 'application/json',
+      Authorization:
+        'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxNDFlZjU1NDhlYjJhMzcxNGVlZGU4ZDlhOTc5OTM4YiIsIm5iZiI6MTc0MjI3ODcxOC43OTIsInN1YiI6IjY3ZDkxMDNlYzUzMzllYWJjNjM2NTUxNCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.MWyqHYcKklHJtdt77FdqeixOePsLny3siiYW-VRDsIk',
     },
   };
 

@@ -14,6 +14,7 @@ class MainBanner {
     this.#data = data;
 
     this.render();
+    this.#bindEvents();
   }
 
   render() {
@@ -35,6 +36,16 @@ class MainBanner {
   #detailButtonElement() {
     return new Button({ cssType: 'small', innerText: '자세히 보기', onClick: () => {} }).element.outerHTML;
   }
+
+  #bindEvents = () => {
+    this.#container.addEventListener('click', () => {
+      const event = new CustomEvent('movie-clicked', {
+        detail: this.#data,
+        bubbles: true,
+      });
+      this.#container.dispatchEvent(event);
+    });
+  };
 
   get element() {
     return this.#container;
