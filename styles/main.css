@@ -263,29 +263,40 @@ footer.footer p:not(:last-child) {
   font-weight: 600;
 }
 
-.error-page-container {
-  display: flex;
-  flex-direction: column;
+.error-modal-container {
+  position: fixed;
+  background-color: white;
+  border-radius: 16px;
+  width: 40%;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   gap: 30px;
+  display: flex;
+  padding: 18px 15px;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 80vh;
-  font-size: 36px;
+  font-size: 25px;
+  color: black;
   font-weight: 600;
 }
 
-.error-page-button {
+.close-error-modal {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 25px;
+  font-size: bold;
+  cursor: pointer;
+}
+
+.error-modal-button {
   width: 100%;
   font-size: 24px;
 }
 
-.error-page-button:hover {
-  scale: 1.1;
-  transition: 0.3s;
-}
-
-.error-page-image {
-  width: 150px;
-  height: 130px;
-  object-fit: cover;
+.error-modal-button:hover {
+  scale: 1.05;
+  transition: 0.2s;
 }
