@@ -1,7 +1,8 @@
+import { URLS } from "../../setting/settings";
 import { createElement } from "../../util/dom";
 export default function MovieItem({ id, src, title, rate, onload }) {
   const $li = createElement("li", { id });
-  let url = `https://image.tmdb.org/t/p/w500${src}`;
+  let url = `${URLS.imgW500}${src}`;
   if (!src) url = "images/fallback.png";
 
   $li.innerHTML = `
