@@ -8,10 +8,11 @@ import { MovieResultType } from "../types/movieResultType";
 import { getPopularMovieResult } from "../api/getPopularMovieResult";
 import MovieResults from "../domain/MovieResults";
 import DetailModalController from "../controller/DetailModalController";
-import { getDetailMovieResult } from "../api/getDetailMovieResult";
+import StorageMovieResults from "../domain/StorageMovieResults";
 
 class MainController {
   movieResults;
+  StorageMovieResults;
   mainElement;
   messageModalController;
   movieListController;
@@ -20,17 +21,21 @@ class MainController {
 
   constructor() {
     this.movieResults = new MovieResults();
+    this.StorageMovieResults = new StorageMovieResults();
 
     this.mainElement = document.querySelector("main") as HTMLElement;
 
     this.messageModalController = new MessageModalController(this.mainElement);
-    this.detailModalController = new DetailModalController(this.mainElement);
+    this.detailModalController = new DetailModalController({
+      mainElement: this.mainElement,
+      updateStarScore: (id, score) => this.StorageMovieResults.updateStarScore(id, score),
+    });
 
     this.movieListController = new MovieListController({
       mainElement: this.mainElement,
       handleSeeMore: this.handleSeeMore.bind(this),
       openDetailModal: async (id) => {
-        const movieItem = await getDetailMovieResult(id);
+        const movieItem = await this.StorageMovieResults.getDetailMovieResultById(id);
         this.detailModalController.changeContent(movieItem);
       },
     });
@@ -38,7 +43,7 @@ class MainController {
     this.backgroundThumbnailController = new BackgroundThumbnailController({
       mainElement: this.mainElement,
       openDetailModal: async (id: number) => {
-        const movieItem = await getDetailMovieResult(id);
+        const movieItem = await this.StorageMovieResults.getDetailMovieResultById(id);
         this.detailModalController.changeContent(movieItem);
       },
     });

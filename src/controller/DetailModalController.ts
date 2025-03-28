@@ -1,15 +1,21 @@
-import DetailModal from "../component/DetailModal";
 import { RATING_MESSAGE } from "../constant/ratingMessage";
-import { MovieItemType } from "../types/movieResultType";
+import { MovieItemType, storedMovieItemType } from "../types/movieResultType";
 import filledStar from "../../public/images/star_filled.png";
 import emptyStar from "../../public/images/star_empty.png";
+import DetailModal from "../component/DetailModal/DetailModal";
 
+interface DetailModalControllerType {
+  mainElement: HTMLElement;
+  updateStarScore: (id: number, score: number) => void;
+}
 class DetailModalController {
   mainElement;
   detailModalElement?: HTMLDialogElement;
+  updateStarScore;
 
-  constructor(mainElement: HTMLElement) {
+  constructor({ mainElement, updateStarScore }: DetailModalControllerType) {
     this.mainElement = mainElement;
+    this.updateStarScore = updateStarScore;
   }
 
   bindEvents() {
@@ -26,9 +32,17 @@ class DetailModalController {
 
       // 별 클릭 시
       if (target.closest(".star-wrapper")) {
-        this.handleStarClick(target);
+        const score = this.handleStarClick(target);
+        this.setStarScore(target, score);
       }
     });
+  }
+
+  setStarScore(target: HTMLElement, score: number) {
+    const modalContainerElement = target.closest(".modal-container") as HTMLElement;
+    const movieId = modalContainerElement?.id;
+
+    this.updateStarScore(Number(movieId), score);
   }
 
   handleStarClick(target: HTMLElement) {
@@ -54,10 +68,12 @@ class DetailModalController {
     ) as HTMLSpanElement;
 
     ratingMent.textContent = RATING_MESSAGE[newScore];
-    ratingNumber.textContent = newScore === 0 ? "" : `${newScore}`;
+    ratingNumber.textContent = newScore === 0 ? "" : `(${newScore}/10)`;
+
+    return newScore;
   }
 
-  renderDetailModalFrame(movieItem: MovieItemType) {
+  renderDetailModalFrame(movieItem: MovieItemType | storedMovieItemType) {
     // 기존 모달 제거
     if (this.detailModalElement?.isConnected) {
       this.detailModalElement.remove();
@@ -70,7 +86,7 @@ class DetailModalController {
     this.detailModalElement.showModal();
   }
 
-  changeContent(movieItem: MovieItemType) {
+  changeContent(movieItem: MovieItemType | storedMovieItemType) {
     this.renderDetailModalFrame(movieItem);
   }
 }
