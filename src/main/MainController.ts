@@ -9,21 +9,25 @@ import { getPopularMovieResult } from "../api/getPopularMovieResult";
 import MovieResults from "../domain/MovieResults";
 import DetailModalController from "../controller/DetailModalController";
 import StorageMovieResults from "../domain/StorageMovieResults";
+import Spinner from "../component/Spinner";
 
 class MainController {
   movieResults;
   StorageMovieResults;
   mainElement;
+  spinnerElement;
   messageModalController;
   movieListController;
   backgroundThumbnailController;
   detailModalController;
-
   constructor() {
     this.movieResults = new MovieResults();
     this.StorageMovieResults = new StorageMovieResults();
 
     this.mainElement = document.querySelector("main") as HTMLElement;
+
+    this.spinnerElement = Spinner();
+    this.mainElement.insertAdjacentElement("beforebegin", this.spinnerElement);
 
     this.messageModalController = new MessageModalController(this.mainElement);
     this.detailModalController = new DetailModalController({
@@ -35,7 +39,9 @@ class MainController {
       mainElement: this.mainElement,
       handleSeeMore: this.handleSeeMore.bind(this),
       openDetailModal: async (id) => {
+        this.spinnerElement.classList.add("active");
         const movieItem = await this.StorageMovieResults.getDetailMovieResultById(id);
+        this.spinnerElement.classList.remove("active");
         this.detailModalController.changeContent(movieItem);
       },
     });
@@ -59,14 +65,14 @@ class MainController {
   }
 
   async render() {
+    this.spinnerElement.classList.add("active");
+
     try {
       const { movieList, newPage, totalPage } = await this.fetchAndStoreMovies();
-
       this.movieListController.render({
         movieList,
         hasMore: newPage !== totalPage,
       });
-
       // thumbnail 렌더 예시
       await this.backgroundThumbnailController.render(movieList[0]);
     } catch (error) {
@@ -75,6 +81,7 @@ class MainController {
       );
       this.messageModalController.messageModalElement.showModal();
     }
+    this.spinnerElement.classList.remove("active");
   }
 
   async fetchAndStoreMovies(page: number = 1) {
@@ -91,8 +98,12 @@ class MainController {
   }
 
   async handleSeeMore() {
+    this.spinnerElement.classList.add("active");
+
     const nextPage = this.movieResults.getPage() + 1;
     const { movieList, newPage, totalPage } = await this.fetchAndStoreMovies(nextPage);
+
+    this.spinnerElement.classList.remove("active");
 
     this.movieListController.addMovieList({
       movieList,
