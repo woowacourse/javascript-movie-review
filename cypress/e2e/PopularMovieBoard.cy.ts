@@ -44,9 +44,7 @@ describe("인기 있는 영화 페이지 E2E 테스트 ", () => {
 
   it("영화 목록 API를 호출하면 한 번에 20개씩 목록에 나열되어야 한다.", () => {
     cy.wait("@getPopularMovies").then((interception) => {
-      if (!interception.response) {
-        throw new Error("No response received from interception");
-      }
+      if (!interception.response) throw new Error("No response received");
       const popularMovies = interception.response.body.results;
       expect(popularMovies).to.have.length(20);
       cy.get(".thumbnail-list > li").should("have.length", 20);
@@ -77,9 +75,7 @@ describe("인기 있는 영화 페이지 E2E 테스트 ", () => {
 
   it("가장 인기있는 영화가 상단에 떠야 한다.", () => {
     cy.wait("@getPopularMovies").then((interception) => {
-      if (!interception.response) {
-        throw new Error("No response received from interception");
-      }
+      if (!interception.response) throw new Error("No response received");
       const popularMovies = interception.response.body.results;
       const topRatedMovie = popularMovies[0];
 
@@ -90,7 +86,7 @@ describe("인기 있는 영화 페이지 E2E 테스트 ", () => {
   });
 
   context("데이터 준비 및 상태 표시 테스트", () => {
-    it("로딩 중일 때 로딩 스피너가 표시되어야 한다.", () => {
+    it("로딩 중일 때 스켈레톤 UI가 표시되어야 한다.", () => {
       // 요청에 delay를 주어 로딩 상태 구현
       cy.intercept(
         {
