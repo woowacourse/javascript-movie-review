@@ -83,7 +83,7 @@ describe("api 요청에 실패하면 에러 페이지가 나온다.", () => {
     cy.intercept(
       {
         method: "GET",
-        url: /^https:\/\/api.themoviedb.org\/3\/movie\/popular*/,
+        url: /^https:\/\/api.themoviedb.org\/3\/movie\/popular.*/,
       },
       {
         statusCode: 404,
