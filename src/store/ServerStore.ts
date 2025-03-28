@@ -1,5 +1,4 @@
-import { Component } from '@/components/core';
-import { Obserable } from '@/modules';
+import { join } from '@fxts/core';
 
 class Cache {
   #cache = new Map<string, any>();
@@ -14,7 +13,7 @@ class Cache {
 }
 
 interface Query<TResponse> {
-  queryKey: string;
+  queryKey: (string | number)[];
   queryFn: () => Promise<TResponse>;
 }
 
@@ -22,11 +21,12 @@ class ServerStore {
   #cache = new Cache();
 
   async query<TResponse>({ queryKey, queryFn }: Query<TResponse>) {
-    const cachedValue = this.#cache.get(queryKey);
+    const queryKeyString = join('-', queryKey);
+    const cachedValue = this.#cache.get(queryKeyString);
     if (cachedValue) return cachedValue;
 
     const response = await queryFn();
-    this.#cache.set(queryKey, response);
+    this.#cache.set(queryKeyString, response);
 
     return response;
   }

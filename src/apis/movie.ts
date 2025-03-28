@@ -21,7 +21,7 @@ export const getMovies = async ({ query, page }: GetMoviesProps) => {
             page,
             query,
           }),
-        queryKey: `${query}-${page}`,
+        queryKey: [query, page],
       });
     else
       moviesResponse = await serverStore.query({
@@ -29,7 +29,7 @@ export const getMovies = async ({ query, page }: GetMoviesProps) => {
           MovieApiClient.getAll({
             page,
           }),
-        queryKey: String(page),
+        queryKey: [page],
       });
 
     pageStore.setState(page);
