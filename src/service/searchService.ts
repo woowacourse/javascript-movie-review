@@ -61,27 +61,23 @@ export default async function handleSearch(searchValue: string) {
     )
   );
 
-  // 검색 시작 전에 무한 스크롤 중지 (경쟁 조건 방지)
-  await infiniteScrollInstance?.stopInfiniteScroll();
+  infiniteScrollInstance?.stopInfiniteScroll();
 
   try {
     const data = await fetchAndSetLoadingEvent();
 
     if (data && data.results) {
-      // 렌더링 완료까지 기다림
       await renderMovieItems(data.results, true);
     }
 
-    // 데이터 상태에 따라 무한 스크롤 재개 또는 유지
     if (data.isLastPage) {
-      await infiniteScrollInstance?.stopInfiniteScroll();
+      infiniteScrollInstance?.stopInfiniteScroll();
     } else {
-      await infiniteScrollInstance?.resumeInfiniteScroll();
+      infiniteScrollInstance?.resumeInfiniteScroll();
     }
 
     displaySearchResults();
   } catch (error) {
-    // 에러 발생 시 추가 에러 처리가 필요하다면 구현
     return;
   }
 }
