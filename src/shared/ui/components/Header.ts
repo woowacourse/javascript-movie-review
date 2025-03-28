@@ -1,7 +1,8 @@
 import { IMovie } from "../../types/movies";
+import { bannerButtonHandler } from "../detailModal/bannerButtonHandler";
 import { CustomButton } from "./CustomButton";
 
-const Header = (movie: IMovie) => {
+export default function Header(movie: IMovie) {
   const $header = document.getElementById("header");
 
   if (!$header) {
@@ -33,11 +34,14 @@ const Header = (movie: IMovie) => {
             <span class="rate-value">${movie.vote_average}</span>
           </div>
           <div class="title">${movie.title}</div>
-          ${CustomButton({ title: "자세히 보기" }).outerHTML}
+          ${
+            CustomButton({ title: "자세히 보기", className: "banner-button" })
+              .outerHTML
+          }
         </div>
       </div>
     </div>
   `;
-};
 
-export default Header;
+  bannerButtonHandler();
+}
