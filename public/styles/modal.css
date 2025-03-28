@@ -78,10 +78,12 @@ dialog[open] {
 
 .modal-image img {
   width: 440px;
+  height: 660px;
   border-radius: 16px;
 
   @media screen and (max-width: 1024px) {
     width: 200px;
+    height: 300px;
   }
 
   @media screen and (max-width: 768px) {
