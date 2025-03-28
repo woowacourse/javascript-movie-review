@@ -51,6 +51,14 @@ const movieService = {
 
     store.setData(KEY.movieList, stringifyData);
   },
+
+  checkHasRated(movieId: number) {
+    const totalMovieRates = this.getRateList();
+    return (
+      totalMovieRates.filter(({ id }: { id: number }) => id === movieId)
+        .length > 0
+    );
+  },
 };
 
 export default movieService;
