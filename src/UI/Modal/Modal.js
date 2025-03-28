@@ -53,7 +53,11 @@ class Modal {
             <hr/>
             <p class="middle_font">줄거리</p>
             <p class="detail">
-              ${this.movieDetail.overview}
+            ${
+              this.movieDetail.overview
+                ? this.movieDetail.overview
+                : "줄거리 정보가 없습니다."
+            }
             </p>
           </div>
         </div>
