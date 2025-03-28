@@ -7,6 +7,20 @@
   gap: 70px;
 }
 
+@media (max-width: 1024px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(3, 200px);
+    /* 태블릿 */
+  }
+}
+
+@media (max-width: 768px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(1, 200px);
+    /* 모바일 */
+  }
+}
+
 .thumbnail {
   width: 200px;
   height: 300px;
