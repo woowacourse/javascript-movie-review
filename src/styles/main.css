@@ -28,6 +28,7 @@ main {
 
 .star {
   width: 24px;
+  cursor: pointer;
 }
 
 button {
