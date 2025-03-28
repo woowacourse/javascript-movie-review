@@ -55,13 +55,6 @@ body.modal-open {
   display: flex;
 }
 
-.movie-title {
-  font-weight: 700;
-  font-size: 28px;
-  line-height: 100%;
-  letter-spacing: 0%;
-}
-
 .caption-title {
   font-weight: 600;
   font-size: 20px;

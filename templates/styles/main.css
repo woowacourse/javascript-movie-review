@@ -138,6 +138,8 @@ button.more {
   width: 100%;
   background-color: transparent;
   border: none;
+  padding-left: 10px;
+  color: #fff;
 }
 
 .search-input::placeholder {
@@ -211,7 +213,7 @@ span.rate-value {
 
 .movie-title {
   font-weight: 700;
-  font-size: 14px;
+  font-size: 20px;
   line-height: 100%;
   letter-spacing: 0%;
 }
