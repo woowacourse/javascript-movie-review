@@ -3,8 +3,9 @@ import { Movie } from "../../../domain/types";
 import noImage from "/images/no_image.png";
 
 const movieItem = (movie: Movie) => {
-  return createElementWithAttributes({
+  const $movieItem = createElementWithAttributes({
     tag: "li",
+    id: movie.id.toString(),
     className: "item",
     children: [
       {
@@ -44,6 +45,8 @@ const movieItem = (movie: Movie) => {
       },
     ],
   });
+
+  return $movieItem;
 };
 
 export default movieItem;
