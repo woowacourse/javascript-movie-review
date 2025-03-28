@@ -130,6 +130,7 @@ dialog::backdrop {
   line-height: 1;
   margin-bottom: 0 !important;
   width: 80%;
+  text-align: center;
 }
 
 .detail {
@@ -208,7 +209,7 @@ dialog::backdrop {
     left: 0;
     bottom: 0;
     width: 100vw;
-    max-height: 50vh;
+    max-height: 80vh;
     overflow-y: auto;
   }
 
@@ -221,17 +222,23 @@ dialog::backdrop {
     align-items: center;
   }
 
-  .modal-image img {
+  .modal-image {
     width: 200px;
+    height: 300px;
+    margin-bottom: 30px;
   }
 }
 
 @media (max-width: 530px) {
-  .modal-image img {
+  .modal-image {
     display: none;
   }
   .description-section {
     align-items: center;
+  }
+
+  .star-description-ment div {
+    width: auto;
   }
 }
 
