@@ -1,6 +1,6 @@
 import { MovieType } from "../types/MovieType";
 
-class Movies {
+class StoreMovies {
   #movieList: MovieType[];
 
   constructor() {
@@ -20,5 +20,5 @@ class Movies {
   }
 }
 
-const movies = new Movies();
-export default movies;
+const storeMovies = new StoreMovies();
+export default storeMovies;

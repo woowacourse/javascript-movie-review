@@ -54,11 +54,7 @@ const SearchBar = () => {
     movies.updateMovies(searchMovieData.results);
 
     const $thumbnailList = document.querySelector(".thumbnail-list");
-    if ($thumbnailList) $thumbnailList.remove();
-
-    document
-      .querySelector("section")
-      .appendChild(MovieList({ movies: movies.movieList }));
+    $thumbnailList.replaceWith(MovieList({ movies: movies.movieList }));
   };
 
   $form.addEventListener("submit", handleSearch);

@@ -39,7 +39,7 @@ const MovieItem = ({ movie }) => {
   $li.addEventListener("click", async () => {
     const movieDetailData = await fetchDetailMovie(id);
 
-    new Modal(movieDetailData);
+    new Modal(movieDetailData, id);
   });
   return $li;
 };

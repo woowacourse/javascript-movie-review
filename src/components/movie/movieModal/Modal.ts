@@ -7,8 +7,10 @@ import "/styles/modal.css";
 class Modal {
   modalElement: HTMLDialogElement;
   closeButton: HTMLButtonElement;
+  movieId: number;
 
-  constructor(movieDetail: MovieDetail) {
+  constructor(movieDetail: MovieDetail, id: number) {
+    this.movieId = id;
     this.modalElement = document.getElementById(
       "modalBackground"
     ) as HTMLDialogElement;
@@ -114,12 +116,6 @@ class Modal {
       classNames: ["star"],
     });
 
-    // const $starEmpty = createElement({
-    //   tag: "img",
-    //   src: "./images/star_empty.png",
-    //   classNames: ["star"],
-    // });
-
     const $rateScore = createElement({
       tag: "span",
       classNames: ["rate-score"],
@@ -157,7 +153,6 @@ class Modal {
       tag: "span",
       classNames: ["score"],
     });
-    // $score.textContent = "(8/10)";
 
     const $overviewSpan = createElement({
       tag: "h2",
@@ -187,13 +182,6 @@ class Modal {
     $averageRate.append($labelspan, $starFilled, $rateScore);
     $rateBox.append($myStar, $starCommentBox);
     $starCommentBox.append($stars, $comment, $score);
-    // $stars.append(
-    //   $starFilled.cloneNode(true),
-    //   $starFilled.cloneNode(true),
-    //   $starFilled.cloneNode(true),
-    //   $starFilled.cloneNode(true),
-    //   $starEmpty.cloneNode(true)
-    // );
 
     const renderStars = (rating: number) => {
       $stars.replaceChildren();
@@ -211,7 +199,14 @@ class Modal {
         });
 
         $countedStar.addEventListener("click", () => {
-          localStorage.setItem("myRating", String(i + 1));
+          const saved = JSON.parse(localStorage.getItem("myRating")!) ?? {};
+          const newState = JSON.stringify({
+            ...saved,
+            [this.movieId]: String(i + 1),
+          });
+          localStorage.setItem("myRating", newState);
+          console.log(saved);
+          console.log(newState);
           renderStars(i + 1);
         });
 
@@ -226,7 +221,12 @@ class Modal {
         });
 
         $unCountedStar.addEventListener("click", () => {
-          localStorage.setItem("myRating", String(filledCount + i + 1));
+          const saved = JSON.parse(localStorage.getItem("myRating")!) ?? {};
+          const newState = JSON.stringify({
+            ...saved,
+            [this.movieId]: String(filledCount + i + 1),
+          });
+          localStorage.setItem("myRating", newState);
           renderStars(filledCount + i + 1);
         });
 
@@ -235,8 +235,9 @@ class Modal {
     };
 
     this.modalElement.replaceChildren($modal);
-    const saved = localStorage.getItem("myRating");
-    renderStars(saved ? Number(saved) : 8);
+    const saved = JSON.parse(localStorage.getItem("myRating")!) ?? {};
+    const rateValue = Number(saved[this.movieId]);
+    renderStars(rateValue ? rateValue : 4);
   }
 }
 
