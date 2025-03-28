@@ -15,7 +15,6 @@ const useGetMoreMovieList = () => {
     const nextPage = currentPage + 1;
 
     if (searchInputValue.trim()) {
-      // 검색 결과가 있으면
       try {
         const response = await fetch(url.more(nextPage), options);
         const data = await response.json();
@@ -25,7 +24,6 @@ const useGetMoreMovieList = () => {
         setIsMoreError(true);
       }
     } else {
-      // 첫 화면에서 더보기 버튼 누를 때
       const newMovies = await callback(nextPage);
       if (newMovies) {
         appendMovies(newMovies);
