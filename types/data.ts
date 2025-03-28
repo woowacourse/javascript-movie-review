@@ -80,3 +80,8 @@ export interface SpokenLanguageData {
   readonly iso_639_1: string;
   readonly name: string;
 }
+
+export interface UserMovieRateData {
+  readonly id: number;
+  readonly rate: number;
+}
