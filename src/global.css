@@ -5,10 +5,12 @@
 @import './component/common/button/button.css';
 @import './component/common/title/title.css';
 @import './component/common/error-message/error-message.css';
+@import './component/common/modal/modal.css';
 
 @import './component/domain/movie-grid/movie-grid.css';
 @import './component/domain/movie-item/movie-item.css';
 @import './component/domain/main-banner/main-banner.css';
+@import './component/domain/movie-detail/movie-detail.css';
 
 @import './component/layout/header/header.css';
 @import './component/layout/footer/footer.css';

@@ -24,6 +24,7 @@ export async function apiClient<T>(url: string, options: ApiClientOptions): Prom
   try {
     const res = await fetch(url, requestOptions);
     const json = await res.json();
+    console.log(json);
     return json;
   } catch (err: unknown) {
     redirectToPage('/error');

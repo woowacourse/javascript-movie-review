@@ -6,14 +6,27 @@ import mainPageLoadingTemplate from './loadingTemplate';
 import { MOVIE_API } from '../../constants/systemConstants';
 import { MovieData } from '../../../types/movie';
 import { bindScrollEvent, handleBottomScroll } from '../../util/web/scroll';
+import { Modal } from '../../component/common/modal/Modal';
+import { MovieDetail } from '../../component/domain/movie-detail/MovieDetail';
 
 export class MainPage {
   #container: HTMLElement;
+  #modal: Modal | null = null;
+
   #movieListData: MovieData[] = [];
   #currentPage = 1;
+  #modalData: MovieData = {
+    imgUrl: '/',
+    score: 10,
+    title: '',
+    description: '',
+    category: [''],
+  };
+
   #isLoading: boolean = true;
   #isFetching: boolean = false;
-  #unbindScrollEvent: () => void;
+
+  #unbindScrollEvent: () => void = () => {};
 
   constructor() {
     this.#container = document.createElement('div');
@@ -22,8 +35,10 @@ export class MainPage {
     this.#isFetching;
 
     this.init();
+  }
 
-    this.#unbindScrollEvent = bindScrollEvent(() => handleBottomScroll(() => this.#guardedLoadMore()));
+  get element() {
+    return this.#container;
   }
 
   async init() {
@@ -34,6 +49,9 @@ export class MainPage {
     this.#movieListData = movieListData;
     this.#isLoading = false;
     this.render();
+
+    this.#unbindScrollEvent = bindScrollEvent(() => handleBottomScroll(() => this.#guardedLoadMore()));
+    this.#bindMovieSelectEvent();
   }
 
   render() {
@@ -44,6 +62,8 @@ export class MainPage {
     }
     this.#container.appendChild(this.#mainBannerElement());
     this.#container.appendChild(this.#titleElement());
+    this.#container.appendChild(this.#modalElement());
+
     this.renderDynamicSection();
   }
 
@@ -61,6 +81,11 @@ export class MainPage {
 
   #movieGridElement() {
     return new MovieGrid({ movieItems: this.#movieListData }).element;
+  }
+
+  #modalElement() {
+    this.#modal = new Modal();
+    return this.#modal.element;
   }
 
   #loadMoreData = async () => {
@@ -81,7 +106,15 @@ export class MainPage {
     this.#unbindScrollEvent();
   }
 
-  get element() {
-    return this.#container;
+  #bindMovieSelectEvent() {
+    this.#container.addEventListener('movieSelect', (event) => {
+      this.#modalData = (event as CustomEvent).detail;
+      const movieDetail = new MovieDetail({ data: this.#modalData }).element;
+
+      if (!this.#modal) return;
+
+      this.#modal.setContent(movieDetail);
+      this.#modal.open();
+    });
   }
 }

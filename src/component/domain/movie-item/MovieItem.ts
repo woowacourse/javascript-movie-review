@@ -12,7 +12,9 @@ class MovieItem {
     this.#container = document.createElement('li');
     this.#container.classList.add('item');
     this.#data = data;
+
     this.render();
+    this.#bindClickEvent();
   }
 
   #matchImgUrl() {
@@ -20,6 +22,17 @@ class MovieItem {
       return './empty-item.png';
     }
     return this.#data.imgUrl;
+  }
+
+  #bindClickEvent() {
+    this.#container.addEventListener('click', () => {
+      const event = new CustomEvent('movieSelect', {
+        detail: this.#data,
+        bubbles: true,
+      });
+
+      this.#container.dispatchEvent(event);
+    });
   }
 
   render() {

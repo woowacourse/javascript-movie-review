@@ -20,9 +20,7 @@ class MovieGrid {
 
   render() {
     if (this.#movieItems.length !== 0) {
-      this.#container.innerHTML = `
-        ${this.#movieItemElements()}
-    `;
+      this.#movieItemElements().map((movieItemElement) => this.#container.appendChild(movieItemElement));
       return;
     }
     this.#container.innerHTML = this.#emptyListElement();
@@ -33,7 +31,7 @@ class MovieGrid {
   }
 
   #movieItemElements() {
-    return this.#movieItems.map((movieItem) => new MovieItem({ data: movieItem }).element.outerHTML).join('');
+    return this.#movieItems.map((movieItem) => new MovieItem({ data: movieItem }).element);
   }
 
   get element() {
