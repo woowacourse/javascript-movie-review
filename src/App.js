@@ -87,7 +87,17 @@ class App {
         return;
       }
 
-      if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+      const scrollPosition = window.scrollY || window.pageYOffset;
+      const windowHeight = window.innerHeight;
+      const documentHeight = Math.max(
+        document.body.scrollHeight,
+        document.body.offsetHeight,
+        document.documentElement.clientHeight,
+        document.documentElement.scrollHeight,
+        document.documentElement.offsetHeight
+      );
+
+      if (scrollPosition + windowHeight >= documentHeight - 100) {
         this.handleScroll();
       }
     });
@@ -137,7 +147,6 @@ class App {
   };
 
   handleScroll = async () => {
-    console.log("호출");
     const keyword = this.getKeywordFromURL();
 
     const $main = document.querySelector("main");
