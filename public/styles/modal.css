@@ -115,6 +115,7 @@ body.modal-open {
   display: flex;
   flex-direction: row;
   align-items: center;
+  gap: 1rem;
 }
 
 .modal-description .user-rate-container .user-rate-stars {
@@ -131,7 +132,7 @@ body.modal-open {
 .modal-description .user-rate-container .user-rate-text-container {
   display: flex;
   flex-direction: row;
-  margin-left: 1rem;
+  gap: 0.5rem;
 }
 
 .modal-description .user-rate-container .user-rate-text {
@@ -139,7 +140,6 @@ body.modal-open {
   font-family: "Montserrat", sans-serif;
   font-weight: bold;
   line-height: 0;
-  margin-left: 1rem;
 }
 
 .modal-description .user-rate-container .user-rate-value {
@@ -148,7 +148,6 @@ body.modal-open {
   font-weight: bold;
   color: var(--color-95a1b2);
   line-height: 0;
-  margin-left: 0.5rem;
 }
 
 .modal-description h2 {

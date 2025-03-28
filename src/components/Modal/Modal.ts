@@ -1,52 +1,6 @@
 import { createElement } from "../../utils/dom";
-import { getPosterUrl } from "../../utils/getPosterUrl";
-import { MovieDetail } from "../../../types/type";
 import { ICON_PATH } from "../../constants/imagePaths";
-
-export const handleModal = {
-  open() {
-    const $modal = document.getElementById("modalBackground");
-    if (!$modal) return;
-
-    $modal.classList.add("active");
-    document.body.classList.add("modal-open");
-  },
-
-  close() {
-    const $modal = document.getElementById("modalBackground");
-    if (!$modal) return;
-
-    $modal.classList.remove("active");
-    document.body.classList.remove("modal-open");
-  },
-
-  updateModalContent(movieData: MovieDetail) {
-    const $modal = document.getElementById("modalBackground");
-    if (!$modal) return;
-
-    const posterUrl = getPosterUrl(movieData.poster_path);
-
-    const $image = $modal.querySelector(".modal-image img") as HTMLImageElement;
-    if ($image) $image.src = posterUrl;
-
-    const $title = $modal.querySelector(".modal-description h2");
-    if ($title) $title.textContent = movieData.title;
-
-    const $category = $modal.querySelector(".category");
-    if ($category)
-      $category.textContent =
-        movieData.release_year + " · " + movieData.genres.join(", ") || "";
-
-    const $rateValue = $modal.querySelector(".rate span");
-    if ($rateValue)
-      $rateValue.textContent = movieData.vote_average?.toFixed(1) || "0.0";
-
-    const $detail = $modal.querySelector(".detail");
-    if ($detail) $detail.textContent = movieData.overview || "";
-
-    this.open();
-  },
-};
+import handleModal from "../../domains/modal/modalHandler";
 
 const $Modal = () => {
   const $modal = createElement("div", {
@@ -140,34 +94,39 @@ const $Modal = () => {
   });
 
   const $userRateStar1 = createElement("img", {
-    src: ICON_PATH.STAR_FILLED,
+    src: ICON_PATH.STAR_EMPTY,
     className: "star",
     id: "userRateStar1",
-  });
+  }) as HTMLImageElement;
+  $userRateStar1.dataset.value = "1";
 
   const $userRateStar2 = createElement("img", {
     src: ICON_PATH.STAR_EMPTY,
     className: "star",
     id: "userRateStar2",
-  });
+  }) as HTMLImageElement;
+  $userRateStar2.dataset.value = "2";
 
   const $userRateStar3 = createElement("img", {
     src: ICON_PATH.STAR_EMPTY,
     className: "star",
     id: "userRateStar3",
-  });
+  }) as HTMLImageElement;
+  $userRateStar3.dataset.value = "3";
 
   const $userRateStar4 = createElement("img", {
     src: ICON_PATH.STAR_EMPTY,
     className: "star",
     id: "userRateStar4",
-  });
+  }) as HTMLImageElement;
+  $userRateStar4.dataset.value = "4";
 
   const $userRateStar5 = createElement("img", {
     src: ICON_PATH.STAR_EMPTY,
     className: "star",
     id: "userRateStar5",
-  });
+  }) as HTMLImageElement;
+  $userRateStar5.dataset.value = "5";
 
   $userRateStars.append(
     $userRateStar1,
@@ -182,13 +141,13 @@ const $Modal = () => {
   });
 
   const $userRateText = createElement("p", {
-    textContent: "최악이예요",
+    textContent: "내 평점을 남겨주세요",
     className: "user-rate-text",
     id: "userRateText",
   });
 
   const $userRateValue = createElement("p", {
-    textContent: "(2/10)",
+    textContent: "(0/10)",
     className: "user-rate-value",
     id: "userRateValue",
   });
@@ -242,6 +201,20 @@ const $Modal = () => {
       handleModal.close();
     }
   });
+
+  const handleStarClick = (e: MouseEvent) => {
+    const target = e.target as HTMLElement;
+    if (target.classList.contains("star") && target.dataset.value) {
+      const value = parseInt(target.dataset.value);
+      const currentMovieId = (window as any).currentMovieId;
+
+      if (currentMovieId) {
+        handleModal.saveRating(currentMovieId, value);
+      }
+    }
+  };
+
+  $userRateStars.addEventListener("click", handleStarClick);
 
   return $modal;
 };

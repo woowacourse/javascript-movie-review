@@ -1,5 +1,5 @@
 import getMovieDetail from "../../apis/getMovieDetail";
-import { handleModal } from "../../components/Modal/Modal";
+import handleModal from "../modal/modalHandler";
 import { MOVIE_ITEM_CLICK } from "../../components/MovieListBox/MovieList/MovieItem/MovieItem";
 
 export interface MovieItemClickEvent extends CustomEvent {
