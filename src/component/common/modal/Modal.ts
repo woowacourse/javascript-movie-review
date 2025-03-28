@@ -23,10 +23,10 @@ export class Modal {
     <button class="close-modal" id="closeModal">
       <img src="./modal_button_close.png" />
     </button>
-    ${this.#content.outerHTML}
   </div>
-
     `;
+
+    this.#background.querySelector('.modal')?.appendChild(this.#content);
   }
 
   open() {

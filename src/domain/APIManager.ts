@@ -38,7 +38,6 @@ export async function extractedData(url: string) {
   }));
 
   const totalPage = movieJSON.total_pages;
-  console.log(movieListData);
   return { movieListData, totalPage };
 }
 

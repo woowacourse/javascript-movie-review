@@ -2,6 +2,8 @@ import { redirectToPage } from '../../../route/router';
 
 class SearchBar {
   #container: HTMLElement;
+  #input: HTMLInputElement | null = null;
+
   #searchValue: string = '';
 
   constructor() {
@@ -22,8 +24,9 @@ class SearchBar {
   }
 
   #bindInputEvent() {
-    const input = this.#container.querySelector('.searchbar__input');
-    input?.addEventListener('input', (event: Event) => {
+    this.#input = this.#container.querySelector('.searchbar__input');
+    if (!this.#input) return;
+    this.#input.addEventListener('input', (event: Event) => {
       if (event.target instanceof HTMLInputElement) {
         this.#searchValue = event.target.value;
       }
@@ -32,7 +35,10 @@ class SearchBar {
 
   #bindSubmitEvent() {
     this.#container.addEventListener('submit', (event) => {
+      if (!this.#input) return;
+
       event.preventDefault();
+      this.#input.value = '';
       this.#search();
     });
   }
@@ -44,6 +50,12 @@ class SearchBar {
     params.set('query', this.#searchValue);
     const searchUrl = `/search?${params.toString()}`;
     redirectToPage(searchUrl);
+  }
+
+  resetSearchInput() {
+    if (!this.#input) return;
+
+    this.#input.value = '';
   }
 
   #bindEvent() {
