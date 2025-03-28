@@ -18,7 +18,7 @@ export async function extractedData(url: string) {
 }
 
 export async function extractedMovieDetails(id: number) {
-  const details = await fetchMovieDetail(id);
+  const details = await fetchMovieDetail(SYSTEM_CONSTANTS.DETAIL_URL(id));
   return {
     id: details.id,
     title: details.title,
@@ -57,8 +57,7 @@ async function fetchMovieList(url: string) {
   }
 }
 
-async function fetchMovieDetail(id: number) {
-  const url = `https://api.themoviedb.org/3/movie/${id}?language=ko-KR`;
+async function fetchMovieDetail(url: string) {
   const options = {
     method: 'GET',
     headers: {

@@ -4,6 +4,7 @@ export const SYSTEM_CONSTANTS = {
     `https://api.themoviedb.org/3/search/movie?query=${searchValue}&language=ko-KR&include_adult=false&page=${page}`,
   MAIN_URL: (page: number) =>
     `https://api.themoviedb.org/3/movie/popular?language=ko-KR&include_adult=false&page=${page}`,
+  DETAIL_URL: (id: number) => `https://api.themoviedb.org/3/movie/${id}?language=ko-KR`,
 } as const;
 
 export const IMAGE_URL = {
