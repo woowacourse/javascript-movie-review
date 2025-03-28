@@ -33,7 +33,7 @@ export function hideImgSkeleton(event: Event) {
   skeleton?.remove();
 }
 
-export async function renderMovieItems(results: Result[], reset?: boolean) {
+export function renderMovieItems(results: Result[], reset?: boolean) {
   const $list = document.getElementById("thumbnail-list");
 
   if (reset && $list) {

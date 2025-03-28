@@ -66,13 +66,9 @@ export default async function handleSearch(searchValue: string) {
   try {
     const data = await fetchAndSetLoadingEvent();
 
-    if (data && data.results) {
-      await renderMovieItems(data.results, true);
-    }
-
-    if (data.isLastPage) {
-      infiniteScrollInstance?.stopInfiniteScroll();
-    } else {
+    if (data && data.results) renderMovieItems(data.results, true);
+    if (data.isLastPage) infiniteScrollInstance?.stopInfiniteScroll();
+    else {
       infiniteScrollInstance?.resumeInfiniteScroll();
     }
 
