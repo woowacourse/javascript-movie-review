@@ -33,7 +33,7 @@ export function hideImgSkeleton(event: Event) {
   skeleton?.remove();
 }
 
-export function renderMovieItems(results: Result[], reset?: boolean) {
+export async function renderMovieItems(results: Result[], reset?: boolean) {
   const $list = document.getElementById("thumbnail-list");
 
   if (reset && $list) {
@@ -41,18 +41,15 @@ export function renderMovieItems(results: Result[], reset?: boolean) {
   }
 
   for (const result of results) {
-    //나쁜 방식!
-    if (!document.getElementById(result.id)) {
-      const { id, title, poster_path, vote_average } = result;
-      const movieItem = MovieItem({
-        id,
-        title,
-        src: poster_path,
-        rate: vote_average,
-        onload: hideImgSkeleton,
-      });
-      $list?.appendChild(movieItem);
-    }
+    const { id, title, poster_path, vote_average } = result;
+    const movieItem = MovieItem({
+      id,
+      title,
+      src: poster_path,
+      rate: vote_average,
+      onload: hideImgSkeleton,
+    });
+    $list?.appendChild(movieItem);
   }
 }
 
