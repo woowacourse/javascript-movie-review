@@ -184,12 +184,3 @@ footer.footer {
 footer.footer p:not(:last-child) {
   margin-bottom: 8px;
 }
-
-/* TODO: close, open 제거? */
-.close {
-  display: none;
-}
-
-.open {
-  display: block;
-}
