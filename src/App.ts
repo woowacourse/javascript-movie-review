@@ -6,7 +6,12 @@ import MovieList from "./components/MovieList/index";
 import { fetchPopularMovies, fetchSearchedMovies } from "./APIs/movieAPI";
 import Store from "./store/store";
 import { MOVIE_COUNT } from "./constants/config";
-import { getCurrentPage, isScrolledToBottom, withLoading } from "./utils/utils";
+import {
+  debounce,
+  getCurrentPage,
+  isScrolledToBottom,
+  withLoading,
+} from "./utils/utils";
 import { appendHTML } from "./utils/templateUtils";
 
 class App {
@@ -60,41 +65,45 @@ class App {
   }
 
   private attachScrollEvent(store: Store): void {
-    window.addEventListener("scroll", async () => {
-      if (isScrolledToBottom()) {
-        const state = store.getState();
-        const currentPage = getCurrentPage(
-          state.movies.length,
-          MOVIE_COUNT.UNIT
-        );
-        if (
-          !state.query &&
-          state.movies.length < MOVIE_COUNT.MAX_PAGE * MOVIE_COUNT.UNIT
-        ) {
-          const newMovies = await withLoading(store, () =>
-            fetchPopularMovies(
-              (error: Error) => alert(error.message),
-              currentPage
-            )
+    window.addEventListener(
+      "scroll",
+      debounce(async () => {
+        if (isScrolledToBottom()) {
+          console.log("scroll");
+          const state = store.getState();
+          const currentPage = getCurrentPage(
+            state.movies.length,
+            MOVIE_COUNT.UNIT
           );
-          store.setState({ movies: [...state.movies, ...newMovies] });
-        } else if (
-          state.query &&
-          state.movies.length < state.searchedMoviesLength
-        ) {
-          const newMoviesData = await withLoading(store, () =>
-            fetchSearchedMovies(
-              state.query,
-              (error: Error) => alert(error.message),
-              currentPage
-            )
-          );
-          store.setState({
-            movies: [...state.movies, ...newMoviesData.results],
-          });
+          if (
+            !state.query &&
+            state.movies.length < MOVIE_COUNT.MAX_PAGE * MOVIE_COUNT.UNIT
+          ) {
+            const newMovies = await withLoading(store, () =>
+              fetchPopularMovies(
+                (error: Error) => alert(error.message),
+                currentPage
+              )
+            );
+            store.setState({ movies: [...state.movies, ...newMovies] });
+          } else if (
+            state.query &&
+            state.movies.length < state.searchedMoviesLength
+          ) {
+            const newMoviesData = await withLoading(store, () =>
+              fetchSearchedMovies(
+                state.query,
+                (error: Error) => alert(error.message),
+                currentPage
+              )
+            );
+            store.setState({
+              movies: [...state.movies, ...newMoviesData.results],
+            });
+          }
         }
-      }
-    });
+      }, 200)
+    );
   }
 }
 
