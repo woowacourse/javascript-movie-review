@@ -1,3 +1,4 @@
+import { Observer } from '@/modules';
 import { Store } from '@/store';
 import { HTMLType, StrictObject } from '@/types';
 import { html } from '@/utils';
@@ -6,13 +7,15 @@ import { forEach } from '@fxts/core';
 export type Props = StrictObject | null;
 export type State = StrictObject | null;
 
-export default abstract class Component<TProps extends Props = {}, TState extends State = {}> {
+export default abstract class Component<TProps extends Props = {}, TState extends State = {}> extends Observer {
   state = {} as TState;
 
   #props: TProps;
   #element: HTMLElement | null = null;
 
   constructor(props?: TProps) {
+    super();
+
     this.#props = (props ?? {}) as TProps;
     this.setup();
 
