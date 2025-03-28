@@ -1,6 +1,6 @@
 import { DEFAULT_BACK_DROP_URL } from '@/constants';
 
-import { movieDetailResponseStore, moviesStore } from '@/store';
+import { movieDetailResponseStore, moviesStore, serverStore } from '@/store';
 import { html } from '@/utils';
 import { forEach } from '@fxts/core';
 import { MOVIE_ITEM_PER_PAGE } from '../constants';
@@ -84,7 +84,12 @@ export default class ThumbnailList extends Component {
       callback: async ({ currentTarget }) => {
         if (!currentTarget.dataset.id) throw new Error('data-id를 설정해주세요.');
 
-        const movieDetailResponse = await MovieApiClient.getDetail({ id: Number(currentTarget.dataset.id) });
+        const id = Number(currentTarget.dataset.id);
+
+        const movieDetailResponse = await serverStore.query({
+          queryFn: () => MovieApiClient.getDetail({ id }),
+          queryKey: ['movie-detail', id],
+        });
         movieDetailResponseStore.setState(movieDetailResponse);
       },
       dataAction: 'movie-detail',
