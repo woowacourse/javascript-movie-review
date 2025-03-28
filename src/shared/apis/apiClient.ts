@@ -5,7 +5,7 @@ export const apiClient = async (
   endPoint: string,
   headers = {}
 ) => {
-  const API_URL = `https://api.themoviedb.orgg/3${endPoint}`;
+  const API_URL = `https://api.themoviedb.org/3${endPoint}`;
   const options = {
     method,
     headers: {
