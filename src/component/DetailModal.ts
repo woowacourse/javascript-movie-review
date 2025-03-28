@@ -80,7 +80,7 @@ const DetailModal = (movieDetail: IMovieDetail) => {
                             createDOMElement({
                               tag: "img",
                               id: `starButton${index}`,
-                              src: "./images/star_filled.png",
+                              src: "./images/star_empty.png",
                               class: "modal-star-button",
                             }),
                           ),
@@ -88,12 +88,12 @@ const DetailModal = (movieDetail: IMovieDetail) => {
                         createDOMElement({
                           tag: "span",
                           class: "modal-star-text",
-                          textContent: "명작이에요",
-                          children: createDOMElement({
-                            tag: "span",
-                            class: "modal-star-score",
-                            textContent: " (8/10)",
-                          }),
+                          textContent: "별점을 등록해주세요",
+                          // children: createDOMElement({
+                          //   tag: "span",
+                          //   class: "modal-star-score",
+                          //   textContent: " (0/10)",
+                          // }),
                         }),
                       ],
                     }),

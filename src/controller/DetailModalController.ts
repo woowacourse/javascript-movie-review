@@ -34,7 +34,6 @@ class DetailModalController {
 
       const starButtons = $all(".modal-star-button", this.detailModalElement);
       const ratingText = $(".modal-star-text", this.detailModalElement);
-      const ratingScore = $(".modal-star-score", this.detailModalElement);
 
       starButtons.forEach((button, index) => {
         button.addEventListener("click", () => {
@@ -45,7 +44,7 @@ class DetailModalController {
           });
 
           // 텍스트 업데이트
-          if (ratingText && ratingScore) {
+          if (ratingText) {
             const score = calculateScore(index);
             const text = SCORE_RATING_TEXT[score];
 
