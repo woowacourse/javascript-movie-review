@@ -61,6 +61,48 @@ const DetailModal = (movieDetail: IMovieDetail) => {
                   tag: "hr",
                 }),
                 createDOMElement({
+                  tag: "div",
+                  class: "modal-star-wrapper",
+                  children: [
+                    createDOMElement({
+                      tag: "h3",
+                      class: "modal-star-title",
+                      textContent: "내 별점",
+                    }),
+                    createDOMElement({
+                      tag: "div",
+                      class: "modal-star-box",
+                      children: [
+                        createDOMElement({
+                          tag: "div",
+                          class: "modal-star-button-wrapper",
+                          children: Array.from({ length: 5 }, (_, index) =>
+                            createDOMElement({
+                              tag: "img",
+                              id: `starButton${index}`,
+                              src: "./images/star_filled.png",
+                              class: "modal-star-button",
+                            }),
+                          ),
+                        }),
+                        createDOMElement({
+                          tag: "span",
+                          class: "modal-star-text",
+                          textContent: "명작이에요",
+                          children: createDOMElement({
+                            tag: "span",
+                            class: "modal-star-score",
+                            textContent: " (8/10)",
+                          }),
+                        }),
+                      ],
+                    }),
+                  ],
+                }),
+                createDOMElement({
+                  tag: "hr",
+                }),
+                createDOMElement({
                   tag: "p",
                   class: "detail",
                   textContent: movieDetail.overview,

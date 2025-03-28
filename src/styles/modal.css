@@ -68,6 +68,54 @@ body.modal-open {
   border-radius: 16px;
 }
 
+.modal-star-wrapper {
+  padding: 24px 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.modal-star-title {
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 100%;
+}
+
+.modal-star-box {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-end;
+  gap: 16px;
+}
+
+.modal-star-button-wrapper {
+  display: flex;
+  gap: 2px;
+}
+
+.modal-star-button {
+  width: 32px;
+}
+
+.modal-star-score-box {
+  display: flex;
+  align-items: end;
+}
+
+.modal-star-text {
+  width: 187px;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: 0.18px;
+  text-align: right;
+}
+
+.modal-star-text .modal-star-score {
+  color: #95a1b2;
+}
+
 .modal-description {
   width: 100%;
   padding: 8px;
