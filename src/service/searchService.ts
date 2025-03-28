@@ -20,14 +20,34 @@ import fetchAndSetLoadingEvent from "./fetchService.ts";
 
 // 으아....
 let isErrorHandled = false;
+function scrollToTop(): Promise<void> {
+  return new Promise((resolve) => {
+    const onScroll = () => {
+      if (window.scrollY === 0) {
+        window.removeEventListener("scroll", onScroll);
+        resolve();
+      }
+    };
+
+    window.addEventListener("scroll", onScroll);
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+
+    // 혹시 이미 맨 위에 있으면 바로 resolve
+    if (window.scrollY === 0) {
+      window.removeEventListener("scroll", onScroll);
+      resolve();
+    }
+  });
+}
 
 export default async function handleSearch(searchValue: string) {
-  window.scrollTo({
-    top: 0,
-  });
-  infiniteScrollInstance?.resumeInfiniteScroll();
-  isErrorHandled = false;
+  // 최상단으로 스크롤 이동
+  await scrollToTop();
 
+  isErrorHandled = false;
   setSearchResultTitle(searchValue);
   setSearchLoadingState();
 
@@ -41,18 +61,27 @@ export default async function handleSearch(searchValue: string) {
     )
   );
 
+  // 검색 시작 전에 무한 스크롤 중지 (경쟁 조건 방지)
+  await infiniteScrollInstance?.stopInfiniteScroll();
+
   try {
     const data = await fetchAndSetLoadingEvent();
 
     if (data && data.results) {
-      renderMovieItems(data.results, true);
+      // 렌더링 완료까지 기다림
+      await renderMovieItems(data.results, true);
     }
+
+    // 데이터 상태에 따라 무한 스크롤 재개 또는 유지
     if (data.isLastPage) {
-      infiniteScrollInstance?.stopInfiniteScroll();
+      await infiniteScrollInstance?.stopInfiniteScroll();
+    } else {
+      await infiniteScrollInstance?.resumeInfiniteScroll();
     }
 
     displaySearchResults();
   } catch (error) {
+    // 에러 발생 시 추가 에러 처리가 필요하다면 구현
     return;
   }
 }
