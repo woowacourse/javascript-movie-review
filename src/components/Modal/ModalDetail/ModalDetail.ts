@@ -14,12 +14,13 @@ const ModalDetail = {
     rate,
     detail,
   }: MovieDetailProps) {
-    const modalContainerElement = document.createElement("div");
-    modalContainerElement.classList.add("modal-container");
+    const modalDetailElement = document.createElement("div");
+    modalDetailElement.classList.add("modal-detail");
     const content = /*html*/ `
         <div class="modal-image">
             <img
             src=${DETAIL_POSTER_PREFIX + posterPath}
+            onerror="this.src='./images/null_image.png'"
             />
         </div>
         <div class="modal-description">
@@ -45,9 +46,9 @@ const ModalDetail = {
             }</p>
         </div>
     `;
-    modalContainerElement.insertAdjacentHTML("beforeend", content);
-    this.createMyRate(modalContainerElement, id);
-    return modalContainerElement;
+    modalDetailElement.insertAdjacentHTML("beforeend", content);
+    this.createMyRate(modalDetailElement, id);
+    return modalDetailElement;
   },
 
   createMyRate(modalContainerElement: HTMLDivElement, movieId: number) {

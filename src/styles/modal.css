@@ -35,7 +35,9 @@ body.modal-open {
   z-index: 2;
   position: relative;
   min-width: 425px;
-  max-width: 1000px;
+  width: 1000px;
+  height: 630px;
+  overflow-y: auto;
 }
 
 .close-modal {
@@ -51,7 +53,14 @@ body.modal-open {
   cursor: pointer;
 }
 
-.modal-container {
+.modal-loading-spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.modal-detail {
   display: flex;
 }
 
@@ -121,7 +130,7 @@ body.modal-open {
     align-items: end;
   }
 
-  .modal-container {
+  .modal-detail {
     display: block;
   }
 

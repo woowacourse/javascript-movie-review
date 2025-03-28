@@ -16,8 +16,12 @@ const Modal = {
     $modalCloseButton.addEventListener("click", () => this.hidden());
   },
 
-  setContent(element: HTMLElement) {
+  reset() {
     $modalContainer.replaceChildren();
+  },
+
+  setContent(element: HTMLElement) {
+    this.reset();
     $modalContainer.appendChild(element);
   },
 

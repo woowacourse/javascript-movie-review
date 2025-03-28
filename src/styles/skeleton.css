@@ -5,8 +5,25 @@
   gap: 70px;
 }
 
+.skeleton-poster {
+  width: 380px;
+  height: 570px;
+}
+
 .skeleton-list .thumbnail {
   cursor: auto;
+}
+
+.thumbnail,
+.modal-image > .skeleton-poster {
+  background: linear-gradient(
+    140deg,
+    var(--color-bluegray-90) 40%,
+    var(--color-bluegray-80) 50%,
+    var(--color-bluegray-90) 60%
+  );
+  background-size: 300%;
+  animation: glow 3s infinite linear;
 }
 
 @keyframes glow {
@@ -35,6 +52,12 @@
     grid-template-columns: repeat(3, 200px);
     gap: 40px;
   }
+
+  .skeleton-poster {
+    margin: auto;
+    width: 200px;
+    height: 300px;
+  }
 }
 
 @media screen and (max-width: 767px) {
@@ -43,5 +66,9 @@
     display: grid;
     grid-template-columns: repeat(1, 200px);
     gap: 40px;
+  }
+
+  .skeleton-poster {
+    display: none;
   }
 }

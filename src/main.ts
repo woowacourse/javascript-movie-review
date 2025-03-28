@@ -5,6 +5,8 @@ import Header from "./components/Header/Header";
 import SearchInput from "./components/Header/SearchInput";
 import Modal from "./components/Modal/Modal";
 import ModalDetail from "./components/Modal/ModalDetail/ModalDetail";
+import ModalLoadingSpinner from "./components/Modal/ModalLoading/ModalLoadingSpinner";
+import SkeletonDetail from "./components/Modal/SkeletonDetail";
 import MovieItem from "./components/MovieItem";
 import MovieList from "./components/MovieList/MovieList";
 import NoThumbnail from "./components/NoThumbnail/NoThumbnail";
@@ -40,26 +42,7 @@ addEventListener("load", async () => {
 
     MovieList.init(movies);
 
-    MovieItem.onClickItem = async (e) => {
-      const clickedMovieItem = e.currentTarget as HTMLLIElement;
-      if (!clickedMovieItem.dataset.id) return;
-
-      Modal.show();
-      const movieDetail = await fetchMovieDetail(clickedMovieItem.dataset.id);
-      if (!movieDetail) throw new Error(ErrorMessage.FETCH_MOVIE_DETAIL);
-
-      Modal.setContent(
-        ModalDetail.create({
-          id: movieDetail.id,
-          posterPath: movieDetail.posterPath,
-          category: movieDetail.category,
-          title: movieDetail.title,
-          releaseYear: movieDetail.releaseYear,
-          rate: movieDetail.rate,
-          detail: movieDetail.detail,
-        })
-      );
-    };
+    MovieItem.onClickItem = (e) => showMovieDetailModal(e);
 
     Skeleton.init();
 
@@ -130,4 +113,29 @@ async function seeMoreSearchMovies(
   if (!canMore) ScrollObserver.off(observer);
   MovieList.add(movies);
   Skeleton.hidden();
+}
+
+async function showMovieDetailModal(e: MouseEvent) {
+  const clickedMovieItem = e.currentTarget as HTMLLIElement;
+  if (!clickedMovieItem.dataset.id) return;
+
+  Modal.show();
+  ModalLoadingSpinner.show();
+  Modal.reset();
+  Modal.setContent(SkeletonDetail.create());
+  const movieDetail = await fetchMovieDetail(clickedMovieItem.dataset.id);
+  if (!movieDetail) throw new Error(ErrorMessage.FETCH_MOVIE_DETAIL);
+
+  ModalLoadingSpinner.hidden();
+  Modal.setContent(
+    ModalDetail.create({
+      id: movieDetail.id,
+      posterPath: movieDetail.posterPath,
+      category: movieDetail.category,
+      title: movieDetail.title,
+      releaseYear: movieDetail.releaseYear,
+      rate: movieDetail.rate,
+      detail: movieDetail.detail,
+    })
+  );
 }
