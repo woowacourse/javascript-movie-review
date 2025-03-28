@@ -1,8 +1,21 @@
 import { MovieDetailInfo } from "../../../types/movieApiType";
 import Modal from "../../components/Modal";
+import ModalSkeleton from "../../components/ModalSkeleton";
+import { DEFAULT_BACK_DROP_URL } from "../../constants/movieApi";
 import { fetchMovieDetail } from "./movieService";
 
+const $modalContainer = document.querySelector(".modal-container");
+
+const renderSkeleton = () => {
+  if ($modalContainer) {
+    $modalContainer.innerHTML = "";
+    $modalContainer.appendChild(ModalSkeleton());
+  }
+};
+
 export const movieDetailRenderer = async () => {
+  renderSkeleton();
+
   const {
     backdrop_path,
     genres,
@@ -13,7 +26,11 @@ export const movieDetailRenderer = async () => {
     vote_average,
   }: MovieDetailInfo = await fetchMovieDetail();
 
-  Modal({
+  const img = new Image();
+  img.src = DEFAULT_BACK_DROP_URL + backdrop_path;
+  img.alt = "영화 포스터 이미지";
+
+  const $modal = Modal({
     backdrop_path,
     title,
     release_year: Number(release_date.split("-")[0]),
@@ -21,4 +38,11 @@ export const movieDetailRenderer = async () => {
     vote_average,
     overview,
   });
+
+  img.onload = () => {
+    if ($modalContainer) {
+      $modalContainer.innerHTML = "";
+      $modalContainer.appendChild($modal);
+    }
+  };
 };

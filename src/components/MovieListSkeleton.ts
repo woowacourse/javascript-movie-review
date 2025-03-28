@@ -2,17 +2,16 @@ import { toElement } from "../utils/domUtils";
 import Skeleton from "./Skeleton";
 
 export default function MovieListSkeleton() {
-  const $ul = document.querySelector(".thumbnail-list");
   const $movieListFragment = document.createDocumentFragment();
 
   for (let i = 0; i < 20; i++) {
     const $movieItem = toElement(`
       <li>
         <div class="item">
-          ${Skeleton({ width: 200, height: 300 }).outerHTML}
+          ${Skeleton({ width: "200px", height: "300px" })}
           <div class="item-desc">
-            ${Skeleton({ width: 60, height: 15 }).outerHTML}
-            ${Skeleton({ width: 150, height: 20 }).outerHTML}
+            ${Skeleton({ width: "60px", height: "15px" })}
+            ${Skeleton({ width: "150px", height: "20px" })}
           </div>
         </div>
       </li>
@@ -20,6 +19,5 @@ export default function MovieListSkeleton() {
     $movieListFragment.appendChild($movieItem);
   }
 
-  $ul?.appendChild($movieListFragment);
-  return $ul;
+  return $movieListFragment;
 }

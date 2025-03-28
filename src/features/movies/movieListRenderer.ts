@@ -1,5 +1,3 @@
-import { MovieDetail } from "../../apis/apiTypes";
-import { getMovieDetail } from "../../apis/MovieApi";
 import MovieList from "../../components/MovieList";
 import MovieListSkeleton from "../../components/MovieListSkeleton";
 import TopRatedMovie from "../../components/TopRatedMovie";
@@ -47,8 +45,9 @@ const renderHeaderBackground = () => {
 };
 
 const renderSkeleton = () => {
-  const $skeleton = MovieListSkeleton();
-  $skeleton && $mainSection?.appendChild($skeleton);
+  if ($ul) {
+    $ul.appendChild(MovieListSkeleton());
+  }
 };
 
 const renderErrorPage = (error: any) => {
@@ -93,7 +92,6 @@ export const renderMoviesList = async () => {
     changeHeaderBackground();
   } catch (error) {
     if (error instanceof Error) {
-      console.log("error :", error);
       renderErrorPage(error);
     }
   }

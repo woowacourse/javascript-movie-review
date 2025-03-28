@@ -1,4 +1,6 @@
 import { DEFAULT_BACK_DROP_URL } from "../constants/movieApi";
+import { toElement } from "../utils/domUtils";
+import ModalSkeleton from "./ModalSkeleton";
 
 interface ModalType {
   backdrop_path: string;
@@ -17,9 +19,7 @@ export default function Modal({
   vote_average,
   overview,
 }: ModalType) {
-  const $modalContainer = document.querySelector(".modal-container");
-  if ($modalContainer) {
-    $modalContainer.innerHTML = /* html */ `
+  return toElement(/* html */ `
         <div class="modal-image">
         <img
             src="${DEFAULT_BACK_DROP_URL}${backdrop_path}"
@@ -40,6 +40,5 @@ export default function Modal({
             ${overview}
         </p>
         </div>
-    `;
-  }
+    `);
 }

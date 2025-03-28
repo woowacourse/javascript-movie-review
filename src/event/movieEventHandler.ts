@@ -66,7 +66,6 @@ addEvent({
   type: "click",
   selector: ".item",
   handler: (event, target) => {
-    console.log(event, target.id);
     movieStore.selectedMovie = Number(target.id);
     const $modal = document.querySelector("#modalBackground");
     document.body.classList.add("lock-scroll");
