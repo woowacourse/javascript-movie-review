@@ -48,10 +48,7 @@ class MovieList {
       const details = await getDetail(id);
 
       const modalDetails = new MovieItemDetails(details).create();
-
-      modal.clearContents();
-      modal.renderContents(modalDetails);
-      modal.open();
+      modal.open(modalDetails);
     };
 
     this.#container.addEventListener("click", handleMovieClick);

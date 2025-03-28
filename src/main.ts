@@ -98,11 +98,13 @@ const app = async () => {
 
     const movieData = await getTotalMovies();
     const movieList = createMovieList(movieData);
-    const modal = new Modal();
+
+    const detailsModal = new Modal();
+    detailsModal.create();
 
     renderTitleMovie(movieData);
     movieList.create();
-    movieList.onMovieClick(getDetail, modal);
+    movieList.onMovieClick(getDetail, detailsModal);
   } catch (error) {
     if (error instanceof Error) alert(error.message);
   }

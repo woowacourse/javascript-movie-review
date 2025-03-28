@@ -15,6 +15,7 @@ class MovieItemDetails {
     this.#createPoster();
     this.#createDescription();
 
+    this.#element.classList.add("modal-container");
     return this.#element;
   }
 
@@ -26,7 +27,6 @@ class MovieItemDetails {
     </div>
     `;
 
-    this.#element.classList.add("modal-container");
     this.#element.insertAdjacentHTML("beforeend", template);
   }
 

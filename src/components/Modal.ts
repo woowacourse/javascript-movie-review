@@ -25,21 +25,16 @@ class Modal {
     return selectElement<HTMLDivElement>("#modal");
   }
 
-  open() {
+  open(contents: HTMLDivElement) {
+    const prevContents = this.#element.querySelector(".modal-container");
+    if (prevContents) {
+      prevContents.remove();
+    }
+
+    this.#element.insertAdjacentElement("beforeend", contents);
+
     const modalBackground = selectElement<HTMLDivElement>("#modalBackground");
     modalBackground.classList.add("active");
-  }
-
-  renderContents(contents: HTMLDivElement) {
-    this.#element.insertAdjacentElement("beforeend", contents);
-  }
-
-  clearContents() {
-    while (this.#element.childNodes.length > 1) {
-      if (this.#element.lastChild) {
-        this.#element.removeChild(this.#element.lastChild);
-      }
-    }
   }
 
   #close() {
