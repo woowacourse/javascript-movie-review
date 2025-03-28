@@ -89,7 +89,6 @@ export class MainPage {
   #onScroll = () => {
     if (this.#isLoading) return;
     if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
-      console.log('main');
       this.#loadMoreData();
     }
   };

@@ -1,4 +1,3 @@
-// import Button from '../../component/button/Button';
 import MovieGrid from '../../component/movie-grid/MovieGrid';
 import { Title } from '../../component/title/Title';
 import { SYSTEM_CONSTANTS } from '../../constants/systemConstants';
@@ -80,7 +79,6 @@ class SearchPage {
   #loadMoreData = async () => {
     this.#currentPage += 1;
     const { movieListData } = await extractedData(SYSTEM_CONSTANTS.SEARCH_URL(this.#query, this.#currentPage));
-    console.log('here', movieListData);
     this.#newMovies = movieListData;
     this.#movieListData = [...this.#movieListData, ...movieListData];
     this.renderDynamicSection();
@@ -100,7 +98,6 @@ class SearchPage {
     }
 
     if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
-      console.log('search');
       this.#loadMoreData();
     }
   };
