@@ -1,13 +1,16 @@
 const INITIAL_PAGE = 1;
 class Page {
   #page: number;
+  #total: number;
 
   constructor() {
     this.#page = INITIAL_PAGE;
+    this.#total = Infinity;
   }
 
   reset() {
     this.#page = INITIAL_PAGE;
+    this.#total = Infinity;
   }
 
   getNextPage() {
@@ -17,6 +20,14 @@ class Page {
 
   getCurrentPage() {
     return this.#page;
+  }
+
+  setTotalPages(total: number) {
+    this.#total = total;
+  }
+
+  hasNextPage() {
+    return this.#page >= this.#total;
   }
 }
 
