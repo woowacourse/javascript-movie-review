@@ -4,6 +4,17 @@ describe("영화 리뷰 페이지 테스트", () => {
   beforeEach(() => {
     cy.visit("localhost:5173");
   });
+
+  describe("무한스크롤 동작 확인", () => {
+    it("스크롤 없이도 40개의 영화 목록이 로딩된다", () => {
+      cy.get(".item").should("have.length", 20);
+
+      cy.get("#target").scrollIntoView();
+
+      cy.get(".item").should("have.length", 40);
+    });
+  });
+
   describe("인기 있는 영화가 정상적으로 보여진다.", async () => {
     it("처음 페이지에 접속하면 20개의 영화 목록이 보인다.", () => {
       cy.get(".item").should("have.length", 20);
