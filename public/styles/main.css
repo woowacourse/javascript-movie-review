@@ -31,7 +31,7 @@ main {
 }
 
 #wrap {
-  min-width: 1440px;
+  width: 100vw;
   background-color: var(--color-bluegray-100);
 }
 
@@ -84,4 +84,9 @@ footer.footer {
 
 footer.footer p:not(:last-child) {
   margin-bottom: 8px;
+}
+@media (max-width: 768px) {
+}
+@media (min-width: 769px) and (max-width: 1024px) {
+  /* 아이패드 프로 세로 화면 스타일 */
 }
