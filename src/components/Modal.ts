@@ -24,12 +24,14 @@ const Modal = ({ movieDetails }) => {
                 <h2>${movieDetails.title}</h2>
                 <p class="category">${year} · ${genres}</p>
                 <p class="rate">
+                  <span>평균</span>
                   <img src="./images/star_filled.png" class="star" />
                   <span>${movieDetails.vote_average.toFixed(1)}</span>
                 </p>
                 <hr />
                 <p class="detail">
-                 ${movieDetails.overview}
+                    <p><strong>줄거리</strong></p>
+                    ${movieDetails.overview}
                 </p>
               </div>
             </div>
