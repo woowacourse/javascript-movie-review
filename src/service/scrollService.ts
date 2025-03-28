@@ -67,13 +67,17 @@ export function setupInfiniteScroll() {
 
   const observer = new IntersectionObserver(observerCallback, {
     root: null,
-    rootMargin: "100px",
+    rootMargin: "20px",
     threshold: 0.2,
   });
 
   observer.observe(sentinel);
 
-  function resumeInfiniteScroll() {
+  function delay(ms: number): Promise<void> {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
+  async function resumeInfiniteScroll() {
     if (debounceTimeoutId) {
       clearTimeout(debounceTimeoutId);
       debounceTimeoutId = null;
@@ -88,14 +92,12 @@ export function setupInfiniteScroll() {
 
     if ($thumbnailContainer) {
       $thumbnailContainer.appendChild(sentinel);
-
-      setTimeout(() => {
-        observer.observe(sentinel);
-      }, 200);
+      await delay(200); // 비동기 작업: 200ms 기다림
+      observer.observe(sentinel);
     }
   }
 
-  function stopInfiniteScroll() {
+  async function stopInfiniteScroll() {
     if (debounceTimeoutId) {
       clearTimeout(debounceTimeoutId);
       debounceTimeoutId = null;
@@ -103,11 +105,10 @@ export function setupInfiniteScroll() {
 
     infiniteScrollSuspended = true;
     observer.unobserve(sentinel);
-
+    await delay(100); // 예시로 100ms 기다림
     if (sentinel.parentNode) {
       sentinel.parentNode.removeChild(sentinel);
     }
   }
-
   return { observer, resumeInfiniteScroll, stopInfiniteScroll };
 }
