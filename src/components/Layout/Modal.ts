@@ -3,6 +3,17 @@ import { PREFIX_POSTER_PATH } from "../../constants/constants";
 import Component from "../base/Component";
 import Skeleton from "../common/Skeleton";
 
+const ratingDescriptions = {
+  0: "별점을 선택해주세요",
+  2: "최악이에요",
+  4: "별로예요",
+  6: "보통이에요",
+  8: "재미있어요",
+  10: "명작이에요",
+} as const;
+
+export type ratingType = keyof typeof ratingDescriptions;
+
 type ModalState = {
   [K in keyof Pick<
     MovieResult,
@@ -12,14 +23,7 @@ type ModalState = {
   genres: string[];
   release_date: string | null;
   isLoading: boolean;
-};
-
-const ratingDescriptions = {
-  2: "최악이에요",
-  4: "별로예요",
-  6: "보통이에요",
-  8: "재미있어요",
-  10: "명작이에요",
+  my_rate: ratingType;
 };
 
 export default class Modal extends Component<ModalState> {
@@ -34,6 +38,7 @@ export default class Modal extends Component<ModalState> {
       genres: [],
       release_date: null,
       isLoading: true,
+      my_rate: 0,
     });
   }
 
@@ -99,8 +104,10 @@ export default class Modal extends Component<ModalState> {
                   <img src="./images/star_empty.png" class="star" alt="star" />
                   <img src="./images/star_empty.png" class="star" alt="star" />
                   <img src="./images/star_empty.png" class="star" alt="star" />
-                  <span class="rate-description">${ratingDescriptions[8]}</span>
-                  <span class="rate-scale">(8/10)</span>
+                  <span class="rate-description">${
+                    ratingDescriptions[this.state.my_rate]
+                  }</span>
+                  <span class="rate-scale">(${this.state.my_rate}/10)</span>
                 </div>
                 <div>
                 </div>
@@ -127,6 +134,7 @@ export default class Modal extends Component<ModalState> {
       overview: movieData.overview,
       genres: movieData.genres,
       release_date: movieData.release_date,
+      my_rate: movieData.my_rate,
     });
   }
 
