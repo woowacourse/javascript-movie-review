@@ -53,6 +53,13 @@ describe("영화 리뷰 페이지 테스트", () => {
   });
 
   describe("영화 상세 모달 테스트", () => {
+    it("상단 배너에 자세히 보기 버튼을 누르면 첫번째 인기있는 영화의 상세 모달이 띄어진다.", () => {
+      cy.get(".banner-button").click();
+      cy.get(".modal").should("exist");
+      cy.get("#closeModal").click();
+      cy.get(".modal").should("not.exist");
+    });
+
     it("지금 인기 있는 영화 페이지에서 특정 Movie Card 클릭 시 영화 상세 모달이 띄어지고 삭제 버튼 클릭 시 모달이 삭제된다.", () => {
       cy.get(".movie-card-button").first().click();
       cy.get(".modal").should("exist");
