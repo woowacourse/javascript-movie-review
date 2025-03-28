@@ -7,7 +7,6 @@ import {
 import Header from "../components/header/header";
 import Hero from "../components/hero/hero";
 import MovieItem from "../components/moveItem/movieItem";
-import { createElementsFragment } from "../util/dom";
 
 export function showElement(element: Element | null) {
   element?.classList.remove("hide");
@@ -40,8 +39,9 @@ export function renderMovieItems(results: Result[], reset?: boolean) {
   if (reset && $list) {
     $list.innerHTML = "";
   }
-  //나쁜 방식!
+
   for (const result of results) {
+    //나쁜 방식!
     if (!document.getElementById(result.id)) {
       const { id, title, poster_path, vote_average } = result;
       const movieItem = MovieItem({
