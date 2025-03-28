@@ -14,7 +14,7 @@ export async function fetchPopularMovies(pageIndex: number) {
 }
 
 export async function fetchSearchMovies(pageIndex: number, searchKeyword: string) {
-  const searchMovieUrl = `${BASE_URL}/search/movie?query=${searchKeyword}&include_adult=false&language=en-US&page=${pageIndex}`
+  const searchMovieUrl = `${BASE_URL}/search/movie?query=${searchKeyword}&include_adult=false&language=ko-KR&page=${pageIndex}`
   return await fetchUtil(searchMovieUrl)
 }
 
@@ -26,7 +26,6 @@ async function fetchUtil(url: string) {
   }
 
   const response = await fetch(url, options)
-
   if (!response.ok) {
     alert('서버와의 연결이 끊어졌습니다')
     return

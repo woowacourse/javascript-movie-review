@@ -3,7 +3,7 @@
    License: none (public domain)
 */
 
-@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
 
 html,
 body,
@@ -125,7 +125,7 @@ blockquote:before,
 blockquote:after,
 q:before,
 q:after {
-  content: "";
+  content: '';
   content: none;
 }
 table {
@@ -133,3 +133,14 @@ table {
   border-spacing: 0;
 }
 
+dialog {
+  padding: 0;
+  overflow: hidden;
+  position: fixed;
+  border: none;
+}
+
+dialog:focus {
+  outline: none;
+  border: none;
+}
