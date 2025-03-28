@@ -44,7 +44,7 @@ class DetailModal {
 
             <hr />
             <div class="movie-overview">
-              <h3>줄거리</h3>
+              <span>줄거리</span>
               <p class="detail">
                 ${this.movie.overview}
               </p>

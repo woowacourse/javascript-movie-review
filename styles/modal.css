@@ -1,4 +1,4 @@
-@import "./colors.css";
+@import './colors.css';
 
 /* modal.css */
 body.modal-open {
@@ -19,9 +19,7 @@ body.modal-open {
   z-index: 10;
   visibility: hidden; /* 모달이 기본적으로 보이지 않도록 설정 */
   opacity: 0;
-  transition:
-    opacity 0.3s ease,
-    visibility 0.3s ease;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
 .modal-background.active {
@@ -87,7 +85,6 @@ body.modal-open {
   overflow-y: auto;
 }
 
-
 hr {
   border: 0.5px solid #67788e;
 }
@@ -116,3 +113,50 @@ hr {
   font-weight: 600;
 }
 
+@media screen and (max-width: 800px) {
+  .modal-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .modal-description > h2,
+  .modal-description > .category {
+    text-align: center;
+  }
+
+  .modal-description > .rate {
+    display: flex;
+    justify-content: center;
+  }
+
+  .modal-image img {
+    width: 200px;
+  }
+
+  .modal-background {
+    align-items: flex-end;
+  }
+
+  .modal {
+    border-radius: 0px;
+  }
+
+  .modal-description {
+    width: 100%;
+  }
+
+  @media screen and (max-width: 390px) {
+    /* .modal-image가 아예 안보이도록 */
+    .modal-image {
+      display: none;
+    }
+    .star-rating {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .modal-description {
+      text-align: center;
+    }
+  }
+}
