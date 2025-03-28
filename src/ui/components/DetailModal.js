@@ -1,7 +1,10 @@
+import MovieRatingStorage from '../../utils/storage/MovieRatingStorage.js';
+
 class DetailModal {
   constructor(movie) {
     this.movie = movie;
-    this.userRating = 0;
+    this.ratingStorage = new MovieRatingStorage();
+    this.userRating = this.ratingStorage.getRating(this.movie.id) || 0;
   }
 
   render() {
@@ -71,12 +74,10 @@ class DetailModal {
   }
 
   setupStarRating(modalElement) {
-    // 별점 클릭 이벤트 처리
     const stars = modalElement.querySelectorAll('.empty-star');
     const ratingText = modalElement.querySelector('.rating-text');
     const ratingScore = modalElement.querySelector('.rating-score');
 
-    // 별점에 따른 텍스트 매핑
     const ratingTexts = {
       1: '최악이에요',
       2: '별로예요',
@@ -85,7 +86,6 @@ class DetailModal {
       5: '명작이에요',
     };
 
-    // 별점에 따른 점수 매핑
     const ratingScores = {
       1: '(2/10)',
       2: '(4/10)',
@@ -94,19 +94,32 @@ class DetailModal {
       5: '(10/10)',
     };
 
+    
+    if (this.userRating > 0) {
+      stars.forEach((s, index) => {
+        if (index < this.userRating) {
+          s.innerHTML = '<img src="./images/star_filled.png" class="star" />';
+          s.classList.remove('empty-star');
+          s.classList.add('filled-star');
+        }
+      });
+      ratingText.textContent = ratingTexts[this.userRating];
+      ratingScore.textContent = ratingScores[this.userRating];
+    }
+
     stars.forEach(star => {
       star.addEventListener('click', () => {
         const rating = parseInt(star.dataset.rating);
         this.userRating = rating;
+        this.ratingStorage.saveRating(this.movie.id, rating);
 
-        // 별 표시 업데이트
         stars.forEach((s, index) => {
           if (index < rating) {
-            s.innerHTML = '<img src="./images/star_filled.png" class="star" />'; // 채워진 별
+            s.innerHTML = '<img src="./images/star_filled.png" class="star" />';
             s.classList.remove('empty-star');
             s.classList.add('filled-star');
           } else {
-            s.innerHTML = '<img src="./images/star_empty.png" class="star" />'; // 빈 별
+            s.innerHTML = '<img src="./images/star_empty.png" class="star" />';
             s.classList.remove('filled-star');
             s.classList.add('empty-star');
           }
