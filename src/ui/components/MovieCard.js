@@ -4,9 +4,9 @@ export default class MovieCard {
   }
 
   render() {
-    const li = document.createElement("li");
+    const li = document.createElement('li');
 
-    li.innerHTML = /*html*/`
+    li.innerHTML = /*html*/ `
       <div class="item">
         <img
           class="thumbnail"
@@ -28,8 +28,8 @@ export default class MovieCard {
   }
 
   renderSkeleton() {
-    const li = document.createElement("li");
-    li.classList.add("skeleton-card");
+    const li = document.createElement('li');
+    li.classList.add('skeleton-card');
 
     li.innerHTML = `
       <div class="item">

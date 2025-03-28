@@ -1,10 +1,10 @@
-import Movie from "../../domain/models/Movie.ts";
-import MovieCard from "./MovieCard.js";
-import CustomButton from "./CustomButton.js";
-import { ADD_MOVIE_BUTTON } from "../../shared/CustomButton.ts";
-import NoResultsMessage from "./NoResultsMessage.js";
-import DetailModal from "./DetailModal.js";
-import TmdbApi from "../../api/tmdbApi.ts";
+import Movie from '../../domain/models/Movie.ts';
+import MovieCard from './MovieCard.js';
+import CustomButton from './CustomButton.js';
+import { ADD_MOVIE_BUTTON } from '../../shared/CustomButton.ts';
+import NoResultsMessage from './NoResultsMessage.js';
+import DetailModal from './DetailModal.js';
+import TmdbApi from '../../api/tmdbApi.ts';
 export default class MovieList {
   constructor(
     containerSelector,
@@ -26,10 +26,10 @@ export default class MovieList {
     this.addMovieClickEvent();
   }
 
-   addMovieClickEvent() {
-    const movieCards = document.querySelectorAll(".thumbnail");
-    movieCards.forEach((movieCard) => {
-      movieCard.addEventListener("click", async () => {
+  addMovieClickEvent() {
+    const movieCards = document.querySelectorAll('.thumbnail');
+    movieCards.forEach(movieCard => {
+      movieCard.addEventListener('click', async () => {
         const movieId = movieCard.dataset.id;
         try {
           const movieDetail = await this.movieService.getMovieDetail(movieId);
@@ -43,13 +43,13 @@ export default class MovieList {
   }
 
   loadInitMovie() {
-    const noResultsItem = document.querySelector(".no-results");
+    const noResultsItem = document.querySelector('.no-results');
     if (noResultsItem) {
       noResultsItem.remove();
     }
 
     if (!this.moviesData || this.moviesData.length === 0) {
-      const section = document.querySelector(".movie-select");
+      const section = document.querySelector('.movie-select');
       const noResultsItem = new NoResultsMessage();
       section.appendChild(noResultsItem.render());
       return;
@@ -60,9 +60,9 @@ export default class MovieList {
       this.container.appendChild(skeletonCard);
     });
 
-    this.container.innerHTML = "";
+    this.container.innerHTML = '';
 
-    this.moviesData.forEach((movieData) => {
+    this.moviesData.forEach(movieData => {
       const movie = new Movie(movieData);
       const movieCard = new MovieCard(movie);
       this.container.appendChild(movieCard.render());
@@ -70,7 +70,7 @@ export default class MovieList {
   }
 
   addLoadMoreButton() {
-    const existingButton = document.querySelector(".add-movie");
+    const existingButton = document.querySelector('.add-movie');
     existingButton?.remove();
 
     // 마지막 페이지면 버튼을 추가하지 않음
@@ -79,24 +79,23 @@ export default class MovieList {
     }
 
     const loadMoreButton = new CustomButton(ADD_MOVIE_BUTTON);
-    const section = document.querySelector("section");
+    const section = document.querySelector('section');
     section.appendChild(loadMoreButton.render());
   }
 
-
   static removeMovieList() {
-    const movieList = document.querySelector(".thumbnail-list");
-    movieList.textContent = "";
+    const movieList = document.querySelector('.thumbnail-list');
+    movieList.textContent = '';
   }
 
   updateMovieListTitle(query) {
     this.resetPageNumber();
-    const movieListTitle = document.querySelector(".movie-list-title");
+    const movieListTitle = document.querySelector('.movie-list-title');
     if (query) {
       movieListTitle.textContent = `"${query}" 검색 결과`;
       return;
     }
-    movieListTitle.textContent = "지금 인기 있는 영화";
+    movieListTitle.textContent = '지금 인기 있는 영화';
   }
 
   addPageNumber() {

@@ -4,7 +4,7 @@ export default class CustomButton {
   }
 
   render() {
-    const button = document.createElement("button");
+    const button = document.createElement('button');
     button.textContent = this.fieldName.content;
     button.className = this.fieldName.className;
     return button;

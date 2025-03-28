@@ -1,4 +1,4 @@
-@import "./colors.css";
+@import './colors.css';
 
 * {
   box-sizing: border-box;
@@ -78,13 +78,13 @@ button.primary {
   margin-top: 64px;
 }
 
-.top-rated-movie>*:not(:last-child) {
+.top-rated-movie > *:not(:last-child) {
   margin-bottom: 8px;
 }
 
 h1.logo {
   font-size: 2rem;
-  margin: 0; 
+  margin: 0;
 }
 
 .rate {
@@ -93,7 +93,12 @@ h1.logo {
   color: var(--color-yellow);
 }
 
-.rate>img {
+.rate > span:first-child {
+  margin-right: 16px;
+  color: var(--color-white);
+}
+
+.rate > img {
   position: relative;
   top: 2px;
 }
@@ -134,9 +139,6 @@ footer.footer p:not(:last-child) {
   margin-bottom: 8px;
 }
 
-
-
-
 .background-container {
   position: relative;
   width: 100%;
@@ -155,7 +157,6 @@ footer.footer p:not(:last-child) {
   z-index: 1;
 }
 
-
 .overlay-image {
   position: absolute;
   top: 0;
@@ -165,3 +166,5 @@ footer.footer p:not(:last-child) {
   object-fit: cover;
   z-index: 0;
 }
+
+/* 별은 붙어있고, 아이템이 양쪽으로 배열되게 하기 */
