@@ -181,6 +181,9 @@ dialog::backdrop {
   display: flex;
   gap: 20px;
 }
+.star-description-ment div {
+  width: 110px;
+}
 
 .star-description-ment .rating-number {
   color: var(--color-bluegray-40);
