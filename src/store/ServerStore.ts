@@ -1,3 +1,6 @@
+import { Component } from '@/components/core';
+import { Obserable } from '@/modules';
+
 class Cache {
   #cache = new Map<string, any>();
 
@@ -10,20 +13,21 @@ class Cache {
   }
 }
 
-interface Query<Response> {
+interface Query<TResponse> {
   queryKey: string;
-  queryFn: () => Promise<Response>;
+  queryFn: () => Promise<TResponse>;
 }
 
 class ServerStore {
-  cache = new Cache();
+  #cache = new Cache();
 
-  async query<Response>({ queryKey, queryFn }: Query<Response>) {
-    const cachedValue = this.cache.get(queryKey);
+  async query<TResponse>({ queryKey, queryFn }: Query<TResponse>) {
+    const cachedValue = this.#cache.get(queryKey);
     if (cachedValue) return cachedValue;
 
     const response = await queryFn();
-    this.cache.set(queryKey, response);
+    this.#cache.set(queryKey, response);
+
     return response;
   }
 }

@@ -1,7 +1,8 @@
 import { Component } from '@/components/core';
 import { LocalStorageMovieRateValueType } from '../modules';
 import { MovieDetailResponse, MoviesResponse, MovieType } from '../types';
-import Obserable from './Obserable';
+import { Obserable } from '@/modules';
+import { isEqual } from '@/utils';
 
 export default class Store<TState> extends Obserable<Component<any, any>> {
   #state = {} as TState;
@@ -17,6 +18,8 @@ export default class Store<TState> extends Obserable<Component<any, any>> {
   }
 
   setState(nextState: TState) {
+    if (isEqual(this.#state, nextState)) return;
+
     this.#state = nextState;
     this.notify();
   }
