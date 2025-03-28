@@ -1,5 +1,6 @@
 const getRatings = (movieId: number) => {
-  const existingData = JSON.parse(localStorage.getItem("ratings") || "") || [];
+  const existingData =
+    JSON.parse(localStorage.getItem("ratings") || "[]") || [];
 
   return (
     existingData.find(

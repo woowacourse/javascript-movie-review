@@ -1,5 +1,6 @@
 const saveRating = (movieId: number, score: number) => {
-  const existingData = JSON.parse(localStorage.getItem("ratings") || "") || [];
+  const existingData =
+    JSON.parse(localStorage.getItem("ratings") || "[]") || [];
 
   const updatedData = existingData.filter(
     (item: { movieId: number; score: number }) => item.movieId !== movieId

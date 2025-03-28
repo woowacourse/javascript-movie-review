@@ -116,6 +116,10 @@ body.modal-open {
   gap: 5px;
 }
 
+.modal-description .stars {
+  cursor: pointer;
+}
+
 .modal-description .description-score {
   display: flex;
   gap: 5px;

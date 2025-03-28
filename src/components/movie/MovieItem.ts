@@ -23,7 +23,6 @@ const MovieItem = ({ id, src, rate, title }: Props) => {
 
     $("#modalBackground").classList.add("active");
 
-    // 해당 모달이 닫힐 때 평점과 해당 영화의 ID값만 localStorage에 저장해도 됨
     $(".modal").appendChild(
       MovieDetailContent({
         title,
