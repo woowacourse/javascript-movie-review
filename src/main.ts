@@ -54,9 +54,16 @@ function renderHeader({
 document.addEventListener("modalOpenClicked", (event: CustomEvent) => {
   const customEvent = event as CustomEvent<MovieInfo>;
 
-  const { title, genres, poster_path, vote_average, overview } =
+  const { title, release_date, genres, poster_path, vote_average, overview } =
     customEvent.detail;
-  openModal({ title, genres, poster_path, vote_average, overview });
+  openModal({
+    title,
+    release_date,
+    genres,
+    poster_path,
+    vote_average,
+    overview,
+  });
 });
 
 async function renderContent(movieService: MovieService, results: MovieInfo[]) {
