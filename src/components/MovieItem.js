@@ -41,7 +41,7 @@ const MovieItem = ({ movie }) => {
   $li.addEventListener("click", async () => {
     const movieDetails = await fetchDetailsMovie(movie.id);
     const $wrap = document.querySelector("#wrap");
-    $wrap.appendChild(Modal({movieDetails}));
+    $wrap.appendChild(Modal(movieDetails));
   });
   
 

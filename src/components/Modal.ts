@@ -1,7 +1,7 @@
 import imageUrl from "../utils/imageUrl";
 import createElement from "./utils/createElement";
 
-const Modal = ({ movieDetails }) => {
+const Modal = (movieDetails: MovieDetails) => {
   const year = extractReleaseYear(movieDetails);
   const genres = extractGenres(movieDetails);
 
@@ -38,9 +38,19 @@ const Modal = ({ movieDetails }) => {
           </div>
       `;
 
+  const handleClose = () => {
+    $div.remove();
+  };
+
   const $closeModal = $div.querySelector("#closeModal");
   $closeModal?.addEventListener("click", () => {
-    $div.remove();
+    handleClose();
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      handleClose();
+    }
   });
 
   return $div;
@@ -48,11 +58,20 @@ const Modal = ({ movieDetails }) => {
 
 export default Modal;
 
-function extractGenres(movieDetails) {
+interface MovieDetails {
+  genres: { name: string }[];
+  release_date: string;
+  poster_path: string;
+  title: string;
+  vote_average: number;
+  overview: string;
+}
+
+function extractGenres(movieDetails: MovieDetails) {
   const genres = movieDetails.genres.map((genre) => genre.name);
   return genres.join(", ");
 }
 
-function extractReleaseYear(movieDetails) {
+function extractReleaseYear(movieDetails: MovieDetails) {
   return movieDetails.release_date.split("-")[0];
 }
