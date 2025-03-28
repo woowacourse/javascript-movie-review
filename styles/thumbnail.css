@@ -3,7 +3,7 @@
 .thumbnail-list {
   margin: 0 auto 56px;
   display: grid;
-  grid-template-columns: repeat(5, 200px);
+  grid-template-columns: repeat(4, 200px);
   gap: 70px;
 }
 
@@ -18,7 +18,7 @@
   cursor: pointer;
 }
 
-.item-desc > *:not(:last-child) {
+.item-desc>*:not(:last-child) {
   position: relative;
   margin-bottom: 4px;
   line-height: 1.2rem;
@@ -30,7 +30,7 @@ p.rate {
   color: var(--color-yellow);
 }
 
-p.rate > span {
+p.rate>span {
   margin-left: 4px;
 }
 
