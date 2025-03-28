@@ -50,6 +50,9 @@ export default class MovieModal {
     const description = document.createElement("div");
     description.className = "modal-description";
 
+    const movieBasicInfo = document.createElement('div');
+    movieBasicInfo.className = 'movie-basic-info';
+
     const title = document.createElement("h2");
     title.textContent = this.movie.title;
 
@@ -60,6 +63,9 @@ export default class MovieModal {
       category.textContent = text;
     });
 
+    const rateBox = document.createElement('div');
+    rateBox.className = 'rate-box';
+
     const rate = document.createElement("p");
     rate.className = "rate";
     const starImg = document.createElement("img");
@@ -69,12 +75,22 @@ export default class MovieModal {
     rateText.textContent = this.movie.getVoteAverage();
     rate.append(starImg, rateText);
 
+    const rateTitle = document.createElement('p')
+    rateTitle.textContent = '평균';
+
+    rateBox.append(rateTitle, rate);
+
+    movieBasicInfo.append(title, category, rateBox);
+
     const hr1 = document.createElement("hr");
     const hr2 = document.createElement("hr");
 
     const myRatingTitle = document.createElement("p");
     myRatingTitle.textContent = "내 별점";
     myRatingTitle.className = "user-rating-title";
+
+    const ratingBox = document.createElement('div');
+    ratingBox.className = 'rating-box';
 
     const ratingMessage = document.createElement("p");
     ratingMessage.className = "rating-message";
@@ -89,11 +105,16 @@ export default class MovieModal {
       ratingMessage.textContent = this.getMessageByScore(rating);
     }
 
+    ratingBox.append(starUI, ratingMessage);
+
+    const detailTitle = document.createElement('p')
+    detailTitle.textContent = '줄거리'
+
     const detail = document.createElement("p");
     detail.className = "detail";
     detail.textContent = `${this.movie.overview || "설명 정보 없음"}`;
 
-    description.append(title, category, rate, hr1, myRatingTitle, starUI, ratingMessage, hr2, detail);
+    description.append(movieBasicInfo, hr1, myRatingTitle, ratingBox, hr2, detailTitle, detail);
     container.append(imageWrapper, description);
     modal.append(closeButton, container);
 
