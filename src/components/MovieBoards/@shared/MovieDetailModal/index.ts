@@ -52,6 +52,13 @@ class MovieDetailModal {
     });
 
     this.#dialogElement.addEventListener("cancel", () => this.#close());
+
+    // keydown 이벤트 추가 (cypress에서 테스트하기 위해)
+    this.#dialogElement.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        this.#close();
+      }
+    });
   }
 
   async #fetchAndDisplayDetail(): Promise<void> {
