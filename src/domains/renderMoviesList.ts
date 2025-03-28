@@ -5,7 +5,7 @@ import App from "../components/App";
 import Header from "../components/layout/Header";
 import Main from "../components/layout/Main";
 import { MAX_MOVIE_PAGE, PREFIX_POSTER_PATH } from "../constants/constants";
-import { store } from "./../stores";
+import { store } from "../stores";
 
 const toggleShowMoreButton = () => {
   const $showMore = document.querySelector(".show-more");

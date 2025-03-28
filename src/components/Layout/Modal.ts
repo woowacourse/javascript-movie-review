@@ -10,7 +10,7 @@ type ModalState = {
   >]: MovieResult[K] | null;
 } & {
   genres: string[];
-  release_date: string;
+  release_date: string | null;
   isLoading: boolean;
 };
 
@@ -32,7 +32,7 @@ export default class Modal extends Component<ModalState> {
       vote_average: null,
       overview: null,
       genres: [],
-      release_date: "",
+      release_date: null,
       isLoading: true,
     });
   }
@@ -52,7 +52,7 @@ export default class Modal extends Component<ModalState> {
   private renderSkeletonItem() {
     return /*html*/ `
       <div class="modal-image">
-        ${Skeleton({ width: 500, height: 700 }).outerHTML}
+        ${Skeleton({ width: 350, height: 570 }).outerHTML}
       </div>
       <div class="modal-description">
         ${Skeleton({ width: 300, height: 40 }).outerHTML}
@@ -77,40 +77,40 @@ export default class Modal extends Component<ModalState> {
             this.state.isLoading
               ? this.renderSkeletonItem()
               : /*html*/ `
-          <div class="modal-image">
-            <img src="${PREFIX_POSTER_PATH}${this.state.poster_path}" />
-          </div>
-          <div class="modal-description">
-            <h2>${this.state.title}</h2>
-            <p class="category">
-              ${this.state.release_date} · ${this.state.genres.join(", ")}
-            </p>
-            <p class="rate">
-              <span class="rate-average">평균</span>
-              <img src="./images/star_filled.png" class="star" alt="star" /><span
-                >${this.state.vote_average}</span
-              >
-            </p>
-            <hr />
-            <p class="modal-subtitle">내 별점</p>
-            <div class="rate-star">
-              <img src="./images/star_filled.png" class="star" />
-              <img src="./images/star_empty.png" class="star" alt="star" />
-              <img src="./images/star_empty.png" class="star" alt="star" />
-              <img src="./images/star_empty.png" class="star" alt="star" />
-              <img src="./images/star_empty.png" class="star" alt="star" />
-              <span class="rate-description">${ratingDescriptions[8]}</span>
-              <span class="rate-scale">(8/10)</span>
-            </div>
-            <div>
-            </div>
-            <hr />
-            <p class="modal-subtitle">줄거리</p>
-            <p class="detail">
-              ${this.state.overview}
-            </p>
-          </div>
-        `
+              <div class="modal-image">
+                <img src="${PREFIX_POSTER_PATH}${this.state.poster_path}" />
+              </div>
+              <div class="modal-description">
+                <h2>${this.state.title}</h2>
+                <p class="category">
+                  ${this.state.release_date} · ${this.state.genres.join(", ")}
+                </p>
+                <p class="rate">
+                  <span class="rate-average">평균</span>
+                  <img src="./images/star_filled.png" class="star" alt="star" /><span
+                    >${this.state.vote_average}</span
+                  >
+                </p>
+                <hr />
+                <p class="modal-subtitle">내 별점</p>
+                <div class="rate-star">
+                  <img src="./images/star_filled.png" class="star" />
+                  <img src="./images/star_empty.png" class="star" alt="star" />
+                  <img src="./images/star_empty.png" class="star" alt="star" />
+                  <img src="./images/star_empty.png" class="star" alt="star" />
+                  <img src="./images/star_empty.png" class="star" alt="star" />
+                  <span class="rate-description">${ratingDescriptions[8]}</span>
+                  <span class="rate-scale">(8/10)</span>
+                </div>
+                <div>
+                </div>
+                <hr />
+                <p class="modal-subtitle">줄거리</p>
+                <p class="detail">
+                  ${this.state.overview}
+                </p>
+              </div>
+            `
           }
         </div>
       </div>
