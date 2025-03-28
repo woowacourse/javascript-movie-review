@@ -1,9 +1,9 @@
 @import "./colors.css";
 
 .thumbnail-list {
-  margin: 0 auto 56px;
+  margin: 0 auto 36px;
   display: grid;
-  grid-template-columns: repeat(5, 200px);
+  grid-template-columns: repeat(4, 200px);
   gap: 70px;
 }
 
@@ -33,4 +33,21 @@ p.rate {
 .item .star {
   width: 16px;
   top: 1px;
+}
+@media (min-width: 769px) and (max-width: 1024px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(3, 200px);
+  }
+}
+@media (max-width: 768px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(
+      1,
+      300px
+    ); /* 썸네일 너비에 맞게 컬럼 크기를 변경 */
+  }
+  .thumbnail {
+    width: 300px;
+    height: 450px;
+  }
 }
