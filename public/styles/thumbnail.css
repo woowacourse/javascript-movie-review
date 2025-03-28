@@ -120,3 +120,8 @@ p.rate > span {
   font-size: 1.25rem;
   font-weight: 600;
 }
+
+.observer {
+  width: 100%;
+  height: 50px;
+}

@@ -16,13 +16,13 @@ interface MovieState {
   page: number;
 }
 
-const removeMoreButton = ({ condition }: { condition: boolean }) => {
+const removeObserver = ({ condition }: { condition: boolean }) => {
   if (!condition) {
     return;
   }
 
-  const $moreButton = document.querySelector(".more-button");
-  $moreButton?.remove();
+  const $observer = document.querySelector(".observer");
+  $observer?.remove();
 };
 
 interface RenderMoreMovieListParameter {
@@ -36,7 +36,7 @@ const renderMoreMovieList = async ({
 }: RenderMoreMovieListParameter) => {
   addSkeletonList();
   const { page, total_pages, results } = await fetchFn(currentPage);
-  removeMoreButton({ condition: page === total_pages });
+  removeObserver({ condition: page === total_pages });
   removeSkeletonList();
   addMovieItem(results);
 };
@@ -54,7 +54,7 @@ const $MovieListBoxRender = () => {
     movieState.page = page;
   };
 
-  const handleMoreButtonClick = async () => {
+  const loadMoreMovies = async () => {
     movieState.page += 1;
 
     if (movieState.type === "popular") {
@@ -89,13 +89,18 @@ const $MovieListBoxRender = () => {
     $fragment.append($title, $movieList);
 
     if (movieResult.page !== movieResult.total_pages) {
-      const $moreButton = createElement("button", {
-        type: "button",
-        className: "more-button",
-        textContent: "더 보기",
+      const $observer = createElement("div", {
+        className: "observer",
       });
-      $moreButton.addEventListener("click", handleMoreButtonClick);
-      $fragment.appendChild($moreButton);
+
+      const observer = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          loadMoreMovies();
+        }
+      });
+      observer.observe($observer);
+
+      $fragment.appendChild($observer);
     }
 
     const $movieListBox = createElement("div", {
