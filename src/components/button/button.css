@@ -9,4 +9,5 @@ button.primary {
   font-weight: bold;
   background-color: var(--color-lightblue-90);
   border-radius: 4px;
+  text-align: center;
 }

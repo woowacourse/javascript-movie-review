@@ -120,8 +120,9 @@
     border: 3px solid rgba(139, 177, 195, 0.2);
   }
   .skeleton-thumbnail.details-thumbnail {
-    width: 400px;
-    height: 600px;
+    width: 150px;
+    height: 225px;
+    margin-bottom: 1rem;
   }
   .skeleton-thumbnail.details-thumbnail::before {
     width: 70px;

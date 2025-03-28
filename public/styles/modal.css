@@ -1,10 +1,28 @@
 @import "./colors.css";
 
 dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   border-radius: 16px;
   background-color: var(--color-bluegray-90);
   width: 1000px;
+  max-width: 90%;
   border: none;
+  z-index: 999;
+  opacity: 0;
+  animation: fadeInCenter 0.3s forwards;
+  margin: 0;
+}
+
+@keyframes fadeInCenter {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 dialog::backdrop {
@@ -40,9 +58,23 @@ dialog::backdrop {
   line-height: 1.6rem;
 }
 
+.modal-description .rate {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .modal-description .rate > img {
   position: relative;
-  top: 5px;
+  top: 0;
+  width: 28px;
+  height: 28px;
+}
+
+.modal-description .rate > span {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: var(--color-yellow);
 }
 
 .modal-description > *:not(:last-child) {
@@ -50,23 +82,59 @@ dialog::backdrop {
 }
 
 .modal-description h2 {
-  font-size: 2rem;
-  margin: 0 0 8px;
+  font-size: 2.5rem;
+  margin: 0 0 12px;
+  font-weight: bold;
+}
+
+.modal-description .category {
+  font-size: 1.1rem;
+  color: #ccc;
+  margin-bottom: 16px;
 }
 
 .detail {
   max-height: 430px;
   overflow-y: auto;
 }
+
 .details-thumbnail {
   width: 380px;
   height: 570px;
   border-radius: 8px;
 }
+
+.star-rating-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin: 12px 0;
+  margin-bottom: 20px;
+}
+
+.star-rating-wrapper > h2 {
+  display: block;
+  text-align: center;
+  width: 100%;
+  margin-bottom: 12px;
+  font-size: 1.5rem;
+}
+
+.star-rating-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+  width: 100%;
+}
+
 .star-rating {
   display: inline-flex;
   flex-direction: row-reverse;
-  justify-content: flex-end;
+  justify-content: center;
+  margin: 4px 0;
 }
 
 .star-rating input {
@@ -74,11 +142,11 @@ dialog::backdrop {
 }
 
 .star-rating label {
-  /* //모바일 환경에 맞게 폰트 사이즈 조정 필요. */
-  font-size: 2rem;
+  font-size: 2.2rem;
   color: grey;
   cursor: pointer;
   transition: color 0.2s;
+  padding: 0 2px;
 }
 
 .star-rating input:checked ~ label {
@@ -94,7 +162,148 @@ dialog::backdrop {
 .star-rating label:hover ~ label {
   color: goldenrod;
 }
-.star-rating-container {
-  display: flex;
-  gap: 1rem;
+
+.star-rating-details {
+  font-size: 1.2rem !important;
+  margin-top: 2px !important;
+  text-align: center;
+}
+
+/* 
+  =========================================
+  =  모바일(또는 태블릿) 환경에서 아래에서 슬라이드 업  =
+  =========================================
+*/
+@media (max-width: 768px) {
+  dialog {
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    transform: translateY(100%);
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    border-radius: 16px 16px 0 0;
+    opacity: 0;
+    animation: slideUp 0.5s ease forwards;
+    padding: 12px;
+    padding-top: 20px;
+  }
+
+  .modal-container {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    width: 100%;
+  }
+
+  .modal-image {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .modal-image img {
+    width: 150px;
+    height: auto;
+    margin-bottom: 8px;
+  }
+
+  .details-thumbnail {
+    width: 150px;
+    height: auto;
+  }
+
+  .modal-description {
+    margin-left: 0;
+    text-align: center;
+    padding: 0;
+    line-height: 1.3rem;
+    width: 100%;
+  }
+
+  .modal-description .rate {
+    justify-content: center;
+    margin: 4px 0;
+    gap: 4px;
+  }
+
+  .modal-description .rate > img {
+    width: 20px;
+    height: 20px;
+  }
+
+  .modal-description .rate > span {
+    font-size: 1.2rem;
+  }
+
+  .modal-description > *:not(:last-child) {
+    margin-bottom: 4px;
+  }
+
+  .modal-description h2 {
+    font-size: 1.3rem;
+    margin: 4px 0;
+    text-align: center;
+    width: 100%;
+  }
+
+  .modal-description .category {
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+  }
+
+  .detail {
+    max-height: none;
+    text-align: center;
+    font-size: 0.9rem;
+    padding: 0 16px;
+  }
+
+  .star-rating-wrapper {
+    margin: 6px 0;
+    margin-bottom: 12px;
+  }
+
+  .star-rating-wrapper > h2 {
+    font-size: 1.2rem;
+    margin-bottom: 4px;
+  }
+
+  .star-rating-container {
+    gap: 0.25rem;
+  }
+
+  .star-rating {
+    margin: 0;
+  }
+
+  .star-rating label {
+    font-size: 1.8rem;
+    padding: 0 1px;
+  }
+
+  .star-rating-details {
+    font-size: 1rem !important;
+    margin-top: 0 !important;
+  }
+
+  .close-modal {
+    top: 8px;
+    right: 8px;
+    font-size: 16px;
+  }
+}
+
+@keyframes slideUp {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
