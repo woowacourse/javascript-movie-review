@@ -1,5 +1,9 @@
 @import "./colors.css";
 
+.thumbnail-title {
+  margin-bottom: 32px;
+}
+
 .thumbnail-list {
   margin: 0 auto 56px;
   display: grid;
