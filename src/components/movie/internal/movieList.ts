@@ -1,6 +1,7 @@
 import movieItem from "./movieItem";
 import { createElementWithAttributes } from "../../utils/createElementWithAttributes";
 import { Movie } from "../../../domain/types";
+import openMovieDetailInfo from "../movieDetailModal/openMovieDetailModal";
 
 const movieList = (movies: Movie[]) => {
   const $movieList = createElementWithAttributes({
@@ -10,6 +11,8 @@ const movieList = (movies: Movie[]) => {
 
   const $movieItems = movies.map((movie) => movieItem(movie));
   $movieList.append(...$movieItems);
+
+  $movieList.addEventListener("click", openMovieDetailInfo);
 
   return $movieList;
 };
