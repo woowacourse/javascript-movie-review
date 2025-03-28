@@ -1,5 +1,6 @@
 import Button from "./components/Button";
 import "./event/movieEventHandler";
+import "./event/modalEventHandler";
 import { renderMoviesList } from "./features/movies/movieListRenderer";
 
 if (document.readyState === "complete") {

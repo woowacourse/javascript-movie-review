@@ -71,6 +71,14 @@ body.modal-open {
 .modal-description .rate > img {
   position: relative;
   top: 5px;
+  width: 20px;
+}
+
+.modal-description .rate-container {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  font-size: 0.9rem;
 }
 
 .modal-description > *:not(:last-child) {
@@ -111,4 +119,48 @@ body.modal-open {
 .modal-detail {
   position: relative;
   z-index: 2;
+}
+
+.modal-subtitle {
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.personal-rate-container {
+  display: flex;
+  gap: 8px;
+}
+
+.personal-rate {
+  display: flex;
+  gap: 8px;
+}
+
+.personal-rate .star {
+  width: 24px;
+  height: 24px;
+  transition: transform 0.2s ease, filter 0.2s ease;
+  cursor: pointer;
+}
+
+.personal-rate .star:hover {
+  filter: brightness(1.2);
+}
+
+.personal-rate-message {
+  display: flex;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.personal-rate-message .caption {
+  color: #95a1b2;
+  display: block;
+  width: 50px;
+  text-align: center;
+}
+
+.personal-rate-message .rating-message {
+  display: block;
+  width: 92px;
 }
