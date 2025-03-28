@@ -86,7 +86,7 @@ export default class Header extends Component<HeaderState> {
                 ? this.renderSkeletonItem()
                 : /*html*/ `
                   <div class="rate">
-                    <img src="./images/star_empty.png" class="star" alt="star_empty" />
+                    <img src="./images/star_empty.png" class="star" alt="star" />
                     <span class="rate-value">${this.state.voteAverage}</span>
                   </div>
                   <div class="title">${this.state.title}</div>

@@ -62,7 +62,7 @@ export default class Main extends Component<MainState> {
           />
           <div class="item-desc">
             <p class="rate loading">
-              <img src="./images/star_empty.png" class="star" alt="star_empty" /><span
+              <img src="./images/star_empty.png" class="star" alt="star" /><span
                 >${movie.vote_average}</span
               >
             </p>

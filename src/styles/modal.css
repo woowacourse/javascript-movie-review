@@ -74,10 +74,6 @@ body.modal-open {
   padding-right: 8px;
 }
 
-.modal-description > *:not(:last-child) {
-  margin-bottom: 8px;
-}
-
 .modal-description h2 {
   font-size: 2rem;
   margin: 0 0 8px;
@@ -86,4 +82,36 @@ body.modal-open {
 .detail {
   max-height: 430px;
   overflow-y: auto;
+}
+
+.rate-star {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.rate-description,
+.rate-scale {
+  padding-top: 4px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.rate-description {
+  margin: 0 6px;
+}
+
+.rate-scale {
+  color: var(--color-bluegray-30);
+}
+
+.rate-star .star {
+  cursor: pointer;
+}
+
+.modal-subtitle {
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 1.5;
+  margin: 4px;
 }

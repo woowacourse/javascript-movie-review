@@ -14,6 +14,14 @@ type ModalState = {
   isLoading: boolean;
 };
 
+const ratingDescriptions = {
+  2: "최악이에요",
+  4: "별로예요",
+  6: "보통이에요",
+  8: "재미있어요",
+  10: "명작이에요",
+};
+
 export default class Modal extends Component<ModalState> {
   private static instance: Modal;
 
@@ -79,11 +87,25 @@ export default class Modal extends Component<ModalState> {
             </p>
             <p class="rate">
               <span class="rate-average">평균</span>
-              <img src="./images/star_filled.png" class="star" /><span
+              <img src="./images/star_filled.png" class="star" alt="star" /><span
                 >${this.state.vote_average}</span
               >
             </p>
             <hr />
+            <p class="modal-subtitle">내 별점</p>
+            <div class="rate-star">
+              <img src="./images/star_filled.png" class="star" />
+              <img src="./images/star_empty.png" class="star" alt="star" />
+              <img src="./images/star_empty.png" class="star" alt="star" />
+              <img src="./images/star_empty.png" class="star" alt="star" />
+              <img src="./images/star_empty.png" class="star" alt="star" />
+              <span class="rate-description">${ratingDescriptions[8]}</span>
+              <span class="rate-scale">(8/10)</span>
+            </div>
+            <div>
+            </div>
+            <hr />
+            <p class="modal-subtitle">줄거리</p>
             <p class="detail">
               ${this.state.overview}
             </p>
