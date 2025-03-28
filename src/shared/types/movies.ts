@@ -9,8 +9,7 @@ export interface IMovie {
   popularity: number;
   poster_path: string;
   release_date: string;
-  name?: string;
-  title?: string;
+  title: string;
   video: boolean;
   vote_average: number;
   vote_count: number;
@@ -21,4 +20,14 @@ export interface IMovieList {
   results: IMovie[];
   total_pages: number;
   total_results: number;
+}
+
+export interface IMovieDetail {
+  poster_path: string;
+  genres: { id: number; name: string }[];
+  overview: string;
+  release_date: string;
+  title: string;
+  vote_average: number;
+  id: number;
 }

@@ -14,7 +14,40 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
-import './commands'
+import "./commands";
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
+
+Cypress.on("window:before:load", (win) => {
+  class MockIntersectionObserver {
+    constructor(callback: any, options?: any) {
+      setTimeout(() => {
+        callback([
+          {
+            isIntersecting: true,
+            target: {},
+            intersectionRatio: 1,
+            time: 0,
+            boundingClientRect: {} as DOMRectReadOnly,
+            intersectionRect: {} as DOMRectReadOnly,
+            rootBounds: {} as DOMRectReadOnly,
+          },
+        ]);
+      }, 100);
+    }
+
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+
+    readonly root: null = null;
+    readonly rootMargin: string = "0px";
+    readonly thresholds: ReadonlyArray<number> = [0];
+    takeRecords(): IntersectionObserverEntry[] {
+      return [];
+    }
+  }
+
+  (win as any).IntersectionObserver = MockIntersectionObserver;
+});
