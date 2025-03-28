@@ -14,7 +14,7 @@ export const enum TOAST_TYPE {
 export default class Toast extends Modal<ToastProps> {
   override id = 'toast';
 
-  template() {
+  override template() {
     return html`<div
       class="toast 
       ${variant({
@@ -26,7 +26,7 @@ export default class Toast extends Modal<ToastProps> {
     </div>`;
   }
 
-  onRender() {
+  override onRender() {
     setTimeout(() => {
       this.remove();
     }, 1000);

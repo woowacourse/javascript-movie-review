@@ -2,7 +2,7 @@ import { html } from '@/utils';
 import Component from './core/Component';
 
 export default class Footer extends Component {
-  template() {
+  override template() {
     return html`
       <footer class="footer">
         <p>&copy; 우아한테크코스 All Rights Reserved.</p>

@@ -17,7 +17,7 @@ export default class Movies extends Component {
     new MovieDetailModal({ movieRate: movieRateStore.getState() });
   }
 
-  template() {
+  override template() {
     const error = errorStore.getState();
     const search = searchStore.getState();
 
@@ -53,7 +53,7 @@ export default class Movies extends Component {
     `;
   }
 
-  async onRender() {
+  override async onRender() {
     this.fillSlot(new ThumbnailList(), 'thumbnail-list');
     this.fillSlot(
       new IntersectionObserble({

@@ -6,7 +6,7 @@ interface ObserableProps {
 }
 
 export default class IntersectionObserble extends Component<ObserableProps> {
-  onRender() {
+  override onRender() {
     this.element.style.height = '1px';
     this.element.id = this.props.id;
     const intersectionObserver = new IntersectionObserver(

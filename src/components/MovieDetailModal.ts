@@ -16,11 +16,11 @@ const RATE_MAP: Record<number, string> = {
 export default class MovieDetailModal extends Modal {
   override id = 'movie-detail-modal';
 
-  setup() {
+  override setup() {
     this.subsribe([movieDetailResponseStore, movieRateStore]);
   }
 
-  template() {
+  override template() {
     const movieDetail = movieDetailResponseStore.getState();
 
     if (!movieDetail) return html`<div></div>`;
@@ -93,7 +93,7 @@ export default class MovieDetailModal extends Modal {
     `;
   }
 
-  addEventListener() {
+  override addEventListener() {
     eventHandlerInstance.addEventListener({
       eventType: 'click',
       callback: () => this.remove(),
@@ -133,7 +133,7 @@ export default class MovieDetailModal extends Modal {
     });
   }
 
-  onShow() {
+  override onShow() {
     const movieDetail = movieDetailResponseStore.getState();
 
     if (!movieDetail) return;
@@ -141,7 +141,7 @@ export default class MovieDetailModal extends Modal {
     this.disableScrollOutside();
   }
 
-  protected onUnmount() {
+  override onUnmount() {
     this.enableScrollOutside();
   }
 }

@@ -9,7 +9,7 @@ import { eventHandlerInstance } from '@/modules';
 import { MovieApiClient } from '@/apis';
 
 export default class ThumbnailList extends Component {
-  template() {
+  override template() {
     const movies = moviesStore.getState();
 
     if (!movies)
@@ -69,7 +69,7 @@ export default class ThumbnailList extends Component {
     `;
   }
 
-  onRender() {
+  override onRender() {
     forEach(
       (thumbnail) =>
         (thumbnail as HTMLElement).addEventListener('load', () => {

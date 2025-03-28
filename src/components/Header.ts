@@ -6,7 +6,7 @@ import { html, isHTMLFormElement } from '@/utils';
 import Component from './core/Component';
 
 export default class Header extends Component {
-  setup() {
+  override setup() {
     this.subsribe([moviesResponseStore, searchStore]);
   }
 
@@ -52,11 +52,11 @@ export default class Header extends Component {
     `;
   }
 
-  onRender() {
+  override onRender() {
     this.setHeaderBackground();
   }
 
-  addEventListener() {
+  override addEventListener() {
     eventHandlerInstance.addEventListener({
       eventType: 'submit',
       callback: async ({ target }) => {
