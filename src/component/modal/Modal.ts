@@ -19,7 +19,7 @@ class Modal {
     this.#container.innerHTML = `
       <div class="modal">
         <button class="close-modal" id="closeModal">
-          <img src="./public/close_button.png" />
+          <img src="https://h0ngju.github.io/javascript-movie-review/close_button.png" />
         </button>
         <div class="modal-container">
           <div class="modal-image">
@@ -65,6 +65,16 @@ class Modal {
     });
   };
 
+  #bindClickBarckDrop = () => {
+    const $modalBackGround = $({ selector: '.modal-background' });
+    if (!$modalBackGround) throw new Error('모달 백그라운드가 존재하지 않습니다.');
+    $modalBackGround.addEventListener('click', (event) => {
+      if (event.target === event.currentTarget) {
+        this.closeModal();
+      }
+    });
+  };
+
   async openModal(movieData: MovieData) {
     document.body.style.overflow = 'hidden';
     this.#movieData = movieData;
@@ -77,6 +87,7 @@ class Modal {
 
     this.#renderModalContent(movieDetails);
     this.#bindCloseButton();
+    this.#bindClickBarckDrop();
     this.#container.classList.add('active');
   }
 
@@ -84,6 +95,7 @@ class Modal {
     const modalBackground = $({ selector: '#modalBackground' });
     if (!modalBackground) throw Error('모달이 존재하지 않습니다.');
     modalBackground.classList.remove('active');
+    document.body.style.overflow = '';
   }
 
   get element() {
