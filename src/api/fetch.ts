@@ -18,6 +18,10 @@ export interface TMDBResponse {
     total_results: number;
   }
 
+export interface TMDBDetail {
+
+}
+
 
 export async function fetchPopularMovies(pageIndex:number) {
     const popularMovieUrl = `${import.meta.env.VITE_BASE_URL}movie/popular?language=ko-Kr&page=${pageIndex}`;
@@ -27,6 +31,11 @@ export async function fetchPopularMovies(pageIndex:number) {
 export async function fetchSearchMovies(pageIndex:number) {
   const searchMovieUrl = `${import.meta.env.VITE_BASE_URL}search/movie?query=${state.searchKeyword}&include_adult=false&language=en-US&page=${pageIndex}`;
   return await fetchUtil(searchMovieUrl);
+}
+
+export async function fetchDetailMovie(movieId:string) {
+  const detailMovie = `${import.meta.env.VITE_BASE_URL}movie/${movieId}?language=ko-Kr`
+  return await fetchUtil(detailMovie)
 }
   
 async function fetchUtil(url: string) {
@@ -49,8 +58,7 @@ async function fetchUtil(url: string) {
       throw new Error(data.message || "An error occurred");
     }
 
-    const { results, total_pages } = (data) as TMDBResponse;
-    return { results, total_pages };
+    return data;
 
   } catch (error) {
     throw error; 

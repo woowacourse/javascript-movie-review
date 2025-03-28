@@ -40,7 +40,6 @@ Modal.close = function (id) {
   const $el = document.getElementById(id)
   $el.classList.remove("active")
 
-
   if (Modal.keydownHandler) {
     document.removeEventListener("keydown", Modal.keydownHandler);
     Modal.keydownHandler = null;

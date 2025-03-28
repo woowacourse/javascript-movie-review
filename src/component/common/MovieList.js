@@ -7,18 +7,17 @@ function MovieList(dataList) {
     const ul = createElement('ul');
     ul.classList.add('thumbnail-list');
     ul.id = 'thumbnailList';
-    const docfrag = document.createDocumentFragment();
+
     dataList.forEach((data) => {
       const li = createElement('li');
       li.innerHTML = MovieItem({ img: data.poster_path, rating: roundRating(data.vote_average), title: data.title });
-      docfrag.appendChild(li);
-    })
-    ul.appendChild(docfrag);
+      li.id = data.id
+      ul.appendChild(li);
+    });
+
     return ul;
   }
-  return {template};
+  return { template };
 }
-
-
 
 export default MovieList;

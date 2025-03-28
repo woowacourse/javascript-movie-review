@@ -5,6 +5,9 @@ import {MovieData,MovieState} from "../../../types/movieDataType";
 import createSkeletonData from "../../util/createSkeletonData.js";
 import { getElement } from "../../util/utils.js";
 import { MOVIE_COUNT_PER_PAGE } from "../../constant/constant.js";
+import Modal from "../common/Modal.js";
+import MovieDetail from "../common/MovieDetail.js";
+import { fetchDetailMovie } from "../../api/fetch.js";
 
 class MovieLayout {
     #state:MovieState;
@@ -32,8 +35,7 @@ class MovieLayout {
         </div>
     `
     const movieSectionEl = getElement('#MovieSection')
-    if (movieSectionEl) movieSectionEl.innerHTML = skeletonTemplate;
-        
+    if (movieSectionEl) movieSectionEl.innerHTML = skeletonTemplate; 
     }
 
     template() {
@@ -58,11 +60,31 @@ class MovieLayout {
         const movieSectionEl = getElement('#MovieSection')
         if(movieSectionEl) movieSectionEl.innerHTML = this.template();
          hideskeleton()
-    }
+
+        const movieListEl = getElement(".thumbnail-list");
+        movieListEl.addEventListener("click", async(event) => {  
+        const clickedItem = event.target.closest("li");
+        if(!clickedItem) return
+        const {poster_path, title, vote_average, release_date, genres, overview} = await fetchDetailMovie(clickedItem.id)
+          Modal(`${clickedItem.id}modal`,MovieDetail({poster_path,title, vote_average, release_date, genres, overview}))
+          Modal.open(`${clickedItem.id}modal`)
+         });
+       }
+    
 
     newMovieListRender(dataList:MovieData[]) {
         const ul = MovieList(dataList).template();
         getElement('#movieListContainer')?.appendChild(ul);
+        const movieListEls = document.querySelectorAll(".thumbnail-list");
+
+        movieListEls.forEach(movieListEl => {
+           movieListEl.addEventListener("click", async(event) => {  
+               const clickedItem = event.target.closest("li");
+               const {poster_path, title, vote_average, release_date, genres, overview} = await fetchDetailMovie(clickedItem.id)
+                 Modal(`${clickedItem.id}modal`,MovieDetail({poster_path,title, vote_average, release_date, genres, overview}))
+                 Modal.open(`${clickedItem.id}modal`)
+                });
+         });
     }
 
 }
