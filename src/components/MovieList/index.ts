@@ -1,15 +1,15 @@
-// MovieList.ts
 import { fullMovieListTemplate, movieItemsTemplate } from "./movieListTemplate";
-import Modal from "../Modal/index";
+import Modal from "../Modal";
 import modalContentTemplate from "../Modal/modalContentTemplate";
 import Store, { State } from "../../store/store";
 import { Movie } from "../../../types/movieList";
+import { appendHTMLs, renderTemplate } from "../../utils/templateUtils";
 
 class MovieList {
   private $container: HTMLElement;
   private store: Store;
-  private previousMoviesLength: number = 0;
-  private previousQuery: string = "";
+  private prevMoviesLength = 0;
+  private prevQuery = "";
 
   constructor($container: HTMLElement, store: Store) {
     this.$container = $container;
@@ -19,81 +19,52 @@ class MovieList {
   }
 
   private render(state: State): void {
-    if (!this.previousMoviesLength || state.query !== this.previousQuery) {
-      this.$container.innerHTML = fullMovieListTemplate({
-        movies: state.movies,
-        query: state.query,
-        searchedMoviesLength: state.searchedMoviesLength,
-        loading: state.loading,
-      });
-      this.previousMoviesLength = state.movies.length;
-      this.previousQuery = state.query;
-    } else {
-      if (state.movies.length > this.previousMoviesLength) {
-        const ul = this.$container.querySelector(
-          "ul#movie-list"
-        ) as HTMLElement;
-        const newMovies = state.movies.slice(this.previousMoviesLength);
-        const newItemsHTML = movieItemsTemplate({
-          movies: newMovies,
-          loading: state.loading,
-          query: state.query,
-        });
-        ul.insertAdjacentHTML("beforeend", newItemsHTML);
-        this.previousMoviesLength = state.movies.length;
-      }
+    const $ul = this.$container.querySelector("ul#movie-list") as HTMLElement;
+
+    if (!this.prevMoviesLength || state.query !== this.prevQuery) {
+      renderTemplate(
+        this.$container,
+        fullMovieListTemplate(state.movies, state.query)
+      );
+      this.prevMoviesLength = state.movies.length;
+      this.prevQuery = state.query;
+    } else if (state.movies.length > this.prevMoviesLength) {
+      const newMovies = state.movies.slice(this.prevMoviesLength);
+      appendHTMLs($ul, movieItemsTemplate(newMovies, state.query));
+      this.prevMoviesLength = state.movies.length;
     }
-    this.removeSkeleton(state.loading);
+
+    if (!state.loading && $ul) {
+      $ul.querySelectorAll(".skeleton-item").forEach(($li) => $li.remove());
+    }
     this.attachThumbnailLoadEvent(this.$container);
-    this.attachMovieItemEvents(this.store, this.$container);
+    this.attachMovieItemEvents(state);
   }
 
-  private removeSkeleton(loading: boolean): void {
-    if (!loading) {
-      const $ul = document.querySelector("#movie-list") as HTMLElement;
-      if ($ul) {
-        const $skeletons = $ul.querySelectorAll(".skeleton-item");
-        $skeletons.forEach((s) => s.remove());
-      }
-    }
-  }
-
-  private attachThumbnailLoadEvent(
-    container: HTMLElement | Document = document
-  ): void {
-    const thumbnails = container.querySelectorAll("img.thumbnail");
-    thumbnails.forEach((img) => {
-      if (!img.getAttribute("data-load-listener-attached")) {
-        img.addEventListener("load", function (this: HTMLImageElement) {
+  private attachThumbnailLoadEvent($container: HTMLElement): void {
+    $container.querySelectorAll("img.thumbnail").forEach(($img) => {
+      if (!$img.getAttribute("data-load-listener-attached")) {
+        $img.addEventListener("load", function (this: HTMLImageElement) {
           this.style.display = "block";
-          if (
-            this.previousElementSibling &&
-            this.previousElementSibling.classList.contains("skeleton-thumbnail")
-          ) {
-            (this.previousElementSibling as HTMLElement).style.display = "none";
+          const $prev = this.previousElementSibling as HTMLElement;
+          if ($prev && $prev.classList.contains("skeleton-thumbnail")) {
+            $prev.style.display = "none";
           }
         });
-        img.setAttribute("data-load-listener-attached", "true");
+        $img.setAttribute("data-load-listener-attached", "true");
       }
     });
   }
 
-  private attachMovieItemEvents(store: Store, container: HTMLElement): void {
-    const modal = new Modal(store, modalContentTemplate);
-    const items = container.querySelectorAll("li[data-movie-id]");
-    items.forEach((li) => {
-      li.addEventListener("click", async () => {
-        const movieIdStr = li.getAttribute("data-movie-id");
-        if (movieIdStr) {
-          // state.movies는 Movie[]이므로, 비교 시 느슨하게 타입을 비교함
-          const state = store.getState();
-          const movie = state.movies.find(
-            (m: Movie) => m.id.toString() === movieIdStr
-          );
-          if (movie) {
-            modal.open(movie.id);
-          }
-        }
+  private attachMovieItemEvents(state: State): void {
+    const $modal = new Modal(this.store, modalContentTemplate);
+    this.$container.querySelectorAll("li[data-movie-id]").forEach(($li) => {
+      $li.addEventListener("click", () => {
+        const movieIdString = $li.getAttribute("data-movie-id");
+        const movie = state.movies.find(
+          (movie: Movie) => movie.id.toString() === movieIdString
+        );
+        if (movie) $modal.open(movie.id);
       });
     });
   }
