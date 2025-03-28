@@ -47,6 +47,10 @@ abstract class BaseMovieBoard {
       }
       this.renderMovies(movies);
       this.currentPage++;
+      // 마지막 페이지에 도달하면 sentinel 제거
+      if (this.currentPage > this.totalPages) {
+        this.disableInfiniteScroll();
+      }
     } catch (error) {
       console.error("영화 데이터를 불러오는 중 오류 발생:", error);
       this.disableInfiniteScroll();
@@ -127,6 +131,10 @@ abstract class BaseMovieBoard {
     if (!this.observer) return;
     this.observer.disconnect();
     this.observer = null;
+    const sentinel = this.parentElement.querySelector(".scroll-sentinel");
+    if (sentinel && isHTMLElement(sentinel)) {
+      sentinel.remove();
+    }
   }
 }
 export default BaseMovieBoard;

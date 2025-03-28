@@ -15,7 +15,7 @@ class ErrorScreen implements ErrorScreenContract {
     const $main = document.querySelector("main");
     if (!isHTMLElement($main)) return;
 
-    $main.innerHTML = /*html*/ `<div class="fallback-screen">
+    $main.innerHTML = /*html*/ `<div class="fallback-screen error-screen">
         <img src="./images/dizzy_planet.png"/>
         <p>${this.#message}</p>
       </div>`;
