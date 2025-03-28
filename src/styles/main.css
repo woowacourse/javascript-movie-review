@@ -33,7 +33,7 @@ button.primary {
 }
 
 #app {
-  min-width: 1440px;
+  min-width: 340px;
   background-color: var(--color-bluegray-100);
 }
 
@@ -76,18 +76,26 @@ header {
   height: auto;
 }
 
+header .search-bar-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 0 20px;
+}
+
 header .search-bar {
   border: 2px solid #d1d5db;
-  width: 525px;
-  height: 36px;
-  border-radius: 32px;
+  width: 100%;
+  max-width: 525px;
+  min-width: 250px;
   display: flex;
   justify-content: space-between;
+  height: 45px;
+  border-radius: 32px;
   padding-top: 6px;
   padding-right: 16px;
   padding-bottom: 6px;
   padding-left: 16px;
-  box-sizing: content-box;
 }
 
 .search-input {

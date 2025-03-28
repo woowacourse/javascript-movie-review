@@ -1,9 +1,16 @@
 @import "./colors.css";
 
+section.movie-list-section {
+  margin: 0 auto;
+  width: fit-content;
+  padding: 0 20px;
+}
+
 .thumbnail-list {
   margin: 0 auto 56px;
   display: grid;
   grid-template-columns: repeat(5, 200px);
+  justify-content: center;
   gap: 70px;
 }
 
@@ -73,5 +80,32 @@ p.rate > span {
 
   100% {
     background-color: rgba(165, 165, 165, 0.1);
+  }
+}
+
+@media (max-width: 1280px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(4, 200px);
+  }
+}
+
+@media (max-width: 1000px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(3, 200px);
+  }
+}
+
+@media (max-width: 760px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(2, 200px);
+  }
+}
+
+@media (max-width: 500px) {
+  #app h2 {
+    font-size: 2rem;
+  }
+  .thumbnail-list {
+    grid-template-columns: repeat(1, 200px);
   }
 }

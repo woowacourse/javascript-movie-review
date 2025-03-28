@@ -224,14 +224,14 @@ dialog::backdrop {
   .modal-image img {
     width: 200px;
   }
+}
 
-  @media (max-width: 530px) {
-    .modal-image img {
-      display: none;
-    }
-    .description-section {
-      align-items: center;
-    }
+@media (max-width: 530px) {
+  .modal-image img {
+    display: none;
+  }
+  .description-section {
+    align-items: center;
   }
 }
 
