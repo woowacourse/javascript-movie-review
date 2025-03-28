@@ -1,6 +1,6 @@
 import Header from "../components/layout/Header";
 import Main from "../components/layout/Main";
-import Modal from "../components/layout/Modal";
+import Modal, { ratingType } from "../components/layout/Modal";
 import { getGenreList, updateMoviesList } from "../domains/renderMoviesList";
 import UserMovieRatingStorage from "../storages/UserMovieRatingStorage";
 import { store } from "../stores";
@@ -33,6 +33,7 @@ eventBus.on(EVENT_TYPES.modalOpen, async (movieId) => {
   const myRate = ratings.find((r) => r.movieId === movieId)?.rate ?? 0;
 
   const finalMovieData = {
+    id: movieId,
     title,
     poster_path,
     vote_average,
@@ -68,4 +69,16 @@ eventBus.on(EVENT_TYPES.search, async (value) => {
 
   Header.getInstance().setState({ hasSearched: true });
   await updateMoviesList();
+});
+
+eventBus.on(EVENT_TYPES.setRating, (newRating: ratingType) => {
+  const currentMovieId = Modal.getInstance().getMovieId();
+  if (!currentMovieId) return;
+
+  UserMovieRatingStorage.getInstance().setRating({
+    movieId: currentMovieId,
+    rate: newRating,
+  });
+
+  Modal.getInstance().setState({ my_rate: newRating });
 });

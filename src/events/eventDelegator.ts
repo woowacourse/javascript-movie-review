@@ -1,6 +1,6 @@
-import Modal from "../components/layout/Modal";
+import Modal, { ratingType } from "../components/layout/Modal";
 import EventBus from "./EventBus";
-import { isElement, isForm, isHTMLElement, isInput } from "./guards";
+import { isElement, isForm, isHTMLElement, isImage, isInput } from "./guards";
 import { EVENT_TYPES } from "./types";
 
 const eventBus = EventBus.getInstance();
@@ -11,6 +11,7 @@ const SELECTORS = {
   movieItem: ".thumbnail-list .item, .top-rated-button",
   searchForm: ".top-rated-search",
   searchInput: ".top-rated-search-input",
+  ratingStar: ".star",
 };
 
 window.addEventListener("click", async (event) => {
@@ -35,6 +36,15 @@ window.addEventListener("click", async (event) => {
         if (!movieId) return;
 
         eventBus.emit(EVENT_TYPES.modalOpen, movieId);
+      },
+    },
+    {
+      selector: SELECTORS.ratingStar,
+      action: (starImg: Element | null) => {
+        if (!starImg || !isImage(starImg)) return;
+        const newRating = Number(starImg.dataset.value) as ratingType;
+
+        eventBus.emit(EVENT_TYPES.setRating, newRating);
       },
     },
   ];

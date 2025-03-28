@@ -3,4 +3,5 @@ export const EVENT_TYPES = {
   modalClose: "modal-close",
   showMore: "show-more",
   search: "search",
+  setRating: "set-rating",
 } as const;

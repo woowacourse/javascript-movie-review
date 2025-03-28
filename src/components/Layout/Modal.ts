@@ -17,7 +17,7 @@ export type ratingType = keyof typeof ratingDescriptions;
 type ModalState = {
   [K in keyof Pick<
     MovieResult,
-    "title" | "poster_path" | "vote_average" | "overview"
+    "id" | "title" | "poster_path" | "vote_average" | "overview"
   >]: MovieResult[K] | null;
 } & {
   genres: string[];
@@ -31,6 +31,7 @@ export default class Modal extends Component<ModalState> {
 
   protected constructor() {
     super({
+      id: null,
       title: null,
       poster_path: null,
       vote_average: null,
@@ -71,13 +72,32 @@ export default class Modal extends Component<ModalState> {
     `;
   }
 
+  private renderRatingStar() {
+    const totalStars = 5;
+    const filledStars = this.state.my_rate / 2;
+
+    let starsHtml = "";
+
+    for (let i = 1; i <= totalStars; i++) {
+      const starType = i <= filledStars ? "filled" : "empty";
+      starsHtml += `<img 
+        src="./images/star_${starType}.png" 
+        class="star" 
+        data-value="${i * 2}"
+        alt="star"
+      />`;
+    }
+
+    return starsHtml;
+  }
+
   protected template(): string {
     return /*html*/ `
       <div class="modal">
         <button class="close-modal" id="closeModal">
           <img src="./images/modal_button_close.png" />
         </button>
-        <div class="modal-container">
+        <div class="modal-container" data-movie-id="${this.state.id}">
           ${
             this.state.isLoading
               ? this.renderSkeletonItem()
@@ -99,23 +119,15 @@ export default class Modal extends Component<ModalState> {
                 <hr />
                 <p class="modal-subtitle">내 별점</p>
                 <div class="rate-star">
-                  <img src="./images/star_filled.png" class="star" />
-                  <img src="./images/star_empty.png" class="star" alt="star" />
-                  <img src="./images/star_empty.png" class="star" alt="star" />
-                  <img src="./images/star_empty.png" class="star" alt="star" />
-                  <img src="./images/star_empty.png" class="star" alt="star" />
+                  ${this.renderRatingStar()}
                   <span class="rate-description">${
                     ratingDescriptions[this.state.my_rate]
                   }</span>
                   <span class="rate-scale">(${this.state.my_rate}/10)</span>
                 </div>
-                <div>
-                </div>
                 <hr />
                 <p class="modal-subtitle">줄거리</p>
-                <p class="detail">
-                  ${this.state.overview}
-                </p>
+                <p class="detail">${this.state.overview}</p>
               </div>
             `
           }
@@ -128,6 +140,7 @@ export default class Modal extends Component<ModalState> {
     this.$element.classList.add("active");
     this.setState({
       isLoading: false,
+      id: movieData.id,
       title: movieData.title,
       poster_path: movieData.poster_path,
       vote_average: movieData.vote_average,
@@ -144,5 +157,9 @@ export default class Modal extends Component<ModalState> {
 
   isActive() {
     return this.$element.classList.contains("active");
+  }
+
+  getMovieId() {
+    return this.state.id;
   }
 }

@@ -19,3 +19,9 @@ export const isInput = (
 ): target is HTMLInputElement => {
   return target instanceof HTMLInputElement;
 };
+
+export const isImage = (
+  target: EventTarget | null
+): target is HTMLImageElement => {
+  return target instanceof HTMLImageElement;
+};
