@@ -1,37 +1,27 @@
 import { SCORE_MESSAGES } from "../../constants/config";
 import Store from "../../store/store";
+import { StarRating } from "../../../types/starRating";
+
+const ALLOWED_RATINGS: number[] = [2, 4, 6, 8, 10];
 
 export const Rating = (initialScore: number = 0): string => {
-  const score = initialScore;
+  const score = ALLOWED_RATINGS.includes(initialScore) ? initialScore : 0;
   const scoreMessage =
     SCORE_MESSAGES[score as 2 | 4 | 6 | 8 | 10] || "별점이 없어요";
+  const labelsHTML = ALLOWED_RATINGS.map(
+    (val) => /* html */ `
+    <label for="star${val}" class="rating__label ${
+      val === 0 ? "" : "rating__label--full"
+    }" data-testid="star${val}">
+      <input type="radio" id="star${val}" class="rating__input" name="rating" value="${val}">
+      <span class="star-icon"></span>
+    </label>`
+  ).join("");
+
   return /* html */ `
     <div class="rating" data-testid="rating">
       <div class="rating-bar">
-        <label for="star0">
-          <input type="radio" id="star0" class="rating__input" name="rating" value="0">
-          <span class="star-icon"></span>
-        </label>
-        <label for="star2" class="rating__label rating__label--full" data-testid="star2">
-          <input type="radio" id="star2" class="rating__input" name="rating" value="2">
-          <span class="star-icon"></span>
-        </label>
-        <label for="star4" class="rating__label rating__label--full" data-testid="star4">
-          <input type="radio" id="star4" class="rating__input" name="rating" value="4">
-          <span class="star-icon"></span>
-        </label>
-        <label for="star6" class="rating__label rating__label--full" data-testid="star6">
-          <input type="radio" id="star6" class="rating__input" name="rating" value="6">
-          <span class="star-icon"></span>
-        </label>
-        <label for="star8" class="rating__label rating__label--full" data-testid="star8">
-          <input type="radio" id="star8" class="rating__input" name="rating" value="8">
-          <span class="star-icon"></span>
-        </label>
-        <label for="star10" class="rating__label rating__label--full" data-testid="star10">
-          <input type="radio" id="star10" class="rating__input" name="rating" value="10">
-          <span class="star-icon"></span>
-        </label>
+        ${labelsHTML}
       </div>
       <div class="rating-information">
         <p class="subtitle" data-testid="score-message">${scoreMessage}</p>
@@ -42,57 +32,51 @@ export const Rating = (initialScore: number = 0): string => {
 };
 
 export const attachRatingEvents = (movieId: string, store: Store): void => {
-  const $rateWrap = document.querySelector(".rating");
+  const $rateWrap = document.querySelector(".rating") as HTMLElement;
   if (!$rateWrap) return;
 
   const scores = store.getState().starRatings || [];
-  let currentScore = scores.find((rating) => rating.id === movieId)?.score || 0;
-
-  const radio = $rateWrap.querySelector(
+  const currentScore =
+    scores.find((rating: StarRating) => rating.id === movieId)?.score || 0;
+  const $radio = $rateWrap.querySelector(
     `#star${currentScore}`
   ) as HTMLInputElement;
-  if (radio) {
-    radio.checked = true;
-  }
+  if ($radio) $radio.checked = true;
+
   const stars = $rateWrap.querySelectorAll(".star-icon");
+  const initStars = (): void => {
+    stars.forEach(($star) => $star.classList.remove("filled"));
+  };
 
-  function initStars(): void {
-    stars.forEach((star) => star.classList.remove("filled"));
-  }
-
-  function checkedRate(): void {
-    if (!$rateWrap) return;
-
-    const checkedRadio = $rateWrap.querySelector(
+  const checkedRate = (): void => {
+    const $checkedRadio = $rateWrap.querySelector(
       '.rating input[type="radio"]:checked'
     ) as HTMLInputElement;
 
     initStars();
 
-    if (checkedRadio) {
+    if ($checkedRadio) {
       const starLabels = Array.from($rateWrap.querySelectorAll("label"));
-      const index = starLabels.findIndex((label) =>
-        label.contains(checkedRadio)
+      const index = starLabels.findIndex(($label) =>
+        $label.contains($checkedRadio)
       );
       for (let i = 0; i <= index; i++) {
-        const icon = starLabels[i].querySelector(".star-icon");
-        if (icon) {
-          icon.classList.add("filled");
-        }
+        const $icon = starLabels[i].querySelector(".star-icon");
+        if ($icon) $icon.classList.add("filled");
       }
     }
-  }
+  };
 
-  function saveRate(): void {
-    if (!$rateWrap) return;
-
-    const checkedRadio = $rateWrap.querySelector(
+  const saveRate = (): void => {
+    const $checkedRadio = $rateWrap.querySelector(
       '.rating input[type="radio"]:checked'
     ) as HTMLInputElement;
-    if (checkedRadio) {
-      const newScore = Number(checkedRadio.value);
+    if ($checkedRadio) {
+      const newScore = Number($checkedRadio.value);
       let starRatings = store.getState().starRatings || [];
-      const index = starRatings.findIndex((r) => r.id === movieId);
+      const index = starRatings.findIndex(
+        (rating: StarRating) => rating.id === movieId
+      );
       if (index !== -1) {
         starRatings[index].score = newScore;
       } else {
@@ -101,12 +85,12 @@ export const attachRatingEvents = (movieId: string, store: Store): void => {
       localStorage.setItem("starRatings", JSON.stringify(starRatings));
       store.setState({ starRatings });
     }
-  }
+  };
 
   checkedRate();
 
-  stars.forEach((starIcon) => {
-    starIcon.addEventListener("click", () => {
+  stars.forEach(($starIcon) => {
+    $starIcon.addEventListener("click", () => {
       setTimeout(() => {
         checkedRate();
         saveRate();

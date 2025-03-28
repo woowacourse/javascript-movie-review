@@ -1,7 +1,7 @@
-// modalContentTemplate.ts
 import { fetchMovieDetail } from "../../APIs/movieAPI";
 import { Rating, attachRatingEvents } from "./Rating";
 import Store from "../../store/store";
+import { getCurrentScore } from "../../utils/utils";
 
 const modalContentTemplate = async (
   id: string,
@@ -11,7 +11,7 @@ const modalContentTemplate = async (
     alert(error.message)
   );
   const ratingHTML = Rating(getCurrentScore(id, store));
-  const contentHTML = /* html */ `
+  const contentHTML = `
     <div class="modal-image">
       <div class="skeleton-detail-thumbnail"></div>
       <img src="${
@@ -39,20 +39,13 @@ const modalContentTemplate = async (
       <div id="modal-rating">${ratingHTML}</div>
       <hr />
       <p class="subtitle">줄거리</p>
-      <p class="detail">${movie.overview || "줄거리 정보가 없습니다"}</p>
+      <p class="detail">${movie.overview || "줄거리 정보가 없습니다."}</p>
     </div>
   `;
-  // 별점 이벤트 등록
   setTimeout(() => {
     attachRatingEvents(id, store);
   }, 0);
   return contentHTML;
 };
 
-const getCurrentScore = (id: string, store: Store): number => {
-  const scores = store.getState().starRatings || [];
-  return scores.find((rating) => rating.id === id)?.score || 0;
-};
-
-export { modalContentTemplate };
 export default modalContentTemplate;
