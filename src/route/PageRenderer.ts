@@ -1,4 +1,4 @@
-import Modal from '../component/modal/modal';
+import Modal from '../component/modal/Modal';
 import { PageInstance } from './router';
 
 export class PageRenderer {
