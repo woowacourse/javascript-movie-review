@@ -108,6 +108,9 @@ function bindStarRatingEvents() {
 
       starRatingDetails.innerText = ratingMessages[ratingValue];
       starRatingNumbers.innerText = ratingNumbers[ratingValue];
+
+      // 일단 이렇게 넣습니다.
+      // 혹시 확장성을 생각해야 한다면, 말씀해 주시면 됩니다.
       localStorage.setItem(getShowingItem(), String(ratingValue));
     });
   }
