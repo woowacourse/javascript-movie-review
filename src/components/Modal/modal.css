@@ -11,13 +11,13 @@ body.modal-open {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경을 위해 설정 */
-  backdrop-filter: blur(10px); /* 블러 효과 적용 */
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 10;
-  visibility: hidden; /* 모달이 기본적으로 보이지 않도록 설정 */
+  visibility: hidden;
   opacity: 0;
   transition: opacity 0.3s ease, visibility 0.3s ease;
 }
@@ -35,7 +35,7 @@ body.modal-open {
   z-index: 2;
   position: relative;
   width: 1000px;
-  height: 820px;
+  height: auto;
 }
 
 .close-modal {
@@ -55,9 +55,23 @@ body.modal-open {
   display: flex;
 }
 
+.movie-title {
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 100%;
+  letter-spacing: 0%;
+}
+
+.caption-title {
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 100%;
+  letter-spacing: 0.18px;
+}
+
 .modal-image img {
-  width: 500px;
-  height: 700px;
+  width: 300px;
+  height: 500px;
   border-radius: 16px;
 }
 
@@ -66,6 +80,23 @@ body.modal-open {
   padding: 8px;
   margin-left: 16px;
   line-height: 1.6rem;
+}
+.rating {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px 0;
+}
+
+.user_rate {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.rate_description {
+  font-weight: 600;
+  margin-left: 10px;
 }
 
 .modal-description .rate > img {
@@ -85,4 +116,10 @@ body.modal-open {
 .detail {
   max-height: 430px;
   overflow-y: auto;
+}
+@media screen and (max-width: 1023px) and (min-width: 768px) {
+  .modal {
+    width: 100%;
+    height: auto;
+  }
 }

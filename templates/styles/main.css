@@ -29,6 +29,11 @@ main {
   width: 24px;
 }
 
+.rate-star {
+  width: 24px;
+  cursor: pointer;
+}
+
 button {
   border: 0;
   padding: 8px 16px;
@@ -204,6 +209,13 @@ span.rate-value {
   border-radius: 10px;
 }
 
+.movie-title {
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 100%;
+  letter-spacing: 0%;
+}
+
 footer.footer {
   min-height: 180px;
   background-color: var(--color-bluegray-80);
@@ -237,8 +249,8 @@ footer.footer p:not(:last-child) {
   }
 }
 @media screen and (max-width: 767px) {
-  .search-container {
-    width: 400px;
+  .banner {
+    width: 100%;
   }
 
   .logosearchbar-container {
@@ -251,6 +263,7 @@ footer.footer p:not(:last-child) {
     position: static;
     transform: none;
     text-align: center;
+    width: 400px;
   }
 
   .search-button {
