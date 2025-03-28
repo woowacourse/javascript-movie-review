@@ -1,17 +1,9 @@
 import { getMovieDetailResult } from "../api/getMovieDetailResult";
 import DetailModal from "../component/DetailModal";
+import { SCORE_RATING_TEXT } from "../constant/scoreRatingText";
+import { calculateScore } from "../domain/util/calculateScore";
 import { IMovieDetail } from "../types/movieResultType";
 import { $, $all } from "../util/selector";
-
-const calculateScore = (index: number) => index * 2 + 2;
-
-const getRatingText = (score: number) => {
-  if (score >= 10) return "명작이에요";
-  if (score >= 8) return "재밌어요";
-  if (score >= 6) return "볼만해요";
-  if (score >= 4) return "그저 그래요";
-  return "별로에요";
-};
 
 class DetailModalController {
   wrapElement;
@@ -55,7 +47,7 @@ class DetailModalController {
           // 텍스트 업데이트
           if (ratingText && ratingScore) {
             const score = calculateScore(index);
-            const text = getRatingText(score);
+            const text = SCORE_RATING_TEXT[score];
 
             ratingText.textContent = text;
             const span = document.createElement("span");
