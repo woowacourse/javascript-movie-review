@@ -7,11 +7,11 @@ import Component from './core/Component';
 
 export default class Header extends Component {
   override setup() {
-    this.subsribe([moviesResponseStore, searchStore]);
+    this.subsribe([moviesStore, searchStore]);
   }
 
   override template() {
-    const movie = moviesResponseStore.getState()?.results.at(0);
+    const firstMovie = moviesStore.getState()?.at(0);
     const search = searchStore.getState();
 
     return html`
@@ -36,14 +36,14 @@ export default class Header extends Component {
             </button>
           </form>
         </div>
-        ${movie && !search
+        ${firstMovie && !search
           ? `
           <div class="top-rated-container">
             <div class="rate">
               <img src="./images/star_empty.png" class="star" />
-              <span class="rate-value">${movie.vote_average}</span>
+              <span class="rate-value">${firstMovie.vote_average}</span>
             </div>
-            <div class="title">${movie.title}</div>
+            <div class="title">${firstMovie.title}</div>
             <button class="primary" data-action="show-detail">자세히 보기</button>
           </div>
           `
@@ -76,13 +76,13 @@ export default class Header extends Component {
   }
 
   setHeaderBackground() {
-    const movie = moviesResponseStore.getState()?.results.at(0);
+    const firstMovie = moviesStore.getState()?.at(0);
     const search = searchStore.getState();
 
-    if (!movie) return;
+    if (!firstMovie) return;
 
     if (search) this.element!.style.backgroundImage = '';
-    else if (movie.backdrop_path)
-      this.element!.style.backgroundImage = `url(${DEFAULT_BACK_DROP_URL}/${movie.backdrop_path})`;
+    else if (firstMovie.backdrop_path)
+      this.element!.style.backgroundImage = `url(${DEFAULT_BACK_DROP_URL}/${firstMovie.backdrop_path})`;
   }
 }
