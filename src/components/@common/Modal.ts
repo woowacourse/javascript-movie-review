@@ -1,11 +1,11 @@
+import { PropsWithChildren } from "../../../types";
+import { isOpenModal, setIsOpenModal } from "../../store/store";
 import { useEvents } from "../../utils/Core";
 import { $ } from "../../utils/domHelper";
 
-interface ModalProps {
-  children: string;
-}
+interface ModalProps {}
 
-const Modal = (props: ModalProps) => {
+const Modal = (props: PropsWithChildren<ModalProps>) => {
   const { children } = props;
   const [addEvent] = useEvents("body");
 
@@ -15,6 +15,7 @@ const Modal = (props: ModalProps) => {
       if (modalBg) {
         modalBg.classList.remove("active");
         document.body.classList.remove("modal-open");
+        setIsOpenModal(false);
       }
     }
   });
@@ -25,6 +26,7 @@ const Modal = (props: ModalProps) => {
       if (modalBg) {
         modalBg.classList.remove("active");
         document.body.classList.remove("modal-open");
+        setIsOpenModal(false);
       }
     }
   });
@@ -34,16 +36,19 @@ const Modal = (props: ModalProps) => {
     if (modalBg) {
       modalBg.classList.remove("active");
       document.body.classList.remove("modal-open");
+      setIsOpenModal(false);
     }
   });
 
-  setTimeout(() => {
-    const modalBg = $(".modal-background");
-    if (modalBg) {
-      modalBg.classList.add("active");
-      document.body.classList.add("modal-open");
-    }
-  }, 0);
+  if (isOpenModal) {
+    setTimeout(() => {
+      const modalBg = $(".modal-background");
+      if (modalBg) {
+        modalBg.classList.add("active");
+        document.body.classList.add("modal-open");
+      }
+    }, 0);
+  }
 
   return `
     <div class="modal-background">

@@ -22,6 +22,7 @@ import {
   isOpenModal,
 } from "./store/store";
 import { useEvents } from "./utils/Core";
+import { $ } from "./utils/domHelper";
 
 const App = () => {
   const { fetchMovies, isLoading } = useGetMovieList();
@@ -39,10 +40,27 @@ const App = () => {
       if (movieId) {
         setSelectedMovieId(movieId);
 
-        const detail = await fetchMovieDetail(movieId);
-        if (detail) {
-          setMovieDetail(detail);
-          setIsOpenModal(true);
+        if (isOpenModal) {
+          setIsOpenModal(false);
+
+          const modalBg = $(".modal-background");
+          if (modalBg) {
+            modalBg.classList.remove("active");
+
+            setTimeout(async () => {
+              const detail = await fetchMovieDetail(movieId);
+              if (detail) {
+                setMovieDetail(detail);
+                setIsOpenModal(true);
+              }
+            }, 300);
+          }
+        } else {
+          const detail = await fetchMovieDetail(movieId);
+          if (detail) {
+            setMovieDetail(detail);
+            setIsOpenModal(true);
+          }
         }
       }
     }
