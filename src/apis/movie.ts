@@ -10,23 +10,26 @@ interface GetMoviesProps {
 export const getMovies = async ({ query, page }: GetMoviesProps) => {
   let moviesResponse;
 
+  const prevMoviesResponse = moviesResponseStore.getState();
+  if (prevMoviesResponse && prevMoviesResponse.total_pages < page) return;
+
   try {
     if (query)
       moviesResponse = await serverStore.query({
         queryFn: () =>
           MovieApiClient.get({
-            page: pageStore.getState(),
+            page,
             query,
           }),
-        queryKey: `${query}-${pageStore.getState()}`,
+        queryKey: `${query}-${page}`,
       });
     else
       moviesResponse = await serverStore.query({
         queryFn: () =>
           MovieApiClient.getAll({
-            page: pageStore.getState(),
+            page,
           }),
-        queryKey: String(pageStore.getState()),
+        queryKey: String(page),
       });
 
     pageStore.setState(page);
