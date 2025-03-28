@@ -23,7 +23,7 @@ class MovieGrid {
 
   render(items: MovieData[]) {
     if (items.length === 0) {
-      this.#listElement.innerHTML = this.#emptyListElement();
+      this.#container.innerHTML = this.#emptyListElement();
       return;
     }
     const itemsHTML = this.#movieItemElements(items);
