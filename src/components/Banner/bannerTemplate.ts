@@ -13,7 +13,7 @@ const bannerTemplate = ({ vote_average, title }: BannerData): string => {
             <span class="rate-value">${vote_average}</span>
           </div>
           <div class="title">${title}</div>
-          <button class="primary detail" data-testid="banner-detail-button">자세히 보기</button>
+          <button id="detail-button" class="primary detail" data-testid="banner-detail-button">자세히 보기</button>
         </div>
       </div>
     </div>
