@@ -6,7 +6,6 @@ import { EVENT_TYPES } from "./types";
 const eventBus = EventBus.getInstance();
 
 const SELECTORS = {
-  showMore: ".show-more",
   modalClose: "#closeModal",
   movieItem: ".thumbnail-list .item, .top-rated-button",
   searchForm: ".top-rated-search",
@@ -19,10 +18,6 @@ window.addEventListener("click", async (event) => {
   if (!isElement(target)) return;
 
   const elementMap = [
-    {
-      selector: SELECTORS.showMore,
-      action: () => eventBus.emit(EVENT_TYPES.showMore),
-    },
     {
       selector: SELECTORS.modalClose,
       action: () => eventBus.emit(EVENT_TYPES.modalClose),

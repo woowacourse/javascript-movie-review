@@ -4,15 +4,8 @@ import { handleApiResponse } from "../api/utils/handlers";
 import App from "../components/App";
 import Header from "../components/layout/Header";
 import Main from "../components/layout/Main";
-import { MAX_MOVIE_PAGE, PREFIX_POSTER_PATH } from "../constants/constants";
+import { PREFIX_POSTER_PATH } from "../constants/constants";
 import { store } from "../stores";
-
-const toggleShowMoreButton = () => {
-  const $showMore = document.querySelector(".show-more");
-  if (store.page !== Math.min(MAX_MOVIE_PAGE, store.totalPages))
-    $showMore?.classList.add("open");
-  else $showMore?.classList.remove("open");
-};
 
 const setHeaderData = () => {
   const header = Header.getInstance();
@@ -96,7 +89,7 @@ export const updateMoviesList = async () => {
   else await renderSearchList(main);
 
   main.render();
-  toggleShowMoreButton();
+  // TODO: 무한 스크롤 로직 추가
 };
 
 export const initializeLayout = async () => {

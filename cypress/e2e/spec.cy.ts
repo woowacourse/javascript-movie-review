@@ -11,9 +11,9 @@ describe("E2E테스트", () => {
     it("사용자가 영화 목록 20개를 볼 수 있다.", () => {
       cy.get(".thumbnail-list > li").should("have.length", 20);
     });
-    it("사용자가 더 보기를 누르면 다음 목록을 보여준다.", () => {
-      cy.get(".show-more").should("exist");
-      cy.get(".show-more").click();
+
+    it("사용자가 스크롤을 내려서 하단에 도달한 경우 다음 영화 페이지 목록을 보여준다.", () => {
+      // TODO: 무한 스크롤로 수정
       cy.get(".thumbnail-list > li").should("have.length", 40);
     });
   });

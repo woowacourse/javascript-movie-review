@@ -51,11 +51,6 @@ eventBus.on(EVENT_TYPES.modalClose, () => {
   Modal.getInstance().close();
 });
 
-eventBus.on(EVENT_TYPES.showMore, async () => {
-  store.page = store.page + 1;
-  await updateMoviesList();
-});
-
 eventBus.on(EVENT_TYPES.search, async (value) => {
   store.searchKeyword = value;
   store.page = 1;
