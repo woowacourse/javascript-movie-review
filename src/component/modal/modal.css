@@ -59,7 +59,7 @@ body.modal-open {
 }
 
 .modal-description {
-  width: 100%;
+  width: auto;
   padding: 8px;
   margin-left: 16px;
   line-height: 1.6rem;
@@ -99,4 +99,45 @@ body.modal-open {
   display: flex;
   gap: 10px;
   align-items: center;
+}
+
+@media (max-width: 1024px) {
+  .modal {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+  }
+
+  .modal-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .modal-image img {
+    width: 200px;
+  }
+
+  .modal-description {
+    padding: 0 20px;
+  }
+
+  .modal-description h2,
+  .modal-description .category,
+  .modal-description .rate {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-image {
+    display: none;
+  }
 }
