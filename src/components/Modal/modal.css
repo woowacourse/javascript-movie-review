@@ -131,7 +131,8 @@ body.modal-open {
     height: auto;
     position: fixed;
     bottom: 0;
-    border-radius: 8px 0 0 8px;
+    border-radius: 8px 0 8px 0;
+    animation: bottom-sheet-up 0.5s ease-out, opacity 0.3s ease-out;
   }
 
   .modal-container {
@@ -152,13 +153,14 @@ body.modal-open {
     align-items: center;
   }
 }
+
 @media screen and (max-width: 767px) {
   .modal {
     width: 100%;
     height: auto;
     position: fixed;
     bottom: 0;
-    border-radius: 8px 0 0 8px;
+    border-radius: 8px 0 8px 0;
   }
 
   .modal-description {
@@ -180,5 +182,25 @@ body.modal-open {
 
   .modal-image {
     display: none;
+  }
+}
+
+@keyframes bottom-sheet-up {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes bottom-sheet-down {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(100%);
   }
 }
