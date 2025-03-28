@@ -41,7 +41,7 @@ const movieItem = (movie: Movie): HTMLElement => {
               },
               {
                 tag: "span",
-                textContent: String(movie.vote_average),
+                textContent: String(movie.vote_average).slice(0, 3),
               },
             ],
           },
