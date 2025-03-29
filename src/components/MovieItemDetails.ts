@@ -1,12 +1,17 @@
 import { MovieDetails } from "../../types/domain.ts";
-import { VOTE } from "../constants/movie.ts";
+import { RATING, VOTE } from "../constants/movie.ts";
+import { ratingMovie } from "../domain/ratingMovie.ts";
 import { selectElement, selectElementAll } from "../utils/dom.ts";
 
 class MovieItemDetails {
+  #id;
+  #rate;
   #details;
   #element;
 
-  constructor(details: MovieDetails) {
+  constructor({ id, rate, ...details }: MovieDetails) {
+    this.#id = id;
+    this.#rate = rate;
     this.#details = details;
     this.#element = document.createElement("div");
   }
@@ -141,6 +146,7 @@ class MovieItemDetails {
           this.#handleRateHover
         );
 
+        ratingMovie(this.#id, this.#rate);
         isVotingActive = false;
       }
     };
@@ -188,6 +194,9 @@ class MovieItemDetails {
       star.src =
         markIndex <= starredIndex ? VOTE.filledStarImage : VOTE.emptyStarImage;
     });
+
+    const { score } = RATING[starredIndex];
+    this.#rate = score;
   }
 }
 
