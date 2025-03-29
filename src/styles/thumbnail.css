@@ -23,6 +23,10 @@
     max-width: 100%;
     gap: 35px;
   }
+
+  .thumbnail-title {
+    padding: 0 20px;
+  }
 }
 
 /* 노트북 화면 (992px ~ 1199px) */

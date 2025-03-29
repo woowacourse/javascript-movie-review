@@ -26,11 +26,10 @@ const handleScroll = () => {
 };
 
 const checkAndLoadMoreItems = () => {
-  // FIXME: 처음부터 viewportHeight의 크기가 헤더 메인 푸터 합친 길이보다 크다면? -> 스크롤 안먹는 이슈
   const viewportHeight = window.innerHeight;
   const scrollY = window.scrollY;
   const documentHeight = document.documentElement.scrollHeight;
-  const scrolledToBottom = viewportHeight + scrollY >= documentHeight;
+  const scrolledToBottom = viewportHeight + scrollY >= documentHeight - 150;
 
   if (scrolledToBottom) loadMoreItems();
 };
