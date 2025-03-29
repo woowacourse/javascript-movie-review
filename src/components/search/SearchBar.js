@@ -15,7 +15,7 @@ class SearchBar {
 
     form.addEventListener('submit', async e => {
       e.preventDefault();
-      const input = form.querySelector('.search-bar-input');
+      const input = e.target.querySelector('.search-bar-input');
       await this.searchHandler.handleSearch(input.value);
       store.setMode('searchAdd');
     });

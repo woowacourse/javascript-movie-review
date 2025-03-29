@@ -13,7 +13,6 @@ export default class MovieList {
     totalPage,
     movieService,
     movieListHandler,
-    searchHandler,
   ) {
     this.container = document.querySelector(containerSelector);
     this.moviesData = moviesData;
@@ -24,7 +23,7 @@ export default class MovieList {
     this.loading = false;
     this.lastQuery = null;
     this.scrollTimer = null;
-    this.searchHandler = searchHandler;
+
     this.boundHandleScroll = this.handleScroll.bind(this);
   }
 
