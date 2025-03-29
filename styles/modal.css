@@ -113,12 +113,60 @@ body.modal-open {
   width: 20px;
 }
 
-.modal-description .detail {
-  line-height: 1.6;
-  font-size: 0.95rem;
-}
-
 .modal-description .category {
   color: var(--color-white);
   font-size: 20px;
+}
+
+.my-rating {
+  padding: 24px 0 24px 0;
+  display: flex;
+  flex-direction: column;
+  font-size: 24px;
+  gap: 24px;
+}
+
+.my-stars {
+  display: flex;
+  gap: 4px;
+}
+.rating-star {
+  width: 32px;
+  cursor: pointer;
+}
+
+.my-rating-title {
+  font-weight: bold;
+}
+.my-rating-text {
+  color: var(--color-white);
+}
+
+.real-rating {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.rating-wrapper {
+  display: flex;
+}
+
+.score-highlight {
+  color: var(--color-bluegray-10);
+  font-weight: 600;
+}
+
+.overview-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  font-size: 24px;
+}
+
+.overview-wrapper h3 {
+  font-weight: 600;
+}
+
+.overview {
+  color: var(--color-white);
 }
