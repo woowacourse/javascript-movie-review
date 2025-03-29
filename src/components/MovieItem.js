@@ -44,6 +44,13 @@ const MovieItem = ({ movie }) => {
     $wrap.appendChild(Modal(movieDetails));
   });
   
+  if(!localStorage.getItem(movie.id)) {
+    localStorage.setItem(
+      String(movie.id),
+      "5"
+    );
+
+  }
 
   return $li;
 };
