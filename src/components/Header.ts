@@ -1,4 +1,4 @@
-import { getMovies, MovieApiClient } from '@/apis';
+import { getAllMovies, getMovies, MovieApiClient } from '@/apis';
 import { DEFAULT_BACK_DROP_URL } from '@/constants';
 import { eventHandlerInstance } from '@/modules';
 import { movieDetailResponseStore, moviesStore, pageStore, searchStore, serverStore } from '@/store';
@@ -78,7 +78,7 @@ export default class Header extends Component {
       eventType: 'click',
       callback: () => {
         moviesStore.reset();
-        getMovies({ page: 1 });
+        getAllMovies({ page: 1 });
       },
       dataAction: 'reset',
     });

@@ -1,16 +1,16 @@
+import { getAllMovies, getMovies } from '@/apis';
 import { errorStore, movieRateStore, moviesStore, pageStore, searchStore } from '@/store';
 import { html } from '@/utils';
 import Component from './core/Component';
-import Movies from './Movies';
 import IntersectionObserble from './IntersectionObserble';
 import MovieDetailModal from './MovieDetailModal';
-import { getMovies } from '@/apis';
+import Movies from './Movies';
 
 export default class MovieSection extends Component {
   override setup() {
     this.subsribe([moviesStore, errorStore, searchStore]);
 
-    getMovies({ query: searchStore.getState(), page: pageStore.getState() });
+    getAllMovies({ page: pageStore.getState() });
 
     new MovieDetailModal({ movieRate: movieRateStore.getState() });
   }
@@ -38,7 +38,9 @@ export default class MovieSection extends Component {
     this.fillSlot(
       new IntersectionObserble({
         callback: async () => {
-          await getMovies({ query: searchStore.getState(), page: pageStore.getState() + 1 });
+          const query = searchStore.getState();
+          if (query) await getMovies({ query: searchStore.getState(), page: pageStore.getState() + 1 });
+          if (!query) await getAllMovies({ page: pageStore.getState() + 1 });
         },
         id: 'movie-more',
       }),
