@@ -6,7 +6,7 @@ import { addErrorBox } from "./components/ErrorBox/ErrorBox";
 import $HeaderBox from "./components/HeaderBox/HeaderBox";
 import { $MovieListBox } from "./components/MovieListBox/MovieListBox";
 import $ScrollToTopButton from "./components/ScrollToTop/ScrollToTopButton";
-import { replaceSkeletonList } from "./components/Skeleton/MovieList/SkeletonList";
+import { replaceSkeletonList } from "./components/MovieListBox/Skeleton/MovieList/SkeletonList";
 import $Modal from "./components/Modal/Modal";
 
 export const replaceMovieListBox = ({
