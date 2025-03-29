@@ -53,3 +53,5 @@
   - [ ] 파일 및 컨트롤러 분리
   - [x] searchController 생성자 재생성 방지
   - [x] api 호출시, 로딩스피너 및 에러메시지 공통처리
+  - [x] movieListController 역할 재분리 (내부에서 api 처리)
+  - [x] movieListController, searchListController 이벤트 변경 (무한 스크롤)

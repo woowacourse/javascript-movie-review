@@ -1,47 +1,59 @@
+import { getPopularMovieResult } from "../api/movie/getPopularMovieResult";
 import MovieItem from "../component/MovieItem";
 import MovieListSection from "../component/MovieListSection";
-import { MovieItemType } from "../types/movieResultType";
+import MovieResults from "../domain/MovieResults";
+import { MovieItemType, MovieResultType } from "../types/movieResultType";
+import infinityScrollObserver from "../util/infinityScrollObserver";
 
 interface MovieListControllerType {
   mainElement: HTMLElement;
-  handleSeeMore: () => void;
-  openDetailModal: (id: number) => void;
+  movieResults: MovieResults;
 }
 
 class MovieListController {
   mainElement;
-  handleSeeMore;
-  openDetailModal;
+  movieResults;
 
-  constructor({ mainElement, handleSeeMore, openDetailModal }: MovieListControllerType) {
+  constructor({ mainElement, movieResults }: MovieListControllerType) {
     this.mainElement = mainElement;
-    this.handleSeeMore = handleSeeMore;
-    this.openDetailModal = openDetailModal;
+    this.movieResults = movieResults;
   }
 
-  async render({ movieList, hasMore }: { movieList: MovieItemType[]; hasMore: boolean }) {
-    this.renderMovieList({
-      movieList,
-      hasMore,
-    });
+  async render() {
+    this.mainElement.innerHTML = "";
+
+    const hasExistingData = this.movieResults.getMovieList().length > 0;
+
+    if (hasExistingData) {
+      // 기존에 저장된 영화 리스트가 있을 경우
+      const movieList = this.movieResults.getMovieList();
+      const hasMore = this.movieResults.hasMore();
+
+      this.renderMovieList({ movieList, hasMore });
+    } else {
+      // 없을 경우 API 호출
+      const { movieList, newPage, totalPage } = await this.fetchAndStoreMovies();
+
+      this.renderMovieList({
+        movieList,
+        hasMore: newPage !== totalPage,
+      });
+    }
 
     this.bindEvents();
   }
 
-  bindEvents() {
-    const seeMoreElement = this.mainElement.querySelector(".see-more");
-    seeMoreElement?.addEventListener("click", () => {
-      this.handleSeeMore();
-    });
+  async fetchAndStoreMovies(page: number = 1) {
+    const {
+      page: newPage,
+      total_pages: totalPage,
+      results: movieList,
+    }: MovieResultType = await getPopularMovieResult(page);
 
-    this.mainElement.addEventListener("click", (event) => {
-      const target = event.target as HTMLElement;
-      const item = target.closest("div.item");
+    this.movieResults.addMovieList(newPage, movieList);
+    this.movieResults.initialTotalPage(totalPage);
 
-      if (item) {
-        this.openDetailModal(Number(item.id));
-      }
-    });
+    return { movieList, newPage, totalPage };
   }
 
   renderMovieList({ movieList, hasMore }: { movieList: MovieItemType[]; hasMore: boolean }) {
@@ -50,7 +62,17 @@ class MovieListController {
       movieList,
       hasMore,
     });
-    this.mainElement.replaceChildren(sectionElement);
+    this.mainElement.appendChild(sectionElement);
+  }
+
+  async loadNextMoviePage() {
+    const nextPage = this.movieResults.getPage() + 1;
+    const { movieList, newPage, totalPage } = await this.fetchAndStoreMovies(nextPage);
+
+    this.addMovieList({
+      movieList,
+      hasMore: newPage !== totalPage,
+    });
   }
 
   async addMovieList({ movieList, hasMore }: { movieList: MovieItemType[]; hasMore: boolean }) {
@@ -60,6 +82,11 @@ class MovieListController {
     movieList.forEach((movie) => movieListContainer.appendChild(MovieItem(movie)));
 
     if (!hasMore) this.mainElement.querySelector(".see-more")?.remove();
+  }
+
+  bindEvents() {
+    const seeMoreElement = this.mainElement.querySelector(".see-more") as Element;
+    infinityScrollObserver(seeMoreElement, this.loadNextMoviePage.bind(this));
   }
 }
 

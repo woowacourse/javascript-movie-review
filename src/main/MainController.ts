@@ -1,22 +1,16 @@
-import { ERROR_MESSAGE } from "../constant/errorMessage";
 import HeaderController from "../controller/HeaderController";
 import MessageModalController from "../controller/MessageModalController";
 import MovieListController from "../controller/MovieListController";
 import SearchMovieListController from "../controller/SearchMovieListController";
 import BackgroundThumbnailController from "../controller/BackgroundThumbnailController";
-import { MovieResultType } from "../types/movieResultType";
-import { getPopularMovieResult } from "../api/getPopularMovieResult";
 import MovieResults from "../domain/MovieResults";
 import DetailModalController from "../controller/DetailModalController";
 import StorageMovieResults from "../domain/StorageMovieResults";
-import Spinner from "../component/Spinner";
-import infinityScrollObserver from "../util/InfinityScrollObserver";
 
 class MainController {
   movieResults;
   StorageMovieResults;
   mainElement;
-  spinnerElement;
   messageModalController;
   movieListController;
   backgroundThumbnailController;
@@ -29,9 +23,6 @@ class MainController {
 
     this.mainElement = document.querySelector("main") as HTMLElement;
 
-    this.spinnerElement = Spinner();
-    this.mainElement.insertAdjacentElement("beforebegin", this.spinnerElement);
-
     this.messageModalController = new MessageModalController(this.mainElement);
     this.detailModalController = new DetailModalController({
       mainElement: this.mainElement,
@@ -40,81 +31,39 @@ class MainController {
 
     this.movieListController = new MovieListController({
       mainElement: this.mainElement,
-      handleSeeMore: this.handleSeeMore.bind(this),
-      openDetailModal: async (id) => {
-        const movieItem = await this.StorageMovieResults.getDetailMovieResultById(id);
-        this.detailModalController.changeContent(movieItem);
-      },
+      movieResults: this.movieResults,
     });
 
     this.backgroundThumbnailController = new BackgroundThumbnailController({
       mainElement: this.mainElement,
-      openDetailModal: async (id: number) => {
-        const movieItem = await this.StorageMovieResults.getDetailMovieResultById(id);
-        this.detailModalController.changeContent(movieItem);
-      },
+      openDetailModal: (id: number) => this.openDetailModal(id),
     });
 
     this.searchMovieListController = new SearchMovieListController(this.mainElement);
 
     new HeaderController({
       renderSearchMovieList: (searchValue) => this.searchMovieListController.render(searchValue),
-      renderMovieList: () => {
-        const movieList = this.movieResults.getMovieList();
-        const hasMore = this.movieResults.hasMore();
-        this.movieListController.render({ movieList, hasMore });
-      },
+      renderMovieList: () => this.movieListController.render(),
     });
   }
 
   async render() {
-    this.spinnerElement.classList.add("active");
-
-    try {
-      const { movieList, newPage, totalPage } = await this.fetchAndStoreMovies();
-      this.movieListController.render({
-        movieList,
-        hasMore: newPage !== totalPage,
-      });
-      // thumbnail 렌더 예시
-      await this.backgroundThumbnailController.render(movieList[0]);
-    } catch (error) {
-      this.messageModalController.changeContentMessage(
-        ERROR_MESSAGE[Number((error as Error).message)] || "알 수 없는 오류가 발생했습니다.",
-      );
-      this.messageModalController.messageModalElement.showModal();
-    }
-    this.spinnerElement.classList.remove("active");
-
-    const seeMore = this.mainElement.querySelector(".see-more") as Element;
-
-    infinityScrollObserver(seeMore, this.handleSeeMore.bind(this));
+    await this.movieListController.render();
+    await this.backgroundThumbnailController.render(this.movieResults.getMovieList()[0]);
+    this.bindEvents();
   }
 
-  async fetchAndStoreMovies(page: number = 1) {
-    const {
-      page: newPage,
-      total_pages: totalPage,
-      results: movieList,
-    }: MovieResultType = await getPopularMovieResult(page);
-
-    this.movieResults.addMovieList(newPage, movieList);
-    this.movieResults.initialTotalPage(totalPage);
-
-    return { movieList, newPage, totalPage };
+  async openDetailModal(id: number) {
+    const movieItem = await this.StorageMovieResults.getDetailMovieResultById(id);
+    this.detailModalController.changeContent(movieItem);
   }
 
-  async handleSeeMore() {
-    this.spinnerElement.classList.add("active");
+  bindEvents() {
+    this.mainElement.addEventListener("click", (event) => {
+      const target = event.target as HTMLElement;
+      const item = target.closest("div.item");
 
-    const nextPage = this.movieResults.getPage() + 1;
-    const { movieList, newPage, totalPage } = await this.fetchAndStoreMovies(nextPage);
-
-    this.spinnerElement.classList.remove("active");
-
-    this.movieListController.addMovieList({
-      movieList,
-      hasMore: newPage !== totalPage,
+      if (item) this.openDetailModal(Number(item.id));
     });
   }
 }

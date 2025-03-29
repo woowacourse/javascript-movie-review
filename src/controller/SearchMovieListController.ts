@@ -1,8 +1,9 @@
-import { getSearchMovieResult } from "../api/getSearchMovieResult";
+import { getSearchMovieResult } from "../api/movie/getSearchMovieResult";
 import MovieEmptySection from "../component/MovieEmptySection";
 import MovieItem from "../component/MovieItem";
 import MovieListSection from "../component/MovieListSection";
 import { MovieItemType, MovieResultType } from "../types/movieResultType";
+import infinityScrollObserver from "../util/infinityScrollObserver";
 
 class SearchMovieListController {
   mainElement;
@@ -13,11 +14,15 @@ class SearchMovieListController {
     this.mainElement = mainElement;
   }
 
-  bindEvents() {
-    const seeMoreElement = this.mainElement.querySelector(".see-more");
-    seeMoreElement?.addEventListener("click", () => {
-      this.addMovieList();
-    });
+  async render(searchText: string) {
+    this.mainElement.innerHTML = "";
+    this.searchText = searchText;
+    this.page = 0;
+
+    const { movieList, hasMore } = await this.fetchMovies();
+    this.renderSearchMovieList({ movieList, hasMore });
+
+    this.bindEvents();
   }
 
   async fetchMovies() {
@@ -31,17 +36,6 @@ class SearchMovieListController {
     const hasMore = newPage !== totalPage;
 
     return { movieList, hasMore };
-  }
-
-  async render(searchText: string) {
-    this.mainElement.innerHTML = "";
-    this.searchText = searchText;
-    this.page = 0;
-
-    const { movieList, hasMore } = await this.fetchMovies();
-    this.renderSearchMovieList({ movieList, hasMore });
-
-    this.bindEvents();
   }
 
   renderSearchMovieList({ movieList, hasMore }: { movieList: MovieItemType[]; hasMore: boolean }) {
@@ -70,6 +64,11 @@ class SearchMovieListController {
     });
 
     if (!hasMore) this.mainElement.querySelector(".see-more")?.remove();
+  }
+
+  bindEvents() {
+    const seeMoreElement = this.mainElement.querySelector(".see-more") as Element;
+    infinityScrollObserver(seeMoreElement, this.addMovieList.bind(this));
   }
 }
 
