@@ -2,7 +2,7 @@ import { Footer, Header, Movies, Toast } from './components';
 import { Component } from './components/core';
 import { TOAST_TYPE } from './components/Toast';
 import { eventHandlerInstance } from './modules';
-import { toastMessage } from './modules/Message';
+import { toastMessage } from './modules';
 import { html } from './utils';
 
 export default class App extends Component {

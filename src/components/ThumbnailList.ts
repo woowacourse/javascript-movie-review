@@ -7,7 +7,7 @@ import { MOVIE_ITEM_PER_PAGE } from '../constants';
 import Component from './core/Component';
 import { eventHandlerInstance } from '@/modules';
 import { MovieApiClient } from '@/apis';
-import { errorMessage } from '@/modules/Message';
+import { errorMessage } from '@/modules';
 
 export default class ThumbnailList extends Component {
   override template() {

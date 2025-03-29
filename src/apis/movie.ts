@@ -1,5 +1,5 @@
 import { MovieApiClient } from '@/apis';
-import { errorMessage } from '@/modules/Message';
+import { errorMessage } from '@/modules';
 import { errorStore, moviesResponseStore, moviesStore, pageStore, searchStore, serverStore } from '@/store';
 import { isError, isString } from '@/utils';
 

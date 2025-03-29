@@ -1,5 +1,5 @@
 import { Observer } from '@/modules';
-import { errorMessage } from '@/modules/Message';
+import { errorMessage } from '@/modules';
 import { Store } from '@/store';
 import { HTMLType, StrictObject } from '@/types';
 import { html } from '@/utils';

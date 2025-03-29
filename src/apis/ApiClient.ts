@@ -1,4 +1,4 @@
-import { errorMessage } from '@/modules/Message';
+import { errorMessage } from '@/modules';
 import { isError, isString } from '@/utils';
 
 type HttpMethodType = 'GET' | 'POST' | 'DELETE' | 'PUT';
