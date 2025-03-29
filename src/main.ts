@@ -36,12 +36,11 @@ const initPopularMovieListRender = async () => {
   });
 };
 
-const $header = document.querySelector("header");
-$header?.append($Banner(), $HeaderBox());
+const $header = document.querySelector("header") as HTMLElement;
+$header.append($Banner(), $HeaderBox());
 
-const $app = document.querySelector("#app");
-$app?.appendChild($ScrollToTopButton());
-$app?.appendChild($Modal());
+const $app = document.querySelector("#app") as HTMLElement;
+$app.append($ScrollToTopButton(), $Modal());
 
 asyncErrorBoundary({
   asyncFn: () => initPopularMovieListRender(),
