@@ -1,3 +1,4 @@
+import "./skeletonMovieList.css";
 import $SkeletonItem from "./MovieItem/SkeletonItem";
 
 export const replaceSkeletonList = () => {

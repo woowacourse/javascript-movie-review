@@ -5,7 +5,7 @@ import getSearchedMovieList from "../../apis/getSearchedMovieList";
 import {
   addSkeletonList,
   removeSkeletonList,
-} from "../Skeleton/MovieList/SkeletonList";
+} from "./Skeleton/MovieList/SkeletonList";
 import asyncErrorBoundary from "../ErrorBoundary/Async/asyncErrorBoundary";
 import { addErrorBox } from "../ErrorBox/ErrorBox";
 

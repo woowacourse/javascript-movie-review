@@ -3,6 +3,7 @@ import getMovieDetail from "../../../../apis/getMovieDetail";
 import { openModal } from "../../../Modal/Modal";
 import $MovieDetailModal from "../../../Modal/MovieDetail/MovieDetailModal";
 import $MoviePoster from "../../../MoviePoster/MoviePoster";
+import $SkeletonMovieDetail from "../../../Modal/MovieDetail/Skeleton/MovieDetailModal/SkeletonMovieDetail";
 
 const $MovieItem = ({ id, title, poster_path, vote_average }: MovieDetail) => {
   const $rate = createElement("p", {
@@ -41,6 +42,7 @@ const $MovieItem = ({ id, title, poster_path, vote_average }: MovieDetail) => {
 
   $item.addEventListener("click", async () => {
     const movieDetail = await getMovieDetail(id);
+    openModal($SkeletonMovieDetail());
     openModal($MovieDetailModal(movieDetail));
   });
 

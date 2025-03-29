@@ -3,7 +3,7 @@ import { replaceMovieListBox } from "../../main";
 import { removeBanner } from "../Banner/Banner";
 import { addErrorBox } from "../ErrorBox/ErrorBox";
 import { setMovieListState } from "../MovieListBox/MovieListBox";
-import { replaceSkeletonList } from "../Skeleton/MovieList/SkeletonList";
+import { replaceSkeletonList } from "../MovieListBox/Skeleton/MovieList/SkeletonList";
 
 const handleSearchFormSubmit = async (event: Event) => {
   event.preventDefault();
