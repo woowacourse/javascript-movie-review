@@ -1,15 +1,14 @@
 .gnb {
+  margin: auto;
+  margin-top: 30px;
+  margin-bottom: 50px;
   display: flex;
-  justify-content: center;
   position: relative;
   z-index: 100;
-  margin: 48px;
-  width: 90%;
-  margin-bottom: 50px;
+  width: 67%;
 }
 
 .logo {
-  position: absolute;
   left: 0;
 }
 
@@ -26,9 +25,11 @@
 }
 
 .search-bar-container {
+  margin: auto;
   display: flex;
   border: 2px solid #d1d5db;
-  width: 525px;
+  max-width: 525px;
+  width: 100%;
   height: 36px;
   border-radius: 32px;
 }
@@ -70,4 +71,55 @@
   height: 62px;
   margin: auto;
   margin-bottom: 10px;
+}
+
+.my-rate .star {
+  cursor: pointer;
+}
+
+@media (max-width: 1050px) {
+  .gnb {
+    flex-direction: column;
+  }
+
+  .logo {
+    margin: auto;
+  }
+
+  .modal-container {
+    flex-direction: column;
+  }
+  .modal-background {
+    align-items: end;
+  }
+
+  .modal-image {
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .modal-image img {
+    width: 200px;
+  }
+
+  .thumbnail-list, .list-title {
+    padding-left: 150px;
+  }  
+}
+
+@media (max-width: 480px) {
+  .modal-image img {
+    display: none;
+  }
+
+  .background-container {
+    padding: 28px;
+    height: 300px;
+  }
+
+  .thumbnail-list, .list-title {
+    padding-left: 80px;
+  }  
+
 }

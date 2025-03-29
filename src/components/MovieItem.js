@@ -1,7 +1,9 @@
+import Modal from "./Modal";
 import MoviePreviewInfo from "./MoviePreviewInfo";
 import createElement from "./utils/createElement";
 import imageUrl from "../utils/imageUrl";
 import nullImage from "../../images/nullImage.png";
+import fetchDetailsMovie from "../fetch/fetchDetailsMovie";
 
 const MovieItem = ({ movie }) => {
   const title = movie?.title;
@@ -35,6 +37,20 @@ const MovieItem = ({ movie }) => {
       bigFont: false,
     })
   );
+
+  $li.addEventListener("click", async () => {
+    const movieDetails = await fetchDetailsMovie(movie.id);
+    const $wrap = document.querySelector("#wrap");
+    $wrap.appendChild(Modal(movieDetails));
+  });
+  
+  if(!localStorage.getItem(movie.id)) {
+    localStorage.setItem(
+      String(movie.id),
+      "0"
+    );
+
+  }
 
   return $li;
 };
