@@ -2,7 +2,6 @@ import Movie from '../domain/Movie.ts';
 import MovieList from '../components/movie/MovieList.js';
 import MovieService from '../domain/MovieService.ts';
 import MovieCard from '../components/movie/MovieCard.js';
-import { APIResponse, MovieResponse } from '../domain/tmdbApi.ts';
 import { store } from '../store/store.ts';
 export default class MovieListHandler {
   private movieList: MovieList | undefined;
@@ -82,7 +81,6 @@ export default class MovieListHandler {
     },
     query?: string,
   ): void {
-    // 기존 스크롤 이벤트 리스너 제거
     if (this.movieList && this.movieList.boundHandleScroll) {
       window.removeEventListener('scroll', this.movieList.boundHandleScroll);
     }

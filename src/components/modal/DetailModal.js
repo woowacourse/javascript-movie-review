@@ -1,4 +1,3 @@
-
 import StarRating from './StarRating.js';
 
 class DetailModal {
@@ -26,8 +25,8 @@ class DetailModal {
             <h2>${this.movie.title}</h2>
             <p class="category">
               ${this.movie.release_date} · ${this.movie.genres
-      .map(genre => genre.name)
-      .join(', ')}
+                .map(genre => genre.name)
+                .join(', ')}
             </p>
             
             <p class="rate">
@@ -56,13 +55,14 @@ class DetailModal {
     `;
 
     // StarRating 컴포넌트 추가
-    const starRatingContainer = modalBackground.querySelector('.star-rating-container');
+    const starRatingContainer = modalBackground.querySelector(
+      '.star-rating-container',
+    );
     const starRating = new StarRating(this.movie);
     starRatingContainer.appendChild(starRating.render());
 
     return modalBackground;
   }
-
 
   addDetailModal(movie) {
     const modal = new DetailModal(movie);

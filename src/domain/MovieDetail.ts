@@ -1,4 +1,4 @@
-import { MovieDetailResponse } from "../../api/tmdbApi";
+import { MovieDetailResponse } from './tmdbApi';
 
 export interface MovieDetailDTO {
   id: number;
@@ -23,11 +23,11 @@ export interface MovieDetailDTO {
   tagline: string | null;
   video: boolean;
   belongsToCollection: any | null;
-  productionCompanies: { 
-    id: number; 
-    logoPath: string | null; 
-    name: string; 
-    originCountry: string 
+  productionCompanies: {
+    id: number;
+    logoPath: string | null;
+    name: string;
+    originCountry: string;
   }[];
   productionCountries: {
     iso31661: string;
@@ -63,11 +63,11 @@ export default class MovieDetail {
   tagline: string | null;
   video: boolean;
   belongsToCollection: any | null;
-  productionCompanies: { 
-    id: number; 
-    logoPath: string | null; 
-    name: string; 
-    originCountry: string 
+  productionCompanies: {
+    id: number;
+    logoPath: string | null;
+    name: string;
+    originCountry: string;
   }[];
   productionCountries: {
     iso31661: string;
@@ -135,17 +135,17 @@ export default class MovieDetail {
         id: company.id,
         logoPath: company.logo_path,
         name: company.name,
-        originCountry: company.origin_country
+        originCountry: company.origin_country,
       })),
       productionCountries: response.production_countries.map(country => ({
         iso31661: country.iso_3166_1,
-        name: country.name
+        name: country.name,
       })),
       spokenLanguages: response.spoken_languages.map(language => ({
         englishName: language.english_name,
         iso6391: language.iso_639_1,
-        name: language.name
-      }))
+        name: language.name,
+      })),
     });
   }
 
@@ -168,7 +168,11 @@ export default class MovieDetail {
       return '개봉일 정보 없음';
     }
     const date = new Date(this.releaseDate);
-    return date.toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' });
+    return date.toLocaleDateString('ko-KR', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
   }
 
   getFormattedRuntime(): string {

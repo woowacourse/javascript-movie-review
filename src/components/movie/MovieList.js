@@ -39,30 +39,32 @@ export default class MovieList {
 
   handleScroll() {
     if (this.loading || this.currentPage >= this.totalPage) {
-    if (this.currentPage >= this.totalPage) {
-      console.log(`마지막 페이지 도달: ${this.currentPage}/${this.totalPage}`);
-      window.removeEventListener('scroll', this.boundHandleScroll);
+      if (this.currentPage >= this.totalPage) {
+        console.log(
+          `마지막 페이지 도달: ${this.currentPage}/${this.totalPage}`,
+        );
+        window.removeEventListener('scroll', this.boundHandleScroll);
+      }
+      return;
     }
-    return;
-  }
     const scrollHeight = document.documentElement.scrollHeight;
-    const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+    const scrollTop =
+      document.documentElement.scrollTop || document.body.scrollTop;
     const clientHeight = document.documentElement.clientHeight;
 
-   if (scrollTop + clientHeight >= scrollHeight - 100) {
-    if (this.scrollTimer) return;
-    
-  
-    this.scrollTimer = setTimeout(() => {
-      console.log('로드 요청: 페이지', this.currentPage, '/', this.totalPage);
-      if (store.getMode() === 'searchAdd') {
-        this.movieListHandler.loadMoreMovies(this.lastQuery);
-      } else {
-        this.movieListHandler.loadMoreMovies();
-      }
-      this.scrollTimer = null;
-    }, 300);
-  }
+    if (scrollTop + clientHeight >= scrollHeight - 100) {
+      if (this.scrollTimer) return;
+
+      this.scrollTimer = setTimeout(() => {
+        console.log('로드 요청: 페이지', this.currentPage, '/', this.totalPage);
+        if (store.getMode() === 'searchAdd') {
+          this.movieListHandler.loadMoreMovies(this.lastQuery);
+        } else {
+          this.movieListHandler.loadMoreMovies();
+        }
+        this.scrollTimer = null;
+      }, 300);
+    }
   }
 
   addMovieClickEvent() {

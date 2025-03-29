@@ -15,10 +15,8 @@ export default class Logo {
     }
   }
 
-  
   async handleLogoClick() {
-  
-    store.setMode('popularAdd'); 
-    await this.movieListHandler.initMovieList(); 
+    store.setMode('popularAdd');
+    await this.movieListHandler.initMovieList();
   }
 }

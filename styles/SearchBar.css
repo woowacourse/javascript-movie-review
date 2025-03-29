@@ -6,11 +6,10 @@
   justify-content: space-between;
   align-items: center;
   border-radius: 32px;
-  border: 2px solid #D1D5DB;
+  border: 2px solid #d1d5db;
   padding: 6px 16px;
   margin: 0 auto;
 }
-
 
 .search-form {
   width: 100%;
@@ -44,5 +43,4 @@
 
 .search-header .logo {
   margin-bottom: 24px;
-  
 }

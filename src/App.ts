@@ -5,7 +5,6 @@ import SearchBar from './components/search/SearchBar.js';
 import MovieListHandler from './handlers/MovieListHandler.js';
 import SearchHandler from './handlers/SearchHandler.js';
 import Logo from './components/header/Logo.js';
-import { store } from './store/store.js';
 
 export default class App {
   private api: TmdbApi;
@@ -20,15 +19,13 @@ export default class App {
     );
 
     this.movieService = new MovieService(this.api);
-
-    this.movieListHandler = new MovieListHandler(this.movieService, store);
+    this.movieListHandler = new MovieListHandler(this.movieService);
     this.searchHandler = new SearchHandler(this.movieListHandler);
   }
 
   async initialize(): Promise<void> {
     try {
       this.initializeUIComponents();
-
       await this.movieListHandler.loadMovies();
     } catch (error) {
       console.error('애플리케이션 초기화 실패:', error);

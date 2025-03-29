@@ -10,7 +10,7 @@ class StarRating {
   render() {
     const container = document.createElement('div');
     container.classList.add('star-rating');
-    container.innerHTML = /*html*/`
+    container.innerHTML = /*html*/ `
       <div class="star-rating-item">
         <span class="empty-star" data-rating="1"><img src="./images/star_empty.png" class="star" /></span>
         <span class="empty-star" data-rating="2"><img src="./images/star_empty.png" class="star" /></span>
@@ -28,7 +28,7 @@ class StarRating {
     return container;
   }
 
-    setupStarRating(modalElement) {
+  setupStarRating(modalElement) {
     const stars = modalElement.querySelectorAll('.empty-star');
     const ratingText = modalElement.querySelector('.rating-text');
     const ratingScore = modalElement.querySelector('.rating-score');
@@ -79,7 +79,6 @@ class StarRating {
           }
         });
 
-        
         ratingText.textContent = ratingTexts[rating];
         ratingScore.textContent = ratingScores[rating];
       });
