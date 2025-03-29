@@ -6,7 +6,8 @@ import { EVENT_TYPES } from "./types";
 const eventBus = EventBus.getInstance();
 
 const SELECTORS = {
-  modalClose: "#closeModal",
+  closeModalButton: "#closeModal",
+  modalBackground: ".modal-background",
   movieItem: ".thumbnail-list .item, .top-rated-button",
   searchForm: ".top-rated-search",
   searchInput: ".top-rated-search-input",
@@ -19,8 +20,14 @@ window.addEventListener("click", async (event) => {
 
   const elementMap = [
     {
-      selector: SELECTORS.modalClose,
+      selector: SELECTORS.closeModalButton,
       action: () => eventBus.emit(EVENT_TYPES.modalClose),
+      matchMethod: "closest",
+    },
+    {
+      selector: SELECTORS.modalBackground,
+      action: () => eventBus.emit(EVENT_TYPES.modalClose),
+      matchMethod: "matches",
     },
     {
       selector: SELECTORS.movieItem,
@@ -32,6 +39,7 @@ window.addEventListener("click", async (event) => {
 
         eventBus.emit(EVENT_TYPES.modalOpen, movieId);
       },
+      matchMethod: "closest",
     },
     {
       selector: SELECTORS.ratingStar,
@@ -41,11 +49,18 @@ window.addEventListener("click", async (event) => {
 
         eventBus.emit(EVENT_TYPES.setRating, newRating);
       },
+      matchMethod: "closest",
     },
   ];
 
-  for (const { selector, action } of elementMap) {
-    const element = target.closest(selector);
+  for (const { selector, action, matchMethod } of elementMap) {
+    const element =
+      matchMethod === "matches"
+        ? target.matches(selector)
+          ? target
+          : null
+        : target.closest(selector);
+
     if (!element) continue;
     action(element);
     return;
