@@ -4,7 +4,9 @@ export function DetailModalRender(movie) {
   if (!movie) return "";
 
   return /* html */ `
-    <div class="modal-background active" id="$modalBackground">
+    <div class="modal-background active" id="$modalBackground" data-movie-id="${
+      movie.id
+    }">
       <div class="modal">
         <button class="close-modal" id="closeModal">
           <img src="./images/modal_button_close.png" />
@@ -41,7 +43,7 @@ export function DetailModalRender(movie) {
                   <img src="./images/star_empty.png" class="star" />
                 </div>
                 <div class="score__description">
-                  <span class="score__description--text">명작이예요</span>
+                  <span class="score__description--text"></span>
                   <span class="score__description--score">(<span class="score-number">0</span>/10)</span>
                 </div>
               </div>
@@ -84,39 +86,62 @@ export function DetailModalMount() {
   window.addEventListener("keydown", escHandler);
 
   const $stars = $modalBackground.querySelectorAll(".score__stars .star");
+  const $scoreNumber = $modalBackground.querySelector(".score-number");
+  const $scoreDescriptionText = $modalBackground.querySelector(
+    ".score__description--text"
+  );
+
+  const movieId = $modalBackground.getAttribute("data-movie-id");
+
+  if (movieId && $scoreNumber && $scoreDescriptionText) {
+    const storedRating = localStorage.getItem("userRating_" + movieId);
+    if (storedRating) {
+      const ratingValue = parseInt(storedRating, 10);
+      $stars.forEach((star, i) => {
+        star.src =
+          i < ratingValue / 2
+            ? "./images/star_filled.png"
+            : "./images/star_empty.png";
+      });
+      $scoreNumber.textContent = storedRating;
+      updateScoreDescription(storedRating, $scoreDescriptionText);
+    }
+  }
+
   $stars.forEach((star, index) => {
     star.addEventListener("click", () => {
-      $stars.forEach((s, i) => {
-        if (i <= index) {
-          s.src = "./images/star_filled.png";
-        } else {
-          s.src = "./images/star_empty.png";
-        }
-        updateScoreDescription(index);
+      $stars.forEach((star, i) => {
+        star.src =
+          i <= index ? "./images/star_filled.png" : "./images/star_empty.png";
       });
+
+      const newRating = (index + 1) * 2;
+      if ($scoreNumber) {
+        $scoreNumber.textContent = newRating.toString();
+      }
+      if (movieId) {
+        localStorage.setItem("userRating_" + movieId, newRating.toString());
+      }
+      if ($scoreDescriptionText) {
+        updateScoreDescription(newRating.toString(), $scoreDescriptionText);
+      }
     });
   });
 }
 
-function updateScoreDescription(index) {
-  const $scoreDescription = $modalBackground.querySelector(".score-number");
-  const $scoreDescriptionText = $modalBackground.querySelector(
-    ".score__description--text"
-  );
-  if ($scoreDescription) {
-    $scoreDescription.textContent = (index + 1) * 2;
-  }
-
-  const scoreValue = $scoreDescription.textContent;
-  if (scoreValue === "2") {
-    $scoreDescriptionText.textContent = "최악이예요";
-  } else if (scoreValue === "4") {
-    $scoreDescriptionText.textContent = "별로예요";
-  } else if (scoreValue === "6") {
-    $scoreDescriptionText.textContent = "보통이에요";
-  } else if (scoreValue === "8") {
-    $scoreDescriptionText.textContent = "재미있어요";
-  } else if (scoreValue === "10") {
-    $scoreDescriptionText.textContent = "명작이에요";
+function updateScoreDescription(ratingStr, element) {
+  const rating = Number(ratingStr);
+  if (rating === 2) {
+    element.textContent = "최악이예요";
+  } else if (rating === 4) {
+    element.textContent = "별로예요";
+  } else if (rating === 6) {
+    element.textContent = "보통이에요";
+  } else if (rating === 8) {
+    element.textContent = "재미있어요";
+  } else if (rating === 10) {
+    element.textContent = "명작이에요";
+  } else {
+    element.textContent = "별점을 선택해주세요";
   }
 }
