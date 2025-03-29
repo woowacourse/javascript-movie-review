@@ -7,19 +7,12 @@ import { MOVIE } from "../../../constants/movie";
 class MovieListSection {
   #modalId;
 
-  constructor(
-    title,
-    movies,
-    isLoading,
-    $target,
-    handleButtonClick,
-    isLastPage
-  ) {
+  constructor(title, movies, isLoading, $target, loadMoreMovies, isLastPage) {
     this.title = title;
     this.movies = movies;
     this.isLoading = isLoading;
     this.$target = $target;
-    this.handleButtonClick = handleButtonClick;
+    this.loadMoreMovies = loadMoreMovies;
     this.isLastPage = isLastPage;
 
     this.#modalId;
@@ -112,7 +105,7 @@ class MovieListSection {
 
   handleIntersect(entry) {
     if (entry.isIntersecting && !this.isLoading && !this.isLastPage()) {
-      this.handleButtonClick(entry);
+      this.loadMoreMovies(entry);
     }
   }
 

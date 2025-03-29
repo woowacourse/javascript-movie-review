@@ -111,7 +111,7 @@ class MoviesCotainer {
       this.#movies,
       this.#isLoading,
       $div,
-      this.handleButtonClick,
+      this.loadMoreMovies,
       this.isLastPage
     ).render();
 
@@ -128,7 +128,7 @@ class MoviesCotainer {
     return this.#lastPage === this.#searchPage;
   };
 
-  handleButtonClick = async () => {
+  loadMoreMovies = async () => {
     if (this.#mode === "popular") {
       this.#page += 1;
       const { results, totalPage } = await this.getMoviesResults();
