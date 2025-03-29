@@ -2,49 +2,11 @@ import { Movie } from "../types/domain.ts";
 import MovieItem from "./components/MovieItem";
 import SearchBar from "./components/SearchBar";
 import SkeletonUl from "./components/SkeletonUl";
-import { IMAGE, ITEMS } from "./constants/movie.ts";
-import { selectElement } from "./utils/dom.ts";
-import { toggleElementVisibility } from "./utils/Render.ts";
+import { IMAGE } from "./constants/movie.ts";
+import { fetchMovies, selectElement } from "./utils/ui.ts";
 import MovieList from "./components/MovieList.ts";
-import calculatePageNumber from "./domain/calculatePageNumber.ts";
 import movieService from "./service/movieService.ts";
 import Modal from "./components/Modal.ts";
-
-const getTotalMovies = async (
-  currentItemCount: number = ITEMS.initialCount
-) => {
-  toggleElementVisibility(".skeleton-list", "show");
-
-  const pageNumber = calculatePageNumber(currentItemCount);
-  const { results, totalResults } = await movieService.getMovies(pageNumber);
-
-  if (totalResults === 0) {
-    toggleElementVisibility(".no-thumbnail", "show");
-  }
-
-  toggleElementVisibility(".skeleton-list", "hidden");
-
-  return results;
-};
-
-const getSearchResults = async (query: string, currentItemCount: number) => {
-  const pageNumber = calculatePageNumber(currentItemCount);
-
-  toggleElementVisibility(".skeleton-list", "show");
-
-  const { results, totalResults } = await movieService.searchMovies(
-    pageNumber,
-    query
-  );
-
-  if (totalResults === 0) {
-    toggleElementVisibility(".no-thumbnail", "show");
-  }
-
-  toggleElementVisibility(".skeleton-list", "hidden");
-
-  return results;
-};
 
 const getDetail = async (id: number) => {
   return await movieService.getMovieDetail(id);
@@ -71,12 +33,15 @@ const renderTitleMovie = (movieData: Movie[]) => {
   backgroundOverlay.style.backgroundImage = `url("${movieBackdropUrl}")`;
 };
 
-const createMovieList = (movieData: Movie[]) => {
-  const movieItems = movieData.map(({ id, title, posterPath, voteAverage }) => {
+const createMovieItems = (movieData: Movie[]): string[] => {
+  return movieData.map(({ id, title, posterPath, voteAverage }) => {
     const movieItem = new MovieItem({ id, title, voteAverage, posterPath });
     return movieItem.create();
   });
+};
 
+const createMovieList = (movieData: Movie[]) => {
+  const movieItems = createMovieItems(movieData);
   return new MovieList(movieItems);
 };
 
@@ -102,20 +67,12 @@ const updateMovieList = async (
   observer: IntersectionObserver
 ) => {
   const totalItems = movieList.getTotalItems();
-  const newMovieData = await getTotalMovies(totalItems);
+  const newMovieData = await fetchMovies({
+    currentItemCount: totalItems,
+    apiFetcher: movieService.getMovies,
+  });
 
-  const movieItems = newMovieData.map(
-    ({ id, title, posterPath, voteAverage }) => {
-      const movieItem = new MovieItem({
-        id,
-        title,
-        voteAverage,
-        posterPath,
-      });
-      return movieItem.create();
-    }
-  );
-
+  const movieItems = createMovieItems(newMovieData);
   movieList.updateList(movieItems);
 
   const newTarget = selectElement("ul.thumbnail-list > li:last-child");
@@ -138,9 +95,22 @@ const app = async () => {
 
     logo.appendChild(searchBar.create());
     mainSection.appendChild(skeletonUl.create());
+
+    const getSearchResults = async (
+      query: string,
+      currentItemCount: number
+    ) => {
+      return await fetchMovies({
+        currentItemCount,
+        apiFetcher: (page, query) =>
+          movieService.searchMovies(page, query ?? ""),
+        query,
+      });
+    };
+
     searchBar.setEvent(getSearchResults);
 
-    const movieData = await getTotalMovies();
+    const movieData = await fetchMovies({ apiFetcher: movieService.getMovies });
     const movieList = createMovieList(movieData);
 
     const detailsModal = new Modal();
