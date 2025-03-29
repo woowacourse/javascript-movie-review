@@ -1,3 +1,4 @@
+import "./movieDetailModal.css";
 import { Genre, MovieDetail } from "../../../../types/type";
 import $MoviePoster from "../../MoviePoster/MoviePoster";
 import $RateBox from "../../RateBox/RateBox";

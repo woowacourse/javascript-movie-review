@@ -1,3 +1,5 @@
+import "./errorBox.css";
+
 export const addErrorBox = (text: string) => {
   const $movieListSection = document.querySelector(
     ".movie-list-section"

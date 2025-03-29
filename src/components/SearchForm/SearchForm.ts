@@ -1,3 +1,4 @@
+import "./searchForm.css";
 import getSearchedMovieList from "../../apis/getSearchedMovieList";
 import { replaceMovieListBox } from "../../main";
 import { removeBanner } from "../Banner/Banner";

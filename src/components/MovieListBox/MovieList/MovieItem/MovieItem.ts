@@ -1,3 +1,4 @@
+import "./movieItem.css";
 import { MovieDetail } from "../../../../../types/type";
 import getMovieDetail from "../../../../apis/getMovieDetail";
 import { openModal } from "../../../Modal/Modal";

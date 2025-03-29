@@ -1,0 +1,26 @@
+@import "/public/styles/colors.css";
+
+.movie-list-box {
+  width: 1280px;
+  margin: 4rem auto 0;
+
+  @media screen and (max-width: 1280px) {
+    width: 100%;
+    padding: 0 3rem;
+  }
+}
+
+.movie-list-title {
+  font-size: 1.85rem;
+  font-weight: bold;
+  margin-bottom: 3.5rem;
+
+  @media screen and (max-width: 768px) {
+    text-align: center;
+  }
+}
+
+.observer {
+  width: 100%;
+  height: 50px;
+}

@@ -1,0 +1,25 @@
+.search-form {
+  border-radius: 32px;
+  border: 2px solid var(--color-gray-300);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.25rem;
+  width: 525px;
+  gap: 1rem;
+
+  @media screen and (max-width: 768px) {
+    width: 300px;
+  }
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.75rem 0;
+  color: var(--color-gray-300);
+  font-size: 1.1rem;
+}
+
+.search-input::placeholder {
+  color: var(--color-gray-300);
+}

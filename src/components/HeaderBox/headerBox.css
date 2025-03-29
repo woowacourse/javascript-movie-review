@@ -1,0 +1,10 @@
+.header-box {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  max-width: 1280px;
+  margin: 2.5rem auto 0;
+}

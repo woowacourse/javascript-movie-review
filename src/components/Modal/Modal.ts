@@ -1,3 +1,5 @@
+import "./modal.css";
+
 export const openModal = (content: HTMLElement) => {
   const $modal = document.querySelector(".modal") as HTMLDialogElement;
   const $modalContent = $modal.querySelector(".modal-content") as HTMLElement;

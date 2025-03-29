@@ -1,3 +1,4 @@
+import "./movieListBox.css";
 import { MovieListSectionProps } from "../../../types/type";
 import $MovieList, { addMovieItem } from "./MovieList/MovieList";
 import getPopularMovieList from "../../apis/getPopularMovieList";
