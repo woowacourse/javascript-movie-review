@@ -1,7 +1,7 @@
 import MovieGrid from '../../component/domain/movie-grid/MovieGrid';
 import { Title } from '../../component/common/title/Title';
 import { extractedData } from '../../domain/APIManager';
-import { FETCH_COUNT, MOVIE_API } from '../../constants/systemConstants';
+import { MOVIE_API } from '../../constants/systemConstants';
 import { MovieData } from '../../../types/movie';
 import { bindScrollEvent, handleBottomScroll } from '../../util/web/scroll';
 import { Modal } from '../../component/common/modal/Modal';
@@ -51,10 +51,12 @@ class SearchPage {
     }
 
     this.#movieGrid.appendSkeletonItems();
+    this.#movieGrid.setStatus('loading');
 
     if (this.#query) {
       const { movieListData, totalPage } = await extractedData(MOVIE_API.getSearchUrl(this.#query, this.#currentPage));
       this.#movieListData = movieListData;
+      this.setGridStatus();
       this.#movieGrid.replaceLastNItems(this.#movieListData);
       this.#totalPage = totalPage;
     }
@@ -68,13 +70,25 @@ class SearchPage {
     this.renderDynamicSection();
   }
 
+  setGridStatus() {
+    if (!this.#movieGrid) {
+      throw new Error(DEBUG_ERROR.getNoComponentMessage('MovieGrid'));
+    }
+
+    if (this.#movieListData.length === 0) {
+      this.#movieGrid.setStatus('empty');
+      return;
+    }
+    this.#movieGrid.setStatus('loaded');
+  }
+
   renderDynamicSection() {
     this.#container.appendChild(this.#movieGridElement());
     this.#container.appendChild(this.#modalElement());
   }
 
   #movieGridElement() {
-    this.#movieGrid = new MovieGrid({ movieItemsCount: this.#currentPage * FETCH_COUNT });
+    this.#movieGrid = new MovieGrid();
     return this.#movieGrid.element;
   }
 

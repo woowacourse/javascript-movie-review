@@ -4,34 +4,33 @@ import ErrorMessage from '../../common/error-message/ErrorMessage';
 import { MovieData } from '../../../../types/movie';
 import { FETCH_COUNT } from '../../../constants/systemConstants';
 
-interface MovieGridProps {
-  movieItemsCount: number;
-}
+type MovieGridStatus = 'loading' | 'loaded' | 'empty';
 
 class MovieGrid {
   #container: HTMLElement;
-  #movieItems: (MovieData | null)[];
   #movieItemComponents: MovieItem[] = [];
 
-  #isLoading: boolean = true;
+  #status: MovieGridStatus = 'loading';
 
-  constructor({ movieItemsCount }: MovieGridProps) {
+  constructor() {
     this.#container = document.createElement('ul');
     this.#container.classList.add('thumbnail-list');
-
-    const initialMovieItems = new Array(movieItemsCount).fill(null);
-    this.#movieItems = initialMovieItems;
 
     this.render();
   }
 
   render() {
     this.#container.innerHTML = '';
-    if (!this.#isLoading && this.#movieItems.length === 0) {
+    if (this.#status === 'empty') {
       this.#container.innerHTML = this.#emptyListElement();
       return;
     }
     this.#movieItemComponents.map((movieItem) => this.#container.appendChild(movieItem.element));
+  }
+
+  setStatus(status: MovieGridStatus) {
+    this.#status = status;
+    this.render();
   }
 
   #emptyListElement() {
