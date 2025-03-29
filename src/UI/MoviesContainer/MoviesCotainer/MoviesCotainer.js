@@ -1,5 +1,4 @@
 import MovieListSection from "../MovieListSection/MovieListSection";
-import Button from "../Button/Button";
 import Thumbnail from "../../Header/Thumbnail/Thumbnail";
 import { getPopularityMovie } from "../../../Domain/getPopularityMovie";
 import { searchMovie } from "../../../Domain/searchMovie";
@@ -10,7 +9,6 @@ class MoviesCotainer {
   #searchKeyword;
   #page;
   #searchPage;
-  #show;
   #mode;
   #lastPage;
 
@@ -19,7 +17,6 @@ class MoviesCotainer {
     this.#isLoading = false;
     this.#page = 1;
     this.#searchPage = 1;
-    this.#show = true;
 
     this.#searchKeyword = searchKeyword;
     this.#mode = mode;
@@ -48,20 +45,12 @@ class MoviesCotainer {
       return;
     }
 
-    if (totalPage === this.#page) {
-      this.setShow(false);
-    }
     this.setLastPage(totalPage);
     this.setMovies([...this.#movies, ...results]);
   }
 
   setLastPage(lastPage) {
     this.#lastPage = lastPage;
-    this.render();
-  }
-
-  setShow(show) {
-    this.#show = show;
     this.render();
   }
 
@@ -89,10 +78,6 @@ class MoviesCotainer {
         vote_average: movie.vote_average.toFixed(1),
         backdrop_path: `https://image.tmdb.org/t/p/w1280${movie.backdrop_path}`,
       }));
-
-      if (data.total_pages === this.#searchPage) {
-        this.setShow(false);
-      }
 
       return { results, totalPage: data.total_pages };
     }
@@ -133,10 +118,6 @@ class MoviesCotainer {
     $container.appendChild($main);
     $main.appendChild($div);
 
-    if (this.hasMovies() && this.#show) {
-      new Button($main, this.handleButtonClick).render();
-    }
-
     this.$target.appendChild($container);
   }
 
@@ -153,10 +134,6 @@ class MoviesCotainer {
       const { results, totalPage } = await this.getMoviesResults();
       this.setLastPage(totalPage);
 
-      if (totalPage < this.#page) {
-        this.setShow(false);
-        return;
-      }
       this.setMovies([...this.#movies, ...results]);
 
       return;
@@ -170,10 +147,6 @@ class MoviesCotainer {
     }
     this.setMovies([...this.#movies, ...results]);
   };
-
-  hasMovies() {
-    return this.#movies !== null && this.#movies.length !== 0;
-  }
 }
 
 export default MoviesCotainer;
