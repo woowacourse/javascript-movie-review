@@ -1,4 +1,4 @@
-import { Footer, Header, Movies, Toast } from './components';
+import { Footer, Header, MovieSection, Toast } from './components';
 import { Component } from './components/core';
 import { TOAST_TYPE } from './components/Toast';
 import { eventHandlerInstance } from './modules';
@@ -10,7 +10,7 @@ export default class App extends Component {
     return html`
       <div id="movie-review-wrap">
         <slot name="header"></slot>
-        <slot name="movies"></slot>
+        <slot name="movie-section"></slot>
         <slot name="footer"></slot>
       </div>
     `;
@@ -18,7 +18,7 @@ export default class App extends Component {
 
   async onRender() {
     this.fillSlot(new Header(), 'header');
-    this.fillSlot(new Movies(), 'movies');
+    this.fillSlot(new MovieSection(), 'movie-section');
     this.fillSlot(new Footer(), 'footer');
   }
 
