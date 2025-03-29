@@ -57,9 +57,16 @@ function DetailModal(movie: MovieDetailResponse): HTMLElement {
     tag: 'div',
     className: 'modal-description',
     children: [
-      createDOMElement({ tag: 'h2', textContent: title }),
-      createDOMElement({ tag: 'p', className: 'category', textContent: `${year} · ${genreText}` }),
-      averageRate,
+      createDOMElement({
+        tag: 'div',
+        className: 'title-category',
+        children: [
+          createDOMElement({ tag: 'h2', textContent: title }),
+          createDOMElement({ tag: 'p', className: 'category', textContent: `${year} · ${genreText}` }),
+          averageRate
+        ]
+      }),
+
       createDOMElement({ tag: 'hr' }),
       myRatingSection,
       createDOMElement({ tag: 'hr' }),
