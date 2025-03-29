@@ -24,11 +24,12 @@ const MovieContainer = ({ movies, status }: MovieContainerProps) => {
   $h2.textContent = "지금 인기 있는 영화";
 
   const movieListElement = MovieList({ movies, status });
+  const $button = Button({ text: BUTTON_MORE, type: "more" });
 
   $section.appendChild($h2);
   $section.appendChild(movieListElement);
   $main.appendChild($section);
-  $main.appendChild(Button({ text: BUTTON_MORE, type: "more" }));
+  $main.appendChild($button);
   $container.appendChild($main);
 
   init();

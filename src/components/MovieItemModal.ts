@@ -4,8 +4,8 @@ import extractGenres from "./utils/extractReleaseYear";
 import imageUrl from "../utils/imageUrl";
 import MovieDetails from "../types/MovieDetails";
 
-const FILLED_STAR_SRC = "./images/star_filled.png";
-const CLOSE_BTN_SRC = "./images/modal_button_close.png";
+import FilledStarSrc from "../../images/star_filled.png";
+import CloseBtnSrc from "../../images/modal_button_close.png";
 
 type StarRate = 0 | 1 | 2 | 3 | 4 | 5;
 
@@ -28,7 +28,7 @@ export default function MovieItemModal(
   return `
       <div class="modal">
         <button class="close-modal" id="closeModal">
-          <img src="${CLOSE_BTN_SRC}" />
+          <img src="${CloseBtnSrc}" />
         </button>
         <div class="modal-container">
           <div class="modal-image">
@@ -39,7 +39,7 @@ export default function MovieItemModal(
             <p class="category">${year} · ${genres}</p>
             <p class="rate">
               <span>평균</span>
-              <img src="${FILLED_STAR_SRC}" class="star" />
+              <img src="${FilledStarSrc}" class="star" />
               <span>${movieDetails.vote_average.toFixed(1)}</span>
             </p>
             <hr />
