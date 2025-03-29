@@ -108,7 +108,10 @@ export class MovieDetail {
     this.#container.querySelectorAll('.myrate__icon').forEach((element) =>
       element.addEventListener('click', (event) => {
         if (!event.target) throw new Error(DEBUG_ERROR_MESSAGE.NO_EVENT_TARGET);
-        if (!(event.target instanceof HTMLElement)) throw new Error(DEBUG_ERROR_MESSAGE.NO_HTML_ELEMENT);
+        if (!(event.target instanceof HTMLElement)) {
+          console.warn(DEBUG_ERROR_MESSAGE.NO_HTML_ELEMENT);
+          return;
+        }
 
         this.#selectedStars = Number(event.target.dataset.index);
         localStorage.setItem(String(this.#data.id), String(this.#selectedStars));
