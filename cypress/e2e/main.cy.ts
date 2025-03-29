@@ -14,7 +14,6 @@ describe('Fixture를 이용한 초기화면 테스트', () => {
     cy.visit('http://localhost:5173/javascript-movie-review/');
 
     cy.wait('@getPopularMovies').then((interception) => {
-      console.log(interception);
       expect(interception.response!.body.results).to.have.length(20);
     });
   });
