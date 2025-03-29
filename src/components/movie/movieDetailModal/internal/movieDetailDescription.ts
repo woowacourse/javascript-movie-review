@@ -1,5 +1,6 @@
 import { MovieDetail } from "../../../../domain/types";
 import { createElementWithAttributes } from "../../../utils/createElementWithAttributes";
+import myMovieRating from "./movieDetailDescription/myMovieRating";
 
 const movieDetailOverview = (movie: MovieDetail) => {
   const $fragment = document.createDocumentFragment();
@@ -62,7 +63,10 @@ const movieDetailDescription = (movie: MovieDetail) => {
     ],
   });
 
-  $movieDetailDescription.append(movieDetailOverview(movie));
+  $movieDetailDescription.append(
+    myMovieRating(movie),
+    movieDetailOverview(movie)
+  );
 
   return $movieDetailDescription;
 };
