@@ -132,6 +132,10 @@ class MovieItemDetails {
     let isVotingActive = false;
     const handleRateBoxClick = () => {
       if (!isVotingActive) {
+        starMarksContainer.addEventListener(
+          "click",
+          this.#handleInitialRateClick
+        );
         starMarksContainer.addEventListener("mouseover", this.#handleRateHover);
         isVotingActive = true;
       } else {
@@ -152,9 +156,25 @@ class MovieItemDetails {
     if (!target.closest(".star-marks-container")) {
       return;
     }
-
     const starredIndex = Number(target.dataset.markIndex);
     const stars = selectElementAll<HTMLImageElement>(".star-mark");
+    stars.forEach((star) => {
+      const markIndex = Number(star.dataset.markIndex);
+
+      star.src =
+        markIndex <= starredIndex ? VOTE.filledStarImage : VOTE.emptyStarImage;
+    });
+  }
+
+  #handleInitialRateClick(event: MouseEvent) {
+    const hoveredStar = document.elementFromPoint(
+      event.clientX,
+      event.clientY
+    ) as HTMLImageElement;
+
+    const starredIndex = Number(hoveredStar.dataset.markIndex);
+    const stars = selectElementAll<HTMLImageElement>(".star-mark");
+
     stars.forEach((star) => {
       const markIndex = Number(star.dataset.markIndex);
 
