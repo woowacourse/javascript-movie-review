@@ -1,4 +1,4 @@
-@import "/public/styles/colors.css";
+@import "@/assets/styles/colors.css";
 
 /* modal.css */
 body:has(dialog[open]) {

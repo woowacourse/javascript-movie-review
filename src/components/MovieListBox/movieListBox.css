@@ -1,4 +1,4 @@
-@import "/public/styles/colors.css";
+@import "@/assets/styles/colors.css";
 
 .movie-list-box {
   width: 1280px;
