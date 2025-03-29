@@ -48,7 +48,7 @@ export default class Movies extends Component {
             : './images/default_thumbnail.jpeg';
           return `
               <li class="item" data-action="movie-detail" data-id="${movie.id}">
-                <div class="thumbnail skeleton">
+                <div class="skeleton">
                   <img
                     class="thumbnail picture"
                     alt="${movie.title}"
@@ -72,11 +72,7 @@ export default class Movies extends Component {
 
   override onRender() {
     forEach(
-      (thumbnail) =>
-        (thumbnail as HTMLElement).addEventListener('load', () => {
-          thumbnail.className = 'thumbnail loaded';
-          if (thumbnail.parentElement) thumbnail.parentElement.classList.remove('skeleton');
-        }),
+      (thumbnail) => (thumbnail as HTMLElement).addEventListener('load', () => thumbnail.classList.remove('picture')),
       this.element.querySelectorAll('img.thumbnail'),
     );
 

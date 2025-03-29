@@ -218,11 +218,6 @@ footer.footer p:not(:last-child) {
   border-radius: 8px;
 }
 
-.skeleton-modal {
-  animation: skeleton-loading 1s linear infinite alternate;
-  border-radius: 8px;
-}
-
 .loaded {
   opacity: 1;
 }

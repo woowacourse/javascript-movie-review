@@ -40,7 +40,7 @@ export default class MovieDetailModal extends Modal {
               <img src="./images/modal_button_close.png" />
             </button>
             <div class="modal-container">
-              <div class="modal-image skeleton-modal">
+              <div class="modal-image skeleton">
                 <img src="${backgroundImage}" class="picture" />
               </div>
               <div class="modal-description">
@@ -96,9 +96,7 @@ export default class MovieDetailModal extends Modal {
   override onRender() {
     const modalImage = this.element.querySelector('.modal-image > img');
     if (!modalImage) return;
-    modalImage.addEventListener('load', () => {
-      modalImage.classList.remove('picture');
-    });
+    modalImage.addEventListener('load', () => modalImage.classList.remove('picture'));
   }
 
   override addEventListener() {
