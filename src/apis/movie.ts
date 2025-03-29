@@ -1,5 +1,7 @@
 import { MovieApiClient } from '@/apis';
-import { errorMessage } from '@/modules';
+import { Toast } from '@/components';
+import { TOAST_TYPE } from '@/components/Toast';
+import { errorMessage, toastMessage } from '@/modules';
 import { errorStore, moviesResponseStore, moviesStore, pageStore, searchStore, serverStore } from '@/store';
 import { isError, isString } from '@/utils';
 
@@ -41,8 +43,6 @@ export const getMovies = async ({ query, page }: GetMoviesProps) => {
     const movies = moviesStore.getState();
     moviesStore.setState([...(movies ? movies : []), ...moviesResponse.results]);
   } catch (error) {
-    if (isError(error)) errorStore.setState(error);
-    else if (isString(error)) errorStore.setState(new Error(error));
-    else errorStore.setState(new Error(errorMessage.get('default')));
+    console.error(error);
   }
 };

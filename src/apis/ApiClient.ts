@@ -1,3 +1,5 @@
+import { Toast } from '@/components';
+import { TOAST_TYPE } from '@/components/Toast';
 import { errorMessage } from '@/modules';
 import { isError, isString } from '@/utils';
 
@@ -25,8 +27,10 @@ export default class ApiClient {
       if (!response.ok) {
         switch (response.status) {
           case 401:
+            new Toast({ message: errorMessage.get(401), type: TOAST_TYPE.error }).show();
             throw new Error(errorMessage.get(401));
           case 400:
+            new Toast({ message: errorMessage.get(400), type: TOAST_TYPE.error }).show();
             throw new Error(errorMessage.get(400));
         }
       }
