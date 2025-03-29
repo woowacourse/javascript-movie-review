@@ -6,7 +6,7 @@ import { MovieData } from '../../../types/movie';
 import { bindScrollEvent, handleBottomScroll } from '../../util/web/scroll';
 import { Modal } from '../../component/common/modal/Modal';
 import { MovieDetail } from '../../component/domain/movie-detail/MovieDetail';
-import { DEBUG_ERROR, DEBUG_ERROR_MESSAGE } from '../../constants/debugErrorMessage';
+import { DEBUG_ERROR } from '../../constants/debugErrorMessage';
 
 class SearchPage {
   #container: HTMLElement;
