@@ -18,6 +18,10 @@ class MovieResults {
     return [...this.movieList];
   }
 
+  getFirstMovieItem(): MovieItemType {
+    return this.movieList[0];
+  }
+
   getPage(): number {
     return this.page;
   }

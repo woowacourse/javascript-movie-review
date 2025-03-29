@@ -49,7 +49,7 @@ class MainController {
 
   async render() {
     await this.movieListController.render();
-    await this.backgroundThumbnailController.render(this.movieResults.getMovieList()[0]);
+    await this.backgroundThumbnailController.render(this.movieResults.getFirstMovieItem());
     this.bindEvents();
   }
 
