@@ -41,6 +41,10 @@ body:has(dialog[open]) {
   color: white;
   font-size: 20px;
   cursor: pointer;
+
+  &:focus {
+    outline: none;
+  }
 }
 
 .modal-container {
