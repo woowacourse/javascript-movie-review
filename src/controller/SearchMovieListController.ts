@@ -39,7 +39,6 @@ class SearchMovieListController {
     this.page = 0;
 
     const { movieList, hasMore } = await this.fetchMovies();
-    console.log(movieList);
     this.renderSearchMovieList({ movieList, hasMore });
 
     this.bindEvents();

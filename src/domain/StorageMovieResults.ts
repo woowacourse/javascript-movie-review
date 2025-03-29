@@ -31,7 +31,6 @@ class StorageMovieResults {
 
   addDetailMovieResult(movieItem: storedMovieItemType) {
     this.storedMovieResults.push(movieItem);
-    console.log(this.storedMovieResults);
     this.updateLocalStorage();
   }
 
