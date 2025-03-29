@@ -139,9 +139,4 @@ export default class MovieListHandler {
     this.movieList.lastQuery = query;
     this.movieList.init();
   }
-
-  async handleLogoClick() {
-    store.setMode('popularAdd');
-    await this.initMovieList();
-  }
 }
