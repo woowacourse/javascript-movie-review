@@ -15,7 +15,6 @@ body.modal-open {
   position: fixed;
   max-width: 800px;
   width: 85%;
-  height: 80%;
   overflow: unset;
 }
 
@@ -97,9 +96,8 @@ body.modal-open {
 }
 
 .modal-description h2 {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   font-weight: bold;
-  margin: 0 0 8px;
 }
 
 .modal-description h3 {
@@ -114,4 +112,70 @@ body.modal-open {
 
 .rate-check-input {
   display: none;
+}
+
+@media (max-width: 768px) {
+  .modal {
+    margin: auto 0 0 0;
+    width: 100%;
+  }
+  .modal-container {
+    flex-direction: column;
+    gap: 12px;
+  }
+  .modal-image {
+    display: flex;
+    justify-content: center;
+  }
+  .modal-description-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    > hr {
+      width: 100%;
+    }
+  }
+  .modal-image img {
+    width: 200px;
+    border-radius: 16px;
+  }
+  .modal-description {
+    width: 100%;
+    padding: 6px;
+    margin-left: 0;
+    line-height: 1.2rem;
+  }
+  .modal-description h2 {
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+
+  .modal-description h3 {
+    font-weight: bold;
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  #wrap {
+    min-width: auto;
+  }
+  .modal-image {
+    display: none;
+  }
+
+  .modal-description {
+    width: 100%;
+    padding: 4px;
+    margin-left: 0;
+    line-height: 1rem;
+  }
+  .modal-description h2 {
+    font-size: 1.1rem;
+    font-weight: bold;
+  }
+  .modal-description h3 {
+    font-weight: bold;
+    font-size: 1rem;
+  }
 }

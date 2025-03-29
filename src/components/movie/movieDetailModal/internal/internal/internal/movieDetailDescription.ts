@@ -24,42 +24,48 @@ const movieDetailDescription = (movie: MovieDetail) => {
     tag: "div",
     className: "modal-description",
     children: [
-      { tag: "h2", textContent: movie.title },
       {
-        tag: "p",
-        className: "category",
-        textContent: `${new Date(
-          movie.release_date
-        ).getFullYear()} · ${movie.genres
-          .map((genre) => genre.name)
-          .join(", ")}`,
-      },
-      {
-        tag: "p",
-        className: "rate",
+        tag: "div",
+        className: "modal-description-header",
         children: [
+          { tag: "h2", textContent: movie.title },
           {
-            tag: "span",
-            textContent: `평균`,
+            tag: "p",
+            className: "category",
+            textContent: `${new Date(
+              movie.release_date
+            ).getFullYear()} · ${movie.genres
+              .map((genre) => genre.name)
+              .join(", ")}`,
           },
           {
             tag: "p",
-            className: "average-rate-container",
+            className: "rate",
             children: [
               {
-                tag: "img",
-                className: "star",
-                attributes: { src: "./images/star_filled.png" },
+                tag: "span",
+                textContent: `평균`,
               },
               {
-                tag: "span",
-                textContent: `${movie.vote_average.toFixed(1).toString()}`,
+                tag: "p",
+                className: "average-rate-container",
+                children: [
+                  {
+                    tag: "img",
+                    className: "star",
+                    attributes: { src: "./images/star_filled.png" },
+                  },
+                  {
+                    tag: "span",
+                    textContent: `${movie.vote_average.toFixed(1).toString()}`,
+                  },
+                ],
               },
             ],
           },
+          { tag: "hr" },
         ],
       },
-      { tag: "hr" },
     ],
   });
 
