@@ -2,12 +2,12 @@ import { MovieListSectionProps } from "../types/type";
 import getPopularMovieList from "./apis/getPopularMovieList";
 import $Banner from "./components/Banner/Banner";
 import asyncErrorBoundary from "./components/ErrorBoundary/Async/asyncErrorBoundary";
-import { addMovieListErrorBox } from "./components/MovieListBox/ErrorBox/MovieListErrorBox";
 import $HeaderBox from "./components/HeaderBox/HeaderBox";
 import { $MovieListBox } from "./components/MovieListBox/MovieListBox";
 import $ScrollToTopButton from "./components/ScrollToTop/ScrollToTopButton";
 import { replaceSkeletonList } from "./components/MovieListBox/Skeleton/MovieList/SkeletonList";
 import $Modal from "./components/Modal/Modal";
+import { addErrorBox } from "./components/ErrorBox/ErrorBox";
 
 export const replaceMovieListBox = ({
   title,
@@ -45,5 +45,6 @@ $app?.appendChild($Modal());
 
 asyncErrorBoundary({
   asyncFn: () => initPopularMovieListRender(),
-  fallbackComponent: (errorMessage) => addMovieListErrorBox(errorMessage),
+  fallbackComponent: (errorMessage) =>
+    addErrorBox({ selector: ".movie-list-section", errorMessage }),
 });

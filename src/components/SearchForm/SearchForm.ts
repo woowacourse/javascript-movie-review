@@ -2,9 +2,9 @@ import "./searchForm.css";
 import getSearchedMovieList from "../../apis/getSearchedMovieList";
 import { replaceMovieListBox } from "../../main";
 import { removeBanner } from "../Banner/Banner";
-import { addMovieListErrorBox } from "../MovieListBox/ErrorBox/MovieListErrorBox";
 import { setMovieListState } from "../MovieListBox/MovieListBox";
 import { replaceSkeletonList } from "../MovieListBox/Skeleton/MovieList/SkeletonList";
+import { addErrorBox } from "../ErrorBox/ErrorBox";
 
 const handleSearchFormSubmit = async (event: Event) => {
   event.preventDefault();
@@ -32,7 +32,10 @@ const handleSearchFormSubmit = async (event: Event) => {
     });
   } catch (error) {
     if (error instanceof Error) {
-      addMovieListErrorBox(error.message);
+      addErrorBox({
+        selector: ".movie-list-section",
+        errorMessage: error.message,
+      });
     }
   }
 };
