@@ -8,11 +8,14 @@ export const isWindow = (target: Element | Window): target is Window => target i
 export const isHTMLFormElement = (target: EventTarget | null): target is HTMLFormElement =>
   target instanceof HTMLFormElement;
 
-export const $ = (selector: string, context: Document | HTMLElement = document) => {
-  const target = document.querySelector(selector);
+export const $ = <TElement extends Element = HTMLElement>(
+  selector: string,
+  context: Document | HTMLElement = document,
+) => {
+  const target = context.querySelector<TElement>(selector);
   if (!target) throw new Error(errorMessage.get('dom-not-found', String(context), selector));
 
-  return target;
+  return target as TElement;
 };
 
 export function html(strings: TemplateStringsArray, ...values: any[]) {
