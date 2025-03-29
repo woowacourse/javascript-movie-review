@@ -69,6 +69,12 @@ export function DetailModalMount() {
     });
   }
 
+  modalBackground.addEventListener("click", (event) => {
+    if (event.target === modalBackground) {
+      modalBackground.remove();
+    }
+  });
+
   const escHandler = (event) => {
     if (event.key === "Escape") {
       modalBackground.remove();
