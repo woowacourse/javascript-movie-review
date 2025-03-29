@@ -1,8 +1,7 @@
-import { errorStore } from './../store/Store';
 import { getMovies } from '@/apis';
 import { DEFAULT_BACK_DROP_URL } from '@/constants';
 import { eventHandlerInstance } from '@/modules';
-import { moviesResponseStore, moviesStore, pageStore, searchStore } from '@/store';
+import { moviesStore, pageStore, searchStore } from '@/store';
 import { html, isHTMLFormElement } from '@/utils';
 import Component from './core/Component';
 
