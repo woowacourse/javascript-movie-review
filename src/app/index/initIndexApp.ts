@@ -1,41 +1,41 @@
 import mountHeader from "../mount/mountHeader";
 import mountMovieItemList from "../mount/mountMovieItemList";
 import mountLoadMoreButton from "../mount/mountLoadMoreButton";
-import mountModal from "../mount/mountModal";
-import Modal from "../../components/modal/modal";
-import createMovieLoader from "../../service/createMovieLoader";
-import loadMovies from "../../service/loadMovies";
-import {
-  URLS,
-  defaultOptions,
-  defaultQueryObject,
-} from "../../setting/settings";
+import { URLS } from "../../setting/settings";
 import MovieItemList from "../../components/movieItemList/movieItemList";
-import LongButton from "../../components/longButton/longButton";
+import LoadMoreButton from "../../components/longButton/longButton";
 import mountHero from "../mount/mountHero";
-import type {
-  MovieItemListInstance,
-  LongButtonInstance,
-} from "../../../types/components";
+import type { MovieItemListInstance } from "../../../types/components";
+import { hideSkeleton, showSkeleton } from "../../service/skeleton";
+import { hideElement } from "../../view/InputView";
+import { $ } from "../../util/querySelector";
+import createMovieLoader from "../../service/createMovieLoader";
 
 const movieItemList: MovieItemListInstance = MovieItemList();
-const loadMoreButton: LongButtonInstance = LongButton("더보기");
-const modal = Modal();
 
-export function initIndexApp() {
+export async function initIndexApp() {
+  const loader = createMovieLoader(URLS.popularMovieUrl);
+  const $loadMoreButton = LoadMoreButton({
+    text: "더보기",
+    onClick: () => loadAndDisplayMovies({ loader }),
+  });
+
+  mountIndexPageUI($loadMoreButton);
+  await loadAndDisplayMovies({ loader });
+}
+
+async function loadAndDisplayMovies({ loader }: any) {
+  showSkeleton();
+  const { results, isLastPage } = await loader();
+  hideSkeleton();
+
+  if (isLastPage) hideElement($("#load-more"));
+  movieItemList.render(results);
+}
+
+function mountIndexPageUI($loadMoreButton: HTMLButtonElement) {
   mountHeader();
   mountHero();
   mountMovieItemList(movieItemList);
-  mountLoadMoreButton(loadMoreButton);
-  mountModal(modal);
-
-  const loader = createMovieLoader(
-    URLS.popularMovieUrl,
-    defaultQueryObject,
-    defaultOptions
-  );
-  const load = () => loadMovies(loader, movieItemList, loadMoreButton);
-  loadMoreButton.setOnClick(load);
-
-  load();
+  mountLoadMoreButton($loadMoreButton);
 }
