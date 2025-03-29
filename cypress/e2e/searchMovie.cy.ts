@@ -19,7 +19,7 @@ describe("영화 검색 기능 테스트", () => {
     cy.visit("http://localhost:5173/");
   });
 
-  it("검색 기능 테스트 및 더보기 버튼 테스트", () => {
+  it("검색 기능 테스트 및 무한 스크롤 테스트", () => {
     const searchValue = "짱구";
     expect(cy.get(".skeleton-list").should("exist"));
 
@@ -46,8 +46,8 @@ describe("영화 검색 기능 테스트", () => {
       });
     });
 
-    // 더보기 버튼 클릭
-    cy.get(".more-button").click();
+    // 옵저버 영역으로 스크롤
+    cy.get(".observer").scrollIntoView();
 
     expect(cy.get(".skeleton-list").should("exist"));
 
