@@ -19,6 +19,7 @@ const ModalDetail = {
     const content = /*html*/ `
         <div class="modal-image">
             <img
+            class="skeleton-poster"
             src=${DETAIL_POSTER_PREFIX + posterPath}
             onerror="this.src='./images/null_image.png'"
             />

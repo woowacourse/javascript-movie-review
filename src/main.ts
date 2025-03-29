@@ -6,7 +6,6 @@ import SearchInput from "./components/Header/SearchInput";
 import Modal from "./components/Modal/Modal";
 import ModalDetail from "./components/Modal/ModalDetail/ModalDetail";
 import ModalLoadingSpinner from "./components/Modal/ModalLoading/ModalLoadingSpinner";
-import SkeletonDetail from "./components/Modal/SkeletonDetail";
 import MovieItem from "./components/MovieItem";
 import MovieList from "./components/MovieList/MovieList";
 import NoThumbnail from "./components/NoThumbnail/NoThumbnail";
@@ -122,7 +121,6 @@ async function showMovieDetailModal(e: MouseEvent) {
   Modal.show();
   ModalLoadingSpinner.show();
   Modal.reset();
-  Modal.setContent(SkeletonDetail.create());
   const movieDetail = await fetchMovieDetail(clickedMovieItem.dataset.id);
   if (!movieDetail) throw new Error(ErrorMessage.FETCH_MOVIE_DETAIL);
 
