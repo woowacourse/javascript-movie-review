@@ -102,6 +102,8 @@ export default class MovieDetailModal extends Modal {
   }
 
   override addEventListener() {
+    super.addEventListener();
+
     eventHandlerInstance.addEventListener({
       eventType: 'click',
       callback: () => this.remove(),
@@ -139,6 +141,13 @@ export default class MovieDetailModal extends Modal {
       },
       dataAction: 'change-rate',
     });
+
+    eventHandlerInstance.addEventListener({
+      eventType: 'popstate',
+      callbackWindow: () => {
+        movieDetailResponseStore.reset();
+      },
+    });
   }
 
   override onShow() {
@@ -147,10 +156,12 @@ export default class MovieDetailModal extends Modal {
     if (!movieDetail) return;
 
     this.disableScrollOutside();
+    window.history.pushState({}, '');
   }
 
   override onUnmount() {
     this.enableScrollOutside();
     movieDetailResponseStore.reset();
+    window.history.back();
   }
 }
