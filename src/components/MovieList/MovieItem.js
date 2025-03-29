@@ -25,8 +25,8 @@ export function MovieItemRender({ id, poster_path, title, vote_average }) {
 }
 
 export function MovieItemMount() {
-  const movieItems = document.querySelectorAll("li[data-movie-id]");
-  movieItems.forEach((item) => {
+  const $movieItems = document.querySelectorAll("li[data-movie-id]");
+  $movieItems.forEach((item) => {
     item.addEventListener("click", async () => {
       const movieId = item.getAttribute("data-movie-id");
       if (movieId) {

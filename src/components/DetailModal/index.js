@@ -4,7 +4,7 @@ export function DetailModalRender(movie) {
   if (!movie) return "";
 
   return /* html */ `
-    <div class="modal-background active" id="modalBackground">
+    <div class="modal-background active" id="$modalBackground">
       <div class="modal">
         <button class="close-modal" id="closeModal">
           <img src="./images/modal_button_close.png" />
@@ -59,25 +59,25 @@ export function DetailModalRender(movie) {
 }
 
 export function DetailModalMount() {
-  const modalBackground = document.getElementById("modalBackground");
-  if (!modalBackground) return;
+  const $modalBackground = document.getElementById("$modalBackground");
+  if (!$modalBackground) return;
 
-  const closeBtn = document.getElementById("closeModal");
-  if (closeBtn) {
-    closeBtn.addEventListener("click", () => {
-      modalBackground.remove();
+  const $closeBtn = document.getElementById("closeModal");
+  if ($closeBtn) {
+    $closeBtn.addEventListener("click", () => {
+      $modalBackground.remove();
     });
   }
 
-  modalBackground.addEventListener("click", (event) => {
-    if (event.target === modalBackground) {
-      modalBackground.remove();
+  $modalBackground.addEventListener("click", (event) => {
+    if (event.target === $modalBackground) {
+      $modalBackground.remove();
     }
   });
 
   const escHandler = (event) => {
     if (event.key === "Escape") {
-      modalBackground.remove();
+      $modalBackground.remove();
       window.removeEventListener("keydown", escHandler);
     }
   };
