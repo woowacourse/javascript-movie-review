@@ -38,3 +38,27 @@ p.rate > span {
   width: 16px;
   top: 1px;
 }
+
+@media (max-width: 1400px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(4, 200px);
+  }
+}
+
+@media (max-width: 1200px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(3, 200px);
+  }
+}
+
+@media (max-width: 850px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(2, 200px);
+  }
+}
+
+@media (max-width: 500px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(1, 200px);
+  }
+}
