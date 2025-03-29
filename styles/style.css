@@ -77,7 +77,7 @@
   cursor: pointer;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1050px) {
   .gnb {
     flex-direction: column;
   }
@@ -113,7 +113,7 @@
   .list-title {
     text-align: center;
   }
-  
+
   .thumbnail-list {
     transform: translate(20%, 0%);
   }
