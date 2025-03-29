@@ -65,6 +65,7 @@ const App = () => {
     isError || !movies.length
       ? `<div class="movie-list-error">에러가 발생했습니다. 다시 시도해주세요.</div>`
       : Header({
+          id: movies[0]?.id ?? "",
           rate: movies[0]?.vote_count ?? 0,
           title: movies[0]?.title ?? "",
           src: movies[0]?.backdrop_path ?? "",

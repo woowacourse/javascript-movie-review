@@ -1,7 +1,14 @@
+import useGetMovieDetail from "../../apis/movies/useGetMovieDetail";
 import useGetSearchMovieList from "../../apis/movies/useGetSearchMovieList";
 import { images } from "../../assets/images";
 import useInputChange from "../../hooks/useInputChange";
-import { searchInputValue, setSearchInputValue } from "../../store/store";
+import {
+  isModalOpen,
+  searchInputValue,
+  setIsModalOpen,
+  setMovieDetail,
+  setSearchInputValue,
+} from "../../store/store";
 import { useEvents } from "../../utils/Core";
 import Button from "../@common/Button";
 import Input from "../@common/Input";
@@ -13,12 +20,14 @@ interface HeaderProps {
 }
 
 const Header = (props: HeaderProps) => {
-  const { rate, title, src } = props;
+  const { id, rate, title, src } = props;
   const { fetchSearchMovieList } = useGetSearchMovieList();
+  const { fetchMovieDetail } = useGetMovieDetail();
   const { handleInputChange } = useInputChange(
     ".search-input",
     setSearchInputValue
   );
+
   const [addEvent] = useEvents(".background-container");
 
   addEvent("click", ".search-button-icon", (e) => {
@@ -26,6 +35,14 @@ const Header = (props: HeaderProps) => {
     handleInputChange();
 
     fetchSearchMovieList(searchInputValue);
+  });
+
+  addEvent("click", `.detail`, async () => {
+    if (!isModalOpen) {
+      setIsModalOpen(true);
+    }
+    const detail = await fetchMovieDetail(id);
+    setMovieDetail(detail);
   });
 
   return `
