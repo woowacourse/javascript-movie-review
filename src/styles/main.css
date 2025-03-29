@@ -120,14 +120,7 @@ div.logo {
 }
 
 .rate {
-  display: flex;
-  align-items: baseline;
   color: var(--color-yellow);
-}
-
-.rate > img {
-  position: relative;
-  top: 2px;
 }
 
 span.rate-value {

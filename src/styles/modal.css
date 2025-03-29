@@ -73,22 +73,57 @@ body.modal-open {
 
 .modal-description hr {
   width: 100%;
+  height: 1px;
+  border: 0;
+
+  background: var(--color-bluegray-30);
 }
 
-.modal-description .rate {
+/* .modal-description >  {
   display: flex;
   align-items: center;
 
-  font-size: 24px;
+  height: 20px;
+  line-height: 20px;
+} */
+
+.modal-description > .rate {
+  margin-right: 16px;
+
+  display: flex;
+  align-items: center;
+
+  color: var(--color-ffffff);
+  font-weight: 400;
+  font-size: 20px;
+
+  line-height: 1.2rem;
 }
 
-.modal-description .rate > img {
-  width: 32px;
+.modal-description > .rate > img {
+  margin-left: 16px;
+  margin-bottom: 3px;
+  margin: 0 5px 3px 16px;
+
+  width: 24px;
+  height: 24px;
+}
+
+.modal-description > .rate > span {
+  color: var(--color-yellow);
 }
 
 .modal-description h2 {
   font-size: 2rem;
   margin: 0 0 8px;
+}
+
+.modal-description h3 {
+  color: var(--color-ffffff);
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 100%;
+  letter-spacing: 0.18px;
 }
 
 .modal-description .detail {
@@ -109,7 +144,7 @@ body.modal-open {
 .voting-rate > p > span {
   margin-left: 5px;
 
-  color: var(--color-bluegray-10);
+  color: var(--color-bluegray-30);
 }
 
 .star-marks-container {

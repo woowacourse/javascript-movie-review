@@ -72,10 +72,11 @@ class MovieItemDetails {
   #createRate(description: HTMLDivElement) {
     const rate = document.createElement("p");
     rate.classList.add("rate");
+    rate.textContent = "평균";
+
     const rateContents = /*html*/ `
-      <img src="./images/star_filled.png" class="star" /><span>${
-        this.#details.voteAverage
-      }</span>
+      <img src="./images/star_filled.png" class="star" />
+      <span>${this.#details.voteAverage}</span>
     `;
 
     rate.insertAdjacentHTML("beforeend", rateContents);

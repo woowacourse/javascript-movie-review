@@ -18,19 +18,27 @@
   cursor: pointer;
 }
 
-.item-desc > *:not(:last-child) {
-  position: relative;
-  margin-bottom: 4px;
-  line-height: 1.2rem;
-}
+.item-desc {
+  margin-top: 2px;
 
-p.rate {
   display: flex;
-  align-items: baseline;
-  color: var(--color-yellow);
+  flex-direction: column;
+  gap: 4px;
+
+  line-height: 1.2rem;
+  white-space: nowrap;
 }
 
-p.rate > span {
+.item-desc > .rate {
+  display: flex;
+}
+
+.item-desc > .rate > img {
+  width: 16px;
+  height: 16px;
+}
+
+.item-desc > .rate > span {
   margin-left: 4px;
 }
 
