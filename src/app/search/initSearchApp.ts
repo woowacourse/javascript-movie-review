@@ -15,10 +15,10 @@ export async function initSearchApp(): Promise<void> {
   const query: string = getSearchParams("query");
   const loader = createMovieLoader(URLS.searchMovieUrl, query);
 
+  registerObserver({ loader });
+
   mountIndexPageUI();
   await loadAndDisplayMovies({ loader });
-
-  registerObserver({ loader });
 }
 
 function getSearchParams(key: string): string {
