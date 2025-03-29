@@ -51,11 +51,6 @@ const backgroundContainer = createElementWithAttributes({
               className: "title",
               textContent: "인사이드 아웃2",
             },
-            {
-              tag: "button",
-              className: "primary detail",
-              textContent: "자세히 보기",
-            },
           ],
         },
       ],
