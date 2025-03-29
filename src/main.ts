@@ -3,7 +3,6 @@ import { renderHeader } from './view/render/renderHeader';
 import { renderBanner } from './view/render/renderBanner';
 import { renderFooter } from './view/render/renderFooter';
 import { renderMovieList } from './view/render/renderMovieList';
-import { renderModal } from './view/render/renderModal';
 
 addEventListener('DOMContentLoaded', async () => {
   const movies = await initMovies();
@@ -16,5 +15,4 @@ addEventListener('DOMContentLoaded', async () => {
   }
 
   renderFooter();
-  renderModal();
 });

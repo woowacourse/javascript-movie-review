@@ -3,11 +3,14 @@ import { RateMovieType } from '../type';
 export const storageHandler = {
   getItem: (storageKey: string) => JSON.parse(localStorage.getItem(storageKey) ?? '[]') || [],
   setItem: (storageKey: string, value: RateMovieType[]) => localStorage.setItem(storageKey, JSON.stringify(value)),
-  isFindItem: (storageKey: string, id: number) => {
+  isFindItem: (storageKey: string, id: number): { rate: number; status: boolean } => {
     const data = storageHandler.getItem(storageKey);
     const item = data.filter((item: RateMovieType) => item.id === id);
+    if (item.length > 0) {
+      return { rate: item[0].rate, status: true };
+    }
 
-    return item.length > 0 ? true : false;
+    return { rate: 0, status: false };
   },
   addItem: (storageKey: string, value: RateMovieType) => {
     const data = storageHandler.getItem(storageKey);
