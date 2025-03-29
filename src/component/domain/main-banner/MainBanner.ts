@@ -47,7 +47,6 @@ class MainBanner {
     if (mainBannerInfo) {
       mainBannerInfo.appendChild(buttonContainer);
     }
-    this.#container.appendChild(this.#modalElement());
   }
 
   setData(data: MovieData) {
@@ -72,6 +71,8 @@ class MainBanner {
     if (!this.#data) throw new Error(DEBUG_ERROR_MESSAGE.NO_DATA);
 
     const movieDetail = new MovieDetail({ data: this.#data }).element;
+
+    this.#container.appendChild(this.#modalElement());
 
     if (!this.#modal) throw new Error(DEBUG_ERROR.getNoComponentMessage('Modal'));
     this.#modal.setContent(movieDetail);

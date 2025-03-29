@@ -28,6 +28,7 @@ interface MovieListJSON {
 
 export async function extractedData(url: string) {
   const movieJSON = await fetchMovieList(url);
+  console.log(movieJSON.results);
   const movieListData = movieJSON.results.map((movieItem: MovieListJSON) => ({
     id: movieItem.id,
     title: movieItem.title,
@@ -37,6 +38,7 @@ export async function extractedData(url: string) {
     description: movieItem.overview,
     releasedDate: new Date(movieItem.release_date).getFullYear(),
   }));
+  console.log(movieListData);
 
   const totalPage = movieJSON.total_pages;
   return { movieListData, totalPage };
