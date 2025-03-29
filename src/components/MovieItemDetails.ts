@@ -119,9 +119,8 @@ class MovieItemDetails {
     const votingRate = /*html*/ `
       <div class="voting-rate">
         <div class="star-marks-container">${starMarks}</div>
-        <p>${RATING_MESSAGE[this.#rate] ?? VOTE.noticeMessage}
-          <span>(${this.#rate}/${VOTE.MaximumRate})</span>
-        </p>
+        <p>${RATING_MESSAGE[this.#rate] ?? VOTE.noticeMessage}</p>
+        <span>(${this.#rate}/${VOTE.MaximumRate})</span>
       </div>
     `;
 
@@ -138,19 +137,15 @@ class MovieItemDetails {
       this.#element
     );
 
+    const eventHandler = this.#handleRateHover.bind(this);
+
     let isVotingActive = false;
     const handleRateBoxClick = () => {
       if (!isVotingActive) {
-        starMarksContainer.addEventListener(
-          "mouseover",
-          this.#handleRateHover.bind(this)
-        );
+        starMarksContainer.addEventListener("mouseover", eventHandler);
         isVotingActive = true;
       } else {
-        starMarksContainer.removeEventListener(
-          "mouseover",
-          this.#handleRateHover.bind(this)
-        );
+        starMarksContainer.removeEventListener("mouseover", eventHandler);
 
         ratingMovie(this.#id, this.#rate);
         isVotingActive = false;
@@ -203,6 +198,15 @@ class MovieItemDetails {
 
     const score = RATING_SCORE[starredIndex];
     this.#rate = score;
+
+    const ratingMessage =
+      selectElement<HTMLParagraphElement>(".voting-rate > p");
+    ratingMessage.textContent = RATING_MESSAGE[score];
+
+    const ratingScore = selectElement<HTMLParagraphElement>(
+      ".voting-rate > span"
+    );
+    ratingScore.textContent = `(${this.#rate}/${VOTE.MaximumRate})`;
   }
 }
 

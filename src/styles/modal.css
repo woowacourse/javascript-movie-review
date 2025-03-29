@@ -136,12 +136,17 @@ body.modal-open {
 
   display: flex;
   align-items: center;
-  gap: 16px;
 
   white-space: nowrap;
 }
 
-.voting-rate > p > span {
+.voting-rate > p {
+  margin-left: 16px;
+
+  width: 88px;
+}
+
+.voting-rate > span {
   margin-left: 5px;
 
   color: var(--color-bluegray-30);

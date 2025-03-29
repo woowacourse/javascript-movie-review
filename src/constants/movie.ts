@@ -14,7 +14,7 @@ export const VOTE = {
   MaximumRate: 10,
   maximumIconCount: 5,
   unitRate: 2,
-  noticeMessage: "평점을 남겨주세요",
+  noticeMessage: "평점 없음",
   filledStarImage: "./images/star_filled.png",
   emptyStarImage: "./images/star_empty.png",
 };
