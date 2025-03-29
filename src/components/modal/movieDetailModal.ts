@@ -67,7 +67,7 @@ const movieDetailModal = (detailMovie: DetailMovieData) => {
                   {
                     tag: "span",
                     className: "average-rate",
-                    textContent: `${detailMovie.vote_average}`,
+                    textContent: String(detailMovie.vote_average).slice(0, 3),
                   },
                 ],
               },
