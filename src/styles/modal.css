@@ -1,6 +1,6 @@
 @import "./colors.css";
 
-/* modal.css */
+/* 기본 모달 스타일 (데스크탑) */
 body.modal-open {
   overflow: hidden;
 }
@@ -33,6 +33,7 @@ body.modal-open {
   color: white;
   position: relative;
   width: 1000px;
+  height: 614px;
 }
 
 .close-modal {
@@ -111,7 +112,75 @@ body.modal-open {
 
 .modal-subtitle {
   font-weight: bold;
-  font-size: 24px;
+  font-size: 20px;
   line-height: 1.5;
   margin: 4px;
+}
+
+/* 태블릿 화면 (768px ~ 1023px) */
+@media screen and (max-width: 1023px) {
+  .modal {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    max-width: 100%;
+    border-radius: 16px 16px 0 0;
+    padding: 24px;
+    overflow-y: auto;
+    height: calc(100vh - 300px);
+  }
+
+  .modal-container {
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .modal-image,
+  .category,
+  .modal-title,
+  .rate {
+    display: flex;
+    justify-content: center;
+  }
+
+  .modal-image img {
+    width: auto;
+    max-height: 350px;
+    max-width: 100%;
+  }
+
+  .modal-description {
+    margin-left: 0;
+    padding: 0;
+  }
+}
+
+/* 모바일 화면 (767px 이하) */
+@media screen and (max-width: 767px) {
+  .modal {
+    height: calc(100vh - 500px);
+  }
+
+  .close-modal {
+    top: 16px;
+    right: 16px;
+  }
+
+  .modal-image {
+    display: none;
+  }
+
+  .category,
+  .modal-title,
+  .rate,
+  .modal-subtitle,
+  .rate-star {
+    display: flex;
+    justify-content: center;
+  }
+
+  .rate-star {
+    flex-direction: column;
+  }
 }

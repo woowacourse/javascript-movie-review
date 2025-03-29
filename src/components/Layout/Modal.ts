@@ -104,7 +104,7 @@ export default class Modal extends Component<ModalState> {
                 <img src="${PREFIX_POSTER_PATH}${this.state.poster_path}" />
               </div>
               <div class="modal-description">
-                <h2>${this.state.title}</h2>
+                <h2 class="modal-title">${this.state.title}</h2>
                 <p class="category">
                   ${this.state.release_date} · ${this.state.genres.join(", ")}
                 </p>
@@ -117,11 +117,13 @@ export default class Modal extends Component<ModalState> {
                 <hr />
                 <p class="modal-subtitle">내 별점</p>
                 <div class="rate-star">
-                  ${this.renderRatingStar()}
-                  <span class="rate-description">${
-                    ratingDescriptions[this.state.my_rate]
-                  }</span>
-                  <span class="rate-scale">(${this.state.my_rate}/10)</span>
+                  <div>${this.renderRatingStar()}</div>
+                  <div>
+                    <span class="rate-description">${
+                      ratingDescriptions[this.state.my_rate]
+                    }</span>
+                    <span class="rate-scale">(${this.state.my_rate}/10)</span>
+                  </div>
                 </div>
                 <hr />
                 <p class="modal-subtitle">줄거리</p>
