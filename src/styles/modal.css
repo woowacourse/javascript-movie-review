@@ -67,7 +67,19 @@ body.modal-open {
   line-height: 1.6rem;
 }
 
-.modal-description .rate > img {
+.modal-description .rate {
+  position: relative;
+  top: 5px;
+  color: var(--color-white);
+  display: flex;
+  gap: 12px;
+}
+
+.average-rate-container {
+  color: var(--color-yellow);
+}
+
+.average-rate-container > img {
   position: relative;
   top: 5px;
 }
@@ -81,7 +93,16 @@ body.modal-open {
   margin: 0 0 8px;
 }
 
+.modal-description h3 {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
 .detail {
   max-height: 430px;
   overflow-y: auto;
+}
+
+.rate-check-input {
+  display: none;
 }
