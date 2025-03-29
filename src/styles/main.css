@@ -94,10 +94,10 @@ button.primary {
 
 .top-rated-container {
   user-select: none;
-  position: relative;
+  position: absolute;
   z-index: 2;
-  max-width: 1280px;
-  margin: 0 auto;
+  bottom: 10%;
+  left: 20%;
 }
 
 .search-box {
@@ -127,7 +127,6 @@ button.primary {
   flex-direction: column;
   justify-content: center;
   gap: 12px;
-  padding: 220px 350px 0;
 }
 
 .top-rated-movie > *:not(:last-child) {
@@ -161,7 +160,7 @@ span.rate-value {
 }
 
 .movie-container {
-  width: 1280px;
+  width: 100%;
 }
 
 .no_search_container {
@@ -210,4 +209,108 @@ footer.footer p:not(:last-child) {
 
 .error-container {
   margin-top: 150px;
+}
+
+@media (max-width: 1280px) {
+  #wrap {
+    min-width: 1280px;
+  }
+  .container {
+    max-width: 1280px;
+    width: 80%;
+  }
+}
+
+@media (max-width: 1024px) {
+  #wrap {
+    min-width: 1024px;
+  }
+
+  #wrap h2 {
+    text-align: center;
+  }
+
+  .container {
+    max-width: 1024px;
+    width: 80%;
+  }
+  .background-container {
+    height: 350px;
+  }
+}
+
+@media (max-width: 768px) {
+  #wrap {
+    min-width: 768px;
+  }
+
+  .container {
+    max-width: 768px;
+    width: 80%;
+  }
+
+  .top-bar {
+    gap: 16px;
+  }
+
+  .background-container {
+    height: 300px;
+  }
+
+  .top-rated-movie {
+    gap: 4px;
+  }
+
+  .title {
+    font-size: 1.6rem;
+    font-weight: bold;
+  }
+
+  span.rate-value {
+    margin-left: 8px;
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  #wrap {
+    min-width: auto;
+  }
+  .container {
+    max-width: 480px;
+    width: 80%;
+  }
+
+  .top-bar {
+    gap: 8px;
+  }
+
+  .top-rated-container {
+    left: 25%;
+    bottom: 5%;
+  }
+
+  .movie-container {
+    align-items: center;
+  }
+
+  .background-container {
+    height: 250px;
+  }
+
+  .top-rated-movie {
+    gap: 0;
+  }
+
+  .title {
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+
+  span.rate-value {
+    margin-left: 8px;
+    font-weight: bold;
+    font-size: 1rem;
+  }
 }
