@@ -1,3 +1,3 @@
-export default abstract class Observer {
-  abstract update(): void;
+export default abstract class Observer<TState> {
+  abstract update(state: TState): void;
 }

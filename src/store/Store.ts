@@ -3,8 +3,9 @@ import { LocalStorageMovieRateValueType } from '../modules';
 import { MovieDetailResponse, MoviesResponse, MovieType } from '../types';
 import { Obserable } from '@/modules';
 import { isEqual } from '@/utils';
+import { persisted } from '@/decorators/persisted';
 
-export default class Store<TState> extends Obserable<Component<any, any>> {
+export default class Store<TState> extends Obserable<Component<any, any>, TState> {
   #state = {} as TState;
   #initialState: TState;
 
@@ -23,7 +24,7 @@ export default class Store<TState> extends Obserable<Component<any, any>> {
     if (isEqual(this.#state, nextState)) return;
 
     this.#state = nextState;
-    this.notify();
+    this.notify(nextState);
   }
 
   reset() {
@@ -39,3 +40,5 @@ export const searchStore = new Store<string>('');
 export const errorStore = new Store<Error | null>(null);
 export const pageStore = new Store<number>(1);
 export const movieRateStore = new Store<LocalStorageMovieRateValueType>({});
+
+export const movieRateStorePersisted = persisted('rate', movieRateStore);
