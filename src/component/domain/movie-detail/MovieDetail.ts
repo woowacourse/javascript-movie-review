@@ -64,6 +64,8 @@ export class MovieDetail {
       </p>
     </div>
      `;
+
+    this.#updateMyRateIcons();
   }
 
   #getStoredRating() {
