@@ -112,6 +112,11 @@ hr {
 .movie-overview > h3 {
   font-weight: 600;
 }
+@media screen and (min-width: 801px) {
+  .modal {
+    margin: 0px 40px;
+  }
+}
 
 @media screen and (max-width: 800px) {
   .modal-container {
