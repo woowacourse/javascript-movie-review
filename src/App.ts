@@ -11,7 +11,7 @@ export default class App {
   private movieService: MovieService;
   private movieListHandler: MovieListHandler;
   private searchHandler: SearchHandler;
-
+  private logo: Logo;
   constructor() {
     this.api = new TmdbApi(
       import.meta.env.VITE_API_TOKEN || '',
@@ -20,7 +20,19 @@ export default class App {
 
     this.movieService = new MovieService(this.api);
     this.movieListHandler = new MovieListHandler(this.movieService);
-    this.searchHandler = new SearchHandler(this.movieListHandler);
+    this.searchHandler = new SearchHandler();
+    this.logo = new Logo();
+    this.connectHandlers();
+  }
+
+  private connectHandlers(): void {
+    this.searchHandler.onSearch = async query => {
+      await this.movieListHandler.loadMovies(query);
+    };
+
+    this.logo.onClick = async () => {
+      await this.movieListHandler.loadMovies();
+    };
   }
 
   async initialize(): Promise<void> {
@@ -35,8 +47,6 @@ export default class App {
   private initializeUIComponents(): void {
     const searchBar = new SearchBar(this.searchHandler);
     searchBar.createSearchBar();
-
-    const logo = new Logo(this.movieListHandler);
-    logo.createLogo();
+    this.logo.createLogo();
   }
 }

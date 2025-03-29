@@ -2,21 +2,25 @@
 import { store } from '../../store/store.js';
 
 export default class Logo {
-  constructor(movieListHandler) {
-    this.movieListHandler = movieListHandler;
+  constructor() {
+    this.element = null;
   }
+  onClick = async () => {};
 
   createLogo() {
-    const logo = document.querySelector('.logo');
-    if (logo) {
-      logo.addEventListener('click', this.handleLogoClick.bind(this));
+    this.element = document.querySelector('.logo');
+    
+    if (this.element) {
+      this.element.addEventListener('click', this.handleLogoClick.bind(this));
     } else {
       console.error('로고 요소를 찾을 수 없습니다.');
     }
+    
+    return this.element;
   }
 
+
   async handleLogoClick() {
-    store.setMode('popularAdd');
-    await this.movieListHandler.initMovieList();
+    await this.onClick();
   }
 }

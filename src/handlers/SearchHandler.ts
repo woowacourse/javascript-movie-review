@@ -1,38 +1,23 @@
 // src/handlers/SearchHandler.ts
-import MovieListHandler from './MovieListHandler.js';
-
 export default class SearchHandler {
   private currentQuery: string = '';
-  private movieListHandler: MovieListHandler;
 
-  constructor(movieListHandler: MovieListHandler) {
-    this.movieListHandler = movieListHandler;
-  }
+  onSearch: (query: string) => Promise<void> = async () => {};
 
   /**
    * 검색 요청을 처리.
    * @param query 검색어
    */
   async handleSearch(query: string): Promise<void> {
+    // 검색어 저장
     this.currentQuery = query.trim();
 
-    if (!this.currentQuery) {
-      await this.movieListHandler.loadMovies();
-      return;
-    }
-
-    await this.movieListHandler.loadMovies(this.currentQuery);
+    // 검색 이벤트 발생 - App 클래스에서 설정한 콜백 함수 호출
+    await this.onSearch(this.currentQuery);
   }
 
   /**
-   * 추가 검색 결과를 불러온다 (무한 스크롤)
-   */
-  async loadMoreSearchResults(): Promise<void> {
-    await this.movieListHandler.loadMoreMovies(this.currentQuery);
-  }
-
-  /**
-   * 현재 검색어를 반환한다.
+   * 현재 검색어를 반환.
    */
   getCurrentQuery(): string {
     return this.currentQuery;
