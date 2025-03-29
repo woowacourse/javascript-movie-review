@@ -15,7 +15,8 @@ export const observeLastMovie = () => {
       (entries) => {
         if (entries[0].isIntersecting) {
           observer.unobserve(lastMovie);
-          fetchMoreMovies(fetchMovies).then(() => {
+          fetchMoreMovies(fetchMovies).then((results) => {
+            if (results.length === 0) return;
             setTimeout(observeLastMovie, 500);
           });
         }

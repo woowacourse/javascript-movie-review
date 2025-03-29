@@ -19,6 +19,7 @@ const useGetMoreMovieList = () => {
         const response = await fetch(url.more(nextPage), options);
         const data = await response.json();
         appendSearchResults(data.results);
+        return data.results;
       } catch (error) {
         console.error("Error fetching search results:", error);
         setIsMoreError(true);

@@ -10,6 +10,7 @@ import {
   setSearchInputValue,
 } from "../../store/store";
 import { useEvents } from "../../utils/Core";
+import { observeLastMovie } from "../../utils/InfiniteScroll";
 import Button from "../@common/Button";
 import Input from "../@common/Input";
 
@@ -30,11 +31,13 @@ const Header = (props: HeaderProps) => {
 
   const [addEvent] = useEvents(".background-container");
 
-  addEvent("click", ".search-button-icon", (e) => {
+  addEvent("click", ".search-button-icon", async (e) => {
     e.preventDefault();
     handleInputChange();
 
-    fetchSearchMovieList(searchInputValue);
+    await fetchSearchMovieList(searchInputValue);
+
+    observeLastMovie();
   });
 
   addEvent("click", `.detail`, async () => {
@@ -43,6 +46,7 @@ const Header = (props: HeaderProps) => {
     }
     const detail = await fetchMovieDetail(id);
     setMovieDetail(detail);
+    // observeLastMovie();
   });
 
   return `

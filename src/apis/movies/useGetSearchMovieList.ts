@@ -5,6 +5,7 @@ import {
   setSearchResults,
   setTotalResults,
 } from "../../store/store";
+import { observeLastMovie } from "../../utils/InfiniteScroll";
 import { options, url } from "../config/config";
 
 const useGetSearchMovieList = () => {
