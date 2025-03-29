@@ -1,5 +1,5 @@
 import { MovieDetails } from "../../types/domain.ts";
-import { selectElement } from "../utils/dom.ts";
+import { selectElement } from "../utils/ui.ts";
 import Modal from "./Modal.ts";
 import MovieItemDetails from "./MovieItemDetails.ts";
 

@@ -1,4 +1,4 @@
-import { selectElement } from "../utils/dom.ts";
+import { selectElement } from "../utils/ui.ts";
 
 class Modal {
   #element;

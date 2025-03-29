@@ -1,5 +1,5 @@
 import { Movie } from "../../types/domain.ts";
-import { selectElement } from "../utils/dom.ts";
+import { selectElement } from "../utils/ui.ts";
 import MovieItem from "./MovieItem";
 import MovieList from "./MovieList.ts";
 

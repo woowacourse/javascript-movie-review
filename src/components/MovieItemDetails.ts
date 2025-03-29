@@ -1,7 +1,7 @@
 import { MovieDetails } from "../../types/domain.ts";
 import { RATING_MESSAGE, RATING_SCORE, VOTE } from "../constants/movie.ts";
 import { calculateFilledStar, ratingMovie } from "../domain/ratingMovie.ts";
-import { selectElement, selectElementAll } from "../utils/dom.ts";
+import { selectElement, selectElementAll } from "../utils/ui.ts";
 
 class MovieItemDetails {
   #id;
