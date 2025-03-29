@@ -79,15 +79,6 @@ button.primary {
   top: 2px;
 }
 
-.error {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 32px;
-  width: 1280px;
-}
-
 footer.footer {
   min-height: 180px;
   background-color: var(--color-bluegray-80);

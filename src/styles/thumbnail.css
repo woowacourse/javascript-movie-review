@@ -111,3 +111,12 @@ p.rate > span {
   width: 16px;
   top: 1px;
 }
+
+.error {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 32px;
+  width: 100%;
+}
