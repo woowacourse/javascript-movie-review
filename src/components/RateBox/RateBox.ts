@@ -74,7 +74,7 @@ const handleRateButtonClick = (e: MouseEvent, id: number) => {
 const $RateBox = (id: number) => {
   const initialRateValue = getInitialRateValue(id);
 
-  const [zeroRate, ...rateValue] = Object.keys(rateMessage);
+  const [_, ...rateValue] = Object.keys(rateMessage);
   const $rateButtonList = rateValue.map((rate) => {
     const $rateButton = createElement("button", {
       type: "button",
