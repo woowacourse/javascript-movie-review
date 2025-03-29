@@ -50,24 +50,30 @@ const DetailModal = (movieDetail: IMovieDetail) => {
               class: "modal-description",
               children: [
                 createDOMElement({
-                  tag: "h2",
-                  textContent: movieDetail.title,
-                }),
-                createDOMElement({
-                  tag: "p",
-                  textContent: `${movieDetail.release_date.split("-")[0]} · ${movieDetail.genres.map((genre) => genre.name).join(", ")}`,
-                }),
-                createDOMElement({
-                  tag: "p",
+                  tag: "div",
+                  class: "modal-description-title",
                   children: [
                     createDOMElement({
-                      tag: "img",
-                      src: "./images/star_filled.png",
-                      class: "star",
+                      tag: "h2",
+                      textContent: movieDetail.title,
                     }),
                     createDOMElement({
-                      tag: "span",
-                      textContent: movieDetail.vote_average,
+                      tag: "p",
+                      textContent: `${movieDetail.release_date.split("-")[0]} · ${movieDetail.genres.map((genre) => genre.name).join(", ")}`,
+                    }),
+                    createDOMElement({
+                      tag: "p",
+                      children: [
+                        createDOMElement({
+                          tag: "img",
+                          src: "./images/star_filled.png",
+                          class: "star",
+                        }),
+                        createDOMElement({
+                          tag: "span",
+                          textContent: movieDetail.vote_average,
+                        }),
+                      ],
                     }),
                   ],
                 }),

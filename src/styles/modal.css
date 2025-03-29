@@ -14,8 +14,6 @@ body.modal-open {
   background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경을 위해 설정 */
   backdrop-filter: blur(10px); /* 블러 효과 적용 */
   display: flex;
-  justify-content: center;
-  align-items: center;
   z-index: 10;
   visibility: hidden; /* 모달이 기본적으로 보이지 않도록 설정 */
   opacity: 0;
@@ -36,7 +34,8 @@ body.modal-open {
   color: white;
   z-index: 2;
   position: relative;
-  width: 1000px;
+  width: 100%;
+  margin-top: auto;
 }
 
 .close-modal {
@@ -54,6 +53,8 @@ body.modal-open {
 
 .modal-container {
   display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .modal-text {
@@ -64,8 +65,7 @@ body.modal-open {
 }
 
 .modal-image img {
-  width: 380px;
-  border-radius: 16px;
+  display: none;
 }
 
 .modal-star-wrapper {
@@ -73,6 +73,7 @@ body.modal-open {
   display: flex;
   flex-direction: column;
   gap: 24px;
+  align-items: center;
 }
 
 .modal-star-title {
@@ -83,9 +84,8 @@ body.modal-open {
 
 .modal-star-box {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: flex-start;
-  align-items: flex-end;
   gap: 16px;
 }
 
@@ -104,7 +104,6 @@ body.modal-open {
 }
 
 .modal-star-text {
-  width: 200px;
   font-size: 24px;
   font-weight: 600;
   line-height: normal;
@@ -118,9 +117,15 @@ body.modal-open {
 
 .modal-description {
   width: 100%;
-  padding: 8px;
+  padding: 16px;
   margin-left: 16px;
   line-height: 1.6rem;
+}
+
+.modal-description-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .modal-description .rate > img {
@@ -140,4 +145,52 @@ body.modal-open {
 .detail {
   max-height: 430px;
   overflow-y: auto;
+}
+
+@media (min-width: 768px) {
+  .modal-image img {
+    width: 200px;
+    border-radius: 16px;
+    margin-bottom: 24px;
+    display: block;
+  }
+
+  .modal-star-box {
+    flex-direction: row;
+    align-items: flex-end;
+  }
+
+  .modal-star-wrapper {
+    align-items: flex-start;
+  }
+
+  .modal-star-text {
+    width: 200px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .modal-background {
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modal {
+    width: 1000px;
+    margin: 0;
+  }
+
+  .modal-container {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .modal-image img {
+    width: 380px;
+    margin-bottom: 0;
+  }
+
+  .modal-description-title {
+    align-items: flex-start;
+  }
 }
