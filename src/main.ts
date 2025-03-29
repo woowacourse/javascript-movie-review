@@ -27,16 +27,18 @@ addEventListener("load", async () => {
     const { movies } = await getPopularMovieList();
     const observer = ScrollObserver.get();
 
+    Modal.init();
     Header.init({
       id: movies[0].id,
       title: movies[0].title,
       posterPath: movies[0].backdropPath || "",
       rate: movies[0].rate,
     });
+    Header.onDetailButtonClick = (e) => showMovieDetailModal(e);
 
     SearchInput.init();
-    SearchInput.onButtonClick = async () => search(observer);
-    SearchInput.onEnterKeydown = async () => search(observer);
+    SearchInput.onButtonClick = () => search(observer);
+    SearchInput.onEnterKeydown = () => search(observer);
 
     Subtitle.init();
 
@@ -49,8 +51,6 @@ addEventListener("load", async () => {
     ScrollObserver.intersect = () => seeMorePopularMovies(observer);
 
     ScrollObserver.on(observer);
-
-    Modal.init();
   } catch (error) {
     if (error instanceof Error) alert(error.message);
   }
@@ -116,7 +116,7 @@ async function seeMoreSearchMovies(
 }
 
 async function showMovieDetailModal(e: MouseEvent) {
-  const clickedMovieItem = e.currentTarget as HTMLLIElement;
+  const clickedMovieItem = e.currentTarget as HTMLElement;
   if (!clickedMovieItem.dataset.id) return;
 
   Modal.show();

@@ -5,6 +5,9 @@ export const $overlay = $<HTMLDivElement>(".overlay");
 export const $topRatedMovie = $<HTMLDivElement>(".top-rated-movie");
 export const $rate = $<HTMLSpanElement>(".rate-value");
 export const $headerTitle = $<HTMLDivElement>(".top-rated-movie .title");
+export const $headerDetailButton = $<HTMLButtonElement>(
+  ".top-rated-movie .detail"
+);
 
 export const $logo = $<HTMLImageElement>(".logo > img");
 export const $searchInput = $<HTMLInputElement>(".search-bar");

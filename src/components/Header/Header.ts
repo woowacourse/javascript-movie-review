@@ -3,6 +3,7 @@ import { BACKDROP_IMG_PREFIX } from "../../constants/URL";
 import { toggleDisplay } from "../../utils/Render";
 import {
   $backgroundContainer,
+  $headerDetailButton,
   $headerTitle,
   $logo,
   $overlay,
@@ -17,6 +18,10 @@ const Header = {
   },
 
   setTitle({ id, posterPath, rate, title }: MovieItemProps) {
+    $headerDetailButton.dataset.id = id.toString();
+    $headerDetailButton.addEventListener("click", (e) =>
+      this.onDetailButtonClick(e)
+    );
     $overlay.style.backgroundImage = `url(${BACKDROP_IMG_PREFIX + posterPath})`;
     $rate.textContent = rate.toFixed(1);
     $headerTitle.textContent = title;
@@ -26,6 +31,10 @@ const Header = {
     $backgroundContainer.style.height = "auto";
     toggleDisplay($overlay, "hidden");
     toggleDisplay($topRatedMovie, "hidden");
+  },
+
+  onDetailButtonClick(event: MouseEvent) {
+    console.log(event.target, "onDetailButtonClick 기능 미구현");
   },
 };
 
