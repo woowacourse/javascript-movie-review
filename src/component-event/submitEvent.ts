@@ -12,7 +12,6 @@ async function submitEvent(this: void, movieLayout: MovieLayout) {
     const { results: searchData, total_pages } = await fetchSearchMovies(1, searchKeyword)
     movieLayout.replaceChildren({
       title: `"${searchKeyword}" 검색 결과`,
-      eventName: 'readMoreSearchList',
       movieData: searchData,
       isPossibleMore: searchData.length === 20,
       searchKeyword,

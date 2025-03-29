@@ -1,10 +1,14 @@
-const BASE_IMAGE_URL = 'https://image.tmdb.org/t/p/w500'
-//import nullIma
+import { createElement } from '../../util/utils'
+import StarIcon from './StarIcon'
 
-function MovieItem({ img, rating, title }) {
+const BASE_IMAGE_URL = 'https://image.tmdb.org/t/p/w500'
+
+function MovieItem({ id, img, rating, title }) {
+  const movieId = id
   function template() {
+    const li = createElement({ tag: 'li' })
     const imgSrc = img ? `${BASE_IMAGE_URL}${img}` : './images/nullImage.png'
-    return `<div class="item">
+    li.innerHTML = `<div class="item">
       <div class="skeleton-loading">
         <div class="skeleton-image"></div>
         <img
@@ -20,8 +24,7 @@ function MovieItem({ img, rating, title }) {
         <div class="skeleton-loading">
           <div class="skeleton-image"></div>
           <p class="rate">
-            <img src="./images/star_empty.png" class="star" /><span
-              >${rating}</span>
+            ${StarIcon({ type: 'small', rating })}
           </p>
           </div>
           <div class="skeleton-loading">
@@ -31,9 +34,10 @@ function MovieItem({ img, rating, title }) {
         </div>
        
       </div>`
+    return li
   }
 
-  return template()
+  return { template, getId: () => movieId }
 }
 
 export default MovieItem

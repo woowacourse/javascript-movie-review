@@ -1,47 +1,44 @@
 import MovieList from '../common/MovieList.js'
 import hideskeleton from '../../util/hideskeleton.js'
 import { IMovieData, IMovieState } from '../../../types/movieDataType'
-import createSkeletonData from '../../util/createSkeletonData.js'
 import Button from '../common/Button.js'
 import { fetchPopularMovies, fetchSearchMovies } from '../../api/fetch.js'
 
-class MovieLayout {
-  #state: IMovieState
-  constructor(movieData: IMovieData[]) {
-    this.#state = {
-      title: '지금 인기 있는 영화',
-      isPossibleMore: movieData.length === 20,
-      movieData,
-      currentPage: 1,
-      searchKeyword: '',
-      totalPages: 0,
-    }
-    this.render()
+function MovieLayout(movieData: IMovieData[]) {
+  let state: IMovieState = {
+    title: '지금 인기 있는 영화',
+    isPossibleMore: movieData.length === 20,
+    movieData,
+    currentPage: 1,
+    searchKeyword: '',
+    totalPages: 0,
   }
 
-  incrementCurrentPage() {
-    this.#state.currentPage = (this.#state.currentPage ?? 1) + 1
+  const movieList = MovieList()
+  render()
+
+  function incrementCurrentPage() {
+    state.currentPage = (state.currentPage ?? 1) + 1
   }
 
-  replaceChildren(newState: IMovieState) {
-    this.#state = { ...this.#state, ...newState }
-    this.render()
+  function replaceChildren(newState: IMovieState) {
+    state = { currentPage: 1, ...newState }
+    render()
   }
 
-  static skeletonRender() {
-    const skeletonTemplate = `
-        <h2 id="movieListTitle" class="text-xl"></h2>
-        <div id="movieListContainer">
-            ${MovieList(createSkeletonData)}
-        </div>
-    `
-    const movieSectionEl = document.getElementById('movieSection')
-    if (movieSectionEl) movieSectionEl.innerHTML = skeletonTemplate
-  }
+  // static skeletonRender() {
+  //   const skeletonTemplate = `
+  //       <h2 id="movieListTitle" class="text-xl"></h2>
+  //       <div id="movieListContainer">
+  //           ${MovieList(createSkeletonData)}
+  //       </div>
+  //   `
+  //   const movieSectionEl = document.getElementById('movieSection')
+  //   if (movieSectionEl) movieSectionEl.innerHTML = skeletonTemplate
+  // }
 
-  template() {
-    console.log(this.#state.currentPage)
-    if (this.#state.movieData?.length === 0) {
+  function template() {
+    if (state.movieData?.length === 0) {
       return `
             <div class="flex-center gap-16">
                 <img src="./images/hangsung.png" />
@@ -50,54 +47,53 @@ class MovieLayout {
             `
     }
     return `
-            <h2 id="movieListTitle" class="text-xl">${this.#state.title}</h2>
+            <h2 id="movieListTitle" class="text-xl">${state.title}</h2>
             <div id="movieListContainer">
-                ${MovieList(this.#state.movieData)}
+                
             </div>
             ${
-              this.#state.isPossibleMore
+              state.isPossibleMore
                 ? Button({
                     id: 'readMoreButton',
                     content: '더보기',
                     type: 't',
                     width: '100%',
-                    onclick: () => this.newMovieListRender(),
+                    onclick: () => newMovieListRender(),
                   })
                 : ''
             }
         `
   }
 
-  hideButton() {
+  function hideButton() {
     const readMoreButton = document.getElementById('readMoreButton')
-    if (this.#state.totalPages === this.#state.currentPage && readMoreButton) {
+    if (state.totalPages === state.currentPage && readMoreButton) {
       readMoreButton.style.display = 'none'
     }
   }
 
-  render() {
+  function render() {
     const readMoreButton = document.getElementById('readMoreButton')
-    if (readMoreButton) readMoreButton.removeEventListener('click', () => this.newMovieListRender())
+    if (readMoreButton) readMoreButton.removeEventListener('click', () => newMovieListRender())
     const movieSectionEl = document.getElementById('movieSection')
-    if (movieSectionEl) movieSectionEl.innerHTML = this.template()
+    if (movieSectionEl) movieSectionEl.innerHTML = template()
+    movieList.render(state.movieData)
+
     hideskeleton()
-    document
-      .getElementById('readMoreButton')
-      ?.addEventListener('click', () => this.newMovieListRender())
-    this.hideButton()
+    document.getElementById('readMoreButton')?.addEventListener('click', () => newMovieListRender())
+    hideButton()
   }
 
-  async newMovieListRender() {
+  async function newMovieListRender() {
     setTimeout(hideskeleton, 500)
-    this.incrementCurrentPage()
-    const fetchFn = this.#state.searchKeyword ? fetchSearchMovies : fetchPopularMovies
-    const { results } = await fetchFn(this.#state.currentPage ?? 1, this.#state.searchKeyword ?? '')
-    //const { results } = await fetchPopularMovies(this.#state.currentPage ?? 1)
-    const ul = MovieList(results)
-    const movieListContainer = document.getElementById('movieListContainer')
-    if (movieListContainer) movieListContainer.innerHTML += ul
+    incrementCurrentPage()
+    const fetchFn = state.searchKeyword ? fetchSearchMovies : fetchPopularMovies
+    const { results } = await fetchFn(state.currentPage ?? 1, state.searchKeyword ?? '')
+    movieList.moreMovieListRender(results)
     hideskeleton()
-    this.hideButton()
+    hideButton()
   }
+
+  return { render, replaceChildren }
 }
 export default MovieLayout
