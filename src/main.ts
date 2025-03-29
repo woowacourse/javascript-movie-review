@@ -1,7 +1,6 @@
 import MostPopularMovieBanner from "./components/MostPopularMovieBanner.ts";
 import NavigationBar from "./components/navigation-bar/NavigationBar.ts";
 import Input from "./components/navigation-bar/Input.ts";
-import Button from "./components/Button.ts";
 import {
   fetchPopularMovies,
   popularMovieList,
@@ -16,14 +15,12 @@ interface HandleSearchProps {
   $title: HTMLHeadingElement;
   $mostPopularMovieBanner: HTMLElement;
   renderMovieContainer: () => void;
-  $moreButton: HTMLElement;
 }
 
 function handleSearch({
   $title,
   $mostPopularMovieBanner,
   renderMovieContainer,
-  $moreButton,
 }: HandleSearchProps) {
   return async (query: string) => {
     try {
@@ -38,12 +35,6 @@ function handleSearch({
       renderMovieContainer();
 
       $title.textContent = `"${query}" 검색 결과`;
-
-      if (searchedMovieList.list.length === 0) {
-        $moreButton.style.display = "none";
-      } else {
-        $moreButton.style.display = "block";
-      }
     } catch (error: unknown) {
       console.error("검색 영화 호출 중 오류 발생:", error);
       alert("검색 중 오류가 발생했습니다.");
@@ -70,30 +61,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const { renderMovieContainer } = MovieContainer({ $movieContainer: $main });
 
-  const $moreButton = Button({
-    text: "더 보기",
-    onClick: async () => {
-      const mode = movieState.mode;
-      const isLast = isLastPage(mode);
-
-      if (isLast) {
-        $moreButton.style.display = "none";
-        alert("마지막 페이지입니다.");
-      } else {
-        if (mode === "popular") {
-          await fetchPopularMovies(popularMovieList.currentPage + 1);
-        } else if (mode === "search") {
-          await fetchSearchedMovies(
-            movieState.query,
-            searchedMovieList.currentPage + 1
-          );
-        }
-
-        renderMovieContainer();
-      }
-    },
-  });
-
   const $input = Input({
     type: "text",
     placeholder: "검색어를 입력하세요",
@@ -101,7 +68,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       $title,
       $mostPopularMovieBanner,
       renderMovieContainer,
-      $moreButton,
     }),
   });
 
@@ -133,7 +99,27 @@ document.addEventListener("DOMContentLoaded", async () => {
   const $container = document.querySelector(".container");
   if (!$container) return;
 
-  if (!isLastPage(movieState.mode)) {
-    $container.appendChild($moreButton);
-  }
+  window.addEventListener("scroll", async () => {
+    const { scrollHeight, scrollTop, clientHeight } = document.documentElement;
+
+    if (scrollHeight - scrollTop - clientHeight < 10) {
+      const mode = movieState.mode;
+      const isLast = isLastPage(mode);
+
+      if (isLast) {
+        return;
+      }
+
+      if (mode === "popular") {
+        await fetchPopularMovies(popularMovieList.currentPage + 1);
+      } else if (mode === "search") {
+        await fetchSearchedMovies(
+          movieState.query,
+          searchedMovieList.currentPage + 1
+        );
+      }
+
+      renderMovieContainer();
+    }
+  });
 });
