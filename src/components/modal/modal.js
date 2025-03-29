@@ -1,9 +1,10 @@
 import { createElement } from "../../util/dom";
 import { hideElement, showElement } from "../../view/InputView";
+import { $ } from "../../util/querySelector";
 
-export default function Modal() {
+export default function Modal($modalElement) {
   const $modalBackground = createElement("div", {
-    className: ["modal-background", "active", "hide"],
+    className: ["modal-background", "active"],
     id: "modalBackground",
   });
 
@@ -20,25 +21,27 @@ export default function Modal() {
     src: "./images/modal_button_close.png",
   });
 
-  const $modalContainer = createElement("div", {
-    className: "modal-container",
-  });
-
   $closeButton.append($closeImg);
-  $modal.append($closeButton, $modalContainer);
+  $modal.append($closeButton, $modalElement);
   $modalBackground.append($modal);
 
-  function render(modalElement) {
-    $modalContainer.append(modalElement ?? "");
+  function render() {
+    $("#wrap").append($modalBackground);
   }
 
-  function hide() {
-    hideElement($modalBackground);
+  function close() {
+    $modalBackground.remove();
   }
 
-  function show() {
-    showElement($modalBackground);
-  }
+  $modalBackground.addEventListener("click", (e) => {
+    if (e.target.id === "modalBackground") close();
+  });
 
-  return { $el: $modalBackground, render, hide, show };
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") close();
+  });
+
+  $closeButton.addEventListener("click", close);
+
+  render();
 }

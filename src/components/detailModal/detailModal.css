@@ -1,0 +1,25 @@
+.modal-text {
+  font-weight: 600;
+  font-size: 24px;
+  letter-spacing: 0.18px;
+}
+
+.white {
+  color: white;
+}
+
+.estimate-wrap {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.3rem;
+}
+
+.estimate-star {
+  width: 2rem;
+  cursor: pointer;
+}
+
+.estimate-number {
+  color: #95a1b2;
+}
