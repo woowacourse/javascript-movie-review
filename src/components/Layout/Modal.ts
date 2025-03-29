@@ -76,17 +76,15 @@ export default class Modal extends Component<ModalState> {
     const totalStars = 5;
     const filledStars = this.state.my_rate / 2;
 
-    let starsHtml = "";
-
-    for (let i = 1; i <= totalStars; i++) {
-      const starType = i <= filledStars ? "filled" : "empty";
-      starsHtml += `<img 
+    const starsHtml = Array.from({ length: totalStars }, (_, i) => {
+      const starType = i + 1 <= filledStars ? "filled" : "empty";
+      return `<img 
         src="./images/star_${starType}.png" 
         class="star" 
-        data-value="${i * 2}"
+        data-value="${(i + 1) * 2}"
         alt="star"
       />`;
-    }
+    }).join("");
 
     return starsHtml;
   }
