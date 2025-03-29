@@ -42,3 +42,9 @@
 h1.logo {
   font-size: 2rem;
 }
+
+@media screen and (max-width: 620px) {
+  .search-bar {
+    width: 80%;
+  }
+}
