@@ -1,3 +1,4 @@
+import "./headerBox.css";
 import $SearchForm from "../SearchForm/SearchForm";
 
 const $HeaderBox = () => {

@@ -1,3 +1,5 @@
+import "./emptyList.css";
+
 const $EmptyList = () => {
   const $emptyPlanet = createElement("img", {
     src: "./empty-planet.svg",

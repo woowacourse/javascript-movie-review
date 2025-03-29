@@ -1,0 +1,125 @@
+.skeleton-detail-movie {
+  display: flex;
+  padding: 2rem 1.5rem;
+  gap: 1rem;
+
+  @media screen and (max-width: 1024px) {
+    flex-direction: column;
+    height: 100%;
+    padding: 2rem 1.5rem 1rem;
+  }
+
+  @media screen and (max-width: 768px) {
+    gap: 0;
+    padding: 3.5rem 1.5rem 1rem;
+  }
+}
+
+.skeleton-modal-image-box {
+  display: flex;
+  justify-content: center;
+}
+
+.skeleton-modal-image {
+  width: 440px;
+  height: 660px;
+  border-radius: 16px;
+  border-radius: 16px;
+  background-color: #a9a9a9;
+  animation: pulse 1.5s infinite;
+
+  @media screen and (max-width: 1024px) {
+    width: 200px;
+    height: 300px;
+  }
+
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
+}
+
+.detail-movie-box {
+  width: 55%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+
+  @media screen and (max-width: 1024px) {
+    width: 100%;
+  }
+}
+
+.skeleton-detail-movie-title {
+  width: 95%;
+  height: 2rem;
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  border-radius: 8px;
+  background-color: #a9a9a9;
+  animation: pulse 1.5s infinite;
+
+  @media screen and (max-width: 1024px) {
+    text-align: center;
+    width: 100%;
+  }
+
+  @media screen and (max-width: 768px) {
+    margin-bottom: 1rem;
+    font-size: 1.65rem;
+  }
+}
+
+.skeleton-detail-movie-category {
+  font-size: 1.1rem;
+  padding-bottom: 1rem;
+  height: 2rem;
+  border-radius: 8px;
+  background-color: #a9a9a9;
+  animation: pulse 1.5s infinite;
+
+  @media screen and (max-width: 1024px) {
+    text-align: center;
+  }
+}
+
+.skeleton-detail-movie-rate {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.25rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #67788e;
+  height: 2rem;
+  border-radius: 8px;
+  background-color: #a9a9a9;
+  animation: pulse 1.5s infinite;
+  margin: 1rem 0;
+
+  @media screen and (max-width: 1024px) {
+    justify-content: center;
+  }
+}
+
+.skeleton-rate-box {
+  height: 8rem;
+  border-radius: 8px;
+  background-color: #a9a9a9;
+  animation: pulse 1.5s infinite;
+}
+
+.skeleton-detail-movie-description-box {
+  padding-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  height: 22rem;
+  border-radius: 8px;
+  background-color: #a9a9a9;
+  animation: pulse 1.5s infinite;
+  margin-top: 1rem;
+
+  @media screen and (max-width: 1024px) {
+    height: 12rem;
+  }
+}

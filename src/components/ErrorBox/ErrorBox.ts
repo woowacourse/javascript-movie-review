@@ -1,22 +1,35 @@
-export const addErrorBox = (text: string) => {
-  const $movieListSection = document.querySelector(
-    ".movie-list-section"
-  ) as HTMLElement;
-  $movieListSection.replaceChildren($ErrorBox({ text }));
+import "./errorBox.css";
+
+interface AddErrorBoxParameter {
+  selector: string;
+  errorMessage: string;
+}
+
+export const addErrorBox = ({
+  selector,
+  errorMessage,
+}: AddErrorBoxParameter) => {
+  const $container = document.querySelector(selector);
+
+  if (!$container) {
+    throw new Error(`${selector}가 존재하지 않습니다.`);
+  }
+
+  $container.replaceChildren($ErrorBox({ errorMessage }));
 };
 
 interface ErrorBoxProps {
-  text: string;
+  errorMessage: string;
 }
 
-const $ErrorBox = ({ text }: ErrorBoxProps) => {
+const $ErrorBox = ({ errorMessage }: ErrorBoxProps) => {
   const $errorPlanet = createElement("img", {
     src: "./empty-planet.svg",
     className: "empty-planet",
-    alt: text,
+    alt: errorMessage,
   });
   const $emptyText = createElement("h2", {
-    textContent: text,
+    textContent: errorMessage,
   });
 
   const $box = createElement("div", {

@@ -1,3 +1,4 @@
+import "./skeletonMovieList.css";
 import $SkeletonItem from "./MovieItem/SkeletonItem";
 
 export const replaceSkeletonList = () => {
@@ -9,7 +10,7 @@ export const replaceSkeletonList = () => {
 
 export const addSkeletonList = () => {
   const $movieListSection = document.querySelector(
-    ".thumbnail-list"
+    ".movie-list-section"
   ) as HTMLElement;
   $movieListSection.appendChild($SkeletonList());
 };
