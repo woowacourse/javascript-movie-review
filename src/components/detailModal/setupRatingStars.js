@@ -45,7 +45,7 @@ function bindStarClickEvents(stars, $description, $score, id) {
       const rating = selectedStartIndex * 2;
 
       renderInitialStars(stars, selectedStartIndex);
-      updateStarUI($description, $score, rating);
+      updateText($description, $score, rating);
       updateRating({ id, rating });
     });
   });
