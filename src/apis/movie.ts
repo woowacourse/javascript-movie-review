@@ -9,7 +9,6 @@ interface GetMoviesProps {
 
 export const getMovies = async ({ query, page }: GetMoviesProps) => {
   let moviesResponse;
-  console.log(query, page);
 
   const prevMoviesResponse = moviesResponseStore.getState();
   if (prevMoviesResponse && prevMoviesResponse.total_pages < page) return;
