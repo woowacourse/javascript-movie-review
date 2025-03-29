@@ -3,20 +3,20 @@ import { createElementWithAttributes } from "../../../../../utils/createElementW
 import myMovieRating from "./internal/myMovieRating";
 
 const movieDetailOverview = (movie: MovieDetail) => {
-  const $fragment = document.createDocumentFragment();
-  const $hr = createElementWithAttributes({ tag: "hr" });
-  const $overview = createElementWithAttributes({
-    tag: "h3",
-    textContent: "줄거리",
+  const $movieDetailOverview = createElementWithAttributes({
+    tag: "div",
+    className: "movie-detail-overview",
+    children: [
+      { tag: "hr" },
+      { tag: "h3", textContent: "줄거리" },
+      {
+        tag: "p",
+        className: "detail",
+        textContent: movie.overview || "줄거리가 없습니다.",
+      },
+    ],
   });
-  const $detailOverview = createElementWithAttributes({
-    tag: "p",
-    className: "detail",
-    textContent: movie.overview,
-  });
-
-  $fragment.append($hr, $overview, $detailOverview);
-  return $fragment;
+  return $movieDetailOverview;
 };
 
 const movieDetailDescription = (movie: MovieDetail) => {
