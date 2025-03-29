@@ -3,7 +3,7 @@ import getMovieDetail from '../api/getMovieDetail';
 import { DEFAULT_IMAGE_URL, IMAGE_BASE_URL } from '../constant';
 import { MoveType } from '../type';
 import { $ } from '../util/selector';
-import { updateModalData } from '../domain/updateModalMovie';
+import { updateModalData } from '../view/render/renderModal';
 
 function Movie({ movie }: { movie: MoveType }) {
   const posterPath = movie.posterPath ? IMAGE_BASE_URL + '/w440_and_h660_face/' + movie.posterPath : DEFAULT_IMAGE_URL;
