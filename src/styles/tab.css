@@ -30,3 +30,9 @@
 .tab li:not(:last-child) {
   margin-right: 8px;
 }
+
+@media (max-width: 500px) {
+  .tab {
+    display: none;
+  }
+}
