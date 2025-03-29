@@ -1,5 +1,5 @@
 import { DEFAULT_BACK_DROP_URL } from '@/constants';
-import { eventHandlerInstance, LocalStorage } from '@/modules';
+import { eventHandlerInstance } from '@/modules';
 import { movieDetailResponseStore, movieRateStore } from '@/store';
 import { $, html } from '@/utils';
 import { join, map, pipe, toArray } from '@fxts/core';
@@ -134,7 +134,6 @@ export default class MovieDetailModal extends Modal {
           [id]: Number(rate),
         };
 
-        LocalStorage.set('movieRate', newMovieRate);
         movieRateStore.setState(newMovieRate);
       },
       dataAction: 'change-rate',

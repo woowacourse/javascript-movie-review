@@ -2,7 +2,7 @@ import { Obserable } from '@/modules';
 import { isEqual } from '@/utils';
 import { LocalStorageMovieRateValueType } from '../modules';
 import { MovieDetailResponse, MoviesResponse, MovieType } from '../types';
-import { persisted } from '@/decorators/persisted';
+import { persisted } from '@/decorators';
 
 export default class Store<TState> extends Obserable<TState> {
   #state = {} as TState;
@@ -38,6 +38,4 @@ export const moviesStore = new Store<MovieType[] | null>(null);
 export const searchStore = new Store<string>('');
 export const errorStore = new Store<Error | null>(null);
 export const pageStore = new Store<number>(1);
-const movieRateStore1 = new Store<LocalStorageMovieRateValueType>({});
-
-export const movieRateStore = persisted('movieRate', movieRateStore1);
+export const movieRateStore = persisted('movieRate', new Store<LocalStorageMovieRateValueType>({}));

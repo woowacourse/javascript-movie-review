@@ -8,7 +8,7 @@ import { forEach } from '@fxts/core';
 export type Props = StrictObject | null;
 export type State = StrictObject | null;
 
-export default abstract class Component<TProps extends Props = {}, TState extends State = {}> implements Observer {
+export default abstract class Component<TProps extends Props = {}, TState extends State = {}> implements Observer<any> {
   state = {} as TState;
 
   #props: TProps;
@@ -26,7 +26,7 @@ export default abstract class Component<TProps extends Props = {}, TState extend
     if (!stores) return;
 
     forEach((store) => {
-      store.subscribe(this);
+      store.subscribe(this.update.bind(this));
     }, stores);
   }
 
