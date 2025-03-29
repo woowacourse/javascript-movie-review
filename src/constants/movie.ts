@@ -8,6 +8,10 @@ export const ITEMS = {
   initialCount: 0,
 };
 
+export const DETAILS = {
+  defaultOverview: "줄거리 정보가 없습니다.",
+};
+
 export const VOTE = {
   rateDegit: 1,
   defaultRate: 0,

@@ -1,6 +1,6 @@
 import { MovieData, MovieDetailsData, TotalData } from "../../types/data.ts";
 import { Movie, MovieDetails, TotalMovies } from "../../types/domain.ts";
-import { IMAGE, VOTE } from "../constants/movie.ts";
+import { DETAILS, IMAGE, VOTE } from "../constants/movie.ts";
 import { getMovieRate } from "./ratingMovie.ts";
 
 export const extractTotalMovies = (totalData: TotalData): TotalMovies => {
@@ -44,6 +44,8 @@ export const extractMovieDetails = (
   } = movieDetailsData;
 
   const genreNames = genres.map(({ name }) => name);
+  const formattedOverview =
+    overview === "" ? DETAILS.defaultOverview : overview;
   const posterPath = IMAGE.prefix + poster_path;
   const releaseYear = new Date(release_date).getFullYear();
   const voteAverage = Number(vote_average.toFixed(VOTE.rateDegit));
@@ -52,7 +54,7 @@ export const extractMovieDetails = (
   return {
     genres: genreNames,
     id,
-    overview,
+    overview: formattedOverview,
     posterPath,
     releaseYear,
     title,

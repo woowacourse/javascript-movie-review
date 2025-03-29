@@ -91,10 +91,14 @@ class MovieItemDetails {
   }
 
   #createOverview(description: HTMLDivElement) {
+    const h3 = document.createElement("h3");
+    h3.textContent = "줄거리";
+
     const overview = document.createElement("p");
     overview.classList.add("detail");
     overview.textContent = this.#details.overview;
 
+    description.insertAdjacentElement("beforeend", h3);
     description.insertAdjacentElement("beforeend", overview);
   }
 
