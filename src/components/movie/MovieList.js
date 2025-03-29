@@ -1,10 +1,10 @@
 import Movie from '../../domain/Movie.ts';
 import MovieCard from '../movie/MovieCard.js';
-import CustomButton from '../common/CustomButton.js';
-import { ADD_MOVIE_BUTTON } from '../common/CustomButton.ts';
 import NoResultsMessage from '../search/NoResultsMessage.js';
 import DetailModal from '../modal/DetailModal.js';
 import TmdbApi from '../../domain/tmdbApi.ts';
+import MovieListHandler from '../../handlers/MovieListHandler.ts';
+import { store } from '../../store/store.js';
 export default class MovieList {
   constructor(
     containerSelector,
@@ -12,18 +12,58 @@ export default class MovieList {
     currentPage,
     totalPage,
     movieService,
+    movieListHandler,
+    searchHandler,
   ) {
     this.container = document.querySelector(containerSelector);
     this.moviesData = moviesData;
     this.movieService = movieService;
-    this.currentPage = currentPage;
+    this.currentPage = parseInt(currentPage);
     this.totalPage = totalPage;
+    this.movieListHandler = movieListHandler;
+    this.loading = false;
+    this.lastQuery = null;
+    this.scrollTimer = null;
+    this.searchHandler = searchHandler;
+    this.boundHandleScroll = this.handleScroll.bind(this);
   }
 
   init() {
     this.loadInitMovie();
-    this.addLoadMoreButton();
     this.addMovieClickEvent();
+  }
+
+  setupInfiniteScroll() {
+    this.scrollTimer = null;
+    window.addEventListener('scroll', this.boundHandleScroll);
+  }
+
+  handleScroll() {
+    if (this.loading || this.currentPage >= this.totalPage) {
+    if (this.currentPage >= this.totalPage) {
+      console.log(`마지막 페이지 도달: ${this.currentPage}/${this.totalPage}`);
+      window.removeEventListener('scroll', this.boundHandleScroll);
+    }
+    return;
+  }
+    const scrollHeight = document.documentElement.scrollHeight;
+    const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+    const clientHeight = document.documentElement.clientHeight;
+
+   if (scrollTop + clientHeight >= scrollHeight - 100) {
+    if (this.scrollTimer) return;
+    
+  
+    this.scrollTimer = setTimeout(() => {
+      console.log('로드 요청: 페이지', this.currentPage, '/', this.totalPage);
+      if (store.getMode() === 'searchAdd') {
+        this.movieListHandler.handleLoadMore(this.lastQuery);
+      } else {
+        this.movieListHandler.handleLoadMore();
+      }
+      this.scrollTimer = null;
+    }, 300);
+  }
   }
 
   addMovieClickEvent() {
@@ -67,20 +107,8 @@ export default class MovieList {
       const movieCard = new MovieCard(movie);
       this.container.appendChild(movieCard.render());
     });
-  }
 
-  addLoadMoreButton() {
-    const existingButton = document.querySelector('.add-movie');
-    existingButton?.remove();
-
-    // 마지막 페이지면 버튼을 추가하지 않음
-    if (this.currentPage >= this.totalPage) {
-      return;
-    }
-
-    const loadMoreButton = new CustomButton(ADD_MOVIE_BUTTON);
-    const section = document.querySelector('section');
-    section.appendChild(loadMoreButton.render());
+    this.setupInfiniteScroll();
   }
 
   static removeMovieList() {

@@ -18,13 +18,20 @@ export default class MovieListHandler {
       ? await this.movieService.searchMovies(query, 1)
       : await this.movieService.getPopularResults();
 
-    this.updateMovieList(moviesData);
-    this.handleMoreClickButton(query);
+    this.updateMovieList(moviesData, query);
     this.movieList?.updateMovieListTitle(query);
   }
 
-  private updateMovieList(moviesData: APIResponse<MovieResponse>) {
+  private updateMovieList(
+    moviesData: APIResponse<MovieResponse>,
+    query?: string,
+  ) {
+    if (this.movieList && this.movieList.boundHandleScroll) {
+      window.removeEventListener('scroll', this.movieList.boundHandleScroll);
+    }
+
     MovieList.removeMovieList();
+
     this.movieList = new MovieList(
       '.thumbnail-list',
       moviesData.results.map(
@@ -39,24 +46,31 @@ export default class MovieListHandler {
       moviesData.page,
       moviesData.total_pages,
       this.movieService,
+      this,
     );
+    if (query) {
+      this.movieList.lastQuery = query;
+    }
     this.movieList.init();
   }
 
-  async handleMoreClickButton(query?: string) {
-    const loadMoreButton = document.querySelector('.add-movie');
-    if (!loadMoreButton) return;
-
-    const newButton = loadMoreButton.cloneNode(true);
-    loadMoreButton.parentNode?.replaceChild(newButton, loadMoreButton);
-
-    newButton.addEventListener('click', async () => {
-      await this.handleLoadMore(query);
-    });
-  }
-
   async handleLoadMore(query?: string) {
+    if (!this.movieList || this.movieList.loading) {
+      console.log('로딩 중이거나 MovieList가 없어 중단');
+      return;
+    }
+
+    if (this.movieList.currentPage >= this.movieList.totalPage) {
+      console.log(
+        `마지막 페이지 도달(${this.movieList.currentPage}/${this.movieList.totalPage}), 추가 로드 중단`,
+      );
+      return;
+    }
+
+    this.movieList.loading = true;
+
     const pageNumber = this.movieList?.currentPage + 1;
+
     this.movieList?.addPageNumber();
 
     Array.from({ length: 5 }).forEach(() => {
@@ -64,11 +78,21 @@ export default class MovieListHandler {
       this.movieList?.container.appendChild(skeletonCard);
     });
 
+    let actualQuery = query;
+    if (!actualQuery && store.getMode() === 'searchAdd') {
+      actualQuery = this.movieList.lastQuery;
+    }
+
     let newMoviesData: APIResponse<MovieResponse>;
     if (store.getMode() === 'popularAdd') {
+      console.log(`인기 영화 로드: 페이지 ${pageNumber}`);
       newMoviesData = await this.movieService.getPopularResults(pageNumber);
     } else {
-      newMoviesData = await this.movieService.searchMovies(query, pageNumber);
+      console.log(`검색 결과 로드: 쿼리=${actualQuery}, 페이지=${pageNumber}`);
+      newMoviesData = await this.movieService.searchMovies(
+        actualQuery,
+        pageNumber,
+      );
     }
 
     this.movieList?.container
@@ -86,22 +110,29 @@ export default class MovieListHandler {
       this.movieList?.container.appendChild(movieCard.render());
     });
 
-    if (
-      this.movieList &&
-      this.movieList.currentPage >= this.movieList.totalPage
-    ) {
+    if (this.movieList.currentPage >= this.movieList.totalPage) {
+      console.log(
+        `마지막 페이지 도달: ${this.movieList.currentPage}/${this.movieList.totalPage}`,
+      );
+      if (this.movieList.boundHandleScroll) {
+        window.removeEventListener('scroll', this.movieList.boundHandleScroll);
+      }
       const loadMoreButton = document.querySelector('.add-movie');
-      loadMoreButton?.remove();
+      if (loadMoreButton) loadMoreButton.remove();
     }
+
+    this.movieList.loading = false;
   }
 
   async handleSearch(query: string) {
     if (!query.trim()) {
-      this.initMovieList();
+      await this.initMovieList();
       return;
     }
 
     MovieList.removeMovieList();
+
+    store.setMode('searchAdd');
     const movies = await this.movieService.searchMovies(query);
     this.movieList = new MovieList(
       '.thumbnail-list',
@@ -109,11 +140,14 @@ export default class MovieListHandler {
       1,
       500,
       this.movieService,
+      this,
     );
+    this.movieList.lastQuery = query;
     this.movieList.init();
   }
 
-  handleLogoClick() {
-    this.initMovieList();
+  async handleLogoClick() {
+    store.setMode('popularAdd');
+    await this.initMovieList();
   }
 }
