@@ -16,13 +16,13 @@ export default class App extends Component {
     `;
   }
 
-  async onRender() {
+  override async onRender() {
     this.fillSlot(new Header(), 'header');
     this.fillSlot(new MovieSection(), 'movie-section');
     this.fillSlot(new Footer(), 'footer');
   }
 
-  addEventListener() {
+  override addEventListener() {
     eventHandlerInstance.addEventListener({
       eventType: 'offline',
       callbackWindow: () => {

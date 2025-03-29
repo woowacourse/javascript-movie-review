@@ -14,7 +14,7 @@ export default abstract class Modal<TProps extends Props = {}, TState extends St
   }
 
   show() {
-    $(`#${this.id}`)?.appendChild(this.element);
+    $(`#${this.id}`).appendChild(this.element);
     this.onShow();
   }
 
