@@ -13,6 +13,32 @@ import type { TMDBDetails } from "../../types/tmdb.types";
 
 export default async function handleItemClick(id: string) {
   try {
+    const modal = document.getElementById(
+      "modal-dialog"
+    ) as HTMLDialogElement | null;
+
+    if (modal) {
+      modal.showModal();
+    }
+
+    const loadingSpinner = document.getElementById("detail-loading");
+    const modalContainer = document.getElementById("modal-container");
+    const detailsSkeleton = document.getElementById("details-skeleton");
+    const detailsImage = document.getElementById("details-image");
+
+    if (loadingSpinner && modalContainer) {
+      showElement(loadingSpinner);
+      hideElement(modalContainer);
+    }
+
+    if (detailsSkeleton) {
+      showElement(detailsSkeleton);
+    }
+
+    if (detailsImage) {
+      hideElement(detailsImage);
+    }
+
     const result = await fetchUrl<TMDBDetails>(
       URLS.detailsMovieUrl,
       defaultQueryObject,
@@ -23,18 +49,20 @@ export default async function handleItemClick(id: string) {
     updateDetails(result);
     updateHero(result);
     setShowingItem(id);
-    const skeleton = document.getElementById("details-skeleton");
-    const detailsImage = document.getElementById("details-image");
-    showElement(skeleton);
-    hideElement(detailsImage);
+
+    if (loadingSpinner && modalContainer) {
+      hideElement(loadingSpinner);
+      showElement(modalContainer);
+    }
+  } catch (error: unknown) {
     const modal = document.getElementById(
       "modal-dialog"
     ) as HTMLDialogElement | null;
 
     if (modal) {
-      modal.showModal();
+      modal.close();
     }
-  } catch (error: unknown) {
+
     if (error instanceof Error) Toast.showToast(error.message, "error", 5000);
   }
 }
