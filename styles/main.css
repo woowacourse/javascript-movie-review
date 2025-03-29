@@ -118,13 +118,8 @@ button.primary {
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.logo-img {
-  position: absolute;
-  top: 50%;
-  left: 0px;
-  transform: translateY(-50%);
+  flex-direction: column;
+  gap: 24px;
 }
 
 .search-form {
