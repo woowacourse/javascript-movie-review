@@ -2,6 +2,7 @@ import { MovieDetailInfo } from "../../../types/movieApiType";
 import Modal from "../../components/Modal";
 import ModalSkeleton from "../../components/ModalSkeleton";
 import { DEFAULT_BACK_DROP_URL } from "../../constants/movieApi";
+import { fetchMovieRatingById } from "../../event/utils/ratingStorage";
 import { fetchMovieDetail } from "./movieService";
 
 const $modalContainer = document.querySelector(".modal-container");
@@ -30,13 +31,17 @@ export const movieDetailRenderer = async () => {
   img.src = DEFAULT_BACK_DROP_URL + backdrop_path;
   img.alt = "영화 포스터 이미지";
 
+  const localStorageMovieRate = fetchMovieRatingById(Number(id));
+
   const $modal = Modal({
+    id,
     backdrop_path,
     title,
     release_year: Number(release_date.split("-")[0]),
     genres: genres.map((genre) => genre.name),
     vote_average,
     overview,
+    rate_number: localStorageMovieRate!,
   });
 
   img.onload = () => {

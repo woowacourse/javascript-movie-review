@@ -1,6 +1,6 @@
 import { movieStore } from "../state/movieStore";
 import { renderMoviesList } from "../features/movies/movieListRenderer";
-import { addEvent } from "./addEvent";
+import { addEvent } from "./utils/addEvent";
 
 const $title = document.querySelector(".thumbnail-title");
 const $ul = document.querySelector(".thumbnail-list");
