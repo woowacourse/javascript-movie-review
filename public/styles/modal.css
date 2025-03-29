@@ -23,6 +23,15 @@ body:has(dialog[open]) {
   }
 }
 
+@keyframes slideIn {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
 .modal {
   background-color: var(--color-bluegray-90);
   border-radius: 16px;
@@ -42,6 +51,10 @@ body:has(dialog[open]) {
 
 dialog[open] {
   animation: show 0.5s forwards;
+
+  @media screen and (max-width: 1024px) {
+    animation: slideIn 0.5s ease-in-out;
+  }
 }
 
 .close-modal {
