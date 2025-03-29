@@ -1,12 +1,16 @@
-import { BASE_IMAGE_URL } from "../../constant/constant.js"
+import { BASE_IMAGE_URL, RATING } from "../../constant/constant.js"
 import roundRating from "../../util/roundRating.js";
-import MyRating from "./MyRating.js";
+import MyRating from "../feature/MyRating.js";
+import StarButton from "./StarButton.js";
 
 function MovieDetail({poster_path, title, vote_average,release_date, genres, overview}){
     const imgSrc = poster_path ? `${BASE_IMAGE_URL}${poster_path}` : './images/nullImage.png';
     const genresName = genres.map((genre)=>genre.name).join(", ")
     const year = release_date.split("-")[0];
     const rating = roundRating(vote_average)
+    const myRating = MyRating(title)
+
+    const starEls = document.querySelectorAll(".star-button");
   
     return `
         <button class="close-modal">
@@ -33,7 +37,9 @@ function MovieDetail({poster_path, title, vote_average,release_date, genres, ove
             <p class="label-text">
               내 별점
             </p>
-            ${MyRating()}
+            <div class="my-rating-container">
+              ${myRating}
+            </div>
             <hr class="line"/>
             <p class="label-text">줄거리</p>
             <p class="detail">
@@ -42,5 +48,7 @@ function MovieDetail({poster_path, title, vote_average,release_date, genres, ove
           </div>
         </div>`
 }
+
+
 
 export default MovieDetail

@@ -29,7 +29,7 @@ FE 레벨1 영화 리뷰 미션
 
 [x] 영화 상세 정보 조회
 
-[] 별점 매기기
+[x] 별점 매기기
 
 [] 반응형 웹
 
@@ -41,7 +41,7 @@ FE 레벨1 영화 리뷰 미션
 
 [common]
 
-- [x] StarRating.js 는 별 아이콘과 숫자로 이루어짐
+- [x] StarRating.js
 - [x] TabButton.js
 - [x] Input.js
 - [x] SerchInput.js
@@ -53,10 +53,12 @@ FE 레벨1 영화 리뷰 미션
 - [x] Banner.js
 - [x] Modal.js
 - [x] MovieDetail.js
+- [x] StartButton.js
 
 [feature]
 
-- MovieList.ts
+- [x] MyRating.js
+- [x] MovieList.ts
 
 # e2e
 

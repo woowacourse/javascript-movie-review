@@ -228,3 +228,8 @@ input::placeholder {
 .row {
   display: flex;
 }
+
+.star-button{
+  cursor: pointer;
+  width: 24px;
+}
