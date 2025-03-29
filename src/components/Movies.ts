@@ -6,8 +6,6 @@ import IntersectionObserble from './IntersectionObserble';
 import MovieDetailModal from './MovieDetailModal';
 import { getMovies } from '@/apis';
 
-const TAB_LIST = ['상영 중', '인기순', '평점순', '상영 예정'];
-
 export default class Movies extends Component {
   override setup() {
     this.subsribe([moviesStore, errorStore, searchStore]);
@@ -24,17 +22,6 @@ export default class Movies extends Component {
     if (error) return html`<div class="error">${error.message}</div>`;
     return html`
       <div class="container">
-        <ul class="tab">
-          ${TAB_LIST.map(
-            (tab) => `
-              <li>
-                <a href="#">
-                  <div class="tab-item"><h3>${tab}</h3></div>
-                </a>
-              </li>
-            `,
-          )}
-        </ul>
         <main>
           <section>
             <h2 class="thumbnail-title">${search ? `"${search}" 검색 결과` : '지금 인기 있는 영화'}</h2>
