@@ -15,10 +15,11 @@ function MovieList() {
 
     const movieId = itemMap.get(li)
     if (!movieId) return
-    const { title, release_date, genres, poster_path, vote_average, overview } =
+    const { id, title, release_date, genres, poster_path, vote_average, overview } =
       await fetchMovieDetail(movieId)
     document.getElementById('dialogID').showModal()
     modalLayout.replaceContent({
+      id,
       title,
       release_date,
       genres,

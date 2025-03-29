@@ -1,9 +1,11 @@
+import { userReviewStorage } from '../../storage/storage'
 import roundRating from '../../util/roundRating'
 import { getHTML } from '../../util/utils'
 import StarIcon from '../common/StarIcon'
 import StarRatingForm from '../common/StarRatingForm'
 
 interface ModalMovieContent {
+  id: string
   title: string
   release_date: string
   genres: Array<Object>
@@ -16,6 +18,7 @@ function ModalLayout() {
   render()
 
   function replaceContent({
+    id,
     title,
     release_date,
     genres,
@@ -46,6 +49,14 @@ function ModalLayout() {
       posterImageElement.src = imgSrc
       posterImageElement.alt = title
     }
+
+    const starRatingFormBox = getHTML('starRatingFormBox')
+    const savedRatingData = userReviewStorage.find(id)
+    const rating = savedRatingData ? roundRating(savedRatingData.vote_average) : 0
+
+    if (starRatingFormBox) {
+      StarRatingForm(id, rating).render('starRatingFormBox')
+    }
   }
 
   function template() {
@@ -70,9 +81,9 @@ function ModalLayout() {
                 <span class="rating-number">0</span>
               </div>
             </div>
-            
-           ${StarRatingForm().template(0)}
-            
+            <div id="starRatingFormBox">
+           
+            </div>
             <div class="synopsis-section">
               <h3 class="synopsis-title">줄거리</h3>
               <div class="synopsis-content">
@@ -95,7 +106,6 @@ function ModalLayout() {
   }
 
   function setEvent() {
-    StarRatingForm().setStarFn()
     const closeModal = document.getElementById('closeModal')
     const dialog = document.getElementById('dialogID')
     if (closeModal && dialog)
