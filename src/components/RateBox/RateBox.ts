@@ -1,3 +1,4 @@
+import "./rateBox.css";
 import STORAGE_KEY from "../../constants/storageKey";
 import { getStorage, setStorage } from "../../utils/storage";
 import $StarIcon, { fillStarIcon, unFillStarIcon } from "../StarIcon/StarIcon";
