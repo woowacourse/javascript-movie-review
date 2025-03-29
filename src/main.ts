@@ -6,9 +6,9 @@ import Banner from './component/common/Banner.js'
 
 history.scrollRestoration = 'manual'
 submitEvent
-MovieLayout.skeletonRender()
+//MovieLayout.skeletonRender()
 const movieData = await fetchPopularMovies(1)
-const movieLayout = new MovieLayout(movieData.results)
+const movieLayout = MovieLayout(movieData.results)
 const bannerElement = document.getElementById('bannerSection')
 if (bannerElement) bannerElement.innerHTML = Banner(movieData.results[0])
 await submitEvent(movieLayout)
