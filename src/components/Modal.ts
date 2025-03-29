@@ -2,6 +2,7 @@ import imageUrl from "../utils/imageUrl";
 import createElement from "./utils/createElement";
 
 const starMessage = {
+  0: "아직 평가하지 않았어요",
   1: "최악이예요",
   2: "별로예요",
   3: "보통이에요",
