@@ -1,9 +1,5 @@
 import { MovieApiClient } from '@/apis';
-import { Toast } from '@/components';
-import { TOAST_TYPE } from '@/components/Toast';
-import { errorMessage, toastMessage } from '@/modules';
-import { errorStore, moviesResponseStore, moviesStore, pageStore, searchStore, serverStore } from '@/store';
-import { isError, isString } from '@/utils';
+import { moviesResponseStore, moviesStore, pageStore, searchStore, serverStore } from '@/store';
 
 interface GetMoviesProps {
   page: number;
