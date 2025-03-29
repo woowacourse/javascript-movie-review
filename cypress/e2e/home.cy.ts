@@ -36,8 +36,8 @@ describe("홈 화면 테스트", () => {
 
       let popularMovieItems = cy.get("#thumbnail-list > li");
       expect(popularMovieItems.should("have.length", 20));
-      cy.get("#load-more").scrollIntoView();
-      cy.get("#load-more").click();
+
+      cy.scrollTo("bottom");
 
       popularMovieItems = cy.get("#thumbnail-list > li");
       expect(popularMovieItems.should("have.length", 40));
