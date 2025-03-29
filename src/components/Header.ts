@@ -63,8 +63,7 @@ export default class Header extends Component {
       callback: async ({ target }) => {
         if (!isHTMLFormElement(target)) return;
 
-        const formData = new FormData(target);
-        const modalInput = Object.fromEntries(formData);
+        const modalInput = Object.fromEntries(new FormData(target));
 
         pageStore.setState(1);
         searchStore.setState(String(modalInput.search));
