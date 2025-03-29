@@ -1,8 +1,11 @@
 import createDOMElement from '../util/createDomElement';
+import getMovieDetail from '../api/getMovieDetail';
 import { DEFAULT_IMAGE_URL, IMAGE_BASE_URL } from '../constant';
 import { MoveType } from '../type';
+import { $ } from '../util/selector';
+import { updateModalData } from '../domain/updateModalMovie';
 
-function Movie({ movie, onClick }: { movie: MoveType; onClick?: () => void }) {
+function Movie({ movie }: { movie: MoveType }) {
   const posterPath = movie.posterPath ? IMAGE_BASE_URL + '/w440_and_h660_face/' + movie.posterPath : DEFAULT_IMAGE_URL;
 
   return createDOMElement({
@@ -43,8 +46,24 @@ function Movie({ movie, onClick }: { movie: MoveType; onClick?: () => void }) {
         ]
       })
     ],
-    event: onClick ? { click: onClick } : undefined
+    event: {
+      click: () => {
+        handleMovieItemClick(movie.id);
+      }
+    }
   });
 }
+
+const handleMovieItemClick = async (id: number) => {
+  const modal = $('#modal') as HTMLDialogElement;
+  modal?.showModal();
+  const params = {
+    language: 'ko-KR'
+  };
+  const movieDetail = await getMovieDetail(params, id);
+  if (movieDetail) {
+    updateModalData(movieDetail);
+  }
+};
 
 export default Movie;
