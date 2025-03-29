@@ -1,13 +1,13 @@
 import getPopularMovies from './api/getPopularMovies';
 import { addFooter } from './component/Footer';
 import Banner, { addBanner } from './component/Banner';
-import { addMovieList } from './component/MovieList';
+import { addMoreMovieList, addMovieList, createObserverTarget } from './component/MovieList';
 import { $ } from './util/selector';
 import { addHeader } from './component/Header';
 import { addBannerSkeleton, removeBannerSkeleton } from './component/Skeleton';
 import { addSkeletonList, removeSkeletonList } from './component/SkeletonList';
-import MoreButton from './component/MoreButton';
 import { INITIAL_PAGE, MOVIE_INDEX_FOR_BANNER, TOTAL_PAGES } from './constant';
+import { createInfiniteScrollObserver } from './util/intersectionObserver';
 
 addEventListener('DOMContentLoaded', async () => {
   renderBanner();
@@ -30,25 +30,41 @@ const renderHeader = () => {
   addHeader();
 };
 
+let currentPage = INITIAL_PAGE;
+
 const renderMovieList = async () => {
   const container = $('.container');
   if (!container) return;
 
   addSkeletonList(container);
 
-  const response = await getPopularMovies({ page: INITIAL_PAGE });
-
+  const response = await getPopularMovies({ page: currentPage });
   removeSkeletonList();
 
   addMovieList({ movies: response.results, title: '지금 인기있는 영화' });
 
-  const moreButton = MoreButton({
-    totalPages: TOTAL_PAGES,
-    fetchMovies: getPopularMovies,
-    fetchArgs: {}
-  });
+  observeScroll();
+};
 
-  container.appendChild(moreButton);
+const observeScroll = () => {
+  const target = createObserverTarget();
+  const container = $('.container');
+  if (!container) return;
+
+  container.appendChild(target);
+
+  createInfiniteScrollObserver(target, async () => {
+    if (currentPage >= TOTAL_PAGES) return;
+
+    currentPage++;
+    addSkeletonList(container);
+
+    const res = await getPopularMovies({ page: currentPage });
+    removeSkeletonList();
+    addMoreMovieList(res.results);
+
+    observeScroll();
+  });
 };
 
 const renderFooter = () => {

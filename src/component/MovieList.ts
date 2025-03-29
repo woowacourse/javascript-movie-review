@@ -46,3 +46,11 @@ export const addMovieList = ({ movies, title }: { movies: IMovie[]; title: strin
 
   container.appendChild(movieList);
 };
+
+export const createObserverTarget = (): HTMLElement => {
+  return createDOMElement({
+    tag: 'div',
+    className: 'observer-target',
+    attributes: { 'data-observe': 'true' }
+  });
+};

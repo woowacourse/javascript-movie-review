@@ -44,8 +44,3 @@ function MoreButton<T>({ totalPages, fetchMovies, fetchArgs }: MoreButtonProps<T
 }
 
 export default MoreButton;
-
-const addMoreButton = () => {
-  const container = $('.container');
-  if (!container) return;
-};
