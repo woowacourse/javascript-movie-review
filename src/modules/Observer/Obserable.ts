@@ -1,8 +1,5 @@
 import { forEach } from '@fxts/core';
-
-interface Observer {
-  update: () => void;
-}
+import Observer from './Observer';
 
 export default abstract class Obserable<TObserver extends Observer> {
   #observers: TObserver[] = [];
