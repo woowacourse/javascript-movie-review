@@ -163,7 +163,8 @@ h1.logo {
   .search-bar {
     max-width: 300px;
   }
-  h1.logo, h1.logo img {
+  h1.logo,
+  h1.logo img {
     width: 100px;
   }
 }
@@ -190,7 +191,6 @@ h1.logo {
     font-weight: bold;
   }
 }
-
 
 .search-bar input {
   flex: 1;
