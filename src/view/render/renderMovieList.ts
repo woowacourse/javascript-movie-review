@@ -1,20 +1,45 @@
-import MovieList from '../MovieList';
+import Movie from '../../component/Movie';
 import { $ } from '../../util/selector';
 import { INITIAL_PAGE } from '../../constant';
 import { ResponseType } from '../../type';
-import { moreButton } from '../moreButton';
+import { createInfiniteScrollHandler } from '../infinityScrollButton';
+import { hideSkeletons, movieListSkeletons } from './skeleton/movieListSkeletons';
+import createDOMElement from '../../util/createDomElement';
+
+let scrollHandler: ReturnType<typeof createInfiniteScrollHandler>;
 
 export const renderMovieList = async (response: ResponseType, keyword?: string) => {
-  const { results, totalPages } = response;
-  const container = $('.container');
+  const movieTitle = $('#movieKindTitle');
+  const movieTitleText = keyword ? `"${keyword}" 검색 결과` : '지금 인기 있는 영화';
+  if (movieTitle) {
+    movieTitle.textContent = movieTitleText;
+  }
 
-  const movieList = MovieList({
-    movies: results,
-    title: keyword ? `"${keyword}" 검색 결과` : '지금 인기 있는 영화'
-  });
-  container?.replaceChildren(movieList);
+  if (!response) return;
+  const { results, totalPages, totalResults } = response;
 
-  if (INITIAL_PAGE < totalPages) {
-    container?.appendChild(moreButton(INITIAL_PAGE, totalPages, keyword));
+  movieListSkeletons();
+
+  const movieList = $('.thumbnail-list');
+  const fragment = document.createDocumentFragment();
+  results.map((movie) => fragment.appendChild(Movie({ movie })));
+  movieList?.appendChild(fragment);
+  if (!movieList) {
+    const newMovieList = createDOMElement({
+      tag: 'ul',
+      className: 'thumbnail-list'
+    });
+    $('.container')?.appendChild(newMovieList);
+    newMovieList?.appendChild(fragment);
+    $('.error-ui')?.remove();
+  }
+
+  hideSkeletons();
+
+  if (scrollHandler) {
+    scrollHandler.destroy();
+  }
+  if (INITIAL_PAGE < totalPages && totalResults > 20) {
+    scrollHandler = createInfiniteScrollHandler(keyword ?? '', totalPages);
   }
 };
