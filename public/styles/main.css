@@ -34,9 +34,9 @@ main {
   background-color: var(--color-bluegray-100);
 }
 
-#wrap h2 {
-  font-size: 1.4rem;
-  font-weight: bold;
+#description {
+  font-size: 32px;
+  font-weight: 600;
   margin-bottom: 32px;
 }
 
@@ -79,4 +79,12 @@ footer.footer {
 
 footer.footer p:not(:last-child) {
   margin-bottom: 8px;
+}
+
+.marginB1rem {
+  margin-bottom: 1rem;
+}
+
+.marginT1rem {
+  margin-top: 1rem;
 }

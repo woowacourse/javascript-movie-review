@@ -1,3 +1,8 @@
+#modal-title {
+  font-size: 32px;
+  font-weight: 700;
+}
+
 .modal-text {
   font-weight: 600;
   font-size: 24px;
@@ -12,7 +17,7 @@
   display: flex;
   align-items: center;
   gap: 1rem;
-  margin-top: 1.3rem;
+  margin-top: 1rem;
 }
 
 .estimate-star {
@@ -22,4 +27,16 @@
 
 .estimate-number {
   color: #95a1b2;
+}
+
+.rate-text {
+  margin-right: 10px;
+  font-size: 100%;
+}
+
+@media (max-width: 450px) {
+  .estimate-wrap {
+    flex-direction: column;
+    gap: 0px;
+  }
 }

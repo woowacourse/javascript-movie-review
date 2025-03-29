@@ -34,7 +34,14 @@ export default function DetailModal({
             <p class="category">
               ${year} · ${genre}
             </p>
-            <div>
+            <p class="rate">
+              <span class="rate-text white">평균 </span>
+                <img src="./images/star_filled.png" class="star" />
+                <span>${vote_average}</span>
+            </p>
+            <hr/>
+          <div class="modal-description-wrap">
+            <div class="marginT1rem">
                 <p class="modal-text">내 별점</p>
                 <div class="estimate-wrap">
                     <div>
@@ -49,16 +56,11 @@ export default function DetailModal({
                 </div>
             </div>
             <hr />
-            <p class="rate">
-            <span class="white">평균 </span>
-              <img src="./images/star_filled.png" class="star" /><span
-                >${vote_average}</span
-              >
-            </p>
-            <hr />
-            <p class="detail">
+            <p class="modal-text marginT1rem">줄거리</p>
+            <p class="detail marginT1rem">
               ${overview}
             </p>
+        </div>
         </div>`;
 
   setupRatingStars($modalContainer, id);

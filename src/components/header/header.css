@@ -1,5 +1,6 @@
 .header-container {
   height: 50px;
+  background-color: var(--color-bluegray-100);
 }
 
 .header {

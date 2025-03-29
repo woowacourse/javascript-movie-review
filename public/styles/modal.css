@@ -19,9 +19,7 @@ body.modal-open {
   z-index: 10;
   visibility: hidden; /* 모달이 기본적으로 보이지 않도록 설정 */
   opacity: 0;
-  transition:
-    opacity 0.3s ease,
-    visibility 0.3s ease;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
 .modal-background.active {
@@ -36,7 +34,7 @@ body.modal-open {
   color: white;
   z-index: 2;
   position: relative;
-  width: 1000px;
+  max-width: 1000px;
 }
 
 .close-modal {
@@ -73,10 +71,6 @@ body.modal-open {
   top: 5px;
 }
 
-.modal-description > *:not(:last-child) {
-  margin-bottom: 8px;
-}
-
 .modal-description h2 {
   font-size: 2rem;
   margin: 0 0 8px;
@@ -85,4 +79,49 @@ body.modal-open {
 .detail {
   max-height: 430px;
   overflow-y: auto;
+}
+
+@media (max-width: 1000px) {
+  .modal {
+    position: fixed;
+    bottom: 0px;
+  }
+
+  .modal-container {
+    flex-direction: column;
+  }
+
+  .rate {
+    justify-content: center;
+  }
+
+  #wrap h2 {
+    margin: 10px;
+  }
+
+  .modal-image,
+  #modal-title,
+  .category {
+    text-align: center;
+  }
+
+  .modal-description {
+    margin-left: 0px;
+    padding: 0;
+  }
+
+  .modal-image img {
+    width: 200px;
+    border-radius: 16px;
+  }
+}
+
+@media (max-width: 450px) {
+  .modal-image {
+    display: none;
+  }
+
+  .modal-description {
+    text-align: center;
+  }
 }
