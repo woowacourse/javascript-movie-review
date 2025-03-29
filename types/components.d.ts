@@ -5,7 +5,7 @@ export interface MovieItemListInstance {
   render: (data: Result[]) => void;
 }
 
-export interface LongButtonInstance {
+export interface LoadMoreButtonInstance {
   $el: HTMLButtonElement;
   hide: () => void;
   setOnClick: (callback: () => void) => void;
