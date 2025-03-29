@@ -39,8 +39,10 @@ export default class MovieSection extends Component {
       new IntersectionObserble({
         callback: async () => {
           const query = searchStore.getState();
-          if (query) await getMovies({ query: searchStore.getState(), page: pageStore.getState() + 1 });
-          if (!query) await getAllMovies({ page: pageStore.getState() + 1 });
+          pageStore.setState(pageStore.getState() + 1);
+
+          if (query) await getMovies({ query: searchStore.getState(), page: pageStore.getState() });
+          if (!query) await getAllMovies({ page: pageStore.getState() });
         },
         id: 'movie-more',
       }),

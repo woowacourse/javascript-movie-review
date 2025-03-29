@@ -78,6 +78,8 @@ export default class Header extends Component {
       eventType: 'click',
       callback: () => {
         moviesStore.reset();
+        pageStore.reset();
+        searchStore.reset();
         getAllMovies({ page: 1 });
       },
       dataAction: 'reset',

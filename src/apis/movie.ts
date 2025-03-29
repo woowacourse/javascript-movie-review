@@ -1,5 +1,5 @@
 import { MovieApiClient } from '@/apis';
-import { moviesResponseStore, moviesStore, pageStore, searchStore, serverStore } from '@/store';
+import { moviesResponseStore, moviesStore, serverStore } from '@/store';
 
 interface GetMoviesProps {
   page: number;
@@ -18,8 +18,6 @@ export const getMovies = async ({ query, page }: GetMoviesProps) => {
       }),
     queryKey: [query, page],
   });
-
-  pageStore.setState(page);
 
   const movies = moviesStore.getState();
   moviesStore.setState([...(movies ? movies : []), ...moviesResponse.results]);
@@ -40,9 +38,6 @@ export const getAllMovies = async ({ page }: GetAllMoviesProps) => {
       }),
     queryKey: [page],
   });
-
-  pageStore.setState(page);
-  searchStore.reset();
 
   const movies = moviesStore.getState();
   moviesStore.setState([...(movies ? movies : []), ...moviesResponse.results]);
