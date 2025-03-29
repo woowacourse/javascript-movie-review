@@ -1,25 +1,27 @@
-import type { FetchOptions } from "../util/fetch";
 import { fetchUrl } from "../util/fetch";
 import type { TMDBResponse } from "../../types/TMDB";
-import { TOTAL_PAGE } from "../setting/settings";
+import {
+  defaultOptions,
+  defaultQueryObject,
+  TOTAL_PAGE,
+} from "../setting/settings";
 import { ERROR_MESSAGE } from "../setting/ErrorMessage";
 import Toast from "../components/Toast/Toast";
 
-export default function createMovieLoader(
-  url: string,
-  queryObject: Record<string, string>,
-  options: FetchOptions,
-  searchTerm?: string
-) {
+export default function createMovieLoader(url: string, searchTerm?: string) {
   let page = 1;
 
   return async () => {
     const newQueryObject = searchTerm
-      ? { query: searchTerm, ...queryObject, page: String(page) }
-      : { ...queryObject, page: String(page) };
+      ? { query: searchTerm, ...defaultQueryObject, page: String(page) }
+      : { ...defaultQueryObject, page: String(page) };
     let response = null;
     try {
-      response = await fetchUrl<TMDBResponse>(url, newQueryObject, options);
+      response = await fetchUrl<TMDBResponse>(
+        url,
+        newQueryObject,
+        defaultOptions
+      );
     } catch (error) {
       if (error instanceof Error) {
         Toast.showToast(error.message, "error", 5000);
@@ -35,7 +37,6 @@ export default function createMovieLoader(
     const pageLimit = Math.min(TOTAL_PAGE, total_pages);
 
     page++;
-
     return { results, isLastPage: page > pageLimit };
   };
 }
