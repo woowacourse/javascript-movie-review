@@ -18,10 +18,18 @@ export const VOTE = {
   emptyStarImage: "./images/star_empty.png",
 };
 
-export const RATING: Record<number, { score: number; text: string }> = {
-  1: { score: 2, text: "최악이예요" },
-  2: { score: 4, text: "별로예요" },
-  3: { score: 6, text: "보통이에요" },
-  4: { score: 8, text: "재미있어요" },
-  5: { score: 10, text: "명작이에요" },
+export const RATING_SCORE: Record<number, number> = {
+  1: 2,
+  2: 4,
+  3: 6,
+  4: 8,
+  5: 10,
+};
+
+export const RATING_MESSAGE: Record<number, string> = {
+  2: "최악이예요",
+  4: "별로예요",
+  6: "보통이에요",
+  8: "재미있어요",
+  10: "명작이에요",
 };

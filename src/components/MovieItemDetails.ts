@@ -1,5 +1,5 @@
 import { MovieDetails } from "../../types/domain.ts";
-import { RATING, VOTE } from "../constants/movie.ts";
+import { RATING_MESSAGE, RATING_SCORE, VOTE } from "../constants/movie.ts";
 import { ratingMovie } from "../domain/ratingMovie.ts";
 import { selectElement, selectElementAll } from "../utils/dom.ts";
 
@@ -118,7 +118,9 @@ class MovieItemDetails {
     const votingRate = /*html*/ `
       <div class="voting-rate">
         <div class="star-marks-container">${starMarks}</div>
-        <p>${VOTE.noticeMessage}<span>(${VOTE.defaultRate}/${VOTE.MaximumRate})</span></p>
+        <p>${RATING_MESSAGE[this.#rate] ?? VOTE.noticeMessage}
+          <span>(${this.#rate}/${VOTE.MaximumRate})</span>
+        </p>
       </div>
     `;
 
@@ -138,12 +140,15 @@ class MovieItemDetails {
     let isVotingActive = false;
     const handleRateBoxClick = () => {
       if (!isVotingActive) {
-        starMarksContainer.addEventListener("mouseover", this.#handleRateHover);
+        starMarksContainer.addEventListener(
+          "mouseover",
+          this.#handleRateHover.bind(this)
+        );
         isVotingActive = true;
       } else {
         starMarksContainer.removeEventListener(
           "mouseover",
-          this.#handleRateHover
+          this.#handleRateHover.bind(this)
         );
 
         ratingMovie(this.#id, this.#rate);
@@ -195,7 +200,7 @@ class MovieItemDetails {
         markIndex <= starredIndex ? VOTE.filledStarImage : VOTE.emptyStarImage;
     });
 
-    const { score } = RATING[starredIndex];
+    const score = RATING_SCORE[starredIndex];
     this.#rate = score;
   }
 }
