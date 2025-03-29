@@ -62,7 +62,6 @@ describe('클라이언트 테스트', () => {
 
   describe('영화 목록 조회', () => {
     it('영화 목록 API를 호출하면 한 번에 20개씩 목록에 나열되어야 한다', () => {
-      cy.waitLoading();
       cy.get('.thumbnail-list > li').should('have.length', 20);
     });
 
@@ -76,7 +75,7 @@ describe('클라이언트 테스트', () => {
       cy.get('.thumbnail-list > li').should('have.length', 60);
 
       cy.get('#movie-more').scrollBottom();
-      cy.get('.thumbnail-list > li').should('have.length', 60);
+      cy.get('.thumbnail-list > li').should('have.length', 80);
     });
   });
 
@@ -92,10 +91,9 @@ describe('클라이언트 테스트', () => {
   });
 
   describe('영화 상세정보 조회', () => {
-    beforeEach(() => {
-      cy.get('.thumbnail-list > li').first().click();
-    });
+    beforeEach(() => {});
     it('영화를 누르면 상세정보를 보여준다.', () => {
+      cy.get('.thumbnail-list > li').first().should('exist').click();
       cy.get('.my-rate > .sub-title').contains('내 별점').should('exist');
 
       cy.get('.main-info > h2').contains('극장판 짱구는 못말려: 우리들의 공룡일기');
@@ -103,6 +101,7 @@ describe('클라이언트 테스트', () => {
     });
 
     it('모달을 닫는 버튼을 클릭하면 상세 정보 모달을 제거한다.', () => {
+      cy.get('.thumbnail-list > li').first().click();
       cy.get('#closeModal').click();
       cy.get('.my-rate > .sub-title').should('not.exist');
     });
