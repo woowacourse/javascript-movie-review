@@ -26,7 +26,7 @@ class MainController {
   }
 
   initController() {
-    this.messageModalController = new MessageModalController(this.mainElement);
+    this.messageModalController = new MessageModalController();
     this.detailModalController = new DetailModalController({
       mainElement: this.mainElement,
       updateStarScore: (id, score) => this.storageMovieResults.updateStarScore(id, score),

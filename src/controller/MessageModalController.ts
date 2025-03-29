@@ -1,11 +1,9 @@
 import MessageModal from "../component/MessageModal";
 
 class MessageModalController {
-  mainElement;
   messageModalElement;
 
-  constructor(mainElement: HTMLElement) {
-    this.mainElement = mainElement;
+  constructor() {
     this.messageModalElement = MessageModal("") as HTMLDialogElement;
 
     this.renderMessageModalFrame();
@@ -18,7 +16,7 @@ class MessageModalController {
   }
 
   renderMessageModalFrame() {
-    this.mainElement.insertAdjacentElement("afterend", this.messageModalElement);
+    document.body.appendChild(this.messageModalElement);
     this.bindEvents();
   }
 
