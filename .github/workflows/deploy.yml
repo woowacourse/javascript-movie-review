@@ -41,8 +41,8 @@ jobs:
 
       - name: setting environment variables
         run: |
-          echo "${{ secrets.VITE_BASE_URL }}" >> .env
-          echo WEB_URL=${{ secrets.VITE_TMDB_TOKEN }} >> .env
+          echo "VITE_BASE_URL=${{ secrets.VITE_BASE_URL }}" >> .env
+          echo "VITE_TMDB_TOKEN=${{ secrets.VITE_TMDB_TOKEN }}" >> .env
 
       - name: Build
         run: npm run build
