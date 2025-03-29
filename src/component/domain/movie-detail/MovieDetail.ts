@@ -43,7 +43,11 @@ export class MovieDetail {
       <div class="myrate"> 
       <div class="myrate__panel">
         <div class="myrate__icons">
-      ${this.#renderStarIcons()}
+         <img src="./star_empty.png" data-index="1" class="myrate__icon" />
+         <img src="./star_empty.png" data-index="2" class="myrate__icon" />
+         <img src="./star_empty.png" data-index="3" class="myrate__icon" />
+         <img src="./star_empty.png" data-index="4" class="myrate__icon" />
+         <img src="./star_empty.png" data-index="5" class="myrate__icon" />
         </div>
         <p class="myrate__score text-body">
       (${calculateRate(this.#selectedStars)}/10)
@@ -70,10 +74,12 @@ export class MovieDetail {
   }
 
   #updateMyRateIcons() {
-    const IconsContainer = this.#container.querySelector('.myrate__icons');
-    if (!IconsContainer) return;
+    const Icons = this.#container.querySelectorAll('.myrate__icon');
+    const selectionArray = getStarSelectionArray(this.#selectedStars);
 
-    IconsContainer.innerHTML = `${this.#renderStarIcons()}`;
+    Icons.forEach((icon, index) => {
+      icon.setAttribute('src', this.#getSelectedStarSrc(selectionArray[index]));
+    });
     this.#bindIconClickEvent();
   }
 
@@ -89,15 +95,6 @@ export class MovieDetail {
     if (!messageContainer) return;
 
     messageContainer.innerHTML = `${getRatingMessage(this.#selectedStars)}`;
-  }
-
-  #renderStarIcons() {
-    return getStarSelectionArray(this.#selectedStars)
-      .map(
-        (star, index) =>
-          `<img src="${this.#getSelectedStarSrc(star)}" data-index="${index + 1}" class="myrate__icon" />`,
-      )
-      .join('');
   }
 
   #getSelectedStarSrc(isFilled: boolean) {
