@@ -28,6 +28,7 @@ main {
 
 .star {
   width: 24px;
+  cursor: pointer;
 }
 
 button {
@@ -189,7 +190,7 @@ span.rate-value {
   justify-content: center;
   border-radius: 8px;
   background: var(--color-lightblue-90);
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 600;
   color: var(--color-white);
 }
