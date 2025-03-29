@@ -1,8 +1,8 @@
 .thumbnail-list {
-  max-width: 1280px;
+  max-width: 960px;
   width: 100%;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   grid-template-rows: auto;
-  gap: 70px;
+  gap: 53px;
 }

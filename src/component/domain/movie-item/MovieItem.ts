@@ -1,29 +1,56 @@
 import { MovieData } from '../../../../types/movie';
-
-interface MovieItemProps {
-  data: MovieData;
-}
+import { DEBUG_ERROR_MESSAGE } from '../../../constants/debugErrorMessage';
+import { movieItemSkeletonTemplate } from './movieItemSkeletonTemplate';
 
 class MovieItem {
   #container: HTMLElement;
-  #data: MovieData;
+  #data: MovieData | null = null;
 
-  constructor({ data }: MovieItemProps) {
+  constructor() {
     this.#container = document.createElement('li');
-    this.#data = data;
+    this.#container.classList.add('item');
+    this.#data = null;
+
     this.render();
+    this.#bindClickEvent();
+  }
+
+  get element() {
+    return this.#container;
+  }
+
+  hasData() {
+    return this.#data !== null;
   }
 
   #matchImgUrl() {
+    if (!this.#data) throw new Error(DEBUG_ERROR_MESSAGE.NO_DATA);
+
     if (this.#data.imgUrl.includes('null')) {
       return './empty-item.png';
     }
     return this.#data.imgUrl;
   }
 
+  #bindClickEvent() {
+    this.#container.addEventListener('click', () => {
+      const event = new CustomEvent('movieSelect', {
+        detail: this.#data,
+        bubbles: true,
+      });
+
+      this.#container.dispatchEvent(event);
+    });
+  }
+
   render() {
+    this.#container.innerHTML = '';
+
+    if (!this.#data) {
+      this.#container.innerHTML = `${movieItemSkeletonTemplate}`;
+      return;
+    }
     this.#container.innerHTML = `
-    <div class="item">
       <img class="thumbnail" src=${this.#matchImgUrl()} alt=${this.#data.title} />
       <div class="item-desc">
         <p class="rate">
@@ -32,12 +59,12 @@ class MovieItem {
         </p>
         <strong class="text-body">${this.#data.title}</strong>
       </div>
-    </div>
   `;
   }
 
-  get element() {
-    return this.#container;
+  setData(data: MovieData | null) {
+    this.#data = data;
+    this.render();
   }
 }
 

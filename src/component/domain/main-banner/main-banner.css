@@ -1,11 +1,12 @@
 .main-banner {
-  display: inline-flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   position: relative;
   width: 100%;
-  height: 500px;
+  height: 50vh;
+  max-height: 500px;
+  min-height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: end;
 }
 
 .overlay {
@@ -19,12 +20,14 @@
 }
 
 .main-banner__info {
-  max-width: 1280px;
+  max-width: 800px;
   width: 100%;
   display: inline-flex;
   flex-direction: column;
+  justify-content: end;
   gap: 10px;
-  margin: 90px;
+  padding: 50px 90px;
+  box-sizing: border-box;
 }
 
 .main-banner__image {
@@ -36,6 +39,8 @@
 .main-banner__title {
   z-index: var(--z-index-main-banner);
   color: var(--color-white);
+  @media (max-width: 390px) {
+  }
 }
 
 .main-banner__rating-star {

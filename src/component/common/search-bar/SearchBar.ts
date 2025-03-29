@@ -1,7 +1,10 @@
+import { DEBUG_ERROR } from '../../../constants/debugErrorMessage';
 import { redirectToPage } from '../../../route/router';
 
 class SearchBar {
   #container: HTMLElement;
+  #input: HTMLInputElement | null = null;
+
   #searchValue: string = '';
 
   constructor() {
@@ -22,8 +25,10 @@ class SearchBar {
   }
 
   #bindInputEvent() {
-    const input = this.#container.querySelector('.searchbar__input');
-    input?.addEventListener('input', (event: Event) => {
+    this.#input = this.#container.querySelector('.searchbar__input');
+    if (!this.#input) throw new Error(DEBUG_ERROR.getNoElementMessage('SearchBar Input'));
+
+    this.#input.addEventListener('input', (event: Event) => {
       if (event.target instanceof HTMLInputElement) {
         this.#searchValue = event.target.value;
       }
@@ -32,7 +37,10 @@ class SearchBar {
 
   #bindSubmitEvent() {
     this.#container.addEventListener('submit', (event) => {
+      if (!this.#input) throw new Error(DEBUG_ERROR.getNoElementMessage('SearchBar Input'));
+
       event.preventDefault();
+      this.#input.value = '';
       this.#search();
     });
   }
@@ -43,7 +51,6 @@ class SearchBar {
     const params = new URLSearchParams(window.location.search);
     params.set('query', this.#searchValue);
     const searchUrl = `/search?${params.toString()}`;
-    window.history.pushState({}, '', searchUrl);
     redirectToPage(searchUrl);
   }
 
