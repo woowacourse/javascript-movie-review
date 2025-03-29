@@ -127,8 +127,13 @@ body.modal-open {
   }
 
   .modal-image img {
-    width: 200px !important;
+    width: 200px;
     border-radius: 16px;
+  }
+
+  .modal-image-skeleton {
+    width: 200px;
+    height: 300px;
   }
 
   .my-rate {
@@ -138,6 +143,10 @@ body.modal-open {
 
 @media (max-width: 390px) {
   .modal-image img {
+    display: none;
+  }
+
+  .modal-image-skeleton {
     display: none;
   }
 
