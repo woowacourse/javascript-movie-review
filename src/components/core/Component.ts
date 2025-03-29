@@ -2,7 +2,7 @@ import { Observer } from '@/modules';
 import { errorMessage } from '@/modules';
 import { Store } from '@/store';
 import { HTMLType, StrictObject } from '@/types';
-import { html } from '@/utils';
+import { $, html } from '@/utils';
 import { forEach } from '@fxts/core';
 
 export type Props = StrictObject | null;
@@ -60,7 +60,7 @@ export default abstract class Component<TProps extends Props = {}, TState extend
   }
 
   fillSlot(component: Component, slotName: string) {
-    const targetSlot = this.element.querySelector(`slot[name=${slotName}]`);
+    const targetSlot = $(`slot[name=${slotName}]`, this.element);
     if (!targetSlot) throw new Error(errorMessage.get('slot', slotName));
 
     targetSlot.replaceWith(component.element);

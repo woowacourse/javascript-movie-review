@@ -1,7 +1,7 @@
 import { MovieApiClient } from '@/apis';
 import { errorMessage, eventHandlerInstance } from '@/modules';
 import { movieDetailResponseStore, moviesStore, serverStore } from '@/store';
-import { html } from '@/utils';
+import { $, html } from '@/utils';
 import { forEach } from '@fxts/core';
 import { MOVIE_ITEM_PER_PAGE } from '../constants';
 import Component from './core/Component';

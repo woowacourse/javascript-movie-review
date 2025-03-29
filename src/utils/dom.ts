@@ -16,9 +16,10 @@ export const $ = <
   context: Document | HTMLElement = document,
 ): USelector extends `${string}?` ? TElement | null : TElement => {
   const target = context.querySelector<TElement>(selector.endsWith('?') ? selector.slice(0, -1) : selector);
-  if (!target) throw new Error(errorMessage.get('dom-not-found', String(context), selector));
 
-  return target;
+  if (!target && !selector.endsWith('?')) throw new Error(errorMessage.get('dom-not-found', String(context), selector));
+
+  return target!;
 };
 
 export function html(strings: TemplateStringsArray, ...values: any[]) {

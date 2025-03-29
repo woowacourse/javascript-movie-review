@@ -1,7 +1,7 @@
 import { DEFAULT_BACK_DROP_URL } from '@/constants';
 import { eventHandlerInstance, LocalStorage } from '@/modules';
 import { movieDetailResponseStore, movieRateStore } from '@/store';
-import { html } from '@/utils';
+import { $, html } from '@/utils';
 import { join, map, pipe, toArray } from '@fxts/core';
 import Modal from './common/Modal';
 
@@ -94,7 +94,7 @@ export default class MovieDetailModal extends Modal {
   }
 
   override onRender() {
-    const modalImage = this.element.querySelector('.modal-image > img');
+    const modalImage = $('.modal-image > img?', this.element);
     if (!modalImage) return;
     modalImage.addEventListener('load', () => modalImage.classList.remove('picture'));
   }
