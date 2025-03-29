@@ -4,12 +4,7 @@
     {
       "adult": false,
       "backdrop_path": "/n65ypE18pRsYjrYbCwEtiSgNEpx.jpg",
-      "genre_ids": [
-        16,
-        35,
-        12,
-        14
-      ],
+      "genre_ids": [16, 35, 12, 14],
       "id": 128871,
       "original_language": "ja",
       "original_title": "クレヨンしんちゃん ヘンダーランドの大冒険",
@@ -25,12 +20,7 @@
     {
       "adult": false,
       "backdrop_path": "/hNQzwy0kWCqA0niYw6V8jhGEBPQ.jpg",
-      "genre_ids": [
-        16,
-        12,
-        35,
-        14
-      ],
+      "genre_ids": [16, 12, 35, 14],
       "id": 128867,
       "original_language": "ja",
       "original_title": "クレヨンしんちゃん ちょー嵐を呼ぶ金矛の勇者",
@@ -46,10 +36,7 @@
     {
       "adult": false,
       "backdrop_path": "/qU40JRrV7r4QrOJkpBFo7sJjrTe.jpg",
-      "genre_ids": [
-        16,
-        35
-      ],
+      "genre_ids": [16, 35],
       "id": 128887,
       "original_language": "ja",
       "original_title": "クレヨンしんちゃん オタケべ！カスカベ野生王国",
@@ -65,10 +52,7 @@
     {
       "adult": false,
       "backdrop_path": "/lvoACuXwhmOCr0I29QflIhYGPjd.jpg",
-      "genre_ids": [
-        16,
-        35
-      ],
+      "genre_ids": [16, 35],
       "id": 160446,
       "original_language": "ja",
       "original_title": "クレヨンしんちゃん 嵐を呼ぶ！夕陽のカスカベボーイズ",
@@ -84,10 +68,7 @@
     {
       "adult": false,
       "backdrop_path": "/zjRF4L9mLBURUwYrvFJVasQS1Um.jpg",
-      "genre_ids": [
-        16,
-        35
-      ],
+      "genre_ids": [16, 35],
       "id": 128881,
       "original_language": "ja",
       "original_title": "クレヨンしんちゃん 伝説を呼ぶブリブリ 3分ポッキリ大進撃",
@@ -103,10 +84,7 @@
     {
       "adult": false,
       "backdrop_path": "/rRPjWCflOMoo2ES0U8FQhKpryXc.jpg",
-      "genre_ids": [
-        16,
-        35
-      ],
+      "genre_ids": [16, 35],
       "id": 128875,
       "original_language": "ja",
       "original_title": "クレヨンしんちゃん 電撃！ブタのヒヅメ大作戦",
@@ -122,11 +100,7 @@
     {
       "adult": false,
       "backdrop_path": "/aQGnRn0hW0Tk4DhsCjfLg9tiaeF.jpg",
-      "genre_ids": [
-        16,
-        28,
-        35
-      ],
+      "genre_ids": [16, 28, 35],
       "id": 128878,
       "original_language": "ja",
       "original_title": "クレヨンしんちゃん 爆発！温泉わくわく大決戦",
@@ -142,9 +116,7 @@
     {
       "adult": false,
       "backdrop_path": "/obqeCTbgmCjqvj9LWjjrAucTszH.jpg",
-      "genre_ids": [
-        16
-      ],
+      "genre_ids": [16],
       "id": 163754,
       "original_language": "ja",
       "original_title": "クレヨンしんちゃん 嵐を呼ぶ黄金のスパイ大作戦",
@@ -176,9 +148,7 @@
     {
       "adult": false,
       "backdrop_path": "/2W0IDjlD3rnLSiavVgTr0mkj2wk.jpg",
-      "genre_ids": [
-        16
-      ],
+      "genre_ids": [16],
       "id": 117084,
       "original_language": "ja",
       "original_title": "クレヨンしんちゃん 嵐を呼ぶ アッパレ！戦国大合戦",
@@ -194,11 +164,7 @@
     {
       "adult": false,
       "backdrop_path": "/snDGwQ3fbfNiGwUfT7dVPQ4MTSV.jpg",
-      "genre_ids": [
-        16,
-        35,
-        10751
-      ],
+      "genre_ids": [16, 35, 10751],
       "id": 117352,
       "original_language": "ja",
       "original_title": "クレヨンしんちゃん 超時空！嵐を呼ぶオラの花嫁",
@@ -214,11 +180,7 @@
     {
       "adult": false,
       "backdrop_path": "/gU6PGO7u5BWYrsaZQ6UuTNG4xuj.jpg",
-      "genre_ids": [
-        35,
-        16,
-        12
-      ],
+      "genre_ids": [35, 16, 12],
       "id": 109526,
       "original_language": "ja",
       "original_title": "クレヨンしんちゃん ブリブリ王国の秘宝",
@@ -234,9 +196,7 @@
     {
       "adult": false,
       "backdrop_path": "/jQdD4cCoOFimwgeCYWh8jY7xBVb.jpg",
-      "genre_ids": [
-        16
-      ],
+      "genre_ids": [16],
       "id": 795564,
       "original_language": "ja",
       "original_title": "クレヨンしんちゃん 謎メキ！花の天カス学園",

@@ -4,9 +4,7 @@
     {
       "adult": false,
       "backdrop_path": null,
-      "genre_ids": [
-        99
-      ],
+      "genre_ids": [99],
       "id": 1442431,
       "original_language": "es",
       "original_title": "Legítimo",
@@ -22,9 +20,7 @@
     {
       "adult": false,
       "backdrop_path": "/umzXFtZ8HaWMH1rMV7KYarAqMHj.jpg",
-      "genre_ids": [
-        99
-      ],
+      "genre_ids": [99],
       "id": 1441967,
       "original_language": "da",
       "original_title": "Hærvejen",
@@ -40,9 +36,7 @@
     {
       "adult": false,
       "backdrop_path": "/fJkxQQd65iR6BMcYOxNgWwWibPu.jpg",
-      "genre_ids": [
-        99
-      ],
+      "genre_ids": [99],
       "id": 1441966,
       "original_language": "da",
       "original_title": "Take the Money and Run",
@@ -58,10 +52,7 @@
     {
       "adult": false,
       "backdrop_path": "/wzROc903oP94u1vDoVT8m02fqZy.jpg",
-      "genre_ids": [
-        27,
-        53
-      ],
+      "genre_ids": [27, 53],
       "id": 1083968,
       "original_language": "en",
       "original_title": "Locked",
@@ -77,9 +68,7 @@
     {
       "adult": false,
       "backdrop_path": null,
-      "genre_ids": [
-        18
-      ],
+      "genre_ids": [18],
       "id": 1439004,
       "original_language": "fr",
       "original_title": "L'échappée belle",
@@ -95,9 +84,7 @@
     {
       "adult": false,
       "backdrop_path": null,
-      "genre_ids": [
-        18
-      ],
+      "genre_ids": [18],
       "id": 1437603,
       "original_language": "ko",
       "original_title": "3일",
@@ -113,9 +100,7 @@
     {
       "adult": false,
       "backdrop_path": null,
-      "genre_ids": [
-        99
-      ],
+      "genre_ids": [99],
       "id": 1434009,
       "original_language": "kk",
       "original_title": "We Live Here",
@@ -131,11 +116,7 @@
     {
       "adult": false,
       "backdrop_path": null,
-      "genre_ids": [
-        35,
-        10749,
-        18
-      ],
+      "genre_ids": [35, 10749, 18],
       "id": 1432534,
       "original_language": "en",
       "original_title": "Carmen & Bolude",
@@ -151,9 +132,7 @@
     {
       "adult": false,
       "backdrop_path": "/vUUEduPy4idLf7JVIw00041uXkE.jpg",
-      "genre_ids": [
-        99
-      ],
+      "genre_ids": [99],
       "id": 1432098,
       "original_language": "ko",
       "original_title": "여성국극 끊어질듯 이어지고 사라질듯 영원하다",
@@ -169,9 +148,7 @@
     {
       "adult": false,
       "backdrop_path": "/uQEalVM5yB3Q0Mdg8a0kxG7DNl7.jpg",
-      "genre_ids": [
-        35
-      ],
+      "genre_ids": [35],
       "id": 1235619,
       "original_language": "fr",
       "original_title": "Les Bodin’s partent en vrille",
@@ -187,9 +164,7 @@
     {
       "adult": false,
       "backdrop_path": null,
-      "genre_ids": [
-        99
-      ],
+      "genre_ids": [99],
       "id": 1425373,
       "original_language": "en",
       "original_title": "The Golden Spurtle",
@@ -205,9 +180,7 @@
     {
       "adult": false,
       "backdrop_path": null,
-      "genre_ids": [
-        99
-      ],
+      "genre_ids": [99],
       "id": 1425370,
       "original_language": "it",
       "original_title": "Il castello indistruttibile",
@@ -223,9 +196,7 @@
     {
       "adult": false,
       "backdrop_path": null,
-      "genre_ids": [
-        99
-      ],
+      "genre_ids": [99],
       "id": 1425366,
       "original_language": "da",
       "original_title": "Heks",
@@ -241,9 +212,7 @@
     {
       "adult": false,
       "backdrop_path": null,
-      "genre_ids": [
-        99
-      ],
+      "genre_ids": [99],
       "id": 1328767,
       "original_language": "fr",
       "original_title": "Argoat",
@@ -259,10 +228,7 @@
     {
       "adult": false,
       "backdrop_path": null,
-      "genre_ids": [
-        18,
-        10402
-      ],
+      "genre_ids": [18, 10402],
       "id": 1418780,
       "original_language": "ko",
       "original_title": "초혼, 다시 부르는 노래",
@@ -278,9 +244,7 @@
     {
       "adult": false,
       "backdrop_path": null,
-      "genre_ids": [
-        99
-      ],
+      "genre_ids": [99],
       "id": 1415669,
       "original_language": "uk",
       "original_title": "Sanatorium",
@@ -296,9 +260,7 @@
     {
       "adult": false,
       "backdrop_path": null,
-      "genre_ids": [
-        99
-      ],
+      "genre_ids": [99],
       "id": 1393191,
       "original_language": "en",
       "original_title": "Gartneren, buddhisten og spionen",
@@ -314,11 +276,7 @@
     {
       "adult": false,
       "backdrop_path": "/ljaRxXl7XzffsQU4LxFnaiIhglv.jpg",
-      "genre_ids": [
-        53,
-        27,
-        9648
-      ],
+      "genre_ids": [53, 27, 9648],
       "id": 1210938,
       "original_language": "ko",
       "original_title": "계시록",
@@ -334,9 +292,7 @@
     {
       "adult": false,
       "backdrop_path": "/rlxeBlrH4vackqQGST9GX5npnTX.jpg",
-      "genre_ids": [
-        18
-      ],
+      "genre_ids": [18],
       "id": 1018964,
       "original_language": "es",
       "original_title": "Yo vi tres luces negras",
@@ -352,10 +308,7 @@
     {
       "adult": false,
       "backdrop_path": "/29maJOVSQsM1kB2CyR5xpiCJuWS.jpg",
-      "genre_ids": [
-        35,
-        14
-      ],
+      "genre_ids": [35, 14],
       "id": 1000881,
       "original_language": "fr",
       "original_title": "Prosper",

@@ -4,10 +4,7 @@
     {
       "adult": false,
       "backdrop_path": "/2siOHQYDG7gCQB6g69g2pTZiSia.jpg",
-      "genre_ids": [
-        10751,
-        14
-      ],
+      "genre_ids": [10751, 14],
       "id": 447273,
       "original_language": "en",
       "original_title": "Snow White",
@@ -23,9 +20,7 @@
     {
       "adult": false,
       "backdrop_path": "/m4FEubjmtytpMDchQfDmbJKHOG6.jpg",
-      "genre_ids": [
-        99
-      ],
+      "genre_ids": [99],
       "id": 1437446,
       "original_language": "en",
       "original_title": "The Twister: Caught in the Storm",
@@ -41,9 +36,7 @@
     {
       "adult": false,
       "backdrop_path": "/vnNLcHsXQ5N9dDLsNJW2Bm8UNmG.jpg",
-      "genre_ids": [
-        99
-      ],
+      "genre_ids": [99],
       "id": 1204967,
       "original_language": "en",
       "original_title": "USAH: Uncommon Stories of American Horror",
@@ -59,10 +52,7 @@
     {
       "adult": false,
       "backdrop_path": null,
-      "genre_ids": [
-        53,
-        27
-      ],
+      "genre_ids": [53, 27],
       "id": 675776,
       "original_language": "en",
       "original_title": "Persona",
@@ -78,11 +68,7 @@
     {
       "adult": false,
       "backdrop_path": "/qUc0Hol3eP74dbW4YyqT6oRLYgT.jpg",
-      "genre_ids": [
-        878,
-        35,
-        12
-      ],
+      "genre_ids": [878, 35, 12],
       "id": 696506,
       "original_language": "en",
       "original_title": "Mickey 17",
@@ -98,9 +84,7 @@
     {
       "adult": false,
       "backdrop_path": null,
-      "genre_ids": [
-        99
-      ],
+      "genre_ids": [99],
       "id": 1437920,
       "original_language": "en",
       "original_title": "Centered: Joe Lieberman",
@@ -116,9 +100,7 @@
     {
       "adult": false,
       "backdrop_path": "/ApBJ1YzoJsDBe8HjZaDTgqTCzMv.jpg",
-      "genre_ids": [
-        99
-      ],
+      "genre_ids": [99],
       "id": 1437701,
       "original_language": "en",
       "original_title": "Leaving Neverland 2: Surviving Michael Jackson",
@@ -134,9 +116,7 @@
     {
       "adult": false,
       "backdrop_path": "/sBtuuQ2MPliv76mjckkfwB3mNNO.jpg",
-      "genre_ids": [
-        99
-      ],
+      "genre_ids": [99],
       "id": 1417181,
       "original_language": "en",
       "original_title": "Dawn of Impressionism: Paris 1874",
@@ -152,10 +132,7 @@
     {
       "adult": false,
       "backdrop_path": "/axTt8unBOfjEZaxrx2xzklAqo7r.jpg",
-      "genre_ids": [
-        27,
-        53
-      ],
+      "genre_ids": [27, 53],
       "id": 1439804,
       "original_language": "en",
       "original_title": "Spider in the Cupboard",
@@ -171,9 +148,7 @@
     {
       "adult": false,
       "backdrop_path": null,
-      "genre_ids": [
-        53
-      ],
+      "genre_ids": [53],
       "id": 1436099,
       "original_language": "en",
       "original_title": "Act of Kindness",
@@ -189,10 +164,7 @@
     {
       "adult": false,
       "backdrop_path": "/lt2f4VxklsOQqWxKsxL5db53Pyb.jpg",
-      "genre_ids": [
-        99,
-        10770
-      ],
+      "genre_ids": [99, 10770],
       "id": 1442200,
       "original_language": "ca",
       "original_title": "Revolució 304",
@@ -208,9 +180,7 @@
     {
       "adult": false,
       "backdrop_path": "/qZRuKglsKV3EeiZurVY7wpumNHW.jpg",
-      "genre_ids": [
-        18
-      ],
+      "genre_ids": [18],
       "id": 1149463,
       "original_language": "fr",
       "original_title": "Magma",
@@ -226,11 +196,7 @@
     {
       "adult": false,
       "backdrop_path": "/7z2lSLmiJ5jNeYCoXmton86BapN.jpg",
-      "genre_ids": [
-        10402,
-        18,
-        878
-      ],
+      "genre_ids": [10402, 18, 878],
       "id": 1075456,
       "original_language": "en",
       "original_title": "O'Dessa",
@@ -246,12 +212,7 @@
     {
       "adult": false,
       "backdrop_path": "/2n7lYEeIbucsEQCswRcVB6ZYmMP.jpg",
-      "genre_ids": [
-        878,
-        12,
-        18,
-        28
-      ],
+      "genre_ids": [878, 12, 18, 28],
       "id": 777443,
       "original_language": "en",
       "original_title": "The Electric State",
@@ -267,10 +228,7 @@
     {
       "adult": false,
       "backdrop_path": "/sJY1nxg2sa6Gfjh0ROwt68yeq65.jpg",
-      "genre_ids": [
-        35,
-        18
-      ],
+      "genre_ids": [35, 18],
       "id": 1266809,
       "original_language": "fr",
       "original_title": "La Cache",
@@ -286,9 +244,7 @@
     {
       "adult": false,
       "backdrop_path": "/tmLw2UucOFO0Uu8ran2qpGLPj0u.jpg",
-      "genre_ids": [
-        18
-      ],
+      "genre_ids": [18],
       "id": 1262495,
       "original_language": "es",
       "original_title": "Sariri",
@@ -304,9 +260,7 @@
     {
       "adult": false,
       "backdrop_path": "/wTKTYyEJ3H0UokKuVVtSdKVincm.jpg",
-      "genre_ids": [
-        18
-      ],
+      "genre_ids": [18],
       "id": 898271,
       "original_language": "es",
       "original_title": "Algo viejo, algo nuevo, algo prestado",
@@ -338,9 +292,7 @@
     {
       "adult": false,
       "backdrop_path": "/tShQQJoROZihitwhs5VGA7OaHJC.jpg",
-      "genre_ids": [
-        18
-      ],
+      "genre_ids": [18],
       "id": 1442918,
       "original_language": "bg",
       "original_title": "Диви ягоди",
@@ -356,10 +308,7 @@
     {
       "adult": false,
       "backdrop_path": "/qMYb0pTEnsYsYPVD1uJIpOMumYB.jpg",
-      "genre_ids": [
-        18,
-        35
-      ],
+      "genre_ids": [18, 35],
       "id": 1107215,
       "original_language": "fr",
       "original_title": "Ma mère, Dieu et Sylvie Vartan",

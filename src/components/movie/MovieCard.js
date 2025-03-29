@@ -4,14 +4,15 @@ export default class MovieCard {
   }
 
   render() {
-    const li = document.createElement("li");
+    const li = document.createElement('li');
 
-    li.innerHTML = `
+    li.innerHTML = /*html*/ `
       <div class="item">
         <img
           class="thumbnail"
           src="${this.movie.getPosterUrl()}"
           alt="${this.movie.title}"
+          data-id="${this.movie.id}"
         />
         <div class="item-desc">
           <p class="rate">
@@ -27,8 +28,8 @@ export default class MovieCard {
   }
 
   renderSkeleton() {
-    const li = document.createElement("li");
-    li.classList.add("skeleton-card");
+    const li = document.createElement('li');
+    li.classList.add('skeleton-card');
 
     li.innerHTML = `
       <div class="item">
