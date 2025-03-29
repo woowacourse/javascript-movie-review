@@ -3,6 +3,7 @@ import skeletonContainer from "../skeleton/skeletonContainer";
 import movieList from "./movieList";
 import movieItem from "./movieItem";
 import { MovieData } from "./types";
+import { handleError } from "../error/handleError";
 
 type LoadMoreCallback = (pageNumber: number) => Promise<MovieData>;
 
@@ -53,36 +54,59 @@ const movieContainer = (
   const $movieList = movieList(results);
   $movieContainer.append($movieList);
 
-  const $seeMoreButton = createElementWithAttributes({
-    tag: "button",
-    textContent: "더보기",
-    className: "see-more",
+  const $observerTarget = createElementWithAttributes({
+    tag: "div",
+    className: "observer-target",
+    attributes: {
+      style: "height: 10px; width: 100%;",
+    },
   });
+  $movieContainer.append($observerTarget);
 
   let pageNumber = 1;
-  $seeMoreButton.addEventListener("click", async () => {
-    pageNumber += 1;
+  let isLoading = false;
+  let hasMoreContent = pageNumber < total_pages && pageNumber < MAX_PAGES;
 
-    const $skeleton = skeletonContainer(20);
-    $movieContainer.insertBefore($skeleton, $seeMoreButton);
+  const observer = new IntersectionObserver(
+    async (entries) => {
+      const entry = entries[0];
 
-    const { results: newResults } = await loadMoreCallback(pageNumber);
+      if (entry.isIntersecting && !isLoading && hasMoreContent) {
+        isLoading = true;
+        pageNumber += 1;
 
-    newResults.forEach((movie) => {
-      const $movieItem = movieItem(movie);
-      $movieList.append($movieItem);
-    });
+        const $skeleton = skeletonContainer(20);
+        $movieContainer.insertBefore($skeleton, $observerTarget);
 
-    $skeleton.remove();
+        try {
+          const { results: newResults } = await loadMoreCallback(pageNumber);
 
-    if (pageNumber === total_pages || pageNumber === MAX_PAGES) {
-      $seeMoreButton.remove();
+          newResults.forEach((movie) => {
+            const $movieItem = movieItem(movie);
+            $movieList.append($movieItem);
+          });
+
+          hasMoreContent = pageNumber < total_pages && pageNumber < MAX_PAGES;
+
+          if (!hasMoreContent) {
+            observer.disconnect();
+          }
+        } catch (error) {
+          handleError(error);
+        } finally {
+          $skeleton.remove();
+          isLoading = false;
+        }
+      }
+    },
+    {
+      root: null,
+      rootMargin: "100px",
+      threshold: 0.1,
     }
-  });
+  );
 
-  if (pageNumber < total_pages && pageNumber < MAX_PAGES) {
-    $movieContainer.append($seeMoreButton);
-  }
+  observer.observe($observerTarget);
 
   return $movieContainer;
 };
