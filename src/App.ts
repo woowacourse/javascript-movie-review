@@ -1,3 +1,4 @@
+
 import ErrorMessage from "./components/errorMessage/ErrorMessage";
 import Footer from "./components/footer/Footer";
 import Header from "./components/header/Header";
@@ -6,10 +7,12 @@ import MovieList from "./components/movieList/MovieList";
 import SearchResultMessage from "./components/searchResultMessage/SearchResultMessage";
 import useMovieDetail from "./hooks/useMovieDetail";
 import useMovieList from "./hooks/useMovieList";
+
 import {
   movies,
   searchInputValue,
   searchResults,
+
   isError,
   isSearchError,
   movieDetail,

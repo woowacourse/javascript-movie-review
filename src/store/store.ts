@@ -1,5 +1,6 @@
 import { Movie } from "../../types/responseType/responseType";
 import { MovieDetail } from "../apis/movies/useGetMovieDetail";
+
 import { reRender } from "../utils/Core";
 
 export let currentPage = 1; // 현재 페이지 추적
@@ -14,11 +15,13 @@ export let isMoreError = false; // 더보기 에러 상태
 export let isError = false; // 에러 상태
 export let isSearchError = false; // 검색 에러 상태
 
+
 export let selectedMovieId: string | null = null; // 선택된 영화
 
 export let movieDetail: MovieDetail | null = null; // 선택된 영화 상세 정보
 
 export let isOpenModal = false; // 모달 열림 여부
+
 
 export const setMovies = (newMovies: Movie[]) => {
   movies = newMovies;
@@ -76,6 +79,7 @@ export const setIsSearchError = (value: boolean) => {
   reRender();
 };
 
+
 export const setSelectedMovieId = (movieId: string) => {
   selectedMovieId = movieId;
   reRender();
@@ -90,3 +94,4 @@ export const setIsOpenModal = (value: boolean) => {
   isOpenModal = value;
   reRender();
 };
+
