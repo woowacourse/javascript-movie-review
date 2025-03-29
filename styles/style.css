@@ -103,22 +103,19 @@
     width: 200px;
   }
 
-  .thumbnail-list {
-    transform: translate(10%, 0%);
-  }
+  .thumbnail-list, .list-title {
+    padding-left: 150px;
+  }  
 }
 
 @media (max-width: 480px) {
   .background-container {
     padding: 28px;
-    height: 250px;
+    height: 300px;
   }
 
-  .list-title {
-    text-align: center;
-  }
+  .thumbnail-list, .list-title {
+    padding-left: 80px;
+  }  
 
-  .thumbnail-list {
-    transform: translate(20%, 0%);
-  }
 }
