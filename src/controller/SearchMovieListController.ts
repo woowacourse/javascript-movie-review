@@ -6,14 +6,11 @@ import { MovieItemType, MovieResultType } from "../types/movieResultType";
 
 class SearchMovieListController {
   mainElement;
-  searchText;
+  searchText = "";
   page = 0;
 
-  constructor(mainElement: HTMLElement, searchText: string) {
+  constructor(mainElement: HTMLElement) {
     this.mainElement = mainElement;
-    this.searchText = searchText;
-
-    this.render();
   }
 
   bindEvents() {
@@ -36,11 +33,13 @@ class SearchMovieListController {
     return { movieList, hasMore };
   }
 
-  async render() {
+  async render(searchText: string) {
     this.mainElement.innerHTML = "";
+    this.searchText = searchText;
+    this.page = 0;
 
     const { movieList, hasMore } = await this.fetchMovies();
-
+    console.log(movieList);
     this.renderSearchMovieList({ movieList, hasMore });
 
     this.bindEvents();

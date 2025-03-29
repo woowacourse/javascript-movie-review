@@ -20,6 +20,8 @@ class MainController {
   movieListController;
   backgroundThumbnailController;
   detailModalController;
+  searchMovieListController;
+
   constructor() {
     this.movieResults = new MovieResults();
     this.StorageMovieResults = new StorageMovieResults();
@@ -54,8 +56,10 @@ class MainController {
       },
     });
 
+    this.searchMovieListController = new SearchMovieListController(this.mainElement);
+
     new HeaderController({
-      renderSearchMovieList: (searchValue) => new SearchMovieListController(this.mainElement, searchValue),
+      renderSearchMovieList: (searchValue) => this.searchMovieListController.render(searchValue),
       renderMovieList: () => {
         const movieList = this.movieResults.getMovieList();
         const hasMore = this.movieResults.hasMore();
