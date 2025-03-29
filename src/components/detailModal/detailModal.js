@@ -22,6 +22,7 @@ export default function DetailModal({
   const $modalContainer = createElement("div", {
     className: "modal-container",
   });
+
   const year = getYear(release_date);
   const genre = getGenre(genres).join(", ");
 

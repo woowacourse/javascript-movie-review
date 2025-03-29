@@ -7,6 +7,8 @@ import {
   URLS,
   defaultQueryObject,
 } from "../../setting/settings";
+import Spinner from "../spinner/spinner";
+import replaceModalContent from "../../service/replaceModalContent";
 
 export default function MovieItem({ src, title, rate, id }) {
   const $li = createElement("li");
@@ -30,15 +32,21 @@ export default function MovieItem({ src, title, rate, id }) {
         </div>
     `;
 
-  $li.addEventListener("click", async () => {
-    const data = await fetchUrl(
-      `${URLS.detailMovieUrl}${id}`,
-      defaultQueryObject,
-      defaultOptions
-    );
-
-    Modal(DetailModal({ ...data }));
-  });
+  $li.addEventListener("click", () => handleMovieClick({ id }));
 
   return $li;
+}
+
+async function handleMovieClick({ id }) {
+  Modal(Spinner());
+
+  const data = await fetchUrl(
+    `${URLS.detailMovieUrl}${id}`,
+    defaultQueryObject,
+    defaultOptions
+  );
+
+  const $detailModal = DetailModal({ ...data });
+
+  replaceModalContent($detailModal);
 }

@@ -46,6 +46,7 @@ function bindStarClickEvents(stars, $description, $score, id) {
 
       renderInitialStars(stars, selectedStartIndex);
       updateText($description, $score, rating);
+
       updateRating({ id, rating });
     });
   });

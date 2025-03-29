@@ -10,6 +10,7 @@
 @import "src/components/fallback/fallback.css";
 @import "src/components/Toast/toast.css";
 @import "src/components/detailModal/detailModal.css";
+@import "src/components/spinner/spinner.css";
 
 .show {
   display: block;

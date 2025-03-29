@@ -38,10 +38,6 @@ function render($modal) {
   $("#wrap").append($modal);
 }
 
-function close($modal) {
-  $modal.remove();
-}
-
 function bindCloseEvent($modal) {
   const $closeButton = $modal.querySelector("#closeModal");
   $modal.addEventListener("click", (e) => {
@@ -53,4 +49,8 @@ function bindCloseEvent($modal) {
   });
 
   $closeButton.addEventListener("click", () => close($modal));
+}
+
+function close($modal) {
+  $modal.remove();
 }
