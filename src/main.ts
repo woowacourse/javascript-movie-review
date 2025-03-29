@@ -1,12 +1,13 @@
 import { Movie } from "../types/domain.ts";
-import MovieItem from "./components/MovieItem";
 import SearchBar from "./components/SearchBar";
 import SkeletonUl from "./components/SkeletonUl";
 import { IMAGE } from "./constants/movie.ts";
 import { fetchMovies, selectElement } from "./utils/ui.ts";
-import MovieList from "./components/MovieList.ts";
 import movieService from "./service/movieService.ts";
 import Modal from "./components/Modal.ts";
+import ScrollRenderer from "./utils/scrollRenderer.ts";
+import MovieList from "./components/MovieList.ts";
+import MovieItem from "./components/MovieItem.ts";
 
 const getDetail = async (id: number) => {
   return await movieService.getMovieDetail(id);
@@ -45,26 +46,10 @@ const createMovieList = (movieData: Movie[]) => {
   return new MovieList(movieItems);
 };
 
-const createObserverCallback = (
-  fetch: (
-    movieList: MovieList,
-    observer: IntersectionObserver
-  ) => Promise<void>,
-  movieList: MovieList
-): IntersectionObserverCallback => {
-  return (entries, observer) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        fetch(movieList, observer);
-        observer.unobserve(entry.target);
-      }
-    });
-  };
-};
-
 const updateMovieList = async (
   movieList: MovieList,
-  observer: IntersectionObserver
+  observer: IntersectionObserver,
+  scrollRenderer: ScrollRenderer
 ) => {
   const totalItems = movieList.getTotalItems();
   const newMovieData = await fetchMovies({
@@ -75,10 +60,10 @@ const updateMovieList = async (
   const movieItems = createMovieItems(newMovieData);
   movieList.updateList(movieItems);
 
-  const newTarget = selectElement("ul.thumbnail-list > li:last-child");
-  if (newTarget) {
-    observer.observe(newTarget);
-  }
+  scrollRenderer.setNewObservingTarget(
+    observer,
+    "ul.thumbnail-list > li:last-child"
+  );
 };
 
 const mainSection = selectElement<HTMLElement>("main section");
@@ -110,6 +95,7 @@ const app = async () => {
 
     searchBar.setEvent(getSearchResults);
 
+    const scrollRenderer = new ScrollRenderer();
     const movieData = await fetchMovies({ apiFetcher: movieService.getMovies });
     const movieList = createMovieList(movieData);
 
@@ -120,7 +106,7 @@ const app = async () => {
     movieList.onMovieClick(getDetail, detailsModal);
 
     const lastMovieItemObserver = new IntersectionObserver(
-      createObserverCallback(updateMovieList, movieList),
+      scrollRenderer.createObserverCallback(updateMovieList, movieList),
       { threshold: 1 }
     );
 
