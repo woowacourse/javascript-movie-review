@@ -3,7 +3,7 @@ import HttpError from './HttpError';
 
 export const HEADER_OPTION = {
   accept: 'application/json',
-  Authorization: `Bearer ${ENV.VITE_TMBD_HEADER}`,
+  Authorization: `Bearer ${ENV.VITE_TMDB_HEADER}`,
 };
 
 export default class Fetcher {

@@ -8,8 +8,8 @@ type ImgProps = {
 } & ComponentProps;
 
 export const Img = ({
-  width = '',
-  height = '',
+  width = '200',
+  height = '300',
   src,
   classList,
   props,

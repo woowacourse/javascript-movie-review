@@ -3,10 +3,13 @@ import { ENV } from '../api/env';
 import Fetcher from '../api/Fetcher';
 import { movieFetcherEvent } from './MovieFetcherEvent';
 import { delay } from '../utils/delay';
+import { MovieDetailResponse } from '../types/MovieDetail.types';
+import HttpError from '../api/HttpError';
 
 export const API_PATH = {
   MOVIE: 'movie/popular',
   SEARCH: 'search/movie',
+  DETAIL: '/movie/',
 } as const;
 
 type MovieFetcherState = {
@@ -14,16 +17,14 @@ type MovieFetcherState = {
   isSearch: boolean;
   movieResponse: MovieResponse;
   movieResult: MovieItem[];
+  error: Error | null;
 };
 
 class MovieFetcher {
   private movieFetcher: Fetcher;
-
   private state: MovieFetcherState;
-
   private query: string = '';
   private currentPage: number = 1;
-  private error: Error | null = null;
 
   constructor() {
     this.movieFetcher = new Fetcher(ENV.VITE_API_URL);
@@ -37,6 +38,7 @@ class MovieFetcher {
         total_results: 0,
       },
       movieResult: [],
+      error: null,
     };
 
     this.state = this.createStateProxy(initialState);
@@ -65,14 +67,21 @@ class MovieFetcher {
     url: string,
   ): Promise<MovieResponse | undefined> {
     this.state.isLoading = true;
-    this.error = null;
+    this.state.error = null;
 
-    const response = await this.movieFetcher.get<MovieResponse>(url);
+    try {
+      const response = await this.movieFetcher.get<MovieResponse>(url);
 
-    this.state.isLoading = false;
-    this.updateMovieData(response);
+      this.state.isLoading = false;
+      this.updateMovieData(response);
 
-    return response;
+      return response;
+    } catch (err) {
+      if (err instanceof HttpError) {
+        this.state.error = err;
+        throw err;
+      }
+    }
   }
 
   private updateMovieData(response: MovieResponse): void {
@@ -84,7 +93,7 @@ class MovieFetcher {
     page: number,
   ): Promise<MovieResponse | undefined> {
     this.currentPage = page;
-    const url = `${API_PATH.MOVIE}?page=${page}`;
+    const url = `${API_PATH.MOVIE}?page=${page}&language=ko-KR`;
     const res = await this.fetchMovieData(url);
 
     await delay(1000);
@@ -113,6 +122,14 @@ class MovieFetcher {
     return await this.fetchMovieData(url);
   }
 
+  public async getMovieDetail(
+    id: number,
+  ): Promise<MovieDetailResponse | undefined> {
+    const url = `${API_PATH.DETAIL}/${id}?language=ko-KR`;
+    const res = await this.movieFetcher.get<MovieDetailResponse>(url);
+    return res;
+  }
+
   public async getNextPageSearchMovies() {
     await this.getSearchMovies(this.currentPage + 1, this.query);
   }
@@ -138,7 +155,7 @@ class MovieFetcher {
   }
 
   get errorState(): Error | null {
-    return this.error;
+    return this.state.error;
   }
 }
 
