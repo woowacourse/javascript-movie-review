@@ -8,10 +8,7 @@ export const isWindow = (target: Element | Window): target is Window => target i
 export const isHTMLFormElement = (target: EventTarget | null): target is HTMLFormElement =>
   target instanceof HTMLFormElement;
 
-export const $ = <
-  TElement extends Element = HTMLElement,
-  USelector extends string = `${keyof HTMLElementTagNameMap | string}` | `${keyof HTMLElementTagNameMap | string}?`,
->(
+export const $ = <TElement extends Element = HTMLElement, USelector extends string = string>(
   selector: USelector,
   context: Document | HTMLElement = document,
 ): USelector extends `${string}?` ? TElement | null : TElement => {
