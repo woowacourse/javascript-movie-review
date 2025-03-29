@@ -1,3 +1,4 @@
+import { errorStore } from './../store/Store';
 import { getMovies } from '@/apis';
 import { DEFAULT_BACK_DROP_URL } from '@/constants';
 import { eventHandlerInstance } from '@/modules';
@@ -18,11 +19,9 @@ export default class Header extends Component {
       <header class="background-container">
         ${search ? '' : '<div class="overlay" aria-hidden="true"></div>'}
         <div class="top-rated-header">
-          <a href="/javascript-movie-review">
-            <h1 class="logo">
-              <img src="./images/logo.png" alt="MovieList" />
-            </h1>
-          </a>
+          <h1 class="logo" data-action="reset">
+            <img src="./images/logo.png" alt="MovieList" />
+          </h1>
           <form class="top-rated-search" data-action="submit-search">
             <input
               id="top-rated-search-input"
@@ -72,6 +71,15 @@ export default class Header extends Component {
         await getMovies({ query: searchStore.getState(), page: pageStore.getState() });
       },
       dataAction: 'submit-search',
+    });
+
+    eventHandlerInstance.addEventListener({
+      eventType: 'click',
+      callback: () => {
+        getMovies({ page: 1 });
+        moviesStore.reset();
+      },
+      dataAction: 'reset',
     });
   }
 

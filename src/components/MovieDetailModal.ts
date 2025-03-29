@@ -151,6 +151,6 @@ export default class MovieDetailModal extends Modal {
 
   override onUnmount() {
     this.enableScrollOutside();
-    movieDetailResponseStore.setState(null);
+    movieDetailResponseStore.reset();
   }
 }

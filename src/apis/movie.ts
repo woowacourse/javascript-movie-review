@@ -1,5 +1,5 @@
 import { MovieApiClient } from '@/apis';
-import { errorStore, moviesResponseStore, moviesStore, pageStore, serverStore } from '@/store';
+import { errorStore, moviesResponseStore, moviesStore, pageStore, searchStore, serverStore } from '@/store';
 import { isError, isString } from '@/utils';
 
 interface GetMoviesProps {
@@ -9,6 +9,7 @@ interface GetMoviesProps {
 
 export const getMovies = async ({ query, page }: GetMoviesProps) => {
   let moviesResponse;
+  console.log(query, page);
 
   const prevMoviesResponse = moviesResponseStore.getState();
   if (prevMoviesResponse && prevMoviesResponse.total_pages < page) return;
@@ -33,6 +34,8 @@ export const getMovies = async ({ query, page }: GetMoviesProps) => {
       });
 
     pageStore.setState(page);
+    if (!query) searchStore.reset();
+
     moviesResponseStore.setState(moviesResponse);
 
     const movies = moviesStore.getState();

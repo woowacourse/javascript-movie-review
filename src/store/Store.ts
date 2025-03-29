@@ -6,11 +6,13 @@ import { isEqual } from '@/utils';
 
 export default class Store<TState> extends Obserable<Component<any, any>> {
   #state = {} as TState;
+  #initialState: TState;
 
   constructor(initialState: TState) {
     super();
 
     this.#state = initialState;
+    this.#initialState = initialState;
   }
 
   getState() {
@@ -22,6 +24,10 @@ export default class Store<TState> extends Obserable<Component<any, any>> {
 
     this.#state = nextState;
     this.notify();
+  }
+
+  reset() {
+    this.setState(this.#initialState);
   }
 }
 

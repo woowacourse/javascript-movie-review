@@ -144,6 +144,7 @@ button.primary {
 h1.logo {
   font-size: 2rem;
   top: 10px;
+  cursor: pointer;
 }
 
 .rate {
