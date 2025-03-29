@@ -1,6 +1,6 @@
 import { MovieDetails } from "../../types/domain.ts";
 import { RATING_MESSAGE, RATING_SCORE, VOTE } from "../constants/movie.ts";
-import { ratingMovie } from "../domain/ratingMovie.ts";
+import { calculateFilledStar, ratingMovie } from "../domain/ratingMovie.ts";
 import { selectElement, selectElementAll } from "../utils/dom.ts";
 
 class MovieItemDetails {
@@ -105,11 +105,12 @@ class MovieItemDetails {
   }
 
   #createVotingRate(description: HTMLDivElement) {
+    const filledIndex = calculateFilledStar(this.#rate) - 1;
     const starMarks = Array.from({ length: VOTE.maximumIconCount })
       .map((_, index) => {
         return /*html*/ `
           <img src="${
-            VOTE.emptyStarImage
+            index <= filledIndex ? VOTE.filledStarImage : VOTE.emptyStarImage
           }" class="star-mark" data-mark-index="${index + 1}"/>
         `;
       })

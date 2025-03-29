@@ -20,3 +20,7 @@ export const ratingMovie = (id: number, rate: number) => {
 
   movieService.addRate(movieRate);
 };
+
+export const calculateFilledStar = (rate: number) => {
+  return rate / VOTE.unitRate;
+};
