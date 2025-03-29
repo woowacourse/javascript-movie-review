@@ -114,6 +114,10 @@ body.modal-open {
   display: none;
 }
 
+.movie-rate-stars .star {
+  cursor: pointer;
+}
+
 @media (max-width: 768px) {
   .modal {
     margin: auto 0 0 0;
@@ -127,14 +131,7 @@ body.modal-open {
     display: flex;
     justify-content: center;
   }
-  .modal-description-header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    > hr {
-      width: 100%;
-    }
-  }
+
   .modal-image img {
     width: 200px;
     border-radius: 16px;
@@ -153,6 +150,33 @@ body.modal-open {
   .modal-description h3 {
     font-weight: bold;
     font-size: 1.1rem;
+  }
+  .modal-description-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+  .modal-description-header > hr {
+    width: 100%;
+  }
+  .movie-rate-container {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .movie-rate-box {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .movie-detail-overview {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .movie-detail-overview > hr {
+    width: 100%;
   }
 }
 
@@ -177,5 +201,16 @@ body.modal-open {
   .modal-description h3 {
     font-weight: bold;
     font-size: 1rem;
+  }
+
+  .movie-rate-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .movie-detail-overview {
+    align-items: center;
   }
 }
