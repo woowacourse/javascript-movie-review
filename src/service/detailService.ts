@@ -23,20 +23,10 @@ export default async function handleItemClick(id: string) {
 
     const loadingSpinner = document.getElementById("detail-loading");
     const modalContainer = document.getElementById("modal-container");
-    const detailsSkeleton = document.getElementById("details-skeleton");
-    const detailsImage = document.getElementById("details-image");
 
     if (loadingSpinner && modalContainer) {
       showElement(loadingSpinner);
       hideElement(modalContainer);
-    }
-
-    if (detailsSkeleton) {
-      showElement(detailsSkeleton);
-    }
-
-    if (detailsImage) {
-      hideElement(detailsImage);
     }
 
     const result = await fetchUrl<TMDBDetails>(

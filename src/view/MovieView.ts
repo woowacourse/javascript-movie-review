@@ -61,7 +61,7 @@ export function renderHeaderAndHero() {
   }
 }
 export function updateHero({ poster_path, title, vote_average }: Result) {
-  const heroImg = document.getElementById("hero-img");
+  const heroImg = document.getElementById("hero-img") as HTMLImageElement;
   const heroTitle = document.getElementById("hero-title");
   const heroAverage = document.getElementById("hero-rate");
   const topRatedContainer = document.getElementById("top-rated-container");
@@ -70,19 +70,50 @@ export function updateHero({ poster_path, title, vote_average }: Result) {
   let url = `https://image.tmdb.org/t/p/original${poster_path}`;
   if (!poster_path) url = "images/fallback.png";
   if (heroImg) heroImg.src = url;
-  const img = document.getElementById("hero-img");
+  const img = document.getElementById("hero-img") as HTMLImageElement;
   const heroSkeleton = document.getElementById("hero-skeleton");
   if (img)
     img.addEventListener("load", () => {
       hideElement(heroSkeleton);
+
       if (heroAverage) heroAverage.innerText = Number(vote_average).toFixed(1);
       if (heroTitle) heroTitle.innerText = title;
       showElement(topRatedContainer);
     });
-  const modal = document.getElementById("modal-dialog");
-  if (heroButton)
+  const modal = document.getElementById("modal-dialog") as HTMLDialogElement;
+  if (heroButton && modal)
     heroButton.addEventListener("click", () => {
       modal.showModal();
+
+      const loadingSpinner = document.getElementById("detail-loading");
+      const modalContainer = document.getElementById("modal-container");
+
+      if (loadingSpinner && modalContainer) {
+        hideElement(loadingSpinner);
+        showElement(modalContainer);
+      }
+
+      const detailsSkeleton = document.getElementById("details-skeleton");
+      const detailsImage = document.getElementById(
+        "details-image"
+      ) as HTMLImageElement;
+
+      if (detailsSkeleton && detailsImage) {
+        showElement(detailsSkeleton);
+        hideElement(detailsImage);
+
+        // 이미지가 이미 캐시되어 있어서 onload가 발생하지 않을 수 있으므로
+        // 이미지가 완전히 로드되었는지 확인
+        if (detailsImage.complete) {
+          hideElement(detailsSkeleton);
+          showElement(detailsImage);
+        } else {
+          detailsImage.onload = () => {
+            hideElement(detailsSkeleton);
+            showElement(detailsImage);
+          };
+        }
+      }
     });
 }
 
@@ -112,6 +143,7 @@ export function updateDetails({
   const starRatingNumbers = document.getElementById(
     "star-rating-numbers"
   ) as HTMLElement;
+  const detailsSkeleton = document.getElementById("details-skeleton");
 
   const savedRating = localStorage.getItem(String(id));
   if (savedRating) {
@@ -145,5 +177,21 @@ export function updateDetails({
   detailsRate.innerText = Number(vote_average).toFixed(1);
   detailsCategory.innerText = categoryNames;
   detailsDescription.innerText = overview;
+
+  // 초기 상태: 이미지는 숨기고, 스켈레톤은 보이게 설정
+  hideElement(detailsImage);
+  if (detailsSkeleton) {
+    showElement(detailsSkeleton);
+  }
+
+  // 이미지 로드 시작
   detailsImage.src = imgUrl;
+
+  // 이미지 로드 완료 시 스켈레톤 숨기고 이미지 표시
+  detailsImage.onload = () => {
+    if (detailsSkeleton) {
+      hideElement(detailsSkeleton);
+    }
+    showElement(detailsImage);
+  };
 }
