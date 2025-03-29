@@ -225,6 +225,10 @@ dialog::backdrop {
   letter-spacing: 0.01em;
 }
 
+.star-rating-numbers {
+  color: #95a1b2;
+}
+
 @media (max-width: 1024px) {
   dialog {
     top: auto;
