@@ -1,6 +1,5 @@
 .gnb {
   display: flex;
-  justify-content: center;
   position: relative;
   z-index: 100;
   margin: 48px;
@@ -9,7 +8,6 @@
 }
 
 .logo {
-  position: absolute;
   left: 0;
 }
 
@@ -26,12 +24,28 @@
 }
 
 .search-bar-container {
+  margin: auto;
   display: flex;
   border: 2px solid #d1d5db;
   width: 525px;
   height: 36px;
   border-radius: 32px;
 }
+
+@media (max-width: 768px) {
+  .gnb {
+    flex-direction: column;
+  }
+
+  .logo {
+    margin: auto;
+  }
+
+  .search-bar-container {
+    width: 350px;
+  }
+}
+
 
 .search-bar {
   flex-grow: 2;
