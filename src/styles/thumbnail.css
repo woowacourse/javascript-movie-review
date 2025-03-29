@@ -61,6 +61,18 @@
   cursor: pointer;
 }
 
+.item-desc {
+  width: 200px;
+}
+
+.item-desc strong {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+
 .item-desc > *:not(:last-child) {
   position: relative;
   margin-bottom: 4px;
