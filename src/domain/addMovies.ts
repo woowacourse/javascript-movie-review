@@ -32,7 +32,7 @@ export const addMovies = async (page: number, keyword?: string) => {
 
   const fragment = document.createDocumentFragment();
 
-  response?.results.forEach((movie: MoveType) => {
+  await response?.results.forEach((movie: MoveType) => {
     fragment.appendChild(Movie({ movie }));
   });
 

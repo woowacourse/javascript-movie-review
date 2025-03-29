@@ -1,7 +1,10 @@
-import createDOMElement from '../../util/createDomElement';
-import { $all } from '../../util/selector';
+import createDOMElement from '../../../util/createDomElement';
+import { $, $all } from '../../../util/selector';
 
-export const renderSkeletons = () => {
+export const movieListSkeletons = () => {
+  const container = $('.thumbnail-list') as HTMLElement;
+  if (!container) return;
+
   const fragment = document.createDocumentFragment();
   Array.from({ length: 20 }, () => {
     fragment.appendChild(
@@ -68,7 +71,7 @@ export const renderSkeletons = () => {
     );
   });
 
-  return fragment;
+  container.appendChild(fragment);
 };
 
 export const hideSkeletons = () => {

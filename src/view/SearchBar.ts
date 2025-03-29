@@ -1,9 +1,8 @@
 import getSearchMovies from '../api/getSearchMovies';
 import createDOMElement from '../util/createDomElement';
-import { $ } from '../util/selector';
 import { removeBanner } from './render/renderBanner';
 import { renderMovieList } from './render/renderMovieList';
-import { hideSkeletons, renderSkeletons } from './render/renderSkeletons';
+import { hideSkeletons, movieListSkeletons } from './render/skeleton/movieListSkeletons';
 
 function SearchBar() {
   return createDOMElement({
@@ -33,7 +32,7 @@ const handleSearchMovies = async (e: Event) => {
   e.preventDefault();
   removeBanner();
 
-  $('.container')?.appendChild(renderSkeletons());
+  movieListSkeletons();
 
   const form = e.target as HTMLFormElement;
   const data = new FormData(form);
