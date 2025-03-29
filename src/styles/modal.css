@@ -19,9 +19,7 @@ body.modal-open {
   z-index: 10;
   visibility: hidden; /* 모달이 기본적으로 보이지 않도록 설정 */
   opacity: 0;
-  transition:
-    opacity 0.3s ease,
-    visibility 0.3s ease;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
 .modal-background.active {
@@ -62,19 +60,30 @@ body.modal-open {
 }
 
 .modal-description {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
   width: 100%;
   padding: 8px;
   margin-left: 16px;
   line-height: 1.6rem;
+  font-size: 20px;
+}
+
+.modal-description hr {
+  width: 100%;
+}
+
+.modal-description .rate {
+  display: flex;
+  align-items: center;
+
+  font-size: 24px;
 }
 
 .modal-description .rate > img {
-  position: relative;
-  top: 5px;
-}
-
-.modal-description > *:not(:last-child) {
-  margin-bottom: 8px;
+  width: 32px;
 }
 
 .modal-description h2 {
@@ -82,7 +91,34 @@ body.modal-open {
   margin: 0 0 8px;
 }
 
-.detail {
+.modal-description .detail {
   max-height: 430px;
   overflow-y: auto;
+}
+
+.voting-rate {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  white-space: nowrap;
+}
+
+.voting-rate > p > span {
+  margin-left: 5px;
+
+  color: var(--color-bluegray-10);
+}
+
+.star-marks-container {
+  display: flex;
+}
+
+.star-mark {
+  width: 32px;
+
+  background: none;
+  cursor: pointer;
 }

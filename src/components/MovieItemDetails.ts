@@ -100,9 +100,7 @@ class MovieItemDetails {
     const starMarks = Array.from({ length: VOTE.maximumIconCount })
       .map((_, index) => {
         return /*html*/ `
-          <button class="star-mark" id="star-mark-${index}">
-            <img src="./images/star_empty.png" data-mark="empty"/>
-          </button>
+          <img src="./images/star_empty.png" class="star-mark" id="star-mark-${index}" data-mark="empty"/>
         `;
       })
       .join("");
