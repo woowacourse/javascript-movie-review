@@ -13,6 +13,8 @@ export const MOVIE_API = {
     `https://api.themoviedb.org/3/movie/popular?language=ko-KR&include_adult=false&page=${page}`,
 };
 
+export const FETCH_COUNT = 20;
+
 export const GENRE_MAP: Record<number, string> = {
   28: '액션',
   12: '모험',

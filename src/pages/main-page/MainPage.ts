@@ -2,8 +2,7 @@ import MainBanner from '../../component/domain/main-banner/MainBanner';
 import MovieGrid from '../../component/domain/movie-grid/MovieGrid';
 import { Title } from '../../component/common/title/Title';
 import { extractedData } from '../../domain/APIManager';
-import mainPageLoadingTemplate from './loadingTemplate';
-import { MOVIE_API } from '../../constants/systemConstants';
+import { FETCH_COUNT, MOVIE_API } from '../../constants/systemConstants';
 import { MovieData } from '../../../types/movie';
 import { bindScrollEvent, handleBottomScroll } from '../../util/web/scroll';
 import { Modal } from '../../component/common/modal/Modal';
@@ -12,6 +11,8 @@ import { MovieDetail } from '../../component/domain/movie-detail/MovieDetail';
 export class MainPage {
   #container: HTMLElement;
   #modal: Modal | null = null;
+  #movieGrid: MovieGrid | null = null;
+  #mainBanner: MainBanner | null = null;
 
   #movieListData: MovieData[] = [];
   #currentPage = 1;
@@ -25,7 +26,6 @@ export class MainPage {
     releasedDate: new Date().getFullYear(),
   };
 
-  #isLoading: boolean = true;
   #isFetching: boolean = false;
 
   #unbindScrollEvent: () => void = () => {};
@@ -44,13 +44,16 @@ export class MainPage {
   }
 
   async init() {
-    this.#isLoading = true;
     this.render();
+
+    this.#movieGrid?.appendSkeletonItems();
 
     const { movieListData } = await extractedData(MOVIE_API.getPopularUrl(this.#currentPage));
     this.#movieListData = movieListData;
-    this.#isLoading = false;
-    this.render();
+
+    this.#movieGrid?.replaceLastNItems(movieListData);
+
+    this.#mainBanner?.setData(this.#movieListData[0]);
 
     this.#unbindScrollEvent = bindScrollEvent(() => handleBottomScroll(() => this.#guardedLoadMore()));
     this.#bindMovieSelectEvent();
@@ -58,10 +61,6 @@ export class MainPage {
 
   render() {
     this.#container.innerHTML = '';
-    if (this.#isLoading) {
-      this.#container.innerHTML = mainPageLoadingTemplate;
-      return;
-    }
     this.#container.appendChild(this.#mainBannerElement());
     this.#container.appendChild(this.#titleElement());
     this.#container.appendChild(this.#modalElement());
@@ -78,11 +77,13 @@ export class MainPage {
   }
 
   #mainBannerElement() {
-    return new MainBanner({ data: this.#movieListData[0] }).element;
+    this.#mainBanner = new MainBanner();
+    return this.#mainBanner.element;
   }
 
   #movieGridElement() {
-    return new MovieGrid({ movieItems: this.#movieListData }).element;
+    this.#movieGrid = new MovieGrid({ movieItemsCount: this.#currentPage * FETCH_COUNT });
+    return this.#movieGrid.element;
   }
 
   #modalElement() {
@@ -92,16 +93,19 @@ export class MainPage {
 
   #loadMoreData = async () => {
     this.#currentPage += 1;
+    this.#movieGrid?.appendSkeletonItems();
+
     const { movieListData } = await extractedData(MOVIE_API.getPopularUrl(this.#currentPage));
-    this.#movieListData = movieListData;
-    this.renderDynamicSection();
+    this.#movieListData = [...this.#movieListData, ...movieListData];
+    this.#movieGrid?.replaceLastNItems(movieListData);
   };
 
   #guardedLoadMore() {
     if (this.#isFetching) return;
     this.#isFetching = true;
-    this.#loadMoreData();
-    this.#isFetching = false;
+    this.#loadMoreData().finally(() => {
+      this.#isFetching = false;
+    });
   }
 
   destroy() {

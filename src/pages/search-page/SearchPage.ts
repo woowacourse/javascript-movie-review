@@ -1,8 +1,7 @@
 import MovieGrid from '../../component/domain/movie-grid/MovieGrid';
 import { Title } from '../../component/common/title/Title';
 import { extractedData } from '../../domain/APIManager';
-import searchPageLoadingTemplate from './loadingTemplate';
-import { MOVIE_API } from '../../constants/systemConstants';
+import { FETCH_COUNT, MOVIE_API } from '../../constants/systemConstants';
 import { MovieData } from '../../../types/movie';
 import { bindScrollEvent, handleBottomScroll } from '../../util/web/scroll';
 import { Modal } from '../../component/common/modal/Modal';
@@ -11,9 +10,9 @@ import { MovieDetail } from '../../component/domain/movie-detail/MovieDetail';
 class SearchPage {
   #container: HTMLElement;
   #modal: Modal | null = null;
+  #movieGrid: MovieGrid | null = null;
 
   #movieListData: MovieData[] = [];
-  #isLoading: boolean = true;
   #query: string;
   #currentPage = 1;
   #totalPage = 0;
@@ -35,6 +34,7 @@ class SearchPage {
     this.#container.classList.add('search-page');
 
     this.#isFetching;
+    this.#movieListData;
 
     const params = new URLSearchParams(window.location.search);
 
@@ -45,25 +45,22 @@ class SearchPage {
   }
 
   async init() {
-    this.#isLoading = true;
     this.render();
+
+    this.#movieGrid?.appendSkeletonItems();
 
     if (this.#query) {
       const { movieListData, totalPage } = await extractedData(MOVIE_API.getSearchUrl(this.#query, this.#currentPage));
       this.#movieListData = movieListData;
+      this.#movieGrid?.replaceLastNItems(this.#movieListData);
       this.#totalPage = totalPage;
     }
-    this.#isLoading = false;
     this.render();
     this.#bindMovieSelectEvent();
   }
 
   render() {
     this.#container.innerHTML = '';
-    if (this.#isLoading) {
-      this.#container.innerHTML = searchPageLoadingTemplate(this.#query);
-      return;
-    }
     this.#container.appendChild(this.#titleElement());
     this.renderDynamicSection();
   }
@@ -74,7 +71,7 @@ class SearchPage {
   }
 
   #movieGridElement() {
-    return new MovieGrid({ movieItems: this.#movieListData }).element;
+    return new MovieGrid({ movieItemsCount: this.#currentPage * FETCH_COUNT }).element;
   }
 
   #loadMoreData = async () => {
@@ -84,13 +81,14 @@ class SearchPage {
     this.renderDynamicSection();
   };
 
-  async #guardedLoadMore() {
+  #guardedLoadMore() {
     if (this.#currentPage >= this.#totalPage) return;
     if (this.#isFetching) return;
 
     this.#isFetching = true;
-    await this.#loadMoreData();
-    this.#isFetching = false;
+    this.#loadMoreData().finally(() => {
+      this.#isFetching = false;
+    });
   }
 
   #titleElement() {

@@ -1,23 +1,22 @@
 import { MovieData } from '../../../../types/movie';
-
-interface MovieItemProps {
-  data: MovieData;
-}
+import { movieItemSkeletonTemplate } from './movieItemSkeletonTemplate';
 
 class MovieItem {
   #container: HTMLElement;
-  #data: MovieData;
+  #data: MovieData | null = null;
 
-  constructor({ data }: MovieItemProps) {
+  constructor() {
     this.#container = document.createElement('li');
     this.#container.classList.add('item');
-    this.#data = data;
+    this.#data = null;
 
     this.render();
     this.#bindClickEvent();
   }
 
   #matchImgUrl() {
+    if (!this.#data) return;
+
     if (this.#data.imgUrl.includes('null')) {
       return './empty-item.png';
     }
@@ -36,6 +35,12 @@ class MovieItem {
   }
 
   render() {
+    this.#container.innerHTML = '';
+
+    if (!this.#data) {
+      this.#container.innerHTML = `${movieItemSkeletonTemplate}`;
+      return;
+    }
     this.#container.innerHTML = `
       <img class="thumbnail" src=${this.#matchImgUrl()} alt=${this.#data.title} />
       <div class="item-desc">
@@ -46,6 +51,11 @@ class MovieItem {
         <strong class="text-body">${this.#data.title}</strong>
       </div>
   `;
+  }
+
+  setData(data: MovieData | null) {
+    this.#data = data;
+    this.render();
   }
 
   get element() {

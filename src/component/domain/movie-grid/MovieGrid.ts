@@ -2,36 +2,57 @@ import MovieItem from '../movie-item/MovieItem';
 import { ERROR_MESSAGE } from '../../../constants/errorMessage';
 import ErrorMessage from '../../common/error-message/ErrorMessage';
 import { MovieData } from '../../../../types/movie';
+import { FETCH_COUNT } from '../../../constants/systemConstants';
 
 interface MovieGridProps {
-  movieItems: MovieData[];
+  movieItemsCount: number;
 }
 
 class MovieGrid {
-  #container;
-  #movieItems;
+  #container: HTMLElement;
+  #movieItems: (MovieData | null)[];
+  #movieItemComponents: MovieItem[] = [];
 
-  constructor({ movieItems = [] }: MovieGridProps) {
+  #isLoading: boolean = true;
+
+  constructor({ movieItemsCount }: MovieGridProps) {
     this.#container = document.createElement('ul');
     this.#container.classList.add('thumbnail-list');
-    this.#movieItems = movieItems;
+
+    const initialMovieItems = new Array(movieItemsCount).fill(null);
+    this.#movieItems = initialMovieItems;
+
     this.render();
   }
 
   render() {
-    if (this.#movieItems.length !== 0) {
-      this.#movieItemElements().map((movieItemElement) => this.#container.appendChild(movieItemElement));
+    this.#container.innerHTML = '';
+    if (!this.#isLoading && this.#movieItems.length === 0) {
+      this.#container.innerHTML = this.#emptyListElement();
       return;
     }
-    this.#container.innerHTML = this.#emptyListElement();
+    this.#movieItemComponents.map((movieItem) => this.#container.appendChild(movieItem.element));
   }
 
   #emptyListElement() {
     return new ErrorMessage({ errorMessage: ERROR_MESSAGE.NO_RESULT }).element.outerHTML;
   }
 
-  #movieItemElements() {
-    return this.#movieItems.map((movieItem) => new MovieItem({ data: movieItem }).element);
+  appendSkeletonItems() {
+    for (let i = 0; i < FETCH_COUNT; i++) {
+      const item = new MovieItem();
+      this.#movieItemComponents.push(item);
+      this.#container.appendChild(item.element);
+    }
+  }
+
+  replaceLastNItems(data: MovieData[]) {
+    for (let i = 0; i < data.length; i++) {
+      const index = this.#movieItemComponents.length - data.length + i;
+      if (this.#movieItemComponents[index]) {
+        this.#movieItemComponents[index].setData(data[i]);
+      }
+    }
   }
 
   get element() {

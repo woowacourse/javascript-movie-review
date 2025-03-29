@@ -2,26 +2,27 @@ import { MovieData } from '../../../../types/movie';
 import Button from '../../common/button/Button';
 import { Modal } from '../../common/modal/Modal';
 import { MovieDetail } from '../movie-detail/MovieDetail';
-
-interface MovieBannerProps {
-  data: MovieData;
-}
+import { mainBannerSkeletonTemplate } from './mainBannerSkeletonTemplate';
 
 class MainBanner {
   #container: HTMLElement;
   #modal: Modal | null = null;
 
-  #data: MovieData;
+  #data: MovieData | null = null;
 
-  constructor({ data }: MovieBannerProps) {
+  constructor() {
     this.#container = document.createElement('div');
     this.#container.classList.add('main-banner');
-    this.#data = data;
+    this.#data = null;
 
     this.render();
   }
 
   render() {
+    if (!this.#data) {
+      this.#container.innerHTML = `${mainBannerSkeletonTemplate}`;
+      return;
+    }
     this.#container.innerHTML = `
        <div class="overlay" aria-hidden="true">
          <img class="main-banner__image" src=${this.#data.imgUrl} alt=${this.#data.title} />
@@ -48,6 +49,11 @@ class MainBanner {
     this.#container.appendChild(this.#modalElement());
   }
 
+  setData(data: MovieData) {
+    this.#data = data;
+    this.render();
+  }
+
   #detailButtonElement() {
     return new Button({
       size: 'small',
@@ -62,6 +68,8 @@ class MainBanner {
   }
 
   #bindDetailButtonClickEvent() {
+    if (!this.#data) return;
+
     const movieDetail = new MovieDetail({ data: this.#data }).element;
     if (!this.#modal) return;
     this.#modal.setContent(movieDetail);
