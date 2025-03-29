@@ -3,11 +3,11 @@ import movieService from "../service/movieService.ts";
 
 export const getMovieRate = (movieId: number) => {
   const totalRates = movieService.getRateList();
-  const targetRate = totalRates.find(({ id }: { id: number }) => {
+  const { rate } = totalRates.find(({ id }: { id: number }) => {
     return id === movieId;
   });
 
-  return targetRate ?? VOTE.defaultRate;
+  return rate ?? VOTE.defaultRate;
 };
 
 export const ratingMovie = (id: number, rate: number) => {
