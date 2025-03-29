@@ -26,7 +26,6 @@ const MovieListSection = ({ title, movieList, hasMore }: IMovieListSectionProps)
         ? createDOMElement({
             tag: "div",
             className: "see-more",
-            textContent: "더 보기",
           })
         : null,
     ],
