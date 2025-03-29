@@ -51,14 +51,16 @@ p.rate > span {
   }
 }
 
-@media (max-width: 850px) {
+@media (max-width: 1000px) {
   .thumbnail-list {
+    text-align: center;
     grid-template-columns: repeat(2, 200px);
   }
 }
 
 @media (max-width: 500px) {
   .thumbnail-list {
+    text-align: center;
     grid-template-columns: repeat(1, 200px);
   }
 }
