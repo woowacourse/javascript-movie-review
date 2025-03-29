@@ -2,6 +2,8 @@ import "./movieDetailModal.css";
 import { Genre, MovieDetail } from "../../../../types/type";
 import $MoviePoster from "../../MoviePoster/MoviePoster";
 import $RateBox from "../../RateBox/RateBox";
+import { openModal } from "../Modal";
+import $SkeletonMovieDetail from "./Skeleton/MovieDetailModal/SkeletonMovieDetail";
 
 const parseReleaseDate = (releaseDate: string) => {
   const date = new Date(releaseDate);
@@ -10,6 +12,18 @@ const parseReleaseDate = (releaseDate: string) => {
 
 const parseGenre = (genres: Genre[]) => {
   return genres.map(({ name }) => name).join(", ");
+};
+
+interface RenderMovieDetailModalParameter {
+  fetchFn: () => Promise<MovieDetail>;
+}
+
+export const renderMovieDetailModal = async ({
+  fetchFn,
+}: RenderMovieDetailModalParameter) => {
+  openModal($SkeletonMovieDetail());
+  const movieDetail = await fetchFn();
+  openModal($MovieDetailModal(movieDetail));
 };
 
 const $MovieDetailModal = ({

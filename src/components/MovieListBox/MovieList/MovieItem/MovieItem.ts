@@ -1,10 +1,10 @@
 import "./movieItem.css";
 import { MovieDetail } from "../../../../../types/type";
 import getMovieDetail from "../../../../apis/getMovieDetail";
-import { openModal } from "../../../Modal/Modal";
-import $MovieDetailModal from "../../../Modal/MovieDetail/MovieDetailModal";
+import { renderMovieDetailModal } from "../../../Modal/MovieDetail/MovieDetailModal";
 import $MoviePoster from "../../../MoviePoster/MoviePoster";
-import $SkeletonMovieDetail from "../../../Modal/MovieDetail/Skeleton/MovieDetailModal/SkeletonMovieDetail";
+import asyncErrorBoundary from "../../../ErrorBoundary/Async/asyncErrorBoundary";
+import { addErrorBox } from "../../../ErrorBox/ErrorBox";
 
 const $MovieItem = ({ id, title, poster_path, vote_average }: MovieDetail) => {
   const $rate = createElement("p", {
@@ -42,9 +42,12 @@ const $MovieItem = ({ id, title, poster_path, vote_average }: MovieDetail) => {
   $item.append($posterBox, $description);
 
   $item.addEventListener("click", async () => {
-    const movieDetail = await getMovieDetail(id);
-    openModal($SkeletonMovieDetail());
-    openModal($MovieDetailModal(movieDetail));
+    asyncErrorBoundary({
+      asyncFn: () =>
+        renderMovieDetailModal({ fetchFn: () => getMovieDetail(id) }),
+      fallbackComponent: (errorMessage) =>
+        addErrorBox({ selector: ".modal-content", errorMessage }),
+    });
   });
 
   return $item;
