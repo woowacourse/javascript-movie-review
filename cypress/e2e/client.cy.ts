@@ -1,20 +1,52 @@
 describe('클라이언트 테스트', () => {
   beforeEach(() => {
-    cy.intercept(
-      {
-        method: 'GET',
-        url: /^https:\/\/api\.themoviedb\.org\/3\/movie\/popular/,
-      },
-      { fixture: 'movie-popular.json' },
-    ).as('getPopularMovies');
+    Array(4)
+      .fill(null)
+      .map((_, index) => index + 1)
+      .forEach((page) => {
+        cy.intercept(
+          {
+            method: 'GET',
+            url: /^https:\/\/api\.themoviedb\.org\/3\/movie\/popular/,
+            query: {
+              page: String(page),
+            },
+          },
+          { fixture: `popular/page-${page}.json` },
+        ).as('getPopularMovies');
+      });
 
-    cy.intercept(
-      {
-        method: 'GET',
-        url: /^https:\/\/api\.themoviedb\.org\/3\/search\/movie/,
-      },
-      { fixture: 'movie-search.json' },
-    ).as('getSearchMovies');
+    Array(3)
+      .fill(null)
+      .map((_, index) => index + 1)
+      .forEach((page) => {
+        cy.intercept(
+          {
+            method: 'GET',
+            url: /^https:\/\/api\.themoviedb\.org\/3\/search\/movie/,
+            query: {
+              query: 'Apple',
+            },
+          },
+          { fixture: `search/Apple/page-${page}.json` },
+        ).as('getSearchMovies');
+      });
+
+    Array(1)
+      .fill(null)
+      .map((_, index) => index + 1)
+      .forEach((page) => {
+        cy.intercept(
+          {
+            method: 'GET',
+            url: /^https:\/\/api\.themoviedb\.org\/3\/search\/movie/,
+            query: {
+              query: '피터파커',
+            },
+          },
+          { fixture: `search/짱구/page-${page}.json` },
+        ).as('getSearchMovies');
+      });
 
     cy.intercept(
       {
@@ -50,10 +82,10 @@ describe('클라이언트 테스트', () => {
 
   describe('영화 검색', () => {
     it('검색을 했을 때, 20개 이상이라면 20개를 전부 보여준다.', () => {
-      cy.search('짱구');
+      cy.search('Apple');
     });
     it('검색을 했을 때, 40개 이상이라면 스크롤을 최하단으로 내렸을 때 40개를 보여준다.', () => {
-      cy.search('짱구');
+      cy.search('Apple');
       cy.get('#movie-more').scrollBottom();
       cy.get('.thumbnail-list > li').should('have.length', 40);
     });
@@ -69,9 +101,6 @@ describe('클라이언트 테스트', () => {
       cy.get('.main-info > h2').contains('극장판 짱구는 못말려: 우리들의 공룡일기');
       cy.get('.category').contains('2024 · 애니메이션, 모험, 코미디, 가족');
     });
-    // it('키보드로 EXC를 누르면 상세 정보 모달을 제거한다.', () => {
-    //   cy.type('{esc}');
-    // });
 
     it('모달을 닫는 버튼을 클릭하면 상세 정보 모달을 제거한다.', () => {
       cy.get('#closeModal').click();
