@@ -3,8 +3,6 @@ import MovieService from "../../services/MovieService";
 import { hideSkeleton, showSkeleton } from "../Skeleton/showSkeleton";
 import MovieList from "./MovieList";
 
-const MAXIMUM_PAGE = 500;
-
 export async function ContentsContainer(
   results: MovieInfo[],
   contentTitle: string
@@ -64,14 +62,6 @@ export async function handleAdditionalData(
 
   hideSkeleton();
 
-  if (
-    additionalData.results.length === 0 ||
-    movieService.getCurrentPage() >= MAXIMUM_PAGE
-  ) {
-    observer.disconnect();
-    return;
-  }
-
   const movieList = new MovieList(additionalData.results);
   const $movieList = movieList.renderMovieList();
   $section?.appendChild($movieList);
@@ -82,6 +72,13 @@ export async function handleAdditionalData(
       await handleThumbnailClick($thumbnail as HTMLElement);
     });
   });
+  if (
+    additionalData.results.length === 0 ||
+    movieService.getCurrentPage() === additionalData.total_pages
+  ) {
+    observer.disconnect();
+    return;
+  }
 }
 
 // 썸네일 클릭 시 모달 이벤트
