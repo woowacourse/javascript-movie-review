@@ -15,7 +15,8 @@ class MovieItemDetails {
     this.#createContainer();
     this.#createPoster();
     this.#createDescription();
-    this.onRateBoxClick();
+    this.#onRateBoxClick();
+    this.#onInitialRateClick();
 
     this.#element.classList.add("modal-container");
     return this.#element;
@@ -123,7 +124,7 @@ class MovieItemDetails {
     description.insertAdjacentHTML("beforeend", votingRate);
   }
 
-  onRateBoxClick() {
+  #onRateBoxClick() {
     const starMarksContainer = selectElement<HTMLDivElement>(
       ".star-marks-container",
       this.#element
@@ -132,10 +133,6 @@ class MovieItemDetails {
     let isVotingActive = false;
     const handleRateBoxClick = () => {
       if (!isVotingActive) {
-        starMarksContainer.addEventListener(
-          "click",
-          this.#handleInitialRateClick
-        );
         starMarksContainer.addEventListener("mouseover", this.#handleRateHover);
         isVotingActive = true;
       } else {
@@ -151,6 +148,33 @@ class MovieItemDetails {
     starMarksContainer.addEventListener("click", handleRateBoxClick);
   }
 
+  #onInitialRateClick() {
+    const handleInitialRateClick = (event: MouseEvent) => {
+      const hoveredStar = document.elementFromPoint(
+        event.clientX,
+        event.clientY
+      ) as HTMLImageElement;
+
+      const starredIndex = Number(hoveredStar.dataset.markIndex);
+      const stars = selectElementAll<HTMLImageElement>(".star-mark");
+
+      stars.forEach((star) => {
+        const markIndex = Number(star.dataset.markIndex);
+
+        star.src =
+          markIndex <= starredIndex
+            ? VOTE.filledStarImage
+            : VOTE.emptyStarImage;
+      });
+    };
+    const starMarksContainer = selectElement<HTMLDivElement>(
+      ".star-marks-container",
+      this.#element
+    );
+
+    starMarksContainer.addEventListener("click", handleInitialRateClick);
+  }
+
   #handleRateHover(event: MouseEvent) {
     const target = event.target as HTMLImageElement;
     if (!target.closest(".star-marks-container")) {
@@ -158,23 +182,6 @@ class MovieItemDetails {
     }
     const starredIndex = Number(target.dataset.markIndex);
     const stars = selectElementAll<HTMLImageElement>(".star-mark");
-    stars.forEach((star) => {
-      const markIndex = Number(star.dataset.markIndex);
-
-      star.src =
-        markIndex <= starredIndex ? VOTE.filledStarImage : VOTE.emptyStarImage;
-    });
-  }
-
-  #handleInitialRateClick(event: MouseEvent) {
-    const hoveredStar = document.elementFromPoint(
-      event.clientX,
-      event.clientY
-    ) as HTMLImageElement;
-
-    const starredIndex = Number(hoveredStar.dataset.markIndex);
-    const stars = selectElementAll<HTMLImageElement>(".star-mark");
-
     stars.forEach((star) => {
       const markIndex = Number(star.dataset.markIndex);
 
