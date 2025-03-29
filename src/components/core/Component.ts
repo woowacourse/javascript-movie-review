@@ -1,4 +1,5 @@
 import { Observer } from '@/modules';
+import { errorMessage } from '@/modules/Message';
 import { Store } from '@/store';
 import { HTMLType, StrictObject } from '@/types';
 import { html } from '@/utils';
@@ -60,7 +61,7 @@ export default abstract class Component<TProps extends Props = {}, TState extend
 
   fillSlot(component: Component, slotName: string) {
     const targetSlot = this.element.querySelector(`slot[name=${slotName}]`);
-    if (!targetSlot) throw new Error(`name=${slotName} 속성을 가진 slot 요소를 만들어주세요.`);
+    if (!targetSlot) throw new Error(errorMessage.get('slot', slotName));
 
     targetSlot.replaceWith(component.element);
   }

@@ -1,3 +1,4 @@
+import { errorMessage } from '@/modules/Message';
 import { isError, isString } from '@/utils';
 
 type HttpMethodType = 'GET' | 'POST' | 'DELETE' | 'PUT';
@@ -24,9 +25,9 @@ export default class ApiClient {
       if (!response.ok) {
         switch (response.status) {
           case 401:
-            throw new Error('사용자 정보가 잘못되었습니다.');
+            throw new Error(errorMessage.get(401));
           case 400:
-            throw new Error('페이지를 초과했습니다.');
+            throw new Error(errorMessage.get(400));
         }
       }
 

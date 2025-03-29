@@ -7,6 +7,7 @@ import { MOVIE_ITEM_PER_PAGE } from '../constants';
 import Component from './core/Component';
 import { eventHandlerInstance } from '@/modules';
 import { MovieApiClient } from '@/apis';
+import { errorMessage } from '@/modules/Message';
 
 export default class ThumbnailList extends Component {
   override template() {
@@ -82,7 +83,7 @@ export default class ThumbnailList extends Component {
     eventHandlerInstance.addEventListener({
       eventType: 'click',
       callback: async ({ currentTarget }) => {
-        if (!currentTarget.dataset.id) throw new Error('data-id를 설정해주세요.');
+        if (!currentTarget.dataset.id) throw new Error(errorMessage.get('dataId'));
 
         const id = Number(currentTarget.dataset.id);
 

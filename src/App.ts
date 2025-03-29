@@ -2,9 +2,10 @@ import { Footer, Header, Movies, Toast } from './components';
 import { Component } from './components/core';
 import { TOAST_TYPE } from './components/Toast';
 import { eventHandlerInstance } from './modules';
+import { toastMessage } from './modules/Message';
 import { html } from './utils';
 
-export default class App extends Component<null> {
+export default class App extends Component {
   override template() {
     return html`
       <div id="movie-review-wrap">
@@ -25,14 +26,14 @@ export default class App extends Component<null> {
     eventHandlerInstance.addEventListener({
       eventType: 'offline',
       callbackWindow: () => {
-        new Toast({ message: '네트워크 오프라인이 감지되었습니다.', type: TOAST_TYPE.error }).show();
+        new Toast({ message: toastMessage.get('offline'), type: TOAST_TYPE.error }).show();
       },
     });
 
     eventHandlerInstance.addEventListener({
       eventType: 'online',
       callbackWindow: () => {
-        new Toast({ message: '네트워크가 연결되었습니다.', type: TOAST_TYPE.success }).show();
+        new Toast({ message: toastMessage.get('online'), type: TOAST_TYPE.success }).show();
       },
     });
   }
