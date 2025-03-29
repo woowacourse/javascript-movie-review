@@ -62,10 +62,10 @@ export default class Modal extends Component<ModalState> {
       </div>
       <div class="modal-description">
         ${Skeleton({ width: 300, height: 40 }).outerHTML}
-        <p class="rate">
+        <p class="modal-rate rate">
           ${Skeleton({ width: 370, height: 25 }).outerHTML}
         </p>
-        <p class="detail">
+        <p class="modal-detail">
           ${Skeleton({ width: 150, height: 30 }).outerHTML}
         </p>
       </div>

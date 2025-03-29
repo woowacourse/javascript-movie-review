@@ -80,7 +80,7 @@ body.modal-open {
   margin: 0 0 8px;
 }
 
-.detail {
+.modal-detail {
   max-height: 430px;
   overflow-y: auto;
 }
