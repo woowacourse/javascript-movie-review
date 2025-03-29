@@ -105,29 +105,31 @@ export default class Modal extends Component<ModalState> {
               </div>
               <div class="modal-description">
                 <h2 class="modal-title">${this.state.title}</h2>
-                <p class="category">
+                <p class="modal-category">
                   ${this.state.release_date} · ${this.state.genres.join(", ")}
                 </p>
-                <p class="rate">
-                  <span class="rate-average">평균</span>
+                <p class="modal-rate rate">
+                  <span class="modal-rate-average">평균</span>
                   <img src="./images/star_filled.png" class="star" alt="star" /><span
                     >${this.state.vote_average}</span
                   >
                 </p>
                 <hr />
                 <p class="modal-subtitle">내 별점</p>
-                <div class="rate-star">
+                <div class="modal-rate-star">
                   <div>${this.renderRatingStar()}</div>
                   <div>
-                    <span class="rate-description">${
+                    <span class="modal-rate-description">${
                       ratingDescriptions[this.state.my_rate]
                     }</span>
-                    <span class="rate-scale">(${this.state.my_rate}/10)</span>
+                    <span class="modal-rate-scale">(${
+                      this.state.my_rate
+                    }/10)</span>
                   </div>
                 </div>
                 <hr />
                 <p class="modal-subtitle">줄거리</p>
-                <p class="detail">${this.state.overview}</p>
+                <p class="modal-detail">${this.state.overview}</p>
               </div>
             `
           }
