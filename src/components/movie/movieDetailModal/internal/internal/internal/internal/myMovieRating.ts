@@ -72,7 +72,7 @@ const movieRateBox = (movie: MovieDetail) => {
     className: "movie-rate-comments",
     textContent: `${
       myMovieRate === 0
-        ? "설정해주세요."
+        ? "별점을 남겨주세요."
         : `${COMMENTS[myMovieRate]} (${myMovieRate}/10)`
     }`,
   });
