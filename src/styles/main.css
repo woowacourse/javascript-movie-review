@@ -181,7 +181,9 @@ span.rate-value {
   font-size: 24px;
   font-weight: 600;
 }
+
 .see-more {
+  visibility: hidden;
   display: flex;
   padding: 10px;
   justify-content: center;
