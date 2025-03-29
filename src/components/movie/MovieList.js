@@ -56,9 +56,9 @@ export default class MovieList {
     this.scrollTimer = setTimeout(() => {
       console.log('로드 요청: 페이지', this.currentPage, '/', this.totalPage);
       if (store.getMode() === 'searchAdd') {
-        this.movieListHandler.handleLoadMore(this.lastQuery);
+        this.movieListHandler.loadMoreMovies(this.lastQuery);
       } else {
-        this.movieListHandler.handleLoadMore();
+        this.movieListHandler.loadMoreMovies();
       }
       this.scrollTimer = null;
     }, 300);
