@@ -62,3 +62,29 @@ export const fetchSearchedMovies = async (
     return null;
   }
 };
+
+export const fetchMovieDetail = async (movieId: number): Promise<Movie> => {
+  try {
+    const response = await fetch(
+      `${import.meta.env.VITE_TMDB_API_URL}/movie/${movieId}?language=ko-KR`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${import.meta.env.VITE_TMDB_API_KEY}`,
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(ERROR_MESSAGES.MOVIE_FETCH_FAILED);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      store.setState({ errorMessage: error.message });
+    }
+    return {} as Movie;
+  }
+};
