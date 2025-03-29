@@ -1,8 +1,8 @@
+import createDOMElement from '../util/createDomElement';
+import { $ } from '../util/selector';
 import { RATING_COMMENTS } from '../constant';
 import { localStorageRate, renderRate } from '../domain/localStorageRate';
 import { MoveDetailType, RatingScore } from '../type';
-import createDOMElement from '../util/createDomElement';
-import { $ } from '../util/selector';
 
 function Modal(movieDetail: MoveDetailType) {
   const genre = movieDetail.genres.map((genre) => genre.name).join(', ');

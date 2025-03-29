@@ -1,12 +1,29 @@
 import Modal from '../Modal';
 import { MoveDetailType } from '../../type';
 import { $ } from '../../util/selector';
+import { hideModalSkeletons, modalSkeletons } from './skeleton/modalSkeleton';
 
-export const renderModal = (movieDetail: MoveDetailType) => {
-  document.body?.appendChild(Modal(movieDetail));
+function waitForImageLoad(img: HTMLImageElement): Promise<void> {
+  return new Promise((resolve) => {
+    if (img.complete) resolve();
+    else {
+      img.onload = () => resolve();
+      img.onerror = () => resolve();
+    }
+  });
+}
 
-  const modal = $('#modal') as HTMLDialogElement;
-  modal?.showModal();
+export const renderModal = async (movieDetail: MoveDetailType) => {
+  const modal = Modal(movieDetail) as HTMLDialogElement;
+  const poster = modal.querySelector('#movieDetailPoster') as HTMLImageElement;
+
+  modalSkeletons();
+  await waitForImageLoad(poster);
+
+  document.body.appendChild(modal);
+  modal.showModal();
+
+  hideModalSkeletons();
 
   modal?.addEventListener('click', (e) => {
     if (e.target === e.currentTarget) {
