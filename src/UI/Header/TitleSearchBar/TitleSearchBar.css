@@ -39,6 +39,10 @@
   color: white;
 }
 
+.search-input::placeholder {
+  color: white;
+}
+
 h1.logo {
   font-size: 2rem;
 }
