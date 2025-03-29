@@ -1,6 +1,6 @@
 import { $ } from "../../../utils/selectors";
 
-export const closeMovieDetailModal = () => {
+const closeMovieDetailModal = () => {
   const $movieDetailModal = $("#movie-detail-modal");
 
   if (
@@ -30,4 +30,15 @@ export const addCloseEventOnModalBackground = () => {
   }
 
   $movieDetailModal.addEventListener("click", closeModal);
+};
+
+export const addCloseEventOnModalButton = () => {
+  const $closeMovieDetailModalButton = $("#closeModal");
+
+  if ($closeMovieDetailModalButton) {
+    $closeMovieDetailModalButton.addEventListener(
+      "click",
+      closeMovieDetailModal
+    );
+  }
 };

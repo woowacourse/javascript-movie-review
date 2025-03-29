@@ -1,20 +1,11 @@
-import { $ } from "../../utils/selectors";
 import {
   addCloseEventOnModalBackground,
-  closeMovieDetailModal,
+  addCloseEventOnModalButton,
 } from "./internal/closeMovieDetailModal";
 
 const initializeCloseMovieDetailModal = () => {
   addCloseEventOnModalBackground();
-
-  const $closeMovieDetailModalButton = $("#closeModal");
-
-  if ($closeMovieDetailModalButton) {
-    $closeMovieDetailModalButton.addEventListener(
-      "click",
-      closeMovieDetailModal
-    );
-  }
+  addCloseEventOnModalButton();
 };
 
 export default initializeCloseMovieDetailModal;
