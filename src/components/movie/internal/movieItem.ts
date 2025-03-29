@@ -36,7 +36,7 @@ const movieItem = (movie: Movie) => {
               },
               {
                 tag: "span",
-                textContent: String(movie.vote_average),
+                textContent: movie.vote_average.toFixed(1).toString(),
               },
             ],
           },
