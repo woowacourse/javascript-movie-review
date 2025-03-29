@@ -54,8 +54,7 @@ header {
 }
 
 .header-wrapper {
-  max-width: 1280px;
-  margin: 0 auto;
+  margin: 0 64px;
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -75,7 +74,8 @@ header.scrolled {
 
 header .search-bar {
   border: 2px solid #d1d5db;
-  width: 525px;
+  width: 100%;
+  max-width: 525px;
   height: 36px;
   border-radius: 32px;
   display: flex;

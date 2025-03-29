@@ -63,6 +63,7 @@ const DetailModal = (movieDetail: IMovieDetail) => {
                     }),
                     createDOMElement({
                       tag: "p",
+                      class: "modal-vote-average",
                       children: [
                         createDOMElement({
                           tag: "img",
