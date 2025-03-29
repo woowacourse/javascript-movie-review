@@ -3,7 +3,7 @@ import createDOMElement from '../util/createDomElement';
 import { $ } from '../util/selector';
 import { removeBanner } from './render/renderBanner';
 import { renderMovieList } from './render/renderMovieList';
-import { renderSkeletons } from './render/renderSkeletons';
+import { hideSkeletons, renderSkeletons } from './render/renderSkeletons';
 
 function SearchBar() {
   return createDOMElement({
@@ -33,7 +33,7 @@ const handleSearchMovies = async (e: Event) => {
   e.preventDefault();
   removeBanner();
 
-  $('.container')?.appendChild(renderSkeletons({ height: 300 }));
+  $('.container')?.appendChild(renderSkeletons());
 
   const form = e.target as HTMLFormElement;
   const data = new FormData(form);
@@ -47,6 +47,8 @@ const handleSearchMovies = async (e: Event) => {
 
   const response = await getSearchMovies(params);
   renderMovieList(response, String(data.get('keyword')));
+
+  hideSkeletons();
 };
 
 export default SearchBar;
