@@ -23,7 +23,7 @@ export default class MovieApiClient {
   static getAll({ page }: GetAllRequest) {
     const url = new URL('/3/movie/popular', this.#ORIGIN);
     url.searchParams.append('page', String(page));
-    url.searchParams.append('language', 'ko-KR');
+    url.searchParams.append('language', navigator.language);
 
     return ApiClient.get<MoviesResponse>(url, this.#OPTIONS);
   }
@@ -31,7 +31,7 @@ export default class MovieApiClient {
   static get({ page, query }: GetRequest) {
     const url = new URL('/3/search/movie', this.#ORIGIN);
     url.searchParams.append('page', String(page));
-    url.searchParams.append('language', 'ko-KR');
+    url.searchParams.append('language', navigator.language);
     url.searchParams.append('query', query);
 
     return ApiClient.get<MoviesResponse>(url, this.#OPTIONS);
@@ -39,7 +39,7 @@ export default class MovieApiClient {
 
   static getDetail({ id }: GetDetailRequest) {
     const url = new URL(`/3/movie/${id}`, this.#ORIGIN);
-    url.searchParams.append('language', 'ko-KR');
+    url.searchParams.append('language', navigator.language);
 
     return ApiClient.get<MovieDetailResponse>(url, this.#OPTIONS);
   }
