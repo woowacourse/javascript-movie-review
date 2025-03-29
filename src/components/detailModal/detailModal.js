@@ -5,8 +5,13 @@ import {
 } from "../../setting/settings";
 import { createElement } from "../../util/dom";
 import { fetchUrl } from "../../util/fetch";
+import { getRating } from "../../util/store";
+import { updateRating } from "../../util/store";
+import { getYear, getGenre } from "./detailModal.utils";
+import { setupRatingStars } from "./setupRatingStars";
 
 export default function DetailModal({
+  id,
   poster_path,
   title,
   overview,
@@ -17,7 +22,6 @@ export default function DetailModal({
   const $modalContainer = createElement("div", {
     className: "modal-container",
   });
-
   const year = getYear(release_date);
   const genre = getGenre(genres).join(", ");
 
@@ -39,8 +43,8 @@ export default function DetailModal({
                         )}
                     </div>
                     <div class=estimate-description>
-                        <span class="modal-text">명작이에요</span>
-                        <span class="modal-text estimate-number">(8/10)</span>
+                        <span class="modal-text"></span>
+                        <span class="modal-text estimate-number">(0/10)</span>
                     </div>
                 </div>
             </div>
@@ -57,47 +61,6 @@ export default function DetailModal({
             </p>
         </div>`;
 
-  setupRatingStars($modalContainer);
+  setupRatingStars($modalContainer, id);
   return $modalContainer;
-}
-
-function getYear(date) {
-  return date.slice(0, 4);
-}
-
-function getGenre(genres) {
-  return genres.map((genre) => genre.name);
-}
-
-function setupRatingStars($modalContainer) {
-  const stars = Array.from($modalContainer.querySelectorAll(".estimate-star"));
-
-  const $description = $modalContainer.querySelector(
-    ".estimate-description .modal-text"
-  );
-  const $score = $modalContainer.querySelector(".estimate-number");
-
-  const messages = [
-    "최악이에요",
-    "별로예요",
-    "보통이에요",
-    "재미있어요",
-    "명작이에요",
-  ];
-
-  stars.forEach((star, index) => {
-    star.addEventListener("click", () => {
-      const selectedScore = index + 1;
-
-      stars.forEach((s, i) => {
-        s.src =
-          i < selectedScore
-            ? "./images/star_filled.png"
-            : "./images/star_empty.png";
-      });
-
-      if ($description) $description.textContent = messages[index];
-      if ($score) $score.textContent = `(${selectedScore * 2}/10)`;
-    });
-  });
 }
