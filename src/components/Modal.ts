@@ -68,6 +68,8 @@ const Modal = (movieDetails: MovieDetails) => {
     `;
   };
 
+  const $gnb = document.querySelector(".gnb");
+
   const bindStarEvents = () => {
     bindModalEvents();
     const $stars = $div.querySelectorAll<HTMLImageElement>(".my-rate .star");
@@ -82,13 +84,18 @@ const Modal = (movieDetails: MovieDetails) => {
   };
 
   const handleClose = () => {
+    $gnb?.classList.remove("disappear");
     $div.remove();
   };
 
   const bindModalEvents = () => {
+    $gnb?.classList.add("disappear");
     $div.querySelector("#closeModal")?.addEventListener("click", handleClose);
     document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape") handleClose();
+      if (event.key === "Escape") {
+        $gnb?.classList.remove("disappear");
+        handleClose();
+      }
     });
   };
 

@@ -1,10 +1,11 @@
 .gnb {
+  margin: auto;
+  margin-top: 30px;
+  margin-bottom: 50px;
   display: flex;
   position: relative;
   z-index: 100;
-  margin: 48px;
-  width: 90%;
-  margin-bottom: 50px;
+  width: 67%;
 }
 
 .logo {
@@ -27,25 +28,11 @@
   margin: auto;
   display: flex;
   border: 2px solid #d1d5db;
-  width: 525px;
+  max-width: 525px;
+  width: 100%;
   height: 36px;
   border-radius: 32px;
 }
-
-@media (max-width: 768px) {
-  .gnb {
-    flex-direction: column;
-  }
-
-  .logo {
-    margin: auto;
-  }
-
-  .search-bar-container {
-    width: 350px;
-  }
-}
-
 
 .search-bar {
   flex-grow: 2;
@@ -88,4 +75,46 @@
 
 .my-rate .star {
   cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .gnb {
+    flex-direction: column;
+  }
+
+  .logo {
+    margin: auto;
+  }
+
+  .modal-container {
+    flex-direction: column;
+  }
+  .modal-background {
+    align-items: end;
+  }
+
+  .modal-image {
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .modal-image img {
+    width: 200px;
+  }
+}
+
+@media (max-width: 480px) {
+  .background-container {
+    padding: 28px;
+    height: 250px;
+  }
+
+  .list-title {
+    text-align: center;
+  }
+  
+  .thumbnail-list {
+    transform: translate(20%, 0%);
+  }
 }
