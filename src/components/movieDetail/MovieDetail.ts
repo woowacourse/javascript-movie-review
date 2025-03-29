@@ -1,6 +1,7 @@
-import { movieDetail } from "../../store/store";
+import { movieDetail, setIsModalOpen } from "../../store/store";
 import { useEvents } from "../../utils/Core";
 import { $, $$ } from "../../utils/domHelper";
+import { observeLastMovie } from "../../utils/InfiniteScroll";
 
 const VOTE_TEXT = [
   "최악이에요(2/10)",
@@ -13,8 +14,22 @@ const VOTE_TEXT = [
 const MovieDetail = () => {
   const [addEvent] = useEvents(".modal");
 
+  const handleEscapeKey = (event: KeyboardEvent) => {
+    if (event.key === "Escape") {
+      setIsModalOpen(false);
+      observeLastMovie();
+      document.removeEventListener("keydown", handleEscapeKey);
+    }
+  };
+
+  document.addEventListener("keydown", handleEscapeKey);
+
   addEvent("click", ".close-modal", () => {
     $(".modal-background").classList.remove("active");
+    setIsModalOpen(false);
+    setTimeout(() => {
+      observeLastMovie();
+    }, 500); // 500ms 대기 후 observer 설정
   });
 
   addEvent("click", ".my-vote-star", (event) => {

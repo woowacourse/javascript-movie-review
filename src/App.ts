@@ -16,9 +16,11 @@ import {
   isError,
   isMoreError,
   isSearchError,
+  isModalOpen,
 } from "./store/store";
 import { useEvents } from "./utils/Core";
 import { timeoutDebounce } from "./utils/debounce";
+import { observeLastMovie } from "./utils/InfiniteScroll";
 
 const App = () => {
   const { fetchMovies } = useGetMovieList();
@@ -38,12 +40,26 @@ const App = () => {
     fetchMovies(1).then((results) => {
       if (results) {
         setMovies(results);
+        observeLastMovie();
       }
     });
   }
 
+  const mutationObserver = new MutationObserver(() => {
+    observeLastMovie();
+  });
+
+  setTimeout(() => {
+    const movieListElement = document.querySelector(".thumbnail-list");
+    if (movieListElement) {
+      mutationObserver.observe(movieListElement, { childList: true });
+    }
+  }, 0);
+
   const displayMovieList =
     searchInputValue.trim().length > 0 ? searchResults : movies;
+
+  console.log(isModalOpen);
 
   return ` ${
     isError || !movies.length
