@@ -8,7 +8,7 @@ import {
   removeSkeletonList,
 } from "./Skeleton/MovieList/SkeletonList";
 import asyncErrorBoundary from "../ErrorBoundary/Async/asyncErrorBoundary";
-import { addErrorBox } from "../ErrorBox/ErrorBox";
+import { addMovieListErrorBox } from "./ErrorBox/MovieListErrorBox";
 
 type MovieListType = "popular" | "search";
 interface MovieState {
@@ -65,7 +65,7 @@ const $MovieListBoxRender = () => {
             currentPage: movieState.page,
             fetchFn: getPopularMovieList,
           }),
-        fallbackComponent: (errorMessage) => addErrorBox(errorMessage),
+        fallbackComponent: (errorMessage) => addMovieListErrorBox(errorMessage),
       });
       return;
     }
@@ -76,7 +76,7 @@ const $MovieListBoxRender = () => {
           currentPage: movieState.page,
           fetchFn: (page) => getSearchedMovieList(movieState.keyword, page),
         }),
-      fallbackComponent: (errorMessage) => addErrorBox(errorMessage),
+      fallbackComponent: (errorMessage) => addMovieListErrorBox(errorMessage),
     });
   };
 

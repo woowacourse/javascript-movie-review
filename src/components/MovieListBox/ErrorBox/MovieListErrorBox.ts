@@ -1,17 +1,17 @@
-import "./errorBox.css";
+import "./movieListErrorBox.css";
 
-export const addErrorBox = (text: string) => {
+export const addMovieListErrorBox = (text: string) => {
   const $movieListSection = document.querySelector(
     ".movie-list-section"
   ) as HTMLElement;
-  $movieListSection.replaceChildren($ErrorBox({ text }));
+  $movieListSection.replaceChildren($MovieListErrorBox({ text }));
 };
 
 interface ErrorBoxProps {
   text: string;
 }
 
-const $ErrorBox = ({ text }: ErrorBoxProps) => {
+const $MovieListErrorBox = ({ text }: ErrorBoxProps) => {
   const $errorPlanet = createElement("img", {
     src: "./empty-planet.svg",
     className: "empty-planet",
@@ -29,4 +29,4 @@ const $ErrorBox = ({ text }: ErrorBoxProps) => {
   return $box;
 };
 
-export default $ErrorBox;
+export default $MovieListErrorBox;

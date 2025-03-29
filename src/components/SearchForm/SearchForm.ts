@@ -2,7 +2,7 @@ import "./searchForm.css";
 import getSearchedMovieList from "../../apis/getSearchedMovieList";
 import { replaceMovieListBox } from "../../main";
 import { removeBanner } from "../Banner/Banner";
-import { addErrorBox } from "../ErrorBox/ErrorBox";
+import { addMovieListErrorBox } from "../MovieListBox/ErrorBox/MovieListErrorBox";
 import { setMovieListState } from "../MovieListBox/MovieListBox";
 import { replaceSkeletonList } from "../MovieListBox/Skeleton/MovieList/SkeletonList";
 
@@ -32,7 +32,7 @@ const handleSearchFormSubmit = async (event: Event) => {
     });
   } catch (error) {
     if (error instanceof Error) {
-      addErrorBox(error.message);
+      addMovieListErrorBox(error.message);
     }
   }
 };
