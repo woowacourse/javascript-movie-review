@@ -7,15 +7,13 @@ import { forEach } from '@fxts/core';
 export type Props = StrictObject | null;
 export type State = StrictObject | null;
 
-export default abstract class Component<TProps extends Props = {}, TState extends State = {}> extends Observer {
+export default abstract class Component<TProps extends Props = {}, TState extends State = {}> implements Observer {
   state = {} as TState;
 
   #props: TProps;
   #element: HTMLElement | null = null;
 
   constructor(props?: TProps) {
-    super();
-
     this.#props = (props ?? {}) as TProps;
     this.setup();
 
@@ -60,15 +58,16 @@ export default abstract class Component<TProps extends Props = {}, TState extend
     return html`<div></div>`;
   }
 
-  addEventListener() {}
-
-  onRender() {}
-
   fillSlot(component: Component, slotName: string) {
     const targetSlot = this.element.querySelector(`slot[name=${slotName}]`);
     if (!targetSlot) throw new Error(`name=${slotName} 속성을 가진 slot 요소를 만들어주세요.`);
 
     targetSlot.replaceWith(component.element);
+  }
+
+  remove() {
+    this.onUnmount();
+    this.element.remove();
   }
 
   get element() {
@@ -79,10 +78,9 @@ export default abstract class Component<TProps extends Props = {}, TState extend
     return this.#props;
   }
 
-  protected onUnmount() {}
+  addEventListener() {}
 
-  remove() {
-    this.onUnmount();
-    this.element.remove();
-  }
+  onRender() {}
+
+  protected onUnmount() {}
 }
