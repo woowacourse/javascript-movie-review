@@ -1,3 +1,6 @@
+import { RATING_COMMENTS } from '../constant';
+import { localStorageRate } from '../domain/localStorageRate';
+import { RatingScore } from '../type';
 import createDOMElement from '../util/createDomElement';
 import { $ } from '../util/selector';
 
@@ -86,6 +89,14 @@ function Modal() {
                     className: 'rate-form',
                     id: 'rateForm',
                     children: [
+                      createDOMElement({
+                        tag: 'input',
+                        id: 'movieId',
+                        attributes: {
+                          type: 'hidden',
+                          name: 'movieId'
+                        }
+                      }),
                       rateStars(),
                       createDOMElement({
                         tag: 'div',
@@ -103,7 +114,8 @@ function Modal() {
                           })
                         ]
                       })
-                    ]
+                    ],
+                    event: { click: changeStarState }
                   })
                 ]
               }),
@@ -149,6 +161,36 @@ const rateStars = () => {
   });
 
   return starsBox;
+};
+
+const changeStarState = (e: Event) => {
+  const target = e.target;
+  if (target instanceof HTMLInputElement) {
+    const currentRate = Number(target.value) || 0;
+    const rateStars = (e.currentTarget as HTMLFormElement)?.querySelectorAll<HTMLInputElement>(
+      'input[name="rateInput"]'
+    );
+
+    localStorageRate(currentRate);
+
+    rateStars?.forEach((star) => {
+      if (parseInt(star.value, 10) <= currentRate) {
+        star.previousElementSibling?.classList.add('fill-star');
+      } else {
+        star.previousElementSibling?.classList.remove('fill-star');
+      }
+    });
+
+    const rateScoreTextElement = $('#rateScoreText');
+    if (rateScoreTextElement) {
+      rateScoreTextElement.textContent = RATING_COMMENTS[currentRate as RatingScore];
+    }
+
+    const rateScoreElement = $('#rateScore');
+    if (rateScoreElement) {
+      rateScoreElement.textContent = `(${currentRate}/10)`;
+    }
+  }
 };
 
 const modalClose = () => {

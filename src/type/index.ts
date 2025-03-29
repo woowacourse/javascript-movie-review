@@ -26,7 +26,7 @@ export interface MoveDetailResponseType {
   backdropPath: string;
   belongsToCollection: null;
   budget: number;
-  genres: genresType[];
+  genres: GenresType[];
   homepage: string;
   id: number;
   imdbId: string;
@@ -72,11 +72,18 @@ export interface MoveDetailType {
   title: string;
   voteAverage: number;
   overview: string;
-  genres: genresType[];
+  genres: GenresType[];
   releaseDate: string;
 }
 
-interface genresType {
+interface GenresType {
   id: number;
   name: string;
 }
+
+export interface RateMovieType {
+  id: number;
+  rate: number;
+}
+
+export type RatingScore = 0 | 2 | 4 | 6 | 8 | 10;

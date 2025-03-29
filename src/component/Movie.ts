@@ -55,6 +55,9 @@ function Movie({ movie }: { movie: MoveType }) {
 }
 
 const handleMovieItemClick = async (id: number) => {
+  const idInput = $('#movieId') as HTMLInputElement;
+  idInput.value = id.toString();
+
   const modal = $('#modal') as HTMLDialogElement;
   modal?.showModal();
   const params = {

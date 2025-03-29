@@ -168,6 +168,10 @@ dialog[open] {
   line-height: 1.8rem;
 }
 
+.fill-star {
+  fill: var(--color-yellow);
+}
+
 @media screen and (max-width: 1024px) {
   .modal {
     width: 100%;
