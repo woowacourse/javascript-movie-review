@@ -71,3 +71,7 @@
   margin: auto;
   margin-bottom: 10px;
 }
+
+.my-rate .star {
+  cursor: pointer;
+}
