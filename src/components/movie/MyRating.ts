@@ -53,60 +53,51 @@ const MyRating = (movie: MovieDetail) => {
   stars.forEach((star, i) => {
     star.addEventListener("mouseover", () => {
       currentScore = (i + 1) * 2;
-
-      stars.forEach((s, j) => {
-        s.setAttribute(
-          "src",
-          j <= i ? "./images/star_filled.png" : "./images/star_empty.png"
-        );
-      });
-
-      label.textContent = SCORE_AND_LABEL[currentScore];
-      score.textContent = `(${currentScore}/10)`;
+      updateStars(stars, i);
+      updateScoreText(label, score, currentScore);
     });
+
     star.addEventListener("mouseleave", () => {
       if (selectedScore === 0 && myScore !== 0) {
         selectedScore = myScore;
         selectedStarIdx = filledCount - 1;
       }
       if (selectedStarIdx === -1) {
-        stars.forEach((s) => {
-          s.setAttribute("src", "./images/star_empty.png");
-        });
-
-        currentScore = 0;
-        label.textContent = SCORE_AND_LABEL[currentScore];
-        score.textContent = `(${currentScore}/10)`;
+        updateStars(stars, -1);
+        updateScoreText(label, score, 0);
       } else {
         selectedScore = (selectedStarIdx + 1) * 2;
-        stars.forEach((s, j) => {
-          s.setAttribute(
-            "src",
-            j <= selectedStarIdx
-              ? "./images/star_filled.png"
-              : "./images/star_empty.png"
-          );
-        });
-        label.textContent = SCORE_AND_LABEL[selectedScore];
-        score.textContent = `(${selectedScore}/10)`;
+        updateStars(stars, selectedStarIdx);
+        updateScoreText(label, score, selectedScore);
       }
     });
+
     star.addEventListener("click", () => {
       currentScore = (i + 1) * 2;
       selectedStarIdx = i;
-
-      stars.forEach((s, j) => {
-        s.setAttribute(
-          "src",
-          j <= i ? "./images/star_filled.png" : "./images/star_empty.png"
-        );
-      });
-
-      label.textContent = SCORE_AND_LABEL[currentScore];
-      score.textContent = `(${currentScore}/10)`;
-
+      updateStars(stars, i);
+      updateScoreText(label, score, currentScore);
       saveUserRating(movie.id, currentScore);
     });
+
+    const updateStars = (stars: HTMLElement[], fillUntil: number) => {
+      stars.forEach((s, i) => {
+        const src =
+          i <= fillUntil
+            ? "./images/star_filled.png"
+            : "./images/star_empty.png";
+        s.setAttribute("src", src);
+      });
+    };
+
+    const updateScoreText = (
+      label: HTMLElement,
+      score: HTMLElement,
+      value: number
+    ) => {
+      label.textContent = SCORE_AND_LABEL[value];
+      score.textContent = `(${value}/10)`;
+    };
   });
 
   return myRating;

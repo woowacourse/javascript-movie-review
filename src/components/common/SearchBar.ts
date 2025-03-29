@@ -1,7 +1,7 @@
+import NoSearchResults from "../movie/NoSearchResults.ts";
 import { fetchSearchMovieList } from "../../utils/api.ts";
 import { $ } from "../../utils/dom.ts";
 import { loadMovies } from "../../utils/loadMovies.ts";
-import NoSearchResults from "../movie/NoSearchResults.ts";
 import { movieState } from "../../state/movieState.ts";
 
 const SearchBar = () => {

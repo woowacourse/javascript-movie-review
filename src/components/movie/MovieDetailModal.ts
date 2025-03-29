@@ -1,8 +1,8 @@
+import Rate from "../common/Rate.ts";
+import MyRating from "./MyRating.ts";
 import { createElement } from "../../utils/createElement.ts";
 import { MovieDetail } from "../../../types/movie.ts";
-import Rate from "../common/Rate.ts";
 import { $ } from "../../utils/dom.ts";
-import MyRating from "./MyRating.ts";
 
 const MovieDetailModal = (movie: MovieDetail): HTMLElement => {
   const modalDetailModal = createElement(/*html*/ `

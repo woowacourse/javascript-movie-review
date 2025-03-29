@@ -1,6 +1,6 @@
+import Rate from "../common/Rate.ts";
 import { createElement } from "../../utils/createElement.ts";
 import { $ } from "../../utils/dom.ts";
-import Rate from "../common/Rate.ts";
 
 type MovieItem = {
   src: string;

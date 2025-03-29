@@ -1,10 +1,10 @@
+import Button from "../common/Button.ts";
+import Rate from "../common/Rate.ts";
+import SearchBar from "../common/SearchBar.ts";
 import { Movie } from "../../../types/movie";
 import { createElement } from "../../utils/createElement.ts";
 import { $ } from "../../utils/dom.ts";
 import { showMovieDetailInfo } from "../../utils/loadMovies.ts";
-import Button from "../common/Button.ts";
-import Rate from "../common/Rate.ts";
-import SearchBar from "../common/SearchBar.ts";
 
 type HeaderProps = {
   title: string;
