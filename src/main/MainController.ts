@@ -6,27 +6,30 @@ import BackgroundThumbnailController from "../controller/BackgroundThumbnailCont
 import MovieResults from "../domain/MovieResults";
 import DetailModalController from "../controller/DetailModalController";
 import StorageMovieResults from "../domain/StorageMovieResults";
+import MovieItemOpenHandler from "../event/MovieItemOpenHandler";
 
 class MainController {
-  movieResults;
-  StorageMovieResults;
   mainElement;
-  messageModalController;
-  movieListController;
-  backgroundThumbnailController;
-  detailModalController;
-  searchMovieListController;
+  movieResults;
+  storageMovieResults;
+
+  messageModalController!: MessageModalController;
+  movieListController!: MovieListController;
+  backgroundThumbnailController!: BackgroundThumbnailController;
+  detailModalController!: DetailModalController;
+  searchMovieListController!: SearchMovieListController;
 
   constructor() {
-    this.movieResults = new MovieResults();
-    this.StorageMovieResults = new StorageMovieResults();
-
     this.mainElement = document.querySelector("main") as HTMLElement;
+    this.movieResults = new MovieResults();
+    this.storageMovieResults = new StorageMovieResults();
+  }
 
+  initController() {
     this.messageModalController = new MessageModalController(this.mainElement);
     this.detailModalController = new DetailModalController({
       mainElement: this.mainElement,
-      updateStarScore: (id, score) => this.StorageMovieResults.updateStarScore(id, score),
+      updateStarScore: (id, score) => this.storageMovieResults.updateStarScore(id, score),
     });
 
     this.movieListController = new MovieListController({
@@ -48,23 +51,16 @@ class MainController {
   }
 
   async render() {
+    this.initController();
     await this.movieListController.render();
     await this.backgroundThumbnailController.render(this.movieResults.getFirstMovieItem());
-    this.bindEvents();
+
+    MovieItemOpenHandler(this.mainElement, this.openDetailModal);
   }
 
   async openDetailModal(id: number) {
-    const movieItem = await this.StorageMovieResults.getDetailMovieResultById(id);
+    const movieItem = await this.storageMovieResults.getDetailMovieResultById(id);
     this.detailModalController.changeContent(movieItem);
-  }
-
-  bindEvents() {
-    this.mainElement.addEventListener("click", (event) => {
-      const target = event.target as HTMLElement;
-      const item = target.closest("div.item");
-
-      if (item) this.openDetailModal(Number(item.id));
-    });
   }
 }
 
