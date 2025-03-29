@@ -1,6 +1,11 @@
 import { toggleVisibility } from "../../utils/Render";
 import setPageScroll from "../../utils/setPageScroll";
-import { $modal, $modalCloseButton, $modalContainer } from "./Element";
+import {
+  $modal,
+  $modalBackground,
+  $modalCloseButton,
+  $modalContainer,
+} from "./Element";
 
 const escapeEventListener = (e: KeyboardEvent) => {
   const targetKey = e.key;
@@ -10,8 +15,8 @@ const escapeEventListener = (e: KeyboardEvent) => {
 
 const Modal = {
   init() {
-    $modal.addEventListener("click", (e) => {
-      if (e.target === $modal) this.hidden();
+    $modalBackground.addEventListener("click", (e) => {
+      if (e.target === $modalBackground) this.hidden();
     });
     $modalCloseButton.addEventListener("click", () => this.hidden());
   },
@@ -26,15 +31,19 @@ const Modal = {
   },
 
   show() {
-    toggleVisibility($modal, "show");
+    toggleVisibility($modalBackground, "show");
     setPageScroll(false);
     addEventListener("keydown", escapeEventListener);
+    console.log(window);
+    if (window.innerWidth < 1024)
+      $modal.style.animation = "modal-up 0.5s forwards";
   },
 
   hidden() {
-    toggleVisibility($modal, "hidden");
+    toggleVisibility($modalBackground, "hidden");
     setPageScroll(true);
     removeEventListener("keydown", escapeEventListener);
+    if (window.innerWidth < 1024) $modal.style.animation = "none";
   },
 };
 

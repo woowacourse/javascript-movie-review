@@ -119,6 +119,16 @@ body.modal-open {
   cursor: pointer;
 }
 
+@keyframes modal-up {
+  0% {
+    transform: translateY(100%);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
 @media screen and (max-width: 1023px) {
   .modal {
     width: 100vw;
