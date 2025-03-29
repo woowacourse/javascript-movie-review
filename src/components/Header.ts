@@ -1,17 +1,20 @@
-import { getMovies } from '@/apis';
+import { getMovies, MovieApiClient } from '@/apis';
 import { DEFAULT_BACK_DROP_URL } from '@/constants';
 import { eventHandlerInstance } from '@/modules';
-import { moviesStore, pageStore, searchStore } from '@/store';
+import { movieDetailResponseStore, moviesStore, pageStore, searchStore, serverStore } from '@/store';
 import { html, isHTMLFormElement } from '@/utils';
 import Component from './core/Component';
+import { MovieType } from '@/types';
 
 export default class Header extends Component {
+  firstMovie: MovieType | undefined = undefined;
+
   override setup() {
     this.subsribe([moviesStore, searchStore]);
   }
 
   override template() {
-    const firstMovie = moviesStore.getState()?.at(0);
+    this.firstMovie = moviesStore.getState()?.at(0);
     const search = searchStore.getState();
 
     return html`
@@ -34,14 +37,14 @@ export default class Header extends Component {
             </button>
           </form>
         </div>
-        ${firstMovie && !search
+        ${this.firstMovie && !search
           ? `
           <div class="top-rated-container">
             <div class="rate">
               <img src="./images/star_empty.png" class="star" />
-              <span class="rate-value">${firstMovie.vote_average}</span>
+              <span class="rate-value">${this.firstMovie.vote_average}</span>
             </div>
-            <div class="title">${firstMovie.title}</div>
+            <div class="title">${this.firstMovie.title}</div>
             <button class="primary" data-action="show-detail">자세히 보기</button>
           </div>
           `
@@ -75,10 +78,26 @@ export default class Header extends Component {
     eventHandlerInstance.addEventListener({
       eventType: 'click',
       callback: () => {
-        getMovies({ page: 1 });
         moviesStore.reset();
+        getMovies({ page: 1 });
       },
       dataAction: 'reset',
+    });
+
+    eventHandlerInstance.addEventListener({
+      eventType: 'click',
+      callback: async () => {
+        const id = this.firstMovie?.id;
+
+        if (!id) return;
+
+        const movieDetailResponse = await serverStore.query({
+          queryFn: () => MovieApiClient.getDetail({ id }),
+          queryKey: ['movie-detail', id],
+        });
+        movieDetailResponseStore.setState(movieDetailResponse);
+      },
+      dataAction: 'show-detail',
     });
   }
 
