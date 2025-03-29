@@ -45,7 +45,6 @@ button.primary {
 }
 
 #wrap {
-  min-width: 1440px;
   background-color: var(--color-bluegray-100);
 }
 
@@ -96,7 +95,7 @@ button.primary {
 }
 
 .top-rated-movie {
-  margin-top: 64px;
+  padding: 142px 304px 63px 90px;
 }
 
 .top-rated-movie > button {

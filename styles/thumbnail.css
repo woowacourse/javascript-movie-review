@@ -1,10 +1,10 @@
 @import './colors.css';
 
 .thumbnail-list {
-  margin: 0 auto 56px;
   display: grid;
-  grid-template-columns: repeat(5, 200px);
-  gap: 70px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+  justify-items: center;
 }
 
 .skeleton-list {

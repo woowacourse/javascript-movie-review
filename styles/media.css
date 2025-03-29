@@ -1,0 +1,19 @@
+@media (max-width: 1024px) {
+  .thumbnail-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    justify-content: center;
+    gap: 70px;
+  }
+
+  .background-container {
+    height: auto;
+  }
+}
+@media (max-width: 768px) {
+  .thumbnail-list {
+    justify-content: center;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 70px;
+  }
+}
