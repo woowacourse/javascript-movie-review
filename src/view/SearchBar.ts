@@ -1,5 +1,6 @@
 import getSearchMovies from '../api/getSearchMovies';
 import createDOMElement from '../util/createDomElement';
+import { $ } from '../util/selector';
 import { removeBanner } from './render/renderBanner';
 import { renderMovieList } from './render/renderMovieList';
 import { hideSkeletons, movieListSkeletons } from './render/skeleton/movieListSkeletons';
@@ -31,21 +32,24 @@ function SearchBar() {
 const handleSearchMovies = async (e: Event) => {
   e.preventDefault();
   removeBanner();
+  const movieList = $('.thumbnail-list');
+  movieList?.replaceChildren();
 
   movieListSkeletons();
 
-  const form = e.target as HTMLFormElement;
-  const data = new FormData(form);
+  const form = $('#searchForm') as HTMLFormElement;
+  if (form) {
+    const keyword = form.keyword.value;
+    const params = {
+      page: '1',
+      language: 'ko-KR',
+      include_adult: 'false',
+      query: keyword
+    };
 
-  const params = {
-    page: '1',
-    language: 'ko-KR',
-    include_adult: 'false',
-    query: String(data.get('keyword'))
-  };
-
-  const response = await getSearchMovies(params);
-  renderMovieList(response, String(data.get('keyword')));
+    const response = await getSearchMovies(params);
+    renderMovieList(response, keyword);
+  }
 
   hideSkeletons();
 };

@@ -21,7 +21,6 @@ const requestAppClient = async <T>(method: HttpMethod, query: string, params: T)
     if (!response.ok) {
       httpErrorStatus(response.status);
     }
-
     const data = transformKeysToCamel(await response.json());
 
     return data;
