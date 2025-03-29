@@ -46,6 +46,13 @@
   .title-category {
     align-items: center;
   }
+
+  .skeleton-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    justify-content: center;
+    gap: 70px;
+  }
 }
 @media (max-width: 768px) {
   .thumbnail-list {

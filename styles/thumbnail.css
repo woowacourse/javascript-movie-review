@@ -10,8 +10,11 @@
 .skeleton-list {
   margin: 0 auto 56px;
   display: grid;
-  grid-template-columns: repeat(5, 200px);
+  grid-template-columns: repeat(4, 1fr);
   gap: 70px;
+}
+.skeleton {
+  width: 200px;
 }
 .thumbnail {
   width: 200px;
