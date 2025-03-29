@@ -1,19 +1,17 @@
-import { DEFAULT_BACK_DROP_URL } from '@/constants';
-
+import { MovieApiClient } from '@/apis';
+import { errorMessage, eventHandlerInstance } from '@/modules';
 import { movieDetailResponseStore, moviesStore, serverStore } from '@/store';
 import { html } from '@/utils';
 import { forEach } from '@fxts/core';
 import { MOVIE_ITEM_PER_PAGE } from '../constants';
 import Component from './core/Component';
-import { eventHandlerInstance } from '@/modules';
-import { MovieApiClient } from '@/apis';
-import { errorMessage } from '@/modules';
+import Movie from './Movie';
 
 export default class Movies extends Component {
   override template() {
     const movies = moviesStore.getState();
 
-    if (!movies)
+    if (movies === null)
       return html`
         <ul class="thumbnail-list">
           ${new Array(MOVIE_ITEM_PER_PAGE).fill(null).map(
@@ -28,6 +26,7 @@ export default class Movies extends Component {
           )}
         </ul>
       `;
+
     if (movies.length === 0)
       return html`
         <div class="result-not-found">
@@ -40,37 +39,16 @@ export default class Movies extends Component {
           </div>
         </div>
       `;
+
     return html`
       <ul class="thumbnail-list">
-        ${movies.map((movie) => {
-          const backgroundImage = movie.backdrop_path
-            ? `${DEFAULT_BACK_DROP_URL}/${movie.backdrop_path}`
-            : './images/default_thumbnail.jpeg';
-          return `
-              <li class="item" data-action="movie-detail" data-id="${movie.id}">
-                <div class="skeleton">
-                  <img
-                    class="thumbnail picture"
-                    alt="${movie.title}"
-                    data-src="${backgroundImage}"
-                    src="${backgroundImage}"
-                  />
-                </div>
-                <div class="item-desc">
-                  <p class="rate yellow">
-                    <img src="./images/star_empty.png" class="star" />
-                    <span>${movie.vote_average.toFixed(1)}</span>
-                  </p>
-                  <strong>${movie.title}</strong>
-                </div>
-              </li>
-          `;
-        })}
+        <slot name="thumbnail-list"></slot>
+        ${movies.map((movie) => new Movie(movie).template())}
       </ul>
     `;
   }
 
-  override onRender() {
+  override addEventListener() {
     forEach(
       (thumbnail) => (thumbnail as HTMLElement).addEventListener('load', () => thumbnail.classList.remove('picture')),
       this.element.querySelectorAll('img.thumbnail'),
