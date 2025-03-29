@@ -23,31 +23,27 @@ export default class MovieListHandler {
   }
 
   private updateMovieList(
-    moviesData: APIResponse<MovieResponse>,
+    movieData: {
+      movies: Movie[];
+      page: number;
+      totalPages: number;
+    },
     query?: string,
   ) {
     if (this.movieList && this.movieList.boundHandleScroll) {
       window.removeEventListener('scroll', this.movieList.boundHandleScroll);
     }
-
     MovieList.removeMovieList();
 
     this.movieList = new MovieList(
       '.thumbnail-list',
-      moviesData.results.map(
-        movie =>
-          new Movie({
-            id: movie.id,
-            title: movie.title,
-            posterPath: movie.poster_path || '',
-            voteAverage: movie.vote_average,
-          }),
-      ),
-      moviesData.page,
-      moviesData.total_pages,
+      movieData.movies,
+      movieData.page,
+      movieData.totalPages,
       this.movieService,
       this,
     );
+
     if (query) {
       this.movieList.lastQuery = query;
     }
@@ -83,7 +79,11 @@ export default class MovieListHandler {
       actualQuery = this.movieList.lastQuery;
     }
 
-    let newMoviesData: APIResponse<MovieResponse>;
+    let newMoviesData: {
+      movies: Movie[];
+      page: number;
+      totalPages: number;
+    };
     if (store.getMode() === 'popularAdd') {
       console.log(`인기 영화 로드: 페이지 ${pageNumber}`);
       newMoviesData = await this.movieService.getPopularResults(pageNumber);
@@ -99,13 +99,7 @@ export default class MovieListHandler {
       .querySelectorAll('.skeleton-card')
       .forEach((skeleton: HTMLElement) => skeleton.remove());
 
-    newMoviesData.results.forEach(movieData => {
-      const movie = new Movie({
-        id: movieData.id,
-        title: movieData.title,
-        posterPath: movieData.poster_path || '',
-        voteAverage: movieData.vote_average,
-      });
+    newMoviesData.movies.forEach(movie => {
       const movieCard = new MovieCard(movie);
       this.movieList?.container.appendChild(movieCard.render());
     });

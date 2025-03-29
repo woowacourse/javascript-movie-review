@@ -12,11 +12,34 @@ export default class MovieService {
     this.api = tmdbApi;
   }
 
-  async getPopularResults(
-    page: number = 1,
-  ): Promise<APIResponse<MovieResponse>> {
+  private convertToMovies(moviesData: APIResponse<MovieResponse>): {
+    movies: Movie[];
+    page: number;
+    totalPages: number;
+  } {
+    return {
+      movies: moviesData.results.map(
+        movie =>
+          new Movie({
+            id: movie.id,
+            title: movie.title,
+            posterPath: movie.poster_path || '',
+            voteAverage: movie.vote_average,
+          }),
+      ),
+      page: moviesData.page,
+      totalPages: moviesData.total_pages,
+    };
+  }
+
+  async getPopularResults(page: number = 1): Promise<{
+    movies: Movie[];
+    page: number;
+    totalPages: number;
+  }> {
     try {
-      return await this.api.popularMovies(page);
+      const response = await this.api.popularMovies(page);
+      return this.convertToMovies(response);
     } catch (error) {
       console.error('영화 목록 가져오기 실패:', error);
       let errorMessage = '영화 목록 가져오기 실패';
@@ -33,9 +56,14 @@ export default class MovieService {
   async searchMovies(
     query?: string,
     page: number = 1,
-  ): Promise<APIResponse<MovieResponse>> {
+  ): Promise<{
+    movies: Movie[];
+    page: number;
+    totalPages: number;
+  }> {
     try {
-      return await this.api.searchMovies(query, page);
+      const response = await this.api.searchMovies(query, page);
+      return this.convertToMovies(response);
     } catch (error) {
       console.error('영화 검색 실패', error);
       let errorMessage = '영화 검색 실패';
