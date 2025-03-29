@@ -81,21 +81,9 @@ const app = async () => {
     logo.appendChild(searchBar.create());
     mainSection.appendChild(skeletonUl.create());
 
-    const getSearchResults = async (
-      query: string,
-      currentItemCount: number
-    ) => {
-      return await fetchMovies({
-        currentItemCount,
-        apiFetcher: (page, query) =>
-          movieService.searchMovies(page, query ?? ""),
-        query,
-      });
-    };
+    searchBar.setEvent();
 
-    searchBar.setEvent(getSearchResults);
-
-    const scrollRenderer = new ScrollRenderer();
+    const scrollRenderer = ScrollRenderer.getInstance();
     const movieData = await fetchMovies({ apiFetcher: movieService.getMovies });
     const movieList = createMovieList(movieData);
 

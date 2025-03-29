@@ -4,10 +4,11 @@ import { selectElement } from "./ui.ts";
 class ScrollRenderer {
   static #instance: ScrollRenderer;
 
-  getInstance(): ScrollRenderer {
+  static getInstance(): ScrollRenderer {
     if (!ScrollRenderer.#instance) {
       ScrollRenderer.#instance = new ScrollRenderer();
     }
+
     return ScrollRenderer.#instance;
   }
 
@@ -22,7 +23,7 @@ class ScrollRenderer {
     return (entries, observer) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          fetch(movieList, observer, this.getInstance());
+          fetch(movieList, observer, ScrollRenderer.getInstance());
           observer.unobserve(entry.target);
         }
       });

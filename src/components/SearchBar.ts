@@ -1,6 +1,8 @@
 import { Movie } from "../../types/domain.ts";
-import { selectElement } from "../utils/ui.ts";
-import MovieItem from "./MovieItem";
+import movieService from "../service/movieService.ts";
+import ScrollRenderer from "../utils/scrollRenderer.ts";
+import { fetchMovies, selectElement } from "../utils/ui.ts";
+import MovieItem from "./MovieItem.ts";
 import MovieList from "./MovieList.ts";
 
 class SearchBar {
@@ -27,10 +29,39 @@ class SearchBar {
       currentItemCount: number
     ) => Promise<Movie[]>
   ) {
-    const currentItemCount = movieList.getTotalItems();
-    const newMovieData = await getSearchResults(this.#query, currentItemCount);
+    const totalItems = movieList.getTotalItems();
+    const newMovieData = await getSearchResults(this.#query, totalItems);
+    const movieItems = this.#createResultMovieItems(newMovieData);
+    movieList.updateList(movieItems);
 
-    this.#renderMovieList(newMovieData, movieList);
+    const scrollRenderer = ScrollRenderer.getInstance();
+    const updateList = this.#updateMovieList.bind(this);
+    const lastMovieItemObserver = new IntersectionObserver(
+      scrollRenderer.createObserverCallback(updateList, movieList),
+      { threshold: 1 }
+    );
+
+    const targetElement = selectElement<HTMLLIElement>(
+      "ul.thumbnail-list > li:last-child"
+    );
+
+    lastMovieItemObserver.observe(targetElement);
+  }
+
+  async #updateMovieList(
+    movieList: MovieList,
+    observer: IntersectionObserver,
+    scrollRenderer: ScrollRenderer
+  ) {
+    const totalItems = movieList.getTotalItems();
+    const newMovieData = await this.#getSearchResults(this.#query, totalItems);
+    const movieItems = this.#createResultMovieItems(newMovieData);
+    movieList.updateList(movieItems);
+
+    scrollRenderer.setNewObservingTarget(
+      observer,
+      "ul.thumbnail-list > li:last-child"
+    );
   }
 
   async #onSearchTriggerBar(
@@ -49,17 +80,13 @@ class SearchBar {
     await this.#onSearch(movieList, getSearchResults);
   }
 
-  async setEvent(
-    getSearchResults: (
-      query: string,
-      currentItemCount: number
-    ) => Promise<Movie[]>
-  ) {
+  async setEvent() {
     const searchBar = selectElement<HTMLInputElement>(".search-bar");
     const searchButton = selectElement<HTMLImageElement>("#search");
+    const apiFetcher = this.#getSearchResults.bind(this);
 
     searchButton.onclick = () => {
-      this.#onSearchTriggerBar(getSearchResults);
+      this.#onSearchTriggerBar(apiFetcher);
     };
 
     const handleEnterKeyDown = async (event: KeyboardEvent) => {
@@ -68,7 +95,7 @@ class SearchBar {
       }
 
       if (event.key === "Enter") {
-        this.#onSearchTriggerBar(getSearchResults);
+        this.#onSearchTriggerBar(apiFetcher);
         searchBar.blur();
       }
     };
@@ -114,13 +141,24 @@ class SearchBar {
     backgroundContainer.style.height = "auto";
   }
 
-  #renderMovieList(movies: Movie[], movieList: MovieList) {
-    const movieItems = movies.map(({ id, title, posterPath, voteAverage }) => {
+  #createResultMovieItems(movies: Movie[]): string[] {
+    return movies.map(({ id, title, posterPath, voteAverage }) => {
       const movieItem = new MovieItem({ id, title, voteAverage, posterPath });
       return movieItem.create();
     });
+  }
 
-    movieList.updateList(movieItems);
+  #createResultMovieList(movies: Movie[]) {
+    const movieItems = this.#createResultMovieItems(movies);
+    return new MovieList(movieItems);
+  }
+
+  async #getSearchResults(query: string, currentItemCount: number) {
+    return await fetchMovies({
+      currentItemCount,
+      apiFetcher: (page, query) => movieService.searchMovies(page, query ?? ""),
+      query,
+    });
   }
 }
 
