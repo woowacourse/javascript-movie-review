@@ -38,15 +38,16 @@ class MovieList {
   onMovieClick(getDetail: (id: number) => Promise<MovieDetails>, modal: Modal) {
     const handleMovieClick = async (event: MouseEvent) => {
       const target = event.target as HTMLElement;
-      if (!target.closest("ul.thumbnail-list")) {
+      if (!target.closest("ul.thumbnail-list > li")) {
         return;
       }
 
-      const movieContainer = target.closest("li.item") as HTMLLIElement;
+      const movieContainer = target.closest(
+        "ul.thumbnail-list > li"
+      ) as HTMLLIElement;
       const id = Number(movieContainer.dataset.id);
 
       const details = await getDetail(id);
-
       const modalDetails = new MovieItemDetails(details).create();
       modal.open(modalDetails);
     };
