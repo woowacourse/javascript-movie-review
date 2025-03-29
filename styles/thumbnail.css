@@ -5,6 +5,7 @@
   display: grid;
   grid-template-columns: repeat(5, 200px);
   gap: 70px;
+  min-height: 460px;
 }
 
 .thumbnail {

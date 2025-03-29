@@ -57,6 +57,9 @@ dialog[open] {
 
 .modal-image {
   width: 500px;
+  background-color: #f4f4f4;
+  border-radius: 16px;
+  overflow: hidden;
 }
 
 .modal-image img {
@@ -214,7 +217,7 @@ dialog[open] {
     overflow: hidden;
     white-space: nowrap;
   }
-  p.rate {
+  .modal-description > p.rate {
     justify-content: center;
   }
   .rate-score {
