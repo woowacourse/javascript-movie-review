@@ -64,6 +64,30 @@ body.modal-open {
   line-height: 1.6rem;
 }
 
+.rate {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.rate__title {
+  color: var(--color-ffffff);
+}
+
+.rate__bar {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.rate__bar > img {
+  width: 16px;
+}
+
+.rate__bar > span {
+  margin-top: 2px;
+}
+
 .modal-description .rate > img {
   position: relative;
   top: 5px;
@@ -78,7 +102,35 @@ body.modal-open {
   margin: 0 0 8px;
 }
 
+.score {
+  display: flex;
+  flex-direction: column;
+}
+
+.score h3 {
+  font-size: 1.2rem;
+  margin: 4px 0 12px 0;
+}
+
+.score__container {
+  display: flex;
+  gap: 20px;
+}
+
+.score__description {
+  font-size: 1.1rem;
+}
+
+.score__description--score {
+  color: var(--color-bluegray-30);
+}
+
 .detail {
   max-height: 430px;
   overflow-y: auto;
+}
+
+.detail h3 {
+  font-size: 1.2rem;
+  margin: 4px 0 12px 0;
 }

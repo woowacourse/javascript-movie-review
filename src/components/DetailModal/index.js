@@ -22,15 +22,35 @@ export function DetailModalRender(movie) {
     movie.genres ? movie.genres.map((g) => g.name).join(", ") : ""
   }
             </p>
-            <p class="rate">
-              <img src="./images/star_filled.png" class="star" /><span>${
-                movie.vote_average
-              }</span>
-            </p>
+            <div class="rate">
+              <span class="rate__title">평균</span>
+              <div class="rate__bar">
+                <img src="./images/star_filled.png" class="star" />
+                <span>${movie.vote_average}</span>
+              </div>
+            </div>
             <hr />
-            <p class="detail">
-              ${movie.overview}
-            </p>
+            <div class="score">
+              <h3 >내 별점</h3>
+              <div class="score__container">
+                <div class="score__stars">
+                  <img src="./images/star_filled.png" class="star" />
+                  <img src="./images/star_filled.png" class="star" />
+                  <img src="./images/star_filled.png" class="star" />
+                  <img src="./images/star_filled.png" class="star" />
+                  <img src="./images/star_empty.png" class="star" />
+                </div>
+                <div class="score__description">
+                  <span class="score__description--text">명작이예요</span>
+                  <span class="score__description--score">(8/10)</span>
+                </div>
+              </div>
+              <div>  
+              <hr/>
+              <div class="detail">
+                <h3>줄거리</h3>
+                ${movie.overview}
+              </div>
           </div>
         </div>
       </div>
