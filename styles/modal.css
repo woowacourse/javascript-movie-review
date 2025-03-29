@@ -55,27 +55,70 @@ body.modal-open {
 }
 
 .modal-image img {
-  width: 380px;
+  width: 500px;
   border-radius: 16px;
 }
 
 .modal-description {
   width: 100%;
   padding: 8px;
-  margin-left: 16px;
   line-height: 1.6rem;
 }
 
-.modal-description .rate > img {
-  position: relative;
-  top: 5px;
+.modal-description .average {
+  display: flex;
+  font-size: 20px;
 }
 
-.modal-description > *:not(:last-child) {
-  margin-bottom: 8px;
+.modal-description .average-rate {
+  display: flex;
+  gap: 16px;
 }
 
 .modal-description h2 {
-  font-size: 2rem;
-  margin: 0 0 8px;
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.detail-modal {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  padding: 24px;
+  color: white;
+}
+
+.modal-image img {
+  border-radius: 12px;
+  width: 300px;
+}
+
+.modal-description {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 12px;
+  max-width: 500px;
+}
+
+.modal-description .rate {
+  display: flex;
+  gap: 4px;
+
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.modal-description .rate img.star {
+  width: 20px;
+}
+
+.modal-description .detail {
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+.modal-description .category {
+  color: var(--color-white);
+  font-size: 20px;
 }

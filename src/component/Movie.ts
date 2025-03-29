@@ -1,6 +1,9 @@
 import createDOMElement from '../util/createDomElement';
 import { IMAGE_BASE_URL } from '../constant';
 import { IMovie } from '../type';
+import Modal from './Modal/Modal';
+import DetailModal from './Modal/DetailModal';
+import getMovieDetail from '../api/getMovieDetail';
 
 const DEFAULT_IMAGE_URL = 'https://placehold.co/200x300?text=No+Image';
 
@@ -46,8 +49,14 @@ function Movie({ movie }: { movie: IMovie }) {
           })
         ]
       })
-    ]
+    ],
+    event: { click: () => handleMovieClick(movie.id) }
   });
 }
+
+const handleMovieClick = async (movieId: number) => {
+  const response = await getMovieDetail({ movieId });
+  Modal.open(DetailModal(response));
+};
 
 export default Movie;

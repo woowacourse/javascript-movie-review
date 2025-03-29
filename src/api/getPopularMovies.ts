@@ -3,7 +3,7 @@ import ApiClient from './ApiClient';
 
 export const getPopularMovies = async ({ page }: { page: number }): Promise<Response> => {
   const params = new URLSearchParams({
-    language: 'en-US',
+    language: 'ko-KR',
     page: page.toString()
   });
 
