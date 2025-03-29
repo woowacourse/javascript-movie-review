@@ -14,9 +14,10 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, 200px);
   justify-content: space-between;
-  width: 1280px;
+  width: 100%;
   gap: 50px;
   margin: 0 auto;
+  padding: 0 3rem;
 
   @media screen and (max-width: 768px) {
     justify-content: center;
