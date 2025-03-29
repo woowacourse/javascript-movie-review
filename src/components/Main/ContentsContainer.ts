@@ -20,18 +20,9 @@ export async function ContentsContainer(
   const $movieList = movieList.renderMovieList();
   $section?.appendChild($movieList);
   const $thumbnails = document.querySelectorAll(".thumbnail");
-
   $thumbnails.forEach(($thumbnail) => {
     $thumbnail.addEventListener("click", async () => {
-      const id = ($thumbnail as HTMLElement).dataset.id;
-      if (id) {
-        const movieService = new MovieService();
-        const movieDetails = await movieService.getMovieDetails(Number(id));
-        const event = new CustomEvent("modalOpenClicked", {
-          detail: movieDetails,
-        });
-        document.dispatchEvent(event);
-      }
+      await handleThumbnailClick($thumbnail as HTMLElement);
     });
   });
   hideSkeleton();
@@ -51,6 +42,7 @@ export async function ContentsContainer(
   }
 }
 
+// 무한 스크롤 시 추가 데이터 로드
 export async function handleAdditionalData(
   movieService: MovieService,
   contentTitle: string,
@@ -83,4 +75,24 @@ export async function handleAdditionalData(
   const movieList = new MovieList(additionalData.results);
   const $movieList = movieList.renderMovieList();
   $section?.appendChild($movieList);
+
+  const $newThumbnails = $movieList.querySelectorAll(".thumbnail");
+  $newThumbnails.forEach(($thumbnail) => {
+    $thumbnail.addEventListener("click", async () => {
+      await handleThumbnailClick($thumbnail as HTMLElement);
+    });
+  });
+}
+
+// 썸네일 클릭 시 모달 이벤트
+async function handleThumbnailClick(thumbnailElement: HTMLElement) {
+  const id = thumbnailElement.dataset.id;
+  if (id) {
+    const movieService = new MovieService();
+    const movieDetails = await movieService.getMovieDetails(Number(id));
+    const event = new CustomEvent("modalOpenClicked", {
+      detail: movieDetails,
+    });
+    document.dispatchEvent(event);
+  }
 }
