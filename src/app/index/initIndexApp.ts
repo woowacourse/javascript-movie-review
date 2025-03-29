@@ -1,27 +1,36 @@
 import mountHeader from "../mount/mountHeader";
 import mountMovieItemList from "../mount/mountMovieItemList";
-import mountLoadMoreButton from "../mount/mountLoadMoreButton";
 import { URLS } from "../../setting/settings";
 import MovieItemList from "../../components/movieItemList/movieItemList";
-import LoadMoreButton from "../../components/longButton/longButton";
 import mountHero from "../mount/mountHero";
 import type { MovieItemListInstance } from "../../../types/components";
 import { hideSkeleton, showSkeleton } from "../../service/skeleton";
-import { hideElement } from "../../view/InputView";
 import { $ } from "../../util/querySelector";
 import createMovieLoader from "../../service/createMovieLoader";
 
 const movieItemList: MovieItemListInstance = MovieItemList();
+let observer: IntersectionObserver;
 
 export async function initIndexApp() {
   const loader = createMovieLoader(URLS.popularMovieUrl);
-  const $loadMoreButton = LoadMoreButton({
-    text: "더보기",
-    onClick: () => loadAndDisplayMovies({ loader }),
+
+  mountIndexPageUI();
+  await loadAndDisplayMovies({ loader });
+
+  registerObserver({ loader });
+}
+
+function registerObserver({ loader }: any) {
+  observer = new IntersectionObserver(async ([entry]) => {
+    if (entry.isIntersecting) {
+      await loadAndDisplayMovies({ loader });
+    }
   });
 
-  mountIndexPageUI($loadMoreButton);
-  await loadAndDisplayMovies({ loader });
+  const sentinel = $("#sentinel");
+  if (sentinel) {
+    observer.observe(sentinel);
+  }
 }
 
 async function loadAndDisplayMovies({ loader }: any) {
@@ -29,13 +38,17 @@ async function loadAndDisplayMovies({ loader }: any) {
   const { results, isLastPage } = await loader();
   hideSkeleton();
 
-  if (isLastPage) hideElement($("#load-more"));
+  if (isLastPage && observer) {
+    const sentinel = $("#sentinel");
+    if (sentinel) observer.unobserve(sentinel);
+    observer.disconnect();
+  }
+
   movieItemList.render(results);
 }
 
-function mountIndexPageUI($loadMoreButton: HTMLButtonElement) {
+function mountIndexPageUI() {
   mountHeader();
   mountHero();
   mountMovieItemList(movieItemList);
-  mountLoadMoreButton($loadMoreButton);
 }
