@@ -1,6 +1,6 @@
 import { MovieDetails } from "../../types/domain.ts";
 import { VOTE } from "../constants/movie.ts";
-import { selectElement } from "../utils/dom.ts";
+import { selectElement, selectElementAll } from "../utils/dom.ts";
 
 class MovieItemDetails {
   #details;
@@ -15,6 +15,7 @@ class MovieItemDetails {
     this.#createContainer();
     this.#createPoster();
     this.#createDescription();
+    this.onRateBoxClick();
 
     this.#element.classList.add("modal-container");
     return this.#element;
@@ -75,7 +76,7 @@ class MovieItemDetails {
     rate.textContent = "평균";
 
     const rateContents = /*html*/ `
-      <img src="./images/star_filled.png" class="star" />
+      <img src="${VOTE.filledStarImage}" class="star" />
       <span>${this.#details.voteAverage}</span>
     `;
 
@@ -101,7 +102,9 @@ class MovieItemDetails {
     const starMarks = Array.from({ length: VOTE.maximumIconCount })
       .map((_, index) => {
         return /*html*/ `
-          <img src="./images/star_empty.png" class="star-mark" id="star-mark-${index}" data-mark="empty"/>
+          <img src="${
+            VOTE.emptyStarImage
+          }" class="star-mark" data-mark-index="${index + 1}"/>
         `;
       })
       .join("");
@@ -118,6 +121,46 @@ class MovieItemDetails {
 
     description.insertAdjacentElement("beforeend", h3);
     description.insertAdjacentHTML("beforeend", votingRate);
+  }
+
+  onRateBoxClick() {
+    const starMarksContainer = selectElement<HTMLDivElement>(
+      ".star-marks-container",
+      this.#element
+    );
+
+    let isVotingActive = false;
+    const handleRateBoxClick = () => {
+      if (!isVotingActive) {
+        starMarksContainer.addEventListener("mouseover", this.#handleRateHover);
+        isVotingActive = true;
+      } else {
+        starMarksContainer.removeEventListener(
+          "mouseover",
+          this.#handleRateHover
+        );
+
+        isVotingActive = false;
+      }
+    };
+
+    starMarksContainer.addEventListener("click", handleRateBoxClick);
+  }
+
+  #handleRateHover(event: MouseEvent) {
+    const target = event.target as HTMLImageElement;
+    if (!target.closest(".star-marks-container")) {
+      return;
+    }
+
+    const starredIndex = Number(target.dataset.markIndex);
+    const stars = selectElementAll<HTMLImageElement>(".star-mark");
+    stars.forEach((star) => {
+      const markIndex = Number(star.dataset.markIndex);
+
+      star.src =
+        markIndex <= starredIndex ? VOTE.filledStarImage : VOTE.emptyStarImage;
+    });
   }
 }
 
