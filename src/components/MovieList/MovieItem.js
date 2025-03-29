@@ -26,21 +26,11 @@ export function MovieItemRender({ id, poster_path, title, vote_average }) {
 
 export function MovieItemMount() {
   const $movieItems = document.querySelectorAll("li[data-movie-id]");
+
   $movieItems.forEach((item) => {
     item.addEventListener("click", async () => {
       const movieId = item.getAttribute("data-movie-id");
-      if (movieId) {
-        try {
-          const movieDetail = await fetchMovieDetail(movieId);
-
-          openDetailModal(movieDetail);
-        } catch (error) {
-          store.setState({
-            ...store.getState(),
-            errorMessage: ERROR_MESSAGES.MOVIE_FETCH_FAILED,
-          });
-        }
-      }
+      openDetailModal(movieId);
     });
   });
 }
