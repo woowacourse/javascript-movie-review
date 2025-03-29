@@ -16,57 +16,6 @@
   box-sizing: border-box;
 }
 
-/* 큰 노트북 화면 (1200px ~ 1400px) */
-@media screen and (max-width: 1400px) {
-  .thumbnail-list {
-    grid-template-columns: repeat(4, minmax(0, 1fr)); /* 4열 그리드 */
-    max-width: 100%;
-    gap: 35px;
-  }
-
-  .thumbnail-title {
-    padding: 0 20px;
-  }
-}
-
-/* 노트북 화면 (992px ~ 1199px) */
-@media screen and (max-width: 1199px) {
-  .thumbnail-list {
-    grid-template-columns: repeat(3, minmax(0, 1fr)); /* 3열 그리드 */
-    max-width: 100%;
-    gap: 30px;
-    padding: 0 20px;
-  }
-
-  .thumbnail-title {
-    padding: 0 20px;
-  }
-}
-
-/* 태블릿 화면 (768px ~ 991px) */
-@media screen and (max-width: 991px) {
-  .thumbnail-list {
-    grid-template-columns: repeat(2, minmax(0, 1fr)); /* 2열 그리드 */
-    max-width: 100%;
-    gap: 25px;
-  }
-}
-
-/* 모바일 화면 (767px 이하) */
-@media screen and (max-width: 767px) {
-  .thumbnail-list {
-    grid-template-columns: minmax(0, 1fr); /* 1열 그리드 */
-    max-width: 100%;
-    gap: 20px;
-    padding: 0 16px;
-  }
-
-  .thumbnail-title {
-    padding: 0 16px;
-    margin-bottom: 20px;
-  }
-}
-
 /* 썸네일 이미지 반응형 처리 */
 .thumbnail {
   width: 100%;
@@ -123,4 +72,60 @@ p.rate > span {
   align-items: center;
   gap: 32px;
   width: 100%;
+}
+
+/* 큰 노트북 화면 (1200px ~ 1400px) */
+@media screen and (max-width: 1400px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(4, minmax(0, 1fr)); /* 4열 그리드 */
+    max-width: 100%;
+    gap: 35px;
+  }
+
+  .thumbnail-title {
+    padding: 0 20px;
+  }
+}
+
+/* 노트북 화면 (992px ~ 1199px) */
+@media screen and (max-width: 1199px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr)); /* 3열 그리드 */
+    max-width: 100%;
+    gap: 30px;
+    padding: 0 20px;
+  }
+
+  .thumbnail-title {
+    padding: 0 20px;
+  }
+}
+
+/* 태블릿 화면 (768px ~ 991px) */
+@media screen and (max-width: 991px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr)); /* 2열 그리드 */
+    max-width: 100%;
+    gap: 25px;
+  }
+}
+
+/* 모바일 화면 (767px 이하) */
+@media screen and (max-width: 767px) {
+  .thumbnail-list {
+    grid-template-columns: minmax(0, 1fr); /* 1열 그리드 */
+    max-width: 100%;
+    gap: 20px;
+    padding: 0 16px;
+  }
+
+  .thumbnail-title {
+    padding: 0 16px;
+    margin-bottom: 20px;
+  }
+
+  .error-message,
+  .thumbnail-title {
+    font-size: 1.5rem !important;
+  }
 }
