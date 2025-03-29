@@ -12,7 +12,7 @@ export const selectElement = <T extends Element>(
 
 export const selectElementAll = <T extends Element>(
   selector: string,
-  ancestor = document
+  ancestor: Document | HTMLElement = document
 ): NodeListOf<T> => {
   const elements = ancestor.querySelectorAll<T>(selector);
   if (!elements) {
