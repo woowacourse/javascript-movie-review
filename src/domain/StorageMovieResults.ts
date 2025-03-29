@@ -1,4 +1,4 @@
-import { getDetailMovieResult } from "../api/getDetailMovieResult";
+import { getDetailMovieResult } from "../api/movie/getDetailMovieResult";
 import { storedMovieItemType } from "../types/movieResultType";
 
 class StorageMovieResults {
