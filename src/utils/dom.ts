@@ -10,15 +10,15 @@ export const isHTMLFormElement = (target: EventTarget | null): target is HTMLFor
 
 export const $ = <
   TElement extends Element = HTMLElement,
-  TSelector extends string = `${keyof HTMLElementTagNameMap | string}` | `${keyof HTMLElementTagNameMap | string}?`,
+  USelector extends string = `${keyof HTMLElementTagNameMap | string}` | `${keyof HTMLElementTagNameMap | string}?`,
 >(
-  selector: TSelector,
+  selector: USelector,
   context: Document | HTMLElement = document,
-): TSelector extends `${string}?` ? TElement | null : TElement => {
+): USelector extends `${string}?` ? TElement | null : TElement => {
   const target = context.querySelector<TElement>(selector.endsWith('?') ? selector.slice(0, -1) : selector);
   if (!target) throw new Error(errorMessage.get('dom-not-found', String(context), selector));
 
-  return target as TElement;
+  return target;
 };
 
 export function html(strings: TemplateStringsArray, ...values: any[]) {
