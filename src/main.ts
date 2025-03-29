@@ -81,7 +81,7 @@ const initializeMovie = async () => {
 const $header = $("header");
 $header?.append(backgroundContainer);
 
-const main = async () => {
+const initializeApp = async () => {
   try {
     await initializeMovie();
     const $searchBar = $("#search-bar-container");
@@ -91,4 +91,4 @@ const main = async () => {
   }
 };
 
-main();
+initializeApp();
