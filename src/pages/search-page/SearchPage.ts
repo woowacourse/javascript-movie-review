@@ -6,6 +6,7 @@ import { MovieData } from '../../../types/movie';
 import { bindScrollEvent, handleBottomScroll } from '../../util/web/scroll';
 import { Modal } from '../../component/common/modal/Modal';
 import { MovieDetail } from '../../component/domain/movie-detail/MovieDetail';
+import { DEBUG_ERROR, DEBUG_ERROR_MESSAGE } from '../../constants/debugErrorMessage';
 
 class SearchPage {
   #container: HTMLElement;
@@ -45,12 +46,16 @@ class SearchPage {
   async init() {
     this.render();
 
-    this.#movieGrid?.appendSkeletonItems();
+    if (!this.#movieGrid) {
+      throw new Error(DEBUG_ERROR.getNoComponentMessage('MovieGrid'));
+    }
+
+    this.#movieGrid.appendSkeletonItems();
 
     if (this.#query) {
       const { movieListData, totalPage } = await extractedData(MOVIE_API.getSearchUrl(this.#query, this.#currentPage));
       this.#movieListData = movieListData;
-      this.#movieGrid?.replaceLastNItems(this.#movieListData);
+      this.#movieGrid.replaceLastNItems(this.#movieListData);
       this.#totalPage = totalPage;
     }
     this.#unbindScrollEvent = bindScrollEvent(() => handleBottomScroll(() => this.#guardedLoadMore()));
@@ -76,15 +81,17 @@ class SearchPage {
   #loadMoreData = async () => {
     this.#currentPage += 1;
 
-    this.#movieGrid?.appendSkeletonItems();
+    if (!this.#movieGrid) throw new Error(DEBUG_ERROR.getNoComponentMessage('MovieGrid'));
+
+    this.#movieGrid.appendSkeletonItems();
 
     const { movieListData } = await extractedData(MOVIE_API.getSearchUrl(this.#query, this.#currentPage));
     this.#movieListData = movieListData;
 
-    this.#movieGrid?.replaceLastNItems(this.#movieListData);
+    this.#movieGrid.replaceLastNItems(this.#movieListData);
 
     if (this.#currentPage === this.#totalPage) {
-      this.#movieGrid?.resetSkeletonItems();
+      this.#movieGrid.resetSkeletonItems();
       return;
     }
   };
@@ -113,7 +120,7 @@ class SearchPage {
       this.#modalData = (event as CustomEvent).detail;
       const movieDetail = new MovieDetail({ data: this.#modalData }).element;
 
-      if (!this.#modal) return;
+      if (!this.#modal) throw new Error(DEBUG_ERROR.getNoComponentMessage('Modal'));
 
       this.#modal.setContent(movieDetail);
       this.#modal.open();

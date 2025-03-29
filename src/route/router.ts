@@ -2,6 +2,7 @@ import { MainPage } from '../pages/main-page/MainPage';
 import SearchPage from '../pages/search-page/SearchPage';
 import ErrorPage from '../pages/error-page/ErrorPage';
 import { APP_CONFIG } from '../constants/systemConstants';
+import { DEBUG_ERROR } from '../constants/debugErrorMessage';
 
 let previousPageInstance: { element: HTMLElement; destroy?: () => void } | null = null;
 
@@ -44,7 +45,7 @@ export async function redirectToPage(url: string) {
 
 export async function renderContent() {
   const layoutContainer = document.querySelector('.content');
-  if (!layoutContainer) return;
+  if (!layoutContainer) throw new Error(DEBUG_ERROR.getNoElementMessage('.content'));
 
   destroyEvent();
 
@@ -53,9 +54,7 @@ export async function renderContent() {
   const oldContent = layoutContainer.querySelector('.render-content');
   if (oldContent) oldContent.remove();
 
-  if (newPageInstance?.element) {
-    newPageInstance.element.classList.add('render-content');
-    layoutContainer.appendChild(newPageInstance.element);
-    previousPageInstance = newPageInstance;
-  }
+  newPageInstance.element.classList.add('render-content');
+  layoutContainer.appendChild(newPageInstance.element);
+  previousPageInstance = newPageInstance;
 }

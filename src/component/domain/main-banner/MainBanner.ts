@@ -1,4 +1,5 @@
 import { MovieData } from '../../../../types/movie';
+import { DEBUG_ERROR, DEBUG_ERROR_MESSAGE } from '../../../constants/debugErrorMessage';
 import Button from '../../common/button/Button';
 import { Modal } from '../../common/modal/Modal';
 import { MovieDetail } from '../movie-detail/MovieDetail';
@@ -68,10 +69,11 @@ class MainBanner {
   }
 
   #bindDetailButtonClickEvent() {
-    if (!this.#data) return;
+    if (!this.#data) throw new Error(DEBUG_ERROR_MESSAGE.NO_DATA);
 
     const movieDetail = new MovieDetail({ data: this.#data }).element;
-    if (!this.#modal) return;
+
+    if (!this.#modal) throw new Error(DEBUG_ERROR.getNoComponentMessage('Modal'));
     this.#modal.setContent(movieDetail);
     this.#modal.open();
   }

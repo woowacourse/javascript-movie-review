@@ -1,4 +1,5 @@
 import { MovieData } from '../../../../types/movie';
+import { DEBUG_ERROR_MESSAGE } from '../../../constants/debugErrorMessage';
 import { movieItemSkeletonTemplate } from './movieItemSkeletonTemplate';
 
 class MovieItem {
@@ -23,7 +24,7 @@ class MovieItem {
   }
 
   #matchImgUrl() {
-    if (!this.#data) return;
+    if (!this.#data) throw new Error(DEBUG_ERROR_MESSAGE.NO_DATA);
 
     if (this.#data.imgUrl.includes('null')) {
       return './empty-item.png';

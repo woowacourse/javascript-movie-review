@@ -1,3 +1,5 @@
+import { DEBUG_ERROR } from '../../../constants/debugErrorMessage';
+
 export class Modal {
   #background: HTMLElement;
   #content: HTMLElement;
@@ -26,7 +28,9 @@ export class Modal {
   </div>
     `;
 
-    this.#background.querySelector('.modal')?.appendChild(this.#content);
+    const modal = this.#background.querySelector('.modal');
+    if (!modal) throw new Error(DEBUG_ERROR.getNoElementMessage('modal'));
+    modal.appendChild(this.#content);
   }
 
   open() {
@@ -52,7 +56,10 @@ export class Modal {
   }
 
   #bindButtonClickEvent() {
-    this.#background.querySelector('#closeModal')?.addEventListener('click', () => {
+    const closeModal = this.#background.querySelector('#closeModal');
+    if (!closeModal) throw new Error(DEBUG_ERROR.getNoElementMessage('closeModal'));
+
+    closeModal.addEventListener('click', () => {
       this.close();
     });
   }

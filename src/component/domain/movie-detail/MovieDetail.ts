@@ -1,4 +1,5 @@
 import { MovieData } from '../../../../types/movie';
+import { DEBUG_ERROR, DEBUG_ERROR_MESSAGE } from '../../../constants/debugErrorMessage';
 import { calculateRate, getRatingMessage, getStarSelectionArray } from '../../../domain/MovieRateManager';
 
 interface MovieDetailOptions {
@@ -87,14 +88,14 @@ export class MovieDetail {
 
   #updateMyRateScore() {
     const scoreContainer = this.#container.querySelector('.myrate__score');
-    if (!scoreContainer) return;
+    if (!scoreContainer) throw new Error(DEBUG_ERROR.getNoElementMessage('myrate__score'));
 
     scoreContainer.innerHTML = `(${calculateRate(this.#selectedStars)}/10)`;
   }
 
   #updateMyRateMessage() {
     const messageContainer = this.#container.querySelector('.myrate__message');
-    if (!messageContainer) return;
+    if (!messageContainer) throw new Error(DEBUG_ERROR.getNoElementMessage('myrate__message'));
 
     messageContainer.innerHTML = `${getRatingMessage(this.#selectedStars)}`;
   }
@@ -106,8 +107,8 @@ export class MovieDetail {
   #bindIconClickEvent() {
     this.#container.querySelectorAll('.myrate__icon').forEach((element) =>
       element.addEventListener('click', (event) => {
-        if (!event.target) return;
-        if (!(event.target instanceof HTMLElement)) return;
+        if (!event.target) throw new Error(DEBUG_ERROR_MESSAGE.NO_EVENT_TARGET);
+        if (!(event.target instanceof HTMLElement)) throw new Error(DEBUG_ERROR_MESSAGE.NO_HTML_ELEMENT);
 
         this.#selectedStars = Number(event.target.dataset.index);
         localStorage.setItem(String(this.#data.id), String(this.#selectedStars));
