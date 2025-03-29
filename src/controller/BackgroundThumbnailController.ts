@@ -16,14 +16,14 @@ class BackgroundThumbnailController {
     this.bindEvents(movieItem);
   }
 
-  bindEvents(movieItem: MovieItemType) {
-    const detailButtonElement = this.backgroundElement.querySelector("button.detail") as HTMLButtonElement;
-    detailButtonElement.addEventListener("click", () => this.openDetailModal(movieItem.id));
-  }
-
   async renderMovieList(movieItem: MovieItemType) {
     this.backgroundElement = BackgroundThumbnailSection(movieItem);
     this.mainElement?.insertAdjacentElement("beforebegin", this.backgroundElement);
+  }
+
+  bindEvents(movieItem: MovieItemType) {
+    const detailButtonElement = this.backgroundElement.querySelector("button.detail") as HTMLButtonElement;
+    detailButtonElement.addEventListener("click", () => this.openDetailModal(movieItem.id));
   }
 }
 
