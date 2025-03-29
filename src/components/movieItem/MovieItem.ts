@@ -18,15 +18,6 @@ const MovieItem = (props: MovieItemProps) => {
   addEvent("click", `#_${id}`, async () => {
     if (!isModalOpen) {
       setIsModalOpen(true);
-
-      const handleEscapeKey = (event: KeyboardEvent) => {
-        if (event.key === "Escape") {
-          setIsModalOpen(false);
-          document.removeEventListener("keydown", handleEscapeKey);
-        }
-      };
-
-      document.addEventListener("keydown", handleEscapeKey);
     }
     const detail = await fetchMovieDetail(id);
     setMovieDetail(detail);
