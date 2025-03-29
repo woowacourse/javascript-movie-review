@@ -80,6 +80,50 @@ const createMovieList = (movieData: Movie[]) => {
   return new MovieList(movieItems);
 };
 
+const createObserverCallback = (
+  fetch: (
+    movieList: MovieList,
+    observer: IntersectionObserver
+  ) => Promise<void>,
+  movieList: MovieList
+): IntersectionObserverCallback => {
+  return (entries, observer) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        fetch(movieList, observer);
+        observer.unobserve(entry.target);
+      }
+    });
+  };
+};
+
+const updateMovieList = async (
+  movieList: MovieList,
+  observer: IntersectionObserver
+) => {
+  const totalItems = movieList.getTotalItems();
+  const newMovieData = await getTotalMovies(totalItems);
+
+  const movieItems = newMovieData.map(
+    ({ id, title, posterPath, voteAverage }) => {
+      const movieItem = new MovieItem({
+        id,
+        title,
+        voteAverage,
+        posterPath,
+      });
+      return movieItem.create();
+    }
+  );
+
+  movieList.updateList(movieItems);
+
+  const newTarget = selectElement("ul.thumbnail-list > li:last-child");
+  if (newTarget) {
+    observer.observe(newTarget);
+  }
+};
+
 const mainSection = selectElement<HTMLElement>("main section");
 const skeletonUl = new SkeletonUl();
 const searchBar = new SearchBar();
@@ -104,45 +148,6 @@ const app = async () => {
     renderTitleMovie(movieData);
     movieList.create();
     movieList.onMovieClick(getDetail, detailsModal);
-
-    const createObserverCallback = (
-      fetch: (movieList: MovieList) => Promise<void>,
-      movieList: MovieList
-    ): IntersectionObserverCallback => {
-      return (entries, observer) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            fetch(movieList);
-            console.log("fetch~~");
-            observer.unobserve(entry.target);
-          }
-        });
-      };
-    };
-
-    const updateMovieList = async (movieList: MovieList) => {
-      const totalItems = movieList.getTotalItems();
-      const newMovieData = await getTotalMovies(totalItems);
-
-      const movieItems = newMovieData.map(
-        ({ id, title, posterPath, voteAverage }) => {
-          const movieItem = new MovieItem({
-            id,
-            title,
-            voteAverage,
-            posterPath,
-          });
-          return movieItem.create();
-        }
-      );
-
-      movieList.updateList(movieItems);
-
-      const newTarget = selectElement("ul.thumbnail-list > li:last-child");
-      if (newTarget) {
-        lastMovieItemObserver.observe(newTarget);
-      }
-    };
 
     const lastMovieItemObserver = new IntersectionObserver(
       createObserverCallback(updateMovieList, movieList),
