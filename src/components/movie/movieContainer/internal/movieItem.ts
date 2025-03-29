@@ -1,5 +1,5 @@
-import { createElementWithAttributes } from "../../utils/createElementWithAttributes";
-import { Movie } from "../../../domain/types";
+import { createElementWithAttributes } from "../../../utils/createElementWithAttributes";
+import { Movie } from "../../../../domain/types";
 import noImage from "/images/no_image.png";
 
 const movieItem = (movie: Movie) => {

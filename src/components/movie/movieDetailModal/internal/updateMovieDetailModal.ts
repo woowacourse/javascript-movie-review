@@ -1,6 +1,6 @@
 import { fetchMovieDetail } from "../../../../domain/apis/fetchMovieDetail";
 import { $ } from "../../../utils/selectors";
-import movieDetailInfo from "../../movieDetailInfo";
+import movieDetailInfo from "./internal/movieDetailInfo";
 
 const updateMovieDetailModal = async (event: MouseEvent) => {
   if (!event.target || event.currentTarget === event.target) {

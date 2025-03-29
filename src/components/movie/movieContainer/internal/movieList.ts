@@ -1,7 +1,7 @@
 import movieItem from "./movieItem";
-import { createElementWithAttributes } from "../../utils/createElementWithAttributes";
-import { Movie } from "../../../domain/types";
-import openMovieDetailInfo from "../movieDetailModal/openMovieDetailModal";
+import { createElementWithAttributes } from "../../../utils/createElementWithAttributes";
+import { Movie } from "../../../../domain/types";
+import openMovieDetailInfo from "../../movieDetailModal/openMovieDetailModal";
 
 const movieList = (movies: Movie[]) => {
   const $movieList = createElementWithAttributes({

@@ -1,6 +1,6 @@
-import moviesRatingLocalStorage from "../../../../../domain/localStorage/moviesRatingLocalStorage";
-import { MovieDetail } from "../../../../../domain/types";
-import { createElementWithAttributes } from "../../../../utils/createElementWithAttributes";
+import moviesRatingLocalStorage from "../../../../../../../domain/localStorage/moviesRatingLocalStorage";
+import { MovieDetail } from "../../../../../../../domain/types";
+import { createElementWithAttributes } from "../../../../../../utils/createElementWithAttributes";
 import emptyStar from "/images/star_empty.png";
 import filledStar from "/images/star_filled.png";
 
