@@ -1,6 +1,6 @@
+import Button from "../common/Button.ts";
 import { MovieResponse } from "../../../types/movie";
 import { loadMovies } from "../../utils/loadMovies.ts";
-import Button from "../common/Button.ts";
 
 type LoadMoreButtonProps = {
   loadFn: (currentPage: number) => Promise<MovieResponse>;

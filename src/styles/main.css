@@ -26,7 +26,8 @@ main {
 }
 
 .star {
-  width: 24px;
+  width: 22px;
+  height: 22px;
 }
 
 button {
@@ -48,10 +49,10 @@ button.primary {
   min-height: calc(100vh - 180px);
 }
 
-#wrap h2 {
+#caption {
   font-size: 1.4rem;
   font-weight: bold;
-  margin: 35px 120px;
+  margin: 35px 0px 35px 75px;
 }
 
 .container {
@@ -152,6 +153,45 @@ h1.logo {
   z-index: 3;
 }
 
+@media screen and (max-width: 992px) {
+  .search-bar {
+    max-width: 400px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .search-bar {
+    max-width: 300px;
+  }
+  h1.logo,
+  h1.logo img {
+    width: 100px;
+  }
+}
+
+@media screen and (max-width: 615px) {
+  .logo-search-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  h1.logo {
+    position: static;
+    text-align: center;
+  }
+
+  .search-bar {
+    width: 100%;
+    max-width: 280px;
+  }
+
+  #caption {
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+}
+
 .search-bar input {
   flex: 1;
   border: none;
@@ -173,13 +213,22 @@ h1.logo {
 
 .rate {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   color: var(--color-yellow);
 }
 
 .rate > img {
+  margin-right: 3px;
+}
+
+.rate > span {
   position: relative;
   top: 2px;
+}
+
+.modal-rate {
+  font-size: 20px;
+  font-weight: bold;
 }
 
 span.rate-value {
@@ -256,13 +305,14 @@ footer.footer p:not(:last-child) {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 20px;
 }
 
 .no-result img {
   width: 72px;
 }
 
-.no-result h1 {
-  font-size: 3rem;
+.no-result h2 {
+  font-size: 1.3rem;
   font-weight: bold;
 }
