@@ -23,7 +23,7 @@ describe("검색 화면 테스트", () => {
     cy.wait("@getSearchMovies").then((interception) => {
       cy.get("#caption").invoke("text").should("include", "짱구");
 
-      const searchMovies = interception.response.body.results;
+      const searchMovies = interception.response?.body.results;
       // cy.wrap(searchMovies).should("have.length", 20);
       expect(searchMovies.length).to.be.greaterThan(0);
     });
@@ -37,7 +37,7 @@ describe("검색 화면 테스트", () => {
     cy.wait("@getSearchMovies").then((interception) => {
       cy.get("#caption").invoke("text").should("include", "짱구");
 
-      const searchMovies = interception.response.body.results;
+      const searchMovies = interception.response?.body.results;
       expect(searchMovies.length).to.be.greaterThan(0);
     });
   });
