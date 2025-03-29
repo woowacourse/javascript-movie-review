@@ -1,6 +1,6 @@
 const setPageScroll = (option: boolean) => {
-  if (option) document.body.style.overflow = "auto";
-  else document.body.style.overflow = "hidden";
+  if (option) document.body.style.overflowY = "auto";
+  else document.body.style.overflowY = "hidden";
 };
 
 export default setPageScroll;
