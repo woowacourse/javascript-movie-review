@@ -27,7 +27,7 @@ FE 레벨1 영화 리뷰 미션
 
 [x] 검색 시 스크롤 맨 위로 이동
 
-[] 영화 상세 정보 조회
+[x] 영화 상세 정보 조회
 
 [] 별점 매기기
 
@@ -39,7 +39,6 @@ FE 레벨1 영화 리뷰 미션
 
 [common]
 
-- [x] Button.js
 - [x] StarRating.js 는 별 아이콘과 숫자로 이루어짐
 - [x] TabButton.js
 - [x] Input.js

@@ -214,3 +214,7 @@ input::placeholder {
 #bannerSection {
   display:block;
 }
+
+#loader {
+  height: 100px;
+}
