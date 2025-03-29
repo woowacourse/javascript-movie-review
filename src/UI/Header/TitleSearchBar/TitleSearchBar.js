@@ -24,11 +24,16 @@ class TitleSearchBar {
     const $img = document.createElement("img");
     $img.setAttribute("src", "./images/Search.png");
 
-    $div.innerHTML = /*html*/ `
-    <h1 class="logo">
-      <img src="./images/logo.png" alt="MovieList" />
-    </h1>
-    `;
+    const $h1 = document.createElement("h1");
+    $h1.classList.add("logo");
+    const $logoImg = document.createElement("img");
+    $logoImg.setAttribute("src", "./images/logo.png");
+    $logoImg.setAttribute("alt", "MovieList");
+
+    $h1.addEventListener("click", this.handleLogoClick);
+
+    $div.appendChild($h1);
+    $h1.appendChild($logoImg);
 
     $div.appendChild($searchBar);
     $searchBar.appendChild($input);
@@ -38,6 +43,10 @@ class TitleSearchBar {
     $searchBar.addEventListener("submit", this.onSubmit);
 
     this.$target.appendChild($div);
+  }
+
+  handleLogoClick() {
+    location.replace(location.origin);
   }
 }
 export default TitleSearchBar;
