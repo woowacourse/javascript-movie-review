@@ -1,6 +1,6 @@
 import { HeaderMount, HeaderRender } from "./components/Header/index.js";
 import { FooterRender } from "./components/Footer/index.js";
-import { BannerRender } from "./components/Banner/index.js";
+import { BannerMount, BannerRender } from "./components/Banner/index.js";
 import { SkeletonBannerRender } from "./components/Skeleton/SkeletonBanner.js";
 import store from "./store/store.ts";
 import * as MovieModule from "./domains/movie/MovieModule.js";
@@ -54,6 +54,7 @@ class App {
   mount() {
     HeaderMount();
     MovieModule.mountMovieDomain();
+    BannerMount();
 
     const state = store.getState();
     const $banner = document.querySelector("#banner");
