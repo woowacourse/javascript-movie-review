@@ -1,5 +1,5 @@
 import { ListTitleRender } from "./ListTitle.js";
-import { MovieItemRender } from "./MovieItem.js";
+import { MovieItemRender, MovieItemMount } from "./MovieItem.js";
 import { MoreButtonMount, MoreButtonRender } from "../MoreButton/MoreButton.js";
 import { SkeletonMovieItemRender } from "../Skeleton/SkeletonMovieItem.js";
 import { ERROR_MESSAGES, MOVIE_COUNT } from "../../constants/config.js";
@@ -43,5 +43,6 @@ export function MovieListRender({
 }
 
 export function MovieListMount() {
+  MovieItemMount();
   MoreButtonMount();
 }
