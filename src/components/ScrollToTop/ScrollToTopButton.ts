@@ -1,3 +1,5 @@
+import "./scrollToTop.css";
+
 const handleScrollToTopButtonClick = () => {
   window.scrollTo({ top: 0, behavior: "smooth" });
 };
