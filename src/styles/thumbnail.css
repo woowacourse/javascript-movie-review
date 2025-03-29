@@ -1,7 +1,7 @@
 @import "./colors.css";
 
 .thumbnail-list {
-  margin: 0 auto 56px;
+  margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(5, 200px);
   gap: 70px;
@@ -37,4 +37,30 @@ p.rate > span {
 .item .star {
   width: 16px;
   top: 1px;
+}
+
+@media (max-width: 1280px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(4, 200px);
+  }
+}
+
+@media (max-width: 1024px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(3, 200px);
+  }
+}
+@media (max-width: 768px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(2, 200px);
+  }
+}
+
+@media (max-width: 480px) {
+  .thumbnail-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 200px;
+  }
 }
