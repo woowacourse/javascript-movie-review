@@ -1,4 +1,5 @@
 import { getDetailMovies } from "../../apis/getDetailMovies";
+import handleModalEvents from "../modal/handleModalEvents";
 import movieDetailModal from "../modal/movieDetailModal";
 import {
   createElementWithAttributes,
@@ -58,6 +59,7 @@ const movieItem = (movie: Movie): HTMLElement => {
     const detailMovie = await getDetailMovies(movie.id);
 
     $modal.replaceChildren(movieDetailModal(detailMovie));
+    handleModalEvents($modal);
     $modal.showModal();
   });
 
