@@ -1,16 +1,15 @@
 import { forEach } from '@fxts/core';
-import Observer from './Observer';
 
-export default abstract class Obserable<TObserver extends Observer<TState>, TState> {
-  #observers: TObserver[] = [];
+export default abstract class Obserable<TState> {
+  #listeners: ((state: TState) => void)[] = [];
 
-  subscribe(observer: TObserver) {
-    this.#observers = [...this.#observers, observer];
+  subscribe(listener: (state: TState) => void) {
+    this.#listeners = [...this.#listeners, listener];
   }
 
   notify(nextState: TState) {
-    forEach((observer) => {
-      observer.update(nextState);
-    }, this.#observers);
+    forEach((listener) => {
+      listener(nextState);
+    }, this.#listeners);
   }
 }
