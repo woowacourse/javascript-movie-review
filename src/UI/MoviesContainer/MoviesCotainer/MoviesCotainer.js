@@ -12,6 +12,7 @@ class MoviesCotainer {
   #searchPage;
   #show;
   #mode;
+  #lastPage;
 
   constructor(searchKeyword, mode, $target) {
     this.#movies = [];
@@ -23,6 +24,7 @@ class MoviesCotainer {
     this.#searchKeyword = searchKeyword;
     this.#mode = mode;
     this.$target = $target;
+    this.#lastPage = 0;
   }
 
   async init() {
@@ -34,6 +36,7 @@ class MoviesCotainer {
         return;
       }
 
+      this.setLastPage(totalPage);
       this.setMovies([...this.#movies, ...results]);
       return;
     }
@@ -48,7 +51,13 @@ class MoviesCotainer {
     if (totalPage === this.#page) {
       this.setShow(false);
     }
+    this.setLastPage(totalPage);
     this.setMovies([...this.#movies, ...results]);
+  }
+
+  setLastPage(lastPage) {
+    this.#lastPage = lastPage;
+    this.render();
   }
 
   setShow(show) {
@@ -117,7 +126,8 @@ class MoviesCotainer {
       this.#movies,
       this.#isLoading,
       $div,
-      this.handleButtonClick
+      this.handleButtonClick,
+      this.isLastPage
     ).render();
 
     $container.appendChild($main);
@@ -130,20 +140,34 @@ class MoviesCotainer {
     this.$target.appendChild($container);
   }
 
+  isLastPage = () => {
+    if (this.#mode === "popular") {
+      return this.#lastPage === this.#page;
+    }
+    return this.#lastPage === this.#searchPage;
+  };
+
   handleButtonClick = async () => {
     if (this.#mode === "popular") {
       this.#page += 1;
       const { results, totalPage } = await this.getMoviesResults();
+      this.setLastPage(totalPage);
 
-      this.setMovies([...this.#movies, ...results]);
-      if (totalPage === this.#page) {
+      if (totalPage < this.#page) {
         this.setShow(false);
+        return;
       }
+      this.setMovies([...this.#movies, ...results]);
+
       return;
     }
     this.#searchPage += 1;
     const { results, totalPage } = await this.getSearchMovies();
+    this.setLastPage(totalPage);
 
+    if (totalPage < this.#searchPage) {
+      return;
+    }
     this.setMovies([...this.#movies, ...results]);
   };
 
