@@ -13,6 +13,10 @@ export default class MovieListHandler {
     this.movieService = movieService;
   }
 
+  async createMovieList(query?: string): Promise<void> {
+    await this.initMovieList(query);
+  }
+
   async initMovieList(query?: string) {
     const moviesData = query
       ? await this.movieService.searchMovies(query, 1)

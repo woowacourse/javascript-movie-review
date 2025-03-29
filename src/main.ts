@@ -21,7 +21,7 @@ window.addEventListener('load', async () => {
     const logo = new Logo(movieListHandler);
     logo.createLogo();
 
-    await movieListHandler.initMovieList();
+    await movieListHandler.createMovieList();
   } catch (error) {
     console.error('애플리케이션 초기화 실패:', error);
   }
