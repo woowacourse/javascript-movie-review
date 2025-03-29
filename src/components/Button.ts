@@ -18,22 +18,6 @@ const Button = ({ text, type }: ButtonProps) => {
 
   $button.textContent = text;
 
-  $button.addEventListener("click", () => {
-    const params = new URLSearchParams(window.location.search);
-    const currentPage = page.getNextPage();
-
-    renderMovieList(async () => {
-      const res = params.has("query")
-        ? await fetchSearchMovies(params.get("query") || "", currentPage)
-        : await fetchPopularMovies(currentPage);
-
-      return {
-        results: res.results,
-        totalPages: res.totalPages,
-      };
-    });
-  });
-
   return $button;
 };
 
