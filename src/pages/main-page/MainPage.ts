@@ -52,7 +52,6 @@ export class MainPage {
     this.#movieListData = movieListData;
 
     this.#movieGrid?.replaceLastNItems(movieListData);
-
     this.#mainBanner?.setData(this.#movieListData[0]);
 
     this.#unbindScrollEvent = bindScrollEvent(() => handleBottomScroll(() => this.#guardedLoadMore()));

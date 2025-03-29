@@ -55,6 +55,16 @@ class MovieGrid {
     }
   }
 
+  resetSkeletonItems() {
+    this.#movieItemComponents.filter((component) => {
+      const isDataExist = component.hasData();
+      if (!isDataExist) {
+        component.element.remove();
+      }
+      return isDataExist;
+    });
+  }
+
   get element() {
     return this.#container;
   }

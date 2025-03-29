@@ -14,6 +14,14 @@ class MovieItem {
     this.#bindClickEvent();
   }
 
+  get element() {
+    return this.#container;
+  }
+
+  hasData() {
+    return this.#data !== null;
+  }
+
   #matchImgUrl() {
     if (!this.#data) return;
 
@@ -56,10 +64,6 @@ class MovieItem {
   setData(data: MovieData | null) {
     this.#data = data;
     this.render();
-  }
-
-  get element() {
-    return this.#container;
   }
 }
 

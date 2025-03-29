@@ -17,7 +17,7 @@ class SearchPage {
   #currentPage = 1;
   #totalPage = 0;
   #isFetching: boolean = false;
-  #unbindScrollEvent: () => void;
+  #unbindScrollEvent: () => void = () => {};
 
   #modalData: MovieData = {
     id: 0,
@@ -40,8 +40,6 @@ class SearchPage {
 
     this.#query = params.get('query') ?? '';
     this.init();
-
-    this.#unbindScrollEvent = bindScrollEvent(() => handleBottomScroll(() => this.#guardedLoadMore()));
   }
 
   async init() {
@@ -55,7 +53,7 @@ class SearchPage {
       this.#movieGrid?.replaceLastNItems(this.#movieListData);
       this.#totalPage = totalPage;
     }
-    this.render();
+    this.#unbindScrollEvent = bindScrollEvent(() => handleBottomScroll(() => this.#guardedLoadMore()));
     this.#bindMovieSelectEvent();
   }
 
@@ -71,14 +69,24 @@ class SearchPage {
   }
 
   #movieGridElement() {
-    return new MovieGrid({ movieItemsCount: this.#currentPage * FETCH_COUNT }).element;
+    this.#movieGrid = new MovieGrid({ movieItemsCount: this.#currentPage * FETCH_COUNT });
+    return this.#movieGrid.element;
   }
 
   #loadMoreData = async () => {
     this.#currentPage += 1;
+
+    this.#movieGrid?.appendSkeletonItems();
+
     const { movieListData } = await extractedData(MOVIE_API.getSearchUrl(this.#query, this.#currentPage));
     this.#movieListData = movieListData;
-    this.renderDynamicSection();
+
+    this.#movieGrid?.replaceLastNItems(this.#movieListData);
+
+    if (this.#currentPage === this.#totalPage) {
+      this.#movieGrid?.resetSkeletonItems();
+      return;
+    }
   };
 
   #guardedLoadMore() {
