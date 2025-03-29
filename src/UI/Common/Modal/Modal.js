@@ -61,6 +61,8 @@ class Modal {
     this.$div.classList.add("modal-background");
     this.$div.id = "modalBackground";
 
+    this.$div.addEventListener("click", this.handleModalBackClick);
+
     if (this.#show) this.$div.classList.add("active");
 
     if (this.#isLoading) {
@@ -151,6 +153,12 @@ class Modal {
 
     this.$target.appendChild(this.$div);
   }
+
+  handleModalBackClick = (e) => {
+    if (!e.target.closest(".modal") && !e.target.closest(".rating-selector")) {
+      this.handleCloseButtonClick();
+    }
+  };
 
   handleCloseButtonClick = () => {
     this.$div.classList.remove("active");
