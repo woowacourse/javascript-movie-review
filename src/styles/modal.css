@@ -1,6 +1,5 @@
 @import "./colors.css";
 
-/* modal.css */
 body.modal-open {
   overflow: hidden;
 }
@@ -19,9 +18,9 @@ body.modal-open {
   z-index: 10;
   visibility: hidden; /* 모달이 기본적으로 보이지 않도록 설정 */
   opacity: 0;
-  transition:
-    opacity 0.3s ease,
-    visibility 0.3s ease;
+
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+
 }
 
 .modal-background.active {
@@ -86,3 +85,109 @@ body.modal-open {
   max-height: 430px;
   overflow-y: auto;
 }
+
+
+.thumbnail-list {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  max-width: 900px;
+  background-color: var(--color-bluegray-90);
+  border-radius: 8px;
+  overflow: hidden;
+  z-index: 1001;
+}
+
+.modal-image {
+  display: block;
+}
+
+@media screen and (max-width: 800px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .modal {
+    position: fixed;
+    background-color: var(--color-bluegray-90);
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    transform: none;
+    width: 100%;
+    max-width: 100%;
+    border-radius: 8px 8px 0 0;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .modal-container {
+    flex-direction: column;
+  }
+
+  .modal-image {
+    display: flex;
+    justify-content: center;
+
+    width: 100%;
+    height: auto;
+  }
+
+  .modal-image img {
+    width: 200px;
+  }
+
+  .modal-description {
+    padding: 20px;
+  }
+
+  .user-rating {
+    display: flex;
+    flex-direction: column;
+  }
+
+  [class^="rating-container"] {
+    display: flex;
+    flex-direction: row;
+  }
+}
+
+@media screen and (max-width: 390px) {
+  .thumbnail-list {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-image {
+    display: none;
+  }
+
+  .header .overlay img {
+    height: 200px;
+  }
+
+  .top-rated-container {
+    padding: 10px;
+  }
+
+  .logo img {
+    max-width: 120px;
+  }
+
+  .app-layout {
+    padding: 10px;
+  }
+
+  .rating-container {
+    justify-content: center;
+  }
+}
+
