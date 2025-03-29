@@ -218,3 +218,13 @@ input::placeholder {
 #loader {
   height: 100px;
 }
+
+.line {
+  border: none;
+  height: 1px;
+  background-color: #67788E;
+}
+
+.row {
+  display: flex;
+}

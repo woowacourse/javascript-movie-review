@@ -85,4 +85,23 @@ body.modal-open {
 .detail {
   max-height: 430px;
   overflow-y: auto;
+  font-size:20px;
+  font-weight: 300;
+}
+
+
+.label-text{
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 100%;
+  letter-spacing: 0.18px;
+}
+
+.rate-text{
+  color: #FFC700;
+  font-size:20px;
+}
+
+.my-rating-text{
+  color:#95A1B2;
 }

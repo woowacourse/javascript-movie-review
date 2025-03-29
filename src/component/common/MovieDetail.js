@@ -1,9 +1,12 @@
 import { BASE_IMAGE_URL } from "../../constant/constant.js"
+import roundRating from "../../util/roundRating.js";
+import MyRating from "./MyRating.js";
 
 function MovieDetail({poster_path, title, vote_average,release_date, genres, overview}){
     const imgSrc = poster_path ? `${BASE_IMAGE_URL}${poster_path}` : './images/nullImage.png';
     const genresName = genres.map((genre)=>genre.name).join(", ")
     const year = release_date.split("-")[0];
+    const rating = roundRating(vote_average)
   
     return `
         <button class="close-modal">
@@ -22,11 +25,17 @@ function MovieDetail({poster_path, title, vote_average,release_date, genres, ove
               ${year} · ${genresName}
             </p>
             <p class="rate">
-              <img src="./images/star_filled.png" class="star" /><span
-                >${vote_average}</span
-              >
+              <span>평균</span>
+                  <img src="./images/star_filled.png" class="star" />
+                  <span class="rate-text">${rating}</span>
             </p>
-            <hr />
+            <hr class="line"/>
+            <p class="label-text">
+              내 별점
+            </p>
+            ${MyRating()}
+            <hr class="line"/>
+            <p class="label-text">줄거리</p>
             <p class="detail">
               ${overview}
             </p>
