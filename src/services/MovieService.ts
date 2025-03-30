@@ -1,6 +1,7 @@
 import { QueryParams } from "../../types/apiType";
 import { getApiOptions } from "../apis/config";
 
+const MAXIMUM_PAGE = 500;
 class MovieService {
   currentPage: number;
   baseUrl: string;
@@ -11,6 +12,7 @@ class MovieService {
   }
 
   async fetchMovies(endPoint: string, queryParams: QueryParams) {
+    if (queryParams.page === MAXIMUM_PAGE+1) return;
     const queryString = new URLSearchParams(
       Object.entries(queryParams).map(([key, value]) => [key, String(value)])
     ).toString();

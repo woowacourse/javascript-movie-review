@@ -17,3 +17,4 @@ export interface MovieDetailInfo extends MovieInfo {
 }
 
 export type FetchMoviesCallback = () => Promise<{ results: MovieInfo[] }>;
+

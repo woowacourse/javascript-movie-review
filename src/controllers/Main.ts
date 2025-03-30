@@ -1,12 +1,16 @@
 import Footer from "../components/Footer.js";
 import Header from "../components/Header.js";
-import { MovieInfo } from "../../types/movieType.ts";
+import { FetchMoviesCallback, MovieInfo } from "../../types/movieType.ts";
 import { ContentsContainer, replaceSkeletonWithMovies, showSkeleton } from "./Contents.ts";
 import MovieService from "../services/MovieService.ts";
 import LogoSearchBar from "../components/LogoSearchBar.js";
 import { getPopularParam } from "../apis/config.js";
 import MovieList from '../domains/MovieList';
 import registerSearchEventHandlers from "./MovieSearchHandlers.js";
+
+export interface ObserverHTMLElement extends HTMLElement {
+  observer?: IntersectionObserver;
+}
 
 async function renderHeader({ title, poster_path, vote_average }: MovieInfo) {
   const container = document.querySelector("#wrap");
@@ -50,14 +54,41 @@ export function setupSearchEvents(movieService: MovieService) {
 }
 
 async function renderInitContent(movieList:MovieList, movieService: MovieService) {
-  ContentsContainer("지금 인기 있는 영화", movieList, movieService, () =>
-     movieService.fetchMovies(
-      "/movie/popular",
-      getPopularParam(movieService.currentPage)
-    )
-  );
-
+  ContentsContainer("지금 인기 있는 영화", movieList);
   setupSearchEvents(movieService);
+}
+
+async function loadMoreMovies(fetchMoviesCallback: FetchMoviesCallback) {
+  showSkeleton(10);
+  const movies = await fetchMoviesCallback()
+  const movieList = new MovieList(movies.results);
+  replaceSkeletonWithMovies(movieList.movieList);
+}
+
+export function setupInfiniteScroll(FetchMoviesCallback: FetchMoviesCallback) {
+  const sentinel = document.getElementById("sentinel") as ObserverHTMLElement;
+  if (!sentinel) return;
+
+  if (sentinel.observer) {
+    sentinel.observer.disconnect();
+  }
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          loadMoreMovies(FetchMoviesCallback);
+        }
+      });
+    },
+    {
+      root: null,
+      rootMargin: "0px",
+      threshold: 0.1,
+    }
+  );
+  sentinel.observer = observer;
+  observer.observe(sentinel);
 }
 
 async function main() {
@@ -73,6 +104,14 @@ async function main() {
   renderHeader(movies.results[0]);
   renderFooter();
   renderInitContent(movieList, movieService);
+
+  const popularFetchCallback = () =>
+    movieService.fetchMovies(
+      "/movie/popular",
+      getPopularParam(movieService.currentPage)
+    );
+
+  setupInfiniteScroll(popularFetchCallback);
 }
 
 main();

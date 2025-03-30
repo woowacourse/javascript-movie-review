@@ -3,6 +3,7 @@ import MovieList from "../domains/MovieList";
 import MovieService from "../services/MovieService";
 import { ContentsContainer } from "./Contents";
 import { replaceSkeletonWithMovies, showSkeleton } from "./Contents";
+import { setupInfiniteScroll } from "./Main";
 
 function validateSearchInput(inputValue) {
   if (inputValue.trim() === "") {
@@ -54,8 +55,18 @@ async function registerSearchEventHandlers(inputValue, movieService) {
   const movies = await fetchSearchMovies(inputValue, movieService);
   const movieList = new MovieList(movies.results);
   replaceSkeletonWithMovies(movieList.movieList);
+  const searchFetchCallback = () =>
+    movieService.fetchMovies(
+      "/search/movie",
+      getSearchParam(inputValue, movieService.currentPage)
+    );
 
   updateContentsContainer(inputValue, movieList, movieService);
+  const sentinel = document.getElementById("sentinel");
+  if (sentinel && sentinel.observer) {
+    sentinel.observer.disconnect();
+  }
+  setupInfiniteScroll(searchFetchCallback);
 }
 
 export default registerSearchEventHandlers;

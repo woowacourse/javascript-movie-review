@@ -16,6 +16,7 @@ class Movie {
 
   movieRender() {
     return MovieItem({
+      id: this.id,
       title: this.title,
       poster_path: this.poster_path,
       vote_average: this.vote_average,
