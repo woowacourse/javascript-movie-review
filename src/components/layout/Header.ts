@@ -40,7 +40,10 @@ const Header = ({ id, title, imageUrl, voteAverage }: Props) => {
   const button = Button({
     text: "자세히 보기",
     className: ["primary", "detail"],
-    onClick: () => loadDetailMovie(id),
+    onClick: (e) => {
+      (e?.target as HTMLElement).blur();
+      loadDetailMovie(id);
+    },
   });
 
   const [logoSearchContainer, topRateMovie, logo] = $multiSelect(

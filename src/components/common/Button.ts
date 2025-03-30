@@ -3,7 +3,7 @@ import { createElement } from "../../utils/createElement";
 type Props = {
   text: string;
   className: string[];
-  onClick: () => void;
+  onClick: (e?: MouseEvent) => void;
 };
 
 const Button = ({ text, className, onClick }: Props) => {
