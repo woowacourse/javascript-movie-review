@@ -44,6 +44,7 @@ const searchMovie = async (input: string) => {
 
   showSkeleton();
   const movies = await fetchSearchMovieList(input, INITIAL_PAGE);
+
   if (movies.status === "fail") {
     thumbnailList.before(NoSearchResults("영화 목록을 가져오지 못했습니다."));
   }
