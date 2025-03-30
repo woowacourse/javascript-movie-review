@@ -7,8 +7,8 @@ import { ERROR } from './constant';
 const getPopularMovies = async (params: MovePramsType) => {
   try {
     const movies = await getAppClient('/movie/popular', params);
-    if (movies.length === 0) {
-      throw Error(ERROR.NOT_FOUND);
+    if (movies.results.length === 0) {
+      throw Error(ERROR.NO_SEARCH_RESULTS);
     }
 
     const convertMovies = { ...movies, results: movies.results.map(convertMovieData) };
