@@ -2,9 +2,9 @@ import { getAllMovies, getMovies, MovieApiClient } from '@/apis';
 import { DEFAULT_BACK_DROP_URL } from '@/constants';
 import { eventHandlerInstance } from '@/modules';
 import { movieDetailResponseStore, moviesStore, pageStore, searchStore, serverStore } from '@/store';
+import { MovieType } from '@/types';
 import { html, isHTMLFormElement } from '@/utils';
 import Component from './core/Component';
-import { MovieType } from '@/types';
 
 export default class Header extends Component {
   firstMovie: MovieType | undefined;
@@ -110,6 +110,19 @@ export default class Header extends Component {
         movieDetailResponseStore.setState(movieDetailResponse);
       },
       dataAction: 'show-detail',
+    });
+
+    eventHandlerInstance.addEventListener({
+      eventType: 'popstate',
+      callbackWindow: () => {
+        const search = new URL(window.location.href).searchParams.get('search') ?? '';
+
+        searchStore.setState(search);
+        pageStore.reset();
+        moviesStore.reset();
+
+        getMovies({ query: searchStore.getState(), page: pageStore.getState() });
+      },
     });
   }
 
