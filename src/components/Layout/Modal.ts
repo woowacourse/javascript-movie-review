@@ -61,12 +61,18 @@ export default class Modal extends Component<ModalState> {
         ${Skeleton({ width: 350, height: 570 }).outerHTML}
       </div>
       <div class="modal-description">
-        ${Skeleton({ width: 300, height: 40 }).outerHTML}
+        ${
+          Skeleton({ width: 280, height: 30, style: { margin: "0 0 10px 0" } })
+            .outerHTML
+        }
         <p class="modal-rate rate">
-          ${Skeleton({ width: 370, height: 25 }).outerHTML}
+          ${Skeleton({ width: 330, height: 25 }).outerHTML}
         </p>
         <p class="modal-detail">
-          ${Skeleton({ width: 150, height: 30 }).outerHTML}
+          ${
+            Skeleton({ width: 150, height: 30, style: { margin: "10px 0" } })
+              .outerHTML
+          }
         </p>
       </div>
     `;
@@ -138,8 +144,11 @@ export default class Modal extends Component<ModalState> {
     `;
   }
 
-  open(movieData: ModalState) {
+  open(movieData?: ModalState) {
     this.$element.classList.add("active");
+
+    if (!movieData) return;
+
     this.setState({
       isLoading: false,
       id: movieData.id,
