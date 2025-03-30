@@ -45,6 +45,7 @@ export function SearchBarMount() {
           query: query,
           searchedMoviesLength: searchedMovies.total_results,
         });
+        window.scrollTo({ top: 0 });
       }
     });
   }
