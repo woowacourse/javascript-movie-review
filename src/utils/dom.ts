@@ -1,6 +1,7 @@
 import { concat, flat, map, pipe, reduce, zip } from '@fxts/core';
 import type { HTMLType } from '../types';
 import { errorMessage } from '@/modules';
+import { Component } from '@/components/core';
 
 export const isElement = (target: EventTarget | null): target is Element => target instanceof Element;
 export const isHTMLElement = (target: EventTarget | null): target is HTMLElement => target instanceof HTMLElement;
@@ -19,12 +20,19 @@ export const $ = <TElement extends Element = HTMLElement, USelector extends stri
   return target!;
 };
 
-export function html(strings: TemplateStringsArray, ...values: any[]) {
+export const escape = (value: unknown) => {
+  if (Array.isArray(value) && value.every((it) => it instanceof Component)) {
+    return value.map((it) => it.template()).join('');
+  }
+  return value;
+};
+
+export function html(strings: TemplateStringsArray, ...values: unknown[]) {
   return pipe(
     zip(
       strings,
       concat(
-        map((str) => (Array.isArray(str) ? str.join('') : str), values),
+        map((str) => (Array.isArray(str) ? reduce((a, b) => `${a}${b}`, str) : str), map(escape, values)),
         [''],
       ),
     ),

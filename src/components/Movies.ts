@@ -43,7 +43,7 @@ export default class Movies extends Component {
     return html`
       <ul class="thumbnail-list">
         <slot name="thumbnail-list"></slot>
-        ${movies.map((movie) => new Movie(movie).template())}
+        ${movies.map((movie) => new Movie(movie))}
       </ul>
     `;
   }
