@@ -71,7 +71,11 @@ function ModalLayout() {
           <div class="modal-image">
             <img id="posterImage" class="poster-image" src="" alt="" />
           </div>
+          
           <div class="modal-content">
+
+          <div class="movie-content-title-box">
+
             <h2 id="movieTitle" class="movie-title">-</h2>
             <p class="movie-info">
             <span id="releaseDate">2024</span>
@@ -86,6 +90,8 @@ function ModalLayout() {
                 <span class="rating-number">0</span>
               </div>
             </div>
+
+          </div>
             <div id="starRatingFormBox">
            
             </div>

@@ -9,19 +9,27 @@
 
 .modal-dialog {
   background-color: #2d3748;
-  width: 90%;
-  max-width: 800px;
+  width: 100%;
   overflow: hidden;
   color: white;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-  border-radius: 16px;
+  border-radius: 16px 16px 0 0;
+  padding: 0;
+  margin: 0;
+  bottom: 0;
+  position: fixed;
+  max-width: 100%;
+  heigth: 600px;
+  margin-top: calc(100vh - 600px);
 }
 
 .modal-container {
   display: flex;
-  border-radius: 10px;
+  flex-direction: column;
+  border-radius: 0px;
   padding: 24px;
   gap: 24px;
+  height: 600px;
 }
 
 .modal-close {
@@ -38,10 +46,17 @@
   opacity: 1;
 }
 
+.modal-content-box {
+  width: 100%;
+  display: flex;
+  justify-items: center;
+}
+
 .modal-content {
   flex: 1;
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .movie-title {
@@ -60,8 +75,6 @@
   display: flex;
   align-items: center;
   margin-bottom: 20px;
-  border-bottom: 1px solid #4a5568;
-  padding-bottom: 20px;
 }
 
 .rating-label {
@@ -85,10 +98,14 @@
   font-weight: bold;
 }
 
+#starRatingFormBox {
+  width: 100%;
+}
+
 .my-rating-section {
-  margin-top: 10px;
+  width: 100%;
+  padding: 20px 0;
   border-bottom: 1px solid #4a5568;
-  padding-bottom: 20px;
 }
 
 .my-rating-title {
@@ -147,7 +164,7 @@
 }
 
 .synopsis-section {
-  margin-top: 20px;
+  padding: 20px 0;
 }
 
 .synopsis-title {
@@ -165,21 +182,27 @@
   -webkit-line-clamp: 6;
   -webkit-box-orient: vertical;
 }
-
-@media (max-width: 768px) {
-  .modal {
-    flex-direction: column;
-  }
-
-  .modal-image {
-    height: 200px;
-  }
-}
-
 .modal-image {
-  width: 400px;
+  height: 200px;
   border-radius: 16px;
   overflow: hidden;
+  display: flex; /* 이미지 가운데 정렬시 유용 */
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-image img {
+  height: 100%; /* 부모 높이에 맞춤 */
+  width: auto; /* 비율 유지 */
+  object-fit: contain; /* 또는 cover, 상황에 따라 */
+}
+
+.movie-content-title-box {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-bottom: 1px solid #4a5568;
 }
 
 .poster-image {
@@ -195,4 +218,50 @@
 
 .sm-star-box p {
   line-height: 1;
+}
+
+@media (min-width: 1024px) {
+  .modal-dialog {
+    position: fixed;
+    background-color: #2d3748;
+    width: 90%;
+    max-width: 1000px;
+    overflow: hidden;
+    color: white;
+    border-radius: 16px;
+    max-height: calc(100% - 2em - 6px);
+    margin: auto;
+  }
+
+  .modal-container {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+  }
+
+  .modal-image {
+    height: 100%;
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .modal-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .poster-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .modal-content {
+    align-items: flex-start;
+  }
+
+  .movie-content-title-box {
+    align-items: flex-start;
+  }
 }
