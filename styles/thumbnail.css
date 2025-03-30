@@ -1,10 +1,20 @@
 @import "./colors.css";
 
+#movie-container {
+  @media (max-width: 800px) {
+    max-width: 770px;
+  }
+}
+
 .thumbnail-list {
   margin: 0 auto 56px;
   display: grid;
   grid-template-columns: repeat(4, 200px);
   gap: 56px;
+
+  @media (max-width: 800px) {
+    grid-template-columns: repeat(3, 200px);
+  }
 }
 
 .thumbnail {
