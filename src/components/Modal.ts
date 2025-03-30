@@ -52,16 +52,18 @@ export default function Modal({
         />
         </div>
         <div class="modal-description" id=${id}>
-            <h2>${title}</h2>
-            <p class="category">
-                ${release_year} · ${genres.join(",")}
-            </p>
-            <div class="rate-container">
-                <div>평균</div>
-                <p class="rate">
-                    <img src="./images/star_filled.png" class="star" />
-                    <span>${vote_average}</span>
-                </p>
+          <div class="movie-description-container">
+              <h2>${title}</h2>
+              <p class="category">
+                  ${release_year} · ${genres.join(",")}
+              </p>
+              <div class="rate-container">
+                  <div>평균</div>
+                  <p class="rate">
+                      <img src="./images/star_filled.png" class="star" />
+                      <span>${vote_average}</span>
+                  </p>
+              </div>
             </div>
 
             <hr />

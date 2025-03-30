@@ -14,6 +14,12 @@
   }
 }
 
+@media (min-width: 500px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(2, 200px);
+  }
+}
+
 @media (min-width: 800px) {
   .thumbnail-list {
     grid-template-columns: repeat(3, 200px);

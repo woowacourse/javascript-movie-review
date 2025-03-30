@@ -164,3 +164,46 @@ body.modal-open {
   display: block;
   width: 92px;
 }
+
+@media (max-width: 800px) {
+  #modalBackground {
+    overflow: auto;
+    align-items: end;
+  }
+
+  .modal-container {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* overflow: auto; */
+  }
+  .movie-description-container {
+    text-align: center;
+  }
+  .rate-container {
+    justify-content: center;
+  }
+  .modal-image img {
+    width: 300px;
+  }
+}
+
+@media (max-width: 390px) {
+  #modalBackground {
+    overflow: auto;
+    align-items: end;
+  }
+
+  .modal-image img {
+    display: none;
+  }
+  .modal-subtitle {
+    text-align: center;
+  }
+  .personal-rate-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+}
