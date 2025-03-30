@@ -19,10 +19,22 @@ async function init() {
   initUrl();
 
   try {
-    const movies = await withSkeleton($movieList, getMovieList({ page: 1 }));
-    if (movies) {
-      Header(movies.results[0]);
-      addMovieCard(movies.results, $movieList);
+    const movieLists = await withSkeleton(
+      $movieList,
+      getMovieList({ page: 1 })
+    );
+    if (movieLists) {
+      const movies = movieLists.results.map((movieList) => {
+        const { id, title, poster_path, vote_average } = movieList;
+        return {
+          id,
+          title,
+          poster_path,
+          vote_average,
+        };
+      });
+      Header(movies[0]);
+      addMovieCard(movies, $movieList);
     }
   } catch (error) {
     ErrorModal("영화 리스트를 불러오는데 실패하였습니다.");

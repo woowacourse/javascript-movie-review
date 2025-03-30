@@ -27,18 +27,8 @@ export function addMovieCard(
 }
 
 function addMoreMovies($movieListContainer: HTMLElement, movieList: IMovie[]) {
-  if (movieList[0].title) {
-    $movieListContainer.appendChild(
-      createFragment(
-        movieList.map((movie) => MovieCard(movie.title as string, movie))
-      )
-    );
-    return;
-  }
-
   $movieListContainer.appendChild(
-    createFragment(
-      movieList.map((movie) => MovieCard(movie.name as string, movie))
-    )
+    createFragment(movieList.map((movie) => MovieCard(movie)))
   );
+  return;
 }

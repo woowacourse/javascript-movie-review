@@ -1,8 +1,8 @@
-import { IMovie } from "../../types/movies";
+import { ICustomMovie } from "../../types/movies";
 import { bannerButtonHandler } from "../detailModal/bannerButtonHandler";
 import { CustomButton } from "./CustomButton";
 
-export default function Header(movie: IMovie) {
+export default function Header(movie: ICustomMovie) {
   const $header = document.getElementById("header");
 
   if (!$header) {

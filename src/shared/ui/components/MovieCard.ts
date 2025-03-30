@@ -1,7 +1,7 @@
-import { IMovie } from "../../types/movies";
+import { ICustomMovie } from "../../types/movies";
 import { toElement } from "../../utils/toElement";
 
-export default function MovieCard(movieTitle: string, movie: IMovie) {
+export default function MovieCard(movie: ICustomMovie) {
   const movieImgPath = movie.poster_path
     ? `https://media.themoviedb.org/t/p/w440_and_h660_face${movie.poster_path}`
     : "images/nullImage.png";
@@ -12,7 +12,7 @@ export default function MovieCard(movieTitle: string, movie: IMovie) {
         <img
           class="thumbnail"
           src=${movieImgPath}
-          alt=${movieTitle}
+          alt=${movie.title}
         />
         <div class="item-desc">
           <p class="rate">
@@ -20,7 +20,7 @@ export default function MovieCard(movieTitle: string, movie: IMovie) {
               >${movie.vote_average.toFixed(1)}</span
             >
           </p>
-          <strong class="movie-card-title">${movieTitle}</strong>
+          <strong class="movie-card-title">${movie.title}</strong>
         </div>
       </button>
     </li>
