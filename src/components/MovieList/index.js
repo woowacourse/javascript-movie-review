@@ -1,8 +1,10 @@
 import { ListTitleRender } from "./ListTitle.js";
 import { MovieItemRender, MovieItemMount } from "./MovieItem.js";
-import { MoreButtonMount, MoreButtonRender } from "../MoreButton/MoreButton.js";
 import { SkeletonMovieItemRender } from "../Skeleton/SkeletonMovieItem.js";
 import { ERROR_MESSAGES, MOVIE_COUNT } from "../../constants/config.js";
+import { fetchMoreMovies } from "./fetchMoreMovies.js";
+import store from "../../store/store.js";
+import { fetchPopularMovies } from "../../APIs/movieAPI.js";
 
 export function MovieListRender({
   movies,
@@ -10,8 +12,6 @@ export function MovieListRender({
   searchedMoviesLength,
   isLoading,
 }) {
-  const showMoreButton = !query || movies.length < searchedMoviesLength;
-
   let movieContent = "";
   if (isLoading) {
     movieContent = /* html */ `
@@ -42,8 +42,7 @@ export function MovieListRender({
     <main>
       <section class="movie-list-container">
         ${ListTitleRender({ query })}
-          ${movieContent}
-        ${showMoreButton ? MoreButtonRender() : ""}
+        ${movieContent}
       </section>
     </main>
   `;
@@ -51,5 +50,19 @@ export function MovieListRender({
 
 export function MovieListMount() {
   MovieItemMount();
-  MoreButtonMount();
+
+  window.addEventListener("scroll", async () => {
+    if (
+      window.innerHeight + window.scrollY >=
+      document.body.offsetHeight - 300
+    ) {
+      const state = store.getState();
+      if (state.isLoading) return;
+      const currentPage =
+        Math.floor(state.movies.length / MOVIE_COUNT.UNIT) + 1;
+
+      store.setState({ ...state, isLoading: true });
+      await fetchMoreMovies(currentPage);
+    }
+  });
 }
