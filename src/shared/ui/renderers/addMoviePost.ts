@@ -25,9 +25,10 @@ export function addMoviePost(movieList: IMovie[], $movieList: HTMLElement) {
 
   movieList.forEach((movie: IMovie) => {
     const moviePost = MoviePost(movie);
+    const $wrap = document.querySelector("#wrap");
     moviePost.addEventListener("click", async () => {
       const movieDetail = await getMovieDetail(movie.id);
-      document.body.appendChild(Modal(movieDetail));
+      $wrap?.appendChild(Modal(movieDetail));
     });
     fragment.appendChild(moviePost);
   });
