@@ -123,8 +123,9 @@ class MovieItemDetails {
     const votingRate = /*html*/ `
       <div class="voting-rate">
         <div class="star-marks-container">${starMarks}</div>
-        <p>${RATING_MESSAGE[this.#rate] ?? VOTE.noticeMessage}</p>
-        <span>(${this.#rate}/${VOTE.MaximumRate})</span>
+        <p>${RATING_MESSAGE[this.#rate] ?? VOTE.noticeMessage}
+          <span>(${this.#rate}/${VOTE.MaximumRate})</span>
+        </p>
       </div>
     `;
 
