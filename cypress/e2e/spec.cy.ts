@@ -13,7 +13,13 @@ describe("E2E테스트", () => {
     });
 
     it("사용자가 스크롤을 내려서 하단에 도달한 경우 다음 영화 페이지 목록을 보여준다.", () => {
-      // TODO: 무한 스크롤로 수정
+      // 초기에 20개의 영화가 로드되어 있는지 확인
+      cy.get(".thumbnail-list > li").should("have.length", 20);
+
+      // 페이지 끝까지 스크롤
+      cy.scrollTo("bottom");
+
+      // 총 40개(초기 20개 + 추가 20개)의 영화가 표시되는지 확인
       cy.get(".thumbnail-list > li").should("have.length", 40);
     });
   });
