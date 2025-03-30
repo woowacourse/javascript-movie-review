@@ -3,7 +3,7 @@ import { CustomButton } from "./shared/ui/components/CustomButton";
 import { showSkeletons } from "./shared/ui/renderers/showSkeletons";
 import { addMoviePost } from "./shared/ui/renderers/addMoviePost";
 import { addMoreMovies } from "./shared/domain/addMoreMovies";
-import { updateSearchPageUI } from "./features/search/ui/handlers/searchFormSubmitHandler";
+import { updateSearchPageUI } from "./features/search/ui/renderers/updateSearchPageUI";
 import { showErrorPage } from "./shared/ui/renderers/showErrorPage";
 import { getQueryParam } from "./shared/utils/getParams";
 import { setParams } from "./shared/utils/setParams";
