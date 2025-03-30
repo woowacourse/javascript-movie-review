@@ -22,7 +22,7 @@ export default abstract class Component<TProps extends Props = {}, TState extend
     this.addEventListener();
   }
 
-  subsribe(stores?: Store<any>[]) {
+  subsribe(stores: Store<any>[]) {
     if (!stores) return;
 
     forEach((store) => {
