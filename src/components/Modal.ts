@@ -37,6 +37,12 @@ const Modal = ({ item }: ModalProps) => {
     closeModal();
   };
 
+  const handleKeyDownESC = (event: KeyboardEvent) => {
+    if (event.key === "Escape") {
+      closeModal();
+    }
+  }
+
   const handleClickBackDrop = (event: MouseEvent) => {
     if (event.target === $modal) {
       closeModal();
@@ -44,6 +50,7 @@ const Modal = ({ item }: ModalProps) => {
   };
 
   $modalBackground.addEventListener("click", handleClickBackDrop);
+  document.addEventListener("keydown", handleKeyDownESC);
 
   $modal.innerHTML = `
         <button class="close-modal" id="closeModal">
@@ -60,10 +67,26 @@ const Modal = ({ item }: ModalProps) => {
             <p class="category">
               2024 · 모험, 애니메이션, 코미디, 드라마, 가족
             </p>
+            
             <p class="rate">
-              <img src="images/star_filled.png" class="star" /><span>7.7</span>
+            <span>평균</span>
+            <img src="images/star_filled.png" class="star" /><span>7.7</span>
             </p>
             <hr />
+            <div class="my-rate-container">
+            <h3>내 별점</h3>
+            <div class="my-rate-content">
+              <img src="images/star_filled.png" class="star" />
+              <img src="images/star_filled.png" class="star" />
+              <img src="images/star_filled.png" class="star" />
+              <img src="images/star_filled.png" class="star" />
+              <img src="images/star_empty.png" class="star" />
+              <span>명작이에요(8/10)</span>
+            </div>
+            </div>
+            <hr />
+            
+            <h3>줄거리</h3>
             ${
               description
                 ? `<p class="detail">${description}</p>`
