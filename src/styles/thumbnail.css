@@ -75,7 +75,6 @@
 
 .item-desc > *:not(:last-child) {
   position: relative;
-  margin-bottom: 4px;
   line-height: 1.2rem;
 }
 
@@ -83,6 +82,7 @@ p.rate {
   display: flex;
   align-items: baseline;
   color: var(--color-yellow);
+  padding: 8px 0;
 }
 
 p.rate > span {
