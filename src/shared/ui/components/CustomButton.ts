@@ -10,7 +10,7 @@ export const CustomButton = ({
   id = "",
 }: ICustomButton) => {
   const customButton = document.createElement("button");
-  customButton.className = `primary detail ${className}`;
+  customButton.className = `primary ${className}`;
   customButton.textContent = title;
   customButton.id = id;
 

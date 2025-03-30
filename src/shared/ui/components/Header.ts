@@ -44,7 +44,7 @@ const Header = (movie: IMovie) => {
     searchFormSubmitHandler(e);
   });
 
-  const $headerButton = document.querySelector(".primary.detail");
+  const $headerButton = document.querySelector(".primary");
   $headerButton?.addEventListener("click", async () => {
     const movieDetail = await getMovieDetail(movie.id);
     document.body.appendChild(Modal(movieDetail));
