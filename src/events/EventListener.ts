@@ -1,7 +1,13 @@
 import Modal, { ratingType } from "../components/layout/Modal";
 import EventBus from "./EventBus";
-import { isElement, isForm, isHTMLElement, isImage, isInput } from "./guards";
-import { EVENT_TYPES } from "./types";
+import {
+  isElement,
+  isForm,
+  isHTMLElement,
+  isImage,
+  isInput,
+} from "./utils/guards";
+import { EVENT_TYPES } from "./types/eventTypes";
 
 const eventBus = EventBus.getInstance();
 
@@ -14,7 +20,13 @@ const SELECTORS = {
   ratingStar: ".star",
 };
 
-window.addEventListener("click", async (event) => {
+export function initializeDomEventListener() {
+  window.addEventListener("click", handleClick);
+  window.addEventListener("submit", handleSubmit);
+  window.addEventListener("keydown", handleKeydown);
+}
+
+function handleClick(event: MouseEvent) {
   const { target } = event;
   if (!isElement(target)) return;
 
@@ -65,9 +77,9 @@ window.addEventListener("click", async (event) => {
     action(element);
     return;
   }
-});
+}
 
-window.addEventListener("submit", async (event) => {
+function handleSubmit(event: SubmitEvent) {
   event.preventDefault();
 
   const { target } = event;
@@ -81,13 +93,13 @@ window.addEventListener("submit", async (event) => {
 
   target.reset();
   eventBus.emit(EVENT_TYPES.search, keyword);
-});
+}
 
-window.addEventListener("keydown", (event) => {
+function handleKeydown(event: KeyboardEvent) {
   if (event.defaultPrevented) return;
 
   if (["Escape", "Esc"].includes(event.key) && Modal.getInstance().isActive()) {
     eventBus.emit(EVENT_TYPES.modalClose);
     event.preventDefault();
   }
-});
+}

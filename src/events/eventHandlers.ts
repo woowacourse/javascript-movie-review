@@ -5,11 +5,23 @@ import { getGenreList, updateMoviesList } from "../domains/renderMoviesList";
 import UserMovieRatingStorage from "../storages/UserMovieRatingStorage";
 import { store } from "../stores";
 import EventBus from "./EventBus";
-import { EVENT_TYPES } from "./types";
+import { EVENT_TYPES } from "./types/eventTypes";
 
 const eventBus = EventBus.getInstance();
 
-eventBus.on(EVENT_TYPES.modalOpen, async (movieId) => {
+export function initializeEventHandlers() {
+  eventBus.on(EVENT_TYPES.modalOpen, handleModalOpen);
+  eventBus.on(EVENT_TYPES.modalClose, handleModalClose);
+  eventBus.on(EVENT_TYPES.search, handleSearch);
+  eventBus.on(EVENT_TYPES.setRating, handleSetRating);
+}
+
+async function handleModalOpen(movieId: number) {
+  const modal = Modal.getInstance();
+
+  modal.setState({ isLoading: true });
+  modal.open();
+
   const movieData = store.movies.find((m) => m.id === movieId);
   if (!movieData) return;
 
@@ -44,14 +56,14 @@ eventBus.on(EVENT_TYPES.modalOpen, async (movieId) => {
     my_rate: myRate,
   };
 
-  Modal.getInstance().open(finalMovieData);
-});
+  modal.open(finalMovieData);
+}
 
-eventBus.on(EVENT_TYPES.modalClose, () => {
+function handleModalClose() {
   Modal.getInstance().close();
-});
+}
 
-eventBus.on(EVENT_TYPES.search, async (value) => {
+async function handleSearch(value: string) {
   store.searchKeyword = value;
   store.page = 1;
   store.movies = [];
@@ -64,9 +76,9 @@ eventBus.on(EVENT_TYPES.search, async (value) => {
 
   Header.getInstance().setState({ hasSearched: true });
   await updateMoviesList();
-});
+}
 
-eventBus.on(EVENT_TYPES.setRating, (newRating: ratingType) => {
+function handleSetRating(newRating: ratingType) {
   const currentMovieId = Modal.getInstance().getMovieId();
   if (!currentMovieId) return;
 
@@ -76,4 +88,4 @@ eventBus.on(EVENT_TYPES.setRating, (newRating: ratingType) => {
   });
 
   Modal.getInstance().setState({ my_rate: newRating });
-});
+}

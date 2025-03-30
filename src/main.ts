@@ -1,7 +1,9 @@
 import { initializeLayout } from "./domains/renderMoviesList";
-import "./events/eventDelegator";
-import "./events/eventHandlers";
+import { initializeEventHandlers } from "./events/EventHandlers";
+import { initializeDomEventListener } from "./events/EventListener";
 
 addEventListener("load", () => {
   initializeLayout();
+  initializeDomEventListener();
+  initializeEventHandlers();
 });
