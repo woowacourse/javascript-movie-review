@@ -14,28 +14,35 @@ export function MovieListRender({
 
   let movieContent = "";
   if (isLoading) {
-    movieContent = new Array(MOVIE_COUNT.UNIT)
-      .fill(0)
-      .map(() => SkeletonMovieItemRender())
-      .join("");
+    movieContent = /* html */ `
+       <ul id="movie-list" class="thumbnail-list" data-testid="movie-list">
+          ${new Array(MOVIE_COUNT.UNIT)
+            .fill(0)
+            .map(() => SkeletonMovieItemRender())
+            .join("")}
+        </ul>
+      `;
   } else if (movies.length === 0 && query) {
-    movieContent = `<div></div>
-                    <div></div>
-                    <div class="center">
-                      <img src="./images/not_found.png"/>
-                      <h2 data-testid='no-result-message'>${ERROR_MESSAGES.NO_RESULT}</h2>
-                    </div>`;
+    movieContent = /* html */ `
+        <div class="not-found-movie">
+          <img src="./images/not_found.png"/>
+          <h2 data-testid='no-result-message'>${ERROR_MESSAGES.NO_RESULT}</h2>
+        </div>
+        <ul id="movie-list" class="thumbnail-list" data-testid="movie-list"></ul>
+      `;
   } else {
-    movieContent = movies.map((movie) => MovieItemRender(movie)).join("");
+    movieContent = /* html */ `
+        <ul id="movie-list" class="thumbnail-list" data-testid="movie-list">
+          ${movies.map((movie) => MovieItemRender(movie)).join("")}
+        </ul>
+    `;
   }
 
   return /* html */ `
     <main>
-      <section>
+      <section class="movie-list-container">
         ${ListTitleRender({ query })}
-        <ul id="movie-list" class="thumbnail-list" data-testid="movie-list">
           ${movieContent}
-        </ul>
         ${showMoreButton ? MoreButtonRender() : ""}
       </section>
     </main>

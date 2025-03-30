@@ -42,6 +42,14 @@ p.rate > span {
   width: 100%;
 }
 
+.not-found-movie {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+}
+
 @media screen and (max-width: 1440px) {
   .thumbnail-list {
     grid-template-columns: repeat(4, 200px);
