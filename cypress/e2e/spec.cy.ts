@@ -35,6 +35,18 @@ describe("Fixture를 이용한 E2E 테스트", () => {
     });
   });
 
+  it("가장 하단으로 스크롤을 내리면 무한스크롤이 동작한다.", () => {
+    cy.get(".search-input").click();
+    cy.get(".search-input").type("짱구");
+    cy.get(".search-input").type("{enter}");
+
+    cy.get(".thumbnail-list > li").should("have.length.at.least", 20);
+
+    cy.scrollTo("bottom");
+
+    cy.get(".thumbnail-list > li").should("have.length", 35);
+  });
+
   it("더보기 버튼 클릭 시 20개의 영화가 추가된다.", () => {
     // 첫 번째 API 응답 기다리기
     cy.wait("@getPopularMovies");
