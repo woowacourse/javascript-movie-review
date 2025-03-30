@@ -26,17 +26,19 @@ const Modal = (movieDetail: IMovieDetail) => {
             />
           </div>
           <div class="modal-description">
-            <h2 class="modal-title">${movieDetail.title}</h2>
-            <p class="category">
-              ${releaseDate} · ${genres}
-            </p>
-            <p class="modal-rate">
-              <span class="modal-rate-average-text">평균</span>
-              <img src="./images/star_filled.png" class="modal-star" />
-              <span class="modal-rate-text">${movieDetail.vote_average.toFixed(
-                1
-              )}</span>
-            </p>
+            <section class="modal-description-header">
+              <h2 class="modal-title">${movieDetail.title}</h2>
+              <p class="category">
+                ${releaseDate} · ${genres}
+              </p>
+              <p class="modal-rate">
+                <span class="modal-rate-average-text">평균</span>
+                <img src="./images/star_filled.png" class="modal-star" />
+                <span class="modal-rate-text">${movieDetail.vote_average.toFixed(
+                  1
+                )}</span>
+              </p>
+            </section>
             <hr />            
             <section class="my-rate-wrapper">
               ${MyRate(movieDetail.id.toString())}
