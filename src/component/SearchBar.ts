@@ -6,6 +6,7 @@ import { $ } from '../util/selector';
 import { removeBanner } from './Banner';
 import { createObserverTarget } from './MovieList';
 import Movie from './Movie';
+import { createInfiniteScrollObserver } from '../util/intersectionObserver';
 
 function SearchBar() {
   return createDOMElement({
@@ -82,28 +83,19 @@ const observeNextPage = (searchKeyword: string, totalPages: number, startPage: n
   const list = $('.thumbnail-list');
   if (!container || !list) return;
 
-  const target = createObserverTarget();
-  container.appendChild(target);
-
-  const observer = new IntersectionObserver(async ([entry], obs) => {
-    if (!entry.isIntersecting) return;
-
-    obs.unobserve(entry.target);
+  const observe = async () => {
     page++;
-
     if (page > totalPages) return;
 
-    const res = await getSearchMovies({ page, query: searchKeyword });
-    if (!res) return;
+    const response = await getSearchMovies({ page, query: searchKeyword });
 
-    res.results.forEach((movie) => {
+    response.results.forEach((movie) => {
       list.appendChild(Movie({ movie }));
     });
 
     const newTarget = createObserverTarget();
     container.appendChild(newTarget);
-    obs.observe(newTarget);
-  });
-
-  observer.observe(target);
+    createInfiniteScrollObserver(newTarget, observe);
+  };
+  observe();
 };

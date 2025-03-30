@@ -3,6 +3,9 @@ import Button from './Button';
 import { IMAGE_BASE_URL } from '../constant';
 import { IMovie } from '../type';
 import { $ } from '../util/selector';
+import getMovieDetail from '../api/getMovieDetail';
+import DetailModal from './Modal/DetailModal';
+import Modal from './Modal/Modal';
 
 function Banner({ movie }: { movie: IMovie }) {
   const { backdrop_path, vote_average, title } = movie;
@@ -12,7 +15,7 @@ function Banner({ movie }: { movie: IMovie }) {
       createDOMElement({
         tag: 'div',
         className: 'background-container',
-        children: [BackDrop({ backDropUrl: backdrop_path }), TopRatedMovie({ vote_average, title })]
+        children: [BackDrop({ backDropUrl: backdrop_path }), TopRatedMovie({ id: movie.id, vote_average, title })]
       })
     ]
   });
@@ -32,7 +35,14 @@ function BackDrop({ backDropUrl }: { backDropUrl: string | null }) {
   });
 }
 
-function TopRatedMovie({ vote_average, title }: { vote_average: number; title: string }) {
+function TopRatedMovie({ vote_average, title, id }: { vote_average: number; title: string; id: number }) {
+  const handleDetailClick = async () => {
+    const response = await getMovieDetail({ movieId: id });
+    if (!response) return;
+
+    Modal.open(DetailModal(response));
+  };
+
   return createDOMElement({
     tag: 'div',
     className: 'top-rated-container',
@@ -62,7 +72,11 @@ function TopRatedMovie({ vote_average, title }: { vote_average: number; title: s
             className: 'title',
             textContent: title
           }),
-          Button({ text: '자세히보기', id: 'datail' })
+          Button({
+            text: '자세히보기',
+            id: 'detail',
+            onClick: handleDetailClick
+          })
         ]
       })
     ]
@@ -77,7 +91,6 @@ export const removeBanner = () => {
 
   const main = document.querySelector('main');
   if (!main) return;
-  main.style.padding = '100px 0 64px';
 };
 
 export const addBanner = (banner: HTMLElement) => {
