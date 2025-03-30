@@ -124,6 +124,10 @@ body.modal-open {
   gap: 12px;
 }
 
+.score__stars {
+  cursor: pointer;
+}
+
 .score__description {
   font-size: 1.1rem;
 }
