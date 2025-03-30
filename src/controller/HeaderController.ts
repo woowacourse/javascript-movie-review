@@ -13,6 +13,7 @@ class HeaderController {
 
     this.bindSearchEvent(renderSearchMovieList);
     this.bindHomeLogoEvent(renderMovieList);
+    this.bindScrollEvent();
   }
 
   bindSearchEvent(renderSearchMovieList: (searchValue: string) => void) {
@@ -38,6 +39,19 @@ class HeaderController {
 
       const inputElement = this.searchBarElement.querySelector("input") as HTMLInputElement;
       inputElement.value = "";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  }
+
+  bindScrollEvent() {
+    window.addEventListener("scroll", () => {
+      const headerElement = document.querySelector(".header-wrapper") as HTMLElement;
+
+      if (window.scrollY > 200) {
+        headerElement.classList.add("scroll");
+      } else {
+        headerElement.classList.remove("scroll");
+      }
     });
   }
 }

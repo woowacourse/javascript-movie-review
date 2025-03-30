@@ -63,6 +63,13 @@ header {
   gap: 24px;
   padding: 40px 0;
   align-items: center;
+  border-radius: 0 0 50px 50px;
+  transition: background-color 0.3s ease;
+}
+
+.header-wrapper.scroll {
+  background-color: rgba(36, 42, 50, 0.95);
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
 }
 
 .header-wrapper .logo {
