@@ -62,12 +62,17 @@ function ModalLayout() {
   function template() {
     return `
         <div class="modal-container">
-          <div class="modal-close" id="closeModal"></div>
+          <div class="modal-close" id="closeModal">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3 3L19 19" stroke="#95A1B2" stroke-width="4.5" stroke-linecap="round"/>
+              <path d="M3 19.0005L19 3.00051" stroke="#95A1B2" stroke-width="4.5" stroke-linecap="round"/>
+            </svg>
+          </div>
           <div class="modal-image">
             <img id="posterImage" class="poster-image" src="" alt="" />
           </div>
           <div class="modal-content">
-            <h2 id="movieTitle" class="movie-title">인사이드 아웃 2</h2>
+            <h2 id="movieTitle" class="movie-title">-</h2>
             <p class="movie-info">
             <span id="releaseDate">2024</span>
             · 
@@ -87,7 +92,7 @@ function ModalLayout() {
             <div class="synopsis-section">
               <h3 class="synopsis-title">줄거리</h3>
               <div class="synopsis-content">
-                13살이 된 라일리의 행복을 위해 매일 바쁘게 머릿속 감정 컨트롤 본부를 운영하는 '기쁨', '슬픔', '버럭', '까칠', '소심'. 그러던 어느 날, 낯선 감정인 '불안', '당황', '따분', '부럽'이가 본부에 등장하고, 언제나 최악의 상황을 대비하며 제멋대로인 '불안'이와 기존 감정들은 계속 충돌한다. 결국 새로운 감정들에 의해 본부에서 쫓겨나게 된 기존 감정들은 다시 본부로 돌아가기 위해 위험천만한 모험을 시작하는데...
+                -
               </div>
             </div>
           </div>
@@ -108,10 +113,13 @@ function ModalLayout() {
   function setEvent() {
     const closeModal = document.getElementById('closeModal')
     const dialog = document.getElementById('dialogID')
-    if (closeModal && dialog)
-      closeModal.addEventListener('click', function () {
-        dialog.close()
+    if (closeModal && dialog) {
+      dialog.addEventListener('click', (event) => {
+        if (event.target === dialog || event.target.closest('#closeModal') === closeModal) {
+          dialog.close()
+        }
       })
+    }
   }
 
   return { render, replaceContent }
