@@ -27,7 +27,7 @@ export const escape = (value: unknown) => {
   return value;
 };
 
-export function html(strings: TemplateStringsArray, ...values: unknown[]) {
+export function html(strings: TemplateStringsArray, ...values: unknown[]): HTMLType {
   return pipe(
     zip(
       strings,
@@ -38,5 +38,5 @@ export function html(strings: TemplateStringsArray, ...values: unknown[]) {
     ),
     flat,
     reduce((a, b) => a + b),
-  ) as HTMLType;
+  );
 }
