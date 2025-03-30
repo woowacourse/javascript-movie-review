@@ -1,9 +1,6 @@
-export const getParams = (url: URL) => {
+export const getQueryParam = (url: URL) => {
   const params = new URLSearchParams(url.search);
-  const query = params.get("query") ?? null;
-  const pageStr = params.get("page");
-  const currentPage = pageStr ? parseInt(pageStr) : 1;
-  const nextPage = currentPage + 1;
+  const query = params.get("query") ?? "";
 
-  return { query, currentPage, nextPage };
+  return query;
 };
