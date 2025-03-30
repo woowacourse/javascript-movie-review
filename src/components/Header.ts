@@ -70,6 +70,11 @@ export default class Header extends Component {
         moviesStore.reset();
 
         await getMovies({ query: searchStore.getState(), page: pageStore.getState() });
+
+        const url = new URL(window.location.href);
+        url.searchParams.set('search', searchStore.getState());
+
+        window.history.pushState({ search: searchStore.getState() }, '', url);
       },
       dataAction: 'submit-search',
     });
@@ -79,7 +84,13 @@ export default class Header extends Component {
       callback: () => {
         moviesStore.reset();
         pageStore.reset();
-        searchStore.reset();
+        searchStore.reset('');
+
+        const url = new URL(window.location.href);
+        url.searchParams.delete('search');
+
+        window.history.pushState({ search: searchStore.getState() }, '', url);
+
         getAllMovies({ page: 1 });
       },
       dataAction: 'reset',

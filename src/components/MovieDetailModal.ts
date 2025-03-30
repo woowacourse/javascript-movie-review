@@ -1,9 +1,10 @@
 import { DEFAULT_BACK_DROP_URL } from '@/constants';
 import { eventHandlerInstance } from '@/modules';
-import { movieDetailResponseStore, movieRateStore } from '@/store';
+import { movieDetailResponseStore, movieRateStore, moviesStore, pageStore, searchStore } from '@/store';
 import { $, html } from '@/utils';
 import { join, map, pipe, toArray } from '@fxts/core';
 import Modal from './common/Modal';
+import { getMovies } from '@/apis';
 
 const RATE_MAP: Record<number, string> = {
   2: '최악이에요',
@@ -143,6 +144,14 @@ export default class MovieDetailModal extends Modal {
       eventType: 'popstate',
       callbackWindow: () => {
         movieDetailResponseStore.reset();
+
+        const search = new URL(window.location.href).searchParams.get('search') ?? '';
+
+        searchStore.setState(search);
+        pageStore.reset();
+        moviesStore.reset();
+
+        getMovies({ query: searchStore.getState(), page: pageStore.getState() });
       },
     });
   }

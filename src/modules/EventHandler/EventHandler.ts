@@ -12,7 +12,7 @@ interface EventCallback {
   dataAction?: string;
   callback?: (props: EventCallbackProps) => void;
   notTriggerDataAction?: string;
-  callbackWindow?: () => void;
+  callbackWindow?: (event: WindowEventMap[keyof WindowEventMap]) => void;
 }
 
 interface AddEventListenerProps extends EventCallback {
@@ -42,7 +42,7 @@ export class EventHandler {
         forEach(({ callback, callbackWindow, dataAction, notTriggerDataAction }) => {
           const target = event.target;
           if (!isHTMLElement(target)) {
-            callbackWindow?.();
+            callbackWindow?.(event);
             return;
           }
 

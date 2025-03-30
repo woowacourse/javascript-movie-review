@@ -10,7 +10,8 @@ export default class MovieSection extends Component {
   override setup() {
     this.subsribe([moviesStore, errorStore, searchStore]);
 
-    getAllMovies({ page: pageStore.getState() });
+    if (searchStore.getState()) getMovies({ page: pageStore.getState(), query: searchStore.getState() });
+    else getAllMovies({ page: pageStore.getState() });
 
     new MovieDetailModal({ movieRate: movieRateStore.getState() });
   }

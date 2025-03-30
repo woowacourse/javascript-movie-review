@@ -26,8 +26,8 @@ export default class Store<TState> extends Obserable<TState> {
     this.notify(this.#state);
   }
 
-  reset() {
-    this.setState(this.#initialState);
+  reset(value?: TState) {
+    this.setState(value ?? this.#initialState);
   }
 }
 
@@ -35,7 +35,7 @@ export const moviesResponseStore = new Store<MoviesResponse | null>(null);
 export const movieDetailResponseStore = new Store<MovieDetailResponse | null>(null);
 
 export const moviesStore = new Store<MovieType[] | null>(null);
-export const searchStore = new Store<string>('');
+export const searchStore = new Store<string>(new URL(window.location.href).searchParams.get('search') ?? '');
 export const errorStore = new Store<Error | null>(null);
 export const pageStore = new Store<number>(1);
 export const movieRateStore = persisted('movieRate', new Store<LocalStorageMovieRateValueType>({}));
