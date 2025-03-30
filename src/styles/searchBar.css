@@ -1,6 +1,5 @@
 .search-container {
   display: flex;
-
   width: 525px;
   height: 36px;
   justify-content: space-between;
@@ -32,4 +31,11 @@
 
 #search {
   cursor: pointer;
+}
+
+@media (max-width: 660px) {
+  .search-container {
+    width: 100%;
+    margin: 24px 0;
+  }
 }
