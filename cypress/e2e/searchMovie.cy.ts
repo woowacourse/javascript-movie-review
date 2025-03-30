@@ -30,9 +30,7 @@ describe("영화 검색 비동기 API 테스트", () => {
     cy.scrollTo("bottom");
     cy.get(".skeleton-container").should("exist");
 
-    cy.wait("@searchMovies");
-    cy.get(".skeleton-container").should("not.exist");
-
     cy.get(".thumbnail-list").find(".thumbnail").should("have.length", 40);
+    cy.get(".skeleton-container").should("not.exist");
   });
 });
