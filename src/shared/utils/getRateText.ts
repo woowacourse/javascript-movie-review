@@ -8,5 +8,9 @@ const RATE_TEXT = {
 };
 
 export function getRateText(rate: number): string {
-  return `${RATE_TEXT[rate as keyof typeof RATE_TEXT]} (${rate}/10)`;
+  return `${RATE_TEXT[rate as keyof typeof RATE_TEXT]} `;
+}
+
+export function getRateScore(rate: number): string {
+  return `(${rate}/10)`;
 }
