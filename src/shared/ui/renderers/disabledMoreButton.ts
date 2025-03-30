@@ -1,4 +1,4 @@
-import { IMovie } from "../types/movies";
+import { IMovie } from "../../types/movies";
 
 export function disableMoreButton(
   totalPages: number,
