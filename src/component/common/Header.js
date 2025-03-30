@@ -5,8 +5,8 @@ function Header() {
   function template() {
     return `
     
-     <h1 class="logo" data-action="reload">
-            <img data-action="reload" src="./images/logo.png" alt="MovieList" />
+     <h1 class="logo">
+            <img src="./images/logo.png" alt="MovieList" />
         </h1>
     <div class="header-container">
 

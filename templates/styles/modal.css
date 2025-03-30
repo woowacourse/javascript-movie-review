@@ -39,6 +39,19 @@ body.modal-open {
   width: 1000px;
 }
 
+@media (max-width: 1199px) {
+  .modal {
+    width:85%;
+  }
+}
+
+@media (max-width: 767px) {
+  .modal {
+    width: 90%;
+  }
+}
+
+
 .close-modal {
   position: absolute;
   margin: 0;
@@ -56,16 +69,54 @@ body.modal-open {
   display: flex;
 }
 
+@media (max-width: 767px) {
+  .modal-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+
 .modal-image img {
   width: 380px;
   border-radius: 16px;
 }
+
+@media (max-width: 1199px) {
+  .modal-image img {
+
+  }
+}
+
+@media (max-width: 767px) {
+  .modal-image img {
+    display: none;
+  }
+}
+
 
 .modal-description {
   width: 100%;
   padding: 8px;
   margin-left: 16px;
   line-height: 1.6rem;
+}
+
+@media (max-width: 1199px) {
+  .modal-description {
+
+  }
+}
+
+@media (max-width: 767px) {
+  .modal-description {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 .modal-description .rate > img {
@@ -104,4 +155,15 @@ body.modal-open {
 
 .my-rating-text{
   color:#95A1B2;
+}
+
+.my-rating{
+  display: flex; 
+  gap: 10px;
+}
+
+@media (max-width: 767px) {
+  .my-rating {
+    flex-direction: column;
+  }
 }

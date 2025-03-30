@@ -24,12 +24,14 @@ function MyRating(title) {
     }, 0);
 
     return `
-    <div style="display: flex; gap: 10px;">
+    <div class="my-rating">
         <div style="display: flex;">
              ${stars}
         </div>
-        <div>${RATING_MESSAGES[rating].comment}</div>
-        <div class="my-rating-text">${rating}/10</div>
+        <div  style="display: flex; gap: 10px;">
+            <div >${RATING_MESSAGES[rating].comment}</div>
+            <div class="my-rating-text">${rating}/10</div>
+        </div>
     </div>
     `;
 }
