@@ -48,8 +48,7 @@ addEventListener("load", async () => {
     Skeleton.init();
 
     ScrollObserver.intersect = () => seeMorePopularMovies(observer);
-
-    ScrollObserver.on(observer);
+    ScrollObserver.turnOn(observer);
   } catch (error) {
     if (error instanceof Error) alert(error.message);
   }
@@ -83,10 +82,10 @@ async function getSearchMovieList(query: string) {
 
 async function seeMorePopularMovies(observer: IntersectionObserver) {
   Skeleton.show();
-  ScrollObserver.on(observer);
+  ScrollObserver.turnOn(observer);
   try {
     const { movies, canMore } = await getPopularMovieList();
-    if (!canMore) ScrollObserver.off(observer);
+    if (!canMore) ScrollObserver.turnOff(observer);
     MovieList.add(movies);
     Skeleton.hidden();
   } catch (error) {
@@ -99,7 +98,7 @@ async function search(observer: IntersectionObserver) {
   NoThumbnail.hidden();
   MovieList.init([]);
   pageNumber = 1;
-  ScrollObserver.on(observer);
+  ScrollObserver.turnOn(observer);
 
   Skeleton.show();
   ScrollObserver.intersect = () => seeMoreSearchMovies(query, observer);
@@ -109,7 +108,7 @@ async function search(observer: IntersectionObserver) {
     Subtitle.set(`"${query}" 검색 결과`);
     Skeleton.hidden();
     MovieList.set(movies);
-    if (!canMore) ScrollObserver.off(observer);
+    if (!canMore) ScrollObserver.turnOff(observer);
 
     if (movies.length === 0) {
       NoThumbnail.show();
@@ -127,7 +126,7 @@ async function seeMoreSearchMovies(
   Skeleton.show();
   try {
     const { movies, canMore } = await getSearchMovieList(query);
-    if (!canMore) ScrollObserver.off(observer);
+    if (!canMore) ScrollObserver.turnOff(observer);
     MovieList.add(movies);
     Skeleton.hidden();
   } catch (error) {

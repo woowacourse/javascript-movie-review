@@ -18,11 +18,11 @@ const ScrollObserver = {
     return observer;
   },
 
-  on(observer: IntersectionObserver) {
+  turnOn(observer: IntersectionObserver) {
     observer.observe($observerTarget);
   },
 
-  off(observer: IntersectionObserver) {
+  turnOff(observer: IntersectionObserver) {
     observer.unobserve($observerTarget);
   },
 
