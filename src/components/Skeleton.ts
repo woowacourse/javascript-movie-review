@@ -2,7 +2,7 @@ import { $, createElement } from "../utils/dom";
 
 const Skeleton = {
   render: (el: Element) => {
-    const skeletonUl = createElement("ul", {
+    const $skeletonUl = createElement("ul", {
       class: ["skeleton-list"],
       innerHTML: `
     <li></li>
@@ -17,12 +17,12 @@ const Skeleton = {
     <li></li>`,
     });
 
-    el.appendChild(skeletonUl);
+    el.appendChild($skeletonUl);
   },
   remove: () => {
-    const skeletonUl = $(".skeleton-list");
-    if (skeletonUl) {
-      skeletonUl.remove();
+    const $skeletonUl = $(".skeleton-list");
+    if ($skeletonUl) {
+      $skeletonUl.remove();
     }
   },
 };

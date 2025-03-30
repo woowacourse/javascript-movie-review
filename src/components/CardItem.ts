@@ -12,7 +12,7 @@ const CardItem = ({ title, rating, imageSrc }: CardItemProps) => {
     ? `https://image.tmdb.org/t/p/w500${imageSrc}`
     : "images/nullImage.png";
 
-  const cardItem = createElement("li", {
+  const $cardItem = createElement("li", {
     innerHTML: `
     <div class="item">
       <img class="thumbnail" src="${mappedImage}" alt="${title}" />
@@ -26,7 +26,7 @@ const CardItem = ({ title, rating, imageSrc }: CardItemProps) => {
   `,
   });
 
-  return cardItem;
+  return $cardItem;
 };
 
 export default CardItem;

@@ -5,12 +5,12 @@ type TitleProps = {
 };
 
 const Title = ({ text }: TitleProps) => {
-  const title = createElement("h2", {
+  const $title = createElement("h2", {
     class: ["main-title"],
     textContent: text,
   });
 
-  return title;
+  return $title;
 };
 
 export default Title;

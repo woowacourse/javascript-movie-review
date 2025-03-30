@@ -6,7 +6,7 @@ type NavigationBarProps = {
 };
 
 const NavigationBar = ({ input, onClick }: NavigationBarProps) => {
-  const navigationContainer = createElement("div", {
+  const $navigationContainer = createElement("div", {
     class: ["navigation-container"],
     innerHTML: `
         <h1 class="logo" id="app-logo">
@@ -16,15 +16,15 @@ const NavigationBar = ({ input, onClick }: NavigationBarProps) => {
   });
 
   if (input) {
-    navigationContainer.appendChild(input);
+    $navigationContainer.appendChild(input);
   }
 
   if (onClick) {
-    const appLogo = navigationContainer.querySelector("#app-logo");
+    const appLogo = $navigationContainer.querySelector("#app-logo");
     appLogo?.addEventListener("click", onClick);
   }
 
-  return navigationContainer;
+  return $navigationContainer;
 };
 
 export default NavigationBar;

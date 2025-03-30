@@ -11,16 +11,16 @@ type CardListProps = {
 };
 
 const CardList = ({ items = [] }: CardListProps) => {
-  const movieContainer = createElement("section", {
+  const $movieContainer = createElement("section", {
     class: ["movie-container"],
   });
 
   if (items.length !== 0) {
-    const ul = createElement("ul", {
+    const $ul = createElement("ul", {
       class: ["thumbnail-list"],
     });
 
-    const fragment = document.createDocumentFragment();
+    const $fragment = document.createDocumentFragment();
 
     const cardItems = items.map((item) =>
       CardItem({
@@ -31,12 +31,12 @@ const CardList = ({ items = [] }: CardListProps) => {
       })
     );
 
-    fragment.append(...cardItems);
-    ul.appendChild(fragment);
-    movieContainer.appendChild(ul);
+    $fragment.append(...cardItems);
+    $ul.appendChild($fragment);
+    $movieContainer.appendChild($ul);
   }
 
-  return movieContainer;
+  return $movieContainer;
 };
 
 export default CardList;

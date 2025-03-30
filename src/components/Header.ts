@@ -6,7 +6,7 @@ type HeaderProps = {
 };
 
 const Header = ({ movie }: HeaderProps) => {
-  const header = createElement("header", {
+  const $header = createElement("header", {
     id: "app-header",
   });
 
@@ -15,7 +15,7 @@ const Header = ({ movie }: HeaderProps) => {
       ? `https://image.tmdb.org/t/p/original${movie.imageSrc}`
       : "images/default-background.jpg";
 
-  header.innerHTML = `
+  $header.innerHTML = `
   <div class="background-container" style="background-image: url('${backgroundImageUrl}');">
     <div class="overlay" aria-hidden="true"></div>
     <div class="top-rated-container">
@@ -32,7 +32,7 @@ const Header = ({ movie }: HeaderProps) => {
   </div>
 `;
 
-  return header;
+  return $header;
 };
 
 export default Header;

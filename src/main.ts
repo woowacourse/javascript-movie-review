@@ -27,21 +27,21 @@ const initialMovieState: MovieState = {
 };
 
 document.addEventListener("DOMContentLoaded", async () => {
-  const main = $("main");
-  const wrap = $("#wrap");
-  if (!main || !wrap) return;
+  const $main = $("main");
+  const $wrap = $("#wrap");
+  if (!$main || !$wrap) return;
 
   const movieState = { ...initialMovieState };
 
   const header = Header({ movie: null });
-  wrap.prepend(header);
+  $wrap.prepend(header);
 
   const renderTitle = () => {
     const movieSectionTitle = Title({
       text: "지금 인기 있는 영화",
     });
 
-    main.appendChild(movieSectionTitle);
+    $main.appendChild(movieSectionTitle);
   };
 
   renderTitle();
@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   };
 
   const renderMovies = () => {
-    main.innerHTML = "";
+    $main.innerHTML = "";
 
     if (movieState.query) {
       const headerElement = $("#app-header");
@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       });
 
       searchedMovieTitle.classList.add("search-result-title");
-      main.appendChild(searchedMovieTitle);
+      $main.appendChild(searchedMovieTitle);
     } else {
       renderTitle();
     }
@@ -89,16 +89,16 @@ document.addEventListener("DOMContentLoaded", async () => {
                     <h2 class="empty-content">검색 결과가 없습니다.</h2>`,
       });
 
-      main.appendChild(emptySection);
+      $main.appendChild(emptySection);
 
       return;
     }
 
     const movieList = CardList({ items: movieState.list }) as HTMLElement;
-    main.appendChild(movieList);
+    $main.appendChild(movieList);
 
     if (movieState.isLoading) {
-      Skeleton.render(main);
+      Skeleton.render($main);
     }
   };
 
@@ -180,7 +180,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     input: searchInput,
     onClick: handleClickLogo,
   });
-  wrap?.prepend(navigationBar);
+  $wrap?.prepend(navigationBar);
 
   const container = $(".container");
   if (!container) return;
@@ -198,7 +198,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
   const loadInitialMovies = async () => {
-    Skeleton.render(main);
+    Skeleton.render($main);
     await fetchMovies(1, "", true);
     container.appendChild(moreButton);
   };
