@@ -1,22 +1,10 @@
 @import "./colors.css";
 
 .thumbnail-list {
-  margin: 0 auto 56px;
+  margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(5, 200px);
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 70px;
-}
-
-@media (max-width: 800px) {
-  .thumbnail-list {
-    grid-template-columns: repeat(3, 200px);
-  }
-}
-
-@media (max-width: 390px) {
-  .thumbnail-list {
-    grid-template-columns: repeat(1, 200px);
-  }
 }
 
 .thumbnail {
