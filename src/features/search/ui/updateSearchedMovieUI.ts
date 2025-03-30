@@ -3,6 +3,7 @@ import ErrorModal from "../../../shared/ui/components/ErrorModal";
 import { withSkeleton } from "../../../shared/ui/skeletons/withSkeleton";
 import { getSearchedMovie } from "../api/getSearchedMovie";
 import { movieDetailModalHandler } from "../../../shared/ui/detailModal/movieDetailModalHandler";
+import { updateMovieContainerHeaderTitle } from "../../../shared/ui/components/Header";
 
 export async function updateSearchedMovieUI(
   $container: HTMLElement,
@@ -10,7 +11,7 @@ export async function updateSearchedMovieUI(
 ) {
   try {
     disableElements();
-    updateHeaderTitle(searchQuery);
+    updateMovieContainerHeaderTitle(searchQuery);
 
     const searchedMovies = await withSkeleton(
       $container,
@@ -23,13 +24,6 @@ export async function updateSearchedMovieUI(
     }
   } catch (error) {
     ErrorModal("검색한 영화 리스트를 불러오는데 실패하였습니다.");
-  }
-}
-
-function updateHeaderTitle(searchQuery: string) {
-  const $movieListTitle = document.querySelector(".movie-list-title");
-  if ($movieListTitle) {
-    $movieListTitle.textContent = `"${searchQuery}" 검색 결과`;
   }
 }
 

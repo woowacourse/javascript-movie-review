@@ -6,7 +6,7 @@ describe("영화 리뷰 페이지 테스트", () => {
   });
 
   describe("무한스크롤 동작 확인", () => {
-    it("스크롤 없이도 40개의 영화 목록이 로딩된다", () => {
+    it("첫 로딩 후 스크롤을 가장 하단으로 내릴 시 20개가 추가되어 총 40개의 영화 목록이 로딩된다", () => {
       cy.get(".item").should("have.length", 20);
 
       cy.get("#target").scrollIntoView();

@@ -45,3 +45,10 @@ export default function Header(movie: ICustomMovie) {
 
   bannerButtonHandler();
 }
+
+export const updateMovieContainerHeaderTitle = (searchQuery: string) => {
+  const $movieListTitle = document.querySelector(".movie-list-title");
+  if ($movieListTitle) {
+    $movieListTitle.textContent = `"${searchQuery}" 검색 결과`;
+  }
+};
