@@ -2,6 +2,8 @@ import { IMovie } from "../../types/movies";
 import { CustomButton } from "./CustomButton";
 import SearchForm from "../../../features/search/ui/components/SearchForm";
 import { searchFormSubmitHandler } from "../../../features/search/ui/handlers/searchFormSubmitHandler";
+import getMovieDetail from "../../../features/movie/api/getMovieDetail";
+import Modal from "./Modal";
 
 const Header = (movie: IMovie) => {
   const $header = document.getElementById("header");
@@ -24,7 +26,7 @@ const Header = (movie: IMovie) => {
           </a>
           ${SearchForm().outerHTML}
         </div>
-        <div class="top-rated-movie">
+        <div id=${movie.id} class="top-rated-movie">
           <div class="rate">
             <img src="images/star_empty.png" class="star" />
             <span class="rate-value">${movie.vote_average.toFixed(1)}</span>
@@ -40,6 +42,12 @@ const Header = (movie: IMovie) => {
   $searchForm?.addEventListener("submit", async (e) => {
     e.preventDefault();
     searchFormSubmitHandler(e);
+  });
+
+  const $headerButton = document.querySelector(".primary.detail");
+  $headerButton?.addEventListener("click", async () => {
+    const movieDetail = await getMovieDetail(movie.id);
+    document.body.appendChild(Modal(movieDetail));
   });
 };
 
