@@ -1,5 +1,6 @@
+import { MovieDetailInfo } from "../../types/movieType";
 import MovieDetailModal from "../components/MovieDetailModal";
-import registerModalEventHandlers from "../controllers/MovieDetailModalHandlers";
+import registerModalEventHandlers from "./MovieDetailModalHandlers";
 
 export const ratingDescriptions = {
   2: "최악이예요",
@@ -9,7 +10,7 @@ export const ratingDescriptions = {
   10: "명작이에요",
 };
 
-function MovieModal(movieData, movieId) {
+function MovieModal(movieData: MovieDetailInfo, movieId: number) {
   const $modalBackground = MovieDetailModal(movieData, movieId);
 
   registerModalEventHandlers($modalBackground, movieId);

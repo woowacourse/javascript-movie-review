@@ -1,5 +1,5 @@
 import { getDetailParam } from "../apis/config";
-import MovieModal, { ratingDescriptions } from "../controllers/MovieModal";
+import MovieModal, { ratingDescriptions } from "../controllers/MovieModal.ts";
 import MovieService from "../services/MovieService";
 
 export async function openModal(event) {

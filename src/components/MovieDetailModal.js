@@ -1,6 +1,6 @@
 import Button from "./Button";
 import "../../templates/styles/modal.css";
-import { ratingDescriptions } from "../controllers/MovieModal";
+import { ratingDescriptions } from "../controllers/MovieModal.ts";
 
 function MovieDetailModal(
   { title, poster_path, release_date, vote_average, genres, overview },
