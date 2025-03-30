@@ -5,8 +5,8 @@ import { addMoviePost } from "./shared/ui/renderers/addMoviePost";
 import { addMoreMovies } from "./shared/domain/addMoreMovies";
 import { updateSearchPageUI } from "./features/search/ui/handlers/searchFormSubmitHandler";
 import { showErrorPage } from "./shared/ui/renderers/showErrorPage";
-import { getQueryParam } from "./shared/domain/getParams";
-import { setParams } from "./shared/domain/setParams";
+import { getQueryParam } from "./shared/utils/getParams";
+import { setParams } from "./shared/utils/setParams";
 import { pageManager } from "./shared/domain/pageManager";
 import { getCurrentMovieList } from "./shared/domain/getCurrentMovieList";
 

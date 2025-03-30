@@ -1,6 +1,6 @@
 import { addMoviePost } from "../ui/renderers/addMoviePost";
 import { disableMoreButton } from "../ui/renderers/disabledMoreButton";
-import { getQueryParam } from "./getParams";
+import { getQueryParam } from "../utils/getParams";
 import { pageManager } from "./pageManager";
 import { getCurrentMovieList } from "./getCurrentMovieList";
 

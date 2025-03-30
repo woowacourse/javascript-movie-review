@@ -4,7 +4,7 @@ import { getSearchedPost } from "../../api/getSearchedPost";
 import { disableMoreButton } from "../../../../shared/ui/renderers/disabledMoreButton";
 import { IMovie } from "../../../../shared/types/movies";
 import { showErrorPage } from "../../../../shared/ui/renderers/showErrorPage";
-import { setParams } from "../../../../shared/domain/setParams";
+import { setParams } from "../../../../shared/utils/setParams";
 import { pageManager } from "../../../../shared/domain/pageManager";
 import { disableHeaderImage } from "../../../../shared/ui/renderers/disableHeaderImage";
 
