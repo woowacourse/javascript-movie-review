@@ -1,8 +1,10 @@
+import { $, createElement } from "../utils/dom";
+
 const Skeleton = {
   render: (el: Element) => {
-    const skeletonUl = document.createElement("ul");
-    skeletonUl.classList.add("skeleton-list");
-    skeletonUl.innerHTML = `
+    const skeletonUl = createElement("ul", {
+      class: ["skeleton-list"],
+      innerHTML: `
     <li></li>
     <li></li>
     <li></li>
@@ -12,16 +14,16 @@ const Skeleton = {
     <li></li>
     <li></li>
     <li></li>
-    <li></li>
-`;
+    <li></li>`,
+    });
 
     el.appendChild(skeletonUl);
   },
   remove: () => {
-    const skeletonUl = document.querySelector(".skeleton-list");
+    const skeletonUl = $(".skeleton-list");
     if (skeletonUl) {
       skeletonUl.remove();
     }
-  }
-}
+  },
+};
 export default Skeleton;

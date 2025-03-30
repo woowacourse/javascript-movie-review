@@ -1,3 +1,5 @@
+import { createElement } from "../utils/dom.ts";
+
 type CardItemProps = {
   title: string;
   rating?: number;
@@ -6,13 +8,12 @@ type CardItemProps = {
 };
 
 const CardItem = ({ title, rating, imageSrc }: CardItemProps) => {
-  const cardItem = document.createElement("li");
-
   const mappedImage = imageSrc
     ? `https://image.tmdb.org/t/p/w500${imageSrc}`
     : "images/nullImage.png";
 
-  cardItem.innerHTML = `
+  const cardItem = createElement("li", {
+    innerHTML: `
     <div class="item">
       <img class="thumbnail" src="${mappedImage}" alt="${title}" />
       <div class="item-desc">
@@ -22,7 +23,8 @@ const CardItem = ({ title, rating, imageSrc }: CardItemProps) => {
         <strong>${title}</strong>
       </div>
     </div>
-  `;
+  `,
+  });
 
   return cardItem;
 };

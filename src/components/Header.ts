@@ -1,12 +1,14 @@
 import { Movie } from "../../types/movie";
+import { createElement } from "../utils/dom.ts";
 
 type HeaderProps = {
   movie?: Movie | null;
 };
 
 const Header = ({ movie }: HeaderProps) => {
-  const header = document.createElement("header");
-  header.id = "app-header"
+  const header = createElement("header", {
+    id: "app-header",
+  });
 
   const backgroundImageUrl =
     movie && movie.imageSrc

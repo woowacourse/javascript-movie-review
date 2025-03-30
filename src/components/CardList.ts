@@ -1,4 +1,5 @@
 import CardItem from "./CardItem.ts";
+import { createElement } from "../utils/dom.ts";
 
 type CardListProps = {
   items?: {
@@ -10,12 +11,14 @@ type CardListProps = {
 };
 
 const CardList = ({ items = [] }: CardListProps) => {
-  const movieContainer = document.createElement("section");
-  movieContainer.classList.add("movie-container");
+  const movieContainer = createElement("section", {
+    class: ["movie-container"],
+  });
 
   if (items.length !== 0) {
-    const ul = document.createElement("ul");
-    ul.classList.add("thumbnail-list");
+    const ul = createElement("ul", {
+      class: ["thumbnail-list"],
+    });
 
     const fragment = document.createDocumentFragment();
 

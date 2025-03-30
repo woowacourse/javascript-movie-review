@@ -8,6 +8,7 @@ import Skeleton from "./components/Skeleton.ts";
 import { Movie } from "../types/movie.ts";
 import { mapToMovie } from "./store/movieMapper.ts";
 import { movieApi } from "./api/movieApi.ts";
+import { $, createElement } from "./utils/dom.ts";
 
 type MovieState = {
   list: Movie[];
@@ -26,8 +27,8 @@ const initialMovieState: MovieState = {
 };
 
 document.addEventListener("DOMContentLoaded", async () => {
-  const main = document.querySelector("main");
-  const wrap = document.querySelector("#wrap");
+  const main = $("main");
+  const wrap = $("#wrap");
   if (!main || !wrap) return;
 
   const movieState = { ...initialMovieState };
@@ -66,7 +67,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     main.innerHTML = "";
 
     if (movieState.query) {
-      const headerElement = document.getElementById("app-header");
+      const headerElement = $("#app-header");
       if (headerElement) {
         headerElement.remove();
       }
@@ -82,13 +83,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     if (movieState.list.length === 0 && !movieState.isLoading) {
-      const emptySection = document.createElement("section");
-      emptySection.classList.add("empty-container");
-
-      emptySection.innerHTML = `
-      <img src="images/empty_logo.png" alt="우아한테크코스 로고" />
-      <h2 class="empty-content">검색 결과가 없습니다.</h2>
-   `;
+      const emptySection = createElement("section", {
+        class: ["empty-container"],
+        innerHTML: `<img src="images/empty_logo.png" alt="우아한테크코스 로고" />
+                    <h2 class="empty-content">검색 결과가 없습니다.</h2>`,
+      });
 
       main.appendChild(emptySection);
 
@@ -183,7 +182,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
   wrap?.prepend(navigationBar);
 
-  const container = document.querySelector(".container");
+  const container = $(".container");
   if (!container) return;
 
   const moreButton = Button({
