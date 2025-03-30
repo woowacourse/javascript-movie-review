@@ -60,10 +60,14 @@ export default class Header extends Component {
   override addEventListener() {
     eventHandlerInstance.addEventListener({
       eventType: 'submit',
-      callback: async ({ target }) => {
+      callback: async ({ target, event }) => {
+        event.preventDefault();
+
         if (!isHTMLFormElement(target)) return;
 
         const modalInput = Object.fromEntries(new FormData(target));
+
+        if (!modalInput.search) return;
 
         searchStore.setState(String(modalInput.search));
         pageStore.reset();
