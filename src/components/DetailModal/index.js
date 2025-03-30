@@ -45,7 +45,7 @@ export function DetailModalRender(movie) {
                   <img src="./images/star_empty.png" class="star" />
                 </div>
                 <div class="score__description">
-                  <span class="score__description--text"></span>
+                  <span class="score__description--text">별점을 등록해주세요.</span>
                   <span class="score__description--score">(<span class="score-number">0</span>/10)</span>
                 </div>
               </div>
@@ -54,7 +54,7 @@ export function DetailModalRender(movie) {
             <hr/>
             <div class="detail">
               <h3>줄거리</h3>
-              ${movie.overview}
+              ${movie.overview || "등록된 줄거리가 없습니다."}
             </div>
           </div>
         </div>
