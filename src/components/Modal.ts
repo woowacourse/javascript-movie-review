@@ -68,20 +68,22 @@ const Modal = ({ item }: ModalProps) => {
               2024 · 모험, 애니메이션, 코미디, 드라마, 가족
             </p>
             
-            <p class="rate">
-            <span>평균</span>
+            <div class="rate-container">
+            <span class="average">평균</span>
             <img src="images/star_filled.png" class="star" /><span>7.7</span>
-            </p>
+            </div>
             <hr />
             <div class="my-rate-container">
             <h3>내 별점</h3>
             <div class="my-rate-content">
+            <div class="star-container">
               <img src="images/star_filled.png" class="star" />
               <img src="images/star_filled.png" class="star" />
               <img src="images/star_filled.png" class="star" />
               <img src="images/star_filled.png" class="star" />
               <img src="images/star_empty.png" class="star" />
-              <span>명작이에요(8/10)</span>
+            </div>
+            <span>명작이에요(8/10)</span>
             </div>
             </div>
             <hr />
