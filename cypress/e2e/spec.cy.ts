@@ -37,7 +37,7 @@ describe("영화 리뷰 페이지 테스트", () => {
       cy.intercept(
         {
           method: "GET",
-          url: /^https:\/\/api.themoviedb.org\/3\/tv\/popular*/,
+          url: /^https:\/\/api.themoviedb.org\/3\/movie\/popular*/,
         },
         {
           fixture: "movie-popular.json",
@@ -61,7 +61,7 @@ describe("api 요청에 실패하면 에러 페이지가 나온다.", () => {
     cy.intercept(
       {
         method: "GET",
-        url: /^https:\/\/api.themoviedb.org\/3\/tv\/popular*/,
+        url: /^https:\/\/api.themoviedb.org\/3\/movie\/popular*/,
       },
       {
         statusCode: 404,
