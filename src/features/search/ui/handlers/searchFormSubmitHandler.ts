@@ -6,7 +6,7 @@ import { getSearchedPost } from "../../api/getSearchedPost";
 
 export const searchFormSubmitHandler = async (e: Event) => {
   try {
-    pageManager.initializePageInfo();
+    pageManager.resetPage();
     const currentPage = pageManager.currentPage;
     const formData = new FormData(e.target as HTMLFormElement);
     const searchQuery = formData.get("search-input") as string;
