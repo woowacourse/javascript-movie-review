@@ -1,18 +1,19 @@
 import { createElement, getHTML } from '../../util/utils'
 
-function ScrollObserver(targetId: string, onIntersect) {
-  const container = getHTML(targetId)
+function ScrollObserver() {
   let observer = null
+  let container = null
 
-  function render() {
-    console.log('스크롤옵저버 몇번 렌더되는지 추적용 로그')
+  function render(targetId: string, onIntersect) {
+    container = getHTML(targetId)
     const observerTrigger = createElement({
       tag: 'div',
       id: 'observerTrigger',
       className: 'observer-trigger',
     })
+    if (observer) observer.disconnect()
     container.appendChild(observerTrigger)
-    setFunction()
+    setFunction(onIntersect)
   }
 
   function hideTrigger() {
@@ -20,10 +21,9 @@ function ScrollObserver(targetId: string, onIntersect) {
     if (observerTrigger) observerTrigger.style.display = 'none'
   }
 
-  function setFunction() {
+  function setFunction(onIntersect) {
     const observerTrigger = container.querySelector('#observerTrigger')
     if (!observerTrigger) return
-    if (observer) observer.disconnect()
 
     observer = new IntersectionObserver(
       (entries) => {

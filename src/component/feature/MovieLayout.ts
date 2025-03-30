@@ -7,14 +7,13 @@ import ScrollObserver from './ScrollObserver.js'
 function MovieLayout(movieData: IMovieData[]) {
   let state: IMovieState = {
     title: '지금 인기 있는 영화',
-    isPossibleMore: movieData.length === 20,
     movieData,
     currentPage: 1,
     searchKeyword: '',
     totalPages: 0,
   }
 
-  let scrollTrigger = null
+  const scrollTrigger = ScrollObserver()
 
   const movieList = MovieList()
   render()
@@ -44,11 +43,7 @@ function MovieLayout(movieData: IMovieData[]) {
             </div>
 
             <div id="scrollObserverContainer">
-            ${
-              state.isPossibleMore
-                ? '<div id="scrollTrigger" style="width: 100%; height: 1px; margin-top: 40px;"></div>'
-                : ''
-            }
+  
             </div>
         `
   }
@@ -58,8 +53,7 @@ function MovieLayout(movieData: IMovieData[]) {
     if (movieSectionEl) movieSectionEl.innerHTML = template()
     movieList.render(state.movieData)
 
-    scrollTrigger = ScrollObserver('scrollObserverContainer', newMovieListRender)
-    scrollTrigger.render()
+    scrollTrigger.render('scrollObserverContainer', newMovieListRender)
 
     if (state.totalPages === state.currentPage && scrollTrigger) scrollTrigger.hideTrigger()
 
