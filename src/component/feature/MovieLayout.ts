@@ -37,7 +37,7 @@ function MovieLayout(movieData: IMovieData[]) {
             `
     }
     return `
-            <h2 id="movieListTitle" class="text-xl">${state.title}</h2>
+            <h2 id="movieListTitle" class="text-xl my-36 ml-48">${state.title}</h2>
             <div id="movieListContainer">
                 
             </div>

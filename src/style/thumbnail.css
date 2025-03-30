@@ -1,6 +1,7 @@
-@import "./colors.css";
+@import './colors.css';
 
 .thumbnail-list {
+  width: 100%;
   margin: 0 auto 56px;
   display: grid;
   grid-template-columns: repeat(5, 200px);
@@ -21,7 +22,7 @@
 .item-desc > *:not(:last-child) {
   margin-bottom: 4px;
   line-height: 1.2rem;
-  position:relative;
+  position: relative;
 }
 
 p.rate {
@@ -37,4 +38,40 @@ p.rate > span {
 .item .star {
   width: 16px;
   top: 1px;
+}
+
+.thumbnail-list {
+  width: 100%;
+  margin: 0 auto 56px;
+  display: grid;
+  grid-template-columns: repeat(1, 200px); /* 기본: 모바일 1열 */
+  gap: 70px;
+  justify-content: center;
+}
+
+@media (min-width: 520px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(2, 200px);
+  }
+}
+
+/* 태블릿 이상 (768px~): 2열 */
+@media (min-width: 768px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(3, 200px);
+  }
+}
+
+/* 데스크탑 이상 (1024px~): 4열 */
+@media (min-width: 1024px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(4, 200px);
+  }
+}
+
+/* 4K 데스크탑 이상 (1440px~): 5열 */
+@media (min-width: 1440px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(5, 200px);
+  }
 }

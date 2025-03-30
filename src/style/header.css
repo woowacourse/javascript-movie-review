@@ -33,6 +33,33 @@ header {
   visibility: hidden;
 }
 
+.search-input-box {
+  width: 100%;
+  max-width: 525px;
+  height: 36px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  border: 2px solid #d1d5db;
+  border-radius: 100px;
+
+  padding: 6px 16px;
+}
+
+input {
+  width: 100%;
+  color: var(--color-white);
+  font-size: 16px;
+  border: none;
+  background-color: transparent;
+}
+
+input::placeholder {
+  color: var(--color-white);
+}
+
 /* 데스크탑 이상 (1024px~) */
 @media (min-width: 1024px) {
   #headerSection {
