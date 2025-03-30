@@ -3,11 +3,11 @@ import Button from './Button.js'
 
 function Banner(data) {
   return `
-    <div class="background-container" style="background-image: url('./public/images/banner_poster_insideout2.jpg');">
+    <div class="background-container" style="background-image: url('./images/banner_poster_insideout2.jpg');">
         <div class="overlay" aria-hidden="true"></div>
           <div class="top-rated-movie">
             <div class="banner-logo-box">
-              <img src="./public/images/banner_logo_insideout2.png" />
+              <img src="./images/banner_logo_insideout2.png" />
             </div>
             <div class="rate">
               <img src="./images/star_empty.png" class="star" />
