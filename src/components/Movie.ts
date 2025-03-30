@@ -1,6 +1,6 @@
 import { DEFAULT_BACK_DROP_URL } from '@/constants';
 import { MovieType } from '@/types';
-import { html } from '../utils';
+import { html } from '@/utils';
 import Component from './core/Component';
 
 interface MovieProps extends MovieType {}

@@ -1,7 +1,7 @@
 import { Obserable } from '@/modules';
 import { isEqual } from '@/utils';
-import { LocalStorageMovieRateValueType } from '../modules';
-import { MovieDetailResponse, MoviesResponse, MovieType } from '../types';
+import { LocalStorageMovieRateValueType } from '@/modules';
+import { MovieDetailResponse, MoviesResponse, MovieType } from '@/types';
 import { persisted } from '@/decorators';
 
 export default class Store<TState> extends Obserable<TState> {

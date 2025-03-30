@@ -1,5 +1,5 @@
 import { concat, flat, map, pipe, reduce, zip } from '@fxts/core';
-import type { HTMLType } from '../types';
+import type { HTMLType } from '@/types';
 import { errorMessage } from '@/modules';
 import { Component } from '@/components/core';
 
