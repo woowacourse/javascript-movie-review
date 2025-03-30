@@ -108,12 +108,12 @@ body.modal-open {
   margin: 0 0 8px;
 }
 
-.score {
+.modal-description .score {
   display: flex;
   flex-direction: column;
 }
 
-.score h3 {
+.modal-description .score h3 {
   font-size: 1.2rem;
   margin: 4px 0 12px 0;
 }
@@ -127,16 +127,16 @@ body.modal-open {
   font-size: 1.1rem;
 }
 
-.score__description--score {
+.score__description-modal-description -score {
   color: var(--color-bluegray-30);
 }
 
-.detail {
+.modal-description .detail {
   max-height: 430px;
   overflow-y: auto;
 }
 
-.detail h3 {
+.modal-description .detail h3 {
   font-size: 1.2rem;
   margin: 4px 0 12px 0;
 }
@@ -181,11 +181,11 @@ body.modal-open {
     justify-content: center;
   }
 
-  .score {
+  .modal-description .score {
     width: 100%;
   }
 
-  .detail {
+  .modal-description .detail {
     width: 100%;
   }
 }
@@ -194,7 +194,7 @@ body.modal-open {
   .modal-image img {
     display: none;
   }
-  .score {
+  .modal-description .score {
     align-items: center;
   }
 
@@ -204,7 +204,7 @@ body.modal-open {
     gap: 4px;
   }
 
-  .detail {
+  modal-description .detail {
     justify-items: center;
   }
 }
