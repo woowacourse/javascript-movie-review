@@ -47,7 +47,8 @@ const Header = (movie: IMovie) => {
   const $headerButton = document.querySelector(".primary");
   $headerButton?.addEventListener("click", async () => {
     const movieDetail = await getMovieDetail(movie.id);
-    document.body.appendChild(Modal(movieDetail));
+    const $wrap = document.querySelector("#wrap");
+    $wrap?.appendChild(Modal(movieDetail));
   });
 };
 
