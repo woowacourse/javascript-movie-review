@@ -74,7 +74,7 @@ body.modal-open {
 }
 
 .modal-description > *:not(:last-child) {
-  margin-bottom: 8px;
+  margin-bottom: 16px;
 }
 
 .modal-description h2 {
@@ -85,4 +85,57 @@ body.modal-open {
 .detail {
   max-height: 430px;
   overflow-y: auto;
+}
+
+.rate.average{
+  display: flex;
+  gap: 6px;
+}
+
+.average-container{
+  display: flex;
+  align-items: end;
+  gap: 16px;
+}
+
+.category{
+  margin: 16px 0;
+}
+
+.point-text {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.star.point {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.modal-container .detail{
+  margin: 0;
+}
+
+.detail.summary{
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.modal-description .star-rating{
+  display: flex;
+  justify-content: space-between;
+  margin-top: 24px;
+  gap: 16px;
+
+}
+
+.rating-description{
+  display: flex;
+  gap: 5px;
+}
+
+.rating{
+  color: #95A1B2;
 }
