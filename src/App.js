@@ -51,6 +51,7 @@ class App {
     document.addEventListener("keydown", (e) => {
       const $modalBg = document.querySelector("#modalBackground");
 
+      if (!$modalBg) return;
       if ($modalBg.classList.contains("active") && e.key === "Escape") {
         $modalBg.classList.remove("active");
       }
