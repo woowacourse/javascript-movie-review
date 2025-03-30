@@ -19,19 +19,19 @@ addEventListener("DOMContentLoaded", async () => {
 
 async function initMovieList(movieList: HTMLElement) {
   try {
+    showSkeletons(movieList);
+
     const query = getQueryParam(new URL(window.location.href));
     const movies = await getCurrentMovieList(pageManager.currentPage, query);
-    pageManager.setTotalPages(movies.total_pages);
 
     if (!movies || !movieList) return;
 
-    showSkeletons(movieList);
-
+    pageManager.setTotalPages(movies.total_pages);
     Header(movies.results[0]);
 
     if (query) {
       updateSearchPageUI(movies.results, query, {
-        pageNum: 1,
+        pageNum: pageManager.currentPage,
         totalPages: pageManager.totalPages,
       });
     } else {
@@ -45,7 +45,7 @@ async function initMovieList(movieList: HTMLElement) {
 }
 
 async function initAddMoreMoviesButton(movieList: HTMLElement) {
-  if (pageManager.totalPages === 1) return;
+  if (pageManager.totalPages === pageManager.currentPage) return;
 
   const $movieContainer = document.getElementById("movie-container");
   if (!$movieContainer) return;
