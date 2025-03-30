@@ -51,7 +51,7 @@ p.rate {
 
 @media screen and (max-width: 530px) {
   .thumbnail-list {
-    grid-template-columns: repeat(auto-fill, minmax(200px, 0));
+    grid-template-columns: repeat(auto-fill, minmax(300px, 0));
     justify-content: center;
   }
 }
