@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const wrap = document.querySelector("#wrap");
   if (!main || !wrap) return;
 
-  const movieState: MovieState = { ...initialMovieState };
+  const movieState = { ...initialMovieState };
 
   const header = Header({ movie: null });
   wrap.prepend(header);
@@ -56,7 +56,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const isLastPage = movieState.currentPage === movieState.totalPages;
 
-    moreButton.style.display = (!isLastPage && !movieState.isLoading) ? "block" : "none";
+    moreButton.style.display =
+      !isLastPage && !movieState.isLoading ? "block" : "none";
 
     renderMovies();
   };
@@ -111,7 +112,10 @@ document.addEventListener("DOMContentLoaded", async () => {
       updateState({ isLoading: true });
 
       if (isFirstLoad) {
-        updateState({ list: [] });
+        updateState({
+          isLoading: true,
+          ...(isFirstLoad && { list: [] }),
+        });
       }
 
       await new Promise((resolve) => setTimeout(resolve, 500));

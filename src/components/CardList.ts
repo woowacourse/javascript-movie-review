@@ -3,8 +3,8 @@ import CardItem from "./CardItem.ts";
 type CardListProps = {
   items?: {
     title: string;
-    voteAverage: number;
-    posterPath: string | null;
+    rating: number;
+    imageSrc: string | null;
     description?: string;
   }[];
 };
@@ -12,10 +12,6 @@ type CardListProps = {
 const CardList = ({ items = [] }: CardListProps) => {
   const movieContainer = document.createElement("section");
   movieContainer.classList.add("movie-container");
-
-  if (items === null) {
-    return;
-  }
 
   if (items.length !== 0) {
     const ul = document.createElement("ul");
@@ -26,8 +22,9 @@ const CardList = ({ items = [] }: CardListProps) => {
     const cardItems = items.map((item) =>
       CardItem({
         title: item.title,
-        rating: item.voteAverage,
-        imageSrc: item.posterPath,
+        rating: item.rating,
+        imageSrc: item.imageSrc,
+        description: item.description,
       })
     );
 

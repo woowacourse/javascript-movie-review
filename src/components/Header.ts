@@ -9,8 +9,8 @@ const Header = ({ movie }: HeaderProps) => {
   header.id = "app-header"
 
   const backgroundImageUrl =
-    movie && movie.posterPath
-      ? `https://image.tmdb.org/t/p/original${movie.posterPath}`
+    movie && movie.imageSrc
+      ? `https://image.tmdb.org/t/p/original${movie.imageSrc}`
       : "images/default-background.jpg";
 
   header.innerHTML = `
@@ -21,7 +21,7 @@ const Header = ({ movie }: HeaderProps) => {
       ${movie ? `<div class="top-rated-movie">
         <div class="rate">
           <img src="images/star_empty.png" class="star" />
-          <span class="rate-value">${movie?.voteAverage}</span>
+          <span class="rate-value">${movie?.rating}</span>
         </div>
         <div class="title">${movie?.title}</div>
         <button class="primary detail">자세히 보기</button>

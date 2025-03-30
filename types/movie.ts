@@ -1,6 +1,6 @@
 export type Movie = {
   id?: number;
   title: string;
-  voteAverage: number;
-  posterPath: string | null;
+  rating: number;
+  imageSrc: string | null;
 };

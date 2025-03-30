@@ -20,18 +20,18 @@ const SearchInput = ({ type, placeholder, onSubmit }: SearchInputProps) => {
   ) as HTMLInputElement;
   const searchIcon = searchWrapper.querySelector(".search-icon");
 
-  const handleSearch = () => {
+  const search = () => {
     const query = searchInput.value.trim();
     if (query !== "") {
       onSubmit(query);
     }
   };
 
-  searchIcon?.addEventListener("click", handleSearch);
+  searchIcon?.addEventListener("click", search);
 
   searchInput?.addEventListener("keydown", (event: KeyboardEvent) => {
     if (event.key === "Enter") {
-      handleSearch();
+      search();
     }
   });
 
