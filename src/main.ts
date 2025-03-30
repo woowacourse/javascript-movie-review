@@ -13,4 +13,14 @@ import Banner from './component/common/Banner.js'
 
   await submitEvent(movieLayout)
   Header()
+
+  window.addEventListener('scroll', () => {
+    const headerBack = document.querySelector('#headerBackground')
+    if (!headerBack) return
+    if (window.scrollY > 400) {
+      headerBack.classList.add('scrolled')
+    } else {
+      headerBack.classList.remove('scrolled')
+    }
+  })
 })()
