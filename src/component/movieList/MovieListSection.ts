@@ -1,5 +1,5 @@
-import { IMovieItem } from "../types/movieResultType";
-import createDOMElement from "../util/createDomElement";
+import { IMovieItem } from "../../types/movieResultType";
+import createDOMElement from "../../util/createDomElement";
 import MovieItem from "./MovieItem";
 
 interface IMovieListSectionProps {

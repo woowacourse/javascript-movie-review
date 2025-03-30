@@ -1,4 +1,4 @@
-import DetailModal from "../component/DetailModal";
+import DetailModal from "../component/detailModal/DetailModal";
 import { SCORE_RATING_TEXT } from "../constant/scoreRatingText";
 import MovieDetailModel from "../domain/MovieDetailModel";
 import { calculateScore } from "../domain/util/calculateScore";

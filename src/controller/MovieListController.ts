@@ -1,6 +1,6 @@
 import { getPopularMovieResult } from "../api/getPopularMovieResult";
-import MovieItem from "../component/MovieItem";
-import MovieListSection from "../component/MovieListSection";
+import MovieItem from "../component/movieList/MovieItem";
+import MovieListSection from "../component/movieList/MovieListSection";
 import mainElement from "../dom/mainElement";
 import MovieResults from "../domain/MovieResults";
 import { IMovieItem, IMovieResult } from "../types/movieResultType";

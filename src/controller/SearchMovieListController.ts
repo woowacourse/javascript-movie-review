@@ -1,7 +1,7 @@
 import { getSearchMovieResult } from "../api/getSearchMovieResult";
-import MovieEmptySection from "../component/MovieEmptySection";
-import MovieItem from "../component/MovieItem";
-import MovieListSection from "../component/MovieListSection";
+import MovieEmptySection from "../component/movieList/MovieEmptySection";
+import MovieItem from "../component/movieList/MovieItem";
+import MovieListSection from "../component/movieList/MovieListSection";
 import mainElement from "../dom/mainElement";
 import { IMovieItem, IMovieResult } from "../types/movieResultType";
 import { $ } from "../util/selector";

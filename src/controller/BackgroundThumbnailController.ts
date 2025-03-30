@@ -1,5 +1,5 @@
 import { IMovieItem } from "./../types/movieResultType";
-import BackgroundThumbnailSection from "../component/BackgroundThumbnailSection";
+import BackgroundThumbnailContainer from "../component/backgroundThumbnail/BackgroundThumbnailContainer";
 import { $ } from "../util/selector";
 
 class BackgroundThumbnailController {
@@ -14,7 +14,7 @@ class BackgroundThumbnailController {
 
   renderBackgroundThumbnail(movie: IMovieItem) {
     this.movie = movie;
-    this.backgroundElement = BackgroundThumbnailSection(movie);
+    this.backgroundElement = BackgroundThumbnailContainer(movie);
 
     const headerElement = $("header");
     headerElement?.insertAdjacentElement("afterend", this.backgroundElement);

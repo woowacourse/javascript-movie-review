@@ -1,4 +1,4 @@
-import createDOMElement from "../util/createDomElement";
+import createDOMElement from "../../util/createDomElement";
 
 const MovieEmptySection = (title: string) => {
   return createDOMElement({

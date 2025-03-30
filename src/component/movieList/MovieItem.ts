@@ -1,6 +1,6 @@
-import { IMovieItem } from "../types/movieResultType";
-import createDOMElement from "../util/createDomElement";
-import defaultImage from "../../public/images/default_poster_image.png";
+import { IMovieItem } from "../../types/movieResultType";
+import createDOMElement from "../../util/createDomElement";
+import defaultImage from "../../../public/images/default_poster_image.png";
 
 const MovieItem = (movie: IMovieItem) => {
   return createDOMElement({
