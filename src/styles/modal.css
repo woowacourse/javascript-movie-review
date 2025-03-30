@@ -69,6 +69,7 @@ body.modal-open {
 .modal-description .rate > img {
   position: relative;
   top: 5px;
+  width: 20px;
 }
 
 .modal-description > *:not(:last-child) {
@@ -83,4 +84,12 @@ body.modal-open {
 .detail {
   max-height: 430px;
   overflow-y: auto;
+}
+
+.rating-star {
+  background-color: inherit;
+}
+
+.rating-star > img {
+  width: 20px;
 }

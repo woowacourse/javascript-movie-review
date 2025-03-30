@@ -21,7 +21,6 @@ main {
 
 button {
   border: 0;
-  padding: 4px 8px;
   cursor: pointer;
 }
 
@@ -113,9 +112,6 @@ h1.logo {
 
 .rate {
   display: flex;
-  gap: 8px;
-  align-items: baseline;
-  color: var(--color-yellow);
 }
 
 .rate > img {
