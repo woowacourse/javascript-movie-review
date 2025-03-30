@@ -1,7 +1,9 @@
 import {
   IMovie,
+  IMovieDetail,
   MovieList,
   MovieListResponse,
+  MovieDetailResponse,
   MovieResponse,
 } from "../types/movies";
 
@@ -27,5 +29,20 @@ export const mapToMovieList = (
     results: moviesResponse.results.map(mapToMovie),
     total_pages: moviesResponse.total_pages,
     total_results: moviesResponse.total_results,
+  };
+};
+
+export const mapToMovieDetail = (
+  movieDetailResponse: MovieDetailResponse
+): IMovieDetail => {
+  return {
+    id: movieDetailResponse.id,
+    backdrop_path: movieDetailResponse.backdrop_path,
+    genres: movieDetailResponse.genres,
+    overview: movieDetailResponse.overview,
+    poster_path: movieDetailResponse.poster_path,
+    release_date: movieDetailResponse.release_date,
+    title: movieDetailResponse.title,
+    vote_average: movieDetailResponse.vote_average,
   };
 };

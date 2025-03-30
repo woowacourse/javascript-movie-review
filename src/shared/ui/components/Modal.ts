@@ -2,8 +2,9 @@ import MyRate from "./MyRate";
 
 import { closeModal } from "../handlers/modalHandler";
 import { handleRateChange } from "../handlers/myRateHandler";
+import { IMovieDetail } from "../../../shared/types/movies";
 
-const Modal = (movieDetail: any) => {
+const Modal = (movieDetail: IMovieDetail) => {
   const modalBackground = document.createElement("div");
   modalBackground.classList.add("modal-background", "active");
   modalBackground.id = "modalBackground";
@@ -38,7 +39,7 @@ const Modal = (movieDetail: any) => {
             </p>
             <hr />            
             <section class="my-rate-wrapper">
-              ${MyRate(movieDetail.id)}
+              ${MyRate(movieDetail.id.toString())}
             </section>            
             <hr />
             <div class="detail-container">
@@ -71,7 +72,7 @@ const Modal = (movieDetail: any) => {
 
   const rateStarContainer = modalBackground.querySelector(".rate-display");
   rateStarContainer?.addEventListener("change", (e) => {
-    handleRateChange(e, movieDetail.id);
+    handleRateChange(e, movieDetail.id.toString());
   });
 
   return modalBackground;

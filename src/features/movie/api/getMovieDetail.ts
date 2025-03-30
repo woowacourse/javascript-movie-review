@@ -1,3 +1,6 @@
+import { mapToMovieDetail } from "../../../shared/domain/mapToMovie";
+import { IMovieDetail } from "../../../shared/types/movies";
+
 const url = (id: number) =>
   `https://api.themoviedb.org/3/movie/${id}?language=ko-KR`;
 const options = {
@@ -8,7 +11,7 @@ const options = {
   },
 };
 
-const getMovieDetail = async (id: number) => {
+const getMovieDetail = async (id: number): Promise<IMovieDetail> => {
   const response = await fetch(url(id), options);
 
   if (!response.ok) {
@@ -17,7 +20,7 @@ const getMovieDetail = async (id: number) => {
 
   const data = await response.json();
 
-  return data;
+  return mapToMovieDetail(data);
 };
 
 export default getMovieDetail;
