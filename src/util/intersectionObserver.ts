@@ -7,7 +7,7 @@ type ObserverOptions = {
 export function createInfiniteScrollObserver(
   target: Element,
   callback: () => void,
-  options: ObserverOptions = { root: null, threshold: 0.5 }
+  options: ObserverOptions = { root: null, threshold: 1 }
 ): IntersectionObserver {
   const observer = new IntersectionObserver(([entry], obs) => {
     if (entry.isIntersecting) {
