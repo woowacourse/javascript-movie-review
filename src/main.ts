@@ -5,7 +5,7 @@ import Header from "./components/Header/Header";
 import SearchInput from "./components/Header/SearchInput";
 import Modal from "./components/Modal/Modal";
 import ModalDetail from "./components/Modal/ModalDetail/ModalDetail";
-import ModalLoadingSpinner from "./components/Modal/ModalLoading/ModalLoadingSpinner";
+import ModalLoadingSpinner from "./components/Modal/ModalLoadingSpinner/ModalLoadingSpinner";
 import MovieItem from "./components/MovieItem";
 import MovieList from "./components/MovieList/MovieList";
 import NoThumbnail from "./components/NoThumbnail/NoThumbnail";
