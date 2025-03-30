@@ -341,4 +341,11 @@ footer.footer p:not(:last-child) {
   .title {
     font-size: 2rem;
   }
+
+  .search-form > button {
+    padding: 0;
+  }
+  .search-form > button > img {
+    margin: 0 14px 0 0;
+  }
 }
