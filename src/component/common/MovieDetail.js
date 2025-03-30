@@ -1,4 +1,4 @@
-import { BASE_IMAGE_URL, RATING } from "../../constant/constant.js"
+import { BASE_IMAGE_URL} from "../../constant/constant.js"
 import roundRating from "../../util/roundRating.js";
 import MyRating from "./MyRating.js";
 import StarButton from "./StarButton.js";

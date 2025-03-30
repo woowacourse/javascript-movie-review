@@ -1,14 +1,13 @@
 import StarButton from "./StarButton.js";
-import { RATING_MESSAGES, RATING } from "../../constant/constant.js";
+import { RATING_MESSAGES } from "../../constant/constant.js";
 import createStorage from "../../storage/createStorage.js";
 
 function MyRating(title) {
     const ratingData = createStorage(`${title}`);
     const data = ratingData.get();
-    const rating = data ? data : "0";
-  
+    const rating = data ? data : "null";
     const stars = Array.from({ length: 5 }, (_, i) => 
-        i <= RATING_MESSAGES[rating].star ? StarButton(true, i) : StarButton(false, i)
+        i <= rating ? StarButton(true, i) : StarButton(false, i)
     ).join("");
 
     setTimeout(() => {
@@ -16,9 +15,8 @@ function MyRating(title) {
 
         starEls.forEach((movieListEl) => {
             movieListEl.addEventListener("click", async (event) => {
-                const newRating = RATING[movieListEl.id]; 
-                ratingData.set(newRating);
-                updateMyRating(newRating, title);
+                ratingData.set(movieListEl.id);
+                updateMyRating(title);
             });
         });
     }, 0);
@@ -30,7 +28,7 @@ function MyRating(title) {
         </div>
         <div  style="display: flex; gap: 10px;">
             <div >${RATING_MESSAGES[rating].comment}</div>
-            <div class="my-rating-text">${rating}/10</div>
+            <div class="my-rating-text">${RATING_MESSAGES[rating].rating}/10</div>
         </div>
     </div>
     `;
@@ -38,7 +36,8 @@ function MyRating(title) {
 
 export default MyRating;
 
-function updateMyRating(newRating, title) {
+function updateMyRating( title) {
     const myRating = MyRating(title);
     document.querySelector(".my-rating-container").innerHTML = myRating;
 }
+
