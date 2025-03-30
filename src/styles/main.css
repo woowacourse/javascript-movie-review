@@ -169,10 +169,10 @@ form {
   color: var(--color-yellow);
 }
 
-.rate > img {
+/* .rate > img {
   position: relative;
   top: 2px;
-}
+} */
 
 span.rate-value {
   margin-left: 8px;
@@ -264,6 +264,6 @@ footer.footer p:not(:last-child) {
   }
 
   .sub-title {
-    font-size: 2px;
+    font-size: 1.2rem;
   }
 }

@@ -91,6 +91,7 @@ const MovieDetail = () => {
             <hr />
             <h4>내 별점</h4>
             <div class="my-vote-container">
+            <div class="star-container">
               ${Array.from(
                 { length: 5 },
                 (_, index) =>
@@ -98,6 +99,7 @@ const MovieDetail = () => {
                     voteIndex < index ? "./star_empty.png" : "./star_filled.png"
                   } class="star my-vote-star" data-index="${index}" />`
               ).join("")}
+              </div>
               <span class="my-vote-text">${VOTE_TEXT[voteIndex] || ""}</span>
             </div>
             <hr />
