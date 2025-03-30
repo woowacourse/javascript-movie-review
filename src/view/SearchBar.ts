@@ -13,7 +13,7 @@ function SearchBar() {
     children: [
       createDOMElement({
         tag: 'input',
-        attributes: { placeholder: '검색어를 입력하세요', type: 'text', name: 'keyword' }
+        attributes: { placeholder: '검색어를 입력하세요', type: 'text', name: 'keyword', required: 'true' }
       }),
       createDOMElement({
         tag: 'button',
