@@ -3,7 +3,7 @@ import ErrorModal from "../../../shared/ui/components/ErrorModal";
 import { withSkeleton } from "../../../shared/ui/skeletons/withSkeleton";
 import { getSearchedMovie } from "../api/getSearchedMovie";
 import { movieDetailModalHandler } from "../../../shared/ui/detailModal/movieDetailModalHandler";
-import { updateMovieContainerHeaderTitle } from "../../../shared/ui/components/Header";
+import Header from "../../../shared/ui/components/Header";
 
 export async function updateSearchedMovieUI(
   $container: HTMLElement,
@@ -11,7 +11,7 @@ export async function updateSearchedMovieUI(
 ) {
   try {
     disableElements();
-    updateMovieContainerHeaderTitle(searchQuery);
+    Header.updateMovieContainerTitle(searchQuery);
 
     const searchedMovies = await withSkeleton(
       $container,

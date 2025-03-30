@@ -2,7 +2,7 @@ import { ICustomMovie } from "../../types/movies";
 import { bannerButtonHandler } from "../detailModal/bannerButtonHandler";
 import { CustomButton } from "./CustomButton";
 
-export default function Header(movie: ICustomMovie) {
+function Header(movie: ICustomMovie) {
   const $header = document.getElementById("header");
 
   if (!$header) {
@@ -46,9 +46,11 @@ export default function Header(movie: ICustomMovie) {
   bannerButtonHandler();
 }
 
-export const updateMovieContainerHeaderTitle = (searchQuery: string) => {
+Header.updateMovieContainerTitle = (searchQuery: string) => {
   const $movieListTitle = document.querySelector(".movie-list-title");
   if ($movieListTitle) {
     $movieListTitle.textContent = `"${searchQuery}" 검색 결과`;
   }
 };
+
+export default Header;
