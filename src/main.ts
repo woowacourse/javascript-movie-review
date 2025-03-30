@@ -1,20 +1,19 @@
 import Header from "./shared/ui/components/Header";
-import { CustomButton } from "./shared/ui/components/CustomButton";
 import { showSkeletons } from "./shared/ui/renderers/showSkeletons";
 import { addMoviePost } from "./shared/ui/renderers/addMoviePost";
-import { addMoreMovies } from "./shared/domain/addMoreMovies";
 import { updateSearchPageUI } from "./features/search/ui/renderers/updateSearchPageUI";
 import { showErrorPage } from "./shared/ui/renderers/showErrorPage";
 import { getQueryParam } from "./shared/utils/getParams";
 import { setParams } from "./shared/utils/setParams";
 import { pageManager } from "./shared/domain/pageManager";
 import { getCurrentMovieList } from "./shared/domain/getCurrentMovieList";
+import { initInfiniteScroll } from "./shared/observer/infiniteScroll";
 
 addEventListener("DOMContentLoaded", async () => {
   const $movieList = document.querySelector(".thumbnail-list") as HTMLElement;
 
   await initMovieList($movieList);
-  await initAddMoreMoviesButton($movieList);
+  initInfiniteScroll();
 });
 
 async function initMovieList(movieList: HTMLElement) {
@@ -42,27 +41,4 @@ async function initMovieList(movieList: HTMLElement) {
   } catch (error) {
     showErrorPage();
   }
-}
-
-async function initAddMoreMoviesButton(movieList: HTMLElement) {
-  if (pageManager.totalPages === pageManager.currentPage) return;
-
-  const $movieContainer = document.getElementById("movie-container");
-  if (!$movieContainer) return;
-
-  const addMoreMoviesButton = CustomButton({
-    title: "더보기",
-    className: "add-more-button",
-    id: "more-movies-button",
-  });
-
-  $movieContainer.appendChild(addMoreMoviesButton);
-
-  const $moreMoviesButton = document.getElementById("more-movies-button");
-  if (!$moreMoviesButton) return;
-
-  $moreMoviesButton.addEventListener("click", async () => {
-    if (!movieList) return;
-    await addMoreMovies(movieList);
-  });
 }

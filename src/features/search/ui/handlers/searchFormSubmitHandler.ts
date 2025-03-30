@@ -3,6 +3,7 @@ import { setParams } from "../../../../shared/utils/setParams";
 import { pageManager } from "../../../../shared/domain/pageManager";
 import { updateSearchPageUI } from "../renderers/updateSearchPageUI";
 import { getSearchedPost } from "../../api/getSearchedPost";
+import { initInfiniteScroll } from "../../../../shared/observer/infiniteScroll";
 
 export const searchFormSubmitHandler = async (e: Event) => {
   try {
@@ -19,6 +20,7 @@ export const searchFormSubmitHandler = async (e: Event) => {
       pageNum: currentPage,
       totalPages: pageManager.totalPages,
     });
+    initInfiniteScroll();
   } catch (error) {
     showErrorPage();
   }
