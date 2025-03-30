@@ -3,6 +3,7 @@ import { $ } from "../../utils/dom";
 import MovieDetailContent from "../movie/MovieDetail";
 
 const loadDetailMovie = async (id: number) => {
+  $("#modalBackground").classList.add("active");
   const movie = await fetchDetailMovie(id);
   const { title, genres, vote_average, poster_path, overview, release_date } =
     movie.data;
@@ -11,7 +12,7 @@ const loadDetailMovie = async (id: number) => {
   url.search = new URLSearchParams(`movieID=${id}`).toString();
   window.history.replaceState({}, "", url.toString());
 
-  $("#modalBackground").classList.add("active");
+  $("body").classList.add("noscroll");
 
   $(".modal").appendChild(
     MovieDetailContent({

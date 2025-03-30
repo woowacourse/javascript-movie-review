@@ -39,6 +39,7 @@ function closeModal() {
   saveRating(movieId, score);
   $(".modal-container").remove();
   $("#modalBackground").classList.remove("active");
+  $("body").classList.remove("noscroll");
 }
 
 export default Modal;

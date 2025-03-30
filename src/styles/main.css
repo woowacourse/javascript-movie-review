@@ -15,6 +15,10 @@ body {
   background-color: var(--color-bluegray-80);
 }
 
+body.noscroll {
+  overflow: hidden;
+}
+
 #wrap,
 section {
   display: flex;
