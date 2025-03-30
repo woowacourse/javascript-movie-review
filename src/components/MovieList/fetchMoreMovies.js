@@ -18,9 +18,6 @@ export async function fetchMoreMovies() {
       movies: [...state.movies, ...newMovies],
       isLoading: false,
     });
-    if (state.movies.length >= MOVIE_COUNT.MAX_PAGE * MOVIE_COUNT.UNIT) {
-      $button.remove();
-    }
   } else {
     const newMoviesData = await fetchSearchedMovies(state.query, currentPage);
     store.setState({
@@ -28,8 +25,5 @@ export async function fetchMoreMovies() {
       movies: [...state.movies, ...newMoviesData.results],
       isLoading: false,
     });
-    if (state.movies.length >= state.searchedMoviesLength) {
-      $button.remove();
-    }
   }
 }
