@@ -155,3 +155,13 @@
     background-position: -100% 0;
   }
 }
+
+@media screen and (max-width: 940px) {
+  .modal-skeleton {
+    width: 100%;
+    bottom: 0;
+    top: auto;
+    transform: translate(-50%, 0);
+    height: 50vh;
+  }
+}

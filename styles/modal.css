@@ -237,10 +237,21 @@ dialog[open] {
   .modal-image {
     display: none;
   }
+  .modal-description {
+    padding: 40px 0 28px;
+  }
   .rate-form {
     flex-direction: column;
   }
   .rate-box {
     margin: 0 0 1rem 0;
+  }
+
+  .detail {
+    max-height: 150px;
+  }
+
+  .modal-description h2 {
+    font-size: 1.5rem;
   }
 }
