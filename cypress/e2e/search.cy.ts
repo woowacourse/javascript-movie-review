@@ -51,7 +51,7 @@ describe("search 테스트", () => {
     const countResult = 35;
     cy.get(".search-bar").type(`${searchValue}{enter}`);
     cy.get("#load-more").scrollIntoView().should("be.visible").click();
-    cy.get("#thumbnail-list > li").should("have.length", countResult);
+    cy.get("#thumbnail-list > li").should("have.length", countResult)
     cy.get(".footer").scrollIntoView();
     cy.get("#load-more").should("not.be.visible");
   });

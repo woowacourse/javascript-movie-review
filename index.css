@@ -12,6 +12,7 @@
 @import "src/components/detailModal/detailModal.css";
 @import "src/components/spinner/spinner.css";
 
+
 .show {
   display: block;
 }
@@ -58,3 +59,4 @@
 .white {
   color: white;
 }
+
