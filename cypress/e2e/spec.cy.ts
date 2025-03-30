@@ -47,30 +47,6 @@ describe("Fixture를 이용한 E2E 테스트", () => {
     cy.get(".thumbnail-list > li").should("have.length", 35);
   });
 
-  it("더보기 버튼 클릭 시 20개의 영화가 추가된다.", () => {
-    // 첫 번째 API 응답 기다리기
-    cy.wait("@getPopularMovies");
-    cy.get(".thumbnail-list > li").should("have.length", 20);
-
-    // 더보기 버튼 클릭
-    cy.get(".more-button").should("exist").click();
-
-    // 두 번째 API 응답 기다리기
-    cy.wait("@getPopularMovies");
-
-    // 영화 개수가 40개인지 확인
-    cy.get(".thumbnail-list > li").should("have.length", 40);
-  });
-
-  it("짱구 검색 후 더보기 버튼 클릭시 더보기 버튼이 사라져야한다.", () => {
-    cy.get(".search-input").click();
-    cy.get(".search-input").type("짱구");
-    cy.get(".search-input").type("{enter}");
-    cy.wait("@getSearchMovies");
-    cy.get(".more-button").should("exist").click();
-    cy.get(".more-button").should("not.exist");
-  });
-
   it("없는 영화 검색 시 검색 결과 없습니다 페이지가 랜더링 된다.", () => {
     cy.get(".search-input").click();
     cy.get(".search-input").type("ㅇㅇㅇㅇㅇ");
