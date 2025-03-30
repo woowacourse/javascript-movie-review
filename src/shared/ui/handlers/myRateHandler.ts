@@ -10,7 +10,7 @@ function updateMyRateStar(newRate: number) {
 
   stars.forEach((star, index) => {
     const rate = (index + 1) * 2;
-    star.src = `/images/star_${rate <= newRate ? "filled" : "empty"}.png`;
+    star.src = `images/star_${rate <= newRate ? "filled" : "empty"}.png`;
   });
 }
 
