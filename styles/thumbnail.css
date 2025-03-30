@@ -38,3 +38,8 @@ p.rate > span {
   width: 16px;
   top: 1px;
 }
+
+.modal-star {
+  width: 24px;
+  height: 24px;
+}

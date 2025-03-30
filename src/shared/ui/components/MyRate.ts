@@ -1,4 +1,4 @@
-import { getRateText } from "../../utils/getRateText";
+import { getRateScore, getRateText } from "../../utils/getRateText";
 import { localStorageHandler } from "../../stores/localStorage";
 
 const MyRate = (id: string) => {
@@ -39,7 +39,10 @@ const MyRate = (id: string) => {
         }.png" />
       </label>
     </span>
-    <span class="rate-text">${getRateText(userRate)}</span>
+    <p class="rate-text">
+      <span class="rate-text-description">${getRateText(userRate)}</span>
+      <span class="rate-score">${getRateScore(userRate)}</span>
+    </p>
   </div>
   `;
 };

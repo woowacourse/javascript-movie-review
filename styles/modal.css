@@ -19,9 +19,7 @@ body.modal-open {
   z-index: 10;
   visibility: hidden; /* 모달이 기본적으로 보이지 않도록 설정 */
   opacity: 0;
-  transition:
-    opacity 0.3s ease,
-    visibility 0.3s ease;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
 .modal-background.active {
@@ -36,7 +34,7 @@ body.modal-open {
   color: white;
   z-index: 2;
   position: relative;
-  width: 1000px;
+  width: 960px;
 }
 
 .close-modal {
@@ -57,7 +55,8 @@ body.modal-open {
 }
 
 .modal-image img {
-  width: 380px;
+  width: 500px;
+  height: 740px;
   border-radius: 16px;
 }
 
@@ -77,12 +76,78 @@ body.modal-open {
   margin-bottom: 8px;
 }
 
-.modal-description h2 {
-  font-size: 2rem;
-  margin: 0 0 8px;
+.modal-title {
+  font-size: 32px;
+  font-weight: 700;
+  margin-right: 20px;
+  line-height: 120%;
+}
+
+.detail-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .detail {
-  max-height: 430px;
+  max-height: 400px;
   overflow-y: auto;
+  font-size: 24px;
+  font-weight: 300;
+  line-height: 147%;
+}
+
+.detail-title {
+  font-size: 24px;
+  font-weight: 600;
+  margin-top: 8px;
+}
+
+.my-rate-wrapper {
+  padding: 12px 0;
+  margin: 0;
+}
+
+.my-rate-title {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.rate-display {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.rate-text {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.rate-score {
+  color: #95a1b2;
+}
+
+.modal-rate-text {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--color-yellow);
+}
+
+.modal-rate-average-text {
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.modal-rate {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+}
+
+.category {
+  font-size: 20px;
+  font-weight: 400;
 }

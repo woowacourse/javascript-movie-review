@@ -1,4 +1,4 @@
-import { getRateText } from "../../utils/getRateText";
+import { getRateScore, getRateText } from "../../utils/getRateText";
 import { localStorageHandler } from "../../../shared/stores/localStorage";
 
 function updateMyRateStar(newRate: number) {
@@ -15,11 +15,13 @@ function updateMyRateStar(newRate: number) {
 }
 
 const updateMyRateText = (rate: number) => {
-  const rateText = document.querySelector(".rate-text");
+  const rateTextDescription = document.querySelector(".rate-text-description");
+  const rateTextScore = document.querySelector(".rate-score");
 
-  if (!rateText) return;
+  if (!rateTextDescription || !rateTextScore) return;
 
-  rateText.textContent = getRateText(rate);
+  rateTextDescription.textContent = getRateText(rate);
+  rateTextScore.textContent = getRateScore(rate);
 };
 
 export const handleRateChange = (event: Event, id: string) => {
