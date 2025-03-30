@@ -1,8 +1,8 @@
 import MovieList from '../common/MovieList.js'
 import hideskeleton from '../../util/hideskeleton.js'
 import { IMovieData, IMovieState } from '../../../types/movieDataType'
-import Button from '../common/Button.js'
 import { fetchPopularMovies, fetchSearchMovies } from '../../api/fetch.js'
+import ScrollObserver from './ScrollObserver.js'
 
 function MovieLayout(movieData: IMovieData[]) {
   let state: IMovieState = {
@@ -13,6 +13,8 @@ function MovieLayout(movieData: IMovieData[]) {
     searchKeyword: '',
     totalPages: 0,
   }
+
+  let scrollTrigger = null
 
   const movieList = MovieList()
   render()
@@ -25,17 +27,6 @@ function MovieLayout(movieData: IMovieData[]) {
     state = { currentPage: 1, ...newState }
     render()
   }
-
-  // static skeletonRender() {
-  //   const skeletonTemplate = `
-  //       <h2 id="movieListTitle" class="text-xl"></h2>
-  //       <div id="movieListContainer">
-  //           ${MovieList(createSkeletonData)}
-  //       </div>
-  //   `
-  //   const movieSectionEl = document.getElementById('movieSection')
-  //   if (movieSectionEl) movieSectionEl.innerHTML = skeletonTemplate
-  // }
 
   function template() {
     if (state.movieData?.length === 0) {
@@ -51,37 +42,28 @@ function MovieLayout(movieData: IMovieData[]) {
             <div id="movieListContainer">
                 
             </div>
+
+            <div id="scrollObserverContainer">
             ${
               state.isPossibleMore
-                ? Button({
-                    id: 'readMoreButton',
-                    content: '더보기',
-                    type: 't',
-                    width: '100%',
-                    onclick: () => newMovieListRender(),
-                  })
+                ? '<div id="scrollTrigger" style="width: 100%; height: 1px; margin-top: 40px;"></div>'
                 : ''
             }
+            </div>
         `
   }
 
-  function hideButton() {
-    const readMoreButton = document.getElementById('readMoreButton')
-    if (state.totalPages === state.currentPage && readMoreButton) {
-      readMoreButton.style.display = 'none'
-    }
-  }
-
   function render() {
-    const readMoreButton = document.getElementById('readMoreButton')
-    if (readMoreButton) readMoreButton.removeEventListener('click', () => newMovieListRender())
     const movieSectionEl = document.getElementById('movieSection')
     if (movieSectionEl) movieSectionEl.innerHTML = template()
     movieList.render(state.movieData)
 
+    scrollTrigger = ScrollObserver('scrollObserverContainer', newMovieListRender)
+    scrollTrigger.render()
+
+    if (state.totalPages === state.currentPage && scrollTrigger) scrollTrigger.hideTrigger()
+
     hideskeleton()
-    document.getElementById('readMoreButton')?.addEventListener('click', () => newMovieListRender())
-    hideButton()
   }
 
   async function newMovieListRender() {
@@ -91,7 +73,7 @@ function MovieLayout(movieData: IMovieData[]) {
     const { results } = await fetchFn(state.currentPage ?? 1, state.searchKeyword ?? '')
     movieList.moreMovieListRender(results)
     hideskeleton()
-    hideButton()
+    if (state.totalPages === state.currentPage && scrollTrigger) scrollTrigger.hideTrigger()
   }
 
   return { render, replaceChildren }

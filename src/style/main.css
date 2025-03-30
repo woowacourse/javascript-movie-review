@@ -236,3 +236,10 @@ input::placeholder {
 #bannerSection {
   display: block;
 }
+
+.observer-trigger {
+  width: 100%;
+  height: 1px;
+  margin-top: 40px;
+  display: block;
+}
