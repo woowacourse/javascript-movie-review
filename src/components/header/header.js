@@ -40,14 +40,14 @@ export default function Header() {
     const formData = new FormData(event.currentTarget);
     const searchValue = formData.get("search-bar");
     redirectWithQuery({
-      path: "/search.html",
+      path: "./search.html",
       query: { query: searchValue },
     });
   });
 
   $logo.addEventListener("click", () => {
     redirectWithQuery({
-      path: "/index.html",
+      path: "./index.html",
     });
   });
 
