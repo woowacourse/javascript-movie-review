@@ -5,8 +5,7 @@ export const getSearchedMovie = async (
   query: string,
   page: number
 ): Promise<IMovieList | undefined> => {
-  return await apiClient(
-    "GET",
+  return await apiClient.get(
     `/search/movie?query=${query}&include_adult=true&language=ko-KR&page=${page}`
   );
 };

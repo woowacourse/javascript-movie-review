@@ -6,5 +6,5 @@ export const getMovieList = async ({
 }: {
   page: number;
 }): Promise<IMovieList | undefined> => {
-  return await apiClient("GET", `/movie/popular?page=${page}`);
+  return await apiClient.get(`/movie/popular?page=${page}`);
 };
