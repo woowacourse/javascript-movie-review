@@ -1,17 +1,20 @@
 export const pageManager = {
   currentPage: 1,
-  totalPages: 0,
-
-  setTotalPages(totalPages: number) {
-    this.totalPages = totalPages;
-  },
+  totalPages: 1,
 
   incrementCurrentPage() {
     this.currentPage++;
   },
 
-  initializePageInfo() {
+  setTotalPages(totalPages: number) {
+    this.totalPages = totalPages;
+  },
+
+  resetPage() {
     this.currentPage = 1;
-    this.totalPages = 0;
+  },
+
+  isLastPage() {
+    return this.currentPage >= this.totalPages;
   },
 };
