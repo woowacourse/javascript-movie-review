@@ -70,17 +70,17 @@ body.modal-open {
   line-height: 1.6rem;
 }
 
-.rate {
+.modal-description .rate {
   display: flex;
   gap: 12px;
   align-items: center;
 }
 
-.rate__title {
+.modal-description .rate__title {
   color: var(--color-ffffff);
 }
 
-.rate__bar {
+.modal-description .rate__bar {
   display: flex;
   align-items: center;
   gap: 5px;
@@ -176,16 +176,16 @@ body.modal-open {
     text-align: center;
   }
 
-  .rate {
+  .modal-description .rate {
     display: flex;
     justify-content: center;
   }
 
-  .modal-description .score {
+  modal-description .score {
     width: 100%;
   }
 
-  .modal-description .detail {
+  modal-description .detail {
     width: 100%;
   }
 }
@@ -194,7 +194,7 @@ body.modal-open {
   .modal-image img {
     display: none;
   }
-  .modal-description .score {
+  modal-description .score {
     align-items: center;
   }
 
