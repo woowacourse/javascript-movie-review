@@ -132,11 +132,11 @@ body.modal-open {
   white-space: nowrap;
 }
 
-.voting-rate > p {
+.rate-message {
   margin-left: 16px;
 }
 
-.voting-rate > span {
+.rate-message > span {
   margin-left: 5px;
 
   color: var(--color-bluegray-30);

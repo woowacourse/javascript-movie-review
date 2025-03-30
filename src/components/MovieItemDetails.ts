@@ -123,7 +123,9 @@ class MovieItemDetails {
     const votingRate = /*html*/ `
       <div class="voting-rate">
         <div class="star-marks-container">${starMarks}</div>
-        <p>${RATING_MESSAGE[this.#rate] ?? VOTE.noticeMessage}
+        <p class="rate-message">${
+          RATING_MESSAGE[this.#rate] ?? VOTE.noticeMessage
+        }
           <span>(${this.#rate}/${VOTE.MaximumRate})</span>
         </p>
       </div>
@@ -204,14 +206,12 @@ class MovieItemDetails {
     const score = RATING_SCORE[starredIndex];
     this.#rate = score;
 
-    const ratingMessage =
-      selectElement<HTMLParagraphElement>(".voting-rate > p");
+    const ratingMessage = selectElement<HTMLParagraphElement>(".rate-message");
     ratingMessage.textContent = RATING_MESSAGE[score];
 
-    const ratingScore = selectElement<HTMLParagraphElement>(
-      ".voting-rate > span"
-    );
+    const ratingScore = document.createElement("span");
     ratingScore.textContent = `(${this.#rate}/${VOTE.MaximumRate})`;
+    ratingMessage.insertAdjacentElement("beforeend", ratingScore);
   }
 }
 
