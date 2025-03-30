@@ -94,4 +94,8 @@ h1.logo {
   #wrap {
     min-width: 300px;
   }
+
+  body {
+    overflow-x: hidden;
+  }
 }
