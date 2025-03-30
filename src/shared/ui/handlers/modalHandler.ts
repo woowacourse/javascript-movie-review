@@ -1,6 +1,7 @@
 export function closeModal() {
   const modalBackground = document.querySelector(".modal-background");
+  const $wrap = document.querySelector("#wrap");
   if (!modalBackground) return;
 
-  document.body.removeChild(modalBackground);
+  $wrap?.removeChild(modalBackground);
 }
