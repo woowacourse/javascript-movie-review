@@ -26,7 +26,7 @@ const MovieList = (movies: MovieResponse) => {
   $(".thumbnail-list").appendChild(fragment);
 
   if (movies.page === movies.total_pages)
-    $(".load-more").classList.add("hidden");
+    $(".load-more")?.classList.add("hidden");
 
   return fragment;
 };

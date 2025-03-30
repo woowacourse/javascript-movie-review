@@ -44,7 +44,6 @@ const searchMovie = async (input: string) => {
 
   showSkeleton();
   const movies = await fetchSearchMovieList(input, INITIAL_PAGE);
-
   if (movies.status === "fail") {
     thumbnailList.before(NoSearchResults("영화 목록을 가져오지 못했습니다."));
   }
@@ -54,6 +53,9 @@ const searchMovie = async (input: string) => {
     $(".overlay-img").classList.add("hidden");
 
     MovieList(movies.data);
+    hideSkeleton();
+
+    if (movies.data.page === movies.data.total_pages) return;
 
     thumbnailList.after(LoadMoreSection());
 
@@ -64,8 +66,6 @@ const searchMovie = async (input: string) => {
       loadFn: (currentPage: number) => fetchSearchMovieList(input, currentPage),
     });
   }
-
-  hideSkeleton();
 };
 
 export default SearchBar;
