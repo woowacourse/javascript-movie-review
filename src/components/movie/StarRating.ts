@@ -45,36 +45,38 @@ const StarRating = () => {
 
     star.setAttribute("id", `star_${index + 1}`);
 
-    star.addEventListener("click", () => {
-      const stars = $$(".star-rating .star", startRating);
-      const fillStars = stars.filter(
-        (star) => parseInt(star.id.split("_")[1]) <= index + 1
-      );
-      const emptyStars = stars.filter(
-        (star) => parseInt(star.id.split("_")[1]) > index + 1
-      );
-
-      fillStars.forEach((star) =>
-        star.setAttribute("src", "./images/star_filled.png")
-      );
-
-      emptyStars.forEach((star) =>
-        star.setAttribute("src", "./images/star_empty.png")
-      );
-
-      Object.entries(RATE_DESCRIPTION).forEach(([, value]) => {
-        if (value.score === (index + 1) * 2) {
-          $(".description", startRating).innerText = value.description;
-        }
-      });
-
-      $(".check-score", startRating).innerText = ((index + 1) * 2).toString();
-    });
+    star.addEventListener("click", () => handleClick(startRating, index));
 
     $(".stars", startRating).appendChild(star);
   });
 
   return startRating;
 };
+
+function handleClick(startRating: HTMLElement, index: number) {
+  const stars = $$(".star-rating .star", startRating);
+  const fillStars = stars.filter(
+    (star) => parseInt(star.id.split("_")[1]) <= index + 1
+  );
+  const emptyStars = stars.filter(
+    (star) => parseInt(star.id.split("_")[1]) > index + 1
+  );
+
+  fillStars.forEach((star) =>
+    star.setAttribute("src", "./images/star_filled.png")
+  );
+
+  emptyStars.forEach((star) =>
+    star.setAttribute("src", "./images/star_empty.png")
+  );
+
+  Object.entries(RATE_DESCRIPTION).forEach(([, value]) => {
+    if (value.score === (index + 1) * 2) {
+      $(".description", startRating).innerText = value.description;
+    }
+  });
+
+  $(".check-score", startRating).innerText = ((index + 1) * 2).toString();
+}
 
 export default StarRating;
