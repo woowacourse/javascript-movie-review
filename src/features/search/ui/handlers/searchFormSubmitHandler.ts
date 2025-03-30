@@ -6,6 +6,7 @@ import { IMovie } from "../../../../shared/types/movies";
 import { showErrorPage } from "../../../../shared/ui/renderers/showErrorPage";
 import { setParams } from "../../../../shared/domain/setParams";
 import { getParams } from "../../../../shared/domain/getParams";
+import { disableHeaderImage } from "../../../../shared/ui/renderers/disableHeaderImage";
 
 export const searchFormSubmitHandler = async (e: Event) => {
   try {
@@ -46,15 +47,4 @@ export function updateSearchPageUI(
 
   disableHeaderImage();
   disableMoreButton(searchedMoviesTotalPages, pageNum, searchedMovies);
-}
-
-function disableHeaderImage() {
-  const $overlay = document.querySelector(".overlay");
-  $overlay?.classList.add("disabled");
-
-  const $topRatedMovie = document.querySelector(".top-rated-movie");
-  $topRatedMovie?.classList.add("disabled");
-
-  const $backgroundContainer = document.querySelector(".background-container");
-  $backgroundContainer?.classList.add("background-container-disabled");
 }
