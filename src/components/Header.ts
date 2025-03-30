@@ -119,12 +119,12 @@ export default class Header extends Component {
     eventHandlerInstance.addEventListener({
       eventType: 'popstate',
       callbackWindow: () => {
-        const search = new URL(window.location.href).searchParams.get('search') ?? '';
+        if (searchStore.getState() === (new URL(window.location.href).searchParams.get('search') ?? '')) return;
 
+        const search = new URL(window.location.href).searchParams.get('search') ?? '';
         searchStore.setState(search);
         pageStore.reset();
         moviesStore.reset();
-
         getMovies({ query: searchStore.getState(), page: pageStore.getState() });
       },
     });
