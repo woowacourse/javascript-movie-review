@@ -2,6 +2,7 @@ import SearchForm from './SearchForm.js'
 import { getElement } from '../../util/utils.js'
 
 function Header() {
+
   function template() {
     return `
     
@@ -19,6 +20,8 @@ function Header() {
     getElement('header').innerHTML = template()
   }
   render()
+  const $el = document.querySelector(".logo")
+  $el.addEventListener("click", () => window.location.reload());
 }
 
 export default Header

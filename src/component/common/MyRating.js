@@ -1,4 +1,4 @@
-import StarButton from "../common/StarButton.js";
+import StarButton from "./StarButton.js";
 import { RATING_MESSAGES, RATING } from "../../constant/constant.js";
 import createStorage from "../../storage/createStorage.js";
 

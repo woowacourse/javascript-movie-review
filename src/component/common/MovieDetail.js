@@ -1,6 +1,6 @@
 import { BASE_IMAGE_URL, RATING } from "../../constant/constant.js"
 import roundRating from "../../util/roundRating.js";
-import MyRating from "../feature/MyRating.js";
+import MyRating from "./MyRating.js";
 import StarButton from "./StarButton.js";
 
 function MovieDetail({poster_path, title, vote_average,release_date, genres, overview}){
