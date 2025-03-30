@@ -7,7 +7,7 @@ import Component from './core/Component';
 import { MovieType } from '@/types';
 
 export default class Header extends Component {
-  firstMovie: MovieType | undefined = undefined;
+  firstMovie: MovieType | undefined;
 
   override setup() {
     this.subsribe([moviesStore, searchStore]);
@@ -54,7 +54,7 @@ export default class Header extends Component {
   }
 
   override onRender() {
-    this.setHeaderBackground();
+    this.setHeaderBackground.apply(this);
   }
 
   override addEventListener() {
@@ -103,13 +103,12 @@ export default class Header extends Component {
   }
 
   setHeaderBackground() {
-    const firstMovie = moviesStore.getState()?.at(0);
     const search = searchStore.getState();
 
-    if (!firstMovie) return;
+    if (!this.firstMovie) return;
 
     if (search) this.element!.style.backgroundImage = '';
-    else if (firstMovie.backdrop_path)
-      this.element!.style.backgroundImage = `url(${DEFAULT_BACK_DROP_URL}/${firstMovie.backdrop_path})`;
+    else if (this.firstMovie.backdrop_path)
+      this.element!.style.backgroundImage = `url(${DEFAULT_BACK_DROP_URL}/${this.firstMovie.backdrop_path})`;
   }
 }
