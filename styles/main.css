@@ -92,12 +92,14 @@ button.primary {
   user-select: none;
   position: relative;
   z-index: 2;
-  max-width: 1280px;
+  max-width: 800px;
   margin: 0 auto;
 }
 
 .top-rated-movie {
-  margin-top: 64px;
+  margin-top: 140px;
+  padding: 0 90px;
+  width: 800px;
 }
 
 .top-rated-movie > *:not(:last-child) {
@@ -157,14 +159,19 @@ footer.footer p:not(:last-child) {
 
 .header-container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
+  gap: 24px;
 }
 
 .search-form {
-  width: 40%;
+  width: 525px;
+  height: 36px;
   margin: auto;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   border: 1px solid white;
   border-radius: 32px;
   padding: 6px 16px;
@@ -191,6 +198,7 @@ footer.footer p:not(:last-child) {
 .search-button {
   background: none;
   border: none;
+  padding: 0;
 }
 
 .movie-list-title {
