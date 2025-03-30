@@ -21,8 +21,11 @@
 
 p.rate {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   color: var(--color-yellow);
+}
+
+p.rate > img {
   margin-bottom: 5px;
 }
 
