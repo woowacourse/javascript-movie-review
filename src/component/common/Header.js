@@ -3,17 +3,19 @@ import SearchForm from './SearchForm.js'
 function Header() {
   function template() {
     return `
-        <a href="/javascript-movie-review/" class="logo">
+        
+        <div class="header-container">
+        <a href="/javascript-movie-review/" class="header-logo">
             <img src="./images/logo.png" alt="MovieList" />
         </a>
-        <div class="header-container">
             ${SearchForm()}
+            <img src="./images/logo.png" alt="MovieList" class="header-transparent-logo" />
         </div>
     `
   }
 
   function render() {
-    document.querySelector('header').innerHTML = template()
+    document.querySelector('#headerSection').innerHTML = template()
   }
   render()
 }

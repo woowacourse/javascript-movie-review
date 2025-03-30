@@ -1,0 +1,60 @@
+header {
+  width: 100%;
+  position: relative;
+  z-index: 3;
+}
+
+#headerSection {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.header-container {
+  top: 20px;
+  position: fixed;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1440px;
+  padding: 0 36px;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.header-logo {
+  cursor: pointer;
+  z-index: 500;
+}
+
+.header-transparent-logo {
+  display: none;
+  visibility: hidden;
+}
+
+/* 데스크탑 이상 (1024px~) */
+@media (min-width: 1024px) {
+  #headerSection {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .header-container {
+    top: 20px;
+    position: fixed;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1440px;
+    padding: 0 36px;
+  }
+
+  .header-transparent-logo {
+    display: block;
+    visibility: hidden;
+  }
+}
