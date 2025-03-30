@@ -67,8 +67,20 @@ class Modal {
 
     if (this.#isLoading) {
       this.$div.innerHTML = `
-            <div>로딩중...</div>
-        `;
+      <div class="modal loading">
+        <button class="close-modal" id="closeModal">
+          <img src="./images/modal_button_close.png" />
+        </button>
+        <div class="modal-container">
+          <div class="orbit-spinner" style="scale: 1">
+            <div class="planet"></div>
+            <div class="orbit">
+              <div class="satellite satellite-1"></div>
+              <div class="satellite satellite-2"></div>
+            </div>
+          </div>
+        </div>
+      </div>`;
       this.$target.appendChild(this.$div);
       return;
     }
