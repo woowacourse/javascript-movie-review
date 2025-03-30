@@ -1,9 +1,11 @@
 import { forEach } from '@fxts/core';
 
-export default abstract class Obserable<TState> {
-  #listeners: ((state: TState) => void)[] = [];
+type TListener<TState> = (state: TState) => void;
 
-  subscribe(listener: (state: TState) => void) {
+export default abstract class Obserable<TState> {
+  #listeners: TListener<TState>[] = [];
+
+  subscribe(listener: TListener<TState>) {
     this.#listeners = [...this.#listeners, listener];
   }
 
