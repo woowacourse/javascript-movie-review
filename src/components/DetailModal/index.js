@@ -1,3 +1,4 @@
+import { SCORE_MESSAGES } from "../../constants/config";
 import { MovieItemMount } from "../MovieList/MovieItem";
 
 export function DetailModalRender(movie) {
@@ -45,7 +46,9 @@ export function DetailModalRender(movie) {
                   <img src="./images/star_empty.png" class="star" />
                 </div>
                 <div class="score__description">
-                  <span class="score__description--text">별점을 등록해주세요.</span>
+                  <span class="score__description--text">${
+                    SCORE_MESSAGES.CHOICE
+                  }</span>
                   <span class="score__description--score">(<span class="score-number">0</span>/10)</span>
                 </div>
               </div>
@@ -135,16 +138,16 @@ export function DetailModalMount() {
 function updateScoreDescription(ratingStr, element) {
   const rating = Number(ratingStr);
   if (rating === 2) {
-    element.textContent = "최악이예요";
+    element.textContent = SCORE_MESSAGES[2];
   } else if (rating === 4) {
-    element.textContent = "별로예요";
+    element.textContent = SCORE_MESSAGES[4];
   } else if (rating === 6) {
-    element.textContent = "보통이에요";
+    element.textContent = SCORE_MESSAGES[6];
   } else if (rating === 8) {
-    element.textContent = "재미있어요";
+    element.textContent = SCORE_MESSAGES[8];
   } else if (rating === 10) {
-    element.textContent = "명작이에요";
+    element.textContent = SCORE_MESSAGES[10];
   } else {
-    element.textContent = "별점을 선택해주세요";
+    element.textContent = SCORE_MESSAGES.CHOICE;
   }
 }
