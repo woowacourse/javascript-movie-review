@@ -9,6 +9,11 @@ export const ratingDescriptions = {
   10: "명작이에요",
 };
 
-function MovieModal() {}
+function MovieModal(movieData, movieId) {
+  const $modalBackground = MovieDetailModal(movieData, movieId);
+
+  registerModalEventHandlers($modalBackground, movieId);
+  return $modalBackground;
+}
 
 export default MovieModal;

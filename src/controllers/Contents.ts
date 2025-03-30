@@ -4,7 +4,7 @@ import Button from "../components/Button.js";
 import { FetchMoviesCallback, MovieInfo } from "../../types/movieType.js";
 import MovieItem from "../components/MovieItem.js";
 import Skeleton from "../components/Skeleton.js";
-import EVENT_HANDLER from "./EventHandler.js";
+import { openModal } from "./MovieDetailModalHandlers.js";
 
 const MAXIMUM_PAGE = 500;
 
@@ -64,7 +64,7 @@ export function replaceSkeletonWithMovies(movies: MovieInfo[]) {
   if (!$listContainer) return;
 
   movies.forEach((movie, index) => {
-    const $movieItem = MovieItem(movie, EVENT_HANDLER.MOVIE_MODAL);
+    const $movieItem = MovieItem(movie, openModal);
     const $skeleton = $listContainer.children[index];
     if ($skeleton) {
       $listContainer.replaceChild($movieItem, $skeleton);
