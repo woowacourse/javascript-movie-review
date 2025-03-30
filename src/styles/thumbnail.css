@@ -146,3 +146,56 @@ p.rate > span {
         aspect-ratio: 2/3;
     }
 }
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    .thumbnail-list {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 70px;
+        margin-bottom: 32px;
+    }
+
+    .thumbnail {
+        width: 100%;
+        aspect-ratio: 2/3;
+        object-fit: cover;
+    }
+
+    .item {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        width: 100%;
+    }
+
+    .item-desc {
+        text-align: left;
+    }
+
+    .item-desc > *:not(:last-child) {
+        font-size: 0.9rem;
+        margin-bottom: 2px;
+    }
+
+    .item .star {
+        width: 14px;
+    }
+
+    p.rate {
+        justify-content: flex-start;
+        font-size: 0.9rem;
+        margin: 10px 0 10px 0;
+        max-width: 40px;
+    }
+
+    .skeleton-list {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 70px;
+        margin-bottom: 32px;
+    }
+
+    .skeleton-list li {
+        width: 100%;
+        aspect-ratio: 2/3;
+    }
+}

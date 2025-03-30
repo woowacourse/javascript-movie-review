@@ -63,16 +63,18 @@ const Modal = ({ item }: ModalProps) => {
             />
           </div>
           <div class="modal-description">
+          <div class="modal-header">
           ${title ? `<h2>${title}</h2>` : "인사이드 아웃 2"}
             <p class="category">
               2024 · 모험, 애니메이션, 코미디, 드라마, 가족
             </p>
-            
             <div class="rate-container">
-            <span class="average">평균</span>
-            <img src="images/star_filled.png" class="star" /><span>7.7</span>
+              <span class="average">평균</span>
+              <img src="images/star_filled.png" class="star" /><span>7.7</span>
             </div>
-            <hr />
+          </div>
+          <hr />
+            
             <div class="my-rate-container">
             <h3>내 별점</h3>
             <div class="my-rate-content">
@@ -90,9 +92,9 @@ const Modal = ({ item }: ModalProps) => {
             
             <h3>줄거리</h3>
             ${
-              description
-                ? `<p class="detail">${description}</p>`
-                : `<p class="detail">
+    description
+      ? `<p class="detail">${description}</p>`
+      : `<p class="detail">
               13살이 된 라일리의 행복을 위해 매일 바쁘게 머릿속 감정 컨트롤
               본부를 운영하는 ‘기쁨’, ‘슬픔’, ‘버럭’, ‘까칠’, ‘소심’. 그러던
               어느 날, 낯선 감정인 ‘불안’, ‘당황’, ‘따분’, ‘부럽’이가 본부에
@@ -101,7 +103,7 @@ const Modal = ({ item }: ModalProps) => {
               쫓겨나게 된 기존 감정들은 다시 본부로 돌아가기 위해 위험천만한
               모험을 시작하는데…
             </p>`
-            }
+  }
           </div>
         </div>
 `;
