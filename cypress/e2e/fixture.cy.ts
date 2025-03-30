@@ -28,6 +28,14 @@ describe("Fixture를 이용한 테스트", () => {
       { fixture: "movie-search-second.json" }
     ).as("getSecondSearchedMovies");
 
+    cy.intercept(
+      {
+        method: "GET",
+        url: /^https:\/\/api\.themoviedb\.org\/3\/movie\/\d+\?.*/,
+      },
+      { fixture: "movie-details.json" }
+    ).as("getMovieDetails");
+
     cy.visit("http://localhost:5173");
   });
 
@@ -60,5 +68,30 @@ describe("Fixture를 이용한 테스트", () => {
     });
 
     expect(cy.get(".thumbnail-list > li").should("have.length", 35));
+  });
+
+  it("영화 아이템을 클릭하면 영화 상세정보 데이터를 받아온다.", () => {
+    cy.wait("@getPopularMovies");
+
+    cy.get(".thumbnail-list > li").first().click();
+    cy.wait("@getMovieDetails").then((interception) => {
+      const movie = interception.response?.body;
+      expect(movie).to.include.all.keys(
+        "genres",
+        "id",
+        "overview",
+        "poster_path",
+        "release_date",
+        "title",
+        "vote_average"
+      );
+    });
+
+    cy.get(".modal-image img")
+      .should("exist")
+      .and("have.attr", "alt", "미키 17");
+    cy.get(".modal-description h2").should("exist").contains("미키 17");
+    cy.get(".category").should("exist").contains("SF, 코미디, 모험");
+    cy.get(".detail").should("exist").contains("미키");
   });
 });
