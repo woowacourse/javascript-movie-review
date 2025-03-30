@@ -26,6 +26,10 @@ main {
   margin: 64px 0;
 }
 
+main > section {
+  padding: 0 95px;
+}
+
 .star {
   width: 24px;
 }
@@ -48,7 +52,8 @@ button#seeMore {
 }
 
 #wrap {
-  min-width: 1440px;
+  width: 100%;
+  min-width: 390px;
   background-color: var(--color-bluegray-100);
 }
 
@@ -59,7 +64,8 @@ button#seeMore {
 }
 
 .container {
-  max-width: 1280px;
+  width: 100%;
+  max-width: 1440px;
   margin: 0 auto;
 }
 
@@ -146,4 +152,17 @@ footer.footer {
 
 footer.footer p:not(:last-child) {
   margin-bottom: 8px;
+}
+
+@media (max-width: 660px) {
+  main > section {
+    padding: 0;
+  }
+
+  #wrap h2 {
+    padding: 0;
+    font-size: 2rem;
+    text-align: center;
+    white-space: nowrap;
+  }
 }
