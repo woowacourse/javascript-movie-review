@@ -10,7 +10,7 @@ describe("영화 목록 테스트", () => {
   });
 
   it(`더보기 버튼을 누르면 다음 페이지 ${ITEMS.perPage}개가 추가로 표시된다.`, () => {
-    cy.get("main section button.primary").click();
+    cy.get(".thumbnail-list > li").last().scrollIntoView();
     cy.get("ul.thumbnail-list li").should("have.length", 40);
   });
 });

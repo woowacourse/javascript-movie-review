@@ -53,7 +53,7 @@ describe("Fixture를 이용한 테스트", () => {
 
     expect(cy.get(".thumbnail-list > li").should("have.length", ITEMS.perPage));
 
-    cy.get("#seeMore").click();
+    cy.get(".thumbnail-list > li").last().scrollIntoView();
 
     cy.wait("@getSecondSearchedMovies").then((interception) => {
       expect(interception.response?.body.results.length).to.equal(15);
