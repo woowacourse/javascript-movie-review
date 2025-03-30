@@ -288,14 +288,29 @@ footer.footer p:not(:last-child) {
     flex-direction: column;
     gap: 20px;
   }
+  .logo-img {
+    left: 48px;
+  }
+  .search-movie-main {
+    padding: 125px 30px 64px;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .background-container {
+    display: flex;
+    align-items: center;
+  }
 
   .logo-img {
-    position: inherit;
+    position: initial;
     transform: none;
   }
 
-  .search-movie-main {
-    padding: 125px 30px 64px;
+  .top-rated-container {
+    display: flex;
+    align-items: center;
+    margin: 0;
   }
 }
 
@@ -317,6 +332,7 @@ footer.footer p:not(:last-child) {
   .top-rated-container {
     width: 90%;
     padding: 126px 0 0 0;
+    margin: 0 auto;
   }
   .top-rated-movie,
   .rate {
