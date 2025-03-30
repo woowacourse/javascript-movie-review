@@ -1,0 +1,67 @@
+{
+    "adult": false,
+    "backdrop_path": "/2n7lYEeIbucsEQCswRcVB6ZYmMP.jpg",
+    "belongs_to_collection": null,
+    "budget": 320000000,
+    "genres": [
+      {
+        "id": 878,
+        "name": "Science Fiction"
+      },
+      {
+        "id": 12,
+        "name": "Adventure"
+      },
+      {
+        "id": 28,
+        "name": "Action"
+      }
+    ],
+    "homepage": "https://www.netflix.com/title/81601562",
+    "id": 777443,
+    "imdb_id": "tt7766378",
+    "origin_country": [
+      "US"
+    ],
+    "original_language": "en",
+    "original_title": "The Electric State",
+    "overview": "An orphaned teen hits the road with a mysterious robot to find her long-lost brother, teaming up with a smuggler and his wisecracking sidekick.",
+    "popularity": 141.7648,
+    "poster_path": "/1TZ9Er1xEAKizzKKqYVgJIhNkN2.jpg",
+    "production_companies": [
+      {
+        "id": 106544,
+        "logo_path": "/psd84iF7PTGrKf4yFOStKj8JbAh.png",
+        "name": "AGBO",
+        "origin_country": "US"
+      },
+      {
+        "id": 50032,
+        "logo_path": "/ojrMksdtR7Bs2vwERU1LCrjv7vx.png",
+        "name": "Skybound Entertainment",
+        "origin_country": "US"
+      }
+    ],
+    "production_countries": [
+      {
+        "iso_3166_1": "US",
+        "name": "United States of America"
+      }
+    ],
+    "release_date": "2025-03-07",
+    "revenue": 0,
+    "runtime": 125,
+    "spoken_languages": [
+      {
+        "english_name": "English",
+        "iso_639_1": "en",
+        "name": "English"
+      }
+    ],
+    "status": "Released",
+    "tagline": "Rage with the machines.",
+    "title": "The Electric State",
+    "video": false,
+    "vote_average": 6.6,
+    "vote_count": 810
+}

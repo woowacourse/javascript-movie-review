@@ -6,6 +6,7 @@ describe("Fixture를 이용한 E2E 테스트", () => {
     setupMovieApiMocks();
 
     cy.visit("http://localhost:5173");
+    cy.viewport(1536, 960);
   });
 
   it("영화 목록 API를 호출하면 20개의 영화가 랜더링 되어야 한다.", () => {
@@ -17,6 +18,21 @@ describe("Fixture를 이용한 E2E 테스트", () => {
 
     // 영화 목록이 정상적으로 20개 렌더링 되는지 확인
     cy.get(".thumbnail-list > li").should("have.length", 20);
+  });
+
+  it("영화 아이템을 클릭하면 모달이 뜨고 해당 영화의 상세 정보가 모달안에 나타난다.", () => {
+    cy.get(".thumbnail-list > li:first-child").click();
+
+    cy.get(".modal").should("exist").should("be.visible");
+
+    cy.wait("@getMovieDetail").then((interception) => {
+      const movie = interception.response?.body;
+
+      cy.contains(movie.title);
+      cy.contains(movie.overview);
+      cy.contains(movie.genres.map((genre) => genre.name).join(", "));
+      cy.contains(movie.release_date.slice(0, 4));
+    });
   });
 
   it("더보기 버튼 클릭 시 20개의 영화가 추가된다.", () => {
