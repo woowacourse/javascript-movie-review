@@ -18,17 +18,19 @@ export function DetailModalRender(movie) {
             }" alt="${movie.title}" />
           </div>
           <div class="modal-description">
-            <h2>${movie.title}</h2>
-            <p class="category">
-              ${movie.release_date} · ${
+            <div class="modal-description__title">
+              <h2>${movie.title}</h2>
+              <p class="category">
+                ${movie.release_date} · ${
     movie.genres ? movie.genres.map((g) => g.name).join(", ") : ""
   }
-            </p>
-            <div class="rate">
-              <span class="rate__title">평균</span>
-              <div class="rate__bar">
-                <img src="./images/star_filled.png" class="star" />
-                <span>${movie.vote_average}</span>
+              </p>
+              <div class="rate">
+                <span class="rate__title">평균</span>
+                <div class="rate__bar">
+                  <img src="./images/star_filled.png" class="star" />
+                  <span>${movie.vote_average}</span>
+                </div>
               </div>
             </div>
             <hr />
@@ -47,12 +49,13 @@ export function DetailModalRender(movie) {
                   <span class="score__description--score">(<span class="score-number">0</span>/10)</span>
                 </div>
               </div>
-              <div>  
-              <hr/>
-              <div class="detail">
-                <h3>줄거리</h3>
-                ${movie.overview}
-              </div>
+
+            </div>  
+            <hr/>
+            <div class="detail">
+              <h3>줄거리</h3>
+              ${movie.overview}
+            </div>
           </div>
         </div>
       </div>
