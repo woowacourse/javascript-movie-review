@@ -33,7 +33,7 @@
   cursor: pointer;
 }
 
-@media (max-width: 660px) {
+@media (max-width: 1200px) {
   .search-container {
     width: 100%;
     margin: 24px 0;

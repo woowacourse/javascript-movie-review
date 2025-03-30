@@ -163,7 +163,7 @@ footer.footer p:not(:last-child) {
   margin-bottom: 8px;
 }
 
-@media (max-width: 660px) {
+@media (max-width: 1200px) {
   div.logo {
     flex-direction: column;
     align-items: center;
@@ -185,11 +185,25 @@ footer.footer p:not(:last-child) {
   }
 
   .top-rated-movie .title {
-    font-size: 20px;
+    font-size: 64px;
+  }
+
+  #wrap h2 {
+    width: 740px;
+    font-size: 1.8rem;
   }
 
   main > section {
-    padding: 0;
+    padding: 0 30px;
+
+    display: flex;
+    align-items: center;
+  }
+}
+
+@media (max-width: 800px) {
+  .top-rated-movie .title {
+    font-size: 20px;
   }
 
   #wrap h2 {
@@ -197,5 +211,9 @@ footer.footer p:not(:last-child) {
     font-size: 2rem;
     text-align: center;
     white-space: nowrap;
+  }
+
+  main > section {
+    padding: 0;
   }
 }
