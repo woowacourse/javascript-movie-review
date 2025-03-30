@@ -9,6 +9,7 @@ function Movie({ movie }: { movie: MoveType }) {
   return createDOMElement({
     tag: 'li',
     className: 'item',
+    attributes: { tabIndex: '0', role: 'button' },
     children: [
       createDOMElement({
         tag: 'img',
@@ -47,6 +48,12 @@ function Movie({ movie }: { movie: MoveType }) {
     event: {
       click: () => {
         handleMovieDetail(movie.id);
+      },
+      keydown: (e: Event) => {
+        const keyboardEvent = e as KeyboardEvent;
+        if (keyboardEvent.code === 'Enter') {
+          handleMovieDetail(movie.id);
+        }
       }
     }
   });

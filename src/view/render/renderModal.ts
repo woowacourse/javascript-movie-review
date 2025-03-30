@@ -32,6 +32,13 @@ export const renderModal = async (movieDetail: MoveDetailType) => {
     }
   });
 
+  modal?.addEventListener('keydown', (e) => {
+    if (e.code === 'Escape') {
+      modal?.close();
+      modal.remove();
+    }
+  });
+
   $('#closeModal')?.addEventListener('click', () => {
     modal?.close();
     modal.remove();
