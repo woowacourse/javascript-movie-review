@@ -16,7 +16,7 @@ export const searchFormSubmitHandler = async (e: Event) => {
 
   const params = getUrlParams();
   updateUrlParams(params, String(searchQuery));
-  updateSearchedMovieUI($thumbnailList, String(searchQuery));
+  await updateSearchedMovieUI($thumbnailList, String(searchQuery));
   updateUrl(params);
 };
 
