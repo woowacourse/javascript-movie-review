@@ -1,6 +1,9 @@
 import MyRate from "./MyRate";
 
-import { closeModal } from "../handlers/modalHandler";
+import {
+  closeModal,
+  preventScrollWhenModalOpen,
+} from "../handlers/modalHandler";
 import { handleRateChange } from "../handlers/myRateHandler";
 import { IMovieDetail } from "../../../shared/types/movies";
 
@@ -76,6 +79,10 @@ const Modal = (movieDetail: IMovieDetail) => {
   rateStarContainer?.addEventListener("change", (e) => {
     handleRateChange(e, movieDetail.id.toString());
   });
+
+  setTimeout(() => {
+    preventScrollWhenModalOpen();
+  }, 0);
 
   return modalBackground;
 };
