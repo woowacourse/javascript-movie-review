@@ -1,8 +1,7 @@
 import createDOMElement from '../util/createDomElement';
-import getMovieDetail from '../api/getMovieDetail';
 import { DEFAULT_IMAGE_URL, IMAGE_BASE_URL } from '../constant';
 import { MoveType } from '../type';
-import { renderModal } from '../view/render/renderModal';
+import { handleMovieDetail } from '../view/events/handleMovieDetail';
 
 function Movie({ movie }: { movie: MoveType }) {
   const posterPath = movie.posterPath ? IMAGE_BASE_URL + '/w440_and_h660_face/' + movie.posterPath : DEFAULT_IMAGE_URL;
@@ -47,20 +46,10 @@ function Movie({ movie }: { movie: MoveType }) {
     ],
     event: {
       click: () => {
-        handleMovieItemClick(movie.id);
+        handleMovieDetail(movie.id);
       }
     }
   });
 }
-
-const handleMovieItemClick = async (id: number) => {
-  const params = {
-    language: 'ko-KR'
-  };
-  const movieDetail = await getMovieDetail(params, id);
-  if (movieDetail) {
-    renderModal(movieDetail);
-  }
-};
 
 export default Movie;
