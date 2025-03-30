@@ -136,19 +136,19 @@ button.primary {
   position: relative;
   background-position: center center;
   background-size: cover;
-  height: 500px;
+  height: 600px;
   padding: 48px;
-  /* background-image: url('https://media.themoviedb.org/t/p/w440_and_h660_face/pmemGuhr450DK8GiTT44mgwWCP7.jpg'); */
 }
 
 .overlay {
   position: absolute;
   top: 0;
   left: 0;
-  background-color: rgba(0, 0, 0, 0.5);
   width: 100%;
   height: 100%;
   z-index: 1;
+
+  background: linear-gradient(to right, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
 }
 
 .top-rated-container {
@@ -191,6 +191,17 @@ span.rate-value {
 .title {
   font-size: 3rem;
   font-weight: bold;
+}
+
+.banner-logo-box {
+  width: 300px; /* 또는 100% */
+  overflow: hidden;
+}
+
+.banner-logo-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 footer.footer {
