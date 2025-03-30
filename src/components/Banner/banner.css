@@ -60,3 +60,34 @@ span.rate-value {
   font-size: 3rem;
   font-weight: bold;
 }
+
+@media screen and (max-width: 1440px) {
+  .top-rated-container {
+    max-width: 1000px;
+  }
+}
+
+@media screen and (max-width: 1300px) {
+  .top-rated-container {
+    max-width: 750px;
+  }
+
+  .background-container {
+    margin-top: -180px;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .top-rated-container {
+    padding-top: 30px;
+    min-width: 500px;
+  }
+  .background-container {
+    height: 350px;
+    margin-top: -155px;
+  }
+
+  .title {
+    font-size: 2.5rem;
+  }
+}
