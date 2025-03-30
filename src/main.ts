@@ -1,7 +1,10 @@
 import Button from "./components/Button";
 import "./event/movieEventHandler";
 import "./event/modalEventHandler";
+import "./apis/intersectionApi";
 import { renderMoviesList } from "./features/movies/movieListRenderer";
+import { createObserver } from "./apis/intersectionApi";
+import { toElement } from "./utils/domUtils";
 
 if (document.readyState === "complete") {
   setupUI();
@@ -12,9 +15,8 @@ if (document.readyState === "complete") {
 function setupUI() {
   const $container = document.querySelector(".container");
 
-  $container?.appendChild(
-    Button({ className: "show-more", textContent: "더 보기" })
-  );
+  $container?.appendChild(toElement(`<div id="sentinel"></div>`));
 
   renderMoviesList();
+  createObserver();
 }

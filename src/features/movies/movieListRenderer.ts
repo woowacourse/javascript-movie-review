@@ -9,7 +9,7 @@ const $mainSection = document.querySelector("main section");
 const $ul = document.querySelector(".thumbnail-list");
 const $error = document.querySelector(".error");
 const $h2 = $error?.querySelector("h2");
-const MAX_MOVIE_PAGE = 500;
+export const MAX_MOVIE_PAGE = 500;
 
 const ErrorMessages: { [key: number]: string } = {
   400: "검색 가능한 페이지 수를 넘겼습니다.",
@@ -71,12 +71,17 @@ const toggleEmptySearchError = () => {
   }
 };
 
+/* 
+- 페이지 개수에 따라 button display 결정코드ㄴ
+- 옵저보 api 사용하면서 해당 방식은 불필요해짐 
+
 const toggleShowMoreButton = () => {
   const $showMore = document.querySelector(".show-more");
   if (movieStore.page !== Math.min(MAX_MOVIE_PAGE, movieStore.totalPages))
     $showMore?.classList.add("open");
   else $showMore?.classList.remove("open");
 };
+*/
 
 export const renderMoviesList = async () => {
   renderSkeleton();
@@ -95,8 +100,6 @@ export const renderMoviesList = async () => {
       renderErrorPage(error);
     }
   }
-
-  toggleShowMoreButton();
 
   if ($ul) $ul.innerHTML = "";
   const $movies = MovieList(movieStore.movies);

@@ -40,6 +40,7 @@ describe("Fixture을 리용한 목록 목킹 E2E테스트", () => {
     });
   });
 
+  /*
   it("사용자가 더 보기를 누르면 다음 목록을 보여준다.", () => {
     cy.wait("@getPopularMoviesPage1");
 
@@ -50,6 +51,7 @@ describe("Fixture을 리용한 목록 목킹 E2E테스트", () => {
 
     cy.get(".thumbnail-list > li").should("have.length", 40);
   });
+  */
 });
 
 describe("Fixture을 리용한 검색 목킹 E2E테스트", () => {
