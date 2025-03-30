@@ -79,14 +79,6 @@ body.modal-open {
   background: var(--color-bluegray-30);
 }
 
-/* .modal-description >  {
-  display: flex;
-  align-items: center;
-
-  height: 20px;
-  line-height: 20px;
-} */
-
 .modal-description > .rate {
   margin-right: 16px;
 
@@ -161,4 +153,38 @@ body.modal-open {
 
   background: none;
   cursor: pointer;
+}
+
+@media (max-width: 1200px) {
+  .modal {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }
+
+  .modal-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .modal-image img {
+    width: 200px;
+    height: 300px;
+    margin: 20px 0;
+  }
+
+  .modal-description {
+    align-items: center;
+  }
+
+  .modal-description h3 {
+    align-self: flex-start;
+    margin: 10px 0;
+  }
+
+  .modal-description .detail {
+    align-self: flex-start;
+    font-size: 1.5rem;
+  }
 }
