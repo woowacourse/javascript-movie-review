@@ -5,7 +5,7 @@ import MessageModalController from "../controller/MessageModalController";
 const spinnerElement = Spinner();
 document.body.appendChild(spinnerElement);
 
-const messageModalController = new MessageModalController(document.body);
+const messageModalController = new MessageModalController();
 
 export async function ApiWrapper<T>(callback: () => Promise<T>) {
   spinnerElement.classList.add("active");
