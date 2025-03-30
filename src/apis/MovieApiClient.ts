@@ -1,5 +1,6 @@
 import { MovieDetailResponse, MoviesResponse } from '@/types';
 import ApiClient from './ApiClient';
+import { TMDB_ORIGIN } from '@/constants';
 
 interface GetAllRequest {
   page: number;
@@ -15,13 +16,12 @@ interface GetDetailRequest {
 }
 
 export default class MovieApiClient {
-  static #ORIGIN = 'https://api.themoviedb.org';
   static #OPTIONS = {
     headers: { Authorization: `Bearer ${import.meta.env.VITE_TMDB_TOKEN}` },
   };
 
   static getAll({ page }: GetAllRequest) {
-    const url = new URL('/3/movie/popular', this.#ORIGIN);
+    const url = new URL('/3/movie/popular', TMDB_ORIGIN);
     url.searchParams.append('page', String(page));
     url.searchParams.append('language', navigator.language);
 
@@ -29,7 +29,7 @@ export default class MovieApiClient {
   }
 
   static get({ page, query }: GetRequest) {
-    const url = new URL('/3/search/movie', this.#ORIGIN);
+    const url = new URL('/3/search/movie', TMDB_ORIGIN);
     url.searchParams.append('page', String(page));
     url.searchParams.append('language', navigator.language);
     url.searchParams.append('query', query);
@@ -38,7 +38,7 @@ export default class MovieApiClient {
   }
 
   static getDetail({ id }: GetDetailRequest) {
-    const url = new URL(`/3/movie/${id}`, this.#ORIGIN);
+    const url = new URL(`/3/movie/${id}`, TMDB_ORIGIN);
     url.searchParams.append('language', navigator.language);
 
     return ApiClient.get<MovieDetailResponse>(url, this.#OPTIONS);
