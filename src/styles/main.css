@@ -47,10 +47,6 @@ button.primary {
   border-radius: 4px;
 }
 
-button#seeMore {
-  width: 100%;
-}
-
 #wrap {
   width: 100%;
   min-width: 390px;
