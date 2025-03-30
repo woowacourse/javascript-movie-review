@@ -5,20 +5,23 @@ import { disableMoreButton } from "../../../../shared/ui/renderers/disabledMoreB
 import { IMovie } from "../../../../shared/types/movies";
 import { showErrorPage } from "../../../../shared/ui/renderers/showErrorPage";
 import { setParams } from "../../../../shared/domain/setParams";
-import { getParams } from "../../../../shared/domain/getParams";
+import { pageManager } from "../../../../shared/domain/pageManager";
 import { disableHeaderImage } from "../../../../shared/ui/renderers/disableHeaderImage";
 
 export const searchFormSubmitHandler = async (e: Event) => {
   try {
+    pageManager.initializePageInfo();
+    const currentPage = pageManager.currentPage;
     const formData = new FormData(e.target as HTMLFormElement);
     const searchQuery = formData.get("search-input") as string;
-    setParams(searchQuery, 1);
-    const { currentPage } = getParams(new URL(window.location.href));
-    const searchedMovies = await getSearchedPost(searchQuery, currentPage);
+    setParams(searchQuery);
 
-    updateSearchPageUI(searchedMovies.results, searchedMovies.total_pages, {
+    const searchedMovies = await getSearchedPost(searchQuery, currentPage);
+    pageManager.setTotalPages(searchedMovies.total_pages);
+
+    updateSearchPageUI(searchedMovies.results, searchQuery, {
       pageNum: currentPage,
-      searchQuery,
+      totalPages: pageManager.totalPages,
     });
   } catch (error) {
     showErrorPage();
@@ -27,8 +30,8 @@ export const searchFormSubmitHandler = async (e: Event) => {
 
 export function updateSearchPageUI(
   searchedMovies: IMovie[],
-  searchedMoviesTotalPages: number,
-  { pageNum, searchQuery }: { pageNum: number; searchQuery: string }
+  searchQuery: string,
+  { pageNum, totalPages }: { pageNum: number; totalPages: number }
 ) {
   const $thumbnailList = document.querySelector(
     ".thumbnail-list"
@@ -46,5 +49,5 @@ export function updateSearchPageUI(
   addMoviePost(searchedMovies, $thumbnailList);
 
   disableHeaderImage();
-  disableMoreButton(searchedMoviesTotalPages, pageNum, searchedMovies);
+  disableMoreButton(totalPages, pageNum, searchedMovies);
 }

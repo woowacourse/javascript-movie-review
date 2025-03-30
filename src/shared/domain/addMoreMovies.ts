@@ -3,20 +3,21 @@ import { getSearchedPost } from "../../features/search/api/getSearchedPost";
 import { addMoviePost } from "../ui/renderers/addMoviePost";
 import { disableMoreButton } from "../ui/renderers/disabledMoreButton";
 import { showErrorPage } from "../ui/renderers/showErrorPage";
-import { getParams } from "./getParams";
-import { setParams } from "./setParams";
+import { getQueryParam } from "./getParams";
+import { pageManager } from "./pageManager";
 
 export async function addMoreMovies($movieList: HTMLElement) {
-  const { query, currentPage, nextPage } = getParams(
-    new URL(window.location.href)
-  );
-  setParams(query ?? "", nextPage);
+  const query = getQueryParam(new URL(window.location.href));
+  const currentPage = pageManager.currentPage;
+  const nextPage = currentPage + 1;
 
   const movies = await getCurrentMovieList(nextPage, query);
 
   if (!movies) return;
   addMoviePost(movies.results, $movieList);
-  disableMoreButton(movies.total_pages, currentPage, movies.results);
+  disableMoreButton(pageManager.totalPages, currentPage, movies.results);
+
+  pageManager.incrementCurrentPage();
 }
 
 async function getCurrentMovieList(page: number, query: string | null) {
