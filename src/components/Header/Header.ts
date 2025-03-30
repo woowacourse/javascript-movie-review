@@ -1,3 +1,4 @@
+import { noop } from "@zoeykr/function-al";
 import { MovieItemProps } from "../../../types/domain";
 import { BACKDROP_IMG_PREFIX } from "../../constants/URL";
 import { toggleDisplay } from "../../utils/Render";
@@ -34,7 +35,7 @@ const Header = {
   },
 
   onDetailButtonClick(event: MouseEvent) {
-    console.log(event.target, "onDetailButtonClick 기능 미구현");
+    noop();
   },
 };
 

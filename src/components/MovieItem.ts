@@ -1,3 +1,4 @@
+import { noop } from "@zoeykr/function-al";
 import { MovieItemProps } from "../../types/domain";
 import { POSTER_IMG_PREFIX } from "../constants/URL";
 
@@ -30,7 +31,7 @@ const MovieItem = {
   },
 
   onClickItem(event: MouseEvent) {
-    console.log(event.currentTarget, "onButtonClick 기능 미구현");
+    noop();
   },
 };
 

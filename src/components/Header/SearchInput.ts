@@ -1,3 +1,4 @@
+import { noop } from "@zoeykr/function-al";
 import { $searchButton, $searchInput } from "./Element";
 
 const SearchInput = {
@@ -19,7 +20,7 @@ const SearchInput = {
   },
 
   onButtonClick(event: MouseEvent) {
-    console.log(event.target, "onButtonClick 기능 미구현");
+    noop();
   },
 
   checkEnterEventHandler(event: KeyboardEvent) {
@@ -28,7 +29,7 @@ const SearchInput = {
   },
 
   onEnterKeydown(event: KeyboardEvent) {
-    console.log(event.target, "onEnterKeydown 기능 미구현");
+    noop();
   },
 };
 

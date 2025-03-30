@@ -1,3 +1,4 @@
+import { noop } from "@zoeykr/function-al";
 import { $observerTarget } from "./Element";
 
 const ScrollObserver = {
@@ -26,7 +27,7 @@ const ScrollObserver = {
   },
 
   intersect() {
-    console.log("ScrollObserver 감지");
+    noop();
   },
 };
 

@@ -1,3 +1,4 @@
+import { noop } from "@zoeykr/function-al";
 import { toggleDisplay } from "../../utils/Render";
 import { $seeMoreButton } from "./Element";
 
@@ -7,7 +8,7 @@ const SeeMoreButton = {
   },
 
   onButtonClick(event: MouseEvent) {
-    console.log(event.target, "onButtonClick 기능 미구현");
+    noop();
   },
 
   show() {
