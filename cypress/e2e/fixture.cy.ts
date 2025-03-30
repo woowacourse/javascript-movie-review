@@ -1,4 +1,9 @@
-import { ITEMS } from "../../src/constants/movie.ts";
+import {
+  IMAGE,
+  ITEMS,
+  RATING_MESSAGE,
+  VOTE,
+} from "../../src/constants/movie.ts";
 
 /// <reference types="cypress" />
 
@@ -93,5 +98,20 @@ describe("Fixture를 이용한 테스트", () => {
     cy.get(".modal-description h2").should("exist").contains("미키 17");
     cy.get(".category").should("exist").contains("SF, 코미디, 모험");
     cy.get(".detail").should("exist").contains("미키");
+  });
+
+  it("영화 상세정보 모달에서 평점을 등록한다.", () => {
+    cy.wait("@getPopularMovies");
+    cy.get(".thumbnail-list > li").first().click();
+
+    cy.get(".star-marks-container").click();
+    cy.get(".star-marks-container > img").last().click();
+    cy.get("#closeModal").click();
+
+    cy.get(".thumbnail-list > li").first().click();
+    cy.get(".star-marks-container > img")
+      .last()
+      .should("have.attr", "src", VOTE.filledStarImage);
+    cy.get(".voting-rate > p").contains(RATING_MESSAGE[10]);
   });
 });
