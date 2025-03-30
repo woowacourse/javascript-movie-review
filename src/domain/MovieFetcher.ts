@@ -1,4 +1,4 @@
-import { MovieItem, MovieResponse } from '../types/Movie.types';
+import { MovieDetail, MovieItem, MovieResponse } from '../types/Movie.types';
 import { ENV } from '../api/env';
 import Fetcher from '../api/Fetcher';
 import { movieFetcherEvent } from './MovieFetcherEvent';
@@ -7,6 +7,7 @@ import { delay } from '../utils/delay';
 export const API_PATHS = {
   MOVIE: 'movie/popular',
   SEARCH: 'search/movie',
+  DETAIL: 'movie',
 } as const;
 
 class MovieFetcher {
@@ -38,7 +39,7 @@ class MovieFetcher {
 
     try {
       const response = await this.movieFetcher.get<MovieResponse>(url);
-      await delay(3000);
+      // await delay(3000);
 
       this.updateMovieData(response);
 
@@ -86,6 +87,15 @@ class MovieFetcher {
 
   public async getNextPageSearchMovies() {
     await this.getSearchMovies(this.currentPage + 1, this.query);
+  }
+
+  public async getMovieDetail(movieId: number): Promise<MovieDetail> {
+    try {
+      const url = `${API_PATHS.DETAIL}/${movieId}?language=ko-KR`;
+      return await this.movieFetcher.get<MovieDetail>(url);
+    } catch (error) {
+      throw error;
+    }
   }
 
   get movies(): MovieItem[] {
