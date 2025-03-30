@@ -51,7 +51,7 @@ const updateListTitle = (
 ) => {
   titleElement.textContent = isSearch
     ? `검색 결과: ${query}`
-    : '인기 있는 영화';
+    : '지금 인기 있는 영화';
 };
 
 const updateMoreButton = (
@@ -79,7 +79,7 @@ const updateMoreButton = (
 
 const titleText = Text({
   classList: ['text-2xl', 'font-bold', 'mb-32'],
-  props: { textContent: '인기 있는 영화' },
+  props: { textContent: '지금 인기 있는 영화' },
 });
 
 const movieUl = createElement<HTMLUListElement>('ul', {
