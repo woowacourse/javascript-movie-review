@@ -1,39 +1,68 @@
-function MovieDetailModal(movieId) {
+import Button from "./Button";
+import "../../templates/styles/modal.css";
+import { ratingDescriptions } from "../controllers/MovieModal";
+
+function MovieDetailModal(
+  { title, poster_path, release_date, vote_average, genres, overview },
+  movieId
+) {
   const $modalBackground = document.createElement("div");
   const $modal = document.createElement("div");
+  const $button = Button("", "close-modal");
 
   $modalBackground.className = "modal-background active";
   $modal.classList.add("modal");
 
+  $button.innerHTML = `<img src="../../public/modal_button_close.png" />`;
+  $button.id = "closeModal";
+
+  const releaseYear = release_date.split("-")[0];
+  const genresString = genres.map((genre) => genre.name).join(", ");
+  const defaultRating = 2;
+
   $modal.innerHTML = `
-    <button class="close-modal" id="closeModal">
-      <img src="./images/modal_button_close.png" />
-    </button>
     <div class="modal-container">
       <div class="modal-image">
-        <img src="https://image.tmdb.org/t/p/original//pmemGuhr450DK8GiTT44mgwWCP7.jpg" />
+        <img src="https://image.tmdb.org/t/p/original${poster_path}.jpg" />
       </div>
       <div class="modal-description">
-        <h2>인사이드 아웃 2</h2>
-        <p class="category">2024 · 모험, 애니메이션, 코미디, 드라마, 가족</p>
-        <p class="rate">
-          <img src="./images/star_filled.png" class="star" />
-          <span>7.7</span>
-        </p>
+        <h2>${title}</h2>
+        <p class="category">${releaseYear} · ${genresString}</p>
+        <div class="average-container">
+          <p>평균</p>
+          <div class="rate average">
+            <img src="../../public/star_filled.png" class="star" />
+            <span>${vote_average.toFixed(1)}</span>
+          </div>
+        </div>
         <hr />
-        <p class="detail">
-          13살이 된 라일리의 행복을 위해 매일 바쁘게 머릿속 감정 컨트롤 본부를
-          운영하는 ‘기쁨’, ‘슬픔’, ‘버럭’, ‘까칠’, ‘소심’. 그러던 어느 날, 낯선
-          감정인 ‘불안’, ‘당황’, ‘따분’, ‘부럽’이가 본부에 등장하고, 언제나
-          최악의 상황을 대비하며 제멋대로인 ‘불안’이와 기존 감정들은 계속
-          충돌한다. 결국 새로운 감정들에 의해 본부에서 쫓겨나게 된 기존 감정들은
-          다시 본부로 돌아가기 위해 위험천만한 모험을 시작하는데…
-        </p>
+        <div class="rate">
+          <p class="point-text">내 별점</p>
+          <div class="star-rating">
+            <div class="star-wrap">
+              ${'<img src="../../public/star_empty.png" class="star point" />'.repeat(
+                5
+              )}
+            </div>
+            <div class="rating-description">
+              <p>${ratingDescriptions[defaultRating]}</p>
+              <p class="rating">(0/10)</p>
+            </div>
+          </div>
+        </div>
+        <hr />
+        <div class="detail">
+          <p class="detail summary">줄거리</p>
+          <p>${overview}</p>
+        </div>
       </div>
     </div>
   `;
 
+  $modal.insertBefore($button, $modal.firstChild);
   $modalBackground.appendChild($modal);
+
   return $modalBackground;
 }
+
 export default MovieDetailModal;
