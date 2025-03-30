@@ -2,6 +2,11 @@ import { ICustomMovie } from "../../types/movies";
 import { bannerButtonHandler } from "../detailModal/bannerButtonHandler";
 import { CustomButton } from "./CustomButton";
 
+interface targetsProps {
+  selector: string;
+  className: string;
+}
+
 function Header(movie: ICustomMovie) {
   const $header = document.getElementById("header");
 
@@ -51,6 +56,15 @@ Header.updateMovieContainerTitle = (searchQuery: string) => {
   if ($movieListTitle) {
     $movieListTitle.textContent = `"${searchQuery}" 검색 결과`;
   }
+};
+
+Header.addClassToElements = (targets: targetsProps[]) => {
+  targets.forEach((target) => {
+    const $el = document.querySelector(target.selector) as HTMLElement;
+    if ($el) {
+      $el.classList.add(target.className);
+    }
+  });
 };
 
 export default Header;

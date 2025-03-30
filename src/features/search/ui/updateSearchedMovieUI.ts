@@ -10,7 +10,14 @@ export async function updateSearchedMovieUI(
   searchQuery: string
 ) {
   try {
-    disableElements();
+    Header.addClassToElements([
+      { selector: ".overlay", className: "disabled" },
+      { selector: ".top-rated-movie", className: "disabled" },
+      {
+        selector: ".background-container",
+        className: "background-container-disabled",
+      },
+    ]);
     Header.updateMovieContainerTitle(searchQuery);
 
     const searchedMovies = await withSkeleton(
@@ -25,15 +32,4 @@ export async function updateSearchedMovieUI(
   } catch (error) {
     ErrorModal("검색한 영화 리스트를 불러오는데 실패하였습니다.");
   }
-}
-
-function disableElements() {
-  const $overlay = document.querySelector(".overlay");
-  $overlay?.classList.add("disabled");
-
-  const $topRatedMovie = document.querySelector(".top-rated-movie");
-  $topRatedMovie?.classList.add("disabled");
-
-  const $backgroundContainer = document.querySelector(".background-container");
-  $backgroundContainer?.classList.add("background-container-disabled");
 }
