@@ -15,7 +15,7 @@ function Banner(data) {
             </div>
             <div class="title">인사이드 아웃2</div>
 
-            ${Button({ content: '자세히 보기', class: 'primary detail', style: 'width: 120px' })}
+            ${Button({ content: '자세히 보기', class: 'primary detail', style: 'width: 120px;' })}
             
           </div>
         </div>

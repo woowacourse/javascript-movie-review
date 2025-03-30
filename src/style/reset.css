@@ -144,3 +144,20 @@ dialog:focus {
   outline: none;
   border: none;
 }
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active,
+input:-webkit-autofill,
+input:focus,
+input:autofill:active {
+  border: none;
+  outline: none;
+  background-color: transparent;
+  background: transparent;
+  box-shadow: 0 0 0px 1000px transparent inset;
+  -webkit-box-shadow: 0 0 0px 1000px transparent inset;
+  box-shadow: 0 0 0px 1000px transparent inset;
+  -webkit-text-fill-color: inherit;
+}
