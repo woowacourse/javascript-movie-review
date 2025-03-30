@@ -4,9 +4,9 @@ import { MovieInfo } from "../../types/movieType.ts";
 import { ContentsContainer, replaceSkeletonWithMovies, showSkeleton } from "./Contents.ts";
 import MovieService from "../services/MovieService.ts";
 import LogoSearchBar from "../components/LogoSearchBar.js";
-import EVENT_HANDLER from "./EventHandler.js";
 import { getPopularParam } from "../apis/config.js";
 import MovieList from '../domains/MovieList';
+import registerSearchEventHandlers from "./MovieSearchHandlers.js";
 
 async function renderHeader({ title, poster_path, vote_average }: MovieInfo) {
   const container = document.querySelector("#wrap");
@@ -38,14 +38,14 @@ export function setupSearchEvents(movieService: MovieService) {
     if (keyboardEvent.key === "Enter" && keyboardEvent.isComposing === false) {
       const inputValue = (event.target as HTMLInputElement).value;
       movieService.initPage(); 
-      EVENT_HANDLER.SEARCH_MOVIE(inputValue, movieService);
+      registerSearchEventHandlers(inputValue, movieService);
     }
   });
 
   button?.addEventListener("click", () => {
     const inputValue = (input as HTMLInputElement)?.value;
     movieService.initPage();
-    EVENT_HANDLER.SEARCH_MOVIE(inputValue, movieService);
+    registerSearchEventHandlers(inputValue, movieService);
   });
 }
 
