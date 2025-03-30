@@ -10,6 +10,7 @@
   height: 300px;
   border-radius: 8px;
   object-fit: contain;
+  background-color: var(--color-bluegray-80);
 }
 
 .item {
