@@ -43,9 +43,9 @@ describe("Fixture를 이용한 테스트", () => {
     });
   });
 
-  it(`인기 영화 목록에서 더 보기 버튼을 클릭하면, ${MOVIE_COUNT.UNIT}개씩 추가로 목록에 나열되어야 한다`, () => {
+  it(`인기 영화 목록에서 스크롤 최하단에 도달하면, ${MOVIE_COUNT.UNIT}개씩 추가로 목록에 나열되어야 한다`, () => {
     cy.wait("@getPopularMovies").then(() => {
-      cy.get("[data-testid='more-button']").click();
+      cy.scrollTo("bottom");
 
       cy.wait("@getPopularMovies").then((interception) => {
         const popularMovies = interception.response?.body.results;
@@ -72,12 +72,12 @@ describe("Fixture를 이용한 테스트", () => {
     });
   });
 
-  it(`검색어를 입력한 후 폼을 제출하고, 더 보기 버튼을 클릭하면, 해당 검색어를 포함하는 영화 목록에 ${MOVIE_COUNT.UNIT}개씩 추가로 나열되어야 한다`, () => {
+  it(`검색어를 입력한 후 폼을 제출하고, 스크롤 최하단에 도달하면, 해당 검색어를 포함하는 영화 목록에 ${MOVIE_COUNT.UNIT}개씩 추가로 나열되어야 한다`, () => {
     cy.get("[data-testid='search-input']").type("Spiderman");
     cy.get("[data-testid='search-form']").submit();
 
     cy.wait("@searchMovies").then(() => {
-      cy.get("[data-testid='more-button']").click();
+      cy.scrollTo("bottom");
 
       cy.wait("@searchMovies").then((interception) => {
         const searchMovies = interception.response?.body.results;
