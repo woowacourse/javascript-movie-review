@@ -37,6 +37,8 @@ declare global {
       verifyModalClosed(): Chainable<void>;
       verifyMovieListLength(count: number): Chainable<void>;
       setupMovieListTest(options: SetupOptions): Chainable<void>;
+      selectRating(rating: ratingType): Chainable<void>;
+      verifyRatingDescription(rating: ratingType): Chainable<void>;
     }
   }
 }
@@ -45,6 +47,17 @@ interface SetupOptions {
   fixture?: string;
   wait?: boolean;
 }
+
+const ratingDescriptions = {
+  0: "별점을 선택해주세요",
+  2: "최악이에요",
+  4: "별로예요",
+  6: "보통이에요",
+  8: "재미있어요",
+  10: "명작이에요",
+} as const;
+
+export type ratingType = keyof typeof ratingDescriptions;
 
 Cypress.Commands.add("setupMovieListTest", (options: SetupOptions = {}) => {
   const { fixture, wait } = options;
@@ -93,4 +106,17 @@ Cypress.Commands.add("closeModal", () => {
 
 Cypress.Commands.add("verifyModalClosed", () => {
   cy.get(".modal-background").should("not.have.class", "active");
+});
+
+Cypress.Commands.add("selectRating", (rating: ratingType) => {
+  cy.get(`.modal-rate-star .star[data-value="${rating}"]`).click();
+  cy.wait(300);
+});
+
+Cypress.Commands.add("verifyRatingDescription", (rating: ratingType) => {
+  cy.get(".modal-rate-description").should(
+    "contain",
+    ratingDescriptions[rating]
+  );
+  cy.get(".modal-rate-scale").should("contain", `(${rating}/10)`);
 });
