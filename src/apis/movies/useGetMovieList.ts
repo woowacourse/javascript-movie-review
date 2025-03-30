@@ -14,7 +14,6 @@ const useGetMovieList = () => {
         setIsLoading(false);
       }
       setTotalResults(data.total_results);
-      // console.log(data.results);
       return data.results;
     } catch (error) {
       setIsError(true);

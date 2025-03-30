@@ -24,11 +24,13 @@ const useGetMoreMovieList = () => {
         console.error("Error fetching search results:", error);
         setIsMoreError(true);
       }
+      return null;
     } else {
       const newMovies = await callback(nextPage);
       if (newMovies) {
         appendMovies(newMovies);
       }
+      return newMovies;
     }
   };
   return { fetchMoreMovies };

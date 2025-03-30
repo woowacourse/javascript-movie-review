@@ -16,7 +16,6 @@ import {
   isError,
   isMoreError,
   isSearchError,
-  isModalOpen,
 } from "./store/store";
 import { useEvents } from "./utils/Core";
 import { timeoutDebounce } from "./utils/debounce";
@@ -58,8 +57,6 @@ const App = () => {
 
   const displayMovieList =
     searchInputValue.trim().length > 0 ? searchResults : movies;
-
-  console.log(isModalOpen);
 
   return ` ${
     isError || !movies.length
