@@ -1,5 +1,6 @@
 import { getSearchParam } from "../apis/config";
 import LogoSearchBar from "../components/LogoSearchBar";
+import MovieDetailModal from "../components/MovieDetailModal";
 import MovieList from "../domains/MovieList";
 import MovieService from "../services/MovieService";
 import { ContentsContainer } from "./Contents";
@@ -38,6 +39,13 @@ const EVENT_HANDLER = {
           )
       );
     }
+  },
+  MOVIE_MODAL: async (event) => {
+    const $wrap = document.getElementById("wrap");
+    const movieId = event.currentTarget.dataset.id;
+    const $modal = MovieDetailModal(movieId);
+
+    $wrap.appendChild($modal);
   },
 };
 
