@@ -5,7 +5,7 @@ function MovieItem({ img, rating, title }) {
   function template() {
     const imgSrc = img ? `${BASE_IMAGE_URL}${img}` : './images/nullImage.png';
     return `<div class="item">
-      <div class="skeleton-loading" data-action="skeletonEvent">
+      <div class="skeleton-loading">
         <div class="skeleton-image"></div>
         <img
           class="thumbnail"
