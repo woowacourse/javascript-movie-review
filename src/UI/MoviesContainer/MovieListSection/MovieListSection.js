@@ -5,17 +5,22 @@ import Modal from "../../Common/Modal/Modal";
 import { MOVIE } from "../../../constants/movie";
 
 class MovieListSection {
-  #modalId;
-
-  constructor(title, movies, isLoading, $target, loadMoreMovies, isLastPage) {
+  constructor(
+    title,
+    movies,
+    isLoading,
+    $target,
+    loadMoreMovies,
+    isLastPage,
+    setMovieId
+  ) {
     this.title = title;
     this.movies = movies;
     this.isLoading = isLoading;
     this.$target = $target;
     this.loadMoreMovies = loadMoreMovies;
     this.isLastPage = isLastPage;
-
-    this.#modalId;
+    this.setMovieId = setMovieId;
 
     this.observer = new IntersectionObserver(
       (entries) => {
@@ -23,11 +28,6 @@ class MovieListSection {
       },
       { threshold: 0 }
     );
-  }
-
-  async setMovieId(movieId) {
-    this.#modalId = movieId;
-    await this.render();
   }
 
   async render() {
@@ -85,22 +85,6 @@ class MovieListSection {
     if ($nextLi !== null) {
       this.observer.observe($nextLi);
     }
-
-    const $body = document.querySelector("body");
-    const $modalContainer = document.createElement("div");
-    $modalContainer.classList.add("modal-background-container");
-
-    const $el = document.querySelector(".modal-background-container");
-
-    if ($el) {
-      $modalContainer.innerHTML = "";
-      $el.remove();
-    }
-
-    $body.appendChild($modalContainer);
-
-    const modal = new Modal($modalContainer, this.#modalId);
-    modal.init();
   }
 
   handleIntersect(entry) {

@@ -1,5 +1,6 @@
 import MovieListSection from "../MovieListSection/MovieListSection";
 import Thumbnail from "../../Header/Thumbnail/Thumbnail";
+import Modal from "../../Common/Modal/Modal";
 import { getPopularityMovie } from "../../../Domain/getPopularityMovie";
 import { searchMovie } from "../../../Domain/searchMovie";
 
@@ -11,6 +12,7 @@ class MoviesCotainer {
   #searchPage;
   #mode;
   #lastPage;
+  #movieId;
 
   constructor(searchKeyword, mode, $target) {
     this.#movies = [];
@@ -22,6 +24,7 @@ class MoviesCotainer {
     this.#mode = mode;
     this.$target = $target;
     this.#lastPage = 0;
+    this.#movieId = 0;
   }
 
   async init() {
@@ -53,6 +56,11 @@ class MoviesCotainer {
     this.#lastPage = lastPage;
     this.render();
   }
+
+  setMovieId = (movieId) => {
+    this.#movieId = movieId;
+    this.render();
+  };
 
   setMovies(newMovies) {
     this.#movies = newMovies;
@@ -112,13 +120,30 @@ class MoviesCotainer {
       this.#isLoading,
       $div,
       this.loadMoreMovies,
-      this.isLastPage
+      this.isLastPage,
+      this.setMovieId
     ).render();
 
     $container.appendChild($main);
     $main.appendChild($div);
 
     this.$target.appendChild($container);
+
+    const $body = document.querySelector("body");
+    const $modalContainer = document.createElement("div");
+    $modalContainer.classList.add("modal-background-container");
+
+    const $el = document.querySelector(".modal-background-container");
+
+    if ($el) {
+      $modalContainer.innerHTML = "";
+      $el.remove();
+    }
+
+    $body.appendChild($modalContainer);
+
+    const modal = new Modal($modalContainer, this.#movieId);
+    modal.init();
   }
 
   isLastPage = () => {
