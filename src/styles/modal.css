@@ -34,7 +34,7 @@ body.modal-open {
   color: white;
   z-index: 2;
   position: relative;
-  min-width: 425px;
+  min-width: var(--screen-mobile);
   width: 1000px;
   height: 630px;
   overflow-y: auto;
