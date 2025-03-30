@@ -34,7 +34,6 @@ const Modal = {
     toggleVisibility($modalBackground, "show");
     setPageScroll(false);
     addEventListener("keydown", escapeEventListener);
-    console.log(window);
     if (window.innerWidth < 1024)
       $modal.style.animation = "modal-up 0.5s forwards";
   },

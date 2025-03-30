@@ -56,28 +56,42 @@ addEventListener("load", async () => {
 });
 
 async function getPopularMovieList() {
-  const movieList = await fetchPopularMovies(pageNumber);
-  pageNumber += 1;
-  if (!movieList) throw new Error(ErrorMessage.FETCH_POPULAR_MOVIES);
+  try {
+    const movieList = await fetchPopularMovies(pageNumber);
+    pageNumber += 1;
+    if (!movieList) throw new Error(ErrorMessage.FETCH_POPULAR_MOVIES);
 
-  return movieList;
+    return movieList;
+  } catch (error) {
+    if (error instanceof Error) alert(error.message);
+    return { movies: [], canMore: false };
+  }
 }
 
 async function getSearchMovieList(query: string) {
-  const movieList = await fetchSearchMovies(query, pageNumber);
-  pageNumber += 1;
-  if (!movieList) throw new Error(ErrorMessage.FETCH_POPULAR_MOVIES);
+  try {
+    const movieList = await fetchSearchMovies(query, pageNumber);
+    pageNumber += 1;
+    if (!movieList) throw new Error(ErrorMessage.FETCH_POPULAR_MOVIES);
 
-  return movieList;
+    return movieList;
+  } catch (error) {
+    if (error instanceof Error) alert(error.message);
+    return { movies: [], canMore: false };
+  }
 }
 
 async function seeMorePopularMovies(observer: IntersectionObserver) {
   Skeleton.show();
   ScrollObserver.on(observer);
-  const { movies, canMore } = await getPopularMovieList();
-  if (!canMore) ScrollObserver.off(observer);
-  MovieList.add(movies);
-  Skeleton.hidden();
+  try {
+    const { movies, canMore } = await getPopularMovieList();
+    if (!canMore) ScrollObserver.off(observer);
+    MovieList.add(movies);
+    Skeleton.hidden();
+  } catch (error) {
+    if (error instanceof Error) alert(error.message);
+  }
 }
 
 async function search(observer: IntersectionObserver) {
@@ -88,19 +102,22 @@ async function search(observer: IntersectionObserver) {
   ScrollObserver.on(observer);
 
   Skeleton.show();
-  const query = SearchInput.getSearchValue();
-  const { movies, canMore } = await getSearchMovieList(query);
-  Subtitle.set(`"${query}" 검색 결과`);
-  Skeleton.hidden();
-  MovieList.set(movies);
-  if (!canMore) ScrollObserver.off(observer);
-
-  if (movies.length === 0) {
-    NoThumbnail.show();
-    return;
-  }
-
   ScrollObserver.intersect = () => seeMoreSearchMovies(query, observer);
+  const query = SearchInput.getSearchValue();
+  try {
+    const { movies, canMore } = await getSearchMovieList(query);
+    Subtitle.set(`"${query}" 검색 결과`);
+    Skeleton.hidden();
+    MovieList.set(movies);
+    if (!canMore) ScrollObserver.off(observer);
+
+    if (movies.length === 0) {
+      NoThumbnail.show();
+      return;
+    }
+  } catch (error) {
+    if (error instanceof Error) alert(error.message);
+  }
 }
 
 async function seeMoreSearchMovies(
@@ -108,10 +125,14 @@ async function seeMoreSearchMovies(
   observer: IntersectionObserver
 ) {
   Skeleton.show();
-  const { movies, canMore } = await getSearchMovieList(query);
-  if (!canMore) ScrollObserver.off(observer);
-  MovieList.add(movies);
-  Skeleton.hidden();
+  try {
+    const { movies, canMore } = await getSearchMovieList(query);
+    if (!canMore) ScrollObserver.off(observer);
+    MovieList.add(movies);
+    Skeleton.hidden();
+  } catch (error) {
+    if (error instanceof Error) alert(error.message);
+  }
 }
 
 async function showMovieDetailModal(e: MouseEvent) {
@@ -121,19 +142,23 @@ async function showMovieDetailModal(e: MouseEvent) {
   Modal.show();
   ModalLoadingSpinner.show();
   Modal.reset();
-  const movieDetail = await fetchMovieDetail(clickedMovieItem.dataset.id);
-  if (!movieDetail) throw new Error(ErrorMessage.FETCH_MOVIE_DETAIL);
+  try {
+    const movieDetail = await fetchMovieDetail(clickedMovieItem.dataset.id);
+    if (!movieDetail) throw new Error(ErrorMessage.FETCH_MOVIE_DETAIL);
 
-  ModalLoadingSpinner.hidden();
-  Modal.setContent(
-    ModalDetail.create({
-      id: movieDetail.id,
-      posterPath: movieDetail.posterPath,
-      category: movieDetail.category,
-      title: movieDetail.title,
-      releaseYear: movieDetail.releaseYear,
-      rate: movieDetail.rate,
-      detail: movieDetail.detail,
-    })
-  );
+    ModalLoadingSpinner.hidden();
+    Modal.setContent(
+      ModalDetail.create({
+        id: movieDetail.id,
+        posterPath: movieDetail.posterPath,
+        category: movieDetail.category,
+        title: movieDetail.title,
+        releaseYear: movieDetail.releaseYear,
+        rate: movieDetail.rate,
+        detail: movieDetail.detail,
+      })
+    );
+  } catch (error) {
+    if (error instanceof Error) alert(error.message);
+  }
 }

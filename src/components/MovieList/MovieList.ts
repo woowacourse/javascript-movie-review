@@ -3,12 +3,8 @@ import MovieItem from "../MovieItem";
 import { $movieListContainer } from "./Element";
 
 const MovieList = {
-  async init(movieList: MovieItemProps[]) {
-    try {
-      this.set(movieList);
-    } catch (error) {
-      if (error instanceof Error) alert(error.message);
-    }
+  init(movieList: MovieItemProps[]) {
+    this.set(movieList);
   },
 
   set(movieList: MovieItemProps[]) {

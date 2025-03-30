@@ -21,7 +21,7 @@ const ModalDetail = {
             <img
             class="skeleton-poster"
             src=${DETAIL_POSTER_PREFIX + posterPath}
-            onerror="this.src='./images/null_image.png'"
+            onerror="this.onerror=null; this.src='./images/null_image.png'"
             />
         </div>
         <div class="modal-description">

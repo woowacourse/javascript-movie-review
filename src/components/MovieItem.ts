@@ -11,7 +11,7 @@ const MovieItem = {
           <img
           class="thumbnail"
           src=${POSTER_IMG_PREFIX + posterPath}
-          onerror="this.src='./images/null_image.png'"
+          onerror="this.onerror=null; this.src='./images/null_image.png'"
           alt=${title}
           />
           <div class="item-desc">
