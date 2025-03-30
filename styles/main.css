@@ -39,9 +39,12 @@ button {
 
 button.primary {
   color: var(--color-white);
-  font-weight: bold;
+  font-weight: 600;
   background-color: var(--color-lightblue-90);
   border-radius: 8px;
+  width: 100px;
+  height: 40px;
+  font-size: 16px;
 }
 
 #wrap {
