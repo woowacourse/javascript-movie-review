@@ -37,10 +37,14 @@ export default class Main extends Component<MainState> {
     return /*html*/ `
       <li>
         <div class="item">
-          ${Skeleton({ width: 200, height: 300 }).outerHTML}
+          ${
+            Skeleton({
+              className: "thumbnail-skeleton",
+            }).outerHTML
+          }
           <div class="item-desc">
-            ${Skeleton({ width: 60, height: 15 }).outerHTML}
-            ${Skeleton({ width: 150, height: 20 }).outerHTML}
+            ${Skeleton({ width: "30%", height: 15 }).outerHTML}
+            ${Skeleton({ width: "75%", height: 20 }).outerHTML}
           </div> 
         </div> 
       </li>
