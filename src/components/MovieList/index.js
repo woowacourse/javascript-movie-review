@@ -57,9 +57,19 @@ export function MovieListMount() {
       document.body.offsetHeight - 300
     ) {
       const state = store.getState();
-      if (state.isLoading) return;
       const currentPage =
         Math.floor(state.movies.length / MOVIE_COUNT.UNIT) + 1;
+
+      if (state.isLoading) return;
+      if (
+        !state.query &&
+        state.movies.length >= MOVIE_COUNT.MAX_PAGE * MOVIE_COUNT.UNIT
+      ) {
+        return;
+      }
+      if (state.query && state.movies.length >= state.searchedMoviesLength) {
+        return;
+      }
 
       store.setState({ ...state, isLoading: true });
       await fetchMoreMovies(currentPage);
