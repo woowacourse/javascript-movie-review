@@ -46,25 +46,34 @@ const renderMovieList = async () => {
   observeScroll();
 };
 
+let isFetching = false;
+
 const observeScroll = () => {
-  const target = createObserverTarget();
   const container = $('.container');
   if (!container) return;
 
-  container.appendChild(target);
-
-  createInfiniteScrollObserver(target, async () => {
-    if (currentPage >= TOTAL_PAGES) return;
+  const observe = async () => {
+    if (isFetching || currentPage >= TOTAL_PAGES) return;
+    isFetching = true;
 
     currentPage++;
     addSkeletonList(container);
 
     const res = await getPopularMovies({ page: currentPage });
+
     removeSkeletonList();
     addMoreMovieList(res.results);
 
-    observeScroll();
-  });
+    isFetching = false;
+
+    const newTarget = createObserverTarget();
+    container.appendChild(newTarget);
+    createInfiniteScrollObserver(newTarget, observe);
+  };
+
+  const initialTarget = createObserverTarget();
+  container.appendChild(initialTarget);
+  createInfiniteScrollObserver(initialTarget, observe);
 };
 
 const renderFooter = () => {
