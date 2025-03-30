@@ -1,7 +1,8 @@
 import Header from "../components/layout/Header";
 import Main from "../components/layout/Main";
 import Modal, { ratingType } from "../components/layout/Modal";
-import { getGenreList, updateMoviesList } from "../domains/renderMoviesList";
+import MovieRenderer from "../domains/MovieRenderer";
+import { getGenreList } from "../domains/movieHelpers";
 import UserMovieRatingStorage from "../storages/UserMovieRatingStorage";
 import { store } from "../stores";
 import EventBus from "./EventBus";
@@ -75,7 +76,7 @@ async function handleSearch(value: string) {
   });
 
   Header.getInstance().setState({ hasSearched: true });
-  await updateMoviesList();
+  await MovieRenderer.getInstance().renderMovies();
 }
 
 function handleSetRating(newRating: ratingType) {
