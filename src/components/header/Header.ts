@@ -56,8 +56,12 @@ const Header = (props: HeaderProps) => {
             <img src="https://image.tmdb.org/t/p/w500${src}" alt="background" />
           </div>
           <div class="top-rated-container">
-           <div class="input-container">
-            <form>
+          <div class="logo-search-container">
+            <h1 class="logo">
+              <img src="${images.logo}" alt="MovieList" />
+            </h1>
+            <div class="input-container">
+              <form>
             ${Input({
               attribute: {
                 class: "search-input",
@@ -73,11 +77,9 @@ const Header = (props: HeaderProps) => {
                 },
                 children: `<img src="${images.search}" alt="search" />`,
               })}
-             </form>
+              </form>
             </div>
-            <h1 class="logo">
-              <img src="${images.logo}" alt="MovieList" />
-            </h1>
+            </div>
             <div class="top-rated-movie">
               <div class="rate">
                 <img src="${images.starEmpty}" class="star" />
