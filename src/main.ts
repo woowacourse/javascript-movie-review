@@ -94,8 +94,10 @@ document.addEventListener("DOMContentLoaded", async () => {
       return;
     }
 
-    const movieList = CardList({ items: movieState.list }) as HTMLElement;
-    $main.appendChild(movieList);
+    CardList({
+      items: movieState.list,
+      el: $main,
+    });
 
     if (movieState.isLoading) {
       Skeleton.render($main);
@@ -116,8 +118,6 @@ document.addEventListener("DOMContentLoaded", async () => {
           ...(isFirstLoad && { list: [] }),
         });
       }
-
-      await new Promise((resolve) => setTimeout(resolve, 500));
 
       const response = !query
         ? await movieApi.fetchPopularMovies(page)

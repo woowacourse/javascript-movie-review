@@ -1,13 +1,15 @@
 import { createElement } from "../utils/dom.ts";
 
 type CardItemProps = {
+  id: number;
   title: string;
   rating?: number;
   imageSrc?: string | null;
   description?: string;
+  onShowDetail: (id: number) => void;
 };
 
-const CardItem = ({ title, rating, imageSrc }: CardItemProps) => {
+const CardItem = ({ id, title, rating, imageSrc, onShowDetail }: CardItemProps) => {
   const mappedImage = imageSrc
     ? `https://image.tmdb.org/t/p/w500${imageSrc}`
     : "images/nullImage.png";
@@ -24,6 +26,10 @@ const CardItem = ({ title, rating, imageSrc }: CardItemProps) => {
       </div>
     </div>
   `,
+  });
+
+  $cardItem.addEventListener("click", () => {
+    onShowDetail(id);
   });
 
   return $cardItem;
