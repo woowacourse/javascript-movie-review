@@ -1,19 +1,28 @@
 import { addMoviePost } from "../ui/renderers/addMoviePost";
-import { disableMoreButton } from "../ui/renderers/disabledMoreButton";
 import { getQueryParam } from "../utils/getParams";
 import { pageManager } from "./pageManager";
 import { getCurrentMovieList } from "./getCurrentMovieList";
 
 export async function addMoreMovies($movieList: HTMLElement) {
-  const query = getQueryParam(new URL(window.location.href));
-  const currentPage = pageManager.currentPage;
-  const nextPage = currentPage + 1;
+  try {
+    const query = getQueryParam(new URL(window.location.href));
+    const nextPage = pageManager.currentPage + 1;
 
-  const movies = await getCurrentMovieList(nextPage, query);
+    const movies = await getCurrentMovieList(nextPage, query);
 
-  if (!movies) return;
-  addMoviePost(movies.results, $movieList);
-  disableMoreButton(pageManager.totalPages, currentPage, movies.results);
+    if (!movies || !movies.results || movies.results.length === 0) {
+      throw new Error("영화 데이터를 불러오지 못했습니다.");
+    }
 
-  pageManager.incrementCurrentPage();
+    addMoviePost(movies.results, $movieList);
+
+    pageManager.incrementCurrentPage();
+    pageManager.setTotalPages(movies.total_pages);
+
+    return {
+      success: true,
+    };
+  } catch (error) {
+    return { success: false, error };
+  }
 }
