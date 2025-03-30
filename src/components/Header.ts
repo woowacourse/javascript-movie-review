@@ -54,7 +54,7 @@ export default class Header extends Component {
   }
 
   override onRender() {
-    this.setHeaderBackground.apply(this);
+    this.setHeaderBackground();
   }
 
   override addEventListener() {
@@ -65,9 +65,9 @@ export default class Header extends Component {
 
         const modalInput = Object.fromEntries(new FormData(target));
 
-        pageStore.setState(1);
         searchStore.setState(String(modalInput.search));
-        moviesStore.setState(null);
+        pageStore.reset();
+        moviesStore.reset();
 
         await getMovies({ query: searchStore.getState(), page: pageStore.getState() });
       },
@@ -102,7 +102,7 @@ export default class Header extends Component {
     });
   }
 
-  setHeaderBackground() {
+  private setHeaderBackground() {
     const search = searchStore.getState();
 
     if (!this.firstMovie) return;
