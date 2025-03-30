@@ -24,7 +24,6 @@ class TopRatedMovie implements TopRatedMovieContract {
               <span class="rate-value">${this.#movie.vote_average}</span>
           </div>
           <div class="title">${this.#movie.title}</div>
-          <button class="primary detail" disabled>자세히 보기</button>
       </div>
     </div>
     `;
@@ -44,7 +43,6 @@ class TopRatedMovie implements TopRatedMovieContract {
             .toString()}</span>
         </div>
         <div class="title">${this.#movie.title}</div>
-        <button class="primary detail">자세히 보기</button>
       </div>
     </div>
     `;

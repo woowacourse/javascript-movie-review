@@ -135,8 +135,15 @@ dialog::backdrop {
     height: 500px;
   }
 
-  .detail {
+  .modal-section {
     text-align: left;
+  }
+
+  .modal-description--yearCategory {
+    justify-content: center;
+  }
+  .modal-description .rate {
+    justify-content: center;
   }
 }
 
@@ -147,6 +154,14 @@ dialog::backdrop {
 
   .modal-container {
     height: 500px;
+  }
+
+  .modal-section.myRate {
+    text-align: center;
+  }
+
+  .myRate-container {
+    flex-direction: column;
   }
 }
 
