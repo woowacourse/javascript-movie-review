@@ -1,5 +1,3 @@
-import { getMovieList } from "./features/movie/api/getMovieList";
-import { getSearchedPost } from "./features/search/api/getSearchedPost";
 import Header from "./shared/ui/components/Header";
 import { CustomButton } from "./shared/ui/components/CustomButton";
 import { showSkeletons } from "./shared/ui/renderers/showSkeletons";
@@ -10,6 +8,7 @@ import { showErrorPage } from "./shared/ui/renderers/showErrorPage";
 import { getQueryParam } from "./shared/domain/getParams";
 import { setParams } from "./shared/domain/setParams";
 import { pageManager } from "./shared/domain/pageManager";
+import { getCurrentMovieList } from "./shared/domain/getCurrentMovieList";
 
 addEventListener("DOMContentLoaded", async () => {
   const $movieList = document.querySelector(".thumbnail-list") as HTMLElement;
@@ -21,10 +20,7 @@ addEventListener("DOMContentLoaded", async () => {
 async function initMovieList(movieList: HTMLElement) {
   try {
     const query = getQueryParam(new URL(window.location.href));
-    const movies = query
-      ? await getSearchedPost(query, 1)
-      : await getMovieList({ page: 1 });
-
+    const movies = await getCurrentMovieList(pageManager.currentPage, query);
     pageManager.setTotalPages(movies.total_pages);
 
     if (!movies || !movieList) return;
