@@ -11,14 +11,29 @@ function closeModal() {
   document.body.classList.remove("lock-scroll");
 }
 
+function opneModal(id: number) {
+  movieStore.selectedMovie = id;
+  document.body.classList.add("lock-scroll");
+  $modalBackground?.classList.toggle("active");
+  movieDetailRenderer();
+}
+
 addEvent({
   type: "click",
   selector: ".item",
   handler: (event, target) => {
-    movieStore.selectedMovie = Number(target?.id);
-    document.body.classList.add("lock-scroll");
-    $modalBackground?.classList.toggle("active");
-    movieDetailRenderer();
+    opneModal(Number(target?.id));
+  },
+});
+
+addEvent({
+  type: "click",
+  selector: "#top-rated-show-more",
+  handler: () => {
+    const movieId = document
+      .querySelector(".top-rated-movie")
+      ?.id.split("_")[1];
+    opneModal(Number(movieId));
   },
 });
 

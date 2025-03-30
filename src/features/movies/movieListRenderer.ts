@@ -37,6 +37,7 @@ const renderHeaderBackground = () => {
     const $topRatedContainer = document.querySelector(".top-rated-container");
     $topRatedContainer?.append(
       TopRatedMovie({
+        id: movieStore.movies[0].id,
         title: movieStore.movies[0].title,
         voteAverage: movieStore.movies[0].vote_average,
       })
@@ -72,11 +73,12 @@ const toggleEmptySearchError = () => {
 };
 
 /* 
-- 페이지 개수에 따라 button display 결정코드ㄴ
-- 옵저보 api 사용하면서 해당 방식은 불필요해짐 
+- 페이지 개수에 따라 button display 결정 코드
+- 옵저버 api 사용하면서 해당 방식은 불필요해짐 
 
 const toggleShowMoreButton = () => {
-  const $showMore = document.querySelector(".show-more");
+  const $showMore = document.querySelector(".show-more");   '
+
   if (movieStore.page !== Math.min(MAX_MOVIE_PAGE, movieStore.totalPages))
     $showMore?.classList.add("open");
   else $showMore?.classList.remove("open");
