@@ -110,7 +110,7 @@ class MoviesCotainer {
     const $main = document.createElement("main");
 
     if (this.#searchKeyword === "") {
-      new Thumbnail(this.#movies[0], this.$target).render();
+      new Thumbnail(this.#movies[0], this.$target, this.setMovieId).render();
     }
 
     const $div = document.createElement("div");
