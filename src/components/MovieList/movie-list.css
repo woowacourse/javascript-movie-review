@@ -41,3 +41,27 @@ p.rate > span {
 .primary.more {
   width: 100%;
 }
+
+@media screen and (max-width: 1440px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(4, 200px);
+  }
+}
+
+@media screen and (max-width: 1300px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(3, 200px);
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(2, 200px);
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(1, 200px);
+  }
+}
