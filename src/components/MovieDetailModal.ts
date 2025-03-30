@@ -143,6 +143,7 @@ export default class MovieDetailModal extends Modal {
       eventType: 'popstate',
       callbackWindow: () => {
         movieDetailResponseStore.reset();
+        this.enableScrollOutside();
       },
     });
   }
