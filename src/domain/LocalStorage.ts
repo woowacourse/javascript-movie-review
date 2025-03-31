@@ -13,9 +13,9 @@ class LocalStorage {
 
   static getMovies(): StoredMovie[] {
     const storedData = localStorage.getItem(this.#STORAGE_KEY);
+    if (!storedData) return [];
 
     try {
-      if (!storedData) return [];
       const parsedData: StoredMovie[] = JSON.parse(storedData);
       return parsedData;
     } catch (error) {
