@@ -182,6 +182,16 @@ function bindLoadMoreButton(infiniteScrollInstance: InfiniteScrollInstance) {
   });
 }
 
+function bindAllEvents(infiniteScrollInstance: InfiniteScrollInstance) {
+  bindLoadingEvents();
+  bindThumbnailClickEvent();
+  bindModalEvents();
+  bindStarRatingEvents();
+  bindHeaderScrollEvent();
+  bindHeroEvents();
+  bindLoadMoreButton(infiniteScrollInstance);
+}
+
 export {
   bindDetailsImageLoadEvent,
   bindLoadingEvents,
@@ -191,4 +201,5 @@ export {
   bindHeaderScrollEvent,
   bindHeroEvents,
   bindLoadMoreButton,
+  bindAllEvents,
 };
