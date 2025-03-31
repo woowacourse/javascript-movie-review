@@ -1,7 +1,6 @@
 import Header from "./components/Header";
 import NavigationBar from "./components/NavigationBar";
 import SearchInput from "./components/SearchInput";
-import Button from "./components/Button";
 import Skeleton from "./components/Skeleton";
 import { $ } from "./utils/dom";
 import { fetchMovies } from "./store/movieService";
@@ -50,26 +49,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   const container = $(".container");
   if (!container) return;
 
-  const moreButton = Button({
-    text: "더 보기",
-    onClick: async () => {
-      const { currentPage, totalPages, query } = getState();
-      if (currentPage === totalPages) {
-        alert("마지막 페이지입니다.");
-        return;
-      }
-
-      await fetchMovies(currentPage + 1, query);
-      renderMovies($main);
-    },
-  });
-
   const loadInitialMovies = async () => {
     Skeleton.render($main);
     await fetchMovies(1, "", true);
     renderMovies($main);
-
-    container.appendChild(moreButton);
 
     const { list } = getState();
     if (list.length > 0) {

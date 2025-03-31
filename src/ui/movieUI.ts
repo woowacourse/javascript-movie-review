@@ -3,6 +3,7 @@ import CardList from "../components/CardList";
 import Skeleton from "../components/Skeleton";
 import { createElement } from "../utils/dom";
 import { getState } from "../store/movieStore";
+import { observer } from "./infiniteScroll.ts";
 
 export const renderTitle = ($container: HTMLElement) => {
   const movieSectionTitle = Title({ text: "지금 인기 있는 영화" });
@@ -41,4 +42,9 @@ export const renderMovies = ($main: HTMLElement) => {
   if (state.isLoading) {
     Skeleton.render($main);
   }
+
+  const $sentinel = createElement("div", { id: "scroll-sentinel" });
+  $main.appendChild($sentinel);
+
+  observer.observe($sentinel);
 };
