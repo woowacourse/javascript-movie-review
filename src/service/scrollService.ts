@@ -2,7 +2,7 @@ import fetchAndSetLoadingEvent from "./fetchService";
 import { renderMovieItems } from "../view/MovieView";
 
 export type InfiniteScrollInstance = {
-  observer: IntersectionObserver;
+  observer: IntersectionObserver | null;
   resumeInfiniteScroll: () => void;
   stopInfiniteScroll: () => void;
 } | null;
@@ -30,6 +30,43 @@ export function setupInfiniteScroll() {
   // 500ms 이후에 fetch를 진행합니다.
   let debounceTimeoutId: number | null = null;
 
+  // infinite scroll event를 재개합니다.
+  function resumeInfiniteScroll() {
+    if (debounceTimeoutId) {
+      clearTimeout(debounceTimeoutId);
+      debounceTimeoutId = null;
+    }
+
+    infiniteScrollSuspended = false;
+    isFetching = false;
+
+    if (sentinel.parentNode) {
+      sentinel.parentNode.removeChild(sentinel);
+    }
+
+    if ($thumbnailContainer && observer) {
+      $thumbnailContainer.appendChild(sentinel);
+      observer.observe(sentinel);
+    }
+  }
+
+  // infinite scroll event를 중지합니다.
+  function stopInfiniteScroll() {
+    if (debounceTimeoutId) {
+      clearTimeout(debounceTimeoutId);
+      debounceTimeoutId = null;
+    }
+
+    infiniteScrollSuspended = true;
+    if (observer) {
+      observer.unobserve(sentinel);
+    }
+
+    if (sentinel.parentNode) {
+      sentinel.parentNode.removeChild(sentinel);
+    }
+  }
+
   const observerCallback: IntersectionObserverCallback = (entries) => {
     if (infiniteScrollSuspended || isFetching) return;
 
@@ -46,10 +83,12 @@ export function setupInfiniteScroll() {
         }
 
         isFetching = true;
-        observer.unobserve(sentinel);
+        if (observer) {
+          observer.unobserve(sentinel);
+        }
 
         try {
-          const data = await fetchAndSetLoadingEvent();
+          const data = await fetchAndSetLoadingEvent(instance);
 
           if (data?.results) {
             const scrollY = window.scrollY;
@@ -63,8 +102,10 @@ export function setupInfiniteScroll() {
             if (sentinel.parentNode) {
               sentinel.parentNode.removeChild(sentinel);
             }
-            $thumbnailContainer.appendChild(sentinel);
-            observer.observe(sentinel);
+            if ($thumbnailContainer && observer) {
+              $thumbnailContainer.appendChild(sentinel);
+              observer.observe(sentinel);
+            }
           }
         } catch (error) {
           console.error("Fetch error:", error);
@@ -84,39 +125,7 @@ export function setupInfiniteScroll() {
 
   observer.observe(sentinel);
 
-  // infinite scroll event를 재개합니다.
-  function resumeInfiniteScroll() {
-    if (debounceTimeoutId) {
-      clearTimeout(debounceTimeoutId);
-      debounceTimeoutId = null;
-    }
+  const instance = { observer, resumeInfiniteScroll, stopInfiniteScroll };
 
-    infiniteScrollSuspended = false;
-    isFetching = false;
-
-    if (sentinel.parentNode) {
-      sentinel.parentNode.removeChild(sentinel);
-    }
-
-    if ($thumbnailContainer) {
-      $thumbnailContainer.appendChild(sentinel);
-      observer.observe(sentinel);
-    }
-  }
-
-  // infinite scroll event를 중지합니다.
-  function stopInfiniteScroll() {
-    if (debounceTimeoutId) {
-      clearTimeout(debounceTimeoutId);
-      debounceTimeoutId = null;
-    }
-
-    infiniteScrollSuspended = true;
-    observer.unobserve(sentinel);
-
-    if (sentinel.parentNode) {
-      sentinel.parentNode.removeChild(sentinel);
-    }
-  }
-  return { observer, resumeInfiniteScroll, stopInfiniteScroll };
+  return instance;
 }
