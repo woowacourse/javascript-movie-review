@@ -5,6 +5,11 @@ import { ERROR_MESSAGE } from "../constants/errorMessage";
 const BASE_URL = "https://api.themoviedb.org/3";
 const TOKEN = import.meta.env.VITE_TMDB_ACCESS_TOKEN;
 
+interface TmdbApiRequest {
+  endpoint: string;
+  method: HttpMethod;
+  params?: Record<string, any>;
+}
 interface TmdbApiFetchFailResponse {
   status_code: number;
   status_message: string;
@@ -24,11 +29,11 @@ const isTmdbApiFetchFailResponse = (
   );
 };
 
-const tmdbApi = async <T>(
-  endpoint: string,
-  method: HttpMethod,
-  params = {}
-) => {
+const tmdbApi = async <T>({
+  endpoint,
+  method,
+  params = {},
+}: TmdbApiRequest) => {
   try {
     const response = await api<T>(BASE_URL, TOKEN, endpoint, method, params);
 

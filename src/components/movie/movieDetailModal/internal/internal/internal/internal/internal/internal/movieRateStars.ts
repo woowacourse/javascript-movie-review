@@ -16,6 +16,12 @@ interface HandleMovieRateUpdateParams {
   $movieRateBox: HTMLElement;
 }
 
+interface MovieRateStarsProps {
+  myMovieRate: number;
+  movie: MovieDetail;
+  $movieRateBox: HTMLElement;
+}
+
 const handleMovieRateUpdate = ({
   movie,
   $movieRateStars,
@@ -60,11 +66,11 @@ const handleMovieRateUpdate = ({
   };
 };
 
-const movieRateStars = (
-  myMovieRate: number,
-  movie: MovieDetail,
-  $movieRateBox: HTMLElement
-) => {
+const movieRateStars = ({
+  myMovieRate,
+  movie,
+  $movieRateBox,
+}: MovieRateStarsProps) => {
   const $movieRateStars = createElementWithAttributes({
     tag: "div",
     className: "movie-rate-stars",

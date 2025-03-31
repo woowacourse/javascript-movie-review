@@ -18,7 +18,7 @@ const movieRateBox = (movie: MovieDetail) => {
     moviesRatingLocalStorage.getDataFromLocalStorage<MyMovieRates>() ?? {};
   const myMovieRate = myMovieRates[movie.id] || 0;
 
-  const $movieRateStars = movieRateStars(myMovieRate, movie, $movieRateBox);
+  const $movieRateStars = movieRateStars({ myMovieRate, movie, $movieRateBox });
 
   const $movieRateComments = movieRateComments(myMovieRate);
 
