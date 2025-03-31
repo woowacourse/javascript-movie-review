@@ -39,7 +39,11 @@ export default class Main extends Component<MainState> {
         <div class="item">
           ${
             Skeleton({
-              className: "thumbnail-skeleton",
+              width: "100%",
+              height: "auto",
+              style: {
+                aspectRatio: "2/3",
+              },
             }).outerHTML
           }
           <div class="item-desc">

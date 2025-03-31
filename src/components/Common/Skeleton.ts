@@ -20,9 +20,14 @@ export default function Skeleton({
   $skeletonContainer.style.height =
     typeof height === "number" ? `${height}px` : height;
 
-  Object.entries(style).forEach(([key, value]) => {
+  Object.entries(style).forEach(([property, value]) => {
+    const cssProperty = property.replace(
+      /[A-Z]/g,
+      (match) => `-${match.toLowerCase()}`
+    );
+
     if (value !== undefined && value !== null) {
-      $skeletonContainer.style.setProperty(key, String(value));
+      $skeletonContainer.style.setProperty(cssProperty, String(value));
     }
   });
 

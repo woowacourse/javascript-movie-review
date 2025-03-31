@@ -75,11 +75,6 @@ p.rate > span {
   width: 100%;
 }
 
-.thumbnail-skeleton {
-  width: 216px;
-  height: 324px;
-}
-
 /* 큰 노트북 화면 (1200px ~ 1400px) */
 @media screen and (max-width: 1400px) {
   .thumbnail-list {
@@ -91,11 +86,6 @@ p.rate > span {
 
   .thumbnail-title {
     padding: 0 20px;
-  }
-
-  .thumbnail-skeleton {
-    width: 284px;
-    height: 426px;
   }
 }
 
@@ -111,11 +101,6 @@ p.rate > span {
   .thumbnail-title {
     padding: 0 20px;
   }
-
-  .thumbnail-skeleton {
-    width: 306px;
-    height: 462px;
-  }
 }
 
 /* 태블릿 화면 (768px ~ 991px) */
@@ -124,11 +109,6 @@ p.rate > span {
     grid-template-columns: repeat(2, minmax(0, 1fr)); /* 2열 그리드 */
     max-width: 100%;
     gap: 25px;
-  }
-
-  .thumbnail-skeleton {
-    width: 351px;
-    height: 517px;
   }
 }
 
@@ -149,10 +129,5 @@ p.rate > span {
   .error-message,
   .thumbnail-title {
     font-size: 1.5rem !important;
-  }
-
-  .thumbnail-skeleton {
-    width: 328px;
-    height: 492px;
   }
 }

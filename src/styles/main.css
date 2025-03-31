@@ -66,6 +66,7 @@ button.primary {
   max-width: 1280px;
   margin: 0 auto;
   padding-bottom: 40px;
+  width: 100%;
 }
 
 .rate {
