@@ -12,7 +12,7 @@ import {
 import Toast from "../components/Toast/Toast.ts";
 
 import { ERROR_MESSAGE } from "../setting/ErrorMessage.ts";
-import { checkApiAvailability } from "./errorService.ts";
+import { handleNetworkError } from "./errorService.ts";
 import { setLoadMovies } from "../state/movieState.ts";
 
 import { infiniteScrollInstance } from "../main.ts";
@@ -70,16 +70,17 @@ export default async function handleSearch(searchValue: string) {
   infiniteScrollInstance?.stopInfiniteScroll();
 
   try {
-    const data = await fetchAndSetLoadingEvent();
+    const data = await fetchAndSetLoadingEvent(infiniteScrollInstance);
 
-    if (data && data.results) renderMovieItems(data.results, true);
-    if (data.isLastPage) infiniteScrollInstance?.stopInfiniteScroll();
+    if (data?.results) renderMovieItems(data.results, true);
+    if (data?.isLastPage) infiniteScrollInstance?.stopInfiniteScroll();
     else {
       infiniteScrollInstance?.resumeInfiniteScroll();
     }
 
     displaySearchResults();
   } catch (error) {
+    handleSearchError(error as Error);
     return;
   }
 }
@@ -115,7 +116,7 @@ function handleSearchError(error: Error): void {
 
   if (error.message !== ERROR_MESSAGE.NO_DATA) {
     Toast.showToast(error.message, "error", 3000);
-    checkApiAvailability(infiniteScrollInstance, 3000);
+    handleNetworkError(infiniteScrollInstance);
   } else {
     if (infiniteScrollInstance) infiniteScrollInstance.stopInfiniteScroll();
     const $thumbnailContainer = document.getElementById("thumbnail-container");
