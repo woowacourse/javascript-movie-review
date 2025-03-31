@@ -4,10 +4,37 @@ button {
   cursor: pointer;
 }
 
-button.primary {
+.primary,
+.load-more-button {
   color: var(--color-white);
   font-weight: bold;
   background-color: var(--color-lightblue-90);
   border-radius: 4px;
+}
+
+.primary {
   text-align: center;
+}
+
+.load-more-button {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  margin: 20px auto;
+  display: block;
+  width: 60%;
+}
+
+.load-more-button:hover {
+  background-color: var(--color-lightblue-80);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.load-more-button:disabled {
+  background-color: var(--color-gray-40);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }
