@@ -3,7 +3,7 @@ import MovieListSection from "../component/movieList/MovieListSection";
 import { IMovieItem } from "../types/movieResultType";
 import { $ } from "../util/selector";
 
-export default class MovieListView {
+class MovieListView {
   #container: HTMLElement;
 
   constructor(container: HTMLElement) {
@@ -29,3 +29,5 @@ export default class MovieListView {
     });
   }
 }
+
+export default MovieListView;

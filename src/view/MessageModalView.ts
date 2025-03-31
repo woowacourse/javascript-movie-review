@@ -2,7 +2,7 @@ import MessageModal from "../component/MessageModal";
 import mainElement from "../dom/mainElement";
 import { $ } from "../util/selector";
 
-export default class MessageModalView {
+class MessageModalView {
   #modalElement: HTMLDialogElement;
 
   constructor() {
@@ -40,3 +40,5 @@ export default class MessageModalView {
     this.#modalElement.classList.remove("active");
   }
 }
+
+export default MessageModalView;

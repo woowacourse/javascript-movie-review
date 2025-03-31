@@ -1,6 +1,6 @@
 import { $ } from "../util/selector";
 
-export default class HeaderView {
+class HeaderView {
   #searchBarElement: HTMLFormElement;
   #headerLogoElement: HTMLDivElement;
 
@@ -32,3 +32,5 @@ export default class HeaderView {
     });
   }
 }
+
+export default HeaderView;

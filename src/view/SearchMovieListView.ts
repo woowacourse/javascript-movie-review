@@ -4,7 +4,7 @@ import MovieListSection from "../component/movieList/MovieListSection";
 import { IMovieItem } from "../types/movieResultType";
 import { $ } from "../util/selector";
 
-export default class SearchMovieListView {
+class SearchMovieListView {
   #container: HTMLElement;
 
   constructor(container: HTMLElement) {
@@ -34,3 +34,5 @@ export default class SearchMovieListView {
     });
   }
 }
+
+export default SearchMovieListView;
