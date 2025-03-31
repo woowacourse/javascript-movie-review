@@ -1,6 +1,6 @@
 import { MovieDetail } from "../../../../../../domain/types";
 import { createElementWithAttributes } from "../../../../../utils/createElementWithAttributes";
-import myMovieRating from "./internal/myMovieRating";
+import movieRateContainer from "./internal/movieRateContainer";
 
 const movieDetailOverview = (movie: MovieDetail) => {
   const $movieDetailOverview = createElementWithAttributes({
@@ -70,7 +70,7 @@ const movieDetailDescription = (movie: MovieDetail) => {
   });
 
   $movieDetailDescription.append(
-    myMovieRating(movie),
+    movieRateContainer(movie),
     movieDetailOverview(movie)
   );
 
