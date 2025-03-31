@@ -1,6 +1,10 @@
+import {
+  getMovieRating,
+  getRatingText,
+  saveMovieRating,
+} from '../../service/MovieRatingService';
 import { MovieDetail } from '../../types/Movie.types';
 import { createElement } from '../../utils/createElement';
-
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/original';
 const DEFAULT_IMAGE_URL = './images/no_image.png';
 
@@ -32,9 +36,7 @@ const createImageSection = (movie: MovieDetail): HTMLDivElement => {
   });
 };
 
-const createRatingSection = (vote_average: number): HTMLParagraphElement => {
-  const formattedRating = vote_average.toFixed(1);
-
+const createRatingSection = (average: number): HTMLParagraphElement => {
   return createElement<HTMLParagraphElement>('p', {
     className: 'rate',
     children: [
@@ -43,39 +45,69 @@ const createRatingSection = (vote_average: number): HTMLParagraphElement => {
         className: 'star',
       }),
       createElement<HTMLSpanElement>('span', {
-        textContent: formattedRating,
+        textContent: average.toFixed(1),
       }),
     ],
   });
 };
 
-const createMyRatingSection = (): HTMLDivElement => {
-  const starButtons = [];
-  for (let i = 1; i <= 5; i++) {
-    starButtons.push(
-      createElement<HTMLButtonElement>('button', {
-        className: 'rating-star',
-        children: [
-          createElement<HTMLImageElement>('img', {
-            src: './images/star_empty.png',
-          }),
-        ],
-      }),
-    );
+const createMyRatingSection = (movieId: number): HTMLDivElement => {
+  const savedRating = getMovieRating(movieId);
+  const ratingText = getRatingText(savedRating);
+
+  const starContainer = createElement<HTMLDivElement>('div', {
+    className: 'star-container',
+  });
+
+  const ratingLabel = createElement<HTMLSpanElement>('span', {
+    className: 'rating-text',
+    textContent: ratingText,
+  });
+
+  for (let starValue = 2; starValue <= 10; starValue += 2) {
+    const isFilled = savedRating >= starValue;
+
+    const starImg = createElement<HTMLImageElement>('img', {
+      src: isFilled ? './images/star_filled.png' : './images/star_empty.png',
+      className: 'star',
+    });
+
+    const starButton = createElement<HTMLButtonElement>('button', {
+      className: 'rating-star',
+      children: [starImg],
+    });
+
+    starButton.addEventListener('click', () => {
+      saveMovieRating(movieId, starValue);
+
+      const stars = starContainer.querySelectorAll('.rating-star img');
+      stars.forEach((star, index) => {
+        const starImg = star as HTMLImageElement;
+        starImg.src =
+          index < starValue
+            ? './images/star_filled.png'
+            : './images/star_empty.png';
+      });
+
+      ratingLabel.textContent = getRatingText(starValue);
+    });
+
+    starContainer.append(starButton, ratingLabel);
   }
 
   return createElement<HTMLDivElement>('div', {
     className: 'my-rating',
     children: [
-      createElement<HTMLParagraphElement>('p', {
-        className: 'rating-label',
-        textContent: '내 별점',
-      }),
       createElement<HTMLDivElement>('div', {
-        className: 'star-container',
-        children: starButtons,
+        className: 'rating-header',
+        children: [
+          createElement<HTMLParagraphElement>('p', {
+            className: 'rating-label',
+            textContent: '내 별점',
+          }),
+        ],
       }),
-
+      starContainer,
       createElement<HTMLHRElement>('hr'),
     ],
   });
@@ -103,22 +135,16 @@ const createDescriptionSection = (movie: MovieDetail): HTMLDivElement => {
     }),
     createRatingSection(movie.vote_average),
     createElement<HTMLHRElement>('hr'),
-  ];
-
-  children.push(createMyRatingSection());
-
-  children.push(
+    createMyRatingSection(movie.id),
     createElement<HTMLParagraphElement>('div', {
+      className: 'subtitle',
       textContent: '줄거리',
     }),
-  );
-
-  children.push(
     createElement<HTMLParagraphElement>('p', {
       className: 'detail',
-      textContent: movie.overview || '',
+      textContent: movie.overview || '줄거리가 없습니다',
     }),
-  );
+  ];
 
   return createElement<HTMLDivElement>('div', {
     className: 'modal-description',
@@ -146,7 +172,7 @@ const createModal = (
   });
 };
 
-export const MovieModal = (movie: MovieDetail): HTMLDivElement => {
+export const MovieDetailModal = (movie: MovieDetail): HTMLDivElement => {
   const closeButton = createCloseButton();
   const imageSection = createImageSection(movie);
   const descriptionSection = createDescriptionSection(movie);
@@ -159,52 +185,38 @@ export const MovieModal = (movie: MovieDetail): HTMLDivElement => {
     children: [modal],
   });
 
-  closeButton.addEventListener('click', () => {
+  const closeModal = () => {
     modalBackground.classList.remove('active');
     setTimeout(() => {
       modalBackground.remove();
+      document.body.style.overflow = '';
     }, 300);
-  });
+  };
+
+  closeButton.addEventListener('click', closeModal);
 
   modalBackground.addEventListener('click', (event) => {
     if (event.target === modalBackground) {
-      closeButton.click();
+      closeModal();
     }
   });
 
   const handleKeyDown = (event: KeyboardEvent) => {
     if (event.key === 'Escape') {
-      closeButton.click();
+      closeModal();
       document.removeEventListener('keydown', handleKeyDown);
     }
   };
+
   document.addEventListener('keydown', handleKeyDown);
-
-  // 별점 선택 이벤트
-  setTimeout(() => {
-    const starButtons = modalBackground.querySelectorAll('.rating-star');
-    starButtons.forEach((button, index) => {
-      button.addEventListener('click', () => {
-        starButtons.forEach((btn, i) => {
-          const starImg = btn.querySelector('img');
-          if (starImg) {
-            starImg.src =
-              i <= index
-                ? './images/star_filled.png'
-                : './images/star_empty.png';
-          }
-        });
-
-        // 여기에 별점 저장 로직 추가
-      });
-    });
-  }, 0);
 
   return modalBackground;
 };
 
 export const openModal = (movie: MovieDetail): HTMLDivElement => {
-  const modalElement = MovieModal(movie);
-  document.body.appendChild(modalElement);
-  return modalElement;
+  const detailModal = MovieDetailModal(movie);
+  document.body.appendChild(detailModal);
+  document.body.style.overflow = 'hidden';
+
+  return detailModal;
 };
