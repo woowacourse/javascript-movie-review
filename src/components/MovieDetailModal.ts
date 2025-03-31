@@ -35,7 +35,7 @@ export default class MovieDetailModal extends Modal {
     return html`
       <div>
         <div class="modal-background active" id="modalBackground" data-action="close-movie-detail-modal-outside">
-          <div class="modal" data-action="not-close-movie-detail-modal">
+          <div class="modal fade" data-action="not-close-movie-detail-modal">
             <button class="close-modal" id="closeModal" data-action="close-movie-detail-modal-button">
               <img src="./images/modal_button_close.png" />
             </button>

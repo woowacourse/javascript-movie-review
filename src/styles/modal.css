@@ -19,7 +19,9 @@ body.modal-open {
   z-index: 10;
   visibility: hidden; /* 모달이 기본적으로 보이지 않도록 설정 */
   opacity: 0;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
+  transition:
+    opacity 0.3s ease,
+    visibility 0.3s ease;
 }
 
 .modal-background.active {
@@ -161,5 +163,27 @@ body.modal-open {
   .rate {
     display: flex;
     justify-content: center;
+  }
+}
+
+.modal.fade {
+  animation: modal-fade 0.3s ease-out;
+}
+
+.modal.fade.dispose {
+  animation: alert-fade 0.3s ease-in;
+  animation-direction: reverse;
+  animation-fill-mode: forwards;
+}
+
+@keyframes modal-fade {
+  from {
+    opacity: 0.1;
+    flex-grow: 0.0001;
+  }
+
+  to {
+    opacity: 1;
+    flex-grow: 1;
   }
 }
