@@ -240,3 +240,51 @@ footer.footer p:not(:last-child) {
         font-size: 1rem;
     }
 }
+
+@media (min-width: 1024px) and (max-width: 1439px) {
+    #wrap {
+        position: relative;
+        min-width: 0;
+        background-color: var(--color-bluegray-100);
+    }
+
+    .container {
+        max-width: 100%;
+        padding: 0 16px;
+    }
+
+    main {
+        margin: 32px 32px 32px 32px;
+        align-items: center;
+    }
+
+    .main-title {
+        font-size: 48px;
+        margin: 32px 0 56px 0;
+        font-weight: 600;
+        line-height: 100%;
+    }
+
+    .search-result-title {
+        font-size: 48px;
+        font-weight: 600;
+        line-height: 100%;
+        text-align: center;
+        margin: 60px 0 56px 0;
+    }
+
+    .detail-button {
+        width: 100%;
+        font-size: 18px;
+        margin-bottom: 32px;
+    }
+
+    .empty-content {
+        font-size: 1.2rem;
+    }
+
+    footer.footer {
+        width: 100%;
+        font-size: 1rem;
+    }
+}

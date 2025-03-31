@@ -280,3 +280,11 @@ body.modal-open {
         font-size: 18px;
     }
 }
+
+@media (min-width: 1024px) and (max-width: 1439px) {
+    .modal {
+        padding: 40px 24px 40px 24px;
+        border-radius: 16px 16px 0 0;
+        border: none;
+    }
+}

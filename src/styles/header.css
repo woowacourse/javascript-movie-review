@@ -136,7 +136,7 @@ span.rate-value {
     }
 
     .background-container {
-        width: 700px;
+        width: 100%;
         height: 300px;
         padding-top: 40px;
     }
@@ -172,6 +172,67 @@ span.rate-value {
 }
 
 @media (min-width: 768px) and (max-width: 1023px) {
+    .navigation-container {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .search-wrapper {
+        width: 500px;
+        height: 36px;
+        justify-content: center;
+        align-items: center;
+        margin: 22px 0 0 0;
+    }
+
+    h1.logo {
+        font-size: 2rem;
+        cursor: pointer;
+    }
+
+    .background-container {
+        width: 100%;
+        height: 400px;
+        padding: 48px;
+        background-position: center center;
+        background-size: cover;
+    }
+
+    .top-rated-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        max-width: 900px;
+        width: 700px;
+        height: 420px;
+    }
+
+    .title {
+        font-size: 2rem;
+        font-weight: bold;
+        line-height: 1.2;
+    }
+
+    .rate {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .top-rated-movie > *:not(:last-child) {
+        margin-bottom: 12px;
+        justify-content: flex-start;
+    }
+
+    .top-rated-movie {
+        margin-top: 48px;
+    }
+}
+
+@media (min-width: 1024px) and (max-width: 1439px) {
     .navigation-container {
         width: 100%;
         display: flex;
