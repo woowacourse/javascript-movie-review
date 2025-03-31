@@ -1,27 +1,23 @@
-import { createElement } from "../utils/dom";
+import { $, createElement } from "../utils/dom";
 
 const Skeleton = {
-  render: (el: Element) => {
+  render: (el: Element, count: number = 8) => {
     const $skeletonUl = createElement("ul", {
       class: ["skeleton-list"],
-      innerHTML: `
-    <li></li>
-    <li></li>
-    <li></li>
-    <li></li>
-    <li></li>
-    <li></li>
-    <li></li>
-    <li></li>
-    <li></li>
-    <li></li>`,
     });
 
+    const $skeletonItems = Array.from({ length: count }, () =>
+      createElement("li", {})
+    );
+    $skeletonUl.append(...$skeletonItems);
+
     el.appendChild($skeletonUl);
-    return $skeletonUl;
   },
-  remove: ($skeleton: Element) => {
-    $skeleton.remove();
+  remove: () => {
+    const $skeletonUl = $(".skeleton-list");
+    if ($skeletonUl) {
+      $skeletonUl.remove();
+    }
   },
 };
 export default Skeleton;

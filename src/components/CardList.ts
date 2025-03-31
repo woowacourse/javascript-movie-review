@@ -11,10 +11,36 @@ type CardListProps = {
     description?: string;
   }[];
   el: Element;
+  isAppend?: boolean;
 };
 
-const CardList = ({ items = [], el }: CardListProps) => {
+const CardList = ({ items = [], el, isAppend = false }: CardListProps) => {
   const render = () => {
+    if (items.length === 0) return;
+
+    const $fragment = document.createDocumentFragment();
+
+    const cardItems = items.map((item) =>
+      CardItem({
+        id: item.id,
+        title: item.title,
+        rating: item.rating,
+        imageSrc: item.imageSrc,
+        description: item.description,
+        onShowDetail: () => handleShowDetail(item.id),
+      })
+    );
+
+    $fragment.append(...cardItems);
+
+    if (isAppend) {
+      const $existingList = el.querySelector(".thumbnail-list");
+      if ($existingList) {
+        $existingList.appendChild($fragment);
+        return;
+      }
+    }
+
     const $movieContainer = createElement("section", {
       class: ["movie-container"],
     });
@@ -23,32 +49,13 @@ const CardList = ({ items = [], el }: CardListProps) => {
       class: ["thumbnail-list"],
     });
 
-    const $fragment = document.createDocumentFragment();
-
-    if (items.length !== 0) {
-      const cardItems = items.map((item) =>
-        CardItem({
-          id: item.id,
-          title: item.title,
-          rating: item.rating,
-          imageSrc: item.imageSrc,
-          description: item.description,
-          onShowDetail: () => handleShowDetail(item.id),
-        })
-      );
-
-      $fragment.append(...cardItems);
-      $ul.appendChild($fragment);
-      $movieContainer.appendChild($ul);
-
-      el.appendChild($movieContainer);
-    }
+    $ul.appendChild($fragment);
+    $movieContainer.appendChild($ul);
+    el.appendChild($movieContainer);
   };
 
   const handleShowDetail = (id: number) => {
-    const targetItem = items.find((item) =>
-      item.id === id
-    );
+    const targetItem = items.find((item) => item.id === id);
     if (!targetItem) return;
 
     const $modal = Modal({ item: targetItem });

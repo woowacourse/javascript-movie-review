@@ -1,13 +1,13 @@
-import { getState } from "../store/movieStore.ts";
+import { getState, updateState } from "../store/movieStore.ts";
 import { fetchMovies } from "../store/movieService.ts";
-import { renderMovies } from "./movieUI.ts";
-import Skeleton from "../components/Skeleton.ts";
+import { loadMoreMovies } from "./movieUI.ts";
 
 const $main = document.querySelector("main");
-const $sentinel = document.getElementById("scroll-sentinel");
+const $loadTrigger = document.getElementById("load-trigger");
 
-export const observer = new IntersectionObserver(async (entries, observer) => {
-  if (!$main) return;
+export const scrollObserver = new IntersectionObserver(
+  async (entries, observer) => {
+    if (!$main) return;
 
     for (const entry of entries) {
       if (entry.isIntersecting) {
@@ -17,16 +17,17 @@ export const observer = new IntersectionObserver(async (entries, observer) => {
           return;
         }
 
-        const skeletonEl = Skeleton.render($main);
+        updateState({ isLoading: true });
+        loadMoreMovies($main);
 
         await fetchMovies(currentPage + 1, query);
-
-        Skeleton.remove(skeletonEl);
-        renderMovies($main);
+        loadMoreMovies($main);
       }
     }
-}, { threshold: 0.1 });
+  },
+  { threshold: 0.1 }
+);
 
-if ($sentinel) {
-  observer.observe($sentinel);
+if ($loadTrigger) {
+  scrollObserver.observe($loadTrigger);
 }
