@@ -1,4 +1,4 @@
-import MovieList from '../common/MovieList.js'
+import MovieList from './MovieList.js'
 import hideskeleton from '../../util/hideskeleton.js'
 import { IMovieData, IMovieState } from '../../../types/movieDataType'
 import { fetchPopularMovies, fetchSearchMovies } from '../../api/fetch.js'

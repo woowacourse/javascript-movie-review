@@ -2,7 +2,7 @@ import { userReviewStorage } from '../../storage/storage'
 import roundRating from '../../util/roundRating'
 import { getHTML } from '../../util/utils'
 import StarIcon from '../common/StarIcon'
-import StarRatingForm from '../common/StarRatingForm'
+import StarRatingForm from './StarRatingForm'
 
 interface ModalMovieContent {
   id: string

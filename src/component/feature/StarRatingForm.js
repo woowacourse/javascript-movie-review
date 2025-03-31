@@ -1,5 +1,5 @@
 import { userReviewStorage } from '../../storage/storage'
-import StarIcon from './StarIcon'
+import StarIcon from '../common/StarIcon'
 
 function StarRatingForm(id, savedRating) {
   const state = {

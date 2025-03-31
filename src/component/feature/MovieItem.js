@@ -1,5 +1,5 @@
 import { createElement } from '../../util/utils'
-import StarIcon from './StarIcon'
+import StarIcon from '../common/StarIcon'
 
 const BASE_IMAGE_URL = 'https://image.tmdb.org/t/p/w500'
 

@@ -2,7 +2,7 @@ import { createElement, getHTML } from '../../util/utils.js'
 import MovieItem from './MovieItem.js'
 import roundRating from '../../util/roundRating.js'
 import { fetchMovieDetail } from '../../api/fetch.js'
-import ModalLayout from '../feature/ModalLayout.js'
+import ModalLayout from './ModalLayout.js'
 
 function MovieList() {
   const ul = createElement({ tag: 'ul', id: 'thumbnailList', className: 'thumbnail-list' })
