@@ -11,6 +11,7 @@ class MainController {
 
   backgroundThumbnailController;
   movieListController;
+  searchMovieListController;
   messageModalController;
   detailModalController;
 
@@ -30,6 +31,12 @@ class MainController {
       onFetchMovieList: (movie) => {
         this.backgroundThumbnailController.renderBackgroundThumbnail(movie);
       },
+      onDetailModalOpen: (movieId: number) => {
+        this.detailModalController.showModal(movieId);
+      },
+    });
+
+    this.searchMovieListController = new SearchMovieListController({
       onDetailModalOpen: (movieId: number) => {
         this.detailModalController.showModal(movieId);
       },
@@ -64,13 +71,7 @@ class MainController {
     try {
       this.backgroundThumbnailController.hideBackground();
       this.movieListController.removeScrollEvent();
-      const searchMovieListController = new SearchMovieListController({
-        searchValue,
-        onDetailModalOpen: (movieId: number) => {
-          this.detailModalController.showModal(movieId);
-        },
-      });
-      await searchMovieListController.render();
+      await this.searchMovieListController.render(searchValue);
     } catch (error) {
       this.#onErrorModalOpen(error as Error);
     }
@@ -78,6 +79,7 @@ class MainController {
 
   #onHomeLogoClick() {
     this.backgroundThumbnailController.showBackground();
+    this.searchMovieListController.removeScrollEvent();
     this.movieListController.renderExistingMovieList();
   }
 

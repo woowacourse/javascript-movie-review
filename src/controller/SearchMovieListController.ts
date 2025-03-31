@@ -1,48 +1,38 @@
 import { getSearchMovieResult } from "../api/getSearchMovieResult";
-import MovieEmptySection from "../component/movieList/MovieEmptySection";
-import MovieItem from "../component/movieList/MovieItem";
-import MovieListSection from "../component/movieList/MovieListSection";
 import mainElement from "../dom/mainElement";
-import { IMovieItem, IMovieResult } from "../types/movieResultType";
-import { $ } from "../util/selector";
+import MovieListScrollManager from "../lib/scroll/MovieListScrollManager";
+import { IMovieResult } from "../types/movieResultType";
+import SearchMovieListView from "../view/SearchMovieListView";
 
 class SearchMovieListController {
-  mainElement;
-  searchValue;
-  page = 0;
-  hasMore = false;
+  #view;
+  #scrollManager;
 
-  onDetailModalOpen;
+  #searchValue = "";
+  #page = 0;
+  #hasMore = false;
+  #isLoading = false;
 
-  isLoading = false;
+  #onDetailModalOpen;
 
-  constructor({
-    searchValue,
-    onDetailModalOpen,
-  }: {
-    searchValue: string;
-    onDetailModalOpen: (movieId: number) => void;
-  }) {
-    this.mainElement = mainElement;
-    this.searchValue = searchValue;
+  constructor({ onDetailModalOpen }: { onDetailModalOpen: (movieId: number) => void }) {
+    this.#view = new SearchMovieListView(mainElement);
+    this.#scrollManager = new MovieListScrollManager(this.#handleScroll.bind(this));
 
-    this.onDetailModalOpen = onDetailModalOpen;
+    this.#onDetailModalOpen = onDetailModalOpen;
   }
 
-  async render() {
+  async render(searchValue: string) {
+    this.#searchValue = searchValue;
+    this.#page = 0;
     const movieList = await this.#fetchMovies();
-    this.#renderSearchMovieList({ movieList });
-
-    this.#bindEvents();
+    this.#view.renderInitialList(movieList, this.#searchValue);
+    this.#view.bindMovieClickEvent(this.#onDetailModalOpen);
+    this.#scrollManager.bind();
   }
 
-  async addMovieList() {
-    const movieListContainer = $("ul", this.mainElement);
-    if (!movieListContainer) return;
-
-    const movieList = await this.#fetchMovies();
-
-    movieListContainer?.append(...movieList.map((movie) => MovieItem(movie)));
+  removeScrollEvent() {
+    this.#scrollManager.unbind();
   }
 
   async #fetchMovies() {
@@ -50,49 +40,21 @@ class SearchMovieListController {
       page: newPage,
       total_pages: totalPage,
       results: movieList,
-    }: IMovieResult = await getSearchMovieResult(this.searchValue, this.page + 1);
-    this.page = newPage;
+    }: IMovieResult = await getSearchMovieResult(this.#searchValue, this.#page + 1);
 
-    this.hasMore = newPage !== totalPage;
+    this.#page = newPage;
+    this.#hasMore = newPage !== totalPage;
 
     return movieList;
   }
 
-  #renderSearchMovieList({ movieList }: { movieList: IMovieItem[] }) {
-    let sectionElement;
-    if (movieList.length !== 0) {
-      sectionElement = MovieListSection({ title: `"${this.searchValue}" 검색 결과`, movieList });
-    } else {
-      sectionElement = MovieEmptySection(`"${this.searchValue}" 검색 결과`);
-    }
+  async #handleScroll() {
+    if (!MovieListScrollManager.isNearBottom() || this.#isLoading || !this.#hasMore) return;
 
-    this.mainElement.replaceChildren(sectionElement);
-  }
-
-  #bindEvents() {
-    const ulElement = $("ul", this.mainElement);
-    ulElement?.addEventListener("click", (event) => {
-      const target = event.target as HTMLElement;
-      const item = target.closest(".item");
-
-      if (item) {
-        this.onDetailModalOpen(Number(item.id));
-      }
-    });
-
-    this.bindScrollEvent();
-  }
-
-  bindScrollEvent() {
-    window.addEventListener("scroll", async () => {
-      const scrollBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 200;
-
-      if (!scrollBottom || this.isLoading || !this.hasMore) return;
-
-      this.isLoading = true;
-      await this.addMovieList();
-      this.isLoading = false;
-    });
+    this.#isLoading = true;
+    const movieList = await this.#fetchMovies();
+    this.#view.appendMovies(movieList);
+    this.#isLoading = false;
   }
 }
 
