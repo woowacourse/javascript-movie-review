@@ -20,9 +20,9 @@ const SearchBar = (store: Store): string => {
 };
 
 function attachSearchEvent(store: Store): void {
-  const $searchForm = document.querySelector(
+  const $searchForm = document.querySelector<HTMLFormElement>(
     `#${SEARCH_FORM}`
-  ) as HTMLFormElement | null;
+  );
 
   if ($searchForm) {
     $searchForm.addEventListener("submit", async (event: Event) => {

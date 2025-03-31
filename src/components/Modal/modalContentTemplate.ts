@@ -11,7 +11,7 @@ const modalContentTemplate = async (
     alert(error.message)
   );
   const ratingHTML = Rating(getCurrentScore(id, store));
-  const contentHTML = `
+  const contentHTML = /* html */ `
     <div class="modal-image">
       <div class="skeleton-detail-thumbnail"></div>
       <img src="${

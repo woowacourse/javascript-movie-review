@@ -16,13 +16,11 @@ class Modal {
   ) {
     this.store = store;
     this.contentGenerator = contentGenerator;
-    this.$modalBackground = document.querySelector(
-      "#modal-background"
-    ) as HTMLElement;
-    this.$closeButton = document.querySelector("#close-modal") as HTMLElement;
-    this.$modalContainer = this.$modalBackground.querySelector(
-      "#modal-container"
-    ) as HTMLElement;
+    this.$modalBackground =
+      document.querySelector<HTMLElement>("#modal-background")!;
+    this.$closeButton = document.querySelector<HTMLElement>("#close-modal")!;
+    this.$modalContainer =
+      this.$modalBackground.querySelector<HTMLElement>("#modal-container")!;
     this.bindEvents();
     this.store.subscribe(() => {
       if (this.isOpen() && this.currentMovieId !== null) {
@@ -52,9 +50,8 @@ class Modal {
 
   private updateRating(): void {
     if (this.currentMovieId) {
-      const $ratingContainer = this.$modalContainer.querySelector(
-        "#modal-rating"
-      ) as HTMLElement;
+      const $ratingContainer =
+        this.$modalContainer.querySelector<HTMLElement>("#modal-rating");
       if ($ratingContainer) {
         const scores = this.store.getState().starRatings || [];
         const currentScore =
@@ -76,12 +73,13 @@ class Modal {
   }
 
   private attachThumbnailLoadEvent($container: HTMLElement): void {
-    const $thumbnail = $container.querySelector(
+    const $thumbnail = $container.querySelector<HTMLImageElement>(
       "img.detail-thumbnail"
-    ) as HTMLImageElement;
+    );
     if (!$thumbnail) return;
+
     if (!$thumbnail.getAttribute("data-load-listener-attached")) {
-      $thumbnail.addEventListener("load", function (this: HTMLImageElement) {
+      $thumbnail.addEventListener("load", function () {
         this.style.display = "block";
         const $prev = this.previousElementSibling as HTMLElement;
         if ($prev && $prev.classList.contains("skeleton-detail-thumbnail")) {

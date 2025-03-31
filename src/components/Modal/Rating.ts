@@ -32,15 +32,15 @@ export const Rating = (initialScore: number = 0): string => {
 };
 
 export const attachRatingEvents = (movieId: string, store: Store): void => {
-  const $rateWrap = document.querySelector(".rating") as HTMLElement;
+  const $rateWrap = document.querySelector<HTMLElement>(".rating");
   if (!$rateWrap) return;
 
   const scores = store.getState().starRatings || [];
   const currentScore =
     scores.find((rating: StarRating) => rating.id === movieId)?.score || 0;
-  const $radio = $rateWrap.querySelector(
+  const $radio = $rateWrap.querySelector<HTMLInputElement>(
     `#star${currentScore}`
-  ) as HTMLInputElement;
+  );
   if ($radio) $radio.checked = true;
 
   const stars = $rateWrap.querySelectorAll(".star-icon");
@@ -49,9 +49,9 @@ export const attachRatingEvents = (movieId: string, store: Store): void => {
   };
 
   const checkedRate = (): void => {
-    const $checkedRadio = $rateWrap.querySelector(
+    const $checkedRadio = $rateWrap.querySelector<HTMLInputElement>(
       '.rating input[type="radio"]:checked'
-    ) as HTMLInputElement;
+    );
 
     initStars();
 
@@ -68,9 +68,10 @@ export const attachRatingEvents = (movieId: string, store: Store): void => {
   };
 
   const saveRate = (): void => {
-    const $checkedRadio = $rateWrap.querySelector(
+    const $checkedRadio = $rateWrap.querySelector<HTMLInputElement>(
       '.rating input[type="radio"]:checked'
-    ) as HTMLInputElement;
+    );
+
     if ($checkedRadio) {
       const newScore = Number($checkedRadio.value);
       let starRatings = store.getState().starRatings || [];

@@ -31,14 +31,13 @@ class Banner {
       const movie: Movie = state.movies[0];
       renderTemplate(this.$container, bannerTemplate(movie));
 
-      const $banner = this.$container.querySelector("#banner") as HTMLElement;
+      const $banner = this.$container.querySelector<HTMLElement>("#banner");
       if ($banner && movie.backdrop_path) {
         $banner.style.backgroundImage = `url(${API_BANNER_URL}${movie.backdrop_path})`;
       }
 
-      const $detailButton = this.$container.querySelector(
-        "#detail-button"
-      ) as HTMLElement;
+      const $detailButton =
+        this.$container.querySelector<HTMLElement>("#detail-button");
       if ($detailButton) {
         $detailButton.addEventListener("click", () =>
           this.$modal.open(movie.id.toString())

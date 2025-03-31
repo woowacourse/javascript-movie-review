@@ -19,7 +19,7 @@ class MovieList {
   }
 
   private render(state: State): void {
-    const $ul = this.$container.querySelector("ul#movie-list") as HTMLElement;
+    const $ul = this.$container.querySelector<HTMLElement>("#movie-list")!;
 
     if (!this.prevMoviesLength || state.query !== this.prevQuery) {
       renderTemplate(
