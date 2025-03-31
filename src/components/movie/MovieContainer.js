@@ -32,7 +32,7 @@ const MovieContainer = ({ movies }) => {
   $container.appendChild($main);
   $main.appendChild($section);
   $section.appendChild($h2);
-
+  
   const $div = createElement({
     tag: "div",
     classNames: ["oberserver"],
@@ -77,7 +77,6 @@ const MovieContainer = ({ movies }) => {
 
   $section.appendChild(MovieList({ movies }));
   $section.appendChild($div);
-
   $main.appendChild(Button({ text: BUTTON_MORE, type: "more" }));
 
   return $container;

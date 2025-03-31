@@ -42,6 +42,7 @@ const Button = ({ text, type }) => {
         movies: movies.movieList,
       }),
       oberserver
+
     );
   });
 

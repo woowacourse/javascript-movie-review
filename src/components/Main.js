@@ -23,6 +23,7 @@ const Main = ({ movies }) => {
     $container.appendChild(
       Header({
         popularMovie: movies[0],
+
       })
     );
 
