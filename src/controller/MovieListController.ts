@@ -2,12 +2,12 @@ import { getPopularMovieResult } from "../api/getPopularMovieResult";
 import MovieItem from "../component/movieList/MovieItem";
 import MovieListSection from "../component/movieList/MovieListSection";
 import mainElement from "../dom/mainElement";
-import MovieResults from "../domain/MovieResults";
+import MovieListModel from "../domain/MovieListModel";
 import { IMovieItem, IMovieResult } from "../types/movieResultType";
 import { $ } from "../util/selector";
 
 class MovieListController {
-  movieResults;
+  movieListModel;
   mainElement;
 
   onAfterFetchMovieList;
@@ -22,7 +22,7 @@ class MovieListController {
     onAfterFetchMovieList: (movie: IMovieItem) => void;
     onDetailModalOpen: (movieId: number) => void;
   }) {
-    this.movieResults = MovieResults();
+    this.movieListModel = MovieListModel();
     this.mainElement = mainElement;
     this.onAfterFetchMovieList = onAfterFetchMovieList;
     this.onDetailModalOpen = onDetailModalOpen;
@@ -46,7 +46,7 @@ class MovieListController {
     window.addEventListener("scroll", async () => {
       const scrollBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 200;
 
-      if (!scrollBottom || this.isLoading || !this.movieResults.hasMore()) return;
+      if (!scrollBottom || this.isLoading || !this.movieListModel.hasMore()) return;
 
       this.isLoading = true;
       await this.addMovieList();
@@ -61,8 +61,8 @@ class MovieListController {
       results: movieList,
     }: IMovieResult = await getPopularMovieResult(page);
 
-    this.movieResults.addMovieList(newPage, movieList);
-    this.movieResults.initializeTotalPage(totalPage);
+    this.movieListModel.addMovieList(newPage, movieList);
+    this.movieListModel.initializeTotalPage(totalPage);
 
     return { movieList, hasMore: newPage !== totalPage };
   }
@@ -81,7 +81,7 @@ class MovieListController {
   }
 
   async renderExistingMovieList() {
-    const movieList = this.movieResults.getMovieList();
+    const movieList = this.movieListModel.getMovieList();
     const sectionElement = MovieListSection({ title: "지금 인기 있는 영화", movieList });
 
     this.mainElement.replaceChildren(sectionElement);
@@ -93,7 +93,7 @@ class MovieListController {
     const movieListContainer = $("ul", this.mainElement);
     if (!movieListContainer) return;
 
-    const { movieList } = await this.fetchAndStoreMovies(this.movieResults.getPage() + 1);
+    const { movieList } = await this.fetchAndStoreMovies(this.movieListModel.getPage() + 1);
 
     movieListContainer.append(...movieList.map((movie) => MovieItem(movie)));
   }
