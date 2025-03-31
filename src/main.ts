@@ -13,6 +13,7 @@ import {
   updateDetails,
   updateHero,
 } from "./view/MovieView.ts";
+import type { BasicMovieDetails } from "./view/MovieView.ts";
 import Toast from "./components/Toast/Toast";
 import createMovieLoader from "./service/loaderService.ts";
 import fetchAndSetLoadingEvent from "./service/fetchService.ts";
@@ -22,7 +23,6 @@ import {
   checkApiAvailability,
 } from "./service/errorService.ts";
 import {
-  bindDetailsImageLoadEvent,
   bindLoadingEvents,
   bindModalEvents,
   bindStarRatingEvents,
@@ -31,6 +31,11 @@ import {
 } from "./binders/event-binders";
 
 let infiniteScrollInstance: InfiniteScrollInstance = null;
+
+interface MovieListResponse {
+  results: Result[];
+  isLastPage: boolean;
+}
 
 const initMovies = () => {
   return createMovieLoader(
@@ -44,21 +49,51 @@ const handleError = (error: Error) => {
   Toast.showToast(error.message, "error", 5000);
   checkApiAvailability(infiniteScrollInstance);
 };
-
-const renderApp = (data) => {
-  renderHeaderAndHero();
-  const firstMovieShown = data.results[0];
-  setShowingItem(data.results[0].id);
-  updateHero(firstMovieShown);
-  updateDetails(firstMovieShown);
-  renderMovieItems(data.results, false);
+// 셋업 무비 데이타와 render를 분리.
+const setupMovieData = (data: MovieListResponse | null) => {
+  if (!data) {
+    throw new Error("데이터가 없습니다. 잠시후 다시 사용해주세요.");
+  }
+  const firstMovie = data.results[0];
+  setShowingItem(String(firstMovie.id));
+  return {
+    firstMovie,
+    movieList: data.results,
+  };
 };
+
+const createBasicMovieDetails = (movie: Result): BasicMovieDetails => ({
+  poster_path: movie.poster_path || "",
+  release_date: movie.release_date,
+  overview: movie.overview,
+  title: movie.title,
+  vote_average: movie.vote_average,
+  genres: [],
+  id: movie.id,
+});
+
+const renderHeroSection = (firstMovie: Result) => {
+  renderHeaderAndHero();
+  updateHero(firstMovie);
+  updateDetails(createBasicMovieDetails(firstMovie));
+};
+
+const renderMovieList = (movies: Result[]) => {
+  renderMovieItems(movies, false);
+};
+
+const renderApp = (data: MovieListResponse | null) => {
+  const { firstMovie, movieList } = setupMovieData(data);
+  renderHeroSection(firstMovie);
+  renderMovieList(movieList);
+};
+
 const bindEventListeners = () => {
   bindLoadingEvents();
   bindThumbnailClickEvent();
+
   bindModalEvents();
   bindStarRatingEvents();
-  bindDetailsImageLoadEvent();
   bindHeaderScrollEvent();
 };
 
