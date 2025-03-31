@@ -33,7 +33,7 @@ export const addCloseEventOnModalBackground = () => {
 };
 
 export const addCloseEventOnModalButton = () => {
-  const $closeMovieDetailModalButton = $("#closeModal");
+  const $closeMovieDetailModalButton = $("#close-modal");
 
   if ($closeMovieDetailModalButton) {
     $closeMovieDetailModalButton.addEventListener(
