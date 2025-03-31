@@ -7,6 +7,7 @@ import {
 import Header from "../components/header/header";
 import Hero from "../components/hero/hero";
 import MovieItem from "../components/moveItem/movieItem";
+import { bindHeroEvents } from "../binders/event-binders";
 
 export function showElement(element: Element | null) {
   element?.classList.remove("hide");
@@ -25,10 +26,6 @@ export function hideImgSkeleton(event: Event) {
   const skeleton = img.parentElement?.parentElement?.querySelector(
     ".skeleton-thumbnail"
   );
-
-  // 아.. 타입 정말.. 타입 가드를 너무 빡빡히 주네요.
-  // 충분히 가드를 하고 있다고 생각하는데,
-  // 타입스크립트는 마음에 안드나 봅니다.
 
   skeleton?.remove();
 }
@@ -60,61 +57,104 @@ export function renderHeaderAndHero() {
     $wrap.prepend(Hero());
   }
 }
+
+// Hero 렌더링 관련 함수들
+function renderHeroImage(
+  heroImg: HTMLImageElement,
+  poster_path: string | null
+) {
+  const url = getHeroImageUrl(poster_path);
+  heroImg.src = url;
+}
+
+function renderHeroContent(
+  heroAverage: HTMLElement | null,
+  heroTitle: HTMLElement | null,
+  topRatedContainer: HTMLElement | null,
+  vote_average: number,
+  title: string
+) {
+  if (heroAverage) heroAverage.innerText = Number(vote_average).toFixed(1);
+  if (heroTitle) heroTitle.innerText = title;
+  showElement(topRatedContainer);
+}
+
 export function updateHero({ poster_path, title, vote_average }: Result) {
   const heroImg = document.getElementById("hero-img") as HTMLImageElement;
   const heroTitle = document.getElementById("hero-title");
   const heroAverage = document.getElementById("hero-rate");
   const topRatedContainer = document.getElementById("top-rated-container");
-  const heroButton = document.getElementById("hero-details-button");
 
-  let url = `https://image.tmdb.org/t/p/original${poster_path}`;
-  if (!poster_path) url = "images/fallback.png";
-  if (heroImg) heroImg.src = url;
-  const img = document.getElementById("hero-img") as HTMLImageElement;
-  const heroSkeleton = document.getElementById("hero-skeleton");
-  if (img)
-    img.addEventListener("load", () => {
-      hideElement(heroSkeleton);
+  if (heroImg) {
+    renderHeroImage(heroImg, poster_path);
+  }
 
-      if (heroAverage) heroAverage.innerText = Number(vote_average).toFixed(1);
-      if (heroTitle) heroTitle.innerText = title;
-      showElement(topRatedContainer);
-    });
-  const modal = document.getElementById("modal-dialog") as HTMLDialogElement;
-  if (heroButton && modal)
-    heroButton.addEventListener("click", () => {
-      modal.showModal();
+  renderHeroContent(
+    heroAverage,
+    heroTitle,
+    topRatedContainer,
+    vote_average,
+    title
+  );
+  bindHeroEvents();
+}
 
-      const loadingSpinner = document.getElementById("detail-loading");
-      const modalContainer = document.getElementById("modal-container");
+// Details 렌더링 관련 함수들
+function renderDetailsContent(
+  detailsTitle: HTMLElement,
+  detailsRate: HTMLElement,
+  detailsCategory: HTMLElement,
+  detailsDescription: HTMLElement,
+  title: string,
+  vote_average: number,
+  categoryNames: string,
+  overview: string
+) {
+  detailsTitle.innerText = title;
+  detailsRate.innerText = Number(vote_average).toFixed(1);
+  detailsCategory.innerText = categoryNames;
+  detailsDescription.innerText = overview;
+}
 
-      if (loadingSpinner && modalContainer) {
-        hideElement(loadingSpinner);
-        showElement(modalContainer);
-      }
+function renderDetailsImage(
+  detailsImage: HTMLImageElement,
+  detailsSkeleton: HTMLElement | null,
+  imgUrl: string
+) {
+  hideElement(detailsImage);
+  if (detailsSkeleton) {
+    showElement(detailsSkeleton);
+  }
 
-      const detailsSkeleton = document.getElementById("details-skeleton");
-      const detailsImage = document.getElementById(
-        "details-image"
-      ) as HTMLImageElement;
+  detailsImage.src = imgUrl;
+  detailsImage.onload = () => {
+    if (detailsSkeleton) {
+      hideElement(detailsSkeleton);
+    }
+    showElement(detailsImage);
+  };
+}
 
-      if (detailsSkeleton && detailsImage) {
-        showElement(detailsSkeleton);
-        hideElement(detailsImage);
-
-        // 이미지가 이미 캐시되어 있어서 onload가 발생하지 않을 수 있으므로
-        // 이미지가 완전히 로드되었는지 확인
-        if (detailsImage.complete) {
-          hideElement(detailsSkeleton);
-          showElement(detailsImage);
-        } else {
-          detailsImage.onload = () => {
-            hideElement(detailsSkeleton);
-            showElement(detailsImage);
-          };
-        }
-      }
-    });
+function renderRatingDisplay(
+  id: number,
+  starRatingDetails: HTMLElement,
+  starRatingNumbers: HTMLElement
+) {
+  const savedRating = localStorage.getItem(String(id));
+  if (savedRating) {
+    const input = document.querySelector(
+      `input[name="star-rating"][value="${savedRating}"]`
+    ) as HTMLInputElement;
+    if (input) input.checked = true;
+    starRatingDetails.innerText =
+      ratingMessages[savedRating as keyof typeof ratingMessages];
+    starRatingNumbers.innerText =
+      ratingNumbers[savedRating as keyof typeof ratingNumbers];
+  } else {
+    starRatingDetails.innerText = ratingMessages[defaultRating];
+    starRatingNumbers.innerText = ratingNumbers[defaultRating];
+    (document.getElementById("star3") as HTMLInputElement).checked = true;
+  }
 }
 
 export function updateDetails({
@@ -145,53 +185,44 @@ export function updateDetails({
   ) as HTMLElement;
   const detailsSkeleton = document.getElementById("details-skeleton");
 
-  const savedRating = localStorage.getItem(String(id));
-  if (savedRating) {
-    const input = document.querySelector(
-      `input[name="star-rating"][value="${savedRating}"]`
-    ) as HTMLInputElement;
-    if (input) input.checked = true;
-    starRatingDetails.innerText =
-      ratingMessages[savedRating as keyof typeof ratingMessages];
-    starRatingNumbers.innerText =
-      ratingNumbers[savedRating as keyof typeof ratingNumbers];
-  } else {
-    starRatingDetails.innerText = ratingMessages[defaultRating];
-    starRatingNumbers.innerText = ratingNumbers[defaultRating];
-    (document.getElementById("star3") as HTMLInputElement).checked = true;
+  const categoryNames = getCategoryNames(genres, release_date);
+  const imgUrl = getDetailsImageUrl(poster_path);
+
+  renderDetailsContent(
+    detailsTitle,
+    detailsRate,
+    detailsCategory,
+    detailsDescription,
+    title,
+    vote_average,
+    categoryNames,
+    overview
+  );
+
+  if (detailsImage && detailsSkeleton) {
+    renderDetailsImage(detailsImage, detailsSkeleton, imgUrl);
   }
 
-  let categoryNames = "";
-  if (genres) {
-    categoryNames = `${new Date(release_date).getFullYear()} · ${genres
-      .map((genre) => genre.name)
-      .join(", ")} `;
-  }
+  renderRatingDisplay(id, starRatingDetails, starRatingNumbers);
+}
 
-  let imgUrl = "./images/fallback_no_movies.png";
-  if (poster_path) {
-    imgUrl = `https://image.tmdb.org/t/p/original${poster_path}`;
-  }
+// 유틸리티 함수들
+function getHeroImageUrl(poster_path: string | null): string {
+  if (!poster_path) return "images/fallback.png";
+  return `https://image.tmdb.org/t/p/original${poster_path}`;
+}
 
-  detailsTitle.innerText = title;
-  detailsRate.innerText = Number(vote_average).toFixed(1);
-  detailsCategory.innerText = categoryNames;
-  detailsDescription.innerText = overview;
+function getDetailsImageUrl(poster_path: string | null): string {
+  if (!poster_path) return "./images/fallback_no_movies.png";
+  return `https://image.tmdb.org/t/p/original${poster_path}`;
+}
 
-  // 초기 상태: 이미지는 숨기고, 스켈레톤은 보이게 설정
-  hideElement(detailsImage);
-  if (detailsSkeleton) {
-    showElement(detailsSkeleton);
-  }
-
-  // 이미지 로드 시작
-  detailsImage.src = imgUrl;
-
-  // 이미지 로드 완료 시 스켈레톤 숨기고 이미지 표시
-  detailsImage.onload = () => {
-    if (detailsSkeleton) {
-      hideElement(detailsSkeleton);
-    }
-    showElement(detailsImage);
-  };
+function getCategoryNames(
+  genres: { name: string }[] | undefined,
+  release_date: Date | string
+): string {
+  if (!genres) return "";
+  return `${new Date(release_date).getFullYear()} · ${genres
+    .map((genre) => genre.name)
+    .join(", ")} `;
 }

@@ -83,35 +83,26 @@ function bindModalEvents() {
 }
 
 function bindStarRatingEvents() {
+  const starRatingDetails = document.getElementById(
+    "star-rating-details"
+  ) as HTMLElement;
+  const starRatingNumbers = document.getElementById(
+    "star-rating-numbers"
+  ) as HTMLElement;
+
   const radios = document.querySelectorAll('input[name="star-rating"]');
   for (const radio of radios) {
     radio.addEventListener("change", () => {
-      const starRatingDetails = document.getElementById("star-rating-details");
-      const starRatingNumbers = document.getElementById("star-rating-numbers");
-
-      if (
-        !(starRatingDetails instanceof HTMLElement) ||
-        !(starRatingNumbers instanceof HTMLElement)
-      ) {
-        return;
-      }
-
-      if (!(radio instanceof HTMLInputElement)) {
-        return;
-      }
+      if (!(radio instanceof HTMLInputElement)) return;
 
       const ratingValue = radio.value as keyof typeof ratingMessages;
-
-      if (!ratingMessages[ratingValue] || !ratingNumbers[ratingValue]) {
-        return;
-      }
+      if (!ratingMessages[ratingValue] || !ratingNumbers[ratingValue]) return;
 
       starRatingDetails.innerText = ratingMessages[ratingValue];
       starRatingNumbers.innerText = ratingNumbers[ratingValue];
 
-      // 일단 이렇게 넣습니다.
-      // 혹시 확장성을 생각해야 한다면, 말씀해 주시면 됩니다.
-      localStorage.setItem(getShowingItem(), String(ratingValue));
+      const showingItem = getShowingItem();
+      localStorage.setItem(showingItem, String(ratingValue));
     });
   }
 }
@@ -128,6 +119,57 @@ function bindHeaderScrollEvent() {
   });
 }
 
+function bindHeroEvents() {
+  const heroImg = document.getElementById("hero-img") as HTMLImageElement;
+  const heroSkeleton = document.getElementById("hero-skeleton");
+  const topRatedContainer = document.getElementById("top-rated-container");
+  const heroButton = document.getElementById("hero-details-button");
+  const modal = document.getElementById("modal-dialog") as HTMLDialogElement;
+
+  if (heroImg) {
+    heroImg.addEventListener("load", () => {
+      hideElement(heroSkeleton);
+      showElement(topRatedContainer);
+    });
+  }
+
+  if (heroButton && modal) {
+    heroButton.addEventListener("click", () => {
+      modal.showModal();
+
+      const loadingSpinner = document.getElementById("detail-loading");
+      const modalContainer = document.getElementById("modal-container");
+
+      if (loadingSpinner && modalContainer) {
+        hideElement(loadingSpinner);
+        showElement(modalContainer);
+      }
+
+      const detailsSkeleton = document.getElementById("details-skeleton");
+      const detailsImage = document.getElementById(
+        "details-image"
+      ) as HTMLImageElement;
+
+      if (detailsSkeleton && detailsImage) {
+        showElement(detailsSkeleton);
+        hideElement(detailsImage);
+
+        // 이미지가 이미 캐시되어 있어서 onload가 발생하지 않을 수 있으므로
+        // 이미지가 완전히 로드되었는지 확인
+        if (detailsImage.complete) {
+          hideElement(detailsSkeleton);
+          showElement(detailsImage);
+        } else {
+          detailsImage.onload = () => {
+            hideElement(detailsSkeleton);
+            showElement(detailsImage);
+          };
+        }
+      }
+    });
+  }
+}
+
 export {
   bindDetailsImageLoadEvent,
   bindLoadingEvents,
@@ -136,4 +178,5 @@ export {
   bindStarRatingEvents,
   bindThumbnailClickEvent,
   bindHeaderScrollEvent,
+  bindHeroEvents,
 };
