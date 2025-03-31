@@ -12,26 +12,7 @@ export const bannerButtonHandler = () => {
     const firstMovieCardId = $firstMovieCardButton.id;
 
     try {
-      const {
-        id,
-        title,
-        poster_path,
-        release_date,
-        genres,
-        vote_average,
-        overview,
-      } = await getMovieDetails(Number(firstMovieCardId));
-      const movieDetails = {
-        id,
-        title,
-        poster_path,
-        release_date,
-        genres,
-        vote_average,
-        overview,
-      };
-
-      MovieDetailModal(movieDetails);
+      MovieDetailModal(await getMovieDetails(Number(firstMovieCardId)));
     } catch (error) {
       if (error instanceof Error) {
         ErrorModal("영화 상세 정보를 불러오는데 실패하였습니다.");
