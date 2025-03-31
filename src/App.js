@@ -48,7 +48,6 @@ class App {
 
     const $wrap = document.createElement("div");
     $wrap.id = "wrap";
-    $wrap.style.position = "relative";
 
     const $thumbnail = new Thumbnail(
       !isLoading && movies && movies.length > 0 ? movies[0] : null,
@@ -74,8 +73,9 @@ class App {
 
     app.appendChild($wrap);
 
-    $wrap.appendChild($thumbnail);
-
+    if ($thumbnail) {
+      $wrap.appendChild($thumbnail);
+    }
     $wrap.appendChild($header);
 
     $wrap.appendChild($container);

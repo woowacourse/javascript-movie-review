@@ -8,6 +8,10 @@
   display: block;
 }
 
+section {
+  margin-top: 150px;
+}
+
 @media (max-width: 768px) {
   /* 태블릿 */
   .thumbnail-list {
@@ -15,6 +19,7 @@
   }
   section h2 {
     width: 100%;
+    text-align: center;
   }
 }
 

@@ -98,7 +98,6 @@ class Modal {
     starImages.forEach((star, index) => {
       star.addEventListener("click", () => {
         const score = (index + 1) * 2;
-        console.log(score);
 
         starImages.forEach((s, i) => {
           s.src =

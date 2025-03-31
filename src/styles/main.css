@@ -46,6 +46,7 @@ button.primary {
 #wrap {
   width: 100%;
   background-color: var(--color-bluegray-100);
+  position: relative;
 }
 
 #wrap h2 {
