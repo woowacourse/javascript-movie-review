@@ -3,7 +3,6 @@ import Header from "../components/Header.js";
 import { FetchMoviesCallback, MovieInfo } from "../../types/movieType.ts";
 import { ContentsContainer, replaceSkeletonWithMovies, showSkeleton } from "./Contents.ts";
 import MovieService from "../services/MovieService.ts";
-import LogoSearchBar from "../components/LogoSearchBar.js";
 import { getPopularParam } from "../apis/config.js";
 import MovieList from '../domains/MovieList';
 import registerSearchEventHandlers from "./MovieSearchHandlers.js";
