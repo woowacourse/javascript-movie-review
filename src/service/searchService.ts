@@ -13,12 +13,9 @@ import Toast from "../components/Toast/Toast.ts";
 
 import { ERROR_MESSAGE } from "../setting/ErrorMessage.ts";
 import { handleNetworkError } from "./errorService.ts";
-import { setLoadMovies } from "../state/movieState.ts";
+import { getScrollInstance, setLoadMovies } from "../state/movieState.ts";
 
-import { infiniteScrollInstance } from "../main.ts";
 import fetchAndSetLoadingEvent from "./fetchService.ts";
-
-// 으아....
 
 let isErrorHandled = false;
 function scrollToTop(): Promise<void> {
@@ -67,15 +64,16 @@ export default async function handleSearch(searchValue: string) {
   // 먼저 stopInfiniteScroll를 호출합니다.
   // 혹시 모를 이중 fetch를 방지하기 위함입니다.
 
-  infiniteScrollInstance?.stopInfiniteScroll();
+  const scrollInstance = getScrollInstance();
+  scrollInstance?.stopInfiniteScroll();
 
   try {
-    const data = await fetchAndSetLoadingEvent(infiniteScrollInstance);
+    const data = await fetchAndSetLoadingEvent(scrollInstance);
 
     if (data?.results) renderMovieItems(data.results, true);
-    if (data?.isLastPage) infiniteScrollInstance?.stopInfiniteScroll();
+    if (data?.isLastPage) scrollInstance?.stopInfiniteScroll();
     else {
-      infiniteScrollInstance?.resumeInfiniteScroll();
+      scrollInstance?.resumeInfiniteScroll();
     }
 
     displaySearchResults();
@@ -116,9 +114,10 @@ function handleSearchError(error: Error): void {
 
   if (error.message !== ERROR_MESSAGE.NO_DATA) {
     Toast.showToast(error.message, "error", 3000);
-    handleNetworkError(infiniteScrollInstance);
+    handleNetworkError(getScrollInstance());
   } else {
-    if (infiniteScrollInstance) infiniteScrollInstance.stopInfiniteScroll();
+    const scrollInstance = getScrollInstance();
+    if (scrollInstance) scrollInstance.stopInfiniteScroll();
     const $thumbnailContainer = document.getElementById("thumbnail-container");
     const $fallback = document.getElementById("fallback");
     const $fallbackDetails = document.getElementById("fallback-details");
