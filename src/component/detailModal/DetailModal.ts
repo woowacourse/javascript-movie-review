@@ -4,7 +4,7 @@ import CloseButton from "./CloseButton";
 import DetailModalDescription from "./DetailModalDescription";
 import DetailModalImage from "./DetailModalImage";
 
-const DetailModal = (movieDetail: IMovieDetail) => {
+const DetailModal = (movieDetail: IMovieDetail, onImageLoad: () => void) => {
   return createDOMElement({
     tag: "div",
     class: "modal-background active",
@@ -18,7 +18,7 @@ const DetailModal = (movieDetail: IMovieDetail) => {
           tag: "div",
           class: "modal-container",
           children: [
-            DetailModalImage({ posterPath: movieDetail.poster_path }),
+            DetailModalImage({ posterPath: movieDetail.poster_path, onload: onImageLoad }),
             DetailModalDescription({
               title: movieDetail.title,
               releaseDate: movieDetail.release_date,

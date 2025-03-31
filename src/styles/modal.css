@@ -27,6 +27,11 @@ body.modal-open {
   opacity: 1;
 }
 
+.modal-background.loading {
+  justify-content: center;
+  align-items: center;
+}
+
 .modal {
   background-color: var(--color-bluegray-90);
   padding: 20px;

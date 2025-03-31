@@ -1,3 +1,4 @@
+import DetailLoadingModal from "../component/detailModal/DetailLoadingModal";
 import DetailModal from "../component/detailModal/DetailModal";
 import { SCORE_RATING_TEXT } from "../constant/scoreRatingText";
 import MovieDetailModel from "../domain/MovieDetailModel";
@@ -64,10 +65,12 @@ class DetailModalController {
 
   async showModal(movieId: number) {
     try {
-      const movieDetail = await this.movieDetailModel.getMovieDetailById(movieId);
-      this.detailModalElement = DetailModal(movieDetail);
+      this.detailModalElement = DetailLoadingModal();
       this.wrapElement?.insertAdjacentElement("afterend", this.detailModalElement);
-      this.bindEvents(movieId);
+
+      const movieDetail = await this.movieDetailModel.getMovieDetailById(movieId);
+
+      const detailModal = DetailModal(movieDetail, () => this.#handleImageLoad(detailModal, movieId));
     } catch (error) {
       this.onErrorModalOpen(error as Error);
     }
@@ -75,6 +78,12 @@ class DetailModalController {
 
   closeModal() {
     if (this.detailModalElement) this.detailModalElement.remove();
+  }
+
+  #handleImageLoad(detailModal: HTMLElement, movieId: number) {
+    this.detailModalElement?.replaceWith(detailModal);
+    this.detailModalElement = detailModal;
+    this.bindEvents(movieId);
   }
 }
 export default DetailModalController;
