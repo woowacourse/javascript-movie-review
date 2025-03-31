@@ -49,6 +49,7 @@ describe("홈 화면 테스트", () => {
     cy.get(".search-bar").type(`${firstLegalSearchValue}{enter}`);
 
     cy.scrollTo("bottom");
+
     cy.wait(1000);
     cy.get("#thumbnail-list > li").should("have.length", 35);
 
@@ -73,6 +74,7 @@ describe("홈 화면 테스트", () => {
     });
 
     cy.scrollTo("bottom");
+
     cy.wait(1000);
     cy.get("#thumbnail-list > li").should("have.length", 22);
 

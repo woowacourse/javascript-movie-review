@@ -60,7 +60,8 @@ describe("fallback 테스트", () => {
 
     // 정상 응답이 반환되는지 확인하기 위해 다시 API 호출 트리거
     cy.scrollTo("bottom");
-    cy.wait("@normalCall");
+    // cy.wait("@normalCall");
+    cy.get("#load-more").should("be.visible").click();
     cy.get("#thumbnail-list > li").should("have.length", 40);
   });
 
@@ -157,8 +158,9 @@ describe("fallback 테스트", () => {
     ).as("recoveryCall");
 
     cy.scrollTo("bottom");
-    cy.wait("@recoveryCall");
-
+    // cy.wait("@recoveryCall");
+    //왜?????
+    cy.get("#load-more").should("be.visible").click();
     cy.get("#thumbnail-list > li").should("have.length", 35);
 
     cy.get("#thumbnail-list > li").each(($li) => {

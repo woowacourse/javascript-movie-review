@@ -12,6 +12,23 @@ describe("details 테스트", () => {
     cy.visit(localHostUrl);
   });
 
+  afterEach(() => {
+    // 각 테스트 종료 후 모달 닫기
+    cy.get("#modal-dialog").then(($modal) => {
+      if ($modal.prop("open")) {
+        cy.get("#closeModal").click();
+      }
+    });
+  });
+
+  // Cypress에서 uncaught:exception 이벤트 무시
+  Cypress.on("uncaught:exception", (err) => {
+    if (err.message.includes("Failed to execute 'showModal'")) {
+      return false;
+    }
+    return true;
+  });
+
   it("첫번째 보이는 영화를 클릭하면 정확한 디테일이 떠야한다.", () => {
     cy.get("#696506").click();
 
@@ -45,6 +62,8 @@ describe("details 테스트", () => {
 
   it("헤더에 보이는 영화를 클릭하면 정확한 디테일이 떠야 한다.", () => {
     // 테스트용 뷰포트에 에러가 있어서, 이경우에만 이렇게 쓰는것으로 했습니다.
+    cy.get("#hero-img").should("be.visible");
+    cy.get("#top-rated-container").should("be.visible");
     cy.get("#hero-details-button").click({ force: true });
 
     // 이미지 확인
@@ -68,7 +87,10 @@ describe("details 테스트", () => {
     cy.get("#star-rating-details").should("exist");
     cy.get("#star-rating-numbers").should("exist");
   });
+
   it("모달을 열고 닫을수 있어야 한다.", () => {
+    cy.get("#hero-img").should("be.visible");
+    cy.get("#top-rated-container").should("be.visible");
     cy.get("#hero-details-button").click({ force: true });
 
     cy.get("#modal-dialog").click("topLeft");

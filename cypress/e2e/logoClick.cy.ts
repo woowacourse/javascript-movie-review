@@ -52,6 +52,8 @@ describe("로고 클릭 테스트", () => {
     });
 
     cy.get("#logo > img").click();
+    cy.wait("@getPopularMovies");
+    cy.get("#thumbnail-list").should("be.visible");
     cy.get("#thumbnail-list > li").should("have.length", 20);
   });
 });
