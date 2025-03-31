@@ -318,6 +318,19 @@ footer.footer p:not(:last-child) {
   .search-form {
     width: 90%;
   }
+  .error-ui {
+    padding: 0;
+    min-height: 40vh;
+    text-align: center;
+    word-break: keep-all;
+  }
+  footer.footer {
+    min-height: auto;
+    padding: 26px 0;
+  }
+  footer.footer p:not(:last-child) {
+    margin: 0;
+  }
 }
 
 @media screen and (max-width: 480px) {
@@ -347,5 +360,8 @@ footer.footer p:not(:last-child) {
   }
   .search-form > button > img {
     margin: 0 14px 0 0;
+  }
+  .no-result > p {
+    font-size: 1.5rem;
   }
 }
