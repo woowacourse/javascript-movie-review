@@ -4,7 +4,6 @@ import BackgroundThumbnail from "./BackgroundThumbnail";
 import TopRatedMoviePreview from "./TopRatedMoviePreview";
 
 const BackgroundThumbnailContainer = (movie: IMovieItem) => {
-  console.log(movie);
   return createDOMElement({
     tag: "div",
     class: "background-container",

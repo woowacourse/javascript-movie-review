@@ -19,7 +19,6 @@ class DetailModalController {
       this.#view.renderLoading();
 
       const movieDetail = await this.#model.getMovieDetailById(movieId);
-      console.log(movieDetail);
 
       this.#view.renderDetailModalWhenReady(movieDetail, () => {
         this.#view.bindCloseEvents(() => this.closeModal());
