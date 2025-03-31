@@ -9,7 +9,6 @@ import { Text } from '../common/Text';
 import { MovieItem } from './MovieItem';
 import { MovieSkeleton } from './MovieSkeleton';
 import { Empty } from './Empty';
-import { Img } from '../common/Img';
 
 let isLoading = false;
 let hasMorePages = true;
@@ -23,7 +22,6 @@ const renderErrorState = () => {
 
   titleText.style.display = 'none';
   movieUl.style.display = 'none';
-  loadingIndicator.style.display = 'none';
 
   const errorContainer = createElement('div', {
     classList: 'error-container',
@@ -41,10 +39,6 @@ const renderErrorState = () => {
   sectionElement.insertBefore(errorContainer, movieUl);
 };
 
-const createSkeletonItems = (count = 20) => {
-  return Array.from({ length: count }, () => MovieSkeleton());
-};
-
 const createMovieItems = (movies: MovieItemType[]) => {
   return movies.map((movie) => MovieItem(movie));
 };
@@ -58,23 +52,6 @@ const updateListTitle = (
     ? `검색 결과: ${query}`
     : '지금 인기 있는 영화';
 };
-
-const loadingIndicator = createElement('div', {
-  classList: 'loading-indicator',
-  children: [
-    Img({
-      src: './images/loading.png',
-      width: '35',
-      height: '35',
-      classList: ['loading-spinner'],
-    }),
-    Text({
-      props: { textContent: '로딩 중...' },
-      classList: ['loading-text'],
-    }),
-  ],
-});
-loadingIndicator.style.display = 'none';
 
 const observerTarget = Text({
   classList: ['observer-target', 'observer-height', 'w-full', 'mt-20'],
@@ -91,24 +68,32 @@ const movieUl = createElement<HTMLUListElement>('ul', {
 
 const sectionElement = createElement('section', {
   classList: 'container',
-  children: [titleText, movieUl, observerTarget, loadingIndicator],
+  children: [titleText, movieUl, observerTarget],
 });
 
 const mainElement = createElement('main', {
   children: [sectionElement],
 });
 
+const createSkeletonItems = (count = 20) => {
+  return Array.from({ length: count }, () => {
+    const skeleton = MovieSkeleton();
+    skeleton.classList.add('next-page-skeleton');
+    return skeleton;
+  });
+};
+
 const loadNextPage = async () => {
   if (isLoading || !hasMorePages) return;
-
   isLoading = true;
-  loadingIndicator.style.display = 'flex';
+
+  movieUl.append(...createSkeletonItems());
 
   const response = movieFetcher.currentMovieResponse;
   hasMorePages = response.page < response.total_pages;
 
   if (!hasMorePages) {
-    loadingIndicator.style.display = 'none';
+    removeSkeletons();
     return;
   }
 
@@ -121,27 +106,28 @@ const loadNextPage = async () => {
   isLoading = false;
 };
 
+const removeSkeletons = () => {
+  const skeletons = movieUl.querySelectorAll('.next-page-skeleton');
+  skeletons.forEach((skeleton) => skeleton.remove());
+};
+
 const setupInfiniteScroll = () => {
   if (observer) {
     observer.disconnect();
   }
 
-  observer = new IntersectionObserver(
-    (entries) => {
-      if (entries[0].isIntersecting && !isLoading && hasMorePages) {
-        loadNextPage();
-      }
-    },
-    { rootMargin: '100px' },
-  );
+  observer = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting && !isLoading && hasMorePages) {
+      loadNextPage();
+    }
+  });
 
   observer.observe(observerTarget);
 };
 
 const renderInitialLoadingState = () => {
-  const skeletons = createSkeletonItems(20);
   movieUl.innerHTML = '';
-  movieUl.append(...skeletons);
+  movieUl.append(...createSkeletonItems());
 };
 
 const renderEmptyState = () => {
@@ -149,7 +135,6 @@ const renderEmptyState = () => {
 
   movieUl.innerHTML = '';
   movieUl.appendChild(emptyElement);
-  loadingIndicator.style.display = 'none';
   observerTarget.classList.add('hidden');
 };
 
@@ -158,14 +143,15 @@ const renderMovies = (movies: MovieItemType[], response: MovieResponse) => {
 
   if (response.page === 1) {
     movieUl.innerHTML = '';
+    movieUl.append(...movieElements);
+  } else {
+    removeSkeletons();
+    movieUl.append(...movieElements);
   }
-
-  movieUl.append(...movieElements);
 
   hasMorePages = response.page < response.total_pages;
 
   if (!hasMorePages) {
-    loadingIndicator.style.display = 'none';
     observerTarget.classList.add('hidden');
   } else {
     observerTarget.classList.remove('hidden');
@@ -201,16 +187,14 @@ const renderMovieList = () => {
     return;
   }
 
-  if (!isLoadingState || response.page > 1) {
+  if (!isLoadingState) {
     renderMovies(results, response);
     setupInfiniteScroll();
-    loadingIndicator.style.display = 'none';
   }
 };
 
 export const handleSearch = async (query: string) => {
   isFirstSearch = true;
-
   isLoading = false;
   hasMorePages = true;
 
@@ -233,13 +217,4 @@ export const MovieList = (): HTMLElement => {
   movieFetcherEvent.subscribe(renderMovieList);
 
   return mainElement;
-};
-
-export const cleanupMovieList = (element: HTMLElement) => {
-  if (
-    (element as any).cleanup &&
-    typeof (element as any).cleanup === 'function'
-  ) {
-    (element as any).cleanup();
-  }
 };
