@@ -3,7 +3,6 @@ import { PageInstance } from './router';
 
 export class PageRenderer {
   #currentPage: PageInstance | null = null;
-  #modal: Modal = new Modal();
 
   render({ $container, Page }: { $container: HTMLElement; Page: PageInstance }) {
     if (this.#currentPage?.destroy) {
@@ -13,7 +12,7 @@ export class PageRenderer {
     $container.innerHTML = '';
     Page.element.classList.add('render-content');
     $container.appendChild(Page.element);
-    $container.appendChild(this.#modal.element);
+    $container.appendChild(new Modal().element);
     this.#currentPage = Page;
   }
 }
