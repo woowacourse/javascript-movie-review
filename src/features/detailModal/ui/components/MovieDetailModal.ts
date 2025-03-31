@@ -1,5 +1,5 @@
 import { IMovieDetail } from "../../../../shared/types/movies";
-import { storageService } from "../../../movieRating/service/storageService";
+import { movieRatingStorage } from "../../service/movieRatingStorage";
 import { toElement } from "../../../../shared/utils/toElement";
 import { removeDetailModal } from "../removeDetailModal";
 import { updateMovieRating } from "../updateMovieRating";
@@ -8,7 +8,7 @@ import MyRatingInDetailModal from "./MyRatingInDetailModal";
 export default function MovieDetailModal(movieDetails: IMovieDetail) {
   const $container = document.getElementById("wrap");
 
-  const rating = storageService(movieDetails.id);
+  const rating = movieRatingStorage(movieDetails.id);
   const movieDetailModal = toElement(`
     <div class="modal-background active" id="modalBackground">
       <div class="modal" data-id=${movieDetails.id}>
@@ -45,7 +45,7 @@ export default function MovieDetailModal(movieDetails: IMovieDetail) {
             <hr class="bar"/>
             <div class="my-rating-container">
               <h2>내 별점</h2>
-                ${MyRatingInDetailModal(rating)}
+                ${MyRatingInDetailModal(rating * 2)}
             </div>
             <hr class="bar"/>
             <div class="detail">

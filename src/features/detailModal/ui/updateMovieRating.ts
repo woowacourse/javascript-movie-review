@@ -1,4 +1,4 @@
-import { storageService } from "../../movieRating/service/storageService";
+import { movieRatingStorage } from "../service/movieRatingStorage";
 import { toElement } from "../../../shared/utils/toElement";
 import MyRatingInDetailModal from "./components/MyRatingInDetailModal";
 
@@ -16,7 +16,7 @@ export const updateMovieRating = () => {
       const $modal = (target as HTMLElement).closest(".modal") as HTMLElement;
       const movieId = $modal.dataset.id;
 
-      storageService(Number(movieId), rating);
+      movieRatingStorage(Number(movieId), rating);
 
       const $myRatingContainer = document.querySelector(
         ".my-rating-container"
