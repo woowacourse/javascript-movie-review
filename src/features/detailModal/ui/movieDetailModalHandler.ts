@@ -4,10 +4,16 @@ import MovieDetailModal from "./components/MovieDetailModal";
 
 export const movieDetailModalHandler = () => {
   const $movieCardButton = document.querySelectorAll(".movie-card-button");
+
   $movieCardButton.forEach((button) => {
     button.addEventListener("click", async (e) => {
       const target = e.target as HTMLElement;
       const movieId = target.closest(".movie-card-button")?.id;
+
+      const $modal = document.querySelector(".modal") as HTMLElement;
+      if ($modal) {
+        return;
+      }
 
       try {
         const {
