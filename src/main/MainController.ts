@@ -23,6 +23,8 @@ class MainController {
     this.mainElement = document.querySelector("main") as HTMLElement;
     this.movieResults = new MovieResults();
     this.storageMovieResults = new StorageMovieResults();
+
+    this.initController();
   }
 
   initController() {
@@ -51,7 +53,6 @@ class MainController {
   }
 
   async render() {
-    this.initController();
     await this.movieListController.render();
     await this.backgroundThumbnailController.render(this.movieResults.getFirstMovieItem());
 
