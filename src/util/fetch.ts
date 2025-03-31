@@ -23,9 +23,6 @@ export async function fetchUrl<T>(
   }
 
   const finalUrl = buildMovieUrl(url, path, queryObject);
-  // AbortController를 생성하여 signal을 옵션에 추가
-  const controller = new AbortController();
-  options.signal = controller.signal;
 
   try {
     const response = await fetch(finalUrl, options);
@@ -37,10 +34,6 @@ export async function fetchUrl<T>(
     const data = await response.json();
     return data;
   } catch (error) {
-    if ((error as any).name === "AbortError") {
-      throw error;
-    }
-
     if (!navigator.onLine) {
       throw new Error(ERROR_MESSAGE.NETWORK_DISCONNECTED);
     }
