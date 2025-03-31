@@ -1,6 +1,7 @@
 import { getState } from "../store/movieStore.ts";
 import { fetchMovies } from "../store/movieService.ts";
 import { renderMovies } from "./movieUI.ts";
+import Skeleton from "../components/Skeleton.ts";
 
 const $main = document.querySelector("main");
 const $sentinel = document.getElementById("scroll-sentinel");
@@ -16,7 +17,11 @@ export const observer = new IntersectionObserver(async (entries, observer) => {
           return;
         }
 
+        const skeletonEl = Skeleton.render($main);
+
         await fetchMovies(currentPage + 1, query);
+
+        Skeleton.remove(skeletonEl);
         renderMovies($main);
       }
     }

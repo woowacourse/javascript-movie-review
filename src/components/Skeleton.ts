@@ -1,4 +1,4 @@
-import { $, createElement } from "../utils/dom";
+import { createElement } from "../utils/dom";
 
 const Skeleton = {
   render: (el: Element) => {
@@ -18,12 +18,10 @@ const Skeleton = {
     });
 
     el.appendChild($skeletonUl);
+    return $skeletonUl;
   },
-  remove: () => {
-    const $skeletonUl = $(".skeleton-list");
-    if ($skeletonUl) {
-      $skeletonUl.remove();
-    }
+  remove: ($skeleton: Element) => {
+    $skeleton.remove();
   },
 };
 export default Skeleton;
