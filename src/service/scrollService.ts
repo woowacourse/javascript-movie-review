@@ -7,6 +7,33 @@ export type InfiniteScrollInstance = {
   stopInfiniteScroll: () => void;
 } | null;
 
+/**
+ * 페이지 상단으로 부드럽게 스크롤하는 함수
+ * @returns 스크롤이 최상단에 도달했을 때 resolve되는 Promise
+ */
+export function scrollToTop(): Promise<void> {
+  return new Promise((resolve) => {
+    const onScroll = () => {
+      if (window.scrollY === 0) {
+        window.removeEventListener("scroll", onScroll);
+        resolve();
+      }
+    };
+
+    window.addEventListener("scroll", onScroll);
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+
+    // 혹시 이미 맨 위에 있으면 바로 resolve
+    if (window.scrollY === 0) {
+      window.removeEventListener("scroll", onScroll);
+      resolve();
+    }
+  });
+}
+
 export function setupInfiniteScroll() {
   const $thumbnailContainer = document.getElementById("thumbnail-container");
   if (!$thumbnailContainer) return null;

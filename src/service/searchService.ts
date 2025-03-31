@@ -16,29 +16,7 @@ import { handleNetworkError } from "./errorService.ts";
 import { getScrollInstance, setLoadMovies } from "../state/movieState.ts";
 
 import fetchAndSetLoadingEvent from "./fetchService.ts";
-
-function scrollToTop(): Promise<void> {
-  return new Promise((resolve) => {
-    const onScroll = () => {
-      if (window.scrollY === 0) {
-        window.removeEventListener("scroll", onScroll);
-        resolve();
-      }
-    };
-
-    window.addEventListener("scroll", onScroll);
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-
-    // 혹시 이미 맨 위에 있으면 바로 resolve
-    if (window.scrollY === 0) {
-      window.removeEventListener("scroll", onScroll);
-      resolve();
-    }
-  });
-}
+import { scrollToTop } from "./scrollService.ts";
 
 export default async function handleSearch(searchValue: string) {
   // 최상단으로 스크롤 이동

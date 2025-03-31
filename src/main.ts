@@ -26,6 +26,7 @@ import {
 } from "./service/errorService.ts";
 import { bindAllEvents } from "./binders/event-binders";
 import { convertResultToTMDBDetails } from "./util/adapters.ts";
+import initScrollToTopButton from "./components/scrollToTop/scrollToTop.ts";
 
 const handleError = (error: Error) => {
   Toast.showToast(error.message, "error", 5000);
@@ -63,6 +64,8 @@ const main = async () => {
     setScrollInstance(infiniteScrollInstance);
 
     bindAllEvents(infiniteScrollInstance);
+
+    initScrollToTopButton();
   } catch (error) {
     handleConnectionError();
   }
