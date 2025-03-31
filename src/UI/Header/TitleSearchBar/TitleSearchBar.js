@@ -46,7 +46,16 @@ class TitleSearchBar {
   }
 
   handleLogoClick() {
-    location.replace(location.origin);
+    const isGithubPages = window.location.hostname.includes("github.io");
+
+    if (isGithubPages) {
+      const repoName = window.location.pathname.split("/")[1];
+      location.replace(`${location.origin}/${repoName}/`);
+    }
+
+    if (!isGithubPages) {
+      location.replace(location.origin);
+    }
   }
 }
 export default TitleSearchBar;
