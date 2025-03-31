@@ -1,101 +1,75 @@
 import { getPopularMovieResult } from "../api/getPopularMovieResult";
-import MovieItem from "../component/movieList/MovieItem";
-import MovieListSection from "../component/movieList/MovieListSection";
 import mainElement from "../dom/mainElement";
 import MovieListModel from "../domain/MovieListModel";
+import MovieListScrollManager from "../lib/scroll/MovieListScrollManager";
 import { IMovieItem, IMovieResult } from "../types/movieResultType";
-import { $ } from "../util/selector";
+import MovieListView from "../view/MovieListView";
 
 class MovieListController {
-  movieListModel;
-  mainElement;
-
-  onAfterFetchMovieList;
-  onDetailModalOpen;
+  #model;
+  #view;
+  #scrollManager: MovieListScrollManager;
 
   isLoading = false;
 
+  #onFetchMovieList;
+  #onDetailModalOpen;
+
   constructor({
-    onAfterFetchMovieList,
+    onFetchMovieList,
     onDetailModalOpen,
   }: {
-    onAfterFetchMovieList: (movie: IMovieItem) => void;
+    onFetchMovieList: (movie: IMovieItem) => void;
     onDetailModalOpen: (movieId: number) => void;
   }) {
-    this.movieListModel = MovieListModel();
-    this.mainElement = mainElement;
-    this.onAfterFetchMovieList = onAfterFetchMovieList;
-    this.onDetailModalOpen = onDetailModalOpen;
+    this.#model = MovieListModel();
+    this.#view = new MovieListView(mainElement);
+    this.#scrollManager = new MovieListScrollManager(this.#handleScroll.bind(this));
+
+    this.#onFetchMovieList = onFetchMovieList;
+    this.#onDetailModalOpen = onDetailModalOpen;
   }
 
-  bindEvents() {
-    const ulElement = $("ul", this.mainElement);
-    ulElement?.addEventListener("click", (event) => {
-      const target = event.target as HTMLElement;
-      const item = target.closest(".item");
+  async render() {
+    const movieList = await this.#fetchAndStoreMovies();
+    this.#view.renderInitialList(movieList);
+    this.#view.bindMovieClickEvent(this.#onDetailModalOpen);
+    this.#scrollManager.bind();
 
-      if (item) {
-        this.onDetailModalOpen(Number(item.id));
-      }
-    });
-
-    this.bindScrollEvent();
+    this.#onFetchMovieList(movieList[0]);
   }
 
-  bindScrollEvent() {
-    window.addEventListener("scroll", async () => {
-      const scrollBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 200;
-
-      if (!scrollBottom || this.isLoading || !this.movieListModel.hasMore()) return;
-
-      this.isLoading = true;
-      await this.addMovieList();
-      this.isLoading = false;
-    });
+  async renderExistingMovieList() {
+    const movieList = this.#model.getMovieList();
+    this.#view.renderInitialList(movieList);
+    this.#view.bindMovieClickEvent(this.#onDetailModalOpen);
+    this.#scrollManager.bind();
   }
 
-  async fetchAndStoreMovies(page: number = 1) {
+  removeScrollEvent() {
+    this.#scrollManager.unbind();
+  }
+
+  async #fetchAndStoreMovies(page: number = 1) {
     const {
       page: newPage,
       total_pages: totalPage,
       results: movieList,
     }: IMovieResult = await getPopularMovieResult(page);
 
-    this.movieListModel.addMovieList(newPage, movieList);
-    this.movieListModel.initializeTotalPage(totalPage);
+    this.#model.addMovieList(newPage, movieList);
+    this.#model.initializeTotalPage(totalPage);
 
-    return { movieList, hasMore: newPage !== totalPage };
+    return movieList;
   }
 
-  async render() {
-    const { movieList } = await this.fetchAndStoreMovies();
-    this.renderMovieList({ movieList });
-    this.onAfterFetchMovieList(movieList[0]);
+  async #handleScroll() {
+    if (!MovieListScrollManager.isNearBottom() || this.isLoading || !this.#model.hasMore()) return;
 
-    this.bindEvents();
-  }
-
-  renderMovieList({ movieList }: { movieList: IMovieItem[] }) {
-    const sectionElement = MovieListSection({ title: "지금 인기 있는 영화", movieList });
-    this.mainElement.replaceChildren(sectionElement);
-  }
-
-  async renderExistingMovieList() {
-    const movieList = this.movieListModel.getMovieList();
-    const sectionElement = MovieListSection({ title: "지금 인기 있는 영화", movieList });
-
-    this.mainElement.replaceChildren(sectionElement);
-
-    this.bindEvents();
-  }
-
-  async addMovieList() {
-    const movieListContainer = $("ul", this.mainElement);
-    if (!movieListContainer) return;
-
-    const { movieList } = await this.fetchAndStoreMovies(this.movieListModel.getPage() + 1);
-
-    movieListContainer.append(...movieList.map((movie) => MovieItem(movie)));
+    this.isLoading = true;
+    const movieList = await this.#fetchAndStoreMovies(this.#model.getPage() + 1);
+    this.#view.appendMovies(movieList);
+    this.isLoading = false;
   }
 }
 

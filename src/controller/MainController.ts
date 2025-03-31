@@ -27,7 +27,7 @@ class MainController {
     });
 
     this.movieListController = new MovieListController({
-      onAfterFetchMovieList: (movie) => {
+      onFetchMovieList: (movie) => {
         this.backgroundThumbnailController.renderBackgroundThumbnail(movie);
       },
       onDetailModalOpen: (movieId: number) => {
@@ -63,6 +63,7 @@ class MainController {
   async #onSearchKeywordSubmit(searchValue: string) {
     try {
       this.backgroundThumbnailController.hideBackground();
+      this.movieListController.removeScrollEvent();
       const searchMovieListController = new SearchMovieListController({
         searchValue,
         onDetailModalOpen: (movieId: number) => {
