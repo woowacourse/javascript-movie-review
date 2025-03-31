@@ -15,6 +15,7 @@ import Button from "../@common/Button";
 import Input from "../@common/Input";
 
 interface HeaderProps {
+  id: number;
   rate: number;
   title: string;
   src: string;
@@ -46,7 +47,6 @@ const Header = (props: HeaderProps) => {
     }
     const detail = await fetchMovieDetail(id);
     setMovieDetail(detail);
-    // observeLastMovie();
   });
 
   return `

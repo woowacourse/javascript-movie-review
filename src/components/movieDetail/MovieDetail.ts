@@ -1,3 +1,4 @@
+import { images } from "../../assets/images";
 import { movieDetail, setIsModalOpen } from "../../store/store";
 import { useEvents } from "../../utils/Core";
 import { $, $$ } from "../../utils/domHelper";
@@ -17,11 +18,11 @@ const MovieDetail = () => {
   const handleEscapeKey = (event: KeyboardEvent) => {
     if (event.key === "Escape") {
       setIsModalOpen(false);
-      observeLastMovie();
+
       document.removeEventListener("keydown", handleEscapeKey);
+      observeLastMovie();
     }
   };
-
   document.addEventListener("keydown", handleEscapeKey);
 
   addEvent("click", ".close-modal", () => {
@@ -29,41 +30,60 @@ const MovieDetail = () => {
     setIsModalOpen(false);
     setTimeout(() => {
       observeLastMovie();
-    }, 500); // 500ms 대기 후 observer 설정
+    }, 500);
   });
 
   addEvent("click", ".my-vote-star", (event) => {
-    window.localStorage.setItem(movieDetail.id, event.target.dataset.index);
+    const target = (event.target as HTMLElement).closest(
+      ".my-vote-star"
+    ) as HTMLImageElement;
+    if (!target || !target.dataset.index) return;
+    if (movieDetail)
+      window.localStorage.setItem(
+        JSON.stringify(movieDetail.id),
+        target.dataset.index
+      );
   });
 
   addEvent("mouseover", ".my-vote-star", (event) => {
-    const index = parseInt(event.target.dataset.index);
+    const target = (event.target as HTMLElement).closest(
+      ".my-vote-star"
+    ) as HTMLImageElement;
+    if (!target || !target.dataset.index) return;
+    const index = Number(target.dataset.index);
 
-    const starElements = $$(".my-vote-star");
+    const starElements = $$(".my-vote-star") as NodeListOf<HTMLImageElement>;
     const starTextElement = $(".my-vote-text");
 
     starElements.forEach((element, i) => {
       if (i <= index) {
-        element.src = "./star_filled.png";
+        element.src = images.starFull;
         starTextElement.textContent = VOTE_TEXT[i];
-      } else element.src = "./star_empty.png";
+      } else element.src = images.starEmpty;
     });
   });
 
   addEvent("mouseout", ".my-vote-star", () => {
-    const vIndex = Number(window.localStorage.getItem(movieDetail.id));
-    const starElements = $$(".my-vote-star");
-    starElements.forEach((element) => {
-      const index = parseInt(element.dataset.index);
-      if (vIndex >= index) element.src = "./star_filled.png";
-      else element.src = "./star_empty.png";
-    });
-    $(".my-vote-text").textContent = VOTE_TEXT[vIndex];
+    if (movieDetail) {
+      const vIndex = Number(
+        window.localStorage.getItem(JSON.stringify(movieDetail.id))
+      );
+      const starElements = $$(".my-vote-star") as NodeListOf<HTMLImageElement>;
+      starElements.forEach((element) => {
+        if (!element.dataset.index) return;
+        const index = parseInt(element.dataset.index);
+        if (vIndex >= index) element.src = images.starFull;
+        else element.src = images.starEmpty;
+      });
+      $(".my-vote-text").textContent = VOTE_TEXT[vIndex];
+    }
   });
 
   if (!movieDetail) return;
 
-  const voteIndex = window.localStorage.getItem(movieDetail.id) || -1;
+  const voteIndex =
+    Number(window.localStorage.getItem(JSON.stringify(movieDetail.id))) || -1;
+
   return `
         <button class="close-modal" id="closeModal">
           <img src=/modal_button_close.png />
@@ -84,7 +104,7 @@ const MovieDetail = () => {
     .join(", ")}
             </p>
             <p class="rate">
-              <img src="./star_filled.png" class="star" /><span
+              <img src=${images.starFull} class="star" /><span
                 >${movieDetail.vote_average.toFixed(1)}</span
               >
             </p>
@@ -96,7 +116,7 @@ const MovieDetail = () => {
                 { length: 5 },
                 (_, index) =>
                   `<img src=${
-                    voteIndex < index ? "./star_empty.png" : "./star_filled.png"
+                    voteIndex < index ? images.starEmpty : images.starFull
                   } class="star my-vote-star" data-index="${index}" />`
               ).join("")}
               </div>
