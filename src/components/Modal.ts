@@ -107,6 +107,38 @@ const Modal = ({ item }: ModalProps) => {
   closeButton?.addEventListener("click", handleClickClose);
   $modal.addEventListener("click", handleClickBackDrop);
 
+  const $star = $modal.querySelectorAll(".star-container .star");
+  $star.forEach((star, index) => {
+    star.addEventListener("click", () => {
+      const rating = (index + 1) * 2; // 1번째 별:2, 2번째:4, ..., 5번째:10
+      $star.forEach((s, i) => {
+        s.setAttribute("src", i <= index ? "images/star_filled.png" : "images/star_empty.png");
+      });
+      let comment = "";
+      switch (rating) {
+        case 2:
+          comment = "최악이예요";
+          break;
+        case 4:
+          comment = "별로예요";
+          break;
+        case 6:
+          comment = "보통이에요";
+          break;
+        case 8:
+          comment = "재미있어요";
+          break;
+        case 10:
+          comment = "명작이에요";
+          break;
+      }
+      const ratingTextSpan = $modal.querySelector(".my-rate-content span");
+      if (ratingTextSpan) {
+        ratingTextSpan.textContent = `${comment} (${rating}/10)`;
+      }
+    });
+  });
+
   return $modal;
 };
 

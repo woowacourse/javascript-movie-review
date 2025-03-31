@@ -5,4 +5,5 @@ export type Movie = {
   imageSrc: string | null;
   description: string;
   releaseDate: string;
+  genres?: string[];
 };

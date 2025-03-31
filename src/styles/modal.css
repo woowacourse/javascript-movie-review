@@ -97,6 +97,10 @@ body.modal-open {
     color: var(--color-yellow);
 }
 
+.star-container {
+    cursor: pointer;
+}
+
 .modal-description h3 {
     font-size: 1.2rem;
     font-weight: bold;
