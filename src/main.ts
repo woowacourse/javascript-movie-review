@@ -1,12 +1,13 @@
 import { getMovieList } from "./features/movie/api/getMovieList";
-import Header from "./shared/ui/components/Header";
+import Header from "./features/movie/ui/components/Header";
 import { searchFormSubmitHandler } from "./features/search/ui/searchFormSubmitHandler";
-import { addMovieCard } from "./shared/ui/movies/addMovieCard";
+import { addMovieCard } from "./features/movie/ui/addMovieCard";
 import ErrorModal from "./shared/ui/components/ErrorModal";
-import { withSkeleton } from "./shared/ui/skeletons/withSkeleton";
+import { withSkeleton } from "./features/skeleton/ui/withSkeleton";
 import { initUrl } from "./shared/utils/updateUrl";
-import { movieDetailModalHandler } from "./shared/ui/detailModal/movieDetailModalHandler";
+import { movieDetailModalHandler } from "./features/detailModal/ui/movieDetailModalHandler";
 import { intersectionObserver } from "./shared/ui/intersectionObserver/intersectionObserver";
+import { addMoreMovies } from "./features/movie/ui/addMoreMovies";
 
 async function init() {
   const $movieList = document.querySelector(".thumbnail-list") as HTMLElement;
@@ -51,7 +52,9 @@ async function init() {
     }
   });
 
-  intersectionObserver($movieList);
+  intersectionObserver(() =>
+    withSkeleton($movieList, addMoreMovies($movieList))
+  );
 
   movieDetailModalHandler();
 }

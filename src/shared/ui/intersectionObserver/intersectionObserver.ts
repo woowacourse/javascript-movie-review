@@ -1,8 +1,6 @@
 import ErrorModal from "../components/ErrorModal";
-import { addMoreMovies } from "../movies/addMoreMovies";
-import { withSkeleton } from "../skeletons/withSkeleton";
 
-export const intersectionObserver = (movieList: HTMLElement) => {
+export const intersectionObserver = (handler: () => Promise<void>) => {
   const target = document.getElementById("target") as HTMLElement;
 
   const observer = new IntersectionObserver((entries) => {
@@ -10,7 +8,7 @@ export const intersectionObserver = (movieList: HTMLElement) => {
       if (entry.isIntersecting) {
         const handleFetch = async () => {
           try {
-            await withSkeleton(movieList, addMoreMovies(movieList));
+            await handler();
           } catch (error) {
             ErrorModal("영화 리스트를 불러오는데 실패하였습니다.");
             observer.disconnect();
