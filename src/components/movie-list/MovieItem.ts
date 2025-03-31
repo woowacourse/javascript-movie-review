@@ -1,4 +1,7 @@
 import { Movie } from "../../../types/movie";
+import createModal from "../modal.ts";
+
+const modal = createModal();
 
 const MovieItem = ({ title, voteAverage, posterPath }: Movie) => {
   const movieItem = document.createElement("li");
@@ -25,16 +28,39 @@ const MovieItem = ({ title, voteAverage, posterPath }: Movie) => {
 
   img.onload = () => {
     movieItem.innerHTML = `
-    <div class="item">
-      <img class="thumbnail" src="${img.src}" alt="${title}" />
-      <div class="item-desc">
-        <p class="rate">
-          <img src="images/star_empty.png" class="star" /><span>${voteAverage}</span>
-        </p>
-        <strong>${title}</strong>
+      <div class="item">
+        <img class="thumbnail" src="${img.src}" alt="${title}" />
+        <div class="item-desc">
+          <p class="rate">
+            <img src="images/star_empty.png" class="star" /><span>${voteAverage}</span>
+          </p>
+          <strong class="movie-title">${title}</strong>
+        </div>
       </div>
-    </div>
-  `;
+    `;
+
+    const openModal = () => {
+      modal.setContent(`
+        <div class="modal-container">
+          <div class="modal-image">
+            <img src="${img.src}" alt="${title}" />
+          </div>
+          <div class="modal-description">
+            <h2>${title}</h2>
+            <p class="rate">
+              <img src="images/star_filled.png" class="star" />
+              <span>${voteAverage}</span>
+            </p>
+          </div>
+        </div>
+      `);
+      modal.show();
+    };
+
+    movieItem.querySelector(".thumbnail")?.addEventListener("click", openModal);
+    movieItem
+      .querySelector(".movie-title")
+      ?.addEventListener("click", openModal);
   };
 
   return movieItem;
