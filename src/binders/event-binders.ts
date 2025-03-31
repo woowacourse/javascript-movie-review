@@ -174,10 +174,18 @@ function bindLoadMoreButton(infiniteScrollInstance: InfiniteScrollInstance) {
           infiniteScrollInstance.resumeInfiniteScroll();
         }
       } else {
-        Toast.showToast("인터넷 연결을 확인해주세요.", "error", 2000);
+        Toast.showToast(
+          "인터넷 연결을 확인하고 더보기 버튼을 눌러주세요.",
+          "error",
+          2000
+        );
       }
     } catch (error) {
-      Toast.showToast("인터넷 연결을 확인해주세요.", "error", 2000);
+      Toast.showToast(
+        "인터넷 연결을 확인하고 더보기 버튼을 눌러주세요.",
+        "error",
+        2000
+      );
     }
   });
 }

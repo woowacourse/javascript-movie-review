@@ -29,5 +29,4 @@ export function handleNetworkError() {
     scrollInstance.stopInfiniteScroll();
   }
   showLoadMoreButton();
-  Toast.showToast(retryNotice, "info", 2000);
 }
