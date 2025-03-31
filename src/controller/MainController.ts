@@ -1,4 +1,5 @@
 import { ERROR_MESSAGE } from "../constant/errorMessage";
+import { scrollToTop } from "../util/scroll";
 import BackgroundThumbnailController from "./BackgroundThumbnailController";
 import DetailModalController from "./DetailModalController";
 import HeaderController from "./HeaderController";
@@ -16,6 +17,7 @@ class MainController {
   detailModalController;
 
   constructor() {
+    scrollToTop();
     this.messageModalController = new MessageModalController();
     this.detailModalController = new DetailModalController({
       onErrorModalOpen: this.#onErrorModalOpen.bind(this),
@@ -63,6 +65,8 @@ class MainController {
   }
 
   async #onSearchKeywordSubmit(searchValue: string) {
+    scrollToTop();
+
     try {
       this.backgroundThumbnailController.hideBackground();
       this.movieListController.removeScrollEvent();
@@ -73,6 +77,8 @@ class MainController {
   }
 
   #onHomeLogoClick() {
+    scrollToTop();
+
     this.backgroundThumbnailController.showBackground();
     this.searchMovieListController.removeScrollEvent();
     this.movieListController.renderExistingMovieList();
