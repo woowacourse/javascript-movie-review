@@ -12,7 +12,6 @@ export const ratingDescriptions = {
 
 function MovieModal(movieData: MovieDetailInfo, movieId: number) {
   const $modalBackground = MovieDetailModal(movieData, movieId);
-
   registerModalEventHandlers($modalBackground, movieId);
   return $modalBackground;
 }

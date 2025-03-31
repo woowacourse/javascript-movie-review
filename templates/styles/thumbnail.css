@@ -3,8 +3,8 @@
 .thumbnail-list {
   margin: 0 auto 56px;
   display: grid;
-  grid-template-columns: repeat(5, 200px);
-  gap: 70px;
+  grid-template-columns: repeat(4, 200px);
+  gap: 53px;
 }
 
 .thumbnail {
@@ -38,3 +38,23 @@ p.rate > span {
   width: 16px;
   top: 1px;
 }
+
+@media (max-width:970px) {
+  .thumbnail-list{
+    grid-template-columns: repeat(3, 200px);
+  }
+
+}
+
+@media (max-width:720px) {
+  .thumbnail-list{
+    grid-template-columns: repeat(2, 200px);
+  }  
+}
+
+@media (max-width:500px) {
+  .thumbnail-list{
+    grid-template-columns: repeat(1, 200px);
+  }  
+}
+

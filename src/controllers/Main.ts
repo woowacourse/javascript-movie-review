@@ -13,17 +13,13 @@ export interface ObserverHTMLElement extends HTMLElement {
 }
 
 async function renderHeader({ title, poster_path, vote_average }: MovieInfo) {
-  const container = document.querySelector("#wrap");
-  const logoSearchBar = LogoSearchBar();
+  const $wrap = document.querySelector("#wrap");
   const $header = Header({
     title,
     poster_path,
     vote_average
   });
-
-  container?.prepend($header);
-  $header.prepend(logoSearchBar);
-  container?.prepend(logoSearchBar);
+  $wrap?.prepend($header);
 }
 
 function renderFooter() {

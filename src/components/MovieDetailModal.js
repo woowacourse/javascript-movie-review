@@ -26,7 +26,7 @@ function MovieDetailModal(
         <img src="https://image.tmdb.org/t/p/original${poster_path}.jpg" />
       </div>
       <div class="modal-description">
-        <h2>${title}</h2>
+        <h2 class="modal-title">${title}</h2>
         <p class="category">${releaseYear} · ${genresString}</p>
         <div class="average-container">
           <p>평균</p>
