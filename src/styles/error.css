@@ -1,0 +1,23 @@
+.error-box-container {
+  height: 300px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.error-status {
+  font-size: 2rem;
+  text-align: center;
+}
+
+.error-message {
+  font-size: 20px;
+  line-height: 20px;
+}
+
+#redirect-route-button {
+  margin: 10px 0;
+}
