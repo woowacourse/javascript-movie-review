@@ -62,9 +62,8 @@ class MainController {
     }
   }
 
-  #openModal(text: string) {
-    this.messageModalController.changeContentMessage(text);
-    this.messageModalController.showModal();
+  #openMessageModal(text: string) {
+    this.messageModalController.showModal(text);
   }
 
   async #onSearchKeywordSubmit(searchValue: string) {
@@ -84,7 +83,7 @@ class MainController {
   }
 
   #onErrorModalOpen(error: Error) {
-    this.#openModal(ERROR_MESSAGE[Number(error.message)] || "알 수 없는 오류가 발생했습니다.");
+    this.#openMessageModal(ERROR_MESSAGE[Number(error.message)] || "알 수 없는 오류가 발생했습니다.");
   }
 }
 

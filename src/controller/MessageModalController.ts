@@ -1,47 +1,23 @@
-import MessageModal from "../component/MessageModal";
-import mainElement from "../dom/mainElement";
-import { $ } from "../util/selector";
+import MessageModalView from "../view/MessageModalView";
 
 class MessageModalController {
-  mainElement;
-  messageModalElement;
+  #view;
 
   constructor() {
-    this.mainElement = mainElement;
-    this.messageModalElement = MessageModal("") as HTMLDialogElement;
-
-    this.renderMessageModalFrame();
-  }
-
-  bindEvents() {
-    this.messageModalElement.addEventListener("click", (e) => {
-      if (e.target === e.currentTarget) this.closeModal();
-    });
-
-    window.addEventListener("keydown", (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        this.closeModal();
-      }
-    });
-  }
-
-  renderMessageModalFrame() {
-    this.mainElement.insertAdjacentElement("afterend", this.messageModalElement);
-    this.bindEvents();
+    this.#view = new MessageModalView();
   }
 
   changeContentMessage(text: string) {
-    const spanElement = $("span", this.messageModalElement);
-
-    if (spanElement) spanElement.innerText = text;
+    this.#view.updateText(text);
   }
 
-  showModal() {
-    this.messageModalElement.classList.add("active");
+  showModal(text: string) {
+    this.#view.updateText(text);
+    this.#view.show();
   }
 
   closeModal() {
-    this.messageModalElement.classList.remove("active");
+    this.#view.close();
   }
 }
 export default MessageModalController;
