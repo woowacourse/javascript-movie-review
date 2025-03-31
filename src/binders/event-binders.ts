@@ -5,7 +5,7 @@ import { getShowingItem } from "../state/movieState";
 import { ratingMessages, ratingNumbers } from "../setting/settings";
 import { URLS, defaultOptions } from "../setting/settings";
 import Toast from "../components/Toast/Toast";
-import { LOADING_EVENTS } from "../types/events";
+import { LOADING_EVENTS } from "../../types/events";
 
 const handleLoadingStart = () => {
   const skeleton = document.querySelector(".skeleton-list");
