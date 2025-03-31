@@ -3,35 +3,29 @@ import { hideElement, showElement } from "../view/MovieView";
 import handleItemClick from "../service/detailService";
 import { getShowingItem } from "../state/movieState";
 import { ratingMessages, ratingNumbers } from "../setting/settings";
+import { URLS, defaultOptions } from "../setting/settings";
+import Toast from "../components/Toast/Toast";
+import { LOADING_EVENTS } from "../types/events";
 
-declare global {
-  interface Window {
-    _loadingEventRegistered?: boolean;
-  }
-}
+const handleLoadingStart = () => {
+  const skeleton = document.querySelector(".skeleton-list");
+  const loadMore = document.getElementById("load-more");
+  if (skeleton) showElement(skeleton);
+  if (loadMore) hideElement(loadMore);
+};
+
+const handleLoadingEnd = () => {
+  const skeleton = document.querySelector(".skeleton-list");
+  if (skeleton) hideElement(skeleton);
+};
+
+let isLoadingEventRegistered = false;
 
 function bindLoadingEvents() {
-  if (!window._loadingEventRegistered) {
-    document.addEventListener("loading:start", () => {
-      const skeleton = document.querySelector(".skeleton-list");
-      const loadMore = document.getElementById("load-more");
-      if (skeleton) showElement(skeleton);
-      if (loadMore) hideElement(loadMore);
-    });
-
-    document.addEventListener("loading:end", (e: Event) => {
-      const skeleton = document.querySelector(".skeleton-list");
-      const loadMore = document.getElementById("load-more");
-
-      const customEvent = e as CustomEvent<{ isLastPage: boolean }>;
-
-      if (skeleton) hideElement(skeleton);
-      if (loadMore && (!customEvent.detail || !customEvent.detail.isLastPage)) {
-        showElement(loadMore);
-      }
-    });
-
-    window._loadingEventRegistered = true;
+  if (!isLoadingEventRegistered) {
+    document.addEventListener(LOADING_EVENTS.START, handleLoadingStart);
+    document.addEventListener(LOADING_EVENTS.END, handleLoadingEnd);
+    isLoadingEventRegistered = true;
   }
 }
 
@@ -45,12 +39,6 @@ function bindThumbnailClickEvent() {
     if (liElement?.id) {
       await handleItemClick(liElement.id);
     }
-  });
-}
-
-function bindOnlineEvent(infiniteScrollInstance: InfiniteScrollInstance) {
-  window.addEventListener("online", () => {
-    infiniteScrollInstance?.resumeInfiniteScroll();
   });
 }
 
@@ -170,13 +158,37 @@ function bindHeroEvents() {
   }
 }
 
+function bindLoadMoreButton(infiniteScrollInstance: InfiniteScrollInstance) {
+  const loadMoreButton = document.getElementById("load-more");
+  if (!loadMoreButton) return;
+
+  loadMoreButton.addEventListener("click", async () => {
+    try {
+      const response = await fetch(URLS.config, {
+        ...defaultOptions,
+        method: "GET",
+      });
+
+      if (response.ok) {
+        if (infiniteScrollInstance) {
+          infiniteScrollInstance.resumeInfiniteScroll();
+        }
+      } else {
+        Toast.showToast("인터넷 연결을 확인해주세요.", "error", 2000);
+      }
+    } catch (error) {
+      Toast.showToast("인터넷 연결을 확인해주세요.", "error", 2000);
+    }
+  });
+}
+
 export {
   bindDetailsImageLoadEvent,
   bindLoadingEvents,
   bindModalEvents,
-  bindOnlineEvent,
   bindStarRatingEvents,
   bindThumbnailClickEvent,
   bindHeaderScrollEvent,
   bindHeroEvents,
+  bindLoadMoreButton,
 };

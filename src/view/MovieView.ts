@@ -9,6 +9,16 @@ import Hero from "../components/hero/hero";
 import MovieItem from "../components/moveItem/movieItem";
 import { bindHeroEvents } from "../binders/event-binders";
 
+export interface BasicMovieDetails {
+  poster_path: string;
+  release_date: string;
+  overview: string;
+  title: string;
+  vote_average: number;
+  genres: { name: string }[];
+  id: number;
+}
+
 export function showElement(element: Element | null) {
   element?.classList.remove("hide");
 }
@@ -225,4 +235,22 @@ function getCategoryNames(
   return `${new Date(release_date).getFullYear()} · ${genres
     .map((genre) => genre.name)
     .join(", ")} `;
+}
+
+export function createLoadMoreButton() {
+  const button = document.createElement("button");
+  button.id = "load-more";
+  button.className = "load-more-button";
+  button.textContent = "더 보기";
+  return button;
+}
+
+export function showLoadMoreButton() {
+  const $loadMore = document.getElementById("load-more");
+  showElement($loadMore);
+}
+
+export function hideLoadMoreButton() {
+  const $loadMore = document.getElementById("load-more");
+  hideElement($loadMore);
 }
