@@ -11,7 +11,7 @@ function Header({ title, poster_path, vote_average }) {
       ${LogoSearchBar().outerHTML}
       <div class="top-rated-movie">
         <div class="rate">
-          <img src="./star_empty.png" class="star" />
+          <img src="images/star_empty.png" class="star" />
           <span class="rate-value">${vote_average.toFixed(1)}</span>
         </div>
         <div class="title">${title}</div>

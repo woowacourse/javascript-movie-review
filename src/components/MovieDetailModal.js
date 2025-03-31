@@ -13,7 +13,7 @@ function MovieDetailModal(
   $modalBackground.className = "modal-background active";
   $modal.classList.add("modal");
 
-  $button.innerHTML = `<img src="../../public/modal_button_close.png" />`;
+  $button.innerHTML = `<img src="images/modal_button_close.png" />`;
   $button.id = "closeModal";
 
   const releaseYear = release_date.split("-")[0];
@@ -31,7 +31,7 @@ function MovieDetailModal(
         <div class="average-container">
           <p>평균</p>
           <div class="rate average">
-            <img src="../../public/star_filled.png" class="star" />
+            <img src="images/star_filled.png" class="star" />
             <span>${vote_average.toFixed(1)}</span>
           </div>
         </div>
@@ -40,7 +40,7 @@ function MovieDetailModal(
           <p class="point-text">내 별점</p>
           <div class="star-rating">
             <div class="star-wrap">
-              ${'<img src="../../public/star_empty.png" class="star point" />'.repeat(
+              ${'<img src="images/star_empty.png" class="star point" />'.repeat(
                 5
               )}
             </div>

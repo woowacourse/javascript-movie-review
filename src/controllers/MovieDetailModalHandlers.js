@@ -49,9 +49,9 @@ function updateStarImages($modal, movieId, rating = 0) {
   starElements.forEach((star, idx) => {
     const starRating = (idx + 1) * 2;
     if (starRating <= rating) {
-      star.src = "../../public/star_filled.png";
+      star.src = "images/star_filled.png";
     } else {
-      star.src = "../../public/star_empty.png";
+      star.src = "images/star_empty.png";
     }
   });
 }
