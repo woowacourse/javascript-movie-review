@@ -1,3 +1,4 @@
+import { initMovie } from "./apis/config/config";
 import useGetMoreMovieList from "./apis/movies/useGetMoreMovieList";
 import useGetMovieList from "./apis/movies/useGetMovieList";
 import Modal from "./components/@common/Modal";
@@ -30,6 +31,11 @@ const App = () => {
   );
 
   if (movies.length === 0) {
+    setMovies(
+      Array.from({ length: 20 }).map((_) => {
+        return initMovie;
+      })
+    );
     fetchMovies(1).then((results) => {
       if (results) {
         setMovies(results);

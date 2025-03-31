@@ -36,22 +36,18 @@ export const movieListRenderer = () => {
 
   if (searchInputValue.length > 0 && displayMovieList.length === 0)
     return `<div class="no-results">검색 결과가 없습니다.</div>`;
-  else if (isLoading) {
-    return `<ul class="thumbnail-list">
-      ${Array.from({ length: 20 })
-        .map((_) => Skeleton())
-        .join("")}
-          </ul>`;
-  } else {
+  else {
     return `<ul class="thumbnail-list">
               ${displayMovieList
                 .map((movie) => {
-                  return MovieItem({
-                    id: movie.id,
-                    title: movie.title,
-                    rate: movie.vote_count,
-                    src: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
-                  });
+                  return movie.isLoading
+                    ? Skeleton()
+                    : MovieItem({
+                        id: movie.id,
+                        title: movie.title,
+                        rate: movie.vote_count,
+                        src: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
+                      });
                 })
                 .join("")}
             </ul>`;

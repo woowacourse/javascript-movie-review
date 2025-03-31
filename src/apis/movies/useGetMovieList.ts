@@ -14,7 +14,7 @@ const useGetMovieList = () => {
         setIsLoading(false);
       }
       setTotalResults(data.total_results);
-      return data.results;
+      return data.results.map((result) => ({ ...result, isLoading: false }));
     } catch (error) {
       setIsError(true);
       console.error("Error fetching data in App:", error);
