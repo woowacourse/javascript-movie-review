@@ -1,4 +1,4 @@
-import { modalRating } from "../../utils/modalRating";
+import { modalRating } from "../../model/data";
 
 export default function MyRatingInDetailModal(rating: number) {
   return `

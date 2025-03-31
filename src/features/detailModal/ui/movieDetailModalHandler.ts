@@ -1,6 +1,6 @@
-import { getMovieDetails } from "../../../features/movie/api/getMovieDetails";
-import ErrorModal from "../components/ErrorModal";
-import MovieDetailModal from "../components/MovieDetailModal";
+import { getMovieDetails } from "../../movie/api/getMovieDetails";
+import ErrorModal from "../../../shared/ui/components/ErrorModal";
+import MovieDetailModal from "./components/MovieDetailModal";
 
 export const movieDetailModalHandler = () => {
   const $movieCardButton = document.querySelectorAll(".movie-card-button");

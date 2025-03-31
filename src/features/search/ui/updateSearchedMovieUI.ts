@@ -1,9 +1,9 @@
-import { addMovieCard } from "../../../shared/ui/movies/addMovieCard";
+import { addMovieCard } from "../../movie/ui/addMovieCard";
 import ErrorModal from "../../../shared/ui/components/ErrorModal";
-import { withSkeleton } from "../../../shared/ui/skeletons/withSkeleton";
+import { withSkeleton } from "../../skeleton/ui/withSkeleton";
 import { getSearchedMovie } from "../api/getSearchedMovie";
-import { movieDetailModalHandler } from "../../../shared/ui/detailModal/movieDetailModalHandler";
-import Header from "../../../shared/ui/components/Header";
+import { movieDetailModalHandler } from "../../detailModal/ui/movieDetailModalHandler";
+import Header from "../../movie/ui/components/Header";
 
 export async function updateSearchedMovieUI(
   $container: HTMLElement,

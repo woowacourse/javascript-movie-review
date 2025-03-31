@@ -1,6 +1,6 @@
-import { storageService } from "../../utils/storageService";
-import { toElement } from "../../utils/toElement";
-import MyRatingInDetailModal from "../components/MyRatingInDetailModal";
+import { storageService } from "../../movieRating/service/storageService";
+import { toElement } from "../../../shared/utils/toElement";
+import MyRatingInDetailModal from "./components/MyRatingInDetailModal";
 
 export const updateMovieRating = () => {
   document

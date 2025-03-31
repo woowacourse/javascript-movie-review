@@ -1,8 +1,8 @@
-import { IMovieDetail } from "../../types/movies";
-import { storageService } from "../../utils/storageService";
-import { toElement } from "../../utils/toElement";
-import { removeDetailModal } from "../detailModal/removeDetailModal";
-import { updateMovieRating } from "../detailModal/updateMovieRating";
+import { IMovieDetail } from "../../../../shared/types/movies";
+import { storageService } from "../../../movieRating/service/storageService";
+import { toElement } from "../../../../shared/utils/toElement";
+import { removeDetailModal } from "../removeDetailModal";
+import { updateMovieRating } from "../updateMovieRating";
 import MyRatingInDetailModal from "./MyRatingInDetailModal";
 
 export default function MovieDetailModal(movieDetails: IMovieDetail) {

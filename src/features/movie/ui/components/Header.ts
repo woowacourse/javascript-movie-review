@@ -1,6 +1,6 @@
-import { ICustomMovie } from "../../types/movies";
-import { bannerButtonHandler } from "../detailModal/bannerButtonHandler";
-import { CustomButton } from "./CustomButton";
+import { ICustomMovie } from "../../../../shared/types/movies";
+import { bannerButtonHandler } from "../../../detailModal/ui/bannerButtonHandler";
+import { CustomButton } from "../../../../shared/ui/components/CustomButton";
 
 interface targetsProps {
   selector: string;

@@ -1,7 +1,7 @@
-import MovieCard from "../components/MovieCard";
-import { showEmptySearchResult } from "../../../features/search/ui/showEmptySearchResult";
-import { ICustomMovie, IMovie } from "../../types/movies";
-import { createFragment } from "../../utils/createFragment";
+import MovieCard from "./components/MovieCard";
+import { showEmptySearchResult } from "../../search/ui/showEmptySearchResult";
+import { ICustomMovie, IMovie } from "../../../shared/types/movies";
+import { createFragment } from "../../../shared/utils/createFragment";
 
 export function addMovieCard(
   movieList: ICustomMovie[],
