@@ -1,6 +1,5 @@
 import { SCORE_MESSAGES } from "../../constants/config";
 import Store from "../../store/store";
-import { StarRating } from "../../../types/starRating";
 
 const ALLOWED_RATINGS: number[] = [2, 4, 6, 8, 10];
 
@@ -37,7 +36,7 @@ export const attachRatingEvents = (movieId: string, store: Store): void => {
 
   const scores = store.getState().starRatings || [];
   const currentScore =
-    scores.find((rating: StarRating) => rating.id === movieId)?.score || 0;
+    scores.find((rating) => rating.id === movieId)?.score || 0;
   const $radio = $rateWrap.querySelector<HTMLInputElement>(
     `#star${currentScore}`
   );
@@ -75,9 +74,8 @@ export const attachRatingEvents = (movieId: string, store: Store): void => {
     if ($checkedRadio) {
       const newScore = Number($checkedRadio.value);
       let starRatings = store.getState().starRatings || [];
-      const index = starRatings.findIndex(
-        (rating: StarRating) => rating.id === movieId
-      );
+      const index = starRatings.findIndex((rating) => rating.id === movieId);
+
       if (index !== -1) {
         starRatings[index].score = newScore;
       } else {
