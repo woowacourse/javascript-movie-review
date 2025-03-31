@@ -36,3 +36,14 @@ p.rate > span {
   width: 16px;
   top: 1px;
 }
+
+.thumbnail-list li {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.item strong {
+  display: inline-block;
+  max-width: 200px;
+}
