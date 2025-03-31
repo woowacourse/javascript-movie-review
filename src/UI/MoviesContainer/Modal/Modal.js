@@ -1,6 +1,6 @@
 import "./Modal.css";
 import { getMovieDetail } from "../../../Domain/getMovieDetail";
-import Rate from "../../Rate/Rate";
+import Rate from "../../MovieModal/Rate/Rate";
 
 class Modal {
   #movie;

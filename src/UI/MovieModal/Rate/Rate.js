@@ -1,4 +1,4 @@
-import { setItem, MOVIE_REVIEW, getItem } from "../../utils/localStorage";
+import { setItem, MOVIE_REVIEW, getItem } from "../../../utils/localStorage";
 import "./Rate.css";
 
 class Rate {
