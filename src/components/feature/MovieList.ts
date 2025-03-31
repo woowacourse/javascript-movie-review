@@ -5,20 +5,26 @@ import {
   MovieResponse,
 } from '../../types/Movie.types';
 import { createElement } from '../../utils/createElement';
-import { Button } from '../common/Button';
 import { Text } from '../common/Text';
 import { MovieItem } from './MovieItem';
 import { MovieSkeleton } from './MovieSkeleton';
 import { Empty } from './Empty';
 import { Img } from '../common/Img';
 
+let isLoading = false;
+let hasMorePages = true;
+let observer: IntersectionObserver | null = null;
+let prevSearchQuery = '';
+let isFirstSearch = true;
+
 const renderErrorState = () => {
   const error = movieFetcher.errorState;
   if (!error) return;
 
-  titleText.style.display = 'none'; // 제목도 숨김
+  titleText.style.display = 'none';
   movieUl.style.display = 'none';
-  moreBtn.style.display = 'none';
+  loadingIndicator.style.display = 'none';
+
   const errorContainer = createElement('div', {
     classList: 'error-container',
   });
@@ -31,7 +37,6 @@ const renderErrorState = () => {
     },
   });
 
-  // 오류 UI 추가
   errorContainer.append(errorMessage);
   sectionElement.insertBefore(errorContainer, movieUl);
 };
@@ -54,28 +59,26 @@ const updateListTitle = (
     : '지금 인기 있는 영화';
 };
 
-const updateMoreButton = (
-  button: HTMLButtonElement,
-  currentPage: number,
-  totalPages: number,
-  isLoading: boolean = false,
-) => {
-  button.disabled = isLoading;
-  button.textContent = isLoading ? '' : '더보기';
-  button.style.display = currentPage >= totalPages ? 'none' : 'block';
-
-  if (isLoading) {
-    const loadingImg = Img({
+const loadingIndicator = createElement('div', {
+  classList: 'loading-indicator',
+  children: [
+    Img({
       src: './images/loading.png',
       width: '35',
       height: '35',
       classList: ['loading-spinner'],
-    });
+    }),
+    Text({
+      props: { textContent: '로딩 중...' },
+      classList: ['loading-text'],
+    }),
+  ],
+});
+loadingIndicator.style.display = 'none';
 
-    button.innerHTML = '';
-    button.appendChild(loadingImg);
-  }
-};
+const observerTarget = Text({
+  classList: ['observer-target', 'observer-height', 'w-full', 'mt-20'],
+});
 
 const titleText = Text({
   classList: ['text-2xl', 'font-bold', 'mb-32'],
@@ -86,47 +89,58 @@ const movieUl = createElement<HTMLUListElement>('ul', {
   classList: 'thumbnail-list',
 });
 
-const moreBtn = Button({
-  height: '48',
-  classList: ['moreBtn', 'w-full', 'primary', 'text-xl'],
-  props: { textContent: '더보기' },
-  onClick: async () => {
-    await handleMoreButtonClick();
-  },
-});
-
 const sectionElement = createElement('section', {
   classList: 'container',
-  children: [titleText, movieUl, moreBtn],
+  children: [titleText, movieUl, observerTarget, loadingIndicator],
 });
 
 const mainElement = createElement('main', {
   children: [sectionElement],
 });
 
-const handleMoreButtonClick = async () => {
+const loadNextPage = async () => {
+  if (isLoading || !hasMorePages) return;
+
+  isLoading = true;
+  loadingIndicator.style.display = 'flex';
+
   const response = movieFetcher.currentMovieResponse;
-  const hasNextPage = response.page < response.total_pages;
+  hasMorePages = response.page < response.total_pages;
 
-  if (!hasNextPage) return;
-
-  updateMoreButton(moreBtn, response.page, response.total_pages, true);
+  if (!hasMorePages) {
+    loadingIndicator.style.display = 'none';
+    return;
+  }
 
   const isSearchMode = movieFetcher.isSearchState;
 
   await (isSearchMode
     ? movieFetcher.getNextPageSearchMovies()
     : movieFetcher.getNextPagePopularMovies());
+
+  isLoading = false;
 };
 
-const renderSearchLoadingState = (itemCount: number) => {
-  const skeletons = createSkeletonItems(itemCount);
+const setupInfiniteScroll = () => {
+  if (observer) {
+    observer.disconnect();
+  }
+
+  observer = new IntersectionObserver(
+    (entries) => {
+      if (entries[0].isIntersecting && !isLoading && hasMorePages) {
+        loadNextPage();
+      }
+    },
+    { rootMargin: '100px' },
+  );
+
+  observer.observe(observerTarget);
+};
+
+const renderInitialLoadingState = () => {
+  const skeletons = createSkeletonItems(20);
   movieUl.innerHTML = '';
-  movieUl.append(...skeletons);
-};
-
-const renderMoreLoadingState = (itemCount: number) => {
-  const skeletons = createSkeletonItems(itemCount);
   movieUl.append(...skeletons);
 };
 
@@ -135,25 +149,39 @@ const renderEmptyState = () => {
 
   movieUl.innerHTML = '';
   movieUl.appendChild(emptyElement);
-  moreBtn.style.display = 'none';
+  loadingIndicator.style.display = 'none';
+  observerTarget.classList.add('hidden');
 };
 
 const renderMovies = (movies: MovieItemType[], response: MovieResponse) => {
   const movieElements = createMovieItems(movies);
 
-  movieUl.innerHTML = '';
+  if (response.page === 1) {
+    movieUl.innerHTML = '';
+  }
+
   movieUl.append(...movieElements);
 
-  updateMoreButton(moreBtn, response.page, response.total_pages);
+  hasMorePages = response.page < response.total_pages;
+
+  if (!hasMorePages) {
+    loadingIndicator.style.display = 'none';
+    observerTarget.classList.add('hidden');
+  } else {
+    observerTarget.classList.remove('hidden');
+  }
 };
 
 const renderMovieList = () => {
   const results = movieFetcher.movies || [];
   const query = movieFetcher.queryText;
   const response = movieFetcher.currentMovieResponse;
-  const isLoading = movieFetcher.isLoadingState;
+  const isLoadingState = movieFetcher.isLoadingState;
   const isSearch = movieFetcher.isSearchState;
   const error = movieFetcher.errorState;
+
+  const isNewSearch = isSearch && query !== prevSearchQuery;
+  prevSearchQuery = query;
 
   updateListTitle(titleText, isSearch, query);
 
@@ -162,22 +190,33 @@ const renderMovieList = () => {
     return;
   }
 
-  if (isLoading && isSearch) {
-    renderSearchLoadingState(20);
+  if (isLoadingState && response.page === 1 && (isFirstSearch || isNewSearch)) {
+    renderInitialLoadingState();
+    isFirstSearch = false;
     return;
   }
 
-  if (isSearch && results.length === 0) {
+  if (isSearch && results.length === 0 && !isLoadingState) {
     renderEmptyState();
     return;
   }
 
-  if (isLoading) {
-    renderMoreLoadingState(20);
-    return;
+  if (!isLoadingState || response.page > 1) {
+    renderMovies(results, response);
+    setupInfiniteScroll();
+    loadingIndicator.style.display = 'none';
   }
+};
 
-  renderMovies(results, response);
+export const handleSearch = async (query: string) => {
+  isFirstSearch = true;
+
+  isLoading = false;
+  hasMorePages = true;
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  await movieFetcher.getSearchMovies(1, query);
 };
 
 export const MovieList = (): HTMLElement => {
@@ -194,4 +233,13 @@ export const MovieList = (): HTMLElement => {
   movieFetcherEvent.subscribe(renderMovieList);
 
   return mainElement;
+};
+
+export const cleanupMovieList = (element: HTMLElement) => {
+  if (
+    (element as any).cleanup &&
+    typeof (element as any).cleanup === 'function'
+  ) {
+    (element as any).cleanup();
+  }
 };
