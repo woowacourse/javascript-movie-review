@@ -133,13 +133,10 @@ describe("Fixture를 이용한 E2E 테스트", () => {
     cy.wait("@getPopularMovies");
     cy.get(".thumbnail-list > li").should("have.length", 20);
 
-    // 페이지 하단으로 스크롤
     cy.scrollTo("bottom");
 
-    // 다음 페이지 API 응답 대기
     cy.wait("@getPopularMovies");
 
-    // 추가 영화가 로드되었는지 확인 (총 40개)
     cy.get(".thumbnail-list > li").should("have.length", 40);
   });
 });
