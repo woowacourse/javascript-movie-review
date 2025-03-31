@@ -17,7 +17,6 @@ import { getScrollInstance, setLoadMovies } from "../state/movieState.ts";
 
 import fetchAndSetLoadingEvent from "./fetchService.ts";
 
-let isErrorHandled = false;
 function scrollToTop(): Promise<void> {
   return new Promise((resolve) => {
     const onScroll = () => {
@@ -48,7 +47,6 @@ export default async function handleSearch(searchValue: string) {
 
   await scrollToTop();
 
-  isErrorHandled = false;
   setSearchResultTitle(searchValue);
   setSearchLoadingState();
 
@@ -109,12 +107,9 @@ function displaySearchResults(): void {
 }
 
 function handleSearchError(error: Error): void {
-  if (isErrorHandled) return;
-  isErrorHandled = true;
-
   if (error.message !== ERROR_MESSAGE.NO_DATA) {
     Toast.showToast(error.message, "error", 3000);
-    handleNetworkError(getScrollInstance());
+    handleNetworkError(null);
   } else {
     const scrollInstance = getScrollInstance();
     if (scrollInstance) scrollInstance.stopInfiniteScroll();
