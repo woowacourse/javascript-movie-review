@@ -20,7 +20,7 @@ import fetchAndSetLoadingEvent from "./service/fetchService.ts";
 import { setupInfiniteScroll } from "./service/scrollService.ts";
 import {
   handleConnectionError,
-  checkApiAvailability,
+  handleNetworkError,
 } from "./service/errorService.ts";
 import {
   bindLoadingEvents,
@@ -28,6 +28,8 @@ import {
   bindStarRatingEvents,
   bindThumbnailClickEvent,
   bindHeaderScrollEvent,
+  bindHeroEvents,
+  bindLoadMoreButton,
 } from "./binders/event-binders";
 import type { Result } from "../types/tmdb.types";
 let infiniteScrollInstance: InfiniteScrollInstance = null;
@@ -47,7 +49,7 @@ const initMovies = () => {
 };
 const handleError = (error: Error) => {
   Toast.showToast(error.message, "error", 5000);
-  checkApiAvailability(infiniteScrollInstance);
+  handleNetworkError(infiniteScrollInstance);
 };
 // 셋업 무비 데이타와 render를 분리.
 const setupMovieData = (data: MovieListResponse | null) => {
@@ -95,13 +97,15 @@ const bindEventListeners = () => {
   bindModalEvents();
   bindStarRatingEvents();
   bindHeaderScrollEvent();
+  bindHeroEvents();
+  bindLoadMoreButton(infiniteScrollInstance);
 };
 
 const main = async () => {
   try {
     const loadMovies = initMovies();
     setLoadMovies(loadMovies);
-    const data = await fetchAndSetLoadingEvent();
+    const data = await fetchAndSetLoadingEvent(infiniteScrollInstance);
     infiniteScrollInstance = setupInfiniteScroll();
     renderApp(data);
     bindEventListeners();
