@@ -122,6 +122,7 @@ body.modal-open {
   .modal {
     margin: auto 0 0 0;
     width: 100%;
+    overflow-y: auto;
   }
   .modal-container {
     flex-direction: column;
@@ -136,6 +137,7 @@ body.modal-open {
     width: 200px;
     border-radius: 16px;
   }
+
   .modal-description {
     width: 100%;
     padding: 6px;
