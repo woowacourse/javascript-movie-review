@@ -54,7 +54,7 @@ const updateListTitle = (
 };
 
 const observerTarget = Text({
-  classList: ['observer-target', 'observer-height', 'w-full', 'mt-20'],
+  classList: ['w-full', 'mt-20'],
 });
 
 const titleText = Text({
