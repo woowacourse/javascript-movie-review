@@ -38,7 +38,7 @@ class Modal {
               movieDetails!.score
             }</span></p>
             <hr />
-            <section></section>
+            <section class="modal-star-section"></section>
             <hr/>
             <p class="detail">${movieDetails!.overview}</p>
           </div>
@@ -50,7 +50,7 @@ class Modal {
   }
 
   #appendStars() {
-    const starSection = $({ root: this.#container, selector: 'section' });
+    const starSection = $({ root: this.#container, selector: '.modal-star-section' });
     const savedStars = LocalStorage.getMovieStarById(this.#movieData.id);
     const modalStar = new ModalStar(this.#movieData.id, savedStars);
     starSection?.appendChild(modalStar.element);
