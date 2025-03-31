@@ -14,14 +14,12 @@
 }
 
 @media (max-width: 768px) {
-  /* 태블릿 */
   .thumbnail-list {
     grid-template-columns: repeat(3, 200px);
   }
 }
 
 @media (max-width: 480px) {
-  /* 모바일 */
   .thumbnail-list {
     grid-template-columns: repeat(1, 200px);
   }

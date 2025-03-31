@@ -5,6 +5,24 @@
   gap: 70px;
 }
 
+@media (max-width: 1200px) {
+  .skeleton {
+    grid-template-columns: repeat(4, 200px);
+  }
+}
+
+@media (max-width: 768px) {
+  .skeleton {
+    grid-template-columns: repeat(3, 200px);
+  }
+}
+
+@media (max-width: 480px) {
+  .skeleton {
+    grid-template-columns: repeat(1, 200px);
+  }
+}
+
 .skeleton-item {
   animation: skeleton-loading 1.5s infinite;
 }
