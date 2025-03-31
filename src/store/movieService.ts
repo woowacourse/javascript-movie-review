@@ -18,6 +18,8 @@ export const fetchMovies = async (
       ? await movieApi.fetchPopularMovies(page)
       : await movieApi.fetchSearchedMovies(query, page);
 
+    console.log(response.results);
+
     const movies = response.results.map(mapToMovie);
     const { list } = getState();
 
