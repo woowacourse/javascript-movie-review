@@ -19,9 +19,7 @@ body.modal-open {
   z-index: 10;
   visibility: hidden; /* 모달이 기본적으로 보이지 않도록 설정 */
   opacity: 0;
-  transition:
-    opacity 0.3s ease,
-    visibility 0.3s ease;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
 .modal-background.active {
@@ -36,7 +34,9 @@ body.modal-open {
   color: white;
   z-index: 2;
   position: relative;
-  width: 1000px;
+  width: 90%;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
 .close-modal {
@@ -85,4 +85,32 @@ body.modal-open {
 .detail {
   max-height: 430px;
   overflow-y: auto;
+}
+
+@media (max-width: 1220px) {
+  .modal {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .modal-background {
+    justify-content: flex-end;
+  }
+
+  .modal {
+    width: 100%;
+    max-width: 100%;
+    bottom: 0;
+    position: fixed;
+    margin: 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .modal {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+  }
 }
