@@ -1,10 +1,11 @@
 import { getAllMovies, getMovies } from '@/apis';
-import { errorStore, movieRateStore, moviesStore, pageStore, searchStore } from '@/store';
+import { errorStore, movieRateStore, moviesResponseStore, moviesStore, pageStore, searchStore } from '@/store';
 import { html } from '@/utils';
 import Component from './core/Component';
 import IntersectionObserble from './IntersectionObserble';
 import MovieDetailModal from './MovieDetailModal';
 import Movies from './Movies';
+import { forEach } from '@fxts/core';
 
 export default class MovieSection extends Component {
   override setup() {
@@ -38,12 +39,20 @@ export default class MovieSection extends Component {
     this.fillSlot(new Movies(), 'movies');
     this.fillSlot(
       new IntersectionObserble({
-        callback: async () => {
-          const query = searchStore.getState();
-          pageStore.setState(pageStore.getState() + 1);
+        callback: async (entries, observer) => {
+          forEach(async (entry) => {
+            if (!entry.isIntersecting) return;
 
-          if (query) await getMovies({ query: searchStore.getState(), page: pageStore.getState() });
-          if (!query) await getAllMovies({ page: pageStore.getState() });
+            const query = searchStore.getState();
+            pageStore.setState(pageStore.getState() + 1);
+
+            if (query) await getMovies({ query: searchStore.getState(), page: pageStore.getState() });
+            if (!query) await getAllMovies({ page: pageStore.getState() });
+
+            const prevMoviesResponse = moviesResponseStore.getState();
+            if (prevMoviesResponse && prevMoviesResponse.total_pages < pageStore.getState())
+              observer.unobserve(entry.target);
+          }, entries);
         },
         id: 'movie-more',
       }),

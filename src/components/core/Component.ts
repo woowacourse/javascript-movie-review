@@ -23,8 +23,6 @@ export default abstract class Component<TProps extends Props = {}, TState extend
   }
 
   subsribe(stores: Store<any>[]) {
-    if (!stores) return;
-
     forEach((store) => {
       store.subscribe(this.update.bind(this));
     }, stores);

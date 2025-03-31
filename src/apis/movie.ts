@@ -1,5 +1,5 @@
 import { MovieApiClient } from '@/apis';
-import { moviesResponseStore, moviesStore, serverStore } from '@/store';
+import { moviesStore, serverStore } from '@/store';
 
 interface GetMoviesProps {
   page: number;
@@ -7,9 +7,6 @@ interface GetMoviesProps {
 }
 
 export const getMovies = async ({ query, page }: GetMoviesProps) => {
-  const prevMoviesResponse = moviesResponseStore.getState();
-  if (prevMoviesResponse && prevMoviesResponse.total_pages < page) return;
-
   const moviesResponse = await serverStore.query({
     queryFn: () =>
       MovieApiClient.get({
@@ -28,9 +25,6 @@ interface GetAllMoviesProps {
 }
 
 export const getAllMovies = async ({ page }: GetAllMoviesProps) => {
-  const prevMoviesResponse = moviesResponseStore.getState();
-  if (prevMoviesResponse && prevMoviesResponse.total_pages < page) return;
-
   const moviesResponse = await serverStore.query({
     queryFn: () =>
       MovieApiClient.getAll({
