@@ -35,7 +35,7 @@ describe("비동기 API 테스트 ", () => {
   });
 });
 
-describe("Fixture 테스트 ", () => {
+describe("Fixture 테스트", () => {
   beforeEach(() => {
     cy.intercept(
       {
@@ -47,15 +47,17 @@ describe("Fixture 테스트 ", () => {
     cy.visit("http://localhost:5173/");
   });
 
-  it("영화 목록 API 를 호출하면 한 번에 20개씩 목록에 나열되어야 한다.", () => {
+  it("영화 목록 API를 호출하면 모든 영화 아이템이 올바르게 렌더링되어야 한다.", () => {
     cy.wait("@getPopularMovies").then((interception) => {
-      // interception으로 fixture가 잘 불러와졌는지 확인하는 코드 샘플
       const popularMovies = interception.response?.body.results;
       expect(popularMovies.length).to.equal(20);
 
-      // 제대로 렌더링이 되었는지 테스트하는 코드 샘플
-      const popularMovieItems = cy.get(".thumbnail-list > li");
-      expect(popularMovieItems.should("have.length", 20));
+      cy.get(".thumbnail-list > li").should("have.length", 20).each(($el, index) => {
+        
+        cy.wrap($el).find(".thumbnail").should("exist").and("be.visible");
+        cy.wrap($el).find(".item-desc").should("exist").and("be.visible");
+      });
     });
   });
 });
+
