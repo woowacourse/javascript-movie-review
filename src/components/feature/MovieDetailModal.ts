@@ -84,7 +84,7 @@ const createMyRatingSection = (movieId: number): HTMLDivElement => {
       stars.forEach((star, index) => {
         const starImg = star as HTMLImageElement;
         starImg.src =
-          index < starValue
+          index * 2 < starValue
             ? './images/star_filled.png'
             : './images/star_empty.png';
       });
@@ -125,30 +125,28 @@ const createCategoryText = (movie: MovieDetail): string => {
 };
 
 const createDescriptionSection = (movie: MovieDetail): HTMLDivElement => {
-  const children = [
-    createElement<HTMLHeadingElement>('h2', {
-      textContent: movie.title,
-    }),
-    createElement<HTMLParagraphElement>('p', {
-      className: 'category',
-      textContent: createCategoryText(movie),
-    }),
-    createRatingSection(movie.vote_average),
-    createElement<HTMLHRElement>('hr'),
-    createMyRatingSection(movie.id),
-    createElement<HTMLParagraphElement>('div', {
-      className: 'subtitle',
-      textContent: '줄거리',
-    }),
-    createElement<HTMLParagraphElement>('p', {
-      className: 'detail',
-      textContent: movie.overview || '줄거리가 없습니다',
-    }),
-  ];
-
   return createElement<HTMLDivElement>('div', {
     className: 'modal-description',
-    children,
+    children: [
+      createElement<HTMLHeadingElement>('h2', {
+        textContent: movie.title,
+      }),
+      createElement<HTMLParagraphElement>('p', {
+        className: 'category',
+        textContent: createCategoryText(movie),
+      }),
+      createRatingSection(movie.vote_average),
+      createElement<HTMLHRElement>('hr'),
+      createMyRatingSection(movie.id),
+      createElement<HTMLParagraphElement>('div', {
+        className: 'subtitle',
+        textContent: '줄거리',
+      }),
+      createElement<HTMLParagraphElement>('p', {
+        className: 'detail',
+        textContent: movie.overview || '줄거리가 없습니다',
+      }),
+    ],
   });
 };
 
