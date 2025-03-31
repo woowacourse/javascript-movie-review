@@ -24,18 +24,6 @@ const createLoadingView = () => {
   });
 };
 
-const createErrorView = (message: string) => {
-  return createElement<HTMLDivElement>('div', {
-    className: 'modal-error',
-    children: [
-      createElement<HTMLParagraphElement>('p', {
-        className: 'error-text',
-        textContent: `정보를 불러오는데 실패했습니다: ${message}`,
-      }),
-    ],
-  });
-};
-
 const createCloseButton = () => {
   return createElement<HTMLButtonElement>('button', {
     className: 'close-modal',
@@ -151,24 +139,10 @@ export const MovieItem = (movie: MovieItemType) => {
     const modalBackground = createBaseModal(loadingView);
     document.body.appendChild(modalBackground);
 
-    try {
-      const movieDetail: MovieDetail = await movieFetcher.getMovieDetail(id);
-
-      document.body.removeChild(modalBackground);
-      openModal(movieDetail);
-    } catch (error) {
-      const errorView = createErrorView((error as Error).message);
-      loadingView.replaceWith(errorView);
-
-      setTimeout(() => {
-        modalBackground
-          .querySelector('#closeModal')
-          ?.dispatchEvent(new Event('click'));
-      }, 3000);
-    }
+    const movieDetail: MovieDetail = await movieFetcher.getMovieDetail(id);
+    document.body.removeChild(modalBackground);
+    openModal(movieDetail);
   });
-
-  movieItem.style.cursor = 'pointer';
 
   return movieItem;
 };
