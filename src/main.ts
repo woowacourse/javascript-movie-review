@@ -29,7 +29,7 @@ import {
   bindThumbnailClickEvent,
   bindHeaderScrollEvent,
 } from "./binders/event-binders";
-
+import type { Result } from "../types/tmdb.types";
 let infiniteScrollInstance: InfiniteScrollInstance = null;
 
 interface MovieListResponse {
