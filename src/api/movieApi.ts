@@ -1,6 +1,7 @@
 import api from "./api.ts";
 import { OPTION } from "../constants/api.ts";
-import { STATUS_MESSAGE } from "../constants/error.ts";
+import { ERROR, STATUS_MESSAGE } from "../constants/error.ts";
+import ErrorUI from "../components/ErrorUI.ts";
 
 const defaultParams = {
   language: OPTION.language,
@@ -18,8 +19,12 @@ const movieApi = {
       const endpoint = `/movie/popular?${params}`;
       return await api.GETWithAuth(endpoint);
     } catch (error) {
-      if (error instanceof Error && error.message in STATUS_MESSAGE) {
-        throw new Error(STATUS_MESSAGE[error.message]);
+      if (error instanceof Error) {
+        const status = Number(error.message);
+        const message = STATUS_MESSAGE[status] ?? ERROR.DEFAULT;
+        const errorUI = new ErrorUI({ status, message });
+        errorUI.create();
+        errorUI.renderError();
       }
     }
   },
@@ -35,8 +40,12 @@ const movieApi = {
       const endpoint = `/search/movie?${params}`;
       return await api.GETWithAuth(endpoint);
     } catch (error) {
-      if (error instanceof Error && error.message in STATUS_MESSAGE) {
-        throw new Error(STATUS_MESSAGE[error.message]);
+      if (error instanceof Error) {
+        const status = Number(error.message);
+        const message = STATUS_MESSAGE[status] ?? ERROR.DEFAULT;
+        const errorUI = new ErrorUI({ status, message });
+        errorUI.create();
+        errorUI.renderError();
       }
     }
   },
@@ -50,8 +59,12 @@ const movieApi = {
       const endpoint = `/movie/${id}?${params}`;
       return await api.GETWithAuth(endpoint);
     } catch (error) {
-      if (error instanceof Error && error.message in STATUS_MESSAGE) {
-        throw new Error(STATUS_MESSAGE[error.message]);
+      if (error instanceof Error) {
+        const status = Number(error.message);
+        const message = STATUS_MESSAGE[status] ?? ERROR.DEFAULT;
+        const errorUI = new ErrorUI({ status, message });
+        errorUI.create();
+        errorUI.renderError();
       }
     }
   },

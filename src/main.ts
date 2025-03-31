@@ -73,39 +73,35 @@ const logo = selectElement<HTMLDivElement>(".logo");
 const logoImage = selectElement<HTMLImageElement>(".logo img");
 
 const app = async () => {
-  try {
-    logoImage.addEventListener("click", () => {
-      window.location.reload();
-    });
+  logoImage.addEventListener("click", () => {
+    window.location.reload();
+  });
 
-    logo.appendChild(searchBar.create());
-    mainSection.appendChild(skeletonUl.create());
+  logo.appendChild(searchBar.create());
+  mainSection.appendChild(skeletonUl.create());
 
-    searchBar.setEvent();
+  searchBar.setEvent();
 
-    const scrollRenderer = ScrollRenderer.getInstance();
-    const movieData = await fetchMovies({ apiFetcher: movieService.getMovies });
-    const movieList = createMovieList(movieData);
+  const scrollRenderer = ScrollRenderer.getInstance();
+  const movieData = await fetchMovies({ apiFetcher: movieService.getMovies });
+  const movieList = createMovieList(movieData);
 
-    const detailsModal = new Modal();
+  const detailsModal = new Modal();
 
-    renderTitleMovie(movieData);
-    movieList.create();
-    movieList.onMovieClick(getDetail, detailsModal);
+  renderTitleMovie(movieData);
+  movieList.create();
+  movieList.onMovieClick(getDetail, detailsModal);
 
-    const lastMovieItemObserver = new IntersectionObserver(
-      scrollRenderer.createObserverCallback(updateMovieList, movieList),
-      { threshold: 1 }
-    );
+  const lastMovieItemObserver = new IntersectionObserver(
+    scrollRenderer.createObserverCallback(updateMovieList, movieList),
+    { threshold: 1 }
+  );
 
-    const targetElement = selectElement<HTMLLIElement>(
-      "ul.thumbnail-list > li:last-child"
-    );
+  const targetElement = selectElement<HTMLLIElement>(
+    "ul.thumbnail-list > li:last-child"
+  );
 
-    lastMovieItemObserver.observe(targetElement);
-  } catch (error) {
-    if (error instanceof Error) alert(error.message);
-  }
+  lastMovieItemObserver.observe(targetElement);
 };
 
 app();
