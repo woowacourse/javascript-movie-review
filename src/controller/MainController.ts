@@ -29,7 +29,7 @@ class MainController {
 
     this.movieListController = new MovieListController({
       onFetchMovieList: (movie) => {
-        this.backgroundThumbnailController.renderBackgroundThumbnail(movie);
+        this.backgroundThumbnailController.render(movie);
       },
       onDetailModalOpen: (movieId: number) => {
         this.detailModalController.showModal(movieId);
@@ -62,10 +62,6 @@ class MainController {
     }
   }
 
-  #openMessageModal(text: string) {
-    this.messageModalController.showModal(text);
-  }
-
   async #onSearchKeywordSubmit(searchValue: string) {
     try {
       this.backgroundThumbnailController.hideBackground();
@@ -83,7 +79,7 @@ class MainController {
   }
 
   #onErrorModalOpen(error: Error) {
-    this.#openMessageModal(ERROR_MESSAGE[Number(error.message)] || "알 수 없는 오류가 발생했습니다.");
+    this.messageModalController.showModal(ERROR_MESSAGE[Number(error.message)] || "알 수 없는 오류가 발생했습니다.");
   }
 }
 

@@ -1,42 +1,39 @@
-import { IMovieItem } from "./../types/movieResultType";
-import BackgroundThumbnailContainer from "../component/backgroundThumbnail/BackgroundThumbnailContainer";
 import { $ } from "../util/selector";
+import BackgroundThumbnailView from "../view/BackgroundThumbnailView";
+import { IMovieItem } from "./../types/movieResultType";
 
 class BackgroundThumbnailController {
+  #view;
   backgroundElement!: HTMLElement;
   movie: IMovieItem | null = null;
 
-  onMovieDetailButtonClick;
+  #onMovieDetailButtonClick;
 
   constructor({ onMovieDetailButtonClick }: { onMovieDetailButtonClick: (movieId: number) => void }) {
-    this.onMovieDetailButtonClick = onMovieDetailButtonClick;
+    this.#view = new BackgroundThumbnailView();
+    this.#onMovieDetailButtonClick = onMovieDetailButtonClick;
   }
 
-  renderBackgroundThumbnail(movie: IMovieItem) {
-    this.movie = movie;
-    this.backgroundElement = BackgroundThumbnailContainer(movie);
-
-    const headerElement = $("header");
-    headerElement?.insertAdjacentElement("afterend", this.backgroundElement);
-
-    this.bindEvents();
+  render(movie: IMovieItem) {
+    this.#view.renderBackgroundThumbnail(movie);
+    this.#view.bindDetailButtonClick(this.#onMovieDetailButtonClick);
   }
 
   bindEvents() {
     const detailButtonElement = $<HTMLButtonElement>("button.detail", this.backgroundElement);
     if (this.movie) {
       detailButtonElement?.addEventListener("click", () => {
-        if (this.movie) this.onMovieDetailButtonClick(this.movie.id);
+        if (this.movie) this.#onMovieDetailButtonClick(this.movie.id);
       });
     }
   }
 
   hideBackground() {
-    this.backgroundElement.classList.add("search");
+    this.#view.hide();
   }
 
   showBackground() {
-    this.backgroundElement.classList.remove("search");
+    this.#view.show();
   }
 }
 
