@@ -1,28 +1,7 @@
 import { Movie } from "../types/movie";
 import MovieItem from "./MovieItem";
 
-export const movieListSkeleton = () => {
-  return /*html*/ `
-    ${Array.from({ length: 20 })
-      .map(
-        () => /*html*/ `
-        <li class="skeleton-list">
-          <div class="skeleton-item">
-            <div class="skeleton-thumbnail"></div>
-            <div class="skeleton-item-desc">
-              <div class="skeleton-text"></div>
-              <div class="skeleton-text" style="width: 50%"></div>
-            </div>
-          </div>
-        </li>
-      `
-      )
-      .join("")}`;
-};
-
 class MovieList {
-  private static readonly IMAGE_BASE_URL =
-    "https://image.tmdb.org/t/p/original";
   #parentElement: HTMLElement;
   #movies: Movie[];
 

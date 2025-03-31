@@ -1,7 +1,8 @@
 import MovieApi from "../api/MovieApi";
 import { Movie } from "../types/movie";
 import { isHTMLElement } from "../utils/typeGuards";
-import MyRate, { MyRateSkeleton } from "./MyRate";
+import MyRate from "./MyRate";
+import Skeleton from "./Skeleton";
 
 type MovieDetail = {
   poster_path: string;
@@ -31,36 +32,7 @@ class Modal {
   }
 
   #renderInitial() {
-    this.#parentElement.innerHTML = /*html*/ `
-    <div class="modal">
-      <button class="close-modal" id="closeModal">
-        <img src="./images/modal_button_close.png" />
-      </button>
-      <div class="modal-container">
-        <div class="modal-image">
-          <div class="modal-image-skeleton"></div>
-        </div>
-        <div class="modal-description">
-          <h2>로딩중...</h2>
-          <p class="category">
-            로딩중...
-          </p>
-          <p class="rate">
-            <img src="./images/star_filled.png" class="star" /><span
-              >0.0</span>
-          </p>
-          <hr />
-          <div class="my-rate">
-            ${MyRateSkeleton()}
-         </div>
-          
-          <hr />
-          <p class="detail">
-            로딩중...
-          </p>
-        </div>
-      </div>
-  </div>`;
+    this.#parentElement.innerHTML = Skeleton.Modal;
   }
 
   #render(details: MovieDetail) {

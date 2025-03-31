@@ -2,7 +2,8 @@ import MovieApi from "../api/MovieApi";
 import { Movie } from "../types/movie";
 import { isHTMLElement } from "../utils/typeGuards";
 import ErrorScreen from "./ErrorScreen";
-import MovieList, { movieListSkeleton } from "./MovieList";
+import MovieList from "./MovieList";
+import Skeleton from "./Skeleton";
 import TopRatedMovie from "./TopRatedMovie";
 
 class PopularMovieBoard {
@@ -22,18 +23,11 @@ class PopularMovieBoard {
   #renderInitialLayout(): void {
     this.#parentElement.innerHTML = /*html*/ `
       <section class="top-rated-container">
-        ${
-          new TopRatedMovie({
-            id: 0,
-            title: "로딩중...",
-            vote_average: 0,
-            poster_path: "",
-          }).skeleton
-        }
+        ${Skeleton.TopRatedMovie}
       </section>
       <section class="movie-list-container">
           <h2>지금 인기 있는 영화</h2>
-          <ul class='thumbnail-list'>${movieListSkeleton()}</ul>
+          <ul class='thumbnail-list'>${Skeleton.MovieList}</ul>
           <div class="more-button-container"></div>
       </section>
     `;

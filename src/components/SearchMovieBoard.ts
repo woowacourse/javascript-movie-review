@@ -2,7 +2,8 @@ import MovieApi from "../api/MovieApi";
 import { Movie } from "../types/movie";
 import { isHTMLElement } from "../utils/typeGuards";
 import ErrorScreen from "./ErrorScreen";
-import MovieList, { movieListSkeleton } from "./MovieList";
+import MovieList from "./MovieList";
+import Skeleton from "./Skeleton";
 
 interface Props {
   searchParams: string;
@@ -28,7 +29,7 @@ class SearchMovieBoard {
     this.#parentElement.innerHTML = /*html*/ `
       <section class="movie-list-container search-movie-list-container">
           <h2>"${this.#props.searchParams}" 검색 결과 </h2>
-          <ul class='thumbnail-list'>${movieListSkeleton()}</ul>
+          <ul class='thumbnail-list'>${Skeleton.MovieList}</ul>
           <div class="more-button-container"></div>
       </section>
     `;

@@ -1,7 +1,6 @@
 import { Movie } from "../types/movie";
 
 interface TopRatedMovieContract {
-  skeleton: string;
   ui: string;
 }
 
@@ -13,22 +12,6 @@ class TopRatedMovie implements TopRatedMovieContract {
 
   constructor(movie: Movie) {
     this.#movie = movie;
-  }
-
-  public get skeleton() {
-    return /*html*/ `
-    <div class="background-container">
-      <div class="overlay" aria-hidden="true"></div>
-      <div class="top-rated-movie">
-          <div class="rate">
-              <img src="./images/star_empty.png" class="star" alt="star-empty"/>
-              <span class="rate-value">${this.#movie.vote_average}</span>
-          </div>
-          <div class="title">${this.#movie.title}</div>
-          <button class="primary detail">자세히 보기</button>
-      </div>
-    </div>
-    `;
   }
 
   public get ui() {
