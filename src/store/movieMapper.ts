@@ -7,4 +7,5 @@ export const mapToMovie = (apiData: any): Movie => ({
   imageSrc: apiData.poster_path,
   description: apiData.overview,
   releaseDate: apiData.release_date,
+  genres: apiData.genres || [],
 });

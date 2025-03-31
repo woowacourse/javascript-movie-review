@@ -1,4 +1,6 @@
 import { $, createElement } from "../utils/dom";
+import { Genre } from "../../types/movie.ts";
+import { fetchMovieDetail } from "../store/movieService.ts";
 
 type ModalProps = {
   item: {
@@ -6,8 +8,8 @@ type ModalProps = {
     title: string;
     rating: number;
     imageSrc: string | null;
-    description?: string;
-    releaseDate: string
+    description: string;
+    releaseDate: string;
   };
 };
 
@@ -40,7 +42,7 @@ const Modal = ({ item }: ModalProps) => {
     if (event.key === "Escape") {
       closeModal();
     }
-  }
+  };
 
   const handleClickBackDrop = (event: MouseEvent) => {
     if (event.target === $modal) {
@@ -48,9 +50,13 @@ const Modal = ({ item }: ModalProps) => {
     }
   };
 
-  const extractYear = (date: string)  => {
+  const extractYear = (date: string) => {
     return date.slice(0, 4);
-  }
+  };
+
+  const formatGenres = (genres: Genre[]): string => {
+    return genres.map((genre) => genre.name).join(", ");
+  };
 
   $modalBackground.addEventListener("click", handleClickBackDrop);
   document.addEventListener("keydown", handleKeyDownESC);
@@ -62,18 +68,25 @@ const Modal = ({ item }: ModalProps) => {
         <div class="modal-container">
           <div class="modal-image">
             <img
-              src="${item.imageSrc ? `https://image.tmdb.org/t/p/w500${item.imageSrc}` : "images/nullImage.png"}" alt="${item.title}"
+              src="${
+                item.imageSrc
+                  ? `https://image.tmdb.org/t/p/w500${item.imageSrc}`
+                  : "images/nullImage.png"
+              }" alt="${item.title}"
             />
           </div>
           <div class="modal-description">
           <div class="modal-header">
-          ${item.title ? `<h2>${item.title}</h2>` : "인사이드 아웃 2"}
+          ${item.title ? `<h2>${item.title}</h2>` : "영화 제목 없음"}
+          
             <p class="category">
-              <span>${extractYear(item.releaseDate)}</span> · 모험, 애니메이션, 코미디, 드라마, 가족
+              <span>${extractYear(item.releaseDate)}</span> · 로딩중...
             </p>
             <div class="rate-container">
               <span class="average">평균</span>
-              <img src="images/star_filled.png" class="star" /><span>${item.rating}</span>
+              <img src="images/star_filled.png" class="star" /><span>${
+                item.rating
+              }</span>
             </div>
           </div>
           <hr />
@@ -95,9 +108,10 @@ const Modal = ({ item }: ModalProps) => {
             
             <h3>줄거리</h3>
             ${
-    item.description
-      ? `<p class="detail">${item.description}</p>`
-      : `<p class="detail">줄거리 요약이 없습니다.</p>`}
+              item.description
+                ? `<p class="detail">${item.description}</p>`
+                : `<p class="detail">줄거리 요약이 없습니다.</p>`
+            }
           </div>
         </div>
 `;
@@ -110,9 +124,12 @@ const Modal = ({ item }: ModalProps) => {
   const $star = $modal.querySelectorAll(".star-container .star");
   $star.forEach((star, index) => {
     star.addEventListener("click", () => {
-      const rating = (index + 1) * 2; // 1번째 별:2, 2번째:4, ..., 5번째:10
+      const rating = (index + 1) * 2;
       $star.forEach((s, i) => {
-        s.setAttribute("src", i <= index ? "images/star_filled.png" : "images/star_empty.png");
+        s.setAttribute(
+          "src",
+          i <= index ? "images/star_filled.png" : "images/star_empty.png"
+        );
       });
       let comment = "";
       switch (rating) {
@@ -138,6 +155,26 @@ const Modal = ({ item }: ModalProps) => {
       }
     });
   });
+
+  const loadMovieDetail = async () => {
+    try {
+      const movieDetail = await fetchMovieDetail(item.id);
+      const genresText =
+        movieDetail.genres && movieDetail.genres.length > 0
+          ? formatGenres(movieDetail.genres)
+          : "장르 정보 없음";
+
+      const $category = $modal.querySelector(".category");
+
+      if ($category) {
+        $category.innerHTML = `<span>${extractYear(item.releaseDate)}</span> · ${genresText}`;
+      }
+    } catch (error) {
+      console.error("영화 상세 정보를 불러오는데 실패했습니다.", error);
+    }
+  };
+
+  loadMovieDetail();
 
   return $modal;
 };

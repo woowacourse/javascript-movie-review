@@ -8,7 +8,9 @@ type CardListProps = {
     title: string;
     rating: number;
     imageSrc: string | null;
-    description?: string;
+    description: string;
+    releaseDate: string
+    genre?: string
   }[];
   el: Element;
   isAppend?: boolean;

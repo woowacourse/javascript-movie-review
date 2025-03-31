@@ -18,8 +18,6 @@ export const fetchMovies = async (
       ? await movieApi.fetchPopularMovies(page)
       : await movieApi.fetchSearchedMovies(query, page);
 
-    console.log(response.results);
-
     const movies = response.results.map(mapToMovie);
     const { list } = getState();
 
@@ -35,6 +33,15 @@ export const fetchMovies = async (
   } catch (error) {
     console.error("영화 로딩 중 오류 발생:", error);
     updateState({ isLoading: false });
+    throw error;
+  }
+};
+
+export const fetchMovieDetail = async (movieId: number)=> {
+  try {
+    const response = await movieApi.fetchMovieDetail(movieId);
+    return mapToMovie(response);
+  } catch (error) {
     throw error;
   }
 };
