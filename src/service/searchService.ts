@@ -109,7 +109,7 @@ function displaySearchResults(): void {
 function handleSearchError(error: Error): void {
   if (error.message !== ERROR_MESSAGE.NO_DATA) {
     Toast.showToast(error.message, "error", 3000);
-    handleNetworkError(null);
+    handleNetworkError();
   } else {
     const scrollInstance = getScrollInstance();
     if (scrollInstance) scrollInstance.stopInfiniteScroll();

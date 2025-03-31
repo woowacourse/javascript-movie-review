@@ -4,9 +4,9 @@ import {
   showLoadMoreButton,
 } from "../view/MovieView";
 import Toast from "../components/Toast/Toast";
-import type { InfiniteScrollInstance } from "./scrollService";
 import { ERROR_MESSAGE } from "../setting/ErrorMessage";
 import { retryNotice } from "../setting/systemMessage";
+import { getScrollInstance } from "../state/movieState";
 
 export function handleConnectionError(): void {
   const $hero = document.getElementById("hero");
@@ -23,11 +23,10 @@ export function handleConnectionError(): void {
   }
 }
 
-export function handleNetworkError(
-  infiniteScrollInstance: InfiniteScrollInstance
-): void {
-  if (infiniteScrollInstance) {
-    infiniteScrollInstance.stopInfiniteScroll();
+export function handleNetworkError() {
+  const scrollInstance = getScrollInstance();
+  if (scrollInstance) {
+    scrollInstance.stopInfiniteScroll();
   }
   showLoadMoreButton();
   Toast.showToast(retryNotice, "info", 2000);

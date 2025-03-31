@@ -29,7 +29,7 @@ import { convertResultToTMDBDetails } from "./util/adapters.ts";
 
 const handleError = (error: Error) => {
   Toast.showToast(error.message, "error", 5000);
-  handleNetworkError(null);
+  handleNetworkError();
 };
 
 const initMovies = () => {
