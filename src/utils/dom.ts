@@ -15,7 +15,7 @@ export const $ = <TElement extends Element = HTMLElement, USelector extends stri
 ): USelector extends `${string}?` ? TElement | null : TElement => {
   const target = context.querySelector<TElement>(selector.endsWith('?') ? selector.slice(0, -1) : selector);
 
-  if (!target && !selector.endsWith('?')) throw new Error(errorMessage.get('dom-not-found', String(context), selector));
+  if (!target && !selector.endsWith('?')) throw new Error(errorMessage.get('domNotFound', String(context), selector));
 
   return target!;
 };
