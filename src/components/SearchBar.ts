@@ -148,11 +148,6 @@ class SearchBar {
     });
   }
 
-  #createResultMovieList(movies: Movie[]) {
-    const movieItems = this.#createResultMovieItems(movies);
-    return new MovieList(movieItems);
-  }
-
   async #getSearchResults(query: string, currentItemCount: number) {
     return await fetchMovies({
       currentItemCount,
