@@ -1,6 +1,6 @@
 import MovieListSection from "../MovieListSection/MovieListSection";
 import Thumbnail from "../../Header/Thumbnail/Thumbnail";
-import Modal from "../../Common/Modal/Modal";
+import Modal from "../../MovieModal/Modal/Modal";
 import { getPopularityMovie } from "../../../Domain/getPopularityMovie";
 import { searchMovie } from "../../../Domain/searchMovie";
 

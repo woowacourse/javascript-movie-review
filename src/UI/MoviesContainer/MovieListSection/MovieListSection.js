@@ -1,7 +1,7 @@
 import "./MovieListSection.css";
 import MovieItem from "../MovieItem/MovieItem";
 import EmptyView from "../EmptyView/EmptyView";
-import Modal from "../../Common/Modal/Modal";
+import Modal from "../../MovieModal/Modal/Modal";
 import { MOVIE } from "../../../constants/movie";
 
 class MovieListSection {
