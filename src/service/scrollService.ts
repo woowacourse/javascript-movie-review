@@ -113,7 +113,7 @@ export function setupInfiniteScroll() {
           isFetching = false;
           debounceTimeoutId = null;
         }
-      }, 300);
+      }, 700);
     }
   };
 
