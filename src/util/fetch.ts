@@ -6,7 +6,7 @@ export interface FetchOptions {
   body?: BodyInit | null;
 }
 
-export function buildUrl(
+export function createUrlWithParams(
   baseUrl: string,
   path?: string,
   queryObject: Record<string, string> | URLSearchParams = {}
@@ -33,7 +33,7 @@ export async function fetchUrl<T>(
   options: FetchOptions = {},
   path?: string
 ): Promise<T> {
-  const finalUrl = buildUrl(url, path, queryObject);
+  const finalUrl = createUrlWithParams(url, path, queryObject);
 
   try {
     const response = await fetch(finalUrl, options);
