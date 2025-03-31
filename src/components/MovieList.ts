@@ -1,8 +1,6 @@
 import { Movie } from "../types/movie";
 import MovieItem from "./MovieItem";
 
-interface MovieListContract {}
-
 export const movieListSkeleton = () => {
   return /*html*/ `
     ${Array.from({ length: 20 })
@@ -22,7 +20,7 @@ export const movieListSkeleton = () => {
       .join("")}`;
 };
 
-class MovieList implements MovieListContract {
+class MovieList {
   private static readonly IMAGE_BASE_URL =
     "https://image.tmdb.org/t/p/original";
   #parentElement: HTMLElement;

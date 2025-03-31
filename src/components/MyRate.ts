@@ -29,7 +29,7 @@ class MyRate {
   }
 
   #loadRate() {
-    const rate = RateStorage.getRate(this.#movieId);
+    const rate = RateStorage.getRate(`${this.#movieId}`);
     const $currentStar = this.#parentElement.querySelector(`#star-${rate / 2}`);
 
     if (!isHTMLElement($currentStar)) return;
@@ -55,7 +55,7 @@ class MyRate {
       if (!target.matches("img")) return;
 
       RateStorage.saveRate({
-        id: this.#movieId,
+        id: `${this.#movieId}`,
         rate: Number(target.id.split("-")[1]) * 2,
       });
 
@@ -81,11 +81,7 @@ class MyRate {
     });
   }
 }
-//2점: 최악이예요
-// 4점: 별로예요
-// 6점: 보통이에요
-// 8점: 재미있어요
-// 10점: 명작이에요
+
 const RATE_COMMENTS = [
   { rate: 2, starID: 1, comment: "최악이에요" },
   { rate: 4, starID: 2, comment: "별로예요" },
