@@ -1,12 +1,12 @@
+import { Score } from "../../../types/starRating";
 import { SCORE_MESSAGES } from "../../constants/config";
 import Store from "../../store/store";
 
-const ALLOWED_RATINGS: number[] = [2, 4, 6, 8, 10];
+const ALLOWED_RATINGS: Score[] = [2, 4, 6, 8, 10];
 
-export const Rating = (initialScore: number = 0): string => {
+export const Rating = (initialScore: Score = 0): string => {
   const score = ALLOWED_RATINGS.includes(initialScore) ? initialScore : 0;
-  const scoreMessage =
-    SCORE_MESSAGES[score as 2 | 4 | 6 | 8 | 10] || "별점이 없어요";
+  const scoreMessage = SCORE_MESSAGES[score];
   const labelsHTML = ALLOWED_RATINGS.map(
     (val) => /* html */ `
     <label for="star${val}" class="rating__label ${
@@ -72,7 +72,7 @@ export const attachRatingEvents = (movieId: string, store: Store): void => {
     );
 
     if ($checkedRadio) {
-      const newScore = Number($checkedRadio.value);
+      const newScore = Number($checkedRadio.value) as Score;
       let starRatings = store.getState().starRatings || [];
       const index = starRatings.findIndex((rating) => rating.id === movieId);
 

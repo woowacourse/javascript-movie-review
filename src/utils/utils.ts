@@ -1,3 +1,4 @@
+import { Score } from "../../types/starRating";
 import Store from "../store/store";
 
 const isScrolledToBottom = (threshold: number = 180): boolean => {
@@ -11,7 +12,7 @@ const getCurrentPage = (moviesLength: number, unit: number): number => {
   return Math.floor(moviesLength / unit) + 1;
 };
 
-const getCurrentScore = (id: string, store: Store): number => {
+const getCurrentScore = (id: string, store: Store): Score => {
   const scores = store.getState().starRatings || [];
   return scores.find((rating) => rating.id === id)?.score || 0;
 };
@@ -29,7 +30,10 @@ async function withLoading<T>(
   }
 }
 
-const debounce = <T extends (...args: any[]) => any>(fn: T, delay: number): T => {
+const debounce = <T extends (...args: any[]) => any>(
+  fn: T,
+  delay: number
+): T => {
   let timeoutId: number;
   return ((...args: any[]) => {
     clearTimeout(timeoutId);
@@ -42,5 +46,5 @@ export {
   getCurrentPage,
   getCurrentScore,
   withLoading,
-  debounce
+  debounce,
 };

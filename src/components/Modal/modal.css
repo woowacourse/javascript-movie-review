@@ -133,13 +133,13 @@ body.modal-open {
   display: block;
   position: relative;
   left: 0;
-  background-image: url("../../../public/images/star_empty.png");
+  background-image: url("/images/star_empty.png");
   background-repeat: no-repeat;
   background-size: 32px;
 }
 
 .rating__label .star-icon.filled {
-  background-image: url("../../../public/images/star_filled.png");
+  background-image: url("/images/star_filled.png");
 }
 
 .rating__label--full .star-icon {

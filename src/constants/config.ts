@@ -10,6 +10,7 @@ const ERROR_MESSAGES = {
 } as const;
 
 const SCORE_MESSAGES = {
+  0: "별점이 없어요",
   2: "최악이예요",
   4: "별로예요",
   6: "보통이에요",
