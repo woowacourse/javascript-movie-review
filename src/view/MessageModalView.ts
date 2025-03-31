@@ -1,5 +1,5 @@
 import MessageModal from "../component/MessageModal";
-import mainElement from "../dom/mainElement";
+import mainElement from "./dom/mainElement";
 import { $ } from "../util/selector";
 
 class MessageModalView {

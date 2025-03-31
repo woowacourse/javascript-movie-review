@@ -1,5 +1,5 @@
 import { getPopularMovieResult } from "../api/getPopularMovieResult";
-import mainElement from "../dom/mainElement";
+import mainElement from "../view/dom/mainElement";
 import MovieListModel from "../domain/MovieListModel";
 import MovieListScrollManager from "../lib/scroll/MovieListScrollManager";
 import { IMovieItem, IMovieResult } from "../types/movieResultType";

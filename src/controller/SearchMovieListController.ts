@@ -1,5 +1,5 @@
 import { getSearchMovieResult } from "../api/getSearchMovieResult";
-import mainElement from "../dom/mainElement";
+import mainElement from "../view/dom/mainElement";
 import MovieListScrollManager from "../lib/scroll/MovieListScrollManager";
 import { IMovieResult } from "../types/movieResultType";
 import SearchMovieListView from "../view/SearchMovieListView";
