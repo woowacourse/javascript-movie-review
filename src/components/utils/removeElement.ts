@@ -1,4 +1,4 @@
 export default function removeElement(selector: string) {
-  const el = document.querySelector(selector);
-  if (el) el.remove();
+  const $element = document.querySelector(selector);
+  if ($element) $element.remove();
 }

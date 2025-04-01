@@ -24,9 +24,9 @@ const Modal = ({ content, onOpen, onClose }: ModalOptions): HTMLElement => {
   };
 
   const bindEvents = () => {
-    $modalBg.addEventListener("click", (e) => {
+    document.addEventListener("click", (e) => {
       const target = e.target as HTMLElement;
-      if (target.id === "closeModal") {
+      if (target.className === "closeModal") {
         closeModal();
       }
     });

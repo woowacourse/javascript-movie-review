@@ -27,8 +27,8 @@ export default function MovieItemModal(
 
   return `
     <div class="modal">
-      <button class="close-modal" id="closeModal">
-        <img src="${CloseBtnSrc}" />
+      <button class="close-modal" class="closeModal">
+        <img src="${CloseBtnSrc}" class="closeModal" />
       </button>
       <div class="modal-container">
         <div class="modal-image">
