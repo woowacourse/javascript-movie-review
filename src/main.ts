@@ -14,6 +14,7 @@ import Skeleton from "./components/Skeleton/Skeleton";
 import Subtitle from "./components/Subtitle/Subtitle";
 import ErrorMessage from "./constants/ErrorMessage";
 import { MOVIE_RATE_LIST_KEY } from "./constants/MovieRate";
+import handleError from "./utils/handleError";
 import LocalStorage from "./utils/localStorage";
 
 let pageNumber = 1;
@@ -50,7 +51,7 @@ addEventListener("load", async () => {
     ScrollObserver.intersect = () => seeMorePopularMovies(observer);
     ScrollObserver.turnOn(observer);
   } catch (error) {
-    if (error instanceof Error) alert(error.message);
+    handleError(error);
   }
 });
 
@@ -62,7 +63,7 @@ async function getPopularMovieList() {
 
     return movieList;
   } catch (error) {
-    if (error instanceof Error) alert(error.message);
+    handleError(error);
     return { movies: [], canMore: false };
   }
 }
@@ -75,7 +76,7 @@ async function getSearchMovieList(query: string) {
 
     return movieList;
   } catch (error) {
-    if (error instanceof Error) alert(error.message);
+    handleError(error);
     return { movies: [], canMore: false };
   }
 }
@@ -89,7 +90,7 @@ async function seeMorePopularMovies(observer: IntersectionObserver) {
     MovieList.add(movies);
     Skeleton.hidden();
   } catch (error) {
-    if (error instanceof Error) alert(error.message);
+    handleError(error);
   }
 }
 
@@ -115,7 +116,7 @@ async function search(observer: IntersectionObserver) {
       return;
     }
   } catch (error) {
-    if (error instanceof Error) alert(error.message);
+    handleError(error);
   }
 }
 
@@ -130,7 +131,7 @@ async function seeMoreSearchMovies(
     MovieList.add(movies);
     Skeleton.hidden();
   } catch (error) {
-    if (error instanceof Error) alert(error.message);
+    handleError(error);
   }
 }
 
@@ -158,6 +159,6 @@ async function showMovieDetailModal(e: MouseEvent) {
       })
     );
   } catch (error) {
-    if (error instanceof Error) alert(error.message);
+    handleError(error);
   }
 }
