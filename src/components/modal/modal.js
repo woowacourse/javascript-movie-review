@@ -8,23 +8,10 @@ export default function Modal($modalElement) {
 }
 
 function createModal($modalElement) {
-  const $modalBackground = createElement("div", {
-    className: ["modal-background", "active"],
-    id: "modalBackground",
-  });
-
-  const $modal = createElement("div", {
-    className: "modal",
-  });
-
-  const $closeButton = createElement("button", {
-    className: "close-modal",
-    id: "closeModal",
-  });
-
-  const $closeImg = createElement("img", {
-    src: "./images/modal_button_close.png",
-  });
+  const $modalBackground = createModalBackground();
+  const $modal = createModalContainer();
+  const $closeButton = createCloseButton();
+  const $closeImg = createCloseImg();
 
   $closeButton.append($closeImg);
   $modal.append($closeButton, $modalElement);
@@ -33,8 +20,30 @@ function createModal($modalElement) {
   return $modalBackground;
 }
 
-function mountModal($modal) {
-  $("#wrap").append($modal);
+function createModalBackground() {
+  return createElement("div", {
+    className: ["modal-background", "active"],
+    id: "modalBackground",
+  });
+}
+
+function createModalContainer() {
+  return createElement("div", {
+    className: "modal",
+  });
+}
+
+function createCloseButton() {
+  return createElement("button", {
+    className: "close-modal",
+    id: "closeModal",
+  });
+}
+
+function createCloseImg() {
+  return createElement("img", {
+    src: "./images/modal_button_close.png",
+  });
 }
 
 function bindCloseEvent($modal) {
@@ -64,4 +73,8 @@ function bindCloseButton($modal) {
 
 function closeModal($modal) {
   $modal.remove();
+}
+
+function mountModal($modal) {
+  $("#wrap").append($modal);
 }
