@@ -10,7 +10,7 @@ export default function createElement<K extends keyof HTMLElementTagNameMap>(
 ): HTMLElementTagNameMap[K] {
   const { tag, classNames = [], ...rest } = props;
 
-  const $element = document.createElement(tag) as HTMLElementTagNameMap[K];
+  const $element = document.createElement(tag);
 
   classNames.forEach((className) => $element.classList.add(className));
 
