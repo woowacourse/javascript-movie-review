@@ -1,7 +1,7 @@
 import { MovieResult } from "../../api/types/movie/response";
 import { PREFIX_POSTER_PATH } from "../../constants/constants";
 import Component from "../base/Component";
-import Skeleton from "../commons/Skeleton";
+import Skeleton from "../common/Skeleton";
 
 const ratingDescriptions = {
   0: "별점을 선택해주세요",

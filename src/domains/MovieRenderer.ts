@@ -1,7 +1,7 @@
 import { getMovies, searchMovies } from "../api/services/movie";
 import { MoviesResponse } from "../api/types/movie/response";
 import { handleApiResponse } from "../api/utils/handlers";
-import Main from "../components/layouts/Main";
+import Main from "../components/layout/Main";
 import { store } from "../stores";
 import InfiniteScroll from "./InfiniteScroll";
 import {

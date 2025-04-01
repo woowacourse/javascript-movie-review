@@ -1,4 +1,4 @@
-import { ratingType } from "../components/layouts/Modal";
+import { ratingType } from "../components/layout/Modal";
 import { LocalStorage } from "./Storage";
 
 interface MovieRating {

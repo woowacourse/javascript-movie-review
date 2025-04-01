@@ -1,4 +1,4 @@
-import Modal, { ratingType } from "../components/layouts/Modal";
+import Modal, { ratingType } from "../components/layout/Modal";
 import EventBus from "./EventBus";
 import {
   isElement,
