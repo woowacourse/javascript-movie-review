@@ -23,11 +23,11 @@ const Skeleton = {
   },
 
   show() {
-    toggleDisplay($skeletonList, "show");
+    toggleDisplay($skeletonList, true);
   },
 
   hidden() {
-    toggleDisplay($skeletonList, "hidden");
+    toggleDisplay($skeletonList, false);
   },
 };
 

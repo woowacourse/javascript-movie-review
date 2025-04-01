@@ -30,8 +30,8 @@ const Header = {
 
   setSearchMode() {
     $backgroundContainer.style.height = "auto";
-    toggleDisplay($overlay, "hidden");
-    toggleDisplay($topRatedMovie, "hidden");
+    toggleDisplay($overlay, false);
+    toggleDisplay($topRatedMovie, false);
   },
 
   onDetailButtonClick(event: MouseEvent) {

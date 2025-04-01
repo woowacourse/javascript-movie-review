@@ -12,11 +12,11 @@ const SeeMoreButton = {
   },
 
   show() {
-    toggleDisplay($seeMoreButton, "show");
+    toggleDisplay($seeMoreButton, true);
   },
 
   hidden() {
-    toggleDisplay($seeMoreButton, "hidden");
+    toggleDisplay($seeMoreButton, false);
   },
 };
 

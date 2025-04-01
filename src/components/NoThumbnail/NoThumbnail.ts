@@ -3,11 +3,11 @@ import { $noThumbnail } from "./Element";
 
 const NoThumbnail = {
   show() {
-    toggleDisplay($noThumbnail, "show");
+    toggleDisplay($noThumbnail, true);
   },
 
   hidden() {
-    toggleDisplay($noThumbnail, "hidden");
+    toggleDisplay($noThumbnail, false);
   },
 };
 

@@ -31,7 +31,7 @@ const Modal = {
   },
 
   show() {
-    toggleVisibility($modalBackground, "show");
+    toggleVisibility($modalBackground, true);
     setPageScroll(false);
     addEventListener("keydown", escapeEventListener);
     if (window.innerWidth < 1024)
@@ -39,7 +39,7 @@ const Modal = {
   },
 
   hidden() {
-    toggleVisibility($modalBackground, "hidden");
+    toggleVisibility($modalBackground, false);
     setPageScroll(true);
     removeEventListener("keydown", escapeEventListener);
     if (window.innerWidth < 1024) $modal.style.animation = "none";

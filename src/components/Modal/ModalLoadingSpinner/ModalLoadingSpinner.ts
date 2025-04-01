@@ -3,11 +3,11 @@ import { $modalLoadingSpinner } from "./Element";
 
 const ModalLoadingSpinner = {
   show() {
-    toggleDisplay($modalLoadingSpinner, "show");
+    toggleDisplay($modalLoadingSpinner, true);
   },
 
   hidden() {
-    toggleDisplay($modalLoadingSpinner, "hidden");
+    toggleDisplay($modalLoadingSpinner, false);
   },
 };
 
