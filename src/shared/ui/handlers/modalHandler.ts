@@ -5,6 +5,8 @@ export function closeModal() {
 
   document.body.classList.remove("modal-open");
   $wrap?.removeChild(modalBackground);
+
+  document.body.removeEventListener("keydown", handleEscape);
 }
 
 export function preventScrollWhenModalOpen() {
