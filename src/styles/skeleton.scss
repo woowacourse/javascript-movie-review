@@ -1,3 +1,6 @@
+@import "./colors.css";
+@import "./screen.scss";
+
 .skeleton-list {
   margin: 0 auto 56px;
   display: grid;
@@ -36,7 +39,7 @@
   }
 }
 
-@media screen and (max-width: 1439px) {
+@media screen and (max-width: ($screen-large-laptop - 1px)) {
   .skeleton-list {
     margin: 0 auto 56px;
     display: grid;
@@ -45,7 +48,7 @@
   }
 }
 
-@media screen and (max-width: 1023px) {
+@media screen and (max-width: ($screen-small-laptop - 1px)) {
   .skeleton-list {
     margin: 0 auto 56px;
     display: grid;
@@ -60,7 +63,7 @@
   }
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: ($screen-tablet - 1px)) {
   .skeleton-list {
     margin: 0 auto 56px;
     display: grid;

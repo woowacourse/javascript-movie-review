@@ -1,4 +1,5 @@
 @import "./colors.css";
+@import "./screen.scss";
 
 /* modal.css */
 body.modal-open {
@@ -172,7 +173,7 @@ body.modal-open {
   }
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: ($screen-tablet - 1px)) {
   .modal-image img {
     display: none;
   }
