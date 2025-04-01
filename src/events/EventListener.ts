@@ -26,8 +26,7 @@ export function initializeDomEventListener() {
   window.addEventListener("keydown", handleKeydown);
 }
 
-function handleClick(event: MouseEvent) {
-  const { target } = event;
+function handleClick({ target }: MouseEvent) {
   if (!isElement(target)) return;
 
   const elementMap = [
