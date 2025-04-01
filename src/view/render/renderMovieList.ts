@@ -9,12 +9,6 @@ import createDOMElement from '../../util/createDomElement';
 let scrollHandler: ReturnType<typeof createInfiniteScrollHandler>;
 
 export const renderMovieList = async (response: ResponseType, keyword?: string) => {
-  const movieTitle = $('#movieKindTitle');
-  const movieTitleText = keyword ? `"${keyword}" 검색 결과` : '지금 인기 있는 영화';
-  if (movieTitle) {
-    movieTitle.textContent = movieTitleText;
-  }
-
   if (!response) return;
   const { results, totalPages, totalResults } = response;
 

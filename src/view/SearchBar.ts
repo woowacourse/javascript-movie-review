@@ -1,9 +1,5 @@
-import getSearchMovies from '../api/getSearchMovies';
 import createDOMElement from '../util/createDomElement';
-import { $ } from '../util/selector';
-import { removeBanner } from './render/renderBanner';
-import { renderMovieList } from './render/renderMovieList';
-import { hideSkeletons, movieListSkeletons } from './render/skeleton/movieListSkeletons';
+import { handleSearchMovies } from './events/handleSearchMovies';
 
 function SearchBar() {
   return createDOMElement({
@@ -28,30 +24,5 @@ function SearchBar() {
     event: { submit: handleSearchMovies }
   });
 }
-
-const handleSearchMovies = async (e: Event) => {
-  e.preventDefault();
-  removeBanner();
-  const movieList = $('.thumbnail-list');
-  movieList?.replaceChildren();
-
-  movieListSkeletons();
-
-  const form = $('#searchForm') as HTMLFormElement;
-  if (form) {
-    const keyword = form.keyword.value;
-    const params = {
-      page: '1',
-      language: 'ko-KR',
-      include_adult: 'false',
-      query: keyword
-    };
-
-    const response = await getSearchMovies(params);
-    renderMovieList(response, keyword);
-  }
-
-  hideSkeletons();
-};
 
 export default SearchBar;
