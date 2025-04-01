@@ -1,7 +1,7 @@
 import mountSearchTitle from "../mount/mountSearchTitle";
 import mountMovieItemList from "../mount/mountMovieItemList";
 import MovieItemList from "../../components/movieItemList/movieItemList";
-import { URLS } from "../../setting/settings";
+import { defaultQueryObject, URLS } from "../../setting/settings";
 import type { MovieItemListInstance } from "../../../types/components";
 import { showSkeleton, hideSkeleton } from "../../service/skeleton";
 import getSearchParams from "../../util/getSearchParams";
@@ -15,7 +15,10 @@ const SENTINEL_SELECTOR = "#sentinel";
 const movieItemList: MovieItemListInstance = MovieItemList();
 const fetchSearchMovies = createInfiniteQuery<TMDBResponse>(
   URLS.searchMovieUrl,
-  getSearchParams("query")
+  {
+    searchTerm: getSearchParams("query"),
+    baseQuery: defaultQueryObject,
+  }
 );
 
 export async function initSearchApp() {
