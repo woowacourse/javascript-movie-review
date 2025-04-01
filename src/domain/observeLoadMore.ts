@@ -3,10 +3,10 @@ import { $ } from "../utils/dom";
 import loadMoreMovies from "../components/utils/loadMoreMovies";
 
 type Props = {
-  currentPage: number;
   loadFn: (currentPage: number) => Promise<Response>;
 };
-const observeLoadMore = ({ currentPage, loadFn }: Props) => {
+const observeLoadMore = ({ loadFn }: Props) => {
+  let currentPage = 2;
   const listEnd = $(".load-more");
 
   const option = {

@@ -76,6 +76,5 @@ async function processMovies() {
 
   hideSkeleton();
 
-  let currentPage = 2;
-  observeLoadMore({ currentPage, loadFn: fetchPopularMovieList });
+  observeLoadMore({ loadFn: fetchPopularMovieList });
 }

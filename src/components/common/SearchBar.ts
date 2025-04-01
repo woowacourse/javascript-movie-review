@@ -1,3 +1,4 @@
+import { partial } from "@zoeykr/function-al";
 import { fetchSearchMovieList } from "../../api/fetchSearchMovieList.ts";
 import observeLoadMore from "../../domain/observeLoadMore.ts";
 import { $ } from "../../utils/dom.ts";
@@ -60,11 +61,9 @@ const searchMovie = async (input: string) => {
 
     thumbnailList.after(LoadMoreSection());
 
-    let currentPage = 2;
-
+    const loadFn = partial(fetchSearchMovieList, input);
     observeLoadMore({
-      currentPage,
-      loadFn: (currentPage: number) => fetchSearchMovieList(input, currentPage),
+      loadFn: loadFn,
     });
   }
 };
