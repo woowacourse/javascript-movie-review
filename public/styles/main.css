@@ -80,11 +80,3 @@ footer.footer {
 footer.footer p:not(:last-child) {
   margin-bottom: 8px;
 }
-
-.marginB1rem {
-  margin-bottom: 1rem;
-}
-
-.marginT1rem {
-  margin-top: 1rem;
-}

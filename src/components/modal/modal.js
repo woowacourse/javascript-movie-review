@@ -38,18 +38,30 @@ function mountModal($modal) {
 }
 
 function bindCloseEvent($modal) {
-  const $closeButton = $modal.querySelector("#closeModal");
-  $modal.addEventListener("click", (e) => {
-    if (e.target.id === "modalBackground") close($modal);
-  });
-
-  window.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") close($modal);
-  });
-
-  $closeButton.addEventListener("click", () => close($modal));
+  bindBackgroundClick($modal);
+  bindEscapeKey($modal);
+  bindCloseButton($modal);
 }
 
-function close($modal) {
+function bindBackgroundClick($modal) {
+  $modal.addEventListener("click", (e) => {
+    if (e.target.id === "modalBackground") closeModal($modal);
+  });
+}
+
+function bindEscapeKey($modal) {
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeModal($modal);
+  });
+}
+
+function bindCloseButton($modal) {
+  const $closeButton = $modal.querySelector("#closeModal");
+  if ($closeButton) {
+    $closeButton.addEventListener("click", () => closeModal($modal));
+  }
+}
+
+function closeModal($modal) {
   $modal.remove();
 }
