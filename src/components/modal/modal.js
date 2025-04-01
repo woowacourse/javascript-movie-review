@@ -5,7 +5,7 @@ import { $ } from "../../util/querySelector";
 export default function Modal($modalElement) {
   const $modal = createModal($modalElement);
   bindCloseEvent($modal);
-  render($modal);
+  mountModal($modal);
 }
 
 function createModal($modalElement) {
@@ -34,7 +34,7 @@ function createModal($modalElement) {
   return $modalBackground;
 }
 
-function render($modal) {
+function mountModal($modal) {
   $("#wrap").append($modal);
 }
 
