@@ -1,5 +1,5 @@
 import Modal from '../Modal';
-import { MoveDetailType } from '../../type';
+import { MovieDetailType } from '../../type';
 import { $ } from '../../util/selector';
 import { hideModalSkeletons, modalSkeletons } from './skeleton/modalSkeleton';
 
@@ -13,7 +13,7 @@ function waitForImageLoad(img: HTMLImageElement): Promise<void> {
   });
 }
 
-export const renderModal = async (movieDetail: MoveDetailType) => {
+export const renderModal = async (movieDetail: MovieDetailType) => {
   const modal = Modal(movieDetail) as HTMLDialogElement;
   const poster = modal.querySelector('#movieDetailPoster') as HTMLImageElement;
 

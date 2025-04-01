@@ -1,6 +1,6 @@
-import { MoveDetailResponseType, MoveDetailType } from '../type';
+import { MovieDetailResponseType, MovieDetailType } from '../type';
 
-export const convertMovieDetailData = (raw: MoveDetailResponseType): MoveDetailType => {
+export const convertMovieDetailData = (raw: MovieDetailResponseType): MovieDetailType => {
   return {
     id: raw.id,
     posterPath: raw.posterPath,

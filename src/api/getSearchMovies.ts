@@ -1,10 +1,10 @@
 import { convertMovieData } from '../domain/convertMovieData';
-import { MovePramsType } from '../type';
+import { MovieParamsType } from '../type';
 import { errorUi } from '../view/errorUi';
 import { getAppClient } from './appClient';
 import { ERROR } from './constant';
 
-const getSearchMovies = async (params: MovePramsType) => {
+const getSearchMovies = async (params: MovieParamsType) => {
   try {
     const movies = await getAppClient('/search/movie', params);
     if (movies.results.length === 0) {

@@ -1,11 +1,11 @@
 export interface ResponseType {
   page: number;
-  results: MoveType[];
+  results: MovieType[];
   totalPages: number;
   totalResults: number;
 }
 
-export interface MoveResponseType {
+export interface MovieResponseType {
   adult: boolean;
   backdropPath: null;
   genreIds: number[];
@@ -21,7 +21,7 @@ export interface MoveResponseType {
   voteAverage: number;
   voteCount: number;
 }
-export interface MoveDetailResponseType {
+export interface MovieDetailResponseType {
   adult: false;
   backdropPath: string;
   belongsToCollection: null;
@@ -50,14 +50,14 @@ export interface MoveDetailResponseType {
   voteCount: number;
 }
 
-export interface MovePramsType {
+export interface MovieParamsType {
   language: string;
   page?: string;
   include_adult?: string;
   query?: string;
 }
 
-export interface MoveType {
+export interface MovieType {
   backdropPath: null;
   id: number;
   posterPath: string;
@@ -66,7 +66,7 @@ export interface MoveType {
   voteCount: number;
 }
 
-export interface MoveDetailType {
+export interface MovieDetailType {
   id: number;
   posterPath: string;
   title: string;

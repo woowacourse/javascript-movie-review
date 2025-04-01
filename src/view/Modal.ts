@@ -2,9 +2,9 @@ import createDOMElement from '../util/createDomElement';
 import { $ } from '../util/selector';
 import { RATING_COMMENTS } from '../constant';
 import { localStorageRate, renderRate } from '../domain/localStorageRate';
-import { MoveDetailType, RatingScore } from '../type';
+import { MovieDetailType, RatingScore } from '../type';
 
-function Modal(movieDetail: MoveDetailType) {
+function Modal(movieDetail: MovieDetailType) {
   const genre = movieDetail.genres.map((genre) => genre.name).join(', ');
   const releaseYear = movieDetail.releaseDate.substring(0, 4);
 

@@ -1,4 +1,4 @@
-import { MovePramsType } from '../type';
+import { MovieParamsType } from '../type';
 import { transformKeysToCamel } from '../util/transformKeysToCamel';
 import { BASE_URL, ERROR } from './constant';
 import { httpErrorStatus } from './error/httpErrorStatus';
@@ -35,6 +35,6 @@ const requestAppClient = async <T>(method: HttpMethod, query: string, params: T)
   }
 };
 
-export const getAppClient = (query: string, params: MovePramsType) => {
+export const getAppClient = (query: string, params: MovieParamsType) => {
   return requestAppClient('GET', query, params);
 };

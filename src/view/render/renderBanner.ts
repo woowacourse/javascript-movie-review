@@ -1,8 +1,8 @@
 import Banner from '../Banner';
-import { MoveType } from '../../type';
+import { MovieType } from '../../type';
 import { $ } from '../../util/selector';
 
-export const renderBanner = async (movies: MoveType[]) => {
+export const renderBanner = async (movies: MovieType[]) => {
   const wrap = $('#wrap');
 
   const hasBackdropMovies = movies.filter((movie) => movie.backdropPath !== null);

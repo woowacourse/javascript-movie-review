@@ -1,6 +1,6 @@
-import { MoveResponseType, MoveType } from '../type';
+import { MovieResponseType, MovieType } from '../type';
 
-export const convertMovieData = (raw: MoveResponseType): MoveType => {
+export const convertMovieData = (raw: MovieResponseType): MovieType => {
   return {
     backdropPath: raw.backdropPath,
     id: raw.id,

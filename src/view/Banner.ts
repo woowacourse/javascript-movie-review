@@ -1,10 +1,10 @@
 import createDOMElement from '../util/createDomElement';
 import Button from '../component/Button';
 import { IMAGE_BASE_URL } from '../constant';
-import { MoveType } from '../type';
+import { MovieType } from '../type';
 import { handleMovieDetail } from './events/handleMovieDetail';
 
-function Banner({ movie }: { movie: MoveType }) {
+function Banner({ movie }: { movie: MovieType }) {
   const { backdropPath, voteAverage, title, id } = movie;
   return createDOMElement({
     tag: 'header',
