@@ -1,11 +1,11 @@
-export interface MovieApiRequest {
+interface CommonApiRequest {
   page: number;
-  title?: string;
   language?: string;
   include_adult?: boolean;
 }
 
-export type GetMoviesRequest = Omit<MovieApiRequest, "title">;
-export type SearchMoviesRequest = Required<
-  Pick<MovieApiRequest, "page" | "title">
->;
+export interface GetMoviesRequest extends CommonApiRequest {}
+
+export interface SearchMoviesRequest extends CommonApiRequest {
+  title: string;
+}
