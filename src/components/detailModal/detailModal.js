@@ -1,12 +1,4 @@
-import {
-  defaultOptions,
-  URLS,
-  defaultQueryObject,
-} from "../../setting/settings";
 import { createElement } from "../../util/dom";
-import { fetchUrl } from "../../util/fetch";
-import { getRating } from "../../util/store";
-import { updateRating } from "../../util/store";
 import { getYear, getGenre } from "./detailModal.utils";
 import { setupRatingStars } from "./setupRatingStars";
 

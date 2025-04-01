@@ -1,5 +1,4 @@
 import { createElement } from "../../util/dom";
-import { hideElement, showElement } from "../../view/InputView";
 import { $ } from "../../util/querySelector";
 
 export default function Modal($modalElement) {

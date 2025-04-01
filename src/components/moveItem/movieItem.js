@@ -1,12 +1,7 @@
 import { createElement } from "../../util/dom";
 import Modal from "../modal/modal";
 import DetailModal from "../detailModal/detailModal";
-import { fetchUrl } from "../../util/fetch";
-import {
-  defaultOptions,
-  URLS,
-  defaultQueryObject,
-} from "../../setting/settings";
+import { URLS } from "../../setting/settings";
 import Spinner from "../spinner/spinner";
 import replaceModalContent from "../../service/replaceModalContent";
 import { createSingleFetchQuery } from "../../service/createSingleQuery";
