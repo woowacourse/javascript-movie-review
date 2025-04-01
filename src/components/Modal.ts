@@ -6,7 +6,9 @@ const Modal = (movieDetails: MovieDetails) => {
   const $modalBg = createElement({
     tag: "div",
     classNames: ["modal-background", "active"],
-    id: "modalBackground",
+    attributes: {
+      id: "modalBackground",
+    }
   });
 
   const $gnb = document.querySelector(".gnb");

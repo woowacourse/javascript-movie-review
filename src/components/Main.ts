@@ -15,12 +15,16 @@ const Main = ({ movies, status }: MainProps) => {
   if ($body) {
     const $wrap = createElement({
       tag: "div",
-      id: "wrap",
+      attributes: {
+        id: "wrap",
+      }
     });
 
     const $container = createElement({
       tag: "div",
-      id: "container",
+      attributes: {
+        id: "container",
+      }
     });
 
     $body.appendChild($wrap);

@@ -17,7 +17,9 @@ function createSearchBarUI(onSubmit: (query: string) => void) {
   const $input = createElement({
     tag: "input",
     classNames: ["search-bar"],
-    placeholder: SEARCH_BAR_PLACEHOLDER,
+    attributes: {
+      placeholder: SEARCH_BAR_PLACEHOLDER,
+    }
   });
 
   const $button = createElement({
@@ -27,7 +29,9 @@ function createSearchBarUI(onSubmit: (query: string) => void) {
 
   const $img = createElement({
     tag: "img",
-    src: SearchButtonImage,
+    attributes: {
+      src: SearchButtonImage,
+    }
   });
 
   $button.appendChild($img);
