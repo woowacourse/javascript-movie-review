@@ -9,12 +9,14 @@ const MovieItem = {
     movieItemElement.dataset.id = id.toString();
     const content = /*html*/ `
       <div class="item">
-          <img
-          class="thumbnail"
-          src=${POSTER_IMG_PREFIX + posterPath}
-          onerror="this.onerror=null; this.src='./images/null_image.png'"
-          alt=${title}
-          />
+          <div class="item-img">
+            <img
+            class="thumbnail"
+            src=${POSTER_IMG_PREFIX + posterPath}
+            onerror="this.onerror=null; this.src='./images/null_image.png'"
+            alt=${title}
+            />
+          </div>
           <div class="item-desc">
           <p class="rate">
               <img src="./images/star_empty.png" class="star" /><span

@@ -8,11 +8,20 @@
   gap: 70px;
 }
 
-.thumbnail {
-  cursor: pointer;
+.item-img {
   width: 200px;
   height: 300px;
   border-radius: 8px;
+  overflow: hidden;
+}
+
+.thumbnail {
+  width: 100%;
+
+  &:hover {
+    transform: scale(1.1);
+    transition: transform 0.3s;
+  }
 }
 
 .item {
