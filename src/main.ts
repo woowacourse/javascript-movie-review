@@ -105,7 +105,7 @@ function handleSearchEvent(movieService: MovieService) {
     }
   });
 }
-let currentObserver: IntersectionObserver | null = null;
+let currentObserver: IntersectionObserver;
 
 async function renderContent(results: MovieInfo[], title: string) {
   if (currentObserver) {
@@ -119,7 +119,7 @@ async function renderContent(results: MovieInfo[], title: string) {
   $main?.appendChild($lastItem);
   const movieService = new MovieService();
   currentObserver = new IntersectionObserver((entries) => {
-    entries.forEach(async (entry) => {
+    entries.forEach((entry) => {
       if (entry.isIntersecting) {
         handleAdditionalData(movieService, title, currentObserver);
       }
