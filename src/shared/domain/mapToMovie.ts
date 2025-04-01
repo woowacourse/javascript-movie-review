@@ -10,14 +10,14 @@ import {
 export const mapToMovie = (movie: MovieResponse): Movie => {
   return {
     id: movie.id,
-    backdrop_path: movie.backdrop_path,
-    original_language: movie.original_language,
-    original_title: movie.original_title,
+    backdropPath: movie.backdrop_path,
+    originalLanguage: movie.original_language,
+    originalTitle: movie.original_title,
     overview: movie.overview,
-    poster_path: movie.poster_path,
-    release_date: movie.release_date,
+    posterPath: movie.poster_path,
+    releaseDate: movie.release_date,
     title: movie.title,
-    vote_average: movie.vote_average,
+    voteAverage: movie.vote_average,
   };
 };
 
@@ -27,8 +27,8 @@ export const mapToMovieList = (
   return {
     page: moviesResponse.page,
     results: moviesResponse.results.map(mapToMovie),
-    total_pages: moviesResponse.total_pages,
-    total_results: moviesResponse.total_results,
+    totalPages: moviesResponse.total_pages,
+    totalResults: moviesResponse.total_results,
   };
 };
 
@@ -37,12 +37,12 @@ export const mapToMovieDetail = (
 ): MovieDetail => {
   return {
     id: movieDetailResponse.id,
-    backdrop_path: movieDetailResponse.backdrop_path,
+    backdropPath: movieDetailResponse.backdrop_path,
     genres: movieDetailResponse.genres,
     overview: movieDetailResponse.overview,
-    poster_path: movieDetailResponse.poster_path,
-    release_date: movieDetailResponse.release_date,
+    posterPath: movieDetailResponse.poster_path,
+    releaseDate: movieDetailResponse.release_date,
     title: movieDetailResponse.title,
-    vote_average: movieDetailResponse.vote_average,
+    voteAverage: movieDetailResponse.vote_average,
   };
 };

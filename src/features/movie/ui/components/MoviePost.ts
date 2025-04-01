@@ -4,8 +4,8 @@ import URL from "../../../../shared/constants/url";
 const MoviePost = (movie: Movie) => {
   const moviePost = document.createElement("li");
 
-  const movieImgPath = movie.poster_path
-    ? `${URL.BASE_POSTER_IMAGE}${movie.poster_path}`
+  const movieImgPath = movie.posterPath
+    ? `${URL.BASE_POSTER_IMAGE}${movie.posterPath}`
     : URL.NULL_IMAGE;
 
   moviePost.innerHTML = /*html*/ `
@@ -18,7 +18,7 @@ const MoviePost = (movie: Movie) => {
       <div class="item-desc">
         <p class="rate">
           <img src="${URL.BASE_STAR_IMAGE}empty.png" class="star" /><span
-            >${movie.vote_average.toFixed(1)}</span
+            >${movie.voteAverage.toFixed(1)}</span
           >
         </p>
         <strong>${movie.title}</strong>

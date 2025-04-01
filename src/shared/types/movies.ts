@@ -1,27 +1,34 @@
 export interface Movie {
-  backdrop_path: string;
+  backdropPath: string;
   id: number;
-  original_language: string;
-  original_title: string;
+  originalLanguage: string;
+  originalTitle: string;
   overview: string;
-  poster_path: string;
-  release_date: string;
+  posterPath: string;
+  releaseDate: string;
   title: string;
-  vote_average: number;
+  voteAverage: number;
 }
 
 export interface MovieDetail {
-  release_date: string;
+  releaseDate: string;
   title: string;
-  vote_average: number;
-  backdrop_path: string;
-  poster_path: string;
+  voteAverage: number;
+  backdropPath: string;
+  posterPath: string;
   overview: string;
   genres: {
     id: number;
     name: string;
   }[];
   id: number;
+}
+
+export interface MovieList {
+  page: number;
+  results: Movie[];
+  totalPages: number;
+  totalResults: number;
 }
 
 export interface MovieResponse {
@@ -44,13 +51,6 @@ export interface MovieResponse {
 export interface MovieListResponse {
   page: number;
   results: MovieResponse[];
-  total_pages: number;
-  total_results: number;
-}
-
-export interface MovieList {
-  page: number;
-  results: Movie[];
   total_pages: number;
   total_results: number;
 }

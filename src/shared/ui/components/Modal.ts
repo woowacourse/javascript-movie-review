@@ -5,7 +5,7 @@ import {
   preventScrollWhenModalOpen,
 } from "../handlers/modalHandler";
 import { handleRateChange } from "../handlers/myRateHandler";
-import { MovieDetail } from "../../../shared/types/movies";
+import { MovieDetail } from "../../types/movies";
 import URL from "../../constants/url";
 
 const Modal = (movieDetail: MovieDetail) => {
@@ -13,7 +13,7 @@ const Modal = (movieDetail: MovieDetail) => {
   modalBackground.classList.add("modal-background", "active");
   modalBackground.id = "modalBackground";
 
-  const releaseDate = movieDetail.release_date.split("-")[0];
+  const releaseDate = movieDetail.releaseDate.split("-")[0];
   const genres = movieDetail.genres.map((genre) => genre.name).join(", ");
 
   modalBackground.innerHTML = /*html*/ `
@@ -24,7 +24,7 @@ const Modal = (movieDetail: MovieDetail) => {
         <div class="modal-container">
           <div class="modal-image">
             <img
-              src="${URL.BASE_MODAL_IMAGE}${movieDetail.poster_path}"
+              src="${URL.BASE_MODAL_IMAGE}${movieDetail.posterPath}"
             />
           </div>
           <div class="modal-description">
@@ -38,7 +38,7 @@ const Modal = (movieDetail: MovieDetail) => {
                 <img src="${
                   URL.BASE_STAR_IMAGE
                 }filled.png" class="modal-star" />
-                <span class="modal-rate-text">${movieDetail.vote_average.toFixed(
+                <span class="modal-rate-text">${movieDetail.voteAverage.toFixed(
                   1
                 )}</span>
               </p>

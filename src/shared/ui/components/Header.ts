@@ -17,7 +17,7 @@ const Header = (movie: Movie) => {
     <div class="background-container">
       <div class="overlay" aria-hidden="true">
         <img src="${URL.BASE_POSTER_IMAGE}${
-    movie.backdrop_path
+    movie.backdropPath
   }" alt="MovieList" />
       </div>
       <div class="top-rated-container">
@@ -30,7 +30,7 @@ const Header = (movie: Movie) => {
         <div id=${movie.id} class="top-rated-movie">
           <div class="rate">
             <img src="${URL.BASE_STAR_IMAGE}empty.png" class="star" />
-            <span class="rate-value">${movie.vote_average.toFixed(1)}</span>
+            <span class="rate-value">${movie.voteAverage.toFixed(1)}</span>
           </div>
           <div class="title">${movie.title}</div>
           ${CustomButton({ title: "자세히 보기" }).outerHTML}
