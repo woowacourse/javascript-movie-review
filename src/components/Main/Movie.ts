@@ -1,4 +1,4 @@
-import { MovieInfo } from "../../../types/movieType.js";
+import { MovieItemContent } from "../../../types/movieType.js";
 import MovieItem from "./MovieItem.js";
 
 class Movie {
@@ -7,7 +7,7 @@ class Movie {
   title: string;
   vote_average: number;
 
-  constructor({ id, poster_path, title, vote_average }: MovieInfo) {
+  constructor({ id, poster_path, title, vote_average }: MovieItemContent) {
     this.id = id;
     this.poster_path = poster_path;
     this.title = title;

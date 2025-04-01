@@ -1,4 +1,4 @@
-import { MovieInfo } from "../../../types/movieType";
+import { ModalContent } from "../../../types/movieType";
 import { Modal } from "./Modal";
 
 function openModal({
@@ -8,7 +8,7 @@ function openModal({
   poster_path,
   vote_average,
   overview,
-}: MovieInfo) {
+}: ModalContent) {
   const $modalContainer = document.createElement("div");
   $modalContainer.classList.add("modalcontainer");
 
@@ -63,7 +63,10 @@ function openModal({
   }
 
   // 별 클릭할 때 별점 상태 업데이트
-  function updateStarDisplay(stars: NodeListOf<Element>, rating: number) {
+  function updateStarDisplay(
+    stars: NodeListOf<HTMLImageElement>,
+    rating: number
+  ) {
     stars.forEach((star: HTMLImageElement, index: number) => {
       if (index < rating) {
         star.src = "./star_filled.png";

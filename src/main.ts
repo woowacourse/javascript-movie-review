@@ -1,6 +1,6 @@
 import Footer from "./components/Footer/Footer.js";
 import Header from "./components/Header/Header.js";
-import { MovieInfo } from "../types/movieType.ts";
+import { HeaderContent, ModalContent, MovieInfo } from "../types/movieType.ts";
 import {
   ContentsContainer,
   handleAdditionalData,
@@ -21,7 +21,7 @@ function renderHeader({
   poster_path,
   overview,
   vote_average,
-}: MovieInfo) {
+}: HeaderContent) {
   const $container = document.querySelector("#wrap");
   const $header = Header({
     title,
@@ -54,7 +54,7 @@ function renderHeader({
 }
 
 document.addEventListener("modalOpenClicked", (event: Event) => {
-  const customEvent = event as unknown as CustomEvent<MovieInfo>;
+  const customEvent = event as unknown as CustomEvent<ModalContent>;
 
   const { title, release_date, genres, poster_path, vote_average, overview } =
     customEvent.detail;
