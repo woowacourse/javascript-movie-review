@@ -32,12 +32,12 @@ function handleClick({ target }: MouseEvent) {
   const elementMap = [
     {
       selector: SELECTORS.closeModalButton,
-      action: () => eventBus.emit(EVENT_TYPES.modalClose),
+      action: () => eventBus.emit(EVENT_TYPES.modal.close),
       matchMethod: "closest",
     },
     {
       selector: SELECTORS.modalBackground,
-      action: () => eventBus.emit(EVENT_TYPES.modalClose),
+      action: () => eventBus.emit(EVENT_TYPES.modal.close),
       matchMethod: "matches",
     },
     {
@@ -48,7 +48,7 @@ function handleClick({ target }: MouseEvent) {
         const movieId = Number(movieItem.dataset.movieId);
         if (!movieId) return;
 
-        eventBus.emit(EVENT_TYPES.modalOpen, movieId);
+        eventBus.emit(EVENT_TYPES.modal.open, movieId);
       },
       matchMethod: "closest",
     },
@@ -58,7 +58,7 @@ function handleClick({ target }: MouseEvent) {
         if (!starImg || !isImage(starImg)) return;
         const newRating = Number(starImg.dataset.value) as ratingType;
 
-        eventBus.emit(EVENT_TYPES.setRating, newRating);
+        eventBus.emit(EVENT_TYPES.movie.setRating, newRating);
       },
       matchMethod: "closest",
     },
@@ -91,14 +91,14 @@ function handleSubmit(event: SubmitEvent) {
   if (!keyword) return;
 
   target.reset();
-  eventBus.emit(EVENT_TYPES.search, keyword);
+  eventBus.emit(EVENT_TYPES.search.submit, keyword);
 }
 
 function handleKeydown(event: KeyboardEvent) {
   if (event.defaultPrevented) return;
 
   if (["Escape", "Esc"].includes(event.key) && Modal.getInstance().isActive()) {
-    eventBus.emit(EVENT_TYPES.modalClose);
+    eventBus.emit(EVENT_TYPES.modal.close);
     event.preventDefault();
   }
 }

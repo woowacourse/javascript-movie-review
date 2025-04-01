@@ -1,8 +1,8 @@
-type EventHandler = (...args: any[]) => void;
+import { EventPayloadType, EventTypes } from "./types/eventTypes";
 
 export default class EventBus {
   private static instance: EventBus;
-  private events: Map<string, EventHandler[]>;
+  private events: Map<string, Function[]>;
 
   private constructor() {
     this.events = new Map();
@@ -15,7 +15,10 @@ export default class EventBus {
     return EventBus.instance;
   }
 
-  on(eventType: string, handler: EventHandler) {
+  on<T extends EventTypes>(
+    eventType: T,
+    handler: (data: EventPayloadType[T]) => void | Promise<void>
+  ) {
     if (!this.events.has(eventType)) {
       this.events.set(eventType, []);
     }
@@ -24,10 +27,10 @@ export default class EventBus {
     if (handlers) handlers.push(handler);
   }
 
-  emit(eventType: string, ...args: any[]) {
+  emit<T extends EventTypes>(eventType: T, data?: EventPayloadType[T]) {
     if (!this.events.has(eventType)) return;
 
     const handlers = this.events.get(eventType);
-    if (handlers) handlers.forEach((handler) => handler(...args));
+    if (handlers) handlers.forEach((handler) => handler(data));
   }
 }

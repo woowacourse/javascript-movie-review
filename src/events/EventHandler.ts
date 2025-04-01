@@ -1,23 +1,23 @@
 import Header from "../components/layout/Header";
 import Main from "../components/layout/Main";
-import Modal, { ratingType } from "../components/layout/Modal";
+import Modal from "../components/layout/Modal";
 import MovieRenderer from "../domains/MovieRenderer";
 import { getGenreList } from "../domains/movieHelpers";
 import UserMovieRatingStorage from "../storages/UserMovieRatingStorage";
 import { store } from "../stores";
 import EventBus from "./EventBus";
-import { EVENT_TYPES } from "./types/eventTypes";
+import { EVENT_TYPES, EventPayloadType } from "./types/eventTypes";
 
 const eventBus = EventBus.getInstance();
 
-export function initializeEventHandlers() {
-  eventBus.on(EVENT_TYPES.modalOpen, handleModalOpen);
-  eventBus.on(EVENT_TYPES.modalClose, handleModalClose);
-  eventBus.on(EVENT_TYPES.search, handleSearch);
-  eventBus.on(EVENT_TYPES.setRating, handleSetRating);
+export function initializeEventHandler() {
+  eventBus.on(EVENT_TYPES.modal.open, handleModalOpen);
+  eventBus.on(EVENT_TYPES.modal.close, handleModalClose);
+  eventBus.on(EVENT_TYPES.search.submit, handleSearch);
+  eventBus.on(EVENT_TYPES.movie.setRating, handleSetRating);
 }
 
-async function handleModalOpen(movieId: number) {
+async function handleModalOpen(movieId: EventPayloadType["MODAL_OPEN"]) {
   const modal = Modal.getInstance();
 
   modal.setState({ isLoading: true });
@@ -64,7 +64,7 @@ function handleModalClose() {
   Modal.getInstance().close();
 }
 
-async function handleSearch(value: string) {
+async function handleSearch(value: EventPayloadType["SEARCH_SUBMIT"]) {
   store.searchKeyword = value;
   store.page = 1;
   store.movies = [];
@@ -79,7 +79,7 @@ async function handleSearch(value: string) {
   await MovieRenderer.getInstance().renderMovies();
 }
 
-function handleSetRating(newRating: ratingType) {
+function handleSetRating(newRating: EventPayloadType["SET_RATING"]) {
   const currentMovieId = Modal.getInstance().getMovieId();
   if (!currentMovieId) return;
 
