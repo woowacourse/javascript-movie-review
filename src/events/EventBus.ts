@@ -27,7 +27,9 @@ export default class EventBus {
     if (handlers) handlers.push(handler);
   }
 
-  emit<T extends EventTypes>(eventType: T, data?: EventPayloadType[T]) {
+  emit<T extends EventTypes>(eventType: T): void;
+  emit<T extends EventTypes>(eventType: T, data: EventPayloadType[T]): void;
+  emit<T extends EventTypes>(eventType: T, data?: EventPayloadType[T]): void {
     if (!this.events.has(eventType)) return;
 
     const handlers = this.events.get(eventType);

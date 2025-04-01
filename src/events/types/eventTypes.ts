@@ -21,7 +21,7 @@ export type EventTypes =
 
 export interface EventPayloadType {
   [EVENT_TYPES.modal.open]: number;
-  [EVENT_TYPES.modal.close]: void;
+  [EVENT_TYPES.modal.close]: never;
   [EVENT_TYPES.search.submit]: string;
   [EVENT_TYPES.movie.setRating]: ratingType;
 }
