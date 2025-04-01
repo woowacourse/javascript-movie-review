@@ -1,19 +1,21 @@
 import { MOVIE_IDS } from "../fixtures/constants";
 
-describe("별점 기능 테스트", () => {
+describe("사용자가 영화에 대한 별점을 부여하여 평가를 기록하는 시나리오", () => {
   beforeEach(() => {
     cy.setupMovieListTest({ fixture: "popularMovies.json", wait: true });
   });
 
-  it("영화 상세 정보에서 별점을 부여한 후 페이지를 새로고침하면 부여한 별점이 유지된다.", () => {
+  it("영화 관람 후 영화 상세 정보에서 개인적인 평가를 별점으로 기록한다.", () => {
     cy.clickMovieById(MOVIE_IDS.INSIDE_OUT_2);
-    cy.get(".modal-rate-star .star").eq(3).click();
+    cy.selectRating(8);
+
     cy.reload();
+
     cy.clickMovieById(MOVIE_IDS.INSIDE_OUT_2);
     cy.verifyRatingDescription(8);
   });
 
-  it("여러 영화에 각각 다른 별점을 부여하면 모든 영화의 별점이 개별적으로 저장된다.", () => {
+  it("여러 영화에 각각 다른 별점을 부여하여 개별 별점을 기록한다.", () => {
     cy.clickMovieById(MOVIE_IDS.INSIDE_OUT_2);
     cy.selectRating(8);
 
@@ -33,7 +35,7 @@ describe("별점 기능 테스트", () => {
     cy.verifyRatingDescription(10);
   });
 
-  it("별점을 변경하면 기존 값이 새로운 값으로 업데이트된다.", () => {
+  it("영화에 대한 평가를 재고하고 싶은 경우 별점을 수정한다.", () => {
     cy.clickMovieById(MOVIE_IDS.INSIDE_OUT_2);
 
     cy.selectRating(8);

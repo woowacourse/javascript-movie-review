@@ -1,6 +1,6 @@
 import { MOVIE_IDS } from "../fixtures/constants";
 
-describe("모달 기능 테스트", () => {
+describe("사용자가 영화 상세 정보를 확인하는 시나리오", () => {
   beforeEach(() => {
     cy.setupMovieListTest({ fixture: "popularMovies.json", wait: true });
   });
@@ -23,15 +23,13 @@ describe("모달 기능 테스트", () => {
     cy.verifyModalClosed();
   };
 
-  describe("모달 열기 방법에 따른 테스트", () => {
-    it("특정 영화 썸네일 클릭 시 모달 창이 열리고 해당 영화의 상세 정보가 화면에 보여진다.", () => {
-      cy.clickMovieById(MOVIE_IDS.INSIDE_OUT_2);
-      verifyModalContentAndClose();
-    });
+  it("관심 있는 영화 포스터를 클릭하여 영화 상세 정보를 확인한다.", () => {
+    cy.clickMovieById(MOVIE_IDS.INSIDE_OUT_2);
+    verifyModalContentAndClose();
+  });
 
-    it("자세히 보기 버튼 클릭 시 모달 창이 열리고 해당 영화의 상세 정보가 화면에 보여진다.", () => {
-      cy.clickDetailButton();
-      verifyModalContentAndClose();
-    });
+  it("헤더에 있는 '자세히 보기' 버튼을 클릭하여 추천 영화 상세 정보를 확인한다.", () => {
+    cy.clickDetailButton();
+    verifyModalContentAndClose();
   });
 });
