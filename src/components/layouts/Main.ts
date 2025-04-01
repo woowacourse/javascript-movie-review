@@ -1,7 +1,7 @@
 import { MovieResult } from "../../api/types/movie/response";
 import { PREFIX_POSTER_PATH } from "../../constants/constants";
 import Component from "../base/Component";
-import Skeleton from "../common/Skeleton";
+import Skeleton from "../commons/Skeleton";
 
 const SKELETON_COUNT = 20;
 

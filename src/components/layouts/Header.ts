@@ -1,6 +1,6 @@
 import Component from "../base/Component";
-import Button from "../common/Button";
-import Skeleton from "../common/Skeleton";
+import Button from "../commons/Button";
+import Skeleton from "../commons/Skeleton";
 
 interface HeaderState {
   id: number | null;

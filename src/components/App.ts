@@ -1,8 +1,8 @@
 import Component from "./base/Component";
-import Footer from "./layout/Footer";
-import Header from "./layout/Header";
-import Main from "./layout/Main";
-import Modal from "./layout/Modal";
+import Footer from "./layouts/Footer";
+import Header from "./layouts/Header";
+import Main from "./layouts/Main";
+import Modal from "./layouts/Modal";
 
 export default class App extends Component {
   private static instance: App;

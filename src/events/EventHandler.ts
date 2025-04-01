@@ -1,6 +1,6 @@
-import Header from "../components/layout/Header";
-import Main from "../components/layout/Main";
-import Modal, { ratingType } from "../components/layout/Modal";
+import Header from "../components/layouts/Header";
+import Main from "../components/layouts/Main";
+import Modal, { ratingType } from "../components/layouts/Modal";
 import MovieRenderer from "../domains/MovieRenderer";
 import { getGenreList } from "../domains/movieHelpers";
 import UserMovieRatingStorage from "../storages/UserMovieRatingStorage";

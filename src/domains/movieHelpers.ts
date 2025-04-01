@@ -1,7 +1,7 @@
 import { getGenres } from "../api/services/movie";
 import { GenresResponse, MoviesResponse } from "../api/types/movie/response";
 import { handleApiResponse } from "../api/utils/handlers";
-import Header from "../components/layout/Header";
+import Header from "../components/layouts/Header";
 import { MAX_MOVIE_PAGE, PREFIX_POSTER_PATH } from "../constants/constants";
 import { store } from "../stores";
 

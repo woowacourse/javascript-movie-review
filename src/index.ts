@@ -1,5 +1,5 @@
-import { initializeLayout } from "./app";
-import { initializeEventHandlers } from "./events/EventHandlers";
+import { initializeLayout } from "./main";
+import { initializeEventHandlers } from "./events/EventHandler";
 import { initializeDomEventListener } from "./events/EventListener";
 
 addEventListener("load", () => {
