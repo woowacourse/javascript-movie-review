@@ -1,9 +1,7 @@
-import fetchDetailsMovie from "../fetch/fetchDetailsMovie";
 import Button from "./Button";
-import Modal from "./Modal";
-import MovieItemModal from "./MovieItemModal";
 import MoviePreviewInfo from "./MoviePreviewInfo";
 import createElement from "./utils/createElement";
+import openMovieModal from "./utils/openMovieModal";
 
 
 const BUTTON_DETAIL = "자세히 보기";
@@ -29,17 +27,7 @@ const TopRatedContainer = ({ popularMovie }) => {
   const $button = Button({ text: BUTTON_DETAIL, type: "detail" });
 
   $button.addEventListener("click", async () => {
-    const movieDetails = await fetchDetailsMovie(popularMovie.id);
-    const initialRate =
-      Number(localStorage.getItem(String(movieDetails.id))) || 0;
-    const $modal = Modal({
-      content: MovieItemModal(movieDetails, initialRate),
-      onOpen: () => document.querySelector(".gnb")?.classList.add("disappear"),
-      onClose: () =>
-        document.querySelector(".gnb")?.classList.remove("disappear"),
-    });
-
-    document.body.appendChild($modal);
+    openMovieModal(popularMovie);
   });
 
   $topRatedMovie.append($button);

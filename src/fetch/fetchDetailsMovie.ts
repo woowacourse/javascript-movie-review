@@ -1,9 +1,5 @@
+import MovieDetails from "../types/MovieDetails";
 import request from "./utils/request";
-import MovieType from "../types/MovieType";
-
-interface DetailMoviesResponse {
-  results: MovieType[];
-}
 
 export default async function fetchDetailsMovie(id: number) {
   const url = `https://api.themoviedb.org/3/movie/${id}?language=ko-KR`;
@@ -16,6 +12,6 @@ export default async function fetchDetailsMovie(id: number) {
     },
   };
 
-  const results = await request<DetailMoviesResponse>(url, options);
+  const results = await request<MovieDetails>(url, options);
   return results;
 }
