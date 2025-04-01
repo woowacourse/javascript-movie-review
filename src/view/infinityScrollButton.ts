@@ -1,5 +1,6 @@
 import { addMovies } from '../domain/addMovies';
 import { $ } from '../util/selector';
+import { errorUi } from './errorUi';
 import { hideSkeletons, movieListSkeletons } from './render/skeleton/movieListSkeletons';
 
 export function createInfiniteScrollHandler(initialKeyword = '', totalPages: number) {
@@ -30,7 +31,9 @@ export function createInfiniteScrollHandler(initialKeyword = '', totalPages: num
         container?.appendChild(fragment);
         currentPage++;
       } catch (error) {
-        console.error('무한 스크롤 중 에러:', error);
+        if (error instanceof Error) {
+          errorUi(error.message);
+        }
       } finally {
         hideSkeletons();
         isLoading = false;

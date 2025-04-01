@@ -30,7 +30,7 @@ const requestAppClient = async <T>(method: HttpMethod, query: string, params: T)
     }
 
     if (error instanceof Error) {
-      throw Error(ERROR.NOT_FOUND);
+      throw new Error(ERROR.NOT_FOUND);
     }
   }
 };
