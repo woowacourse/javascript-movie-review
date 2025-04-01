@@ -1,21 +1,18 @@
 import { STORAGE_KEY } from '../constant';
-import { $ } from '../util/selector';
 import { storageHandler } from '../util/storageHandler';
 
-export const saveMovieRateToStorage = (clickRate: number) => {
-  const idInput = $('#movieId') as HTMLInputElement;
-  const movieId = idInput.value;
-  const result = storageHandler.isFindItem(STORAGE_KEY, Number(movieId));
+export const saveMovieRateToStorage = (id: number, rate: number) => {
+  const result = storageHandler.isFindItem(STORAGE_KEY, id);
 
   if (result.status) {
-    storageHandler.updateRate(STORAGE_KEY, { rate: clickRate, id: Number(movieId) });
+    storageHandler.updateRate(STORAGE_KEY, { rate, id });
   } else {
-    storageHandler.addItem(STORAGE_KEY, { rate: clickRate, id: Number(movieId) });
+    storageHandler.addItem(STORAGE_KEY, { rate, id });
   }
 };
 
 export const getStoredRate = (id: number) => {
-  const result = storageHandler.isFindItem(STORAGE_KEY, Number(id));
+  const result = storageHandler.isFindItem(STORAGE_KEY, id);
 
   return result;
 };

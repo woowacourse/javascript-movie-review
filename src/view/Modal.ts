@@ -196,8 +196,10 @@ const changeStarState = (e: Event) => {
   if (target instanceof HTMLInputElement) {
     const currentRate = Number(target.value) || 0;
     const rateStars = $('#rateForm')?.querySelectorAll<HTMLInputElement>('input[name="rateInput"]');
-
-    saveMovieRateToStorage(currentRate);
+    const idInput = $('#movieId') as HTMLInputElement;
+    const movieId = Number(idInput.value);
+    if (isNaN(movieId)) return;
+    saveMovieRateToStorage(movieId, currentRate);
 
     rateStars?.forEach((star) => {
       if (parseInt(star.value, 10) <= currentRate) {
