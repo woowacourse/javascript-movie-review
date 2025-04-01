@@ -1,4 +1,4 @@
-import fetchJson from "./utils/fetchJson";
+import request from "./utils/request";
 import MovieType from "../types/MovieType";
 
 interface PopularMoviesResponse {
@@ -17,7 +17,7 @@ export default async function fetchPopularMovies(page: number) {
     },
   };
 
-  const { results, total_pages } = await fetchJson<PopularMoviesResponse>(
+  const { results, total_pages } = await request<PopularMoviesResponse>(
     url,
     options
   );

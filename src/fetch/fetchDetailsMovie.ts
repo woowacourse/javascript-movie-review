@@ -1,4 +1,4 @@
-import fetchJson from "./utils/fetchJson";
+import request from "./utils/request";
 import MovieType from "../types/MovieType";
 
 interface DetailMoviesResponse {
@@ -16,6 +16,6 @@ export default async function fetchDetailsMovie(id: number) {
     },
   };
 
-  const results = await fetchJson<DetailMoviesResponse>(url, options);
+  const results = await request<DetailMoviesResponse>(url, options);
   return results;
 }

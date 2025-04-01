@@ -1,4 +1,4 @@
-import fetchJson from "./utils/fetchJson";
+import request from "./utils/request";
 import MovieType from "../types/MovieType";
 
 interface SearchMoviesResponse {
@@ -19,7 +19,7 @@ export default async function fetchSearchMovies(query: string, page: number) {
     },
   };
 
-  const { results, total_pages } = await fetchJson<SearchMoviesResponse>(
+  const { results, total_pages } = await request<SearchMoviesResponse>(
     url,
     options
   );
