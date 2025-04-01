@@ -17,7 +17,6 @@ const fetchSearchMovies = createInfiniteQuery<TMDBResponse>(
   URLS.searchMovieUrl,
   {
     searchTerm: getSearchParams("query"),
-    baseQuery: defaultQueryObject,
   }
 );
 
