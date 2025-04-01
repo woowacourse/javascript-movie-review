@@ -11,6 +11,8 @@ export const searchFormSubmitHandler = async (e: Event) => {
     const currentPage = pageManager.currentPage;
     const formData = new FormData(e.target as HTMLFormElement);
     const searchQuery = formData.get("search-input") as string;
+    if (!searchQuery) return;
+
     setParams(searchQuery);
 
     const searchedMovies = await getSearchedPost(searchQuery, currentPage);
