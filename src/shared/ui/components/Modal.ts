@@ -14,7 +14,7 @@ const Modal = (movieDetail: IMovieDetail) => {
   modalBackground.id = "modalBackground";
 
   const releaseDate = movieDetail.release_date.split("-")[0];
-  const genres = movieDetail.genres.map((genre: any) => genre.name).join(", ");
+  const genres = movieDetail.genres.map((genre) => genre.name).join(", ");
 
   modalBackground.innerHTML = /*html*/ `
       <div class="modal">
