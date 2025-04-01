@@ -19,14 +19,9 @@ export const storageHandler = {
   updateRate: (storageKey: string, movies: RateMovieType) => {
     const data = storageHandler.getItem(storageKey);
 
-    const updateData = data.map((item: RateMovieType) => {
-      if (item.id === movies.id) {
-        movies.rate = movies.rate;
-        return movies;
-      }
-
-      return item;
-    });
+    const updateData = data.map((item: RateMovieType) =>
+      item.id === movies.id ? { ...item, rate: movies.rate } : item
+    );
 
     storageHandler.setItem(storageKey, updateData);
   }
