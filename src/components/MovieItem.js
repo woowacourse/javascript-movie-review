@@ -1,9 +1,9 @@
 import Modal from "./Modal";
 import MoviePreviewInfo from "./MoviePreviewInfo";
 import createElement from "./utils/createElement";
-import imageUrl from "../utils/imageUrl";
 import nullImage from "../../images/nullImage.png";
 import fetchDetailsMovie from "../fetch/fetchDetailsMovie";
+import { proxiedImageUrl } from "../fetch/utils/imageProxy";
 
 const MovieItem = ({ movie }) => {
   const title = movie?.title;
@@ -22,7 +22,7 @@ const MovieItem = ({ movie }) => {
     tag: "img",
     classNames: ["thumbnail"],
     attributes: {
-      src: posterPath ? `${imageUrl(posterPath)}` : nullImage,
+      src: posterPath ? `${proxiedImageUrl(posterPath)}` : nullImage,
       alt: `${title}`,
     }
   });
