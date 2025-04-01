@@ -14,9 +14,13 @@ export async function ContentsContainer(
   $h2.innerText = contentTitle;
   $section?.appendChild($h2);
 
+  const $listContainer = document.createElement("ul");
+  $listContainer.classList.add("thumbnail-list");
+
   const movieList = new MovieList(results);
   const $movieList = movieList.renderMovieList();
-  $section?.appendChild($movieList);
+  $movieList.forEach((movie) => $listContainer.appendChild(movie));
+  $section?.appendChild($listContainer);
   const $thumbnails = document.querySelectorAll(".thumbnail");
   $thumbnails.forEach(($thumbnail) => {
     $thumbnail.addEventListener("click", async () => {
@@ -64,10 +68,9 @@ export async function handleAdditionalData(
 
   const movieList = new MovieList(additionalData.results);
   const $movieList = movieList.renderMovieList();
-  $section?.appendChild($movieList);
-
-  const $newThumbnails = $movieList.querySelectorAll(".thumbnail");
-  $newThumbnails.forEach(($thumbnail) => {
+  const $listContainer = document.querySelector(".thumbnail-list");
+  $movieList.forEach((movie) => $listContainer?.appendChild(movie));
+  $movieList.forEach(($thumbnail) => {
     $thumbnail.addEventListener("click", async () => {
       await handleThumbnailClick($thumbnail as HTMLElement);
     });

@@ -11,15 +11,7 @@ class MovieList {
   }
 
   renderMovieList() {
-    const $listContainer = document.createElement("ul");
-    $listContainer.classList.add("thumbnail-list");
-
-    this.movieList.forEach((movieInstance) => {
-      const $movie = movieInstance.movieRender();
-      $listContainer.appendChild($movie);
-    });
-
-    return $listContainer;
+    return this.movieList.map((movieInstance) => movieInstance.movieRender());
   }
 }
 
