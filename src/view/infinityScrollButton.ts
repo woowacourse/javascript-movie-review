@@ -1,7 +1,10 @@
+import Movie from '../component/Movie';
 import { addMovies } from '../domain/addMovies';
+import { MovieType } from '../type';
 import { $ } from '../util/selector';
 import { errorUi } from './errorUi';
 import { hideSkeletons, movieListSkeletons } from './render/skeleton/movieListSkeletons';
+import { ERROR } from '../api/constant';
 
 export function createInfiniteScrollHandler(initialKeyword = '', totalPages: number) {
   let currentPage = 2;
@@ -26,8 +29,16 @@ export function createInfiniteScrollHandler(initialKeyword = '', totalPages: num
           return;
         }
 
-        const fragment = await addMovies(currentPage, keyword);
+        const result = await addMovies(currentPage, keyword);
+        if (result.length === 0) {
+          errorUi(ERROR.NO_SEARCH_RESULTS);
+          return;
+        }
+        const fragment = document.createDocumentFragment();
 
+        result.forEach((movie: MovieType) => {
+          fragment.appendChild(Movie({ movie }));
+        });
         container?.appendChild(fragment);
         currentPage++;
       } catch (error) {

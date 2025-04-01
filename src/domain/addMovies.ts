@@ -1,7 +1,5 @@
 import getPopularMovies from '../api/getPopularMovies';
 import getSearchMovies from '../api/getSearchMovies';
-import Movie from '../component/Movie';
-import { MovieType } from '../type';
 
 const searchAddMovies = async (page: number, keyword: string) => {
   const params = {
@@ -30,11 +28,5 @@ const popularAddMovies = async (page: number) => {
 export const addMovies = async (page: number, keyword?: string) => {
   const response = keyword ? await searchAddMovies(page, keyword) : await popularAddMovies(page);
 
-  const fragment = document.createDocumentFragment();
-
-  await response?.results.forEach((movie: MovieType) => {
-    fragment.appendChild(Movie({ movie }));
-  });
-
-  return fragment;
+  return response.results;
 };
