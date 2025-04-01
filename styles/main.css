@@ -44,7 +44,6 @@ button.primary {
 }
 
 #wrap {
-  /* min-width: 1440px; */
   background-color: var(--color-bluegray-100);
 }
 
@@ -60,7 +59,6 @@ button.primary {
 }
 
 .background-container {
-  /* position: relative; */
   background-position: center center;
   background-size: cover;
   height: 400px;
