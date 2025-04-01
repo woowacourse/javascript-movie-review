@@ -69,12 +69,3 @@ export function createInfiniteScrollHandler(initialKeyword = '', totalPages: num
     }
   };
 }
-
-// export const infinityScrollButton = (page: number, totalPages: number, isLoading: boolean, keyword?: string) => {
-//   return Button({
-//     text: '',
-//     id: 'moreButton',
-//     className: 'infinity-button',
-//     onClick: () => handleInfinityButtonClick(++page, totalPages, isLoading, keyword)
-//   });
-// };

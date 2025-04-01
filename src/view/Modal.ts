@@ -195,7 +195,6 @@ const changeStarState = (e: Event) => {
 
   if (target instanceof HTMLInputElement) {
     const currentRate = Number(target.value) || 0;
-    console.log(currentRate);
     const rateStars = $('#rateForm')?.querySelectorAll<HTMLInputElement>('input[name="rateInput"]');
 
     localStorageRate(currentRate);
@@ -221,7 +220,6 @@ const changeStarState = (e: Event) => {
 };
 
 const enterChangeStarState = (e: KeyboardEvent) => {
-  console.log(e.code);
   if (e.code === 'Enter') {
     changeStarState(e);
   }
