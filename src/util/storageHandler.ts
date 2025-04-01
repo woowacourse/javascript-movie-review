@@ -1,10 +1,10 @@
 import { RateMovieType } from '../type';
 
-export const storageHandler = {
+export const movieStorageManager = {
   getItem: (storageKey: string) => JSON.parse(localStorage.getItem(storageKey) ?? '[]') || [],
   setItem: (storageKey: string, value: RateMovieType[]) => localStorage.setItem(storageKey, JSON.stringify(value)),
   findItem: (storageKey: string, id: number): { rate: number; status: boolean } => {
-    const data = storageHandler.getItem(storageKey);
+    const data = movieStorageManager.getItem(storageKey);
     const item = data.filter((item: RateMovieType) => item.id === id);
     if (item.length > 0) {
       return { rate: item[0].rate, status: true };
@@ -13,16 +13,16 @@ export const storageHandler = {
     return { rate: 0, status: false };
   },
   addItem: (storageKey: string, value: RateMovieType) => {
-    const data = storageHandler.getItem(storageKey);
-    storageHandler.setItem(storageKey, [...data, value]);
+    const data = movieStorageManager.getItem(storageKey);
+    movieStorageManager.setItem(storageKey, [...data, value]);
   },
   updateRate: (storageKey: string, movies: RateMovieType) => {
-    const data = storageHandler.getItem(storageKey);
+    const data = movieStorageManager.getItem(storageKey);
 
     const updateData = data.map((item: RateMovieType) =>
       item.id === movies.id ? { ...item, rate: movies.rate } : item
     );
 
-    storageHandler.setItem(storageKey, updateData);
+    movieStorageManager.setItem(storageKey, updateData);
   }
 };
