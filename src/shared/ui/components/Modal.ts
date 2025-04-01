@@ -2,6 +2,8 @@ import MyRate from "./MyRate";
 
 import {
   closeModal,
+  handleEscape,
+  handleClickOutsideModal,
   preventScrollWhenModalOpen,
 } from "../handlers/modalHandler";
 import { handleRateChange } from "../handlers/myRateHandler";
@@ -60,21 +62,13 @@ const Modal = (movieDetail: MovieDetail) => {
   `;
 
   const closeModalButton = modalBackground.querySelector("#closeModal");
-  closeModalButton?.addEventListener("click", () => {
-    closeModal();
-  });
+  closeModalButton?.addEventListener("click", closeModal);
 
   modalBackground.addEventListener("click", (e) => {
-    if (e.target === modalBackground) {
-      closeModal();
-    }
+    handleClickOutsideModal(e, modalBackground);
   });
 
-  window.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") {
-      closeModal();
-    }
-  });
+  window.addEventListener("keydown", handleEscape);
 
   const rateStarContainer = modalBackground.querySelector(".rate-display");
   rateStarContainer?.addEventListener("change", (e) => {

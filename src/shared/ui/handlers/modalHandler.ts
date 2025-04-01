@@ -9,6 +9,21 @@ export function closeModal() {
   document.body.removeEventListener("keydown", handleEscape);
 }
 
+export function handleEscape(e: KeyboardEvent) {
+  if (e.key === "Escape") {
+    closeModal();
+  }
+}
+
+export function handleClickOutsideModal(
+  e: MouseEvent,
+  modalBackground: HTMLElement
+) {
+  if (e.target === modalBackground) {
+    closeModal();
+  }
+}
+
 export function preventScrollWhenModalOpen() {
   document.body.classList.add("modal-open");
 }
