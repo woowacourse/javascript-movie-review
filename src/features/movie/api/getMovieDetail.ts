@@ -1,22 +1,16 @@
 import { mapToMovieDetail } from "../../../shared/domain/mapToMovie";
 import { IMovieDetail } from "../../../shared/types/movies";
-import URL from "../../../shared/constants/url";
-import API_OPTIONS from "../../../shared/constants/apiOptions";
-
-const url = (id: number) => `${URL.BASE_API_URL}movie/${id}?language=ko-KR`;
+import { createApiUrl, fetchApi } from "../../../shared/utils/apiUtils";
 
 const getMovieDetail = async (id: number): Promise<IMovieDetail> => {
-  const response = await fetch(url(id), {
-    ...API_OPTIONS,
+  const url = createApiUrl({
+    endpoint: `movie/${id}`,
+    params: {
+      language: "ko-KR",
+    },
   });
 
-  if (!response.ok) {
-    throw new Error("Failed to fetch movie detail");
-  }
-
-  const data = await response.json();
-
-  return mapToMovieDetail(data);
+  return fetchApi(url, mapToMovieDetail);
 };
 
 export default getMovieDetail;
