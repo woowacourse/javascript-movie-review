@@ -1,13 +1,13 @@
 import {
-  IMovie,
-  IMovieDetail,
+  Movie,
+  MovieDetail,
   MovieList,
   MovieListResponse,
   MovieDetailResponse,
   MovieResponse,
 } from "../types/movies";
 
-export const mapToMovie = (movie: MovieResponse): IMovie => {
+export const mapToMovie = (movie: MovieResponse): Movie => {
   return {
     id: movie.id,
     backdrop_path: movie.backdrop_path,
@@ -34,7 +34,7 @@ export const mapToMovieList = (
 
 export const mapToMovieDetail = (
   movieDetailResponse: MovieDetailResponse
-): IMovieDetail => {
+): MovieDetail => {
   return {
     id: movieDetailResponse.id,
     backdrop_path: movieDetailResponse.backdrop_path,

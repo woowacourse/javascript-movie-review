@@ -1,4 +1,4 @@
-import { IMovie } from "../../types/movies";
+import { Movie } from "../../types/movies";
 import { CustomButton } from "./CustomButton";
 import SearchForm from "../../../features/search/ui/components/SearchForm";
 import { searchFormSubmitHandler } from "../../../features/search/ui/handlers/searchFormSubmitHandler";
@@ -6,7 +6,7 @@ import getMovieDetail from "../../../features/movie/api/getMovieDetail";
 import Modal from "./Modal";
 import URL from "../../constants/url";
 
-const Header = (movie: IMovie) => {
+const Header = (movie: Movie) => {
   const $header = document.getElementById("header");
 
   if (!$header) {

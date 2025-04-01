@@ -1,7 +1,7 @@
-import { IMovie } from "../../../../shared/types/movies";
+import { Movie } from "../../../../shared/types/movies";
 import URL from "../../../../shared/constants/url";
 
-const MoviePost = (movie: IMovie) => {
+const MoviePost = (movie: Movie) => {
   const moviePost = document.createElement("li");
 
   const movieImgPath = movie.poster_path

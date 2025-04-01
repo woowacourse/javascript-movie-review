@@ -1,10 +1,10 @@
 import getMovieDetail from "../../../features/movie/api/getMovieDetail";
 import MoviePost from "../../../features/movie/ui/components/MoviePost";
 import { showEmptySearchResult } from "../../../features/search/ui/renderers/showEmptySearchResult";
-import { IMovie } from "../../types/movies";
+import { Movie } from "../../types/movies";
 import Modal from "../components/Modal";
 
-export function addMoviePost(movieList: IMovie[], $movieList: HTMLElement) {
+export function addMoviePost(movieList: Movie[], $movieList: HTMLElement) {
   if (movieList.length === 0) {
     showEmptySearchResult();
 
@@ -23,7 +23,7 @@ export function addMoviePost(movieList: IMovie[], $movieList: HTMLElement) {
 
   const fragment = document.createDocumentFragment();
 
-  movieList.forEach((movie: IMovie) => {
+  movieList.forEach((movie: Movie) => {
     const moviePost = MoviePost(movie);
     const $wrap = document.querySelector("#wrap");
     moviePost.addEventListener("click", async () => {

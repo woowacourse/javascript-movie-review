@@ -1,4 +1,4 @@
-interface ICustomButton {
+interface CustomButton {
   title: string;
   className?: string;
   id?: string;
@@ -8,7 +8,7 @@ export const CustomButton = ({
   title,
   className = "",
   id = "",
-}: ICustomButton) => {
+}: CustomButton) => {
   const customButton = document.createElement("button");
   customButton.className = `primary ${className}`;
   customButton.textContent = title;

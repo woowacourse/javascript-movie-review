@@ -1,4 +1,4 @@
-export interface IMovie {
+export interface Movie {
   backdrop_path: string;
   id: number;
   original_language: string;
@@ -10,7 +10,7 @@ export interface IMovie {
   vote_average: number;
 }
 
-export interface IMovieDetail {
+export interface MovieDetail {
   release_date: string;
   title: string;
   vote_average: number;
@@ -50,7 +50,7 @@ export interface MovieListResponse {
 
 export interface MovieList {
   page: number;
-  results: IMovie[];
+  results: Movie[];
   total_pages: number;
   total_results: number;
 }

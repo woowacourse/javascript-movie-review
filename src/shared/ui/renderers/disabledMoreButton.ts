@@ -1,9 +1,9 @@
-import { IMovie } from "../../types/movies";
+import { Movie } from "../../types/movies";
 
 export function disableMoreButton(
   totalPages: number,
   currentPage: number,
-  movieList: IMovie[]
+  movieList: Movie[]
 ) {
   const $moreMoviesButton = document.getElementById("more-movies-button");
   if (totalPages === currentPage || movieList.length < 20) {

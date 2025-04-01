@@ -1,11 +1,11 @@
-import { IMovie } from "../../../../shared/types/movies";
+import { Movie } from "../../../../shared/types/movies";
 import { addMoviePost } from "../../../../shared/ui/renderers/addMoviePost";
 import { disableHeaderImage } from "../../../../shared/ui/renderers/disableHeaderImage";
 import { disableMoreButton } from "../../../../shared/ui/renderers/disabledMoreButton";
 import { showSkeletons } from "../../../../shared/ui/renderers/showSkeletons";
 
 export function updateSearchPageUI(
-  searchedMovies: IMovie[],
+  searchedMovies: Movie[],
   searchQuery: string,
   { pageNum, totalPages }: { pageNum: number; totalPages: number }
 ) {

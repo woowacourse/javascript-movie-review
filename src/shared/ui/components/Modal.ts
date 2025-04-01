@@ -5,10 +5,10 @@ import {
   preventScrollWhenModalOpen,
 } from "../handlers/modalHandler";
 import { handleRateChange } from "../handlers/myRateHandler";
-import { IMovieDetail } from "../../../shared/types/movies";
+import { MovieDetail } from "../../../shared/types/movies";
 import URL from "../../constants/url";
 
-const Modal = (movieDetail: IMovieDetail) => {
+const Modal = (movieDetail: MovieDetail) => {
   const modalBackground = document.createElement("div");
   modalBackground.classList.add("modal-background", "active");
   modalBackground.id = "modalBackground";
