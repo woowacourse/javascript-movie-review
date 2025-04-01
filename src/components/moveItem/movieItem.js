@@ -1,6 +1,6 @@
 import { createElement } from "../../util/dom";
 import Modal from "../modal/modal";
-import DetailModal from "../detailModal/detailModal";
+import MovieDetail from "../movieDetail/movieDetail";
 import { URLS } from "../../setting/settings";
 import Spinner from "../spinner/spinner";
 import replaceModalContent from "../../service/replaceModalContent";
@@ -42,5 +42,5 @@ async function handleMovieClick({ id }) {
   );
   const data = await fetchWithErrorHandling(fetchMovieDetail);
 
-  replaceModalContent(DetailModal({ ...data }));
+  replaceModalContent(MovieDetail({ ...data }));
 }

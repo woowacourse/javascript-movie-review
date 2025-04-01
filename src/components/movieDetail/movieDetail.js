@@ -1,8 +1,8 @@
 import { createElement } from "../../util/dom";
-import { getYear, getGenre } from "./detailModal.utils";
+import { getYear, getGenre } from "./movieDetail.utils";
 import { setupRatingStars } from "./setupRatingStars";
 
-export default function DetailModal({
+export default function MovieDetail({
   id,
   poster_path,
   title,
