@@ -1,5 +1,5 @@
-import hideSkeletonContainer from "../../../skeleton/hideSkeletonContainer";
-import showSkeletonContainer from "../../../skeleton/showSkeletonContainer";
+import showSkeletonMovieList from "../../../skeleton/showSkeletonMovieList";
+import hideSkeletonMovieList from "../../../skeleton/hideSkeletonMovieList";
 import { createElementWithAttributes } from "../../../utils/createElementWithAttributes";
 import { LoadMoreCallback } from "../movieContainer";
 import movieList from "./movieList";
@@ -37,7 +37,7 @@ const setupSeeMoreMoviesHandler = ({
   const seeMoreMovies = async () => {
     pageNumber += 1;
 
-    showSkeletonContainer($movieList);
+    showSkeletonMovieList($movieList);
 
     const { results, total_pages } = await loadMoreCallback(pageNumber);
 
@@ -49,7 +49,7 @@ const setupSeeMoreMoviesHandler = ({
       $seeMoreButton.remove();
     }
 
-    hideSkeletonContainer();
+    hideSkeletonMovieList();
 
     const $newMovieList = movieList(results);
     $movieList.append(...$newMovieList.children);
