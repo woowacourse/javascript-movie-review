@@ -47,6 +47,14 @@ button.primary {
   font-size: 16px;
 }
 
+#header {
+  min-height: 500px;
+
+  @media (max-width: 400px) {
+    min-height: 300px;
+  }
+}
+
 #wrap {
   min-width: 1440px;
   background-color: var(--color-bluegray-100);
@@ -69,9 +77,15 @@ button.primary {
 .container {
   max-width: 1280px;
   margin: 0 auto;
+  min-height: 1000px;
 
   @media (max-width: 800px) {
     max-width: 800px;
+    min-height: 700px;
+  }
+
+  @media (max-width: 400px) {
+    min-height: 600px;
   }
 }
 
