@@ -14,7 +14,7 @@ export const localStorageRate = (clickRate: number) => {
   }
 };
 
-export const renderRate = (id: number) => {
+export const getStoredRate = (id: number) => {
   const result = storageHandler.isFindItem(STORAGE_KEY, Number(id));
 
   return result;
