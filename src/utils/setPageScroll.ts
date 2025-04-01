@@ -1,5 +1,5 @@
-const setPageScroll = (option: boolean) => {
-  if (option) document.body.style.overflowY = "auto";
+const setPageScroll = (isVisible: boolean) => {
+  if (isVisible) document.body.style.overflowY = "auto";
   else document.body.style.overflowY = "hidden";
 };
 
