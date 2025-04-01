@@ -1,7 +1,7 @@
 import createDOMElement from '../util/createDomElement';
 import { $ } from '../util/selector';
 import { RATING_COMMENTS } from '../constant';
-import { localStorageRate, getStoredRate } from '../domain/localStorageRate';
+import { saveMovieRateToStorage, getStoredRate } from '../domain/localStorageRate';
 import { MovieDetailType, RatingScore } from '../type';
 
 function Modal(movieDetail: MovieDetailType) {
@@ -197,7 +197,7 @@ const changeStarState = (e: Event) => {
     const currentRate = Number(target.value) || 0;
     const rateStars = $('#rateForm')?.querySelectorAll<HTMLInputElement>('input[name="rateInput"]');
 
-    localStorageRate(currentRate);
+    saveMovieRateToStorage(currentRate);
 
     rateStars?.forEach((star) => {
       if (parseInt(star.value, 10) <= currentRate) {
