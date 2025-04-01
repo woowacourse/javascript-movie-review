@@ -1,8 +1,10 @@
 import ErrorPage from "../components/ErrorPage";
+import { disableHeaderImage } from "./disableHeaderImage";
 
-export const showErrorPage = () => {
+export const showErrorPage = (errorMessage: string) => {
   const $container = document.querySelector(".container");
   if (!$container) return;
 
-  $container.replaceChildren(ErrorPage());
+  disableHeaderImage();
+  $container.replaceChildren(ErrorPage(errorMessage));
 };

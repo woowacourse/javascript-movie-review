@@ -16,7 +16,7 @@ export const searchFormSubmitHandler = async (e: Event) => {
     setParams(searchQuery, "query");
 
     const searchedMovies = await getSearchedPost(searchQuery, currentPage);
-    pageManager.setTotalPages(searchedMovies.total_pages);
+    pageManager.setTotalPages(searchedMovies.totalPages);
 
     updateSearchPageUI(searchedMovies.results, searchQuery, {
       pageNum: currentPage,
@@ -24,6 +24,6 @@ export const searchFormSubmitHandler = async (e: Event) => {
     });
     initInfiniteScroll();
   } catch (error) {
-    showErrorPage();
+    showErrorPage("검색 결과를 불러오는데 실패했습니다.");
   }
 };

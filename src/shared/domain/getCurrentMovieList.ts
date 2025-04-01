@@ -10,6 +10,6 @@ export async function getCurrentMovieList(page: number, query: string | null) {
 
     return await getMovieList({ page });
   } catch (error) {
-    showErrorPage();
+    showErrorPage("영화 목록을 불러오는데 실패했습니다.");
   }
 }

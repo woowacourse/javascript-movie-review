@@ -4,7 +4,7 @@ import { showErrorPage } from "../ui/renderers/showErrorPage";
 
 interface InfiniteScrollOptions {
   onIntersect: () => Promise<boolean>;
-  onError?: () => void;
+  onError?: (message: string) => void;
 }
 
 const options = {
@@ -36,7 +36,7 @@ const createIntersectionObserver = ({
       const success = await onIntersect();
 
       if (!success) {
-        onError?.();
+        onError?.("영화를 불러오는데 실패했습니다.");
         observer.unobserve(entry.target);
         isLoading = false;
         return;

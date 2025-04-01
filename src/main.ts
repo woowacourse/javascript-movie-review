@@ -39,6 +39,6 @@ async function initMovieList(movieList: HTMLElement) {
       addMoviePost(movies.results, movieList);
     }
   } catch (error) {
-    showErrorPage();
+    showErrorPage("페이지 로드에 실패했습니다.");
   }
 }
