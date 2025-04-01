@@ -25,7 +25,7 @@ async function initMovieList(movieList: HTMLElement) {
 
     if (!movies) return;
 
-    pageManager.setTotalPages(movies.total_pages);
+    pageManager.setTotalPages(movies.totalPages);
     Header(movies.results[0]);
 
     if (query) {
