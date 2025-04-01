@@ -21,7 +21,9 @@ function openModal({
     overview,
   });
   $modalContainer.innerHTML = modalElement;
-  const stars = $modalContainer.querySelectorAll(".rate-star");
+  const stars = $modalContainer.querySelectorAll(
+    ".rate-star"
+  ) as NodeListOf<HTMLImageElement>;
   let currentRating = 0;
 
   stars.forEach((star, index) => {
