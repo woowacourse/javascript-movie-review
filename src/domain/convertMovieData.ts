@@ -2,11 +2,11 @@ import { MovieResponseType, MovieType } from '../type';
 
 export const convertMovieData = (raw: MovieResponseType): MovieType => {
   return {
-    backdropPath: raw.backdropPath,
+    backdropPath: raw.backdrop_path,
     id: raw.id,
-    posterPath: raw.posterPath,
+    posterPath: raw.poster_path,
     title: raw.title,
-    voteAverage: raw.voteAverage,
-    voteCount: raw.voteCount
+    voteAverage: raw.vote_average,
+    voteCount: raw.vote_count
   };
 };

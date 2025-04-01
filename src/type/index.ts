@@ -1,53 +1,53 @@
 export interface ResponseType {
   page: number;
-  results: MovieType[];
+  results: MovieResponseType[];
   totalPages: number;
   totalResults: number;
 }
 
 export interface MovieResponseType {
   adult: boolean;
-  backdropPath: null;
-  genreIds: number[];
+  backdrop_path: null;
+  genre_ids: number[];
   id: number;
-  originalLanguage: string;
-  originalTitle: string;
+  original_language: string;
+  original_title: string;
   overview: string;
   popularity: number;
-  posterPath: string;
-  releaseDate: Date;
+  poster_path: string;
+  release_date: Date;
   title: string;
   video: boolean;
-  voteAverage: number;
-  voteCount: number;
+  vote_average: number;
+  vote_count: number;
 }
 export interface MovieDetailResponseType {
   adult: false;
-  backdropPath: string;
-  belongsToCollection: null;
+  backdrop_path: string;
+  belongs_to_collection: null;
   budget: number;
   genres: GenresType[];
   homepage: string;
   id: number;
-  imdbId: string;
-  originCountry: string[];
-  originalLanguage: string;
-  originalTitle: string;
+  imdb_id: string;
+  origin_country: string[];
+  original_language: string;
+  original_title: string;
   overview: string;
   popularity: number;
-  posterPath: string;
-  productionCompanies: [];
-  productionCountries: [];
-  releaseDate: string;
+  poster_path: string;
+  production_companies: [];
+  production_countries: [];
+  release_date: string;
   revenue: number;
   runtime: number;
-  spokenLanguages: string[];
+  spoken_languages: string[];
   status: string;
   tagline: string;
   title: string;
   video: false;
-  voteAverage: number;
-  voteCount: number;
+  vote_average: number;
+  vote_count: number;
 }
 
 export interface MovieParamsType {
