@@ -15,7 +15,7 @@ export interface HeaderContent extends MovieContent {
   backdrop_path: string;
   overview: string;
 }
-export interface ModalContent extends Omit<MovieInfo, "backdrop_path"> {}
+export interface ModalContent extends Omit<MovieInfo, "id" | "backdrop_path"> {}
 
 type Genre = {
   id: number;
