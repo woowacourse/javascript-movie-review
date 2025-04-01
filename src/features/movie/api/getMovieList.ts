@@ -1,8 +1,9 @@
 import { MovieList } from "../../../shared/types/movies";
 import { mapToMovieList } from "../../../shared/domain/mapToMovie";
+import URL from "../../../shared/constants/url";
 
 const url = (page: number) =>
-  `https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=${page}`;
+  `${URL.BASE_API_URL}movie/popular?language=ko-KR&page=${page}`;
 const options = {
   method: "GET",
   headers: {

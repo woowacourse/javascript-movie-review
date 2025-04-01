@@ -6,6 +6,7 @@ import {
 } from "../handlers/modalHandler";
 import { handleRateChange } from "../handlers/myRateHandler";
 import { IMovieDetail } from "../../../shared/types/movies";
+import URL from "../../constants/url";
 
 const Modal = (movieDetail: IMovieDetail) => {
   const modalBackground = document.createElement("div");
@@ -23,9 +24,7 @@ const Modal = (movieDetail: IMovieDetail) => {
         <div class="modal-container">
           <div class="modal-image">
             <img
-              src="https://image.tmdb.org/t/p/original/${
-                movieDetail.poster_path
-              }"
+              src="${URL.BASE_MODAL_IMAGE}${movieDetail.poster_path}"
             />
           </div>
           <div class="modal-description">
@@ -36,7 +35,9 @@ const Modal = (movieDetail: IMovieDetail) => {
               </p>
               <p class="modal-rate">
                 <span class="modal-rate-average-text">평균</span>
-                <img src="./images/star_filled.png" class="modal-star" />
+                <img src="${
+                  URL.BASE_STAR_IMAGE
+                }filled.png" class="modal-star" />
                 <span class="modal-rate-text">${movieDetail.vote_average.toFixed(
                   1
                 )}</span>

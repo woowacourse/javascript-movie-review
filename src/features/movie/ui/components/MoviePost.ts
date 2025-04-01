@@ -1,11 +1,12 @@
 import { IMovie } from "../../../../shared/types/movies";
+import URL from "../../../../shared/constants/url";
 
 const MoviePost = (movie: IMovie) => {
   const moviePost = document.createElement("li");
 
   const movieImgPath = movie.poster_path
-    ? `https://media.themoviedb.org/t/p/w440_and_h660_face${movie.poster_path}`
-    : "images/nullImage.png";
+    ? `${URL.BASE_POSTER_IMAGE}${movie.poster_path}`
+    : URL.NULL_IMAGE;
 
   moviePost.innerHTML = /*html*/ `
     <div class="item" id=${movie.id}>
@@ -16,7 +17,7 @@ const MoviePost = (movie: IMovie) => {
       />
       <div class="item-desc">
         <p class="rate">
-          <img src="images/star_empty.png" class="star" /><span
+          <img src="${URL.BASE_STAR_IMAGE}empty.png" class="star" /><span
             >${movie.vote_average.toFixed(1)}</span
           >
         </p>

@@ -1,8 +1,8 @@
 import { mapToMovieDetail } from "../../../shared/domain/mapToMovie";
 import { IMovieDetail } from "../../../shared/types/movies";
+import URL from "../../../shared/constants/url";
 
-const url = (id: number) =>
-  `https://api.themoviedb.org/3/movie/${id}?language=ko-KR`;
+const url = (id: number) => `${URL.BASE_API_URL}movie/${id}?language=ko-KR`;
 const options = {
   method: "GET",
   headers: {

@@ -1,5 +1,6 @@
 import { getRateScore, getRateText } from "../../utils/getRateText";
 import { localStorageHandler } from "../../stores/localStorage";
+import URL from "../../constants/url";
 
 const RATE_STARS = [2, 4, 6, 8, 10];
 
@@ -14,9 +15,9 @@ const MyRate = (id: string) => {
       return /*html*/ `
       <input type="radio" name="rate" id="rate${rate}" value="${rate}" class="star-icon-radio" />
       <label for="rate${rate}">
-        <img class="star-icon" src="images/star_${
-          userRate >= rate ? "filled" : "empty"
-        }.png" />
+        <img class="star-icon" src="${URL.BASE_STAR_IMAGE}${
+        userRate >= rate ? "filled" : "empty"
+      }.png" />
       </label>
     `;
     }).join("")}
