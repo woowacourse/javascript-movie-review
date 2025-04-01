@@ -10,7 +10,7 @@ interface TmdbApiRequest {
   method: HttpMethod;
   params?: Record<string, any>;
 }
-interface TmdbApiFetchFailResponse {
+export interface TmdbApiFetchFailResponse {
   status_code: number;
   status_message: string;
   success: boolean;
