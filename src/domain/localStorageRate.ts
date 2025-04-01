@@ -1,5 +1,5 @@
 import { STORAGE_KEY } from '../constant';
-import { movieStorageManager } from '../util/storageHandler';
+import { movieStorageManager } from './movieStorageManager';
 
 export const saveMovieRateToStorage = (id: number, rate: number) => {
   const result = movieStorageManager.findItem(STORAGE_KEY, id);
