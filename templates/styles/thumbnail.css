@@ -63,7 +63,7 @@
   .thumbnail-list {
     display: grid;
     grid-template-columns: repeat(1, 200px);
-    white-space: nowrap;
+    white-space: normal;
     animation: gridCollapse 0.7s ease-in-out;
   }
 
