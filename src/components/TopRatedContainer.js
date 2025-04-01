@@ -27,7 +27,7 @@ const TopRatedContainer = ({ popularMovie }) => {
 
   const $button = Button({ text: BUTTON_DETAIL, type: "detail" });
   $topRatedMovie.append($button);
- 
+
   $button.addEventListener("click", async () => {
     const movieDetails = await fetchDetailsMovie(popularMovie.id);
     const $wrap = document.querySelector("#wrap");

@@ -15,8 +15,10 @@ const Gnb = () => {
 
   const $logoImg = createElement({
     tag: "img",
-    src: LogoImg,
-    alt: "MovieList",
+    attributes: {
+      src: LogoImg,
+      alt: "MovieList",
+    }
   });
 
   $div.appendChild($logo);

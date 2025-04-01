@@ -12,7 +12,9 @@ const MoviePreviewInfo = ({ movie, bigFont = true }) => {
   const $starImg = createElement({
     tag: "img",
     classNames: ["star"],
-    src: EmptyStarImage,
+    attributes: {
+      src: EmptyStarImage,
+    }
   });
 
   const $rateValue = createElement({

@@ -19,13 +19,17 @@ const Header = ({ popularMovie }) => {
   const $overlay = createElement({
     tag: "div",
     classNames: ["overlay"],
-    "aria-hidden": "true",
+    attributes: {
+      "aria-hidden": "true",
+    }
   });
 
   const $img = createElement({
     tag: "img",
-    src: `${imageUrl(posterPath)}`,
-    alt: `${title}`,
+    attributes: {
+      src: `${imageUrl(posterPath)}`,
+      alt: `${title}`,
+    }
   });
 
   $header.appendChild(Gnb());

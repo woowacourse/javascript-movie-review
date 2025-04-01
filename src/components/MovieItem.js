@@ -21,8 +21,10 @@ const MovieItem = ({ movie }) => {
   const $img = createElement({
     tag: "img",
     classNames: ["thumbnail"],
-    src: posterPath ? `${imageUrl(posterPath)}` : nullImage,
-    alt: `${title}`,
+    attributes: {
+      src: posterPath ? `${imageUrl(posterPath)}` : nullImage,
+      alt: `${title}`,
+    }
   });
 
   $img.onerror = () => {
