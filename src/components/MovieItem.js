@@ -4,6 +4,7 @@ import createElement from "./utils/createElement";
 import nullImage from "../../images/nullImage.png";
 import fetchDetailsMovie from "../fetch/fetchDetailsMovie";
 import { proxiedImageUrl } from "../fetch/utils/imageProxy";
+import MovieItemModal from "./MovieItemModal";
 
 const MovieItem = ({ movie }) => {
   const title = movie?.title;
@@ -42,8 +43,16 @@ const MovieItem = ({ movie }) => {
 
   $li.addEventListener("click", async () => {
     const movieDetails = await fetchDetailsMovie(movie.id);
-    const $wrap = document.querySelector("#wrap");
-    $wrap.appendChild(Modal(movieDetails));
+    const initialRate =
+      Number(localStorage.getItem(String(movieDetails.id))) || 0;
+    const $modal = Modal({
+      content: MovieItemModal(movieDetails, initialRate),
+      onOpen: () => document.querySelector(".gnb")?.classList.add("disappear"),
+      onClose: () =>
+        document.querySelector(".gnb")?.classList.remove("disappear"),
+    });
+
+    document.body.appendChild($modal);
   });
   
   if(!localStorage.getItem(movie.id)) {

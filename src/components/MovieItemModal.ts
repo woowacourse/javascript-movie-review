@@ -25,8 +25,6 @@ export default function MovieItemModal(
   const year = extractReleaseYear(movieDetails);
   const genres = extractGenres(movieDetails);
 
-  console.log(proxiedImageUrl(movieDetails.poster_path))
-
   return `
     <div class="modal">
       <button class="close-modal" id="closeModal">

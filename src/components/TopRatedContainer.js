@@ -32,7 +32,6 @@ const TopRatedContainer = ({ popularMovie }) => {
     const movieDetails = await fetchDetailsMovie(popularMovie.id);
     const initialRate =
       Number(localStorage.getItem(String(movieDetails.id))) || 0;
-
     const $modal = Modal({
       content: MovieItemModal(movieDetails, initialRate),
       onOpen: () => document.querySelector(".gnb")?.classList.add("disappear"),
