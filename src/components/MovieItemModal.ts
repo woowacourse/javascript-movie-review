@@ -1,6 +1,6 @@
 import Stars from "./Stars";
-import extractReleaseYear from "./utils/extractGenres";
-import extractGenres from "./utils/extractReleaseYear";
+import extractReleaseYear from "./utils/extractReleaseYear";
+import extractGenres from "./utils/extractGenres";
 import imageUrl from "../utils/imageUrl";
 import MovieDetails from "../types/MovieDetails";
 

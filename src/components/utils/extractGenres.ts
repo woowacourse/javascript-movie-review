@@ -1,5 +1,5 @@
 import MovieDetails from "../../types/MovieDetails";
 
-export default function extractReleaseYear(movieDetails: MovieDetails) {
-  return movieDetails.release_date.split("-")[0];
+export default function extractGenres(movieDetails: MovieDetails) {
+  return movieDetails.genres.map((genre) => genre.name).join(", ");
 }
