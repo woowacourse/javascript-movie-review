@@ -1,4 +1,4 @@
-import { MovieList } from "../../../shared/types/movies";
+import { MovieList } from "../../../shared/types/domain/movies";
 import { mapToMovieList } from "../../../shared/domain/mapToMovie";
 import { createApiUrl, fetchApi } from "../../../shared/utils/apiUtils";
 

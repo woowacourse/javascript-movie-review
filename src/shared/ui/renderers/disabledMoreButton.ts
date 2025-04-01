@@ -1,4 +1,4 @@
-import { Movie } from "../../types/movies";
+import { Movie } from "../../types/domain/movies";
 
 export function disableMoreButton(
   totalPages: number,

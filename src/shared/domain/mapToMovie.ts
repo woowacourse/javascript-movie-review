@@ -1,11 +1,9 @@
+import { Movie, MovieDetail, MovieList } from "../types/domain/movies";
 import {
-  Movie,
-  MovieDetail,
-  MovieList,
-  MovieListResponse,
-  MovieDetailResponse,
   MovieResponse,
-} from "../types/movies";
+  MovieDetailResponse,
+  MovieListResponse,
+} from "../types/api/response";
 
 export const mapToMovie = (movie: MovieResponse): Movie => {
   return {

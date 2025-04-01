@@ -1,4 +1,4 @@
-import { Movie } from "../../../../shared/types/movies";
+import { Movie } from "../../../../shared/types/domain/movies";
 import { addMoviePost } from "../../../../shared/ui/renderers/addMoviePost";
 import { disableHeaderImage } from "../../../../shared/ui/renderers/disableHeaderImage";
 import { disableMoreButton } from "../../../../shared/ui/renderers/disabledMoreButton";

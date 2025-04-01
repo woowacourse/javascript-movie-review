@@ -1,4 +1,4 @@
-import { Movie } from "../../../../shared/types/movies";
+import { Movie } from "../../../../shared/types/domain/movies";
 import URL from "../../../../shared/constants/url";
 
 const MoviePost = (movie: Movie) => {

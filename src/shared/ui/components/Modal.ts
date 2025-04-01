@@ -5,7 +5,7 @@ import {
   preventScrollWhenModalOpen,
 } from "../handlers/modalHandler";
 import { handleRateChange } from "../handlers/myRateHandler";
-import { MovieDetail } from "../../types/movies";
+import { MovieDetail } from "../../types/domain/movies";
 import URL from "../../constants/url";
 
 const Modal = (movieDetail: MovieDetail) => {

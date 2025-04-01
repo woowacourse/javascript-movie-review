@@ -1,7 +1,7 @@
 import getMovieDetail from "../../../features/movie/api/getMovieDetail";
 import MoviePost from "../../../features/movie/ui/components/MoviePost";
 import { showEmptySearchResult } from "../../../features/search/ui/renderers/showEmptySearchResult";
-import { Movie } from "../../types/movies";
+import { Movie } from "../../types/domain/movies";
 import Modal from "../components/Modal";
 
 export function addMoviePost(movieList: Movie[], $movieList: HTMLElement) {

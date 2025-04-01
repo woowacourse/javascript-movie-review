@@ -1,4 +1,4 @@
-import { Movie } from "../../types/movies";
+import { Movie } from "../../types/domain/movies";
 import { CustomButton } from "./CustomButton";
 import SearchForm from "../../../features/search/ui/components/SearchForm";
 import { searchFormSubmitHandler } from "../../../features/search/ui/handlers/searchFormSubmitHandler";
