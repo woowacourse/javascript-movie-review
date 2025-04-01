@@ -11,8 +11,9 @@
     "test-e2e": "cypress open",
     "deploy": "vite build --base=/javascript-movie-review/ --minify=false && npx gh-pages -d dist",
     "lint": "eslint . --ext .js,.ts,.jsx,.tsx",
-    "lint:fix": "eslint . --ext .js,.ts,.jsx,.tsx --fix"
-
+    "lint:fix": "eslint . --ext .js,.ts,.jsx,.tsx --fix",
+    "type-check": "tsc --noEmit",
+    "type-check:watch": "tsc --noEmit --watch"
   },
   "repository": {
     "type": "git",

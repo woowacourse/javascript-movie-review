@@ -1,26 +1,23 @@
-type createElementProps = {
-  tag: string;
-  classNames?: string[];
-};
+type CreateElementProps<K extends keyof HTMLElementTagNameMap> =
+  & {
+      tag: K;
+      classNames?: string[];
+    }
+  & Partial<HTMLElementTagNameMap[K]>;
 
-const createElement = ({
-  tag,
-  classNames = [],
-  ...attributes
-}: createElementProps) => {
-  const $element = document.createElement(tag);
+export default function createElement<K extends keyof HTMLElementTagNameMap>(
+  props: CreateElementProps<K>
+): HTMLElementTagNameMap[K] {
+  const { tag, classNames = [], ...rest } = props;
+
+  const $element = document.createElement(tag) as HTMLElementTagNameMap[K];
 
   classNames.forEach((className) => $element.classList.add(className));
 
-  Object.entries(attributes).forEach(([key, value]) => {
-    if (key === "required" && $element instanceof HTMLInputElement) {
-      $element.required = Boolean(value);
-    } else {
-      $element.setAttribute(key, value as string);
-    }
+  Object.entries(rest).forEach(([key, value]) => {
+    // @ts-ignore: 런타임 동적 접근 허용
+    $element[key] = value;
   });
 
   return $element;
-};
-
-export default createElement;
+}
