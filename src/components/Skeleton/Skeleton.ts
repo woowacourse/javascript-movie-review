@@ -13,7 +13,7 @@ const Skeleton = {
     const content = /*html*/ `
         <div class="item">
             <div
-            class="thumbnail"
+            class="item-img"
             ></div>
         </div>
     `;
