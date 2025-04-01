@@ -20,7 +20,7 @@ async function initMovieList(movieList: HTMLElement) {
   try {
     showSkeletons(movieList);
 
-    const query = getQueryParam(new URL(window.location.href));
+    const query = getQueryParam(new URL(window.location.href), "query");
     const movies = await getCurrentMovieList(pageManager.currentPage, query);
 
     if (!movies) return;
@@ -34,7 +34,7 @@ async function initMovieList(movieList: HTMLElement) {
         totalPages: pageManager.totalPages,
       });
     } else {
-      setParams("");
+      setParams("", "query");
       movieList.innerHTML = "";
       addMoviePost(movies.results, movieList);
     }

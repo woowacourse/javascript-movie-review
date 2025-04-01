@@ -13,7 +13,7 @@ export const searchFormSubmitHandler = async (e: Event) => {
     const searchQuery = formData.get("search-input") as string;
     if (!searchQuery) return;
 
-    setParams(searchQuery);
+    setParams(searchQuery, "query");
 
     const searchedMovies = await getSearchedPost(searchQuery, currentPage);
     pageManager.setTotalPages(searchedMovies.total_pages);

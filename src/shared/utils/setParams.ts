@@ -1,8 +1,8 @@
-export const setParams = (query: string = "") => {
+export const setParams = (query: string, key: string) => {
   const params = new URLSearchParams(window.location.search);
 
   if (query !== "") {
-    params.set("query", query);
+    params.set(key, query);
   }
 
   const newUrl = `${window.location.pathname}?${params.toString()}`;

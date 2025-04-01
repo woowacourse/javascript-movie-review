@@ -5,7 +5,7 @@ import { getCurrentMovieList } from "./getCurrentMovieList";
 
 export async function addMoreMovies($movieList: HTMLElement) {
   try {
-    const query = getQueryParam(new URL(window.location.href));
+    const query = getQueryParam(new URL(window.location.href), "query");
     const nextPage = pageManager.currentPage + 1;
 
     const movies = await getCurrentMovieList(nextPage, query);
