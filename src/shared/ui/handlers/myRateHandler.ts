@@ -1,5 +1,6 @@
 import { getRateScore, getRateText } from "../../utils/getRateText";
 import { localStorageHandler } from "../../../shared/stores/localStorage";
+const RATE_SCORE_STEP = 2;
 
 function updateMyRateStar(newRate: number) {
   const stars = document.querySelectorAll(
@@ -9,7 +10,7 @@ function updateMyRateStar(newRate: number) {
   if (!stars) return;
 
   stars.forEach((star, index) => {
-    const rate = (index + 1) * 2;
+    const rate = (index + 1) * RATE_SCORE_STEP;
     star.src = `images/star_${rate <= newRate ? "filled" : "empty"}.png`;
   });
 }
