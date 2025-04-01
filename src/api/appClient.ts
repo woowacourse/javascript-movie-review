@@ -1,11 +1,9 @@
-import { MovieParamsType } from '../type';
-import { transformKeysToCamel } from '../util/transformKeysToCamel';
 import { BASE_URL, ERROR } from './constant';
 import { httpErrorStatus } from './error/httpErrorStatus';
 
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
-const requestAppClient = async <T>(method: HttpMethod, query: string, params: T) => {
+const requestAppClient = async <T, P>(method: HttpMethod, query: string, params: P): Promise<T> => {
   const newParams = new URLSearchParams(params as Record<string, string>);
   const newUrl = `${BASE_URL}${query}?${newParams.toString()}`;
   const options = {
@@ -21,7 +19,7 @@ const requestAppClient = async <T>(method: HttpMethod, query: string, params: T)
     if (!response.ok) {
       httpErrorStatus(response.status);
     }
-    const data = transformKeysToCamel(await response.json());
+    const data = await response.json();
 
     return data;
   } catch (error) {
@@ -29,12 +27,10 @@ const requestAppClient = async <T>(method: HttpMethod, query: string, params: T)
       throw new Error(ERROR.NETWORK);
     }
 
-    if (error instanceof Error) {
-      throw new Error(ERROR.NOT_FOUND);
-    }
+    throw new Error(ERROR.NOT_FOUND);
   }
 };
 
-export const getAppClient = (query: string, params: MovieParamsType) => {
-  return requestAppClient('GET', query, params);
+export const getAppClient = <T, P>(query: string, params: P) => {
+  return requestAppClient<T, P>('GET', query, params);
 };

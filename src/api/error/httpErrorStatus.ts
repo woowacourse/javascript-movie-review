@@ -1,6 +1,6 @@
 import { ERROR } from '../constant';
 
-export const httpErrorStatus = (status: number) => {
+export const httpErrorStatus = (status: number): never => {
   switch (status) {
     case 400:
     case 422:
