@@ -40,7 +40,7 @@ async function handleMovieClick({ id }) {
   const fetchMovieDetail = createSingleFetchQuery(
     `${URLS.detailMovieUrl}${id}`
   );
-  const data = await fetchWithErrorHandling(fetchMovieDetail());
+  const data = await fetchWithErrorHandling(fetchMovieDetail);
 
   replaceModalContent(DetailModal({ ...data }));
 }
