@@ -5,50 +5,49 @@ import MovieItemList from "../../components/movieItemList/movieItemList";
 import mountHero from "../mount/mountHero";
 import type { MovieItemListInstance } from "../../../types/components";
 import { hideSkeleton, showSkeleton } from "../../service/skeleton";
-import { $ } from "../../util/querySelector";
-import createMovieLoader from "../../service/createMovieLoader";
+import createInfiniteQuery from "../../service/createInfiniteQuery";
+import { TMDBResponse } from "../../../types/TMDB";
+import fetchWithErrorHandling from "../../util/fetchWithErrorHandling";
+import { registerObserver, releaseObserver } from "../../util/observer";
+
+const SENTINEL_SELECTOR = "#sentinel";
 
 const movieItemList: MovieItemListInstance = MovieItemList();
-let observer: IntersectionObserver;
+const fetchPopularMovies = createInfiniteQuery<TMDBResponse>(
+  URLS.popularMovieUrl
+);
 
 export async function initIndexApp() {
-  const loader = createMovieLoader(URLS.popularMovieUrl);
-
-  mountIndexPageUI();
-  await loadAndDisplayMovies({ loader });
-
-  registerObserver({ loader });
-}
-
-function registerObserver({ loader }: any) {
-  observer = new IntersectionObserver(async ([entry]) => {
-    if (entry.isIntersecting) {
-      await loadAndDisplayMovies({ loader });
-    }
+  registerObserver({
+    callback: loadAndDisplayMovies,
+    sentinel: SENTINEL_SELECTOR,
   });
 
-  const sentinel = $("#sentinel");
-  if (sentinel) {
-    observer.observe(sentinel);
-  }
-}
+  mountIndexPageUI();
 
-async function loadAndDisplayMovies({ loader }: any) {
-  showSkeleton();
-  const { results, isLastPage } = await loader();
-  hideSkeleton();
-
-  if (isLastPage && observer) {
-    const sentinel = $("#sentinel");
-    if (sentinel) observer.unobserve(sentinel);
-    observer.disconnect();
-  }
-
-  movieItemList.render(results);
+  await loadAndDisplayMovies();
 }
 
 function mountIndexPageUI() {
   mountHeader();
   mountHero();
   mountMovieItemList(movieItemList);
+}
+
+async function loadAndDisplayMovies() {
+  const { results, page: currentPage, total_pages } = await loadPopularMovies();
+
+  if (total_pages <= currentPage) {
+    releaseObserver({ sentinel: SENTINEL_SELECTOR });
+  }
+
+  movieItemList.render(results);
+}
+
+async function loadPopularMovies() {
+  showSkeleton();
+  const data = await fetchWithErrorHandling<TMDBResponse>(fetchPopularMovies);
+  hideSkeleton();
+
+  return data;
 }

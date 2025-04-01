@@ -4,61 +4,50 @@ import MovieItemList from "../../components/movieItemList/movieItemList";
 import { URLS } from "../../setting/settings";
 import type { MovieItemListInstance } from "../../../types/components";
 import { showSkeleton, hideSkeleton } from "../../service/skeleton";
-import { $ } from "../../util/querySelector";
-import Fallback from "../../components/fallback/fallback";
-import createMovieLoader from "../../service/createMovieLoader";
+import getSearchParams from "../../util/getSearchParams";
+import { registerObserver, releaseObserver } from "../../util/observer";
+import fetchWithErrorHandling from "../../util/fetchWithErrorHandling";
+import { TMDBResponse } from "../../../types/TMDB";
+import createInfiniteQuery from "../../service/createInfiniteQuery";
+
+const SENTINEL_SELECTOR = "#sentinel";
 
 const movieItemList: MovieItemListInstance = MovieItemList();
-let observer: IntersectionObserver;
+const fetchSearchMovies = createInfiniteQuery<TMDBResponse>(
+  URLS.searchMovieUrl,
+  getSearchParams("query")
+);
 
-export async function initSearchApp(): Promise<void> {
-  const query: string = getSearchParams("query");
-  const loader = createMovieLoader(URLS.searchMovieUrl, query);
-
-  registerObserver({ loader });
-
-  mountIndexPageUI();
-  await loadAndDisplayMovies({ loader });
-}
-
-function getSearchParams(key: string): string {
-  return new URLSearchParams(window.location.search).get(key) ?? "";
-}
-
-function registerObserver({ loader }: any) {
-  observer = new IntersectionObserver(async ([entry]) => {
-    if (entry.isIntersecting) {
-      await loadAndDisplayMovies({ loader });
-    }
+export async function initSearchApp() {
+  registerObserver({
+    callback: loadAndDisplayMovies,
+    sentinel: SENTINEL_SELECTOR,
   });
 
-  const sentinel = $("#sentinel");
-  if (sentinel) {
-    observer.observe(sentinel);
-  }
+  mountSearchPageUI();
+
+  await loadAndDisplayMovies();
 }
 
-async function loadAndDisplayMovies({ loader }: any) {
-  try {
-    showSkeleton();
-    const { results, isLastPage } = await loader();
-    hideSkeleton();
-
-    if (isLastPage && observer) {
-      observer.disconnect();
-    }
-
-    movieItemList.render(results);
-  } catch {
-    showFallback();
-  }
-}
-
-function showFallback(): void {
-  $("#thumbnail-container")?.replaceChildren(Fallback());
-}
-
-function mountIndexPageUI() {
+function mountSearchPageUI() {
   mountSearchTitle();
   mountMovieItemList(movieItemList);
+}
+
+async function loadAndDisplayMovies() {
+  const { results, page: currentPage, total_pages } = await loadSearchMovies();
+
+  if (total_pages <= currentPage) {
+    releaseObserver({ sentinel: SENTINEL_SELECTOR });
+  }
+
+  movieItemList.render(results);
+}
+
+async function loadSearchMovies() {
+  showSkeleton();
+  const data = await fetchWithErrorHandling<TMDBResponse>(fetchSearchMovies);
+  hideSkeleton();
+
+  return data;
 }
