@@ -26,29 +26,30 @@ const Modal = (movieDetails: MovieDetails) => {
 
   const bindEvents = () => {
     $gnb?.classList.add("disappear");
-
-    const $closeBtn = $modalBg.querySelector("#closeModal");
-    $closeBtn?.addEventListener("click", closeModal);
-
+  
+    $modalBg.addEventListener("click", (e) => {
+      const target = e.target as HTMLElement;
+  
+      if (target.id === "closeModal") {
+        closeModal();
+      }
+  
+      if (target.closest(".my-rate .star")) {
+        const $star = target.closest(".star") as HTMLElement;
+        const newRate = Number($star.dataset.starValue);
+        localStorage.setItem(String(movieDetails.id), String(newRate));
+        render(newRate);
+      }
+    });
+  
     escapeListener = (e: KeyboardEvent) => {
       if (e.key === "Escape") closeModal();
     };
     document.addEventListener("keydown", escapeListener);
-
-    const $stars =
-      $modalBg.querySelectorAll<HTMLImageElement>(".my-rate .star");
-    $stars.forEach(($star) => {
-      $star.addEventListener("click", () => {
-        const newRate = Number($star.dataset.starValue);
-        localStorage.setItem(String(movieDetails.id), String(newRate));
-        render(newRate);
-        bindEvents();
-      });
-    });
   };
+  
 
-  const initialRate =
-    Number(localStorage.getItem(String(movieDetails.id))) || 0;
+  const initialRate = Number(localStorage.getItem(String(movieDetails.id))) || 0;
   render(initialRate);
   bindEvents();
 
