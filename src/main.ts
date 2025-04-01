@@ -23,7 +23,7 @@ async function initMovieList(movieList: HTMLElement) {
     const query = getQueryParam(new URL(window.location.href));
     const movies = await getCurrentMovieList(pageManager.currentPage, query);
 
-    if (!movies || !movieList) return;
+    if (!movies) return;
 
     pageManager.setTotalPages(movies.total_pages);
     Header(movies.results[0]);
