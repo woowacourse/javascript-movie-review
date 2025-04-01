@@ -1,8 +1,8 @@
-export interface ResponseType {
+export interface ResponseType<T> {
   page: number;
-  results: MovieResponseType[];
-  totalPages: number;
-  totalResults: number;
+  results: T[];
+  total_pages: number;
+  total_results: number;
 }
 
 export interface MovieResponseType {

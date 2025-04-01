@@ -1,9 +1,10 @@
 import getPopularMovies from '../api/getPopularMovies';
+import { MovieType, ResponseType } from '../type';
 import { errorUi } from '../view/errorUi';
 import { bannerSkeletons } from '../view/render/skeleton/bannerSkeleton';
 import { movieListSkeletons } from '../view/render/skeleton/movieListSkeletons';
 
-export const initMovies = async () => {
+export const initMovies = async (): Promise<ResponseType<MovieType>> => {
   try {
     bannerSkeletons();
     movieListSkeletons();
@@ -20,5 +21,6 @@ export const initMovies = async () => {
     if (error instanceof Error) {
       errorUi(error.message);
     }
+    throw Error();
   }
 };

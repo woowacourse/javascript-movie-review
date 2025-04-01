@@ -9,7 +9,7 @@ addEventListener('DOMContentLoaded', async () => {
 
   renderHeader();
 
-  if (movies?.results.length > 0) {
+  if (movies.results.length > 0) {
     renderBanner(movies.results);
     renderMovieList(movies);
   }
