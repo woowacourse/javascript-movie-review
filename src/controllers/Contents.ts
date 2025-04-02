@@ -51,6 +51,12 @@ function renderNoResults($main: HTMLElement) {
   $main.appendChild($contentContainer);
 }
 
+function removeNoResults() {
+  const $contentContainer = document.querySelector(".contentContainer");
+  if ($contentContainer) $contentContainer.remove();
+  
+}
+
 export function ContentsContainer(contentTitle: string, movieList:MovieList) {
   const $main = document.querySelector("main") as HTMLElement;
   const $thumbnailList = document.querySelector(".thumbnail-list")?.children;
@@ -60,6 +66,8 @@ export function ContentsContainer(contentTitle: string, movieList:MovieList) {
 
   if (movieList.movieList.length === 0 && $thumbnailList?.length === 0) {
     renderNoResults($main);
+  } else {
+    removeNoResults()
   }
 
   if (movieList.movieList.length < 20) {
