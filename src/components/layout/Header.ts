@@ -1,10 +1,10 @@
-import searchMovie from "../../feature/searchMovie.ts";
+import searchMovie from "../handler/searchMovie.ts";
 import { createElement } from "../../utils/createElement.ts";
 import { $multiSelect } from "../../utils/dom.ts";
 import Button from "../common/Button.ts";
 import Rate from "../common/Rate.ts";
 import SearchBar from "../common/SearchBar.ts";
-import loadDetailMovie from "../utils/loadDetailMovie.ts";
+import loadDetailMovie from "../handler/loadDetailMovie.ts";
 
 type Props = {
   id: number;

@@ -8,7 +8,7 @@ import LoadMoreSection from "./components/movie/LoadMoreSection.ts";
 import MovieList from "./components/movie/MovieList.ts";
 import NoSearchResults from "./components/movie/NoSearchResults.ts";
 import hideSkeleton from "./components/utils/hideSkeleton.ts";
-import loadDetailMovie from "./components/utils/loadDetailMovie.ts";
+import loadDetailMovie from "./components/handler/loadDetailMovie.ts";
 import showSkeleton from "./components/utils/showSkeleton.ts";
 import observeLoadMore from "./feature/observeLoadMore.ts";
 import { createElement } from "./utils/createElement.ts";

@@ -1,4 +1,4 @@
-import saveRating from "../../domain/saveRating";
+import saveRating from "../../feature/saveRating";
 import { createElement } from "../../utils/createElement";
 import { $ } from "../../utils/dom";
 

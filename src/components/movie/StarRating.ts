@@ -1,4 +1,4 @@
-import getRatings from "../../domain/getRating";
+import getRatings from "../../feature/getRating";
 import { createElement } from "../../utils/createElement";
 import { $, $$ } from "../../utils/dom";
 

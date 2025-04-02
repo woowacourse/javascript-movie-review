@@ -1,12 +1,12 @@
 import { partial } from "@zoeykr/function-al";
-import { fetchSearchMovieList } from "../api/fetchSearchMovieList";
-import LoadMoreSection from "../components/movie/LoadMoreSection";
-import MovieList from "../components/movie/MovieList";
-import NoSearchResults from "../components/movie/NoSearchResults";
-import hideSkeleton from "../components/utils/hideSkeleton";
-import showSkeleton from "../components/utils/showSkeleton";
-import { $ } from "../utils/dom";
-import observeLoadMore from "./observeLoadMore";
+import { fetchSearchMovieList } from "../../api/fetchSearchMovieList";
+import LoadMoreSection from "../movie/LoadMoreSection";
+import MovieList from "../movie/MovieList";
+import NoSearchResults from "../movie/NoSearchResults";
+import hideSkeleton from "../utils/hideSkeleton";
+import showSkeleton from "../utils/showSkeleton";
+import { $ } from "../../utils/dom";
+import observeLoadMore from "../../feature/observeLoadMore";
 
 const INITIAL_PAGE = 1;
 

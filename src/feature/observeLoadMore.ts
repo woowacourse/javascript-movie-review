@@ -1,6 +1,6 @@
 import { Response } from "../../types/response";
 import { $ } from "../utils/dom";
-import loadMoreMovies from "../components/utils/loadMoreMovies";
+import loadMoreMovies from "../components/handler/loadMoreMovies";
 
 type Props = {
   loadFn: (currentPage: number) => Promise<Response>;
