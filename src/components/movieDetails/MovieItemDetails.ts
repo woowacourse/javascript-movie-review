@@ -1,5 +1,6 @@
 import { MovieDetails } from "../../../types/domain.ts";
 import MovieDetailsHeader from "./MovieDetailsHeader.ts";
+import MovieOverview from "./MovieOverview.ts";
 import MoviePoster from "./MoviePoster.ts";
 import UserRating from "./UserRating.ts";
 
@@ -61,12 +62,13 @@ class MovieItemDetails {
     const h3 = document.createElement("h3");
     h3.textContent = "줄거리";
 
-    const overview = document.createElement("p");
-    overview.classList.add("detail");
-    overview.textContent = this.#details.overview;
+    const { overview } = this.#details;
+    const movieOverview = new MovieOverview({
+      overview,
+    }).create();
 
     description.insertAdjacentElement("beforeend", h3);
-    description.insertAdjacentElement("beforeend", overview);
+    description.insertAdjacentElement("beforeend", movieOverview);
   }
 
   #createDivider(description: HTMLDivElement) {
