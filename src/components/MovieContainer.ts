@@ -26,57 +26,51 @@ const MovieContainer = ({ movies, status }: MovieContainerProps) => {
   const movieListElement = MovieList({ movies, status });
   const $button = Button({ text: BUTTON_MORE, type: "more" });
 
+  $button.addEventListener("click", () => {
+    const params = new URLSearchParams(window.location.search);
+    const currentPage = page.getNextPage();
+
+    renderMovieList(async () => {
+      const res = params.has("query")
+        ? await fetchSearchMovies(params.get("query") || "", currentPage)
+        : await fetchPopularMovies(currentPage);
+
+      return {
+        results: res.results,
+        totalPages: res.totalPages,
+      };
+    });
+  });
+
   $section.appendChild($h2);
   $section.appendChild(movieListElement);
   $main.appendChild($section);
   $main.appendChild($button);
   $container.appendChild($main);
 
-  init();
-
   return $container;
 };
 
 export default MovieContainer;
 
-const init = () => {
-  setupInfiniteScroll({
-    onLoad: async () => {
-      const params = new URLSearchParams(window.location.search);
-      const currentPage = page.getNextPage();
-      const res = params.has("query")
-        ? await fetchSearchMovies(params.get("query") || "", currentPage)
-        : await fetchPopularMovies(currentPage);
-      page.setTotalPages(res.totalPages);
-      renderMovieList(() =>
-        Promise.resolve({
-          results: res.results,
-          totalPages: res.totalPages,
-        })
-      );
-    },
-    onEnd: () => {
-      const $button = document.querySelector(".primary.more");
-      $button?.classList.add("disappear");
-    },
-    offset: 150,
-  });
-};
-
-const $moreButton = document.querySelector(".more");
-
-$moreButton?.addEventListener("click", () => {
-  const params = new URLSearchParams(window.location.search);
-  const currentPage = page.getNextPage();
-
-  renderMovieList(async () => {
+// 초기 1회만 호출되도록 외부에서 실행
+setupInfiniteScroll({
+  onLoad: async () => {
+    const params = new URLSearchParams(window.location.search);
+    const currentPage = page.getNextPage();
     const res = params.has("query")
       ? await fetchSearchMovies(params.get("query") || "", currentPage)
       : await fetchPopularMovies(currentPage);
 
-    return {
-      results: res.results,
-      totalPages: res.totalPages,
-    };
-  });
+    page.setTotalPages(res.totalPages);
+
+    renderMovieList(() =>
+      Promise.resolve({ results: res.results, totalPages: res.totalPages })
+    );
+  },
+  hasNextPage: () => page.hasNextPage(),
+  onEnd: () => {
+    document.querySelector(".primary.more")?.classList.add("disappear");
+  },
+  offset: 150,
 });
