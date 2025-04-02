@@ -3,14 +3,14 @@ interface Movie {
   rating: number;
 }
 
-type SetItemProp = {
+type UpdateRatingProp = {
   id: number;
   rating: number;
 };
 
 const MOVIE_KEY = "MovieData";
 
-export function updateRating({ id, rating }: SetItemProp) {
+export function updateRating({ id, rating }: UpdateRatingProp) {
   const movieList = getLocalStorageItem(MOVIE_KEY) as Movie[];
 
   const updatedList = getUpdateMovieList(movieList, { id, rating });
