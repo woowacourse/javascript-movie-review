@@ -1,7 +1,8 @@
 import { createElementWithAttributes } from "../../../../../../../../utils/createElementWithAttributes";
+import { MyMovieRate } from "../movieRateBox";
 import { getComment } from "./internal/comment";
 
-const movieRateComments = (myMovieRate: number) => {
+const movieRateComments = (myMovieRate: MyMovieRate) => {
   return createElementWithAttributes({
     tag: "div",
     id: "movie-rate-comments",

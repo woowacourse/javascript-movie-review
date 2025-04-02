@@ -4,11 +4,9 @@ import starRatingElements from "./internal/starRatingElements";
 import { MovieDetail } from "../../../../../../../../../domain/types";
 import emptyStar from "/images/star_empty.png";
 import filledStar from "/images/star_filled.png";
-import { getComment } from "./internal/comment";
+import { getComment, isScore } from "./internal/comment";
 
-interface MyMovieRates {
-  [key: string]: number;
-}
+import { MyMovieRates } from "../movieRateBox";
 
 interface HandleMovieRateUpdateParams {
   movie: MovieDetail;
@@ -38,6 +36,10 @@ const handleMovieRateUpdate = ({
 
     const newMovieRate = Number.parseInt(event.target.value, 10);
     if (myMovieRate === newMovieRate) {
+      return;
+    }
+
+    if (isScore(newMovieRate) === false) {
       return;
     }
 
