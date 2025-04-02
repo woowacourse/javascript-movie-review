@@ -9,7 +9,7 @@ function MovieItem(
   const $movieItemContainer = document.createElement("div");
 
   $movieItemContainer.classList.add("item");
-  $movieItem.dataset.id = id;
+  $movieItem.dataset.id = id.toString();
 
   const thumbnailImage = ThumbnailImage({
     title,
@@ -21,7 +21,6 @@ function MovieItem(
   });
 
   $movieItem.addEventListener("click", (event) => onClick(event));
-
   $movieItemContainer.appendChild(thumbnailImage);
   $movieItemContainer.appendChild(movieCaption);
   $movieItem.appendChild($movieItemContainer);
