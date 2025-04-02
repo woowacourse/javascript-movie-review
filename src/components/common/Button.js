@@ -3,13 +3,13 @@ import MovieList from "../movie/MovieList";
 import fetchPopularMovies from "../../fetch/fetchPopularMovies";
 import fetchSearchMovies from "../../fetch/fetchSearchMovies";
 import movies from "../../store/Movies";
-import page from "../../store/page";
+import { getNextPage } from "../../store/page";
 import createElement from "../utils/createElement";
 
 const Button = ({ text, type }) => {
   const $button = createElement({
     tag: "button",
-    classNames: ["primary", `${type}`],
+    classNames: ["primary", type],
   });
 
   $button.textContent = text;
@@ -18,7 +18,7 @@ const Button = ({ text, type }) => {
     const params = new URLSearchParams(window.location.search);
 
     let fetchedMovies;
-    const currentPage = page.getNextPage();
+    const currentPage = getNextPage();
     if (params.has("query")) {
       fetchedMovies = await fetchSearchMovies(params.get("query"), currentPage);
     } else {
@@ -32,7 +32,6 @@ const Button = ({ text, type }) => {
     }
 
     document.querySelector(".thumbnail-list").remove();
-
     const observer = document.querySelector(".observer");
     const section = document.querySelector("section");
     section.insertBefore(

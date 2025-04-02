@@ -1,15 +1,6 @@
-class Page {
-  #page: number;
+let page = 1;
 
-  constructor() {
-    this.#page = 1;
-  }
-
-  getNextPage() {
-    this.#page++;
-    return this.#page;
-  }
-}
-
-const page = new Page();
-export default page;
+export const getNextPage = () => {
+  page++;
+  return page;
+};

@@ -187,8 +187,7 @@ class Modal {
       $stars.replaceChildren();
       const score = rating * 2;
       $score.textContent = `(${score}/10)`;
-
-      $comment.textContent = SCORE_MESSAGE[String(score)];
+      $comment.textContent = SCORE_MESSAGE[score];
 
       const filledCount = rating;
       const emptyCount = 5 - rating;
