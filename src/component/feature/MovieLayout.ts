@@ -62,8 +62,9 @@ class MovieLayout {
         movieListEl.addEventListener("click", async(event) => {  
         const clickedItem = event.target.closest("li");
         const {poster_path, title, vote_average, release_date, genres, overview} = await fetchDetailMovie(clickedItem.id)
-          Modal(`${clickedItem.id}modal`,MovieDetail({poster_path,title, vote_average, release_date, genres, overview}))
-          Modal.open(`${clickedItem.id}modal`)
+        const {modalDetailtemplate, starEvent} = MovieDetail({poster_path, title, vote_average, release_date, genres, overview})
+        Modal(`${clickedItem.id}modal`,modalDetailtemplate, starEvent, title)
+        Modal.open(`${clickedItem.id}modal`);
          });
        }
     
@@ -78,8 +79,9 @@ class MovieLayout {
             movieListEl.addEventListener("click", async(event) => {  
                 const clickedItem = event.target.closest("li");
                 const {poster_path, title, vote_average, release_date, genres, overview} = await fetchDetailMovie(clickedItem.id)
-                    Modal(`${clickedItem.id}modal`,MovieDetail({poster_path,title, vote_average, release_date, genres, overview}))
-                    Modal.open(`${clickedItem.id}modal`)
+                const {modalDetailtemplate, starEvent} = MovieDetail({poster_path, title, vote_average, release_date, genres, overview})
+                Modal(`${clickedItem.id}modal`,modalDetailtemplate, starEvent, title)
+                Modal.open(`${clickedItem.id}modal`);
                     });
             })
         }else{

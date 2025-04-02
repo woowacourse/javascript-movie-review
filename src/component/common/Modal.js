@@ -1,6 +1,6 @@
 import { getElement } from "../../util/utils";
 
-function Modal(id, content) {
+function Modal(id, content, event, title) {
     function createModalBackdrop(id) {
         const $el = document.querySelector(".modal-background")
         $el.id = id
@@ -28,6 +28,7 @@ function Modal(id, content) {
 
     createModalBackdrop(id)
     createModalContainer(content)
+    event(title)
 }
 
 Modal.open = function (id) {

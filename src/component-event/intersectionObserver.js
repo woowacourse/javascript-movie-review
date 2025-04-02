@@ -30,9 +30,9 @@ export const intersectionObserver = (movieLayout) => {
     observer.observe($target);
 }
 
-const readMoreMovieList = (function () {
+export const readMoreMovieList = (function () {
     InfiniteScrollLoader.render()
-    let pageIndex = 2;
+    let pageIndex = 1;
 
     async function loadMovieData() {
       const { results, total_pages } = await fetchPopularMovies(pageIndex);
@@ -48,9 +48,9 @@ const readMoreMovieList = (function () {
   })();
 
 
- const readMoreSearchList = (function () {
+export const readMoreSearchList = (function () {
     InfiniteScrollLoader.render()
-      let pageIndex = 2;
+      let pageIndex = 1;
       async function loadMovieData() {
  
         const {results, total_pages} = await fetchSearchMovies(pageIndex);

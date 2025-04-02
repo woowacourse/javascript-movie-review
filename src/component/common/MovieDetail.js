@@ -8,11 +8,11 @@ function MovieDetail({poster_path, title, vote_average,release_date, genres, ove
     const genresName = genres.map((genre)=>genre.name).join(", ")
     const year = release_date.split("-")[0];
     const rating = roundRating(vote_average)
-    const myRating = MyRating(title)
+    const {myRatingtemplate, starEvent} = MyRating(title)
 
     const starEls = document.querySelectorAll(".star-button");
   
-    return `
+    const modalDetailtemplate = `
         <button class="close-modal">
           <img src="./images/modal_button_close.png" />
         </button>
@@ -38,7 +38,7 @@ function MovieDetail({poster_path, title, vote_average,release_date, genres, ove
               내 별점
             </p>
             <div class="my-rating-container">
-              ${myRating}
+              ${myRatingtemplate}
             </div>
             <hr class="line"/>
             <p class="label-text">줄거리</p>
@@ -46,7 +46,9 @@ function MovieDetail({poster_path, title, vote_average,release_date, genres, ove
               ${overview}
             </p>
           </div>
-        </div>`
+        </div>`;
+
+      return {modalDetailtemplate, starEvent}
 }
 
 
