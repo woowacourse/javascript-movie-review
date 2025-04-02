@@ -29,9 +29,12 @@ class MovieList implements MovieListContract {
             <li class="item" data-id="${id}">
                 <img 
                   class="thumbnail" 
-                  src="${this.#posterImage(poster_path)}" alt="${title}" 
+                  src="./images/placeholder.png"
+                  data-src="${this.#posterImage(poster_path)}"
+                  alt="${title}" 
+                  onload="if(this.dataset.loaded !== 'true'){ this.dataset.loaded = 'true'; this.src = this.getAttribute('data-src'); }"
                   onerror="this.onerror=null; this.src='./images/dizzy_planet.png';"
-                  />
+                />
                 <div class="item-desc">
                   <p class="rate">
                     <img src="./images/star_empty.png" class="star" />
