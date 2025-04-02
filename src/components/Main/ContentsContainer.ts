@@ -1,5 +1,6 @@
 import { MovieInfo } from "../../../types/movieType";
 import MovieService from "../../services/MovieService";
+import SearchMovieService from "../../services/SearchMovieService";
 import { hideSkeleton, showSkeleton } from "../Skeleton/showSkeleton";
 import MovieList from "./MovieList";
 
@@ -47,20 +48,21 @@ export async function ContentsContainer(
 // 무한 스크롤 시 추가 데이터 로드
 export async function handleAdditionalData(
   movieService: MovieService,
+  searchMovieService: SearchMovieService,
   contentTitle: string,
   observer: IntersectionObserver
 ) {
-  const $section = document.querySelector("section");
   const isSearchMode = contentTitle.includes('"');
-  movieService.nextPage();
   showSkeleton(20, "section");
   let additionalData;
   if (isSearchMode) {
     const searchQuery = contentTitle
       .replace(/['"]/g, "")
       .replace(" 검색 결과", "");
-    additionalData = await movieService.getSearchResult(searchQuery);
+    searchMovieService.nextPage();
+    additionalData = await searchMovieService.getSearchResult(searchQuery);
   } else {
+    movieService.nextPage();
     additionalData = await movieService.getPopularMovies();
   }
 
@@ -70,11 +72,14 @@ export async function handleAdditionalData(
   const $movieList = movieList.renderMovieList();
   const $listContainer = document.querySelector(".thumbnail-list");
   $movieList.forEach((movie) => $listContainer?.appendChild(movie));
-  $movieList.forEach(($thumbnail) => {
+
+  const $newThumbnails = $listContainer?.querySelectorAll(".thumbnail");
+  $newThumbnails?.forEach(($thumbnail) => {
     $thumbnail.addEventListener("click", async () => {
       await handleThumbnailClick($thumbnail as HTMLElement);
     });
   });
+
   if (
     additionalData.results.length === 0 ||
     movieService.getCurrentPage() === additionalData.total_pages
