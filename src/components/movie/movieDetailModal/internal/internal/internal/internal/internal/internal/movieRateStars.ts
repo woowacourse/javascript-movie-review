@@ -2,11 +2,10 @@ import moviesRatingLocalStorage from "../../../../../../../../../domain/localSto
 import { createElementWithAttributes } from "../../../../../../../../utils/createElementWithAttributes";
 import starRatingElements from "./internal/starRatingElements";
 import { MovieDetail } from "../../../../../../../../../domain/types";
-import emptyStar from "/images/star_empty.png";
-import filledStar from "/images/star_filled.png";
-import { getComment, isScore } from "./internal/comment";
-
-import { MyMovieRates } from "../movieRateBox";
+import { isScore } from "./internal/comment";
+import { MyMovieRate, MyMovieRates } from "../movieRateBox";
+import updateMovieRateComments from "./internal/updateMovieRateComments";
+import updateMovieRateStars from "./internal/updateMovieRateStars";
 
 interface HandleMovieRateUpdateParams {
   movie: MovieDetail;
@@ -15,7 +14,7 @@ interface HandleMovieRateUpdateParams {
 }
 
 interface MovieRateStarsProps {
-  myMovieRate: number;
+  myMovieRate: MyMovieRate;
   movie: MovieDetail;
   $movieRateBox: HTMLElement;
 }
@@ -43,28 +42,14 @@ const handleMovieRateUpdate = ({
       return;
     }
 
-    const newMovieRates = { ...myMovieRates, [movie.id]: newMovieRate };
-    moviesRatingLocalStorage.setData(newMovieRates);
-
-    const $images = $movieRateStars.querySelectorAll(".star");
-    $images.forEach(($img, idx) => {
-      $img.setAttribute(
-        "src",
-        newMovieRate >= (idx + 1) * 2 ? filledStar : emptyStar
-      );
+    updateMovieRateStars({
+      myMovieRates,
+      movie,
+      newMovieRate,
+      $movieRateStars,
     });
 
-    const $movieRateComments = $movieRateBox.querySelector(
-      "#movie-rate-comments"
-    );
-
-    if (!$movieRateComments) {
-      return;
-    }
-
-    $movieRateComments.textContent = `${getComment(
-      newMovieRate
-    )} (${newMovieRate}/10)`;
+    updateMovieRateComments({ $movieRateBox, newMovieRate });
   };
 };
 
