@@ -23,7 +23,7 @@ const SearchBar = () => {
   });
 
   input.addEventListener("keydown", async (e) => {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && e.isComposing === false) {
       searchMovie(input.value);
     }
   });
