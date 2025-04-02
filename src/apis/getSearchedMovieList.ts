@@ -5,9 +5,13 @@ const getSearchedMovieList = async (
   query: string,
   page: number
 ): Promise<MovieListData> => {
-  const response = await tmdbClient.get(
-    `/search/movie?query=${query}&language=ko-KR&page=${page}`
-  );
+  const params = new URLSearchParams({
+    query: query,
+    language: "ko-KR",
+    page: page.toString(),
+  });
+
+  const response = await tmdbClient.get(`/search/movie?${params.toString()}`);
 
   if ("status_message" in response) {
     throw new Error(response.status_message);
