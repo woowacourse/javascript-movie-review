@@ -14,6 +14,7 @@ export async function openModal(event: MouseEvent): Promise<void> {
   const $modal = MovieModal(movieData, movieId);
 
   $wrap.appendChild($modal);
+  document.body.style.overflow = "hidden";
 }
 
 export function closeModal() {
@@ -29,12 +30,14 @@ function registerModalClose($modal:HTMLElement, $modalBackground:HTMLElement) {
   if (closeButton) {
     closeButton.addEventListener("click", () => {
       closeModal();
+      document.body.style.overflow = "auto";
     });
   }
 
   function handleKeyDown(event:KeyboardEvent) {
     if (event.key === "Escape" && !event.isComposing) {
       closeModal();
+      document.body.style.overflow = "auto";
     }
   }
 
