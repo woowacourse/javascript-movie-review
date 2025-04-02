@@ -1,0 +1,11 @@
+.empty-box {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+}
+
+.empty-planet {
+  width: 4.5rem;
+  height: 3.88356rem;
+}

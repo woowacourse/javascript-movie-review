@@ -1,3 +1,4 @@
+import "./movieListBox.css";
 import { MovieListSectionProps } from "../../../types/type";
 import $MovieList, { addMovieItem } from "./MovieList/MovieList";
 import getPopularMovieList from "../../apis/getPopularMovieList";
@@ -5,7 +6,7 @@ import getSearchedMovieList from "../../apis/getSearchedMovieList";
 import {
   addSkeletonList,
   removeSkeletonList,
-} from "../Skeleton/MovieList/SkeletonList";
+} from "./Skeleton/MovieList/SkeletonList";
 import asyncErrorBoundary from "../ErrorBoundary/Async/asyncErrorBoundary";
 import { addErrorBox } from "../ErrorBox/ErrorBox";
 
@@ -16,13 +17,13 @@ interface MovieState {
   page: number;
 }
 
-const removeMoreButton = ({ condition }: { condition: boolean }) => {
+const removeObserver = ({ condition }: { condition: boolean }) => {
   if (!condition) {
     return;
   }
 
-  const $moreButton = document.querySelector(".more-button");
-  $moreButton?.remove();
+  const $observer = document.querySelector(".observer");
+  $observer?.remove();
 };
 
 interface RenderMoreMovieListParameter {
@@ -36,7 +37,7 @@ const renderMoreMovieList = async ({
 }: RenderMoreMovieListParameter) => {
   addSkeletonList();
   const { page, total_pages, results } = await fetchFn(currentPage);
-  removeMoreButton({ condition: page === total_pages });
+  removeObserver({ condition: page === total_pages });
   removeSkeletonList();
   addMovieItem(results);
 };
@@ -54,7 +55,7 @@ const $MovieListBoxRender = () => {
     movieState.page = page;
   };
 
-  const handleMoreButtonClick = async () => {
+  const loadMoreMovies = async () => {
     movieState.page += 1;
 
     if (movieState.type === "popular") {
@@ -64,7 +65,8 @@ const $MovieListBoxRender = () => {
             currentPage: movieState.page,
             fetchFn: getPopularMovieList,
           }),
-        fallbackComponent: (errorMessage) => addErrorBox(errorMessage),
+        fallbackComponent: (errorMessage) =>
+          addErrorBox({ selector: ".movie-list-section", errorMessage }),
       });
       return;
     }
@@ -75,7 +77,8 @@ const $MovieListBoxRender = () => {
           currentPage: movieState.page,
           fetchFn: (page) => getSearchedMovieList(movieState.keyword, page),
         }),
-      fallbackComponent: (errorMessage) => addErrorBox(errorMessage),
+      fallbackComponent: (errorMessage) =>
+        addErrorBox({ selector: ".movie-list-section", errorMessage }),
     });
   };
 
@@ -89,13 +92,18 @@ const $MovieListBoxRender = () => {
     $fragment.append($title, $movieList);
 
     if (movieResult.page !== movieResult.total_pages) {
-      const $moreButton = createElement("button", {
-        type: "button",
-        className: "more-button",
-        textContent: "더 보기",
+      const $observer = createElement("div", {
+        className: "observer",
       });
-      $moreButton.addEventListener("click", handleMoreButtonClick);
-      $fragment.appendChild($moreButton);
+
+      const observer = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          loadMoreMovies();
+        }
+      });
+      observer.observe($observer);
+
+      $fragment.appendChild($observer);
     }
 
     const $movieListBox = createElement("div", {

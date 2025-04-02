@@ -1,3 +1,4 @@
+import "./movieList.css";
 import { MovieDetail } from "../../../../types/type";
 import $EmptyList from "../../EmptyList/EmptyList";
 import $MovieItem from "./MovieItem/MovieItem";

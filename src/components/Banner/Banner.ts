@@ -1,3 +1,5 @@
+import "./banner.css";
+
 export const removeBanner = () => {
   const $header = document.querySelector("header") as HTMLElement;
   $header.classList.remove("banner-open");

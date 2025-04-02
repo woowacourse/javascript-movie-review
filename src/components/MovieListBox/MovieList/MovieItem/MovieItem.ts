@@ -1,9 +1,12 @@
+import "./movieItem.css";
 import { MovieDetail } from "../../../../../types/type";
+import getMovieDetail from "../../../../apis/getMovieDetail";
+import { renderMovieDetailModal } from "../../../Modal/MovieDetail/MovieDetailModal";
+import $MoviePoster from "../../../MoviePoster/MoviePoster";
+import asyncErrorBoundary from "../../../ErrorBoundary/Async/asyncErrorBoundary";
+import { addErrorBox } from "../../../ErrorBox/ErrorBox";
 
-const defaultPosterPath = "./default-poster.svg";
-const imagePathPreFix = "https://image.tmdb.org/t/p/w440_and_h660_face";
-
-const $MovieItem = ({ title, poster_path, vote_average }: MovieDetail) => {
+const $MovieItem = ({ id, title, poster_path, vote_average }: MovieDetail) => {
   const $rate = createElement("p", {
     className: "rate",
   });
@@ -28,19 +31,25 @@ const $MovieItem = ({ title, poster_path, vote_average }: MovieDetail) => {
   const $item = createElement("li", {
     className: "item",
   });
-  const $poster = createElement("img", {
-    className: "thumbnail",
-    src: "./placeholder-poster.svg",
-    alt: title,
-    loading: "lazy",
-    onerror: "this.src='./error-poster.svg'",
-    onload: function () {
-      this.src = poster_path
-        ? imagePathPreFix + poster_path
-        : defaultPosterPath;
-    },
+
+  const $posterBox = createElement("div", {
+    className: "thumbnail-box",
   });
-  $item.append($poster, $description);
+  $posterBox.appendChild(
+    $MoviePoster({ className: "thumbnail", title, poster_path })
+  );
+
+  $item.append($posterBox, $description);
+
+  $item.addEventListener("click", async () => {
+    asyncErrorBoundary({
+      asyncFn: () =>
+        renderMovieDetailModal({ fetchFn: () => getMovieDetail(id) }),
+      fallbackComponent: (errorMessage) =>
+        addErrorBox({ selector: ".modal-content", errorMessage }),
+    });
+  });
+
   return $item;
 };
 
