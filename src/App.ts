@@ -1,4 +1,3 @@
-
 import ErrorMessage from "./components/errorMessage/ErrorMessage";
 import Footer from "./components/footer/Footer";
 import Header from "./components/header/Header";
@@ -12,7 +11,6 @@ import {
   movies,
   searchInputValue,
   searchResults,
-
   isError,
   isSearchError,
   movieDetail,

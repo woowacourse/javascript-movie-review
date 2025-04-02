@@ -8,12 +8,6 @@ export const ratingTexts = {
   10: "명작이에요",
 };
 
-export const getRatingText = (rating: number): string => {
-  return rating in ratingTexts
-    ? ratingTexts[rating as keyof typeof ratingTexts]
-    : "";
-};
-
 export const getStarSrc = (
   currentRating: number,
   starValue: number
