@@ -23,10 +23,9 @@ export const selectElementAll = <T extends Element>(
 };
 
 export const toggleElementVisibility = (
-  selector: string,
+  element: HTMLElement,
   option: "show" | "hidden"
 ) => {
-  const element = selectElement<HTMLElement>(selector);
   if (option === "show") element.classList.remove("hidden");
   if (option === "hidden") element.classList.add("hidden");
 };

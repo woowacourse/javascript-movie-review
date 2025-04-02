@@ -43,13 +43,13 @@ class SkeletonUl {
   }
 
   async getLoadingResult<T>(callback: () => Promise<T>) {
-    toggleElementVisibility(".skeleton-list", "show");
+    toggleElementVisibility(this.#element, "show");
     try {
       return await callback();
     } catch (error) {
       throw error;
     } finally {
-      toggleElementVisibility(".skeleton-list", "hidden");
+      toggleElementVisibility(this.#element, "hidden");
     }
   }
 }
