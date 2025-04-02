@@ -3,10 +3,10 @@ import { store } from '../../store/store.js';
 import Logger from '../../utils/logger/Logger';
 
 export default class Logo {
-  constructor() {
+  constructor(onClick) {
     this.element = null;
+    this.onClick = onClick;
   }
-  onClick = async () => {};
 
   createLogo() {
     this.element = document.querySelector('.logo');

@@ -97,8 +97,7 @@ export default class MovieService {
       const response = await this.apiService.getMovieDetail(movieId);
       return MovieDetail.fromResponse(response);
     } catch (error) {
-      const logger = Logger.getInstance();
-      logger.error('영화 상세 정보 가져오기 실패', error as Error);
+      console.error('영화 상세 정보 가져오기 실패', error);
       if (error instanceof ApiError) {
         alert(error.message);
       } else {

@@ -1,4 +1,3 @@
-// src/App.ts
 import {
   getPopularMovies,
   searchMovies,
@@ -7,15 +6,12 @@ import {
 import MovieService from './domain/MovieService';
 import SearchBar from './components/search/SearchBar';
 import MovieListHandler from './handlers/MovieListHandler';
-import SearchHandler from './handlers/SearchHandler';
 import Logo from './components/header/Logo';
 import Logger from './utils/logger/Logger';
 
 export default class App {
   private movieService: MovieService;
   private movieListHandler: MovieListHandler;
-  private searchHandler: SearchHandler;
-  private logo: Logo;
 
   constructor() {
     this.movieService = new MovieService({
@@ -25,19 +21,6 @@ export default class App {
     });
 
     this.movieListHandler = new MovieListHandler(this.movieService);
-    this.searchHandler = new SearchHandler();
-    this.logo = new Logo();
-    this.connectHandlers();
-  }
-
-  private connectHandlers(): void {
-    this.searchHandler.onSearch = async query => {
-      await this.movieListHandler.loadMovies(query);
-    };
-
-    this.logo.onClick = async () => {
-      await this.movieListHandler.loadMovies();
-    };
   }
 
   async initialize(): Promise<void> {
@@ -52,8 +35,12 @@ export default class App {
   }
 
   private initializeUIComponents(): void {
-    const searchBar = new SearchBar(this.searchHandler);
+    const searchBar = new SearchBar((query: string | undefined) =>
+      this.movieListHandler.loadMovies(query),
+    );
     searchBar.createSearchBar();
-    this.logo.createLogo();
+
+    const logo = new Logo(() => this.movieListHandler.loadMovies());
+    logo.createLogo();
   }
 }
