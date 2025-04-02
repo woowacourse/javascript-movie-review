@@ -1,11 +1,11 @@
 import getPopularMovies from '../api/getPopularMovies';
 import { MovieType, ResponseType } from '../type';
 import { bannerSkeletons } from '../view/render/skeleton/bannerSkeleton';
-import { movieListSkeletons } from '../view/render/skeleton/movieListSkeletons';
+import { showMovieListSkeletons } from '../view/render/skeleton/showMovieListSkeletons';
 
 export const initMovies = async (): Promise<ResponseType<MovieType>> => {
   bannerSkeletons();
-  movieListSkeletons();
+  showMovieListSkeletons();
 
   const params = {
     page: '1',

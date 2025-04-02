@@ -1,13 +1,13 @@
 import Button from '../component/Button';
 import { addMovies } from '../domain/addMovies';
 import { $ } from '../util/selector';
-import { hideSkeletons, movieListSkeletons } from './render/skeleton/movieListSkeletons';
+import { hideSkeletons, showMovieListSkeletons } from './render/skeleton/showMovieListSkeletons';
 
 const handleMoreButtonClick = async (page: number, totalPages: number, keyword?: string) => {
   const container = $('.thumbnail-list') as HTMLElement;
   if (!container) return;
 
-  movieListSkeletons();
+  showMovieListSkeletons();
 
   const movies = await addMovies(page, keyword);
   container.appendChild(movies);

@@ -1,7 +1,7 @@
 import createDOMElement from '../../../util/createDomElement';
 import { $, $all } from '../../../util/selector';
 
-export const movieListSkeletons = () => {
+export const showMovieListSkeletons = () => {
   const container = $('.thumbnail-list') as HTMLElement;
   if (!container) return;
 

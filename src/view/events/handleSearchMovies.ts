@@ -3,7 +3,7 @@ import { $ } from '../../util/selector';
 import { errorUi } from '../errorUi';
 import { removeBanner } from '../render/renderBanner';
 import { renderMovieList } from '../render/renderMovieList';
-import { hideSkeletons, movieListSkeletons } from '../render/skeleton/movieListSkeletons';
+import { hideSkeletons, showMovieListSkeletons } from '../render/skeleton/showMovieListSkeletons';
 
 export const handleSearchMovies = async (e: Event) => {
   e.preventDefault();
@@ -12,7 +12,7 @@ export const handleSearchMovies = async (e: Event) => {
     const movieList = $('.thumbnail-list');
     movieList?.replaceChildren();
 
-    movieListSkeletons();
+    showMovieListSkeletons();
 
     const form = $('#searchForm') as HTMLFormElement;
     if (form) {
@@ -33,8 +33,6 @@ export const handleSearchMovies = async (e: Event) => {
       const response = await getSearchMovies(params);
       renderMovieList(response, keyword);
     }
-
-    hideSkeletons();
   } catch (error) {
     if (error instanceof Error) {
       errorUi(error.message);

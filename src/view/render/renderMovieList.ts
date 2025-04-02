@@ -4,7 +4,7 @@ import { $ } from '../../util/selector';
 import { INITIAL_PAGE } from '../../constant';
 import { MovieType, ResponseType } from '../../type';
 import { createInfiniteScrollHandler } from '../infinityScrollButton';
-import { hideSkeletons, movieListSkeletons } from './skeleton/movieListSkeletons';
+import { hideSkeletons } from './skeleton/showMovieListSkeletons';
 import { errorUi } from '../errorUi';
 import { ERROR } from '../../api/constant';
 
@@ -13,8 +13,6 @@ let scrollHandler: ReturnType<typeof createInfiniteScrollHandler>;
 export const renderMovieList = async (response: ResponseType<MovieType>, keyword?: string) => {
   if (!response) return;
   const { results, total_pages, total_results } = response;
-
-  movieListSkeletons();
 
   const movieList = $('.thumbnail-list');
   const fragment = document.createDocumentFragment();

@@ -3,7 +3,7 @@ import { addMovies } from '../domain/addMovies';
 import { MovieType } from '../type';
 import { $ } from '../util/selector';
 import { errorUi } from './errorUi';
-import { hideSkeletons, movieListSkeletons } from './render/skeleton/movieListSkeletons';
+import { hideSkeletons, showMovieListSkeletons } from './render/skeleton/showMovieListSkeletons';
 import { ERROR } from '../api/constant';
 
 export function createInfiniteScrollHandler(initialKeyword = '', totalPages: number) {
@@ -20,7 +20,7 @@ export function createInfiniteScrollHandler(initialKeyword = '', totalPages: num
       if (!entry.isIntersecting || isLoading || isEnd) return;
 
       isLoading = true;
-      movieListSkeletons();
+      showMovieListSkeletons();
 
       try {
         if (currentPage > totalPages) {
