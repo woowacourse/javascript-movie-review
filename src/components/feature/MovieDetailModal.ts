@@ -56,7 +56,6 @@ const getRatingText = (rating: number): string => {
 const createMyRatingSection = (movieId: number): HTMLDivElement => {
   const movieRatingService = new MovieRatingService(new LocalStorageService());
   const savedRating = movieRatingService.getMovieRating(movieId);
-  const ratingText = getRatingText(savedRating);
 
   const starContainer = createElement<HTMLDivElement>('div', {
     className: 'star-container',
@@ -64,10 +63,32 @@ const createMyRatingSection = (movieId: number): HTMLDivElement => {
 
   const ratingLabel = createElement<HTMLSpanElement>('span', {
     className: 'rating-text',
-    textContent: ratingText,
+    textContent: getRatingText(savedRating),
   });
 
-  for (let starValue = 2; starValue <= 10; starValue += 2) {
+  const updateStarRatings = (newRating: number, stars: HTMLImageElement[]) => {
+    stars.forEach((img, index) => {
+      const starValue = (index + 1) * 2;
+      img.src =
+        starValue <= newRating
+          ? './images/star_filled.png'
+          : './images/star_empty.png';
+    });
+
+    ratingLabel.textContent = getRatingText(newRating);
+  };
+
+  const handleStarClick = (
+    starValue: number,
+    starImages: HTMLImageElement[],
+  ) => {
+    movieRatingService.saveMovieRating(movieId, starValue);
+    updateStarRatings(starValue, starImages);
+  };
+
+  const starImages: HTMLImageElement[] = [];
+  const starButtons = Array.from({ length: 5 }, (_, index) => {
+    const starValue = (index + 1) * 2;
     const isFilled = savedRating >= starValue;
 
     const starImg = createElement<HTMLImageElement>('img', {
@@ -75,28 +96,22 @@ const createMyRatingSection = (movieId: number): HTMLDivElement => {
       className: 'star',
     });
 
+    starImages.push(starImg);
+
     const starButton = createElement<HTMLButtonElement>('button', {
       className: 'rating-star',
       children: [starImg],
     });
 
     starButton.addEventListener('click', () => {
-      movieRatingService.saveMovieRating(movieId, starValue);
-
-      const stars = starContainer.querySelectorAll('.rating-star img');
-      stars.forEach((star, index) => {
-        const starImg = star as HTMLImageElement;
-        starImg.src =
-          index * 2 < starValue
-            ? './images/star_filled.png'
-            : './images/star_empty.png';
-      });
-
-      ratingLabel.textContent = getRatingText(starValue);
+      handleStarClick(starValue, starImages);
     });
 
-    starContainer.append(starButton, ratingLabel);
-  }
+    return starButton;
+  });
+
+  starButtons.forEach((button) => starContainer.appendChild(button));
+  starContainer.appendChild(ratingLabel);
 
   return createElement<HTMLDivElement>('div', {
     className: 'my-rating',
