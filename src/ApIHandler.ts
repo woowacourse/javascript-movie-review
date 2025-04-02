@@ -28,8 +28,10 @@ export default class APIHandler {
       const data = await response.json();
       return data;
     } catch (error) {
-      onError(0);
-      return [];
+      if (error instanceof Error) {
+        onError(error.message);
+        throw new Error(error.message);
+      }
     }
   }
 }
