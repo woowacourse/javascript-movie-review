@@ -4,6 +4,7 @@ import { createElementWithAttributes } from "../../../utils/createElementWithAtt
 import { LoadMoreCallback } from "../movieContainer";
 import movieList from "./movieList";
 import createObserver from "../../../../domain/observer/observer";
+import showErrorContainer from "../../../errorContainer/showErrorContainer";
 
 interface SetupSeeMoreMoviesHandlerProps {
   $movieList: HTMLElement;
@@ -35,24 +36,28 @@ const setupSeeMoreMoviesHandler = ({
   const MAX_PAGES = 500;
   let pageNumber = 1;
   const seeMoreMovies = async () => {
-    pageNumber += 1;
+    try {
+      pageNumber += 1;
 
-    showSkeletonMovieList($movieList);
+      showSkeletonMovieList($movieList);
 
-    const { results, total_pages } = await loadMoreCallback(pageNumber);
+      const { results, total_pages } = await loadMoreCallback(pageNumber);
 
-    if (pageNumber === total_pages || pageNumber === MAX_PAGES) {
-      observer.unObserveTarget($seeMoreButton);
-      observer.disconnect();
+      if (pageNumber === total_pages || pageNumber === MAX_PAGES) {
+        observer.unObserveTarget($seeMoreButton);
+        observer.disconnect();
 
-      $seeMoreButton.removeEventListener("click", seeMoreMovies);
-      $seeMoreButton.remove();
+        $seeMoreButton.removeEventListener("click", seeMoreMovies);
+        $seeMoreButton.remove();
+      }
+
+      hideSkeletonMovieList();
+
+      const $newMovieList = movieList(results);
+      $movieList.append(...$newMovieList.children);
+    } catch (error) {
+      showErrorContainer(error);
     }
-
-    hideSkeletonMovieList();
-
-    const $newMovieList = movieList(results);
-    $movieList.append(...$newMovieList.children);
   };
 };
 
