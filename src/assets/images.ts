@@ -5,4 +5,5 @@ export const images = {
   woowacourse: "./woowacourse_logo.png",
   modalButton: "./modal_button_close.png",
   search: "./search.png",
+  fallback: "./fallback.png",
 } as const;

@@ -84,6 +84,7 @@ const MovieDetail = () => {
               src="https://image.tmdb.org/t/p/original//${
                 movieDetail.poster_path
               }"
+              onerror="this.src='${images.fallback}'"
             />
           </div>
           <div class="modal-description">
