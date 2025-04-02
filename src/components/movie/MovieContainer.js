@@ -2,7 +2,7 @@ import MovieList from "./MovieList";
 import createElement from "../utils/createElement";
 import Button from "../common/Button";
 import storeMovies from "../../store/Movies";
-import page from "../../store/page";
+import { getNextPage } from "../../store/page";
 import fetchSearchMovies from "../../fetch/fetchSearchMovies";
 import fetchPopularMovies from "../../fetch/fetchPopularMovies";
 
@@ -39,12 +39,13 @@ const MovieContainer = ({ movies }) => {
   });
 
   const callback = (entries, observer) => {
+    console.log(entries);
     entries.forEach(async (entry) => {
       if (entry.isIntersecting) {
         const params = new URLSearchParams(window.location.search);
 
         let fetchedMovies;
-        const currentPage = page.getNextPage();
+        const currentPage = getNextPage();
         if (params.has("query")) {
           fetchedMovies = await fetchSearchMovies(
             params.get("query"),
@@ -56,7 +57,7 @@ const MovieContainer = ({ movies }) => {
         storeMovies.addMovies(fetchedMovies.results);
 
         if (fetchedMovies.totalPages === currentPage) {
-          observer.unobserve($div);
+          return;
         }
 
         document.querySelector(".thumbnail-list").remove();
