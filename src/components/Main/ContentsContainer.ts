@@ -1,4 +1,5 @@
 import { MovieInfo } from "../../../types/movieType";
+import DetailMovieService from "../../services/DetailMovieService";
 import MovieService from "../../services/MovieService";
 import SearchMovieService from "../../services/SearchMovieService";
 import { hideSkeleton, showSkeleton } from "../Skeleton/showSkeleton";
@@ -93,8 +94,7 @@ export async function handleAdditionalData(
 async function handleThumbnailClick(thumbnailElement: HTMLElement) {
   const id = thumbnailElement.dataset.id;
   if (id) {
-    const movieService = new MovieService();
-    const movieDetails = await movieService.getMovieDetails(Number(id));
+    const movieDetails = await DetailMovieService.getMovieDetails(Number(id));
     const event = new CustomEvent("modalOpenClicked", {
       detail: movieDetails,
     });

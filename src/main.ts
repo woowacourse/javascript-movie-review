@@ -14,6 +14,7 @@ import {
 } from "./components/Skeleton/showSkeleton.ts";
 import openModal from "./components/Modal/openModal.ts";
 import SearchMovieService from "./services/SearchMovieService.ts";
+import DetailMovieService from "./services/DetailMovieService.ts";
 
 function renderHeader({
   id,
@@ -44,8 +45,7 @@ function renderHeader({
   const $openModalButton = $header.querySelector(".detail");
   if ($openModalButton) {
     $openModalButton.addEventListener("click", async () => {
-      const movieService = new MovieService();
-      const movieDetails = await movieService.getMovieDetails(id);
+      const movieDetails = await DetailMovieService.getMovieDetails(id);
       const event = new CustomEvent("modalOpenClicked", {
         detail: movieDetails,
       });
