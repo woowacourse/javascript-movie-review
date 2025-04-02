@@ -7,11 +7,11 @@ export default function ModalSkeleton() {
   return toElement(`
     <div class="modal-skeleton">
         ${Skeleton({ width: "40%", height: "500px" })}
-        <skeleton>
+        <section>
             ${skeletonItem}
             ${skeletonItem}
             ${skeletonItem}
-        </skeleton>
+        </section>
     </div>
     `);
 }
