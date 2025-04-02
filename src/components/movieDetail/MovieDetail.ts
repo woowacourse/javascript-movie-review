@@ -18,9 +18,7 @@ const MovieDetail = () => {
   addEvent("click", ".close-modal", () => {
     $(".modal-background").classList.remove("active");
     setIsModalOpen(false);
-    setTimeout(() => {
-      observeLastMovie();
-    }, 500);
+    observeLastMovie();
   });
 
   addEvent("click", ".my-vote-star", (event) => {
