@@ -9,6 +9,8 @@ import { MOVIE_COUNT } from "./constants/config";
 import {
   debounce,
   getCurrentPage,
+  isPossibleLoadPopularMovies,
+  isPossibleLoadSearchedMovies,
   isScrolledToBottom,
   withLoading,
 } from "./utils/utils";
@@ -69,16 +71,13 @@ class App {
       "scroll",
       debounce(async () => {
         if (isScrolledToBottom()) {
-          console.log("scroll");
           const state = store.getState();
           const currentPage = getCurrentPage(
             state.movies.length,
             MOVIE_COUNT.UNIT
           );
-          if (
-            !state.query &&
-            state.movies.length < MOVIE_COUNT.MAX_PAGE * MOVIE_COUNT.UNIT
-          ) {
+
+          if (isPossibleLoadPopularMovies(state)) {
             const newMovies = await withLoading(store, () =>
               fetchPopularMovies(
                 (error: Error) => alert(error.message),
@@ -86,10 +85,7 @@ class App {
               )
             );
             store.setState({ movies: [...state.movies, ...newMovies] });
-          } else if (
-            state.query &&
-            state.movies.length < state.searchedMoviesLength
-          ) {
+          } else if (isPossibleLoadSearchedMovies(state)) {
             const newMoviesData = await withLoading(store, () =>
               fetchSearchedMovies(
                 state.query,

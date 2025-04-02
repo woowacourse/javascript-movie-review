@@ -1,11 +1,23 @@
 import { Score } from "../../types/starRating";
-import Store from "../store/store";
+import { MOVIE_COUNT } from "../constants/config";
+import Store, { State } from "../store/store";
 
 const isScrolledToBottom = (threshold: number = 180): boolean => {
   return (
     window.innerHeight + window.scrollY >=
     document.documentElement.scrollHeight - threshold
   );
+};
+
+const isPossibleLoadPopularMovies = (state: State): boolean => {
+  return (
+    !state.query &&
+    state.movies.length < MOVIE_COUNT.MAX_PAGE * MOVIE_COUNT.UNIT
+  );
+};
+
+const isPossibleLoadSearchedMovies = (state: State): boolean => {
+  return state.query !== "" && state.movies.length < state.searchedMoviesLength;
 };
 
 const getCurrentPage = (moviesLength: number, unit: number): number => {
@@ -47,4 +59,6 @@ export {
   getCurrentScore,
   withLoading,
   debounce,
+  isPossibleLoadPopularMovies,
+  isPossibleLoadSearchedMovies,
 };
