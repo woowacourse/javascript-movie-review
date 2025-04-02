@@ -1,5 +1,4 @@
 import MyRate from "./MyRate";
-
 import extractReleaseYear from "./utils/extractReleaseYear";
 import extractGenres from "./utils/extractGenres";
 import MovieDetails from "../types/MovieDetails";
@@ -7,6 +6,7 @@ import MovieDetails from "../types/MovieDetails";
 import FilledStarSrc from "../../images/star_filled.png";
 import CloseBtnSrc from "../../images/modal_button_close.png";
 import { proxiedImageUrl } from "../fetch/utils/imageProxy";
+import ratingStorage from "../store/RatingStorage";
 
 export type StarRate = 0 | 1 | 2 | 3 | 4 | 5;
 
@@ -57,7 +57,7 @@ document.addEventListener("click", (event) => {
 
     if (starValue && id) {
       const rate = parseInt(starValue, 10) as StarRate;
-      localStorage.setItem(id, starValue);
+      ratingStorage.set(id, rate);
 
       const $myRate = document.querySelector(`.my-rate[data-id="${id}"]`);
       if ($myRate) {

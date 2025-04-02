@@ -1,12 +1,14 @@
 import MoviePreviewInfo from "./MoviePreviewInfo";
-import createElement from "./utils/createElement";
-import nullImage from "../../images/nullImage.png";
 import { proxiedImageUrl } from "../fetch/utils/imageProxy";
+import ratingStorage from "../store/RatingStorage";
+import createElement from "./utils/createElement";
 import openMovieModal from "./utils/openMovieModal";
+import nullImage from "../../images/nullImage.png";
 
 const MovieItem = ({ movie }) => {
   const title = movie?.title;
   const posterPath = movie?.poster_path;
+  const movieId = String(movie.id);
 
   const $li = createElement({
     tag: "li",
@@ -43,8 +45,8 @@ const MovieItem = ({ movie }) => {
     openMovieModal(movie);
   });
 
-  if (!localStorage.getItem(movie.id)) {
-    localStorage.setItem(String(movie.id), "0");
+  if (!ratingStorage.has(movieId)) {
+    ratingStorage.set(movieId, 0);
   }
 
   return $li;

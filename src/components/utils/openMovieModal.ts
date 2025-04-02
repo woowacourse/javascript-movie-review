@@ -2,11 +2,11 @@ import fetchDetailsMovie from "../../fetch/fetchDetailsMovie";
 import MovieType from "../../types/MovieType";
 import Modal from "../Modal";
 import MovieItemModal from "../MovieItemModal";
+import ratingStorage from "../../store/RatingStorage";
 
 const openMovieModal = async (movie: MovieType) => {
   const movieDetails = await fetchDetailsMovie(movie.id);
-  const initialRate =
-    Number(localStorage.getItem(String(movieDetails.id))) || 0;
+  const initialRate = ratingStorage.get(String(movieDetails.id));
 
   const $modal = Modal({
     content: MovieItemModal(movieDetails, initialRate),
