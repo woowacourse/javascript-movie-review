@@ -32,6 +32,7 @@ const movieItem = (movie: Movie) => {
                 className: "star",
                 attributes: {
                   src: `./images/star_empty.png`,
+                  alt: "별",
                 },
               },
               {

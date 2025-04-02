@@ -20,6 +20,7 @@ const movieDetailInfo = (movie: MovieDetail) => {
                 movie.poster_path === null
                   ? noImage
                   : `https://image.tmdb.org/t/p/w440_and_h660_face${movie.poster_path}`,
+              alt: "영화 포스터",
             },
           },
         ],

@@ -38,6 +38,7 @@ const backgroundContainer = () => {
                     className: "star",
                     attributes: {
                       src: "./images/star_empty.png",
+                      alt: "별",
                     },
                   },
                   {

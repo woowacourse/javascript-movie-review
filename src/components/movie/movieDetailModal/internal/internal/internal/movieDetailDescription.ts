@@ -53,7 +53,7 @@ const movieDetailDescription = (movie: MovieDetail) => {
                   {
                     tag: "img",
                     className: "star",
-                    attributes: { src: "./images/star_filled.png" },
+                    attributes: { src: "./images/star_filled.png", alt: "별" },
                   },
                   {
                     tag: "span",
