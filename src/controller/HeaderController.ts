@@ -1,6 +1,10 @@
+import HeaderView from "../view/headerView";
+
 class HeaderController {
-  searchBarElement;
-  headerLogoElement;
+  headerView;
+  renderSearchMovieList;
+  renderMovieList;
+
   constructor({
     renderSearchMovieList,
     renderMovieList,
@@ -8,50 +12,44 @@ class HeaderController {
     renderSearchMovieList: (searchValue: string) => void;
     renderMovieList: () => void;
   }) {
-    this.searchBarElement = document.querySelector(".search-bar") as HTMLFormElement;
-    this.headerLogoElement = document.querySelector(".header-wrapper .logo") as HTMLDivElement;
+    this.headerView = new HeaderView();
+    this.renderSearchMovieList = renderSearchMovieList;
+    this.renderMovieList = renderMovieList;
+  }
 
-    this.bindSearchEvent(renderSearchMovieList);
-    this.bindHomeLogoEvent(renderMovieList);
+  initialize() {
+    this.bindSearchEvent();
+    this.bindHomeLogoClickEvent();
     this.bindScrollEvent();
   }
 
-  bindSearchEvent(renderSearchMovieList: (searchValue: string) => void) {
-    this.searchBarElement.addEventListener("submit", async (event: SubmitEvent) => {
+  bindSearchEvent() {
+    const searchBarElement = this.headerView.getSearchBarElement();
+
+    searchBarElement.addEventListener("submit", async (event: SubmitEvent) => {
       event.preventDefault();
 
-      const formElement = event.target as HTMLElement;
-      const target = formElement.querySelector("input") as HTMLInputElement;
-      const searchValue = target.value;
-
-      document.querySelector(".background-container")?.classList.add("search");
-
-      renderSearchMovieList(searchValue);
-
-      target.blur();
+      const searchValue = this.headerView.getInputValue();
+      this.headerView.setSearchMode();
+      this.renderSearchMovieList(searchValue);
+      this.headerView.blurInput();
     });
   }
 
-  bindHomeLogoEvent(renderMovieList: () => void) {
-    this.headerLogoElement?.addEventListener("click", () => {
-      renderMovieList();
-      document.querySelector(".background-container")?.classList.remove("search");
+  bindHomeLogoClickEvent() {
+    const headerLogoElement = this.headerView.getHeaderLogoElement();
 
-      const inputElement = this.searchBarElement.querySelector("input") as HTMLInputElement;
-      inputElement.value = "";
+    headerLogoElement?.addEventListener("click", () => {
+      this.renderMovieList();
+      this.headerView.clearSearchMode();
+      this.headerView.clearInput();
       window.scrollTo({ top: 0, behavior: "smooth" });
     });
   }
 
   bindScrollEvent() {
     window.addEventListener("scroll", () => {
-      const headerElement = document.querySelector(".header-wrapper") as HTMLElement;
-
-      if (window.scrollY > 200) {
-        headerElement.classList.add("scroll");
-      } else {
-        headerElement.classList.remove("scroll");
-      }
+      this.headerView.updateScrollStyle();
     });
   }
 }

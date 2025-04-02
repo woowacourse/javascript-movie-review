@@ -68,3 +68,4 @@
   - [x] searchMovieListController 뷰 뷴리 및 리팩토링 작업
   - [x] BackgroundThumbnailController 뷰 분리 및 리팩토링 작업
   - [x] DetailModalController 뷰 분리 및 리팩토링 작업
+  - [x] headerController 뷰 분리 및 리팩토링 작업

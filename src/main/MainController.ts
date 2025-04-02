@@ -13,6 +13,7 @@ class MainController {
   PopularMovieResults;
   detailMovieResults;
 
+  headerController!: HeaderController;
   messageModalController!: MessageModalController;
   movieListController!: MovieListController;
   backgroundThumbnailController!: BackgroundThumbnailController;
@@ -46,13 +47,14 @@ class MainController {
 
     this.searchMovieListController = new SearchMovieListController(this.mainElement);
 
-    new HeaderController({
+    this.headerController = new HeaderController({
       renderSearchMovieList: (searchValue) => this.searchMovieListController.initialize(searchValue),
       renderMovieList: () => this.movieListController.initialize(),
     });
   }
 
   async render() {
+    this.headerController.initialize();
     await this.movieListController.initialize();
     await this.backgroundThumbnailController.initialize(this.PopularMovieResults.getFirstMovieItem());
 
