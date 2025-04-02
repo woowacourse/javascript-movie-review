@@ -42,7 +42,13 @@ export const fetchSearchedMovies = async (
 
     const response = await APIClient.get(`/search/movie?${params.toString()}`);
 
-    return { ...response, results: response.results as Movie[] };
+    return {
+      ...response,
+      results: response.results.map((movie: MovieResult) => ({
+        ...movie,
+        id: movie.id.toString(),
+      })),
+    };
   } catch (error) {
     if (error instanceof Error && onError) {
       onError(error);
