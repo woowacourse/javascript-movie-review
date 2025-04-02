@@ -12,7 +12,7 @@ function Modal(id, content) {
         
     function createModalContainer(content) {
         const $el = document.querySelector(".modal")
-        $el.innerHTML=content
+        $el.innerHTML = content
 
         $el.addEventListener("click", (event) => {
             event.stopPropagation();
