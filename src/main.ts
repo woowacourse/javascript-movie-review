@@ -2,13 +2,12 @@ import { Movie } from "../types/domain.ts";
 import SearchBar from "./components/SearchBar";
 import SkeletonUl from "./components/SkeletonUl";
 import { IMAGE, ITEMS } from "./constants/movie.ts";
-import { fetchMovies, selectElement } from "./utils/ui.ts";
+import { selectElement } from "./utils/ui.ts";
 import movieService from "./service/movieService.ts";
 import Modal from "./components/Modal.ts";
 import ScrollRenderer from "./utils/scrollRenderer.ts";
 import MovieList from "./components/MovieList.ts";
 import MovieItem from "./components/MovieItem.ts";
-import calculatePageNumber from "./domain/calculatePageNumber.ts";
 
 const getDetail = async (id: number) => {
   return await movieService.getMovieDetail(id);
@@ -53,13 +52,11 @@ const updateMovieList = async (
   scrollRenderer: ScrollRenderer
 ) => {
   const totalItems = movieList.getTotalItems();
-  const pageNumber = calculatePageNumber(totalItems);
-  const newMovieData = await fetchMovies({
-    pageNumber,
-    apiFetcher: movieService.getMovies,
-  });
+  const { results } = await SkeletonUl.getInstance().getLoadingResult(() =>
+    movieService.getMovies(totalItems)
+  );
 
-  const movieItems = createMovieItems(newMovieData);
+  const movieItems = createMovieItems(results);
   movieList.updateList(movieItems);
 
   scrollRenderer.setNewObservingTarget(
@@ -68,8 +65,6 @@ const updateMovieList = async (
   );
 };
 
-const mainSection = selectElement<HTMLElement>("main section");
-const skeletonUl = new SkeletonUl();
 const searchBar = new SearchBar();
 const logo = selectElement<HTMLDivElement>(".logo");
 const logoImage = selectElement<HTMLImageElement>(".logo img");
@@ -80,21 +75,17 @@ const app = async () => {
   });
 
   logo.appendChild(searchBar.create());
-  mainSection.appendChild(skeletonUl.create());
-
   searchBar.setEvent();
 
-  const pageNumber = calculatePageNumber(ITEMS.perPage);
-  const movieData = await fetchMovies({
-    pageNumber,
-    apiFetcher: movieService.getMovies,
-  });
-  const movieList = createMovieList(movieData);
+  const { results } = await SkeletonUl.getInstance().getLoadingResult(() =>
+    movieService.getMovies(ITEMS.initialCount)
+  );
+
+  const movieList = createMovieList(results);
+  renderTitleMovie(results);
+  movieList.create();
 
   const detailsModal = new Modal();
-
-  renderTitleMovie(movieData);
-  movieList.create();
   movieList.onMovieClick(getDetail, detailsModal);
 
   const scrollRenderer = ScrollRenderer.getInstance();

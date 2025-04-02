@@ -1,10 +1,10 @@
 import { Movie } from "../../types/domain.ts";
-import calculatePageNumber from "../domain/calculatePageNumber.ts";
 import movieService from "../service/movieService.ts";
 import ScrollRenderer from "../utils/scrollRenderer.ts";
-import { fetchMovies, selectElement } from "../utils/ui.ts";
+import { selectElement } from "../utils/ui.ts";
 import MovieItem from "./MovieItem.ts";
 import MovieList from "./MovieList.ts";
+import SkeletonUl from "./SkeletonUl.ts";
 
 class SearchBar {
   #element;
@@ -23,14 +23,10 @@ class SearchBar {
     return this.#element;
   }
 
-  async #onSearch(
-    movieList: MovieList,
-    getSearchResults: (query: string, pageNumber: number) => Promise<Movie[]>
-  ) {
+  async #onSearch(movieList: MovieList) {
     const totalItems = movieList.getTotalItems();
-    const pageNumber = calculatePageNumber(totalItems);
-    const newMovieData = await getSearchResults(this.#query, pageNumber);
-    const movieItems = this.#createResultMovieItems(newMovieData);
+    const { results } = await this.#getSearchResults(totalItems, this.#query);
+    const movieItems = this.#createResultMovieItems(results);
     movieList.updateList(movieItems);
 
     const scrollRenderer = ScrollRenderer.getInstance();
@@ -53,8 +49,8 @@ class SearchBar {
     scrollRenderer: ScrollRenderer
   ) {
     const totalItems = movieList.getTotalItems();
-    const newMovieData = await this.#getSearchResults(this.#query, totalItems);
-    const movieItems = this.#createResultMovieItems(newMovieData);
+    const { results } = await this.#getSearchResults(totalItems, this.#query);
+    const movieItems = this.#createResultMovieItems(results);
     movieList.updateList(movieItems);
 
     scrollRenderer.setNewObservingTarget(
@@ -63,9 +59,7 @@ class SearchBar {
     );
   }
 
-  async #onSearchTriggerBar(
-    getSearchResults: (query: string, pageNumber: number) => Promise<Movie[]>
-  ) {
+  async #onSearchTriggerBar() {
     const movieList = new MovieList([]);
     movieList.clearList();
 
@@ -73,16 +67,15 @@ class SearchBar {
     this.#query = searchBar.value;
 
     this.#changeTitleStyle();
-    await this.#onSearch(movieList, getSearchResults);
+    await this.#onSearch(movieList);
   }
 
   async setEvent() {
     const searchBar = selectElement<HTMLInputElement>(".search-bar");
     const searchButton = selectElement<HTMLImageElement>("#search");
-    const apiFetcher = this.#getSearchResults.bind(this);
 
     searchButton.onclick = () => {
-      this.#onSearchTriggerBar(apiFetcher);
+      this.#onSearchTriggerBar();
     };
 
     const handleEnterKeyDown = async (event: KeyboardEvent) => {
@@ -91,7 +84,7 @@ class SearchBar {
       }
 
       if (event.key === "Enter") {
-        this.#onSearchTriggerBar(apiFetcher);
+        this.#onSearchTriggerBar();
         searchBar.blur();
       }
     };
@@ -144,12 +137,10 @@ class SearchBar {
     });
   }
 
-  async #getSearchResults(query: string, pageNumber: number) {
-    return await fetchMovies({
-      pageNumber,
-      apiFetcher: (page, query) => movieService.searchMovies(page, query ?? ""),
-      query,
-    });
+  async #getSearchResults(totalItems: number, query: string) {
+    return await SkeletonUl.getInstance().getLoadingResult(() =>
+      movieService.searchMovies(totalItems, query)
+    );
   }
 }
 

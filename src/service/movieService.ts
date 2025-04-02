@@ -1,6 +1,7 @@
 import { UserMovieRateData } from "../../types/data.ts";
 import movieApi from "../api/movieApi.ts";
 import { KEY } from "../constants/store.ts";
+import calculatePageNumber from "../domain/calculatePageNumber.ts";
 import {
   extractMovieDetails,
   extractTotalMovies,
@@ -8,13 +9,15 @@ import {
 import store from "../store/store.ts";
 
 const movieService = {
-  async getMovies(pageNumber: number) {
+  async getMovies(totalCount: number) {
+    const pageNumber = calculatePageNumber(totalCount);
     const rawData = await movieApi.getMovieData(pageNumber);
 
     return extractTotalMovies(rawData);
   },
 
-  async searchMovies(pageNumber: number, query: string) {
+  async searchMovies(totalCount: number, query: string) {
+    const pageNumber = calculatePageNumber(totalCount);
     const rawData = await movieApi.getSearchData(pageNumber, query);
 
     return extractTotalMovies(rawData);
