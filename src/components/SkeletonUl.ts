@@ -8,8 +8,8 @@ class SkeletonUl {
   constructor() {
     this.#element = document.createElement("ul");
     this.#element.classList.add("skeleton-list");
-    this.#setLoadingEvent();
-    this.#setLoadingEndEvent();
+
+    this.#create();
   }
 
   static getInstance(): SkeletonUl {
@@ -20,12 +20,14 @@ class SkeletonUl {
     return SkeletonUl.#instance;
   }
 
-  create() {
+  #create() {
+    const mainSection = selectElement<HTMLElement>("main section");
+
     Array.from({ length: ITEMS.perPage }).forEach(() =>
-      this.#element.appendChild(this.#createSkeletonLi())
+      this.#element.insertAdjacentElement("beforeend", this.#createSkeletonLi())
     );
 
-    return this.#element;
+    mainSection.insertAdjacentElement("beforeend", this.#element);
   }
 
   #createSkeletonLi() {
@@ -40,29 +42,14 @@ class SkeletonUl {
     return skeletonLiElement;
   }
 
-  #setLoadingEvent() {
-    this.#element.addEventListener("loading", () => {
-      toggleElementVisibility(".skeleton-list", "show");
-    });
-  }
-
-  #setLoadingEndEvent() {
-    this.#element.addEventListener("loadingEnd", () => {
-      toggleElementVisibility(".skeleton-list", "hidden");
-    });
-  }
-
   async getLoadingResult<T>(callback: () => Promise<T>) {
-    const mainSection = selectElement<HTMLElement>("main section");
-    mainSection.appendChild(this.create());
-
-    this.#element.dispatchEvent(new Event("loading"));
+    toggleElementVisibility(".skeleton-list", "show");
     try {
       return await callback();
     } catch (error) {
       throw error;
     } finally {
-      this.#element.dispatchEvent(new Event("loadingEnd"));
+      toggleElementVisibility(".skeleton-list", "hidden");
     }
   }
 }
