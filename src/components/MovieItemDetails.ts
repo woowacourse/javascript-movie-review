@@ -1,5 +1,5 @@
 import { MovieDetails } from "../../types/domain.ts";
-import { VOTE } from "../constants/movie.ts";
+import MovieDetailsHeader from "./MovieDetailsHeader.ts";
 import MoviePoster from "./MoviePoster.ts";
 import UserRating from "./UserRating.ts";
 
@@ -34,9 +34,7 @@ class MovieItemDetails {
     const description = document.createElement("div");
     description.classList.add("modal-description");
 
-    this.#createTitle(description);
-    this.#createCategory(description);
-    this.#createRate(description);
+    this.#createHeader(description);
     this.#createDivider(description);
     this.#createVotingRate(description);
     this.#createDivider(description);
@@ -45,33 +43,17 @@ class MovieItemDetails {
     return description;
   }
 
-  #createTitle(description: HTMLDivElement) {
-    const title = document.createElement("h2");
-    title.textContent = this.#details.title;
+  #createHeader(description: HTMLDivElement) {
+    const { title, releaseYear, genres, voteAverage } = this.#details;
+    const { movieTitle, category, rate } = new MovieDetailsHeader({
+      title,
+      releaseYear,
+      genres,
+      voteAverage,
+    }).create();
 
-    description.insertAdjacentElement("beforeend", title);
-  }
-
-  #createCategory(description: HTMLDivElement) {
-    const category = document.createElement("p");
-    category.classList.add("category");
-    category.textContent =
-      this.#details.releaseYear + " · " + this.#details.genres.join(", ");
-
+    description.insertAdjacentElement("beforeend", movieTitle);
     description.insertAdjacentElement("beforeend", category);
-  }
-
-  #createRate(description: HTMLDivElement) {
-    const rate = document.createElement("p");
-    rate.classList.add("rate");
-    rate.textContent = "평균";
-
-    const rateContents = /*html*/ `
-      <img src="${VOTE.filledStarImage}" class="star" />
-      <span>${this.#details.voteAverage}</span>
-    `;
-
-    rate.insertAdjacentHTML("beforeend", rateContents);
     description.insertAdjacentElement("beforeend", rate);
   }
 
