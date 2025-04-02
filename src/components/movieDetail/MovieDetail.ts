@@ -48,8 +48,8 @@ const MovieDetail = () => {
     starElements.forEach((element, i) => {
       if (i <= index) {
         element.src = images.starFull;
-        starTextElement.textContent = VOTE_TEXT[i];
       } else element.src = images.starEmpty;
+      starTextElement.textContent = VOTE_TEXT[index];
     });
   });
 
