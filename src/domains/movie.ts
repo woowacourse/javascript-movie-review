@@ -2,13 +2,6 @@ import { Score } from "../../types/starRating";
 import { MOVIE_COUNT } from "../constants/config";
 import Store, { State } from "../store/store";
 
-const isScrolledToBottom = (threshold: number = 180): boolean => {
-  return (
-    window.innerHeight + window.scrollY >=
-    document.documentElement.scrollHeight - threshold
-  );
-};
-
 const isPossibleLoadPopularMovies = (state: State): boolean => {
   return (
     !state.query &&
@@ -42,23 +35,10 @@ async function withLoading<T>(
   }
 }
 
-const debounce = <T extends (...args: any[]) => any>(
-  fn: T,
-  delay: number
-): T => {
-  let timeoutId: number;
-  return ((...args: any[]) => {
-    clearTimeout(timeoutId);
-    timeoutId = window.setTimeout(() => fn(...args), delay);
-  }) as T;
-};
-
 export {
-  isScrolledToBottom,
+  isPossibleLoadPopularMovies,
+  isPossibleLoadSearchedMovies,
   getCurrentPage,
   getCurrentScore,
   withLoading,
-  debounce,
-  isPossibleLoadPopularMovies,
-  isPossibleLoadSearchedMovies,
 };

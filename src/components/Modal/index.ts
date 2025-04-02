@@ -1,6 +1,6 @@
 import Store from "../../store/store";
 import { Rating, attachRatingEvents } from "./Rating";
-import { renderTemplate } from "../../utils/templateUtils";
+import { renderTemplate } from "../../ui/dom";
 
 class Modal {
   private store: Store;

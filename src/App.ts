@@ -6,15 +6,14 @@ import MovieList from "./components/MovieList/index";
 import { fetchPopularMovies, fetchSearchedMovies } from "./APIs/movieAPI";
 import Store from "./store/store";
 import { MOVIE_COUNT } from "./constants/config";
+import { appendHTML, isScrolledToBottom } from "./ui/dom";
+import debounce from "./utils/debounce";
 import {
-  debounce,
   getCurrentPage,
   isPossibleLoadPopularMovies,
   isPossibleLoadSearchedMovies,
-  isScrolledToBottom,
   withLoading,
-} from "./utils/utils";
-import { appendHTML } from "./utils/templateUtils";
+} from "./domains/movie";
 
 class App {
   private $target: HTMLElement;

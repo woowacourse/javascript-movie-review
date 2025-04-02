@@ -1,7 +1,7 @@
 import { fetchMovieDetail } from "../../APIs/movieAPI";
 import { Rating, attachRatingEvents } from "./Rating";
 import Store from "../../store/store";
-import { getCurrentScore } from "../../utils/utils";
+import { getCurrentScore } from "../../domains/movie";
 
 const modalContentTemplate = async (
   id: string,

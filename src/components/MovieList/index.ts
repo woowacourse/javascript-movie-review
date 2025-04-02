@@ -3,7 +3,7 @@ import Modal from "../Modal";
 import modalContentTemplate from "../Modal/modalContentTemplate";
 import Store, { State } from "../../store/store";
 import { Movie } from "../../../types/movieList";
-import { appendHTMLs, renderTemplate } from "../../utils/templateUtils";
+import { appendHTMLs, renderTemplate } from "../../ui/dom";
 
 class MovieList {
   private $container: HTMLElement;

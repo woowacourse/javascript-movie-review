@@ -4,7 +4,7 @@ import modalContentTemplate from "../Modal/modalContentTemplate";
 import Modal from "../Modal";
 import Store, { State } from "../../store/store";
 import { Movie } from "../../../types/movieList";
-import { renderTemplate } from "../../utils/templateUtils";
+import { renderTemplate } from "../../ui/dom";
 
 const API_BANNER_URL = import.meta.env.VITE_TMDB_API_BANNER_URL as string;
 
