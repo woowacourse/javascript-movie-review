@@ -1,6 +1,6 @@
 import createDOMElement from '../util/createDomElement';
 import { $ } from '../util/selector';
-import { RATING_COMMENTS } from '../constant';
+import { RATE_STAR_LENGTH, RATE_STAR_POINT_UNIT, RATING_COMMENTS } from '../constant';
 import { saveMovieRateToStorage } from '../domain/localStorageRate';
 import { currentRateType, MovieDetailType, RatingScore } from '../type';
 
@@ -162,8 +162,8 @@ const createRateStars = (rate: number, status: boolean) => {
   const starsBox = document.createElement('div');
   starsBox.classList.add('rate-box');
 
-  Array.from({ length: 5 }, (_, i) => {
-    const starRate = (i + 1) * 2;
+  Array.from({ length: RATE_STAR_LENGTH }, (_, i) => {
+    const starRate = (i + 1) * RATE_STAR_POINT_UNIT;
     const fill = status && starRate <= rate ? 'fill-star' : '';
     const label = document.createElement('label');
     label.tabIndex = i + 1;

@@ -14,3 +14,6 @@ export const RATING_COMMENTS: Record<RatingScore, string> = {
   8: '재미있어요',
   10: '명작이에요'
 };
+
+export const RATE_STAR_LENGTH = 5;
+export const RATE_STAR_POINT_UNIT = 2;
