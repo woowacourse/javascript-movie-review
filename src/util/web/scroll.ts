@@ -1,15 +1,24 @@
-export const handleBottomScroll = (callback: () => void) => {
-  const OFFSET = 20;
-
-  const currentScrollBottom = window.scrollY + window.innerHeight;
-  const triggerPosition = document.body.offsetHeight - OFFSET;
-
-  if (currentScrollBottom >= triggerPosition) {
-    callback();
-  }
+type ObserveScrollEndOptions = {
+  target: HTMLElement;
+  callback: () => void;
+  threshold?: number;
 };
 
-export function bindScrollEvent(onScroll: () => void) {
-  window.addEventListener('scroll', onScroll);
-  return () => window.removeEventListener('scroll', onScroll);
+export function observeScrollEnd({ target, callback, threshold }: ObserveScrollEndOptions) {
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          callback();
+        }
+      });
+    },
+    {
+      root: null,
+      threshold,
+    },
+  );
+
+  observer.observe(target);
+  return () => observer.disconnect();
 }

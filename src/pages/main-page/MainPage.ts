@@ -4,10 +4,10 @@ import { Title } from '../../component/common/title/Title';
 import { extractedData } from '../../domain/APIManager';
 import { MOVIE_API } from '../../constants/systemConstants';
 import { MovieData } from '../../../types/movie';
-import { bindScrollEvent, handleBottomScroll } from '../../util/web/scroll';
 import { Modal } from '../../component/common/modal/Modal';
 import { MovieDetail } from '../../component/domain/movie-detail/MovieDetail';
 import { DEBUG_ERROR } from '../../constants/debugErrorMessage';
+import { observeScrollEnd } from '../../util/web/scroll';
 
 export class MainPage {
   #container: HTMLElement;
@@ -28,12 +28,15 @@ export class MainPage {
   };
 
   #isFetching: boolean = false;
-
-  #unbindScrollEvent: () => void = () => {};
+  #loadTriggerElement: HTMLElement;
+  #disconnectObserver: () => void = () => {};
 
   constructor() {
     this.#container = document.createElement('div');
     this.#container.classList.add('main-page');
+
+    this.#loadTriggerElement = document.createElement('div');
+    this.#loadTriggerElement.classList.add('scroll-sentinel');
 
     this.#isFetching;
 
@@ -65,7 +68,7 @@ export class MainPage {
 
     this.#mainBanner.setData(this.#movieListData[0]);
 
-    this.#unbindScrollEvent = bindScrollEvent(() => handleBottomScroll(() => this.#guardedLoadMore()));
+    this.#setObserver();
     this.#bindMovieSelectEvent();
   }
 
@@ -76,6 +79,14 @@ export class MainPage {
     this.#container.appendChild(this.#modalElement());
 
     this.renderDynamicSection();
+  }
+
+  #setObserver() {
+    this.#disconnectObserver = observeScrollEnd({
+      target: this.#loadTriggerElement,
+      callback: () => this.#guardedLoadMore(),
+      threshold: 1.0,
+    });
   }
 
   setGridStatus() {
@@ -92,6 +103,7 @@ export class MainPage {
 
   renderDynamicSection() {
     this.#container.appendChild(this.#movieGridElement());
+    this.#container.appendChild(this.#loadTriggerElement);
   }
 
   #titleElement() {
@@ -134,7 +146,7 @@ export class MainPage {
   }
 
   destroy() {
-    this.#unbindScrollEvent();
+    this.#disconnectObserver();
   }
 
   #bindMovieSelectEvent() {

@@ -3,7 +3,7 @@ import { Title } from '../../component/common/title/Title';
 import { extractedData } from '../../domain/APIManager';
 import { MOVIE_API } from '../../constants/systemConstants';
 import { MovieData } from '../../../types/movie';
-import { bindScrollEvent, handleBottomScroll } from '../../util/web/scroll';
+import { observeScrollEnd } from '../../util/web/scroll';
 import { Modal } from '../../component/common/modal/Modal';
 import { MovieDetail } from '../../component/domain/movie-detail/MovieDetail';
 import { DEBUG_ERROR } from '../../constants/debugErrorMessage';
@@ -18,7 +18,6 @@ class SearchPage {
   #currentPage = 1;
   #totalPage = 0;
   #isFetching: boolean = false;
-  #unbindScrollEvent: () => void = () => {};
 
   #modalData: MovieData = {
     id: 0,
@@ -30,9 +29,15 @@ class SearchPage {
     releasedDate: new Date().getFullYear(),
   };
 
+  #scrollSentinel: HTMLElement;
+  #disconnectObserver: () => void = () => {};
+
   constructor() {
     this.#container = document.createElement('div');
     this.#container.classList.add('search-page');
+
+    this.#scrollSentinel = document.createElement('div');
+    this.#scrollSentinel.classList.add('scroll-sentinel');
 
     this.#isFetching;
     this.#movieListData;
@@ -60,7 +65,7 @@ class SearchPage {
       this.#movieGrid.replaceLastNItems(this.#movieListData);
       this.#totalPage = totalPage;
     }
-    this.#unbindScrollEvent = bindScrollEvent(() => handleBottomScroll(() => this.#guardedLoadMore()));
+    this.#setObserver();
     this.#bindMovieSelectEvent();
   }
 
@@ -68,6 +73,14 @@ class SearchPage {
     this.#container.innerHTML = '';
     this.#container.appendChild(this.#titleElement());
     this.renderDynamicSection();
+  }
+
+  #setObserver() {
+    this.#disconnectObserver = observeScrollEnd({
+      target: this.#scrollSentinel,
+      callback: () => this.#guardedLoadMore(),
+      threshold: 1.0,
+    });
   }
 
   setGridStatus() {
@@ -142,7 +155,7 @@ class SearchPage {
   }
 
   destroy() {
-    this.#unbindScrollEvent();
+    this.#disconnectObserver();
   }
 
   get element() {
