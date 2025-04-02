@@ -41,7 +41,10 @@ class ModalStar {
 
   #bindClickEvent() {
     this.#container.addEventListener('click', (e) => {
-      const target = e.target as HTMLElement;
+      if (!(e.target instanceof HTMLElement)) {
+        throw new Error('이벤트 요소가 HTMLElement가 아닙니다.');
+      }
+      const target = e.target;
       if (!target.classList.contains('modal-star')) throw new Error('별점을 찾을 수 없습니다.');
 
       this.#userRating = Number(target.dataset.value);
