@@ -7,7 +7,7 @@ import { hideSkeletons, showMovieListSkeletons } from './render/skeleton/showMov
 import { ERROR } from '../api/constant';
 
 export function createInfiniteScrollHandler(initialKeyword = '', totalPages: number) {
-  let currentPage = 2;
+  let currentPage = 1;
   let isLoading = false;
   let isEnd = false;
   let keyword = initialKeyword;
@@ -23,13 +23,13 @@ export function createInfiniteScrollHandler(initialKeyword = '', totalPages: num
       showMovieListSkeletons();
 
       try {
-        if (currentPage > totalPages) {
+        if (currentPage >= totalPages) {
           isEnd = true;
           observer.unobserve(sentinel!);
           return;
         }
 
-        const result = await addMovies(currentPage, keyword);
+        const result = await addMovies(++currentPage, keyword);
         if (result.length === 0) {
           errorUi(ERROR.NO_SEARCH_RESULTS);
           return;
@@ -40,7 +40,6 @@ export function createInfiniteScrollHandler(initialKeyword = '', totalPages: num
           fragment.appendChild(Movie({ movie }));
         });
         container?.appendChild(fragment);
-        currentPage++;
       } catch (error) {
         if (error instanceof Error) {
           errorUi(error.message);
@@ -59,7 +58,7 @@ export function createInfiniteScrollHandler(initialKeyword = '', totalPages: num
 
   return {
     reset(newKeyword: string) {
-      currentPage = 2;
+      currentPage = 1;
       isLoading = false;
       isEnd = false;
       keyword = newKeyword;
