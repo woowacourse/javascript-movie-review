@@ -2,7 +2,6 @@ import { MovieDetail, MovieItem, MovieResponse } from '../types/Movie.types';
 import { ENV } from '../api/env';
 import Fetcher from '../api/Fetcher';
 import { movieFetcherEvent } from './MovieFetcherEvent';
-import { delay } from '../utils/delay';
 
 export const API_PATHS = {
   MOVIE: 'movie/popular',
