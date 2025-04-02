@@ -3,7 +3,6 @@ import Modal from "../modal/modal";
 import MovieDetail from "../movieDetail/movieDetail";
 import { URLS } from "../../setting/settings";
 import Spinner from "../spinner/spinner";
-import replaceModalContent from "../../service/replaceModalContent";
 import { createSingleFetchQuery } from "../../service/createSingleQuery";
 import fetchWithErrorHandling from "../../util/fetchWithErrorHandling";
 
@@ -35,12 +34,12 @@ export default function MovieItem({ src, title, rate, id }) {
 }
 
 async function handleMovieClick({ id }) {
-  Modal(Spinner());
+  const $modal = new Modal(Spinner());
 
   const fetchMovieDetail = createSingleFetchQuery(
     `${URLS.detailMovieUrl}${id}`
   );
   const data = await fetchWithErrorHandling(fetchMovieDetail);
 
-  replaceModalContent(MovieDetail({ ...data }));
+  $modal.replaceModalContent(MovieDetail({ ...data }));
 }
