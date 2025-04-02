@@ -72,26 +72,38 @@ class Modal {
     if (this.#show) this.$div.classList.add("active");
 
     if (this.#isLoading) {
-      this.$div.innerHTML = `
-      <div class="modal loading">
-        <button class="close-modal" id="closeModal">
+      const $modal = document.createElement("div");
+      $modal.className = "modal loading";
+
+      const $closeButton = document.createElement("button");
+      $closeButton.classList.add("close-modal");
+      $closeButton.id = "closeModal";
+      $closeButton.innerHTML = /*html*/ `
           <img src="./images/modal_button_close.png" />
-        </button>
-        <div class="modal-container">
-          <div class="orbit-spinner" style="scale: 1">
-            <div class="planet"></div>
-            <div class="orbit">
-              <div class="satellite satellite-1"></div>
-              <div class="satellite satellite-2"></div>
-            </div>
+      `;
+
+      $closeButton.addEventListener("click", this.handleCloseButtonClick);
+
+      const $modalContainer = document.createElement("div");
+      $modalContainer.classList.add("modal-container");
+      $modalContainer.innerHTML = /*html*/ `
+        <div class="orbit-spinner" style="scale: 1">
+          <div class="planet"></div>
+          <div class="orbit">
+            <div class="satellite satellite-1"></div>
+            <div class="satellite satellite-2"></div>
           </div>
         </div>
-      </div>`;
+      `;
+
+      $modal.appendChild($closeButton);
+      $modal.appendChild($modalContainer);
+      this.$div.appendChild($modal);
       this.$target.appendChild(this.$div);
       return;
     }
 
-    if (!this.#movie) return;
+    if (!this.#movie || !this.movieId) return;
 
     const {
       title,
@@ -167,7 +179,7 @@ class Modal {
     this.$target.appendChild(this.$div);
   }
 
-  handleKeyDown(e) {
+  handleKeyDown = (e) => {
     const $modalBg = document.querySelector("#modalBackground");
 
     if (!$modalBg) return;
@@ -176,7 +188,7 @@ class Modal {
       $modalBg.classList.remove("active");
       this.setMovieId(undefined);
     }
-  }
+  };
 
   handleModalBackClick = (e) => {
     if (!e.target.closest(".modal") && !e.target.closest(".rating-selector")) {
