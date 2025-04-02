@@ -1,4 +1,5 @@
 import { Movie } from "../../types/domain.ts";
+import calculatePageNumber from "../domain/calculatePageNumber.ts";
 import movieService from "../service/movieService.ts";
 import ScrollRenderer from "../utils/scrollRenderer.ts";
 import { fetchMovies, selectElement } from "../utils/ui.ts";
@@ -24,13 +25,11 @@ class SearchBar {
 
   async #onSearch(
     movieList: MovieList,
-    getSearchResults: (
-      query: string,
-      currentItemCount: number
-    ) => Promise<Movie[]>
+    getSearchResults: (query: string, pageNumber: number) => Promise<Movie[]>
   ) {
     const totalItems = movieList.getTotalItems();
-    const newMovieData = await getSearchResults(this.#query, totalItems);
+    const pageNumber = calculatePageNumber(totalItems);
+    const newMovieData = await getSearchResults(this.#query, pageNumber);
     const movieItems = this.#createResultMovieItems(newMovieData);
     movieList.updateList(movieItems);
 
@@ -65,10 +64,7 @@ class SearchBar {
   }
 
   async #onSearchTriggerBar(
-    getSearchResults: (
-      query: string,
-      currentItemCount: number
-    ) => Promise<Movie[]>
+    getSearchResults: (query: string, pageNumber: number) => Promise<Movie[]>
   ) {
     const movieList = new MovieList([]);
     movieList.clearList();
@@ -148,9 +144,9 @@ class SearchBar {
     });
   }
 
-  async #getSearchResults(query: string, currentItemCount: number) {
+  async #getSearchResults(query: string, pageNumber: number) {
     return await fetchMovies({
-      currentItemCount,
+      pageNumber,
       apiFetcher: (page, query) => movieService.searchMovies(page, query ?? ""),
       query,
     });

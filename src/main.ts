@@ -1,13 +1,14 @@
 import { Movie } from "../types/domain.ts";
 import SearchBar from "./components/SearchBar";
 import SkeletonUl from "./components/SkeletonUl";
-import { IMAGE } from "./constants/movie.ts";
+import { IMAGE, ITEMS } from "./constants/movie.ts";
 import { fetchMovies, selectElement } from "./utils/ui.ts";
 import movieService from "./service/movieService.ts";
 import Modal from "./components/Modal.ts";
 import ScrollRenderer from "./utils/scrollRenderer.ts";
 import MovieList from "./components/MovieList.ts";
 import MovieItem from "./components/MovieItem.ts";
+import calculatePageNumber from "./domain/calculatePageNumber.ts";
 
 const getDetail = async (id: number) => {
   return await movieService.getMovieDetail(id);
@@ -52,8 +53,9 @@ const updateMovieList = async (
   scrollRenderer: ScrollRenderer
 ) => {
   const totalItems = movieList.getTotalItems();
+  const pageNumber = calculatePageNumber(totalItems);
   const newMovieData = await fetchMovies({
-    currentItemCount: totalItems,
+    pageNumber,
     apiFetcher: movieService.getMovies,
   });
 
@@ -82,8 +84,11 @@ const app = async () => {
 
   searchBar.setEvent();
 
-  const scrollRenderer = ScrollRenderer.getInstance();
-  const movieData = await fetchMovies({ apiFetcher: movieService.getMovies });
+  const pageNumber = calculatePageNumber(ITEMS.perPage);
+  const movieData = await fetchMovies({
+    pageNumber,
+    apiFetcher: movieService.getMovies,
+  });
   const movieList = createMovieList(movieData);
 
   const detailsModal = new Modal();
@@ -92,6 +97,7 @@ const app = async () => {
   movieList.create();
   movieList.onMovieClick(getDetail, detailsModal);
 
+  const scrollRenderer = ScrollRenderer.getInstance();
   const lastMovieItemObserver = new IntersectionObserver(
     scrollRenderer.createObserverCallback(updateMovieList, movieList),
     { threshold: 1 }

@@ -1,13 +1,11 @@
 import { Movie } from "../../types/domain";
-import { ITEMS } from "../constants/movie";
-import calculatePageNumber from "../domain/calculatePageNumber.ts";
 
 interface FetchMoviesParams {
   apiFetcher: (
-    page: number,
+    pageNumber: number,
     query?: string
   ) => Promise<{ results: Movie[]; totalResults: number }>;
-  currentItemCount?: number;
+  pageNumber: number;
   query?: string;
 }
 
@@ -45,15 +43,12 @@ export const toggleElementVisibility = (
 };
 
 export const fetchMovies = async ({
-  currentItemCount,
+  pageNumber,
   apiFetcher,
   query,
 }: FetchMoviesParams) => {
   toggleElementVisibility(".skeleton-list", "show");
 
-  const pageNumber = calculatePageNumber(
-    currentItemCount ?? ITEMS.initialCount
-  );
   const { results, totalResults } = await apiFetcher(pageNumber, query);
   if (totalResults === 0) {
     toggleElementVisibility(".no-thumbnail", "show");
