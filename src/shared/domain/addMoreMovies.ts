@@ -17,7 +17,7 @@ export async function addMoreMovies($movieList: HTMLElement) {
     addMoviePost(movies.results, $movieList);
 
     pageManager.incrementCurrentPage();
-    pageManager.setTotalPages(movies.total_pages);
+    pageManager.setTotalPages(movies.totalPages);
 
     return {
       success: true,
