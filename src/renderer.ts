@@ -1,16 +1,13 @@
-import Button from "./components/@common/Button";
 import Header from "./components/header/Header";
 import MovieItem from "./components/movieItem/MovieItem";
 import Skeleton from "./components/skeleton/Skeleton";
 import {
   isError,
-  isLoading,
   isMoreError,
   isSearchError,
   movies,
   searchInputValue,
   searchResults,
-  totalResults,
 } from "./store/store";
 
 export const headerRender = () => {
@@ -52,20 +49,6 @@ export const movieListRenderer = () => {
                 .join("")}
             </ul>`;
   }
-};
-
-export const moreButtonRenderer = () => {
-  const displayMovieList =
-    searchInputValue.trim().length > 0 ? searchResults : movies;
-
-  if (displayMovieList.length < totalResults)
-    return Button({
-      attribute: {
-        class: "primary detail more-button",
-      },
-      children: "더 보기",
-    });
-  else return "";
 };
 
 export const serverSearchError = () => {
