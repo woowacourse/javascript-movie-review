@@ -37,7 +37,6 @@ button {
 }
 
 button.primary {
-  display: none;
   color: var(--color-white);
   font-weight: bold;
   background-color: var(--color-lightblue-90);

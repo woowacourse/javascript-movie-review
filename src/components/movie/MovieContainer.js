@@ -77,7 +77,6 @@ const MovieContainer = ({ movies }) => {
 
   $section.appendChild(MovieList({ movies }));
   $section.appendChild($div);
-  $main.appendChild(Button({ text: BUTTON_MORE, type: "more" }));
 
   return $container;
 };
