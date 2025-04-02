@@ -65,12 +65,14 @@ class App {
 
     const $main = document.createElement("main");
 
-    const $movieListSection = new MovieListSection(
+    this.#movieListSection = new MovieListSection(
       this.getKeywordFromURL(),
       movies,
       isLoading,
       this.handleMovieClick
-    ).render();
+    );
+
+    const $movieListSection = this.#movieListSection.render();
 
     app.appendChild($wrap);
 
