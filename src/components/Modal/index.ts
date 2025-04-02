@@ -1,6 +1,7 @@
 import Store from "../../store/store";
 import { Rating, attachRatingEvents } from "./Rating";
 import { renderTemplate } from "../../ui/dom";
+import ProgressIndicator from "./ProgressIndicator";
 
 class Modal {
   private store: Store;
@@ -41,9 +42,10 @@ class Modal {
 
   public open(movieId: string): void {
     this.currentMovieId = movieId;
+    renderTemplate(this.$modalContainer, ProgressIndicator());
+    this.$modalBackground.classList.add("active");
     this.contentGenerator(movieId, this.store).then((contentHTML) => {
       renderTemplate(this.$modalContainer, contentHTML);
-      this.$modalBackground.classList.add("active");
       this.attachThumbnailLoadEvent(this.$modalContainer);
     });
   }

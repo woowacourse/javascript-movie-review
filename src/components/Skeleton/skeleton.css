@@ -83,3 +83,16 @@
     transform: translateX(150%);
   }
 }
+
+@media screen and (max-width: 940px) {
+  .skeleton-detail-thumbnail {
+    width: 200px;
+    height: 300px;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .skeleton-detail-thumbnail {
+    display: none;
+  }
+}
