@@ -6,7 +6,7 @@ import { errorUi } from './errorUi';
 import { hideSkeletons, showMovieListSkeletons } from './render/skeleton/showMovieListSkeletons';
 import { ERROR } from '../api/constant';
 
-export function createInfiniteScrollHandler(initialKeyword = '', totalPages: number) {
+export function createMovieInfiniteScrollButton(initialKeyword = '', totalPages: number) {
   let currentPage = 1;
   let isLoading = false;
   let isEnd = false;

@@ -3,12 +3,12 @@ import createDOMElement from '../../util/createDomElement';
 import { $ } from '../../util/selector';
 import { INITIAL_PAGE } from '../../constant';
 import { MovieType, ResponseType } from '../../type';
-import { createInfiniteScrollHandler } from '../infinityScrollButton';
+import { createMovieInfiniteScrollButton } from '../MovieInfinityScrollButton';
 import { hideSkeletons } from './skeleton/showMovieListSkeletons';
 import { errorUi } from '../errorUi';
 import { ERROR } from '../../api/constant';
 
-let scrollHandler: ReturnType<typeof createInfiniteScrollHandler>;
+let scrollHandler: ReturnType<typeof createMovieInfiniteScrollButton>;
 
 export const renderMovieList = async (response: ResponseType<MovieType>, keyword?: string) => {
   if (!response) return;
@@ -39,6 +39,6 @@ export const renderMovieList = async (response: ResponseType<MovieType>, keyword
   }
 
   if (INITIAL_PAGE < total_pages && total_results > 20) {
-    scrollHandler = createInfiniteScrollHandler(keyword ?? '', total_pages);
+    scrollHandler = createMovieInfiniteScrollButton(keyword ?? '', total_pages);
   }
 };
