@@ -30,7 +30,7 @@ export const fetchApi = async <T, R>(
   });
 
   if (!response.ok) {
-    throw new Error(`영화 데이터를 불러오는데 실패했습니다.`);
+    throw new Error(response.status.toString());
   }
 
   const data: R = await response.json();

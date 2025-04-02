@@ -4,6 +4,7 @@ import { pageManager } from "../../../../shared/domain/pageManager";
 import { updateSearchPageUI } from "../renderers/updateSearchPageUI";
 import { getSearchedPost } from "../../api/getSearchedPost";
 import { initInfiniteScroll } from "../../../../shared/observer/infiniteScroll";
+import errorMessageParser from "../../../../shared/parser/errorMessageParser";
 
 export const searchFormSubmitHandler = async (e: Event) => {
   try {
@@ -24,6 +25,6 @@ export const searchFormSubmitHandler = async (e: Event) => {
     });
     initInfiniteScroll();
   } catch (error) {
-    showErrorPage("검색 결과를 불러오는데 실패했습니다.");
+    showErrorPage(errorMessageParser(error as Error));
   }
 };

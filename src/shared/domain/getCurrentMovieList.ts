@@ -1,6 +1,7 @@
 import { getMovieList } from "../../features/movie/api/getMovieList";
 import { getSearchedPost } from "../../features/search/api/getSearchedPost";
 import { showErrorPage } from "../../shared/ui/renderers/showErrorPage";
+import errorMessageParser from "../parser/errorMessageParser";
 
 export async function getCurrentMovieList(page: number, query: string | null) {
   try {
@@ -10,6 +11,6 @@ export async function getCurrentMovieList(page: number, query: string | null) {
 
     return await getMovieList({ page });
   } catch (error) {
-    showErrorPage("영화 목록을 불러오는데 실패했습니다.");
+    showErrorPage(errorMessageParser(error as Error));
   }
 }
