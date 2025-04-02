@@ -46,12 +46,12 @@ export default class MovieListHandler {
 
     this.addSkeletonCards();
 
-    let actualQuery = query;
-    if (!actualQuery && this.store.getMode() === 'searchAdd') {
-      actualQuery = this.movieList.lastQuery;
-    }
+    const actualQuery =
+      !query && this.store.getMode() === 'searchAdd'
+        ? this.movieList.lastQuery
+        : query;
 
-    let newMoviesData =
+    const newMoviesData =
       this.store.getMode() === 'popularAdd'
         ? await this.movieService.getPopularResults(pageNumber)
         : await this.movieService.searchMovies(actualQuery, pageNumber);
