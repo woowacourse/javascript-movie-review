@@ -55,13 +55,13 @@ export default class MovieService {
       return this.convertToMovies(response);
     } catch (error) {
       console.error('영화 목록 가져오기 실패:', error);
-      let errorMessage = '영화 목록 가져오기 실패';
       if (error instanceof ApiError) {
-        errorMessage = error.message;
-      } else if (error instanceof Error) {
-        errorMessage = error.message;
+        alert(error.message);
+      } else {
+        alert(
+          '영화 정보를 불러오는 중 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.',
+        );
       }
-      alert(errorMessage);
       throw error;
     }
   }
