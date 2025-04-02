@@ -17,7 +17,6 @@ class MovieDetailModal {
 
   private static readonly IMAGE_BASE_URL =
     "https://image.tmdb.org/t/p/original";
-  // #props;
 
   constructor(parentElement: HTMLElement) {
     this.#parentElement = parentElement;
