@@ -1,12 +1,12 @@
 import { createElementWithAttributes } from "../../../../../../../../../utils/createElementWithAttributes";
-import { getScoresArray } from "./comment";
+import { SCORES } from "./comment";
 import emptyStar from "/images/star_empty.png";
 import filledStar from "/images/star_filled.png";
 
 const starRatingElements = (myMovieRate: number) => {
   const $fragment = document.createDocumentFragment();
 
-  getScoresArray().forEach((score, idx) => {
+  SCORES.forEach((score, idx) => {
     const commonId = `rate-check-${idx}`;
     const $label = createElementWithAttributes({
       tag: "label",
@@ -17,10 +17,7 @@ const starRatingElements = (myMovieRate: number) => {
           id: `rate-img-${idx}`,
           className: "star",
           attributes: {
-            src:
-              myMovieRate >= Number.parseInt(score, 10)
-                ? filledStar
-                : emptyStar,
+            src: myMovieRate >= score ? filledStar : emptyStar,
             alt: `${score}점`,
           },
         },
@@ -33,7 +30,7 @@ const starRatingElements = (myMovieRate: number) => {
       className: "rate-check-input",
       attributes: {
         type: "radio",
-        value: score,
+        value: score.toString(),
         name: "rate",
       },
     });
