@@ -1,6 +1,7 @@
 import "./MovieListSection.css";
 import MovieItem from "../MovieItem/MovieItem";
 import EmptyView from "../EmptyView/EmptyView";
+import { MOVIE_COUNT } from "../../../constants/constants";
 class MovieListSection {
   constructor(title, movies, isLoading, handleMovieClick) {
     this.title = title;
@@ -19,7 +20,7 @@ class MovieListSection {
     $ul.classList.add("thumbnail-list");
 
     if (this.isLoading) {
-      for (let i = 0; i < 20; i++) {
+      for (let i = 0; i < MOVIE_COUNT; i++) {
         const $item = new MovieItem(null, true, this.handleMovieClick).render();
         $ul.appendChild($item);
       }
@@ -35,7 +36,7 @@ class MovieListSection {
     }
 
     const totalMovie = this.movies.length;
-    const startIndex = Math.max(0, totalMovie - 20);
+    const startIndex = Math.max(0, totalMovie - MOVIE_COUNT);
 
     if (totalMovie === 0) {
       const $div = new EmptyView("검색 결과가 없습니다.").render();
@@ -47,7 +48,7 @@ class MovieListSection {
 
     $section.appendChild($title);
 
-    if (totalMovie <= 20) {
+    if (totalMovie <= MOVIE_COUNT) {
       this.renderMovieItemByArray(this.movies, $ul, false);
 
       $section.appendChild($ul);
@@ -67,7 +68,7 @@ class MovieListSection {
 
   renderSkeleton($ul) {
     const skeletonElements = [];
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < MOVIE_COUNT; i++) {
       const skeleton = document.createElement("li");
       skeleton.classList.add("skeleton-box");
       skeletonElements.push(skeleton);

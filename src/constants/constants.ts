@@ -16,4 +16,6 @@ export const STAR_COMMENT = {
   10: "명작이에요",
 };
 
+export const MOVIE_COUNT = 20;
+
 export const IMG_PATH = `https://image.tmdb.org/t/p`;

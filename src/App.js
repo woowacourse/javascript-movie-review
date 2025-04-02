@@ -5,7 +5,7 @@ import Footer from "./UI/Layout/Footer/Footer";
 import { getPopularityMovie } from "./Domain/getPopularityMovie";
 import { searchMovie } from "./Domain/searchMovie";
 import MovieListSection from "./UI/MoviesContainer/MovieListSection/MovieListSection";
-import { IMG_PATH } from "./constants/constants";
+import { IMG_PATH, MOVIE_COUNT } from "./constants/constants";
 import MovieManager from "./Domain/MovieManager";
 import UIManager from "./Domain/UIManager";
 import MovieItem from "./UI/MoviesContainer/MovieItem/MovieItem";
@@ -170,7 +170,7 @@ class App {
 
     this.#movieListSection.removeSkeleton(skeletonElements);
 
-    const newMovies = results.slice(-20);
+    const newMovies = results.slice(-MOVIE_COUNT);
     this.#movieListSection.appendMovies(newMovies, $ul);
   };
 
