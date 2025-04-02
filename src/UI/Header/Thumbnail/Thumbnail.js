@@ -1,7 +1,7 @@
 import "./Thumbnail.css";
 
 class Thumbnail {
-  constructor(movie, isLoading) {
+  constructor({ movie, isLoading }) {
     this.movie = movie;
     this.isLoading = isLoading;
   }

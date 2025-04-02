@@ -49,10 +49,10 @@ class App {
     const $wrap = document.createElement("div");
     $wrap.id = "wrap";
 
-    const $thumbnail = new Thumbnail(
-      !isLoading && movies && movies.length > 0 ? movies[0] : null,
-      isLoading
-    ).render();
+    const $thumbnail = new Thumbnail({
+      movie: !isLoading && movies && movies.length > 0 ? movies[0] : null,
+      isLoading,
+    }).render();
 
     const $header = new TitleSearchBar(
       this.onSubmit,
