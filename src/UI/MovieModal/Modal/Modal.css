@@ -213,7 +213,11 @@ body.modal-open {
     text-align: center;
   }
 
-  p.rate {
+  .modal p.rate {
+    justify-content: center;
+  }
+
+  .modal .average-container {
     justify-content: center;
   }
 }
@@ -242,7 +246,11 @@ body.modal-open {
     text-align: center;
   }
 
-  p.rate {
+  .modal p.rate {
+    justify-content: center;
+  }
+
+  .modal .average-container {
     justify-content: center;
   }
 
