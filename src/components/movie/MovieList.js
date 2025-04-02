@@ -75,7 +75,7 @@ export default class MovieList {
         try {
           const movieDetail = await this.movieService.getMovieDetail(movieId);
           const detailModal = new DetailModal(movieDetail);
-          detailModal.addDetailModal(movieDetail);
+          detailModal.showMovieDetails(movieDetail);
         } catch (error) {
           console.error('영화 상세 정보를 가져오는데 실패했습니다:', error);
         }
