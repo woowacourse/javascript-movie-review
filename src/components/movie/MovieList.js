@@ -5,6 +5,7 @@ import DetailModal from '../modal/DetailModal.js';
 import MovieListHandler from '../../handlers/MovieListHandler.ts';
 import { store } from '../../store/store.js';
 import Logger from '../../utils/logger/Logger';
+import { throttle } from '../../utils/throttle.ts';
 
 export default class MovieList {
   constructor(
@@ -24,6 +25,14 @@ export default class MovieList {
     this.loading = false;
     this.lastQuery = null;
     this.scrollTimer = null;
+
+    this.throttledLoadMore = throttle(() => {
+      if (store.getMode() === 'searchAdd') {
+        this.movieListHandler.loadMoreMovies(this.lastQuery);
+      } else {
+        this.movieListHandler.loadMoreMovies();
+      }
+    }, 300);
 
     this.boundHandleScroll = this.handleScroll.bind(this);
   }
@@ -54,16 +63,7 @@ export default class MovieList {
     const clientHeight = document.documentElement.clientHeight;
 
     if (scrollTop + clientHeight >= scrollHeight - 100) {
-      if (this.scrollTimer) return;
-
-      this.scrollTimer = setTimeout(() => {
-        if (store.getMode() === 'searchAdd') {
-          this.movieListHandler.loadMoreMovies(this.lastQuery);
-        } else {
-          this.movieListHandler.loadMoreMovies();
-        }
-        this.scrollTimer = null;
-      }, 300);
+      this.throttledLoadMore();
     }
   }
 

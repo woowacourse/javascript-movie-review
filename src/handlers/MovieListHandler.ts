@@ -33,14 +33,10 @@ export default class MovieListHandler {
    */
   async loadMoreMovies(query?: string): Promise<void> {
     if (!this.movieList || this.movieList.loading) {
-      console.log('로딩 중이거나 MovieList가 없어 중단');
       return;
     }
 
     if (this.movieList.currentPage >= this.movieList.totalPage) {
-      console.log(
-        `마지막 페이지 도달(${this.movieList.currentPage}/${this.movieList.totalPage}), 추가 로드 중단`,
-      );
       return;
     }
 
@@ -131,10 +127,6 @@ export default class MovieListHandler {
    * 마지막 페이지에 도달했을 때 이벤트 리스너 및 UI 정리
    */
   private cleanupScrollListener(): void {
-    console.log(
-      `마지막 페이지 도달: ${this.movieList?.currentPage}/${this.movieList?.totalPage}`,
-    );
-
     if (this.movieList?.boundHandleScroll) {
       window.removeEventListener('scroll', this.movieList.boundHandleScroll);
     }
