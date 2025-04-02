@@ -71,7 +71,9 @@ class UserRating {
     const eventHandler = this.#handleRateHover.bind(this);
 
     let isVotingActive = false;
-    const handleRateBoxClick = () => {
+    const handleRateBoxClick = (event: MouseEvent) => {
+      eventHandler(event);
+
       if (!isVotingActive) {
         eventContainer.addEventListener("mouseover", eventHandler);
         isVotingActive = true;
