@@ -71,22 +71,22 @@ describe("검색 기능 E2E 테스트", () => {
     cy.wait("@getSearchedMovies");
 
     // 최초 20개 항목 확인
-    cy.get(".thumbnail-list > li").should("have.length", 20);
+    cy.get(".thumbnail-list > li.item").should("have.length", 20);
     // 스크롤하여 추가 데이터를 로드 (추가 20개 -> 40개)
     cy.scrollTo("bottom");
     cy.wait("@getSearchedMovies");
-    cy.get(".thumbnail-list > li").should("have.length", 40);
+    cy.get(".thumbnail-list > li.item").should("have.length", 40);
   });
 
   it("마지막 페이지에서는 추가 데이터 요청이 발생하지 않아야 한다.", () => {
     // 총 2페이지
     cy.get("form.search-bar input").type("짱구{enter}");
     cy.wait("@getSearchedMovies");
-    cy.get(".thumbnail-list > li").should("have.length", 20);
+    cy.get(".thumbnail-list > li.item").should("have.length", 20);
 
     cy.scrollTo("bottom");
     cy.wait("@getSearchedMovies");
-    cy.get(".thumbnail-list > li").should("have.length", 40);
+    cy.get(".thumbnail-list > li.item").should("have.length", 40);
 
     // 마지막 페이지이므로 sentinel 요소가 제거되어야 함.
     cy.get(".scroll-sentinel").should("not.exist");

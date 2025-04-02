@@ -36,6 +36,11 @@ abstract class BaseMovieBoard {
   protected async fetchAndRenderMovies(): Promise<void> {
     if (this.isLoading) return;
     this.isLoading = true;
+
+    if (this.currentPage > 1) {
+      this.renderSkeleton();
+    }
+
     try {
       const { movies, total_pages } = await this.config.fetchMovies(
         this.currentPage
@@ -46,6 +51,8 @@ abstract class BaseMovieBoard {
         this.disableInfiniteScroll();
         return;
       }
+
+      this.removeSkeleton();
       this.renderMovies(movies);
       this.currentPage++;
       if (this.currentPage > this.totalPages) {
@@ -72,6 +79,27 @@ abstract class BaseMovieBoard {
         this.config.renderMovieList(movies)
       );
     }
+  }
+
+  protected renderSkeleton(): void {
+    const movieListContainer =
+      this.parentElement.querySelector(".thumbnail-list");
+    if (!isHTMLElement(movieListContainer)) return;
+
+    movieListContainer.insertAdjacentHTML(
+      "beforeend",
+      new MovieList([]).skeleton
+    );
+  }
+
+  protected removeSkeleton(): void {
+    const movieListContainer =
+      this.parentElement.querySelector(".thumbnail-list");
+    if (!isHTMLElement(movieListContainer)) return;
+
+    movieListContainer
+      .querySelectorAll(".skeleton-item")
+      .forEach((el) => el.remove());
   }
 
   #attachMovieItemClickListener(): void {
