@@ -4,6 +4,7 @@ import NoResultsMessage from '../search/NoResultsMessage.js';
 import DetailModal from '../modal/DetailModal.js';
 import MovieListHandler from '../../handlers/MovieListHandler.ts';
 import { store } from '../../store/store.js';
+
 export default class MovieList {
   constructor(
     containerSelector,
@@ -39,13 +40,11 @@ export default class MovieList {
   handleScroll() {
     if (this.loading || this.currentPage >= this.totalPage) {
       if (this.currentPage >= this.totalPage) {
-        console.log(
-          `마지막 페이지 도달: ${this.currentPage}/${this.totalPage}`,
-        );
         window.removeEventListener('scroll', this.boundHandleScroll);
       }
       return;
     }
+
     const scrollHeight = document.documentElement.scrollHeight;
     const scrollTop =
       document.documentElement.scrollTop || document.body.scrollTop;
@@ -55,7 +54,6 @@ export default class MovieList {
       if (this.scrollTimer) return;
 
       this.scrollTimer = setTimeout(() => {
-        console.log('로드 요청: 페이지', this.currentPage, '/', this.totalPage);
         if (store.getMode() === 'searchAdd') {
           this.movieListHandler.loadMoreMovies(this.lastQuery);
         } else {
@@ -74,7 +72,8 @@ export default class MovieList {
         try {
           const movieDetail = await this.movieService.getMovieDetail(movieId);
           const detailModal = new DetailModal(movieDetail);
-          detailModal.showMovieDetails(movieDetail);
+
+          detailModal.showMovieDetails();
         } catch (error) {
           console.error('영화 상세 정보를 가져오는데 실패했습니다:', error);
         }

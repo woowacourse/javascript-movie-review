@@ -5,6 +5,7 @@ import {
   MovieDetailResponse,
 } from '../api/tmdb/tmdbApiClient';
 import Movie from './Movie';
+import MovieDetail from './MovieDetail';
 
 export interface MovieApiService {
   getPopularMovies: (page?: number) => Promise<APIResponse<MovieResponse>>;
@@ -79,28 +80,27 @@ export default class MovieService {
       return this.convertToMovies(response);
     } catch (error) {
       console.error('영화 검색 실패', error);
-      let errorMessage = '영화 검색 실패';
       if (error instanceof ApiError) {
-        errorMessage = error.message;
-      } else if (error instanceof Error) {
-        errorMessage = error.message;
+        alert(error.message);
+      } else {
+        alert('영화 검색 중 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.');
       }
-
-      alert(errorMessage);
       throw error;
     }
   }
 
-  async getMovieDetail(movieId: number): Promise<MovieDetailResponse> {
+  async getMovieDetail(movieId: number): Promise<MovieDetail> {
     try {
-      return await this.apiService.getMovieDetail(movieId);
+      const response = await this.apiService.getMovieDetail(movieId);
+      return MovieDetail.fromResponse(response);
     } catch (error) {
       console.error('영화 상세 정보 가져오기 실패', error);
-      let errorMessage = '영화 상세 정보 가져오기 실패';
       if (error instanceof ApiError) {
-        errorMessage = error.message;
-      } else if (error instanceof Error) {
-        errorMessage = error.message;
+        alert(error.message);
+      } else {
+        alert(
+          '영화 상세 정보를 불러오는 중 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.',
+        );
       }
       throw error;
     }

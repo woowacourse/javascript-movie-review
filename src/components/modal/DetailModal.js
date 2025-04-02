@@ -12,20 +12,20 @@ class DetailModal extends BaseModal {
     const movieContent = /*html*/ `
       <div class="modal-image">
         <img src="https://image.tmdb.org/t/p/original${
-          this.movie.poster_path
+          this.movie.posterPath
         }" />
       </div>
       <div class="modal-description">
         <h2>${this.movie.title}</h2>
         <p class="category">
-          ${this.movie.release_date} · ${this.movie.genres
+          ${this.movie.releaseDate} · ${this.movie.genres
       .map(genre => genre.name)
       .join(', ')}
         </p>
         
         <p class="rate">
           <span>평균</span><img src="./images/star_filled.png" class="star" /><span>${
-            this.movie.vote_average
+            this.movie.voteAverage
           }</span>
         </p>  
         
