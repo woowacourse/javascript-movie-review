@@ -1,6 +1,7 @@
 import { createElementWithAttributes } from "../../../utils/createElementWithAttributes";
 import { Movie } from "../../../../domain/types";
 import noImage from "/images/no_image.png";
+import placeholderImage from "/images/placeholder_poster.svg";
 
 const movieItem = (movie: Movie) => {
   const $movieItem = createElementWithAttributes({
@@ -11,11 +12,18 @@ const movieItem = (movie: Movie) => {
       {
         tag: "img",
         className: "thumbnail",
-        attributes: {
-          src:
+        onload: function () {
+          if (this instanceof HTMLImageElement === false) {
+            return;
+          }
+
+          this.src =
             movie.poster_path === null
               ? noImage
-              : `https://image.tmdb.org/t/p/w440_and_h660_face${movie.poster_path}`,
+              : `https://image.tmdb.org/t/p/w440_and_h660_face${movie.poster_path}`;
+        },
+        attributes: {
+          src: placeholderImage,
           alt: movie.title,
         },
       },
