@@ -22,12 +22,6 @@ class LocalStorage {
     localStorage.setItem(this.#STORAGE_KEY, JSON.stringify(updatedList));
   }
 
-  static updateMovieStarById(id: number, userRating: number) {
-    const movies = this.getMovies();
-    const updatedMovies = movies.map((movie) => (movie.id === id ? { ...movie, userRating: userRating } : movie));
-    localStorage.setItem(this.#STORAGE_KEY, JSON.stringify(updatedMovies));
-  }
-
   static getMovieStarById(id: number) {
     return this.getMovies().find((m) => m.id === id)?.userRating || 0;
   }

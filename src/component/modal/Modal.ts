@@ -1,15 +1,16 @@
-import LocalStorage from '../../domain/LocalStorage';
 import { $ } from '../../utils/selector';
 import modalLoadingTemplate from './loadingTemplate';
 import ModalStar from './ModalStar';
 import { MovieData } from '../../../types/movie';
 import { MovieDetailData } from '../../../types/movie';
 import MovieClient from '../../domain/MovieClient';
+import LocalStorage from '../../domain/LocalStorage';
 
 class Modal {
   #container;
-  #movieData: MovieData | null = null;
+  #movieData: MovieDetailData | null = null;
   #isLoading = true;
+  #modalStar: ModalStar | null = null;
 
   constructor() {
     this.#container = document.createElement('div');
@@ -53,9 +54,8 @@ class Modal {
   #appendStars() {
     const starSection = $({ root: this.#container, selector: '.modal-star-section' });
     if (!this.#movieData) throw new Error('영화 데이터가 존재하지 않습니다.');
-    const savedStars = LocalStorage.getMovieStarById(this.#movieData.id);
-    const modalStar = new ModalStar(this.#movieData.id, savedStars);
-    starSection?.appendChild(modalStar.element);
+    this.#modalStar = new ModalStar(this.#movieData.id);
+    starSection?.appendChild(this.#modalStar.element);
   }
 
   #bindMovieClickedEvent = () => {
@@ -103,13 +103,8 @@ class Modal {
   }
 
   async #fetchMovieDetails(movieData: MovieData) {
-    this.#movieData = movieData;
     const movieDetails = await MovieClient.getMovieDetails(movieData.id);
-    const stored = {
-      ...movieDetails,
-      userRating: LocalStorage.getMovieStarById(movieData.id),
-    };
-    LocalStorage.saveMovie(stored);
+    this.#movieData = movieDetails;
 
     return movieDetails;
   }
@@ -117,6 +112,16 @@ class Modal {
   closeModal() {
     const modalBackground = $({ selector: '#modalBackground' });
     if (!modalBackground) throw Error('모달이 존재하지 않습니다.');
+    if (!this.#modalStar) throw Error('modalStar를 찾을 수 없습니다.');
+    if (!this.#movieData) throw Error('movieData 찾을 수 없습니다.');
+
+    const userRating = this.#modalStar.getUserRating();
+    const updatedMovie = {
+      ...this.#movieData,
+      userRating: userRating,
+    };
+    LocalStorage.saveMovie(updatedMovie);
+
     modalBackground.classList.remove('active');
     document.body.style.overflow = '';
   }
