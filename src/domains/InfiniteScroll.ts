@@ -1,5 +1,5 @@
 import Pagination from "./entities/Pagination";
-import MovieRenderer from "./MovieRenderer";
+import MovieService from "./MovieService";
 
 export default class InfiniteScroll {
   private pagination = Pagination.getInstance();
@@ -44,7 +44,7 @@ export default class InfiniteScroll {
 
     this.pagination.nextPage();
 
-    await MovieRenderer.getInstance().renderMovies();
+    await MovieService.getInstance().renderMovies();
 
     this.isLoading = false;
   }

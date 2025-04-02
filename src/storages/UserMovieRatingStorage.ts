@@ -50,4 +50,10 @@ export default class UserMovieRatingStorage {
   clearAllRatings() {
     this.storage.remove(UserMovieRatingStorage.MOVIE_RATING_KEY);
   }
+
+  findRatingById(movieId: MovieRating["movieId"]): ratingType {
+    return (
+      this.getRatings().find((rating) => rating.movieId === movieId)?.rate ?? 0
+    );
+  }
 }

@@ -1,9 +1,9 @@
 import App from "./components/App";
-import MovieRenderer from "./domains/MovieRenderer";
+import MovieService from "./domains/MovieService";
 
 export const initializeLayout = async () => {
   const $app = document.querySelector("#app");
   $app?.append(App.getInstance().getElement());
 
-  await MovieRenderer.getInstance().renderMovies();
+  await MovieService.getInstance().renderMovies();
 };

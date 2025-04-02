@@ -9,17 +9,17 @@ import Pagination from "./entities/Pagination";
 import Search from "./entities/Search";
 import InfiniteScroll from "./InfiniteScroll";
 
-export default class MovieRenderer {
-  private static instance: MovieRenderer;
+export default class MovieService {
+  private static instance: MovieService;
   private main = Main.getInstance();
   private movies = Movies.getInstance();
   private pagination = Pagination.getInstance();
   private search = Search.getInstance();
   private infiniteScroll = new InfiniteScroll();
 
-  static getInstance(): MovieRenderer {
-    if (!MovieRenderer.instance) MovieRenderer.instance = new MovieRenderer();
-    return MovieRenderer.instance;
+  static getInstance(): MovieService {
+    if (!MovieService.instance) MovieService.instance = new MovieService();
+    return MovieService.instance;
   }
 
   async renderMovies() {
@@ -31,7 +31,7 @@ export default class MovieRenderer {
     if (this.pagination.isFirstPage()) this.infiniteScroll.initialize();
   }
 
-  renderTotalList = async () => {
+  async renderTotalList() {
     const moviesResponse = await getMovies({
       page: this.pagination.currentPage,
     });
@@ -58,9 +58,9 @@ export default class MovieRenderer {
         this.infiniteScroll.setIsLoading(false);
       },
     });
-  };
+  }
 
-  renderSearchList = async () => {
+  async renderSearchList() {
     this.updateHeaderWithFirstMovie();
 
     const moviesResponse = await searchMovies({
@@ -89,7 +89,7 @@ export default class MovieRenderer {
         this.infiniteScroll.setIsLoading(false);
       },
     });
-  };
+  }
 
   updateHeaderWithFirstMovie() {
     const header = Header.getInstance();
