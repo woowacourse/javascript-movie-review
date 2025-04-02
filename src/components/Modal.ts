@@ -9,8 +9,6 @@ const Modal = ({ content, onOpen, onClose }: ModalOptions): HTMLElement => {
   $modalBg.classList.add("modal-background", "active");
   $modalBg.id = "modalBackground";
 
-  let escapeListener: ((e: KeyboardEvent) => void) | null = null;
-
   const render = () => {
     $modalBg.innerHTML = content;
   };
@@ -18,28 +16,26 @@ const Modal = ({ content, onOpen, onClose }: ModalOptions): HTMLElement => {
   const closeModal = () => {
     onClose?.();
     $modalBg.remove();
-    if (escapeListener) {
-      document.removeEventListener("keydown", escapeListener);
-    }
+    document.removeEventListener("keydown", handleEscapeKey);
+    document.removeEventListener("click", handleCloseClick);
   };
 
-  const bindEvents = () => {
-    document.addEventListener("click", (e) => {
-      const target = e.target as HTMLElement;
-      if (target.className === "closeModal") {
-        closeModal();
-      }
-    });
+  const handleEscapeKey = (e: KeyboardEvent) => {
+    if (e.key === "Escape") closeModal();
+  };
 
-    escapeListener = (e: KeyboardEvent) => {
-      if (e.key === "Escape") closeModal();
-    };
+  const handleCloseClick = (e: MouseEvent) => {
+    const target = e.target as HTMLElement;
+    if (target.className === "closeModal") closeModal();
+  };
 
-    document.addEventListener("keydown", escapeListener);
+  const bindCloseEvents = () => {
+    document.addEventListener("click", handleCloseClick);
+    document.addEventListener("keydown", handleEscapeKey);
   };
 
   render();
-  bindEvents();
+  bindCloseEvents();
   onOpen?.();
 
   return $modalBg;
