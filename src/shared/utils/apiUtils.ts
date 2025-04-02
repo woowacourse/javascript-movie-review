@@ -21,9 +21,9 @@ export const createApiUrl = ({ endpoint, params }: ApiParams) => {
   }`;
 };
 
-export const fetchApi = async <T>(
+export const fetchApi = async <T, R>(
   url: string,
-  mapper: (data: any) => T
+  mapper: (data: R) => T
 ): Promise<T> => {
   const response = await fetch(url, {
     ...API_OPTIONS,
@@ -33,6 +33,6 @@ export const fetchApi = async <T>(
     throw new Error(`영화 데이터를 불러오는데 실패했습니다.`);
   }
 
-  const data = await response.json();
+  const data: R = await response.json();
   return mapper(data);
 };
