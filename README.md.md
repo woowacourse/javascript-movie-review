@@ -61,9 +61,9 @@
 - [x] starRating 5 상수 처리
 - [x] 별점 소수점 처리
 - [x] 모달이나 바텀 시트가 열렸을 때 백드롭 영역 스크롤 막기
-- [ ] apiWrapper 파일 수정
-  - [ ] 이벤트 emitter 구조로 변경
-- [ ] 코드 구조 전체 리팩토링
+- [x] apiWrapper 파일 수정
+  - [x] 이벤트 emitter 구조로 변경
+- [x] 코드 구조 전체 리팩토링
   - [x] movieListController 뷰 분리 및 리팩토링 작업
   - [x] searchMovieListController 뷰 뷴리 및 리팩토링 작업
   - [x] BackgroundThumbnailController 뷰 분리 및 리팩토링 작업

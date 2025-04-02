@@ -7,12 +7,14 @@ import PopularMovieResults from "../domain/PopularMovieResults";
 import DetailModalController from "../controller/DetailModalController";
 import DetailMovieResults from "../domain/DetailMovieResults";
 import MovieItemOpenHandler from "../event/MovieItemOpenHandler";
+import SpinnerController from "../controller/SpinnerController";
 
 class MainController {
   mainElement;
   PopularMovieResults;
   detailMovieResults;
 
+  spinnerController!: SpinnerController;
   headerController!: HeaderController;
   messageModalController!: MessageModalController;
   movieListController!: MovieListController;
@@ -29,6 +31,7 @@ class MainController {
   }
 
   initController() {
+    this.spinnerController = new SpinnerController();
     this.messageModalController = new MessageModalController();
     this.detailModalController = new DetailModalController({
       mainElement: this.mainElement,
@@ -54,6 +57,9 @@ class MainController {
   }
 
   async render() {
+    this.spinnerController.initialize();
+    this.messageModalController.initialize();
+
     this.headerController.initialize();
     await this.movieListController.initialize();
     await this.backgroundThumbnailController.initialize(this.PopularMovieResults.getFirstMovieItem());
