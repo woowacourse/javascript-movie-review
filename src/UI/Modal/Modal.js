@@ -5,6 +5,8 @@ class Modal {
     this.movieDetail = movieDetail;
   }
   render() {
+    const releaseDate = this.movieDetail.release_date.split("-")[0];
+    const genres = this.movieDetail.genres.map((data) => data.name);
     this.$div = document.createElement("div");
     this.$div.innerHTML =
       /*html*/
@@ -25,9 +27,7 @@ class Modal {
           <div class="modal-description">
             <h2>${this.movieDetail.title}</h2>
             <p class="category">
-              ${
-                this.movieDetail.release_date.split("-")[0]
-              } · ${this.movieDetail.genres.map((data) => data.name)}
+              ${releaseDate} · ${genres}
             </p>
             <div class="average_star_container">
             <p class=>평균 </p>
