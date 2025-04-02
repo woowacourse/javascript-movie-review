@@ -2,7 +2,7 @@ import APIClient from './API/APIClient';
 import { SYSTEM_CONSTANTS } from '../constants/systemConstants';
 import { Movie } from '../../types/apiMovie';
 import { redirectToPage } from '../route/router';
-import { convertToMovieData, convertToMovieDetailData } from './API/converToData';
+import { convertToMovieData, convertToMovieDetailData } from './API/convertToData';
 
 class MovieClient extends APIClient {
   constructor() {
