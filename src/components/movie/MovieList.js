@@ -39,10 +39,12 @@ export default class MovieList {
   }
 
   handleScroll() {
-    if (this.loading || this.currentPage >= this.totalPage) {
-      if (this.currentPage >= this.totalPage) {
-        window.removeEventListener('scroll', this.boundHandleScroll);
-      }
+    if (this.currentPage >= this.totalPage) {
+      window.removeEventListener('scroll', this.boundHandleScroll);
+      return;
+    }
+
+    if (this.loading) {
       return;
     }
 
