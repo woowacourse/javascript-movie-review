@@ -9,7 +9,7 @@ class Rate {
     this.$target = $target;
     this.#movieId = movieId;
 
-    this.#rate = this.getRateByMovieId(MOVIE_REVIEW) ?? 0;
+    this.#rate = this.getRateByMovieId() ?? 0;
   }
 
   getRateByMovieId() {
