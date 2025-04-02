@@ -54,7 +54,7 @@ class MainController {
 
   async render() {
     await this.movieListController.initialize();
-    await this.backgroundThumbnailController.render(this.PopularMovieResults.getFirstMovieItem());
+    await this.backgroundThumbnailController.initialize(this.PopularMovieResults.getFirstMovieItem());
 
     MovieItemOpenHandler(this.mainElement, this.openDetailModal.bind(this));
   }

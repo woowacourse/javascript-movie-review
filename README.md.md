@@ -65,4 +65,5 @@
   - [ ] 이벤트 emitter 구조로 변경
 - [ ] 코드 구조 전체 리팩토링
   - [x] movieListController 뷰 분리 및 리팩토링 작업
-  - [x] searchMovieListController 뷰 뷴리 . 및리팩토링 작업
+  - [x] searchMovieListController 뷰 뷴리 및 리팩토링 작업
+  - [x] BackgroundThumbnailController 뷰 분리 및 리팩토링 작업

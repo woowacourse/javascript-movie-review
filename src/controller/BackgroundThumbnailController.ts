@@ -1,28 +1,22 @@
-import BackgroundThumbnailSection from "../components/BackgroundThumbnailSection";
 import { MovieItemType } from "../types/movieResultType";
+import BackgroundThumbnailView from "../view/backgroundThumbnailView";
 
 class BackgroundThumbnailController {
-  mainElement;
   openDetailModal;
-  backgroundElement!: HTMLElement;
+  BackgroundThumbnailView;
 
   constructor({ mainElement, openDetailModal }: { mainElement: HTMLElement; openDetailModal: (id: number) => void }) {
-    this.mainElement = mainElement;
     this.openDetailModal = openDetailModal;
+    this.BackgroundThumbnailView = new BackgroundThumbnailView(mainElement);
   }
 
-  async render(movieItem: MovieItemType) {
-    await this.renderMovieList(movieItem);
-    this.bindEvents(movieItem);
+  async initialize(movieItem: MovieItemType) {
+    this.BackgroundThumbnailView.renderBackgroundThumbnail(movieItem);
+    this.clickDetailButton(movieItem);
   }
 
-  async renderMovieList(movieItem: MovieItemType) {
-    this.backgroundElement = BackgroundThumbnailSection(movieItem);
-    this.mainElement?.insertAdjacentElement("beforebegin", this.backgroundElement);
-  }
-
-  bindEvents(movieItem: MovieItemType) {
-    const detailButtonElement = this.backgroundElement.querySelector("button.detail") as HTMLButtonElement;
+  clickDetailButton(movieItem: MovieItemType) {
+    const detailButtonElement = this.BackgroundThumbnailView.getDetailButton();
     detailButtonElement.addEventListener("click", () => this.openDetailModal(movieItem.id));
   }
 }
