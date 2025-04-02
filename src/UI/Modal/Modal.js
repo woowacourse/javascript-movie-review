@@ -120,7 +120,11 @@ class Modal {
     const closeButton = this.$div.querySelector("#closeModal");
     const background = this.$div.querySelector("#modalBackground");
     closeButton.addEventListener("click", () => this.closeModal());
-    background.addEventListener("click", () => this.closeModal());
+    background.addEventListener("click", (e) => {
+      if (e.target === background) {
+        this.closeModal();
+      }
+    });
     document.addEventListener("keydown", () => this.handleKeyDown(event));
   }
   handleKeyDown(e) {
