@@ -8,24 +8,49 @@ type SetItemProp = {
   rating: number;
 };
 
+const MOVIE_KEY = "MovieData";
+
 export function updateRating({ id, rating }: SetItemProp) {
-  const storedData = localStorage.getItem("MovieData");
-  const movieList: Movie[] = storedData ? JSON.parse(storedData) : [];
+  const movieList = getLocalStorageItem(MOVIE_KEY) as Movie[];
 
-  const isExisting = movieList.some((movie) => movie.id === id);
-  const updatedList = isExisting
-    ? movieList.map((movie) => (movie.id === id ? { id, rating } : movie))
-    : [...movieList, { id, rating }];
-
-  localStorage.setItem("MovieData", JSON.stringify(updatedList));
+  const updatedList = getUpdateMovieList(movieList, { id, rating });
+  setLocalStorageItem(MOVIE_KEY, updatedList);
 }
 
 export function getRating(id: number): number {
-  const storedData = localStorage.getItem("MovieData");
-  if (!storedData) return 0;
-
-  const movieList: Movie[] = JSON.parse(storedData);
-  const movie = movieList.find((movie) => movie.id === id);
+  const movieList = getLocalStorageItem(MOVIE_KEY);
+  const movie = getMovie(movieList, id);
 
   return movie ? Number(movie.rating) : 0;
+}
+
+function isExistingById<T extends { id: number | string }>(
+  list: T[],
+  id: number | string
+): boolean {
+  return list.some((item) => item.id === id);
+}
+
+function getUpdateMovieList(list: Movie[], newItem: Movie): Movie[] {
+  const exists = isExistingById(list, newItem.id);
+
+  return exists
+    ? list.map((movie) => (movie.id === newItem.id ? newItem : movie))
+    : [...list, newItem];
+}
+
+function getMovie(movieList: Movie[], id: number) {
+  return movieList.find((movie) => movie.id === id);
+}
+
+function setLocalStorageItem<T>(key: string, data: T) {
+  localStorage.setItem(key, JSON.stringify(data));
+}
+
+function getLocalStorageItem(key: string) {
+  const data = localStorage.getItem(key);
+  if (data) {
+    return JSON.parse(data);
+  }
+  return null;
 }
