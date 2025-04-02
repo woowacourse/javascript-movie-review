@@ -30,11 +30,12 @@ const MovieItem = (props: MovieItemProps) => {
                     class="thumbnail"
                     src="${src}"
                     alt="${title}"
+                    onerror="this.src='${images.fallback}'"
                   />
                   <div class="item-desc">
                     <p class="rate">
                       <img src="${images.starEmpty}" class="star" />
-                      <span>${rate}</span>
+                      <span>${rate.toFixed(1)}</span>
                     </p>
                     <strong>${title}</strong>
                   </div>

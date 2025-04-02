@@ -42,7 +42,7 @@ export const movieListRenderer = () => {
                     : MovieItem({
                         id: movie.id,
                         title: movie.title,
-                        rate: movie.vote_count,
+                        rate: movie.vote_average,
                         src: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
                       });
                 })
