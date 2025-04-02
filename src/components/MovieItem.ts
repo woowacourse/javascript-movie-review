@@ -11,12 +11,12 @@ class MovieItem {
   constructor(
     parentElement: HTMLElement,
     movie: Movie,
-    onClickMovieItem: () => void
+    modal: MovieDetailModal
   ) {
     this.#parentElement = parentElement;
     this.#movie = movie;
     this.#render();
-    this.#addEventListeners(onClickMovieItem);
+    this.#addEventListeners(modal);
   }
 
   #render() {
@@ -40,12 +40,15 @@ class MovieItem {
       : "./images/null_image.png";
   }
 
-  #addEventListeners(eventsCallback: () => void) {
-    const $item = this.#parentElement.querySelector(".item");
-    if (!isHTMLElement($item)) return;
+  #addEventListeners(modal: MovieDetailModal) {
+    this.#parentElement.addEventListener("click", () => {
+      const $body = document.querySelector("body");
+      const $modalBackground = document.querySelector(".modal-background");
+      if (!isHTMLElement($modalBackground) || !isHTMLElement($body)) return;
 
-    $item.addEventListener("click", () => {
-      eventsCallback();
+      modal.show(this.#movie.id);
+      $modalBackground.classList.add("active");
+      $body.classList.add("active");
     });
   }
 }
