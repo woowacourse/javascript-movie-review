@@ -1,29 +1,21 @@
-interface StoredMovie {
-  id: number;
-  title: string;
-  imgUrl: string;
-  score: number;
-  overview: string;
-  genres: string;
-  userRating: ('filled' | 'empty')[];
-}
+import { MovieDetailData } from '../../types/movie';
 
 class LocalStorage {
   static #STORAGE_KEY = 'movies';
 
-  static getMovies(): StoredMovie[] {
+  static getMovies(): MovieDetailData[] {
     const storedData = localStorage.getItem(this.#STORAGE_KEY);
     if (!storedData) return [];
 
     try {
-      const parsedData: StoredMovie[] = JSON.parse(storedData);
+      const parsedData: MovieDetailData[] = JSON.parse(storedData);
       return parsedData;
     } catch (error) {
       throw new Error('로컬 스토리지에서 데이터를 불러 올 수 없습니다.');
     }
   }
 
-  static saveMovie(movie: StoredMovie) {
+  static saveMovie(movie: MovieDetailData) {
     const existingList = this.getMovies();
     const filteredList = existingList.filter((m) => m.id !== movie.id);
     const updatedList = [...filteredList, movie];
