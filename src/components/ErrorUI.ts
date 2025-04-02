@@ -45,7 +45,7 @@ class ErrorUI {
 
   renderError() {
     const main = selectElement<HTMLElement>("main");
-    const target = selectElement<HTMLDivElement>(".search-container");
+    const target = selectElement<HTMLFormElement>("#search-container");
 
     main.replaceChildren();
     target.remove();

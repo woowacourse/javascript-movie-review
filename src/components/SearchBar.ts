@@ -11,14 +11,14 @@ class SearchBar {
   #query;
 
   constructor() {
-    this.#element = document.createElement("div");
+    this.#element = document.createElement("form");
+    this.#element.id = "search-container";
     this.#query = "";
   }
 
   create() {
-    this.#element.classList.add("search-container");
-    this.#element.appendChild(this.#getInputElement());
-    this.#element.appendChild(this.#getImageButton());
+    this.#element.appendChild(this.#createInputBar());
+    this.#element.appendChild(this.#createInputImage());
 
     return this.#element;
   }
@@ -59,61 +59,43 @@ class SearchBar {
     );
   }
 
-  async #onSearchTriggerBar() {
+  async #onSubmitQuery(event: SubmitEvent) {
+    event.preventDefault();
+    const target = event.target as HTMLFormElement;
+    const formData = new FormData(target);
+    this.#query = formData.get("query") as string;
+
     const movieList = new MovieList([]);
     movieList.clearList();
-
-    const searchBar = selectElement<HTMLInputElement>(".search-bar");
-    this.#query = searchBar.value;
 
     this.#changeTitleStyle();
     await this.#onSearch(movieList);
   }
 
-  async setEvent() {
-    const searchBar = selectElement<HTMLInputElement>(".search-bar");
-    const searchButton = selectElement<HTMLImageElement>("#search");
-
-    searchButton.onclick = () => {
-      this.#onSearchTriggerBar();
-    };
-
-    const handleEnterKeyDown = async (event: KeyboardEvent) => {
-      if (event.isComposing) {
-        return;
-      }
-
-      if (event.key === "Enter") {
-        this.#onSearchTriggerBar();
-        searchBar.blur();
-      }
-    };
-
-    searchBar.onfocus = () => {
-      window.addEventListener("keydown", handleEnterKeyDown);
-    };
-
-    searchBar.onblur = () => {
-      window.removeEventListener("keydown", handleEnterKeyDown);
-    };
+  setEvent() {
+    this.#element.addEventListener("submit", (event) =>
+      this.#onSubmitQuery(event)
+    );
   }
 
-  #getInputElement() {
+  #createInputBar() {
     const searchInput = document.createElement("input");
     searchInput.type = "text";
+    searchInput.name = "query";
     searchInput.classList.add("search-bar");
     searchInput.placeholder = "검색어를 입력하세요";
 
     return searchInput;
   }
 
-  #getImageButton() {
-    const imgButton = document.createElement("img");
-    imgButton.id = "search";
-    imgButton.src = "./images/search_button.png";
-    imgButton.alt = "SearchButton";
+  #createInputImage() {
+    const inputImage = document.createElement("input");
+    inputImage.type = "image";
+    inputImage.id = "search";
+    inputImage.src = "./images/search_button.png";
+    inputImage.alt = "SearchButton";
 
-    return imgButton;
+    return inputImage;
   }
 
   #changeTitleStyle() {
