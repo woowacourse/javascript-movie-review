@@ -13,6 +13,8 @@ const INITIAL_PAGE = 1;
 const searchMovie = async (input: string) => {
   const thumbnailList = $(".thumbnail-list");
   thumbnailList.replaceChildren();
+
+  $(".no-result")?.remove();
   $(".load-more")?.remove();
   $("#caption").innerText = `"${input}" 검색 결과`;
 
