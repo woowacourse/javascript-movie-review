@@ -2,12 +2,7 @@ const key = "userRating";
 
 //read
 function readAllStoredMovieRatings() {
-  const raw = localStorage.getItem(key);
-  if (!raw) {
-    localStorage.setItem(key, "[]");
-    return [];
-  }
-  return JSON.parse(raw);
+  return JSON.parse(localStorage.getItem(key) ?? "[]");
 }
 
 //read
@@ -17,8 +12,7 @@ export function readStoredMovieRatingById(movieId: number) {
 
   const existingMovie = movieRatings.find((rating) => rating.id === movieId);
 
-  if (existingMovie) return existingMovie.rate;
-  return 0;
+  return existingMovie?.rate ?? 0;
 }
 
 //update
