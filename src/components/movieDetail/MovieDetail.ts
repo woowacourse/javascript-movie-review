@@ -1,5 +1,5 @@
 import { images } from "../../assets/images";
-import { movieDetail, setIsModalOpen } from "../../store/store";
+import { isDetailError, movieDetail, setIsModalOpen } from "../../store/store";
 import { useEvents } from "../../utils/Core";
 import { $, $$ } from "../../utils/domHelper";
 import { observeLastMovie } from "../../utils/InfiniteScroll";
@@ -74,6 +74,7 @@ const MovieDetail = () => {
   const voteIndex =
     Number(window.localStorage.getItem(JSON.stringify(movieDetail.id))) || -1;
 
+  if (isDetailError) return `<div>영화 정보를 불러오지 못했습니다.</div>`;
   return `
         <button class="close-modal" id="closeModal">
           <img src=/modal_button_close.png />

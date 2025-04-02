@@ -83,3 +83,10 @@ export const setIsModalOpen = (value: boolean) => {
   isModalOpen = value;
   reRender();
 };
+
+export let isDetailError = false;
+
+export const setIsDetailError = (value: boolean) => {
+  isDetailError = value;
+  reRender();
+};

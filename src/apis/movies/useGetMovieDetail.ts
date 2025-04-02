@@ -1,4 +1,5 @@
 import { MovieDetail } from "../../../types/responseType/responseType";
+import { setIsDetailError } from "../../store/store";
 import { options, url } from "../config/config";
 
 const useGetMovieDetail = () => {
@@ -10,6 +11,7 @@ const useGetMovieDetail = () => {
       return data;
     } catch (error) {
       console.error("Error fetching data in App:", error);
+      setIsDetailError(true);
     }
     return null;
   };
