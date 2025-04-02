@@ -14,6 +14,8 @@ import {
   withLoading,
 } from "./domains/movie";
 import SkeletonMovieItem from "./components/Skeleton/SkeletonMovieItem";
+import Modal from "./components/Modal";
+import modalContentTemplate from "./components/Modal/modalContentTemplate";
 
 class App {
   private $target: HTMLElement;
@@ -47,8 +49,18 @@ class App {
 
     appendHTML(this.$target, Footer());
 
-    this.$bannerComponent = new Banner(this.$bannerContainer, this.store);
-    this.$movieListComponent = new MovieList(this.$mainContainer, this.store);
+    const $modal = new Modal(this.store, modalContentTemplate);
+
+    this.$bannerComponent = new Banner(
+      this.$bannerContainer,
+      this.store,
+      $modal
+    );
+    this.$movieListComponent = new MovieList(
+      this.$mainContainer,
+      this.store,
+      $modal
+    );
 
     if (this.store.getState().movies.length === 0) {
       this.loadPopularMovies();
@@ -71,6 +83,8 @@ class App {
       debounce(async () => {
         if (isScrolledToBottom()) {
           const state = store.getState();
+          if (state.loading) return;
+
           const currentPage = getCurrentPage(
             state.movies.length,
             MOVIE_COUNT.UNIT
@@ -84,14 +98,19 @@ class App {
           );
 
           if (isPossibleLoadPopularMovies(state)) {
+            this.store.setState({ loading: true });
             const newMovies = await withLoading(store, () =>
               fetchPopularMovies(
                 (error: Error) => alert(error.message),
                 currentPage
               )
             );
-            store.setState({ movies: [...state.movies, ...newMovies] });
+            store.setState({
+              movies: [...state.movies, ...newMovies],
+              loading: false,
+            });
           } else if (isPossibleLoadSearchedMovies(state)) {
+            this.store.setState({ loading: true });
             const newMoviesData = await withLoading(store, () =>
               fetchSearchedMovies(
                 state.query,
@@ -101,6 +120,7 @@ class App {
             );
             store.setState({
               movies: [...state.movies, ...newMoviesData.results],
+              loading: false,
             });
           }
 

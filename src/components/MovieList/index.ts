@@ -1,6 +1,5 @@
 import { fullMovieListTemplate, movieItemsTemplate } from "./movieListTemplate";
 import Modal from "../Modal";
-import modalContentTemplate from "../Modal/modalContentTemplate";
 import Store, { State } from "../../store/store";
 import { Movie } from "../../../types/movieList";
 import { appendHTMLs, renderTemplate } from "../../ui/dom";
@@ -8,12 +7,14 @@ import { appendHTMLs, renderTemplate } from "../../ui/dom";
 class MovieList {
   private $container: HTMLElement;
   private store: Store;
+  private $modal: Modal;
   private prevMoviesLength = 0;
   private prevQuery = "";
 
-  constructor($container: HTMLElement, store: Store) {
+  constructor($container: HTMLElement, store: Store, $modal: Modal) {
     this.$container = $container;
     this.store = store;
+    this.$modal = $modal;
     this.store.subscribe(this.render.bind(this));
     this.render(this.store.getState());
   }
@@ -57,15 +58,17 @@ class MovieList {
   }
 
   private attachMovieItemEvents(state: State): void {
-    const $modal = new Modal(this.store, modalContentTemplate);
     this.$container.querySelectorAll("li[data-movie-id]").forEach(($li) => {
-      $li.addEventListener("click", () => {
-        const movieIdString = $li.getAttribute("data-movie-id");
-        const movie = state.movies.find(
-          (movie: Movie) => movie.id.toString() === movieIdString
-        );
-        if (movie) $modal.open(movie.id);
-      });
+      if (!$li.getAttribute("data-listener-attached")) {
+        $li.addEventListener("click", () => {
+          const movieIdString = $li.getAttribute("data-movie-id");
+          const movie = state.movies.find(
+            (movie: Movie) => movie.id.toString() === movieIdString
+          );
+          if (movie) this.$modal.open(movie.id);
+        });
+        $li.setAttribute("data-listener-attached", "true");
+      }
     });
   }
 }

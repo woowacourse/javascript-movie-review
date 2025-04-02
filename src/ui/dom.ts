@@ -16,10 +16,9 @@ const appendHTML = (container: HTMLElement, html: string): void => {
   container.appendChild(template.content.firstChild as Node);
 };
 
-const isScrolledToBottom = (threshold: number = 180): boolean => {
+const isScrolledToBottom = (): boolean => {
   return (
-    window.innerHeight + window.scrollY >=
-    document.documentElement.scrollHeight - threshold
+    window.innerHeight + window.scrollY >= document.documentElement.scrollHeight
   );
 };
 

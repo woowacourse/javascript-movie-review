@@ -56,6 +56,8 @@ body.modal-open {
 
 .detail-thumbnail {
   width: 380px;
+  height: 570px;
+  object-fit: contain;
   border-radius: 16px;
   display: none;
 }

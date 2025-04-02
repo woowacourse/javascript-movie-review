@@ -1,6 +1,5 @@
 import bannerTemplate from "./bannerTemplate";
 import SkeletonBanner from "../Skeleton/SkeletonBanner";
-import modalContentTemplate from "../Modal/modalContentTemplate";
 import Modal from "../Modal";
 import Store, { State } from "../../store/store";
 import { Movie } from "../../../types/movieList";
@@ -13,10 +12,10 @@ class Banner {
   private store: Store;
   private $modal: Modal;
 
-  constructor($container: HTMLElement, store: Store) {
+  constructor($container: HTMLElement, store: Store, $modal: Modal) {
     this.$container = $container;
     this.store = store;
-    this.$modal = new Modal(this.store, modalContentTemplate);
+    this.$modal = $modal;
     this.store.subscribe(this.render.bind(this));
     this.render(this.store.getState());
   }
