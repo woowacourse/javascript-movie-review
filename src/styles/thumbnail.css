@@ -11,6 +11,10 @@
   width: 200px;
   height: 300px;
   border-radius: 8px;
+  transition: transform 0.2s ease-in-out;
+}
+.thumbnail:hover {
+  transform: scale(1.02);
 }
 
 .item {
