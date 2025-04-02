@@ -44,7 +44,7 @@ const MovieItem = (movie: MovieItemType) => {
                   }),
                   createDOMElement({
                     tag: "span",
-                    textContent: movie.vote_average,
+                    textContent: movie.vote_average.toFixed(2),
                   }),
                 ],
               }),
