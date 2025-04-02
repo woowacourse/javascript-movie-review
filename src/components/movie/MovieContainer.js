@@ -32,10 +32,10 @@ const MovieContainer = ({ movies }) => {
   $container.appendChild($main);
   $main.appendChild($section);
   $section.appendChild($h2);
-  
+
   const $div = createElement({
     tag: "div",
-    classNames: ["oberserver"],
+    classNames: ["observer"],
   });
 
   const callback = (entries, observer) => {
@@ -60,13 +60,13 @@ const MovieContainer = ({ movies }) => {
         }
 
         document.querySelector(".thumbnail-list").remove();
-        const oberserver = document.querySelector(".oberserver");
+        const observer = document.querySelector(".observer");
         const section = document.querySelector("section");
         section.insertBefore(
           MovieList({
             movies: storeMovies.movieList,
           }),
-          oberserver
+          observer
         );
       }
     });

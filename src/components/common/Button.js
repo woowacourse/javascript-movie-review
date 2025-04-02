@@ -15,8 +15,6 @@ const Button = ({ text, type }) => {
   $button.textContent = text;
 
   $button.addEventListener("click", async () => {
-    //const $input = document.querySelector(".search-bar");
-
     const params = new URLSearchParams(window.location.search);
 
     let fetchedMovies;
@@ -35,14 +33,13 @@ const Button = ({ text, type }) => {
 
     document.querySelector(".thumbnail-list").remove();
 
-    const oberserver = document.querySelector(".oberserver");
+    const observer = document.querySelector(".observer");
     const section = document.querySelector("section");
     section.insertBefore(
       MovieList({
         movies: movies.movieList,
       }),
-      oberserver
-
+      observer
     );
   });
 
