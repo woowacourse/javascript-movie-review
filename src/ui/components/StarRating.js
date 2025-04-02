@@ -1,4 +1,4 @@
-import { setRating, getRating } from "../../utils/localStorage.js";
+import { setRating, getRating } from "../../domain/rating/ratingStorage.js";
 
 export default class StarRating {
   constructor(movieId, onSelect) {
