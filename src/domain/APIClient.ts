@@ -2,7 +2,13 @@ import { STATUS_CODE_MESSAGE } from '../constants/errorMessage';
 import { SYSTEM_CONSTANTS } from '../constants/systemConstants';
 
 class APIClient {
-  static async get(url: string) {
+  baseUrl: string;
+
+  constructor(baseUrl: string) {
+    this.baseUrl = baseUrl;
+  }
+
+  async get(url: string) {
     try {
       const response = await fetch(SYSTEM_CONSTANTS.BASE_API_URL + url, {
         method: 'GET',

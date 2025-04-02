@@ -1,10 +1,10 @@
-import { extractedMovieDetails } from '../../domain/APIManager';
 import LocalStorage from '../../domain/LocalStorage';
 import { $ } from '../../utils/selector';
 import modalLoadingTemplate from './loadingTemplate';
 import ModalStar from './ModalStar';
 import { MovieData } from '../../../types/movie';
 import { MovieDetailData } from '../../../types/movie';
+import MovieClient from '../../domain/MovieClient';
 
 class Modal {
   #container;
@@ -104,7 +104,7 @@ class Modal {
 
   async #fetchMovieDetails(movieData: MovieData) {
     this.#movieData = movieData;
-    const movieDetails = await extractedMovieDetails(movieData.id);
+    const movieDetails = await MovieClient.getMovieDetails(movieData.id);
     const stored = {
       ...movieDetails,
       userRating: LocalStorage.getMovieStarById(movieData.id),

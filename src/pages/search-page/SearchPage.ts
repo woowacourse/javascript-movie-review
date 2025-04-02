@@ -1,10 +1,9 @@
 import MovieGrid from '../../component/movie-grid/MovieGrid';
 import { Title } from '../../component/title/Title';
-import { SYSTEM_CONSTANTS } from '../../constants/systemConstants';
-import { extractedData } from '../../domain/APIManager';
 import { $ } from '../../utils/selector';
 import searchPageLoadingTemplate from './loadingTemplate';
 import { MovieData } from '../../../types/movie';
+import MovieClient from '../../domain/MovieClient';
 
 class SearchPage {
   #container;
@@ -31,9 +30,7 @@ class SearchPage {
     this.render();
 
     if (this.#query) {
-      const { movieListData, totalPage } = await extractedData(
-        SYSTEM_CONSTANTS.SEARCH_URL(this.#query, this.#currentPage),
-      );
+      const { movieListData, totalPage } = await MovieClient.getSearchedMovies(this.#query, this.#currentPage);
       this.#movieListData = movieListData;
       this.#newMovies = movieListData;
       this.#totalPage = totalPage;
@@ -79,7 +76,7 @@ class SearchPage {
 
   #loadMoreData = async () => {
     this.#currentPage += 1;
-    const { movieListData } = await extractedData(SYSTEM_CONSTANTS.SEARCH_URL(this.#query, this.#currentPage));
+    const { movieListData } = await MovieClient.getSearchedMovies(this.#query, this.#currentPage);
     this.#newMovies = movieListData;
     this.#movieListData = [...this.#movieListData, ...movieListData];
     this.renderDynamicSection();

@@ -1,11 +1,10 @@
 import MainBanner from '../../component/main-banner/MainBanner';
 import MovieGrid from '../../component/movie-grid/MovieGrid';
 import { Title } from '../../component/title/Title';
-import { SYSTEM_CONSTANTS } from '../../constants/systemConstants';
-import { extractedData } from '../../domain/APIManager';
 import { $ } from '../../utils/selector';
 import mainPageLoadingTemplate from './loadingTemplate';
 import { MovieData } from '../../../types/movie';
+import MovieClient from '../../domain/MovieClient';
 
 export class MainPage {
   #container;
@@ -25,7 +24,7 @@ export class MainPage {
     this.#isLoading = true;
     this.render();
 
-    const { movieListData } = await extractedData(SYSTEM_CONSTANTS.MAIN_URL(this.#currentPage));
+    const { movieListData } = await MovieClient.getPopulareMovies(this.#currentPage);
     this.#movieListData = movieListData;
     this.#isLoading = false;
     this.render();
@@ -54,7 +53,7 @@ export class MainPage {
       this.#container.appendChild(this.#movieGridElement());
       return;
     }
-    const newItems = this.#movieListData.slice(-20); // todo : 20 매직넘버
+    const newItems = this.#movieListData.slice(-20);
     const movieElements = this.#movieGrid.appendMovies(newItems);
 
     const list = $({ selector: '.thumbnail-list' });
@@ -78,7 +77,7 @@ export class MainPage {
 
   #loadMoreData = async () => {
     this.#currentPage += 1;
-    const { movieListData } = await extractedData(SYSTEM_CONSTANTS.MAIN_URL(this.#currentPage));
+    const { movieListData } = await MovieClient.getPopulareMovies(this.#currentPage);
     this.#movieListData = [...this.#movieListData, ...movieListData];
     this.renderDynamicSection();
   };
