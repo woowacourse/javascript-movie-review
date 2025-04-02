@@ -5,6 +5,7 @@ import { SYSTEM_CONSTANTS } from '../../constants/systemConstants';
 import { extractedData } from '../../domain/APIManager';
 import { $ } from '../../utils/selector';
 import mainPageLoadingTemplate from './loadingTemplate';
+import { MovieData } from '../../../types/movie';
 
 export class MainPage {
   #container;

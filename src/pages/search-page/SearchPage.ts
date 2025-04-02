@@ -4,6 +4,7 @@ import { SYSTEM_CONSTANTS } from '../../constants/systemConstants';
 import { extractedData } from '../../domain/APIManager';
 import { $ } from '../../utils/selector';
 import searchPageLoadingTemplate from './loadingTemplate';
+import { MovieData } from '../../../types/movie';
 
 class SearchPage {
   #container;
