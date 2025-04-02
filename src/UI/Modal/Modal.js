@@ -30,7 +30,7 @@ class Modal {
               ${releaseDate} · ${genres}
             </p>
             <div class="average_star_container">
-            <p class=>평균 </p>
+            <p>평균 </p>
             <p class="rate">
               <img src="./images/star_filled.png" class="star" /><span
                 >${parseFloat(this.movieDetail.vote_average).toFixed(1)}</span
