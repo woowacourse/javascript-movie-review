@@ -9,38 +9,36 @@ const Modal = (props: PropsWithChildren<ModalProps>) => {
   const { children } = props;
   const [addEvent] = useEvents("body");
 
-  document.addEventListener("keydown", (e) => {
+  const handleEsc = (e: KeyboardEvent) => {
     if (e.key === "Escape") {
-      const modalBg = $(".modal-background");
-      if (modalBg) {
-        modalBg.classList.remove("active");
-        document.body.classList.remove("modal-open");
-        setIsOpenModal(false);
-      }
+      closeModal();
     }
-  });
+  };
 
-  addEvent("click", ".modal-background", (e) => {
-    if ((e.target as HTMLElement).classList.contains("modal-background")) {
-      const modalBg = $(".modal-background");
-      if (modalBg) {
-        modalBg.classList.remove("active");
-        document.body.classList.remove("modal-open");
-        setIsOpenModal(false);
-      }
-    }
-  });
-
-  addEvent("click", "#closeModal", () => {
+  const closeModal = () => {
     const modalBg = $(".modal-background");
     if (modalBg) {
       modalBg.classList.remove("active");
       document.body.classList.remove("modal-open");
       setIsOpenModal(false);
+
+      document.removeEventListener("keydown", handleEsc);
     }
-  });
+  };
 
   if (isOpenModal) {
+    document.addEventListener("keydown", handleEsc);
+
+    addEvent("click", ".modal-background", (e) => {
+      if ((e.target as HTMLElement).classList.contains("modal-background")) {
+        closeModal();
+      }
+    });
+
+    addEvent("click", "#closeModal", () => {
+      closeModal();
+    });
+
     setTimeout(() => {
       const modalBg = $(".modal-background");
       if (modalBg) {
