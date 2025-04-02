@@ -1,26 +1,6 @@
 
-import {MovieData} from "../../types/movieDataType";
+/// <reference types="vite/client" />
 import state from "../state/state";
-
-export interface ImportMetaEnv {
-    readonly VITE_TMDB_TOKEN: string;
-  }
-  
-export interface ImportMeta {
-    readonly env: ImportMetaEnv;
-  }
-  
-
-export interface TMDBResponse {
-    page: number;
-    results: MovieData[];
-    total_pages: number;
-    total_results: number;
-  }
-
-export interface TMDBDetail {
-
-}
 
 
 export async function fetchPopularMovies(pageIndex:number) {
