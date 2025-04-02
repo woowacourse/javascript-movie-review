@@ -1,6 +1,6 @@
+import { ratingMap } from '../../constants/ratingMap';
 import {
   getMovieRating,
-  getRatingText,
   saveMovieRating,
 } from '../../service/MovieRatingService';
 import { MovieDetail } from '../../types/Movie.types';
@@ -49,6 +49,10 @@ const createRatingSection = (average: number): HTMLParagraphElement => {
       }),
     ],
   });
+};
+
+const getRatingText = (rating: number): string => {
+  return (ratingMap[rating] || '') + ` (${rating}/10)`;
 };
 
 const createMyRatingSection = (movieId: number): HTMLDivElement => {

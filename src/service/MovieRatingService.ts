@@ -51,22 +51,3 @@ export const getMovieRatings = (): MovieRating[] => {
     return [];
   }
 };
-
-export const getRatingText = (rating: number): string => {
-  let str = ` (${rating}/10)`;
-
-  switch (rating) {
-    case 2:
-      return '최악이예요' + str;
-    case 4:
-      return '별로예요' + str;
-    case 6:
-      return '보통이에요' + str;
-    case 8:
-      return '재미있어요' + str;
-    case 10:
-      return '명작이에요' + str;
-    default:
-      return '';
-  }
-};
