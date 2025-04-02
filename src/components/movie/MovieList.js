@@ -4,6 +4,7 @@ import NoResultsMessage from '../search/NoResultsMessage.js';
 import DetailModal from '../modal/DetailModal.js';
 import MovieListHandler from '../../handlers/MovieListHandler.ts';
 import { store } from '../../store/store.js';
+import Logger from '../../utils/logger/Logger';
 
 export default class MovieList {
   constructor(
@@ -75,7 +76,8 @@ export default class MovieList {
 
           detailModal.showMovieDetails();
         } catch (error) {
-          console.error('영화 상세 정보를 가져오는데 실패했습니다:', error);
+          const logger = Logger.getInstance();
+          logger.error('영화 상세 정보를 가져오는데 실패했습니다:', error);
         }
       });
     });

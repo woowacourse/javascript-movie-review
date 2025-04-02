@@ -2,6 +2,7 @@ import {
   API_ERROR_MESSAGES,
   DEFAULT_ERROR_MESSAGE,
 } from '../constants/errorMessages';
+import Logger from '../utils/logger/Logger';
 
 export class ApiError extends Error {
   statusCode: number;
@@ -58,7 +59,8 @@ export default class ApiClient {
         const errorData = await response.json();
 
         if (response.status === 401) {
-          console.error(
+          const logger = Logger.getInstance();
+          logger.error(
             `인증 오류: ${errorData.status_code} - ${errorData.status_message}`,
           );
         }
@@ -76,6 +78,8 @@ export default class ApiClient {
       }
       return response.json();
     } catch (error) {
+      const logger = Logger.getInstance();
+      logger.error(`API 요청 실패: ${url}`, error as Error);
       if (error instanceof ApiError) {
         throw error;
       }

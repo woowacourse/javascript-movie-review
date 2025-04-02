@@ -9,6 +9,7 @@ import SearchBar from './components/search/SearchBar';
 import MovieListHandler from './handlers/MovieListHandler';
 import SearchHandler from './handlers/SearchHandler';
 import Logo from './components/header/Logo';
+import Logger from './utils/logger/Logger';
 
 export default class App {
   private movieService: MovieService;
@@ -44,7 +45,9 @@ export default class App {
       this.initializeUIComponents();
       await this.movieListHandler.loadMovies();
     } catch (error) {
-      console.error('애플리케이션 초기화 실패:', error);
+      const logger = Logger.getInstance();
+      logger.error('애플리케이션 초기화 실패:', error as Error);
+      throw error;
     }
   }
 

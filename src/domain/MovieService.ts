@@ -6,6 +6,7 @@ import {
 } from '../api/tmdb/tmdbApiClient';
 import Movie from './Movie';
 import MovieDetail from './MovieDetail';
+import Logger from '../utils/logger/Logger';
 
 export interface MovieApiService {
   getPopularMovies: (page?: number) => Promise<APIResponse<MovieResponse>>;
@@ -55,7 +56,8 @@ export default class MovieService {
       const response = await this.apiService.getPopularMovies(page);
       return this.convertToMovies(response);
     } catch (error) {
-      console.error('영화 목록 가져오기 실패:', error);
+      const logger = Logger.getInstance();
+      logger.error('영화 목록 가져오기 실패:', error as Error);
       if (error instanceof ApiError) {
         alert(error.message);
       } else {
@@ -79,7 +81,8 @@ export default class MovieService {
       const response = await this.apiService.searchMovies(query, page);
       return this.convertToMovies(response);
     } catch (error) {
-      console.error('영화 검색 실패', error);
+      const logger = Logger.getInstance();
+      logger.error('영화 검색 실패', error as Error);
       if (error instanceof ApiError) {
         alert(error.message);
       } else {
@@ -94,7 +97,8 @@ export default class MovieService {
       const response = await this.apiService.getMovieDetail(movieId);
       return MovieDetail.fromResponse(response);
     } catch (error) {
-      console.error('영화 상세 정보 가져오기 실패', error);
+      const logger = Logger.getInstance();
+      logger.error('영화 상세 정보 가져오기 실패', error as Error);
       if (error instanceof ApiError) {
         alert(error.message);
       } else {
