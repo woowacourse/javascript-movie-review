@@ -13,6 +13,7 @@ import {
   showSkeleton,
 } from "./components/Skeleton/showSkeleton.ts";
 import openModal from "./components/Modal/openModal.ts";
+import SearchMovieService from "./services/SearchMovieService.ts";
 
 function renderHeader({
   id,
@@ -68,7 +69,7 @@ document.addEventListener("modalOpenClicked", (event: Event) => {
   });
 });
 
-function handleSearchEvent(movieService: MovieService) {
+function handleSearchEvent(searchMovieService: SearchMovieService) {
   // 이벤트 등록
   const $input = document.querySelector(".search-input") as HTMLInputElement;
   const $button = document.querySelector(".search-button") as HTMLButtonElement;
@@ -82,7 +83,9 @@ function handleSearchEvent(movieService: MovieService) {
       if (inputValue === "") {
         alert("검색어를 입력해주세요.");
       } else {
-        const searchResult = await movieService.getSearchResult(inputValue);
+        const searchResult = await searchMovieService.getSearchResult(
+          inputValue
+        );
         if ($section) {
           $section.innerHTML = "";
         }
@@ -97,7 +100,7 @@ function handleSearchEvent(movieService: MovieService) {
     if (inputValue === "") {
       alert("검색어를 입력해주세요.");
     } else {
-      const searchResult = await movieService.getSearchResult(inputValue);
+      const searchResult = await searchMovieService.getSearchResult(inputValue);
       if ($section) {
         $section.innerHTML = "";
       }
@@ -113,15 +116,22 @@ async function renderContent(results: MovieInfo[], title: string) {
   }
 
   ContentsContainer(results, title);
-  const $main = document.querySelector("main");
+  const $main = document.querySelector("main")!;
   const $lastItem = document.createElement("div");
   $lastItem.style.height = "10px";
-  $main?.appendChild($lastItem);
+  $main.appendChild($lastItem);
+
   const movieService = new MovieService();
+  const searchMovieService = new SearchMovieService();
   currentObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
-        handleAdditionalData(movieService, title, currentObserver);
+        handleAdditionalData(
+          movieService,
+          searchMovieService,
+          title,
+          currentObserver
+        );
       }
     });
   });
@@ -137,6 +147,7 @@ function renderFooter() {
 
 async function main() {
   const movieService = new MovieService();
+  const searchMovieService = new SearchMovieService();
   const $container = document.querySelector("#wrap");
 
   const $headerSkeleton = HeaderSkeleton();
@@ -152,7 +163,7 @@ async function main() {
 
   renderContent(data.results, "지금 인기 있는 영화");
 
-  handleSearchEvent(movieService);
+  handleSearchEvent(searchMovieService);
 
   renderFooter();
 }
