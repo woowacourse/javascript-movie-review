@@ -156,9 +156,14 @@ export default class MovieModal {
   }
 
   async getMovieDetailText() {
-    const { genres, releaseDate } = await this.movieService.getMovieDetail(this.movie.id);
-    const releaseYear = releaseDate.split('-')[0];
-    const genreText = genres.map((g) => g.name).join(", ") || "장르 정보 없음";
-    return `${releaseYear} · ${genreText}`;
+    try {
+      const { genres, releaseDate } = await this.movieService.getMovieDetail(this.movie.id);
+      const releaseYear = releaseDate.split('-')[0];
+      const genreText = genres.map((g) => g.name).join(", ") || "장르 정보 없음";
+      return `${releaseYear} · ${genreText}`;
+    } catch (error) {
+      console.error("영화 장르 로딩에 실패", error);
+      alert("영화 장르 로딩에 실패하였습니다.");
+    }
   }
 }
