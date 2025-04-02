@@ -1,4 +1,4 @@
-import Spinner from "../component/Spinner";
+import Spinner from "../components/Spinner";
 import { ERROR_MESSAGE } from "../constant/errorMessage";
 import MessageModalController from "../controller/MessageModalController";
 

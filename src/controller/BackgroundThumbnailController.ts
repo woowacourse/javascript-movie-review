@@ -1,4 +1,4 @@
-import BackgroundThumbnailSection from "../component/BackgroundThumbnailSection";
+import BackgroundThumbnailSection from "../components/BackgroundThumbnailSection";
 import { MovieItemType } from "../types/movieResultType";
 
 class BackgroundThumbnailController {

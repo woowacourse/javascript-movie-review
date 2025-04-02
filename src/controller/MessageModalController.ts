@@ -1,4 +1,4 @@
-import MessageModal from "../component/MessageModal";
+import MessageModal from "../components/MessageModal";
 
 class MessageModalController {
   messageModalElement;

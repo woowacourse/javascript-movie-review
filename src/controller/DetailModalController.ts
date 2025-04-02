@@ -2,7 +2,7 @@ import { RATING_MESSAGE } from "../constant/ratingMessage";
 import { MovieItemType, storedDetailMovieItemType } from "../types/movieResultType";
 import filledStar from "../../public/images/star_filled.png";
 import emptyStar from "../../public/images/star_empty.png";
-import DetailModal from "../component/DetailModal/DetailModal";
+import DetailModal from "../components/DetailModal/DetailModal";
 
 interface DetailModalControllerType {
   mainElement: HTMLElement;

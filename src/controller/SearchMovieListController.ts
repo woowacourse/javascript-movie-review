@@ -1,7 +1,7 @@
 import { getSearchMovieResult } from "../api/movie/getSearchMovieResult";
-import MovieEmptySection from "../component/MovieEmptySection";
-import MovieItem from "../component/MovieItem";
-import MovieListSection from "../component/MovieListSection";
+import MovieEmptySection from "../components/MovieEmptySection";
+import MovieItem from "../components/MovieItem";
+import MovieListSection from "../components/MovieListSection";
 import { MovieItemType, MovieResultType } from "../types/movieResultType";
 import infinityScrollObserver from "../util/infinityScrollObserver";
 
