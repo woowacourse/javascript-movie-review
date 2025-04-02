@@ -41,12 +41,13 @@ class App {
       this.#mode,
       $container
     );
-    await moviesContainer.init();
 
     body.appendChild($wrap);
     $wrap.appendChild($container);
 
     new Footer(body).render();
+
+    moviesContainer.init();
   }
 
   onSubmit = async (e) => {
