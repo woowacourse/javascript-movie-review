@@ -1,10 +1,10 @@
 interface addEventProps {
   type: string;
-  selector: string;
+  selector?: string;
   handler: (event: Event | KeyboardEvent, target?: Element) => void;
 }
 
-export function addEvent({ type, selector, handler }: addEventProps) {
+export function addEvent({ type, selector = "", handler }: addEventProps) {
   window.addEventListener(type, (event) => {
     const target = event.target as HTMLElement;
     if (selector === "") {

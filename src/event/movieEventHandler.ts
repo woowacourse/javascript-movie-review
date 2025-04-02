@@ -93,7 +93,6 @@ addEvent({
 
 addEvent({
   type: "keydown",
-  selector: "",
   handler: (event) => {
     if (
       (event as KeyboardEvent).key === "Escape" &&
