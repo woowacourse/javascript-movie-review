@@ -1,5 +1,6 @@
 .searchbar {
   max-width: 525px;
+  min-width: 220px;
   width: 50%;
   padding: 6px 16px;
   border: 2px solid var(--color-gray-300);
@@ -19,6 +20,7 @@
   width: 16px;
   height: 16px;
   cursor: pointer;
+  display: block;
 }
 
 .searchbar__button {

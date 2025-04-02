@@ -61,7 +61,6 @@ body.modal-open {
 .modal-description {
   width: auto;
   padding: 8px;
-  margin-left: 16px;
   line-height: 1.6rem;
 }
 
@@ -95,10 +94,14 @@ body.modal-open {
   cursor: pointer;
 }
 
-.modal-star-container {
+.modal-star-description {
   display: flex;
   gap: 10px;
   align-items: center;
+}
+
+.modal-star-container {
+  display: flex;
 }
 
 @media (max-width: 1024px) {
@@ -139,6 +142,10 @@ body.modal-open {
 @media (max-width: 480px) {
   .modal-image {
     display: none;
+  }
+
+  .modal-star-description {
+    flex-direction: column;
   }
 }
 

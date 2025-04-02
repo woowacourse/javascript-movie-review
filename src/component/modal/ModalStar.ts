@@ -11,7 +11,7 @@ class ModalStar {
     const savedRating = LocalStorage.getMovieStarById(this.#movieId);
     this.#rating = new Rating(savedRating);
     this.#container = document.createElement('div');
-    this.#container.classList.add('modal-star-container');
+    this.#container.classList.add('modal-star-description');
     this.#render();
     this.#bindClickEvent();
   }
@@ -19,7 +19,7 @@ class ModalStar {
   #render() {
     this.#container.innerHTML = `
       <div class="text-body">내 별점</div>
-      ${this.#renderStar()}
+      <div class="modal-star-container">${this.#renderStar()}</div>
       <div class="text-body review">${this.#rating.comment}</div>
       <div class="text-body">(${this.#rating.score}/10)</div>
     `;
