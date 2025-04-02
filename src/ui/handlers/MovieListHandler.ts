@@ -154,20 +154,22 @@ export default class MovieListHandler {
   }
 
   setupInfiniteScroll() {
-    window.addEventListener("scroll", async () => {
-      const scrollTop = window.scrollY;
-      const windowHeight = window.innerHeight;
-      const bodyHeight = document.body.scrollHeight;
+    window.addEventListener("scroll", this.handleScroll.bind(this));
+  }
 
-      const nearBottom = scrollTop + windowHeight >= bodyHeight - 200;
+  private async handleScroll() {
+    const scrollTop = window.scrollY;
+    const windowHeight = window.innerHeight;
+    const bodyHeight = document.body.scrollHeight;
 
-      if (
-        nearBottom &&
-        this.movieList &&
-        this.movieList.currentPage < this.movieList.totalPage
-      ) {
-        await this.handleLoadMore();
-      }
-    });
+    const nearBottom = scrollTop + windowHeight >= bodyHeight - 200;
+
+    if (
+      nearBottom &&
+      this.movieList &&
+      this.movieList.currentPage < this.movieList.totalPage
+    ) {
+      await this.handleLoadMore();
+    }
   }
 }
