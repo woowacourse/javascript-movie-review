@@ -6,10 +6,9 @@ header {
   justify-content: space-between;
   align-items: center;
   padding: 30px 40px;
-  z-index: 10;
+  z-index: var(--z-header);
   width: 100%;
 }
-
 
 .header-dummy {
   width: 155px;
@@ -59,8 +58,5 @@ h1.logo {
     display: flex;
     width: 100%;
     justify-content: center;
-  }
-
-  .search-bar {
   }
 }
