@@ -39,8 +39,6 @@ class MovieFetcher {
 
     try {
       const response = await this.movieFetcher.get<MovieResponse>(url);
-      await delay(1000);
-
       this.updateMovieData(response);
 
       this.isLoading = false;
