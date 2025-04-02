@@ -1,6 +1,6 @@
 import { MovieDetails } from "../../types/domain.ts";
 import { VOTE } from "../constants/movie.ts";
-import { selectElement } from "../utils/ui.ts";
+import MoviePoster from "./MoviePoster.ts";
 import UserRating from "./UserRating.ts";
 
 class MovieItemDetails {
@@ -14,40 +14,25 @@ class MovieItemDetails {
     this.#rate = rate;
     this.#details = details;
     this.#element = document.createElement("div");
+    this.#element.classList.add("modal-container");
   }
 
   create() {
-    this.#createContainer();
-    this.#createPoster();
-    this.#createDescription();
+    this.#element.insertAdjacentElement("beforeend", this.#createPoster());
+    this.#element.insertAdjacentElement("beforeend", this.#createDescription());
 
-    this.#element.classList.add("modal-container");
     return this.#element;
   }
 
-  #createContainer() {
-    const template = /*html*/ `
-    <div class="modal-image"></div>
-    <div class="modal-description"></div>
-    `;
-
-    this.#element.insertAdjacentHTML("beforeend", template);
-  }
-
   #createPoster() {
-    const div = selectElement<HTMLDivElement>(".modal-image", this.#element);
-    const posterImage = document.createElement("img");
-    posterImage.src = this.#details.posterPath;
-    posterImage.alt = this.#details.title;
-
-    div.insertAdjacentElement("beforeend", posterImage);
+    const { posterPath, title } = this.#details;
+    const poster = new MoviePoster({ posterPath, title });
+    return poster.create();
   }
 
   #createDescription() {
-    const description = selectElement<HTMLDivElement>(
-      ".modal-description",
-      this.#element
-    );
+    const description = document.createElement("div");
+    description.classList.add("modal-description");
 
     this.#createTitle(description);
     this.#createCategory(description);
@@ -56,6 +41,8 @@ class MovieItemDetails {
     this.#createVotingRate(description);
     this.#createDivider(description);
     this.#createOverview(description);
+
+    return description;
   }
 
   #createTitle(description: HTMLDivElement) {
