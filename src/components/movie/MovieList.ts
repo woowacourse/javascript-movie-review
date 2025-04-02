@@ -4,7 +4,10 @@ import MovieItem from "./MovieItem";
 import NoSearchResults from "./NoSearchResults";
 
 const MovieList = (movies: MovieResponse) => {
-  $(".thumbnail-list").before(NoSearchResults("검색 결과가 없습니다."));
+  if (movies?.results.length === 0) {
+    $(".thumbnail-list").before(NoSearchResults("검색 결과가 없습니다."));
+    return;
+  }
 
   const fragment = document.createDocumentFragment();
   movies?.results.forEach((movie: MovieData) => {
