@@ -1,5 +1,5 @@
-import { SYSTEM_CONSTANTS } from '../constants/systemConstants';
-import { Movie, MovieDetail } from '../../types/apiMovie';
+import { SYSTEM_CONSTANTS } from '../../constants/systemConstants';
+import { Movie, MovieDetail } from '../../../types/apiMovie';
 
 export function convertToMovieData(movieitem: Movie) {
   return {

@@ -1,5 +1,5 @@
-import { STATUS_CODE_MESSAGE } from '../constants/errorMessage';
-import { SYSTEM_CONSTANTS } from '../constants/systemConstants';
+import { STATUS_CODE_MESSAGE } from '../../constants/errorMessage';
+import { SYSTEM_CONSTANTS } from '../../constants/systemConstants';
 
 class APIClient {
   baseUrl: string;
