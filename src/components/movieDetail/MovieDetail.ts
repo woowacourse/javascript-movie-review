@@ -15,16 +15,6 @@ const VOTE_TEXT = [
 const MovieDetail = () => {
   const [addEvent] = useEvents(".modal");
 
-  const handleEscapeKey = (event: KeyboardEvent) => {
-    if (event.key === "Escape") {
-      setIsModalOpen(false);
-
-      document.removeEventListener("keydown", handleEscapeKey);
-      observeLastMovie();
-    }
-  };
-  document.addEventListener("keydown", handleEscapeKey);
-
   addEvent("click", ".close-modal", () => {
     $(".modal-background").classList.remove("active");
     setIsModalOpen(false);
