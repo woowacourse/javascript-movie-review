@@ -16,10 +16,15 @@ class DetailModalController {
     this.detailModalView.renderDetailModal(movieItem);
     this.bindEvents();
     this.detailModalView.show();
+    document.body.style.overflowY = "hidden";
   }
 
   bindEvents() {
     const detailModal = this.detailModalView.getDetailModalElement();
+
+    detailModal.addEventListener("close", () => {
+      document.body.style.overflowY = "scroll";
+    });
 
     detailModal.addEventListener("click", (event) => {
       const target = event.target as HTMLElement;
@@ -27,6 +32,7 @@ class DetailModalController {
       // 바깥 영역 클릭 시 모달 닫기
       if (target === event.currentTarget) {
         detailModal.close();
+        document.body.style.overflowY = "scroll";
         return;
       }
 
