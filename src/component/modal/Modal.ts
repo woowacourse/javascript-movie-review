@@ -8,7 +8,7 @@ import { MovieDetailData } from '../../../types/movie';
 
 class Modal {
   #container;
-  #movieData!: MovieData;
+  #movieData: MovieData | null = null;
   #isLoading = true;
 
   constructor() {
@@ -24,6 +24,7 @@ class Modal {
       this.#container.innerHTML = modalLoadingTemplate;
       return;
     }
+    if (!movieDetails) throw new Error('영화 데이터가 존재하지 않습니다.');
     this.#container.innerHTML = `
       <div class="modal">
         <button class="close-modal" id="closeModal">
@@ -31,18 +32,16 @@ class Modal {
         </button>
         <div class="modal-container">
           <div class="modal-image">
-            <img src="${movieDetails!.imgUrl}" />
+            <img src="${movieDetails.imgUrl}" />
           </div>
           <div class="modal-description">
-            <h2>${movieDetails!.title}</h2>
-            <p class="category">${movieDetails!.release_date} ${movieDetails!.genres}</p>
-            <p class="rate"><img src="https://h0ngju.github.io/javascript-movie-review/star_filled.png" class="modal-rate-star" /><span>${
-              movieDetails!.score
-            }</span></p>
+            <h2>${movieDetails.title}</h2>
+            <p class="category">${movieDetails.release_date} ${movieDetails.genres}</p>
+            <p class="rate"><img src="https://h0ngju.github.io/javascript-movie-review/star_filled.png" class="modal-rate-star" /><span>${movieDetails.score}</span></p>
             <hr />
             <section class="modal-star-section"></section>
             <hr/>
-            <p class="detail">${movieDetails!.overview}</p>
+            <p class="detail">${movieDetails.overview}</p>
           </div>
         </div>
       </div>
@@ -53,6 +52,7 @@ class Modal {
 
   #appendStars() {
     const starSection = $({ root: this.#container, selector: '.modal-star-section' });
+    if (!this.#movieData) throw new Error('영화 데이터가 존재하지 않습니다.');
     const savedStars = LocalStorage.getMovieStarById(this.#movieData.id);
     const modalStar = new ModalStar(this.#movieData.id, savedStars);
     starSection?.appendChild(modalStar.element);
