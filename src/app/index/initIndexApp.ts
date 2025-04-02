@@ -3,10 +3,10 @@ import mountMovieItemList from "../mount/mountMovieItemList";
 import { URLS } from "../../setting/settings";
 import MovieItemList from "../../components/movieItemList/movieItemList";
 import mountHero from "../mount/mountHero";
-import type { MovieItemListInstance } from "../../../types/components";
+import type { MovieItemListInstance } from "../../../types/components.types";
 import { hideSkeleton, showSkeleton } from "../../service/skeleton";
 import createInfiniteQuery from "../../service/createInfiniteQuery";
-import { TMDBResponse } from "../../../types/TMDB";
+import { TMDBResponse } from "../../../types/TMDB.types";
 import fetchWithErrorHandling from "../../util/fetchWithErrorHandling";
 import { registerObserver, releaseObserver } from "../../util/observer";
 

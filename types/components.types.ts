@@ -1,4 +1,4 @@
-import { Result } from "./TMDB";
+import { Result } from "./TMDB.types";
 
 export interface MovieItemListInstance {
   $el: HTMLUListElement;

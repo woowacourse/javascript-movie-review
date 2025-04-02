@@ -2,12 +2,12 @@ import mountSearchTitle from "../mount/mountSearchTitle";
 import mountMovieItemList from "../mount/mountMovieItemList";
 import MovieItemList from "../../components/movieItemList/movieItemList";
 import { URLS } from "../../setting/settings";
-import type { MovieItemListInstance } from "../../../types/components";
+import type { MovieItemListInstance } from "../../../types/components.types";
 import { showSkeleton, hideSkeleton } from "../../service/skeleton";
 import getSearchParams from "../../util/getSearchParams";
 import { registerObserver, releaseObserver } from "../../util/observer";
 import fetchWithErrorHandling from "../../util/fetchWithErrorHandling";
-import { TMDBResponse } from "../../../types/TMDB";
+import { TMDBResponse } from "../../../types/TMDB.types";
 import createInfiniteQuery from "../../service/createInfiniteQuery";
 import showFallback from "../../components/fallback/shwoFallback";
 
