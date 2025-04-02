@@ -5,7 +5,7 @@ import createStorage from "../../storage/createStorage.js";
 function MyRating(title) {
     const ratingData = createStorage(`${title}`);
     const data = ratingData.get();
-    const rating = data ? data : "null";
+    const rating = data ?? "fallback";
     const stars = Array.from({ length: 5 }, (_, i) => 
         i <= rating ? StarButton(true, i) : StarButton(false, i)
     ).join("");

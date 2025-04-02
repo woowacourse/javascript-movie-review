@@ -3,7 +3,7 @@ export const MOVIE_COUNT_PER_PAGE = 20;
 export const BASE_IMAGE_URL = "https://image.tmdb.org/t/p/w500";
 
   export const RATING_MESSAGES = {
-    "null" : {comment:"별점 미등록", rating:0},
+    "fallback" : {comment:"별점 미등록", rating:0},
     "0": {comment:"최악이에요", rating:2},
     "1": {comment:"별로예요", rating:4},
     "2": {comment:"보통이에요", rating:6},
