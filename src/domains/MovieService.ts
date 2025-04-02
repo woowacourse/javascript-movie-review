@@ -1,3 +1,4 @@
+import { pipe } from "@zoeykr/function-al";
 import { getMovies, searchMovies } from "../api/services/movie";
 import { MoviesResponse } from "../api/types/movie/response";
 import { handleApiResponse } from "../api/utils/handlers";
@@ -38,25 +39,10 @@ export default class MovieService {
 
     handleApiResponse<MoviesResponse>(moviesResponse, {
       onSuccess: (data) => {
-        this.updateFromResponse(data);
-
-        if (this.pagination.hasReachedEnd())
-          this.infiniteScroll.setHasReachedEnd(true);
-
+        this.processSuccessResponse(data);
         this.updateHeaderWithFirstMovie();
-
-        this.main.setState({
-          movies: this.movies.movies,
-          isLoading: false,
-        });
       },
-      onError: (error) => {
-        this.main.setState({
-          isLoading: false,
-          error: error,
-        });
-        this.infiniteScroll.setIsLoading(false);
-      },
+      onError: (error) => this.processErrorResponse(error),
     });
   }
 
@@ -69,25 +55,8 @@ export default class MovieService {
     });
 
     handleApiResponse<MoviesResponse>(moviesResponse, {
-      onSuccess: (data) => {
-        this.updateFromResponse(data);
-
-        if (this.pagination.hasReachedEnd())
-          this.infiniteScroll.setHasReachedEnd(true);
-
-        this.main.setState({
-          movies: this.movies.movies,
-          isLoading: false,
-          error: this.movies.isEmpty() ? "검색 결과가 없습니다." : null,
-        });
-      },
-      onError: (error) => {
-        this.main.setState({
-          isLoading: false,
-          error: error,
-        });
-        this.infiniteScroll.setIsLoading(false);
-      },
+      onSuccess: (data) => this.processSuccessResponse(data),
+      onError: (error) => this.processErrorResponse(error),
     });
   }
 
@@ -110,4 +79,32 @@ export default class MovieService {
     this.movies.updateMovies(data);
     this.pagination.updateTotalPages(data.total_pages);
   }
+
+  processSuccessResponse = (data: MoviesResponse) => {
+    return pipe(
+      (data: MoviesResponse) => this.updateFromResponse(data),
+      () => {
+        if (this.pagination.hasReachedEnd())
+          this.infiniteScroll.setHasReachedEnd(true);
+      },
+      () => {
+        this.main.setState({
+          movies: this.movies.movies,
+          isLoading: false,
+          error: this.movies.isEmpty() ? "검색 결과가 없습니다." : null,
+        });
+      }
+    )(data);
+  };
+
+  processErrorResponse = (error: string) => {
+    return pipe(
+      (error: string) =>
+        this.main.setState({
+          isLoading: false,
+          error: error,
+        }),
+      () => this.infiniteScroll.setIsLoading(false)
+    )(error);
+  };
 }
