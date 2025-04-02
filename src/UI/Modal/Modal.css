@@ -54,6 +54,7 @@ body.modal-open {
 
 .modal-image img {
   width: 380px;
+  height: 570px;
   border-radius: 16px;
 }
 
