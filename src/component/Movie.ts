@@ -4,7 +4,7 @@ import { MovieType } from '../type';
 import { handleMovieDetail } from '../view/events/handleMovieDetail';
 
 function Movie({ movie }: { movie: MovieType }) {
-  const posterPath = movie.posterPath ? IMAGE_BASE_URL + '/w440_and_h660_face/' + movie.posterPath : DEFAULT_IMAGE_URL;
+  const posterPath = movie.posterPath ? IMAGE_BASE_URL + '/w440_and_h660_face' + movie.posterPath : DEFAULT_IMAGE_URL;
 
   return createDOMElement({
     tag: 'li',
