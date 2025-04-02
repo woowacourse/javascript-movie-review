@@ -25,15 +25,6 @@ export function onError(status: number | string) {
   function showError(message: string) {
     const errorBox = document.createElement("div");
     errorBox.innerText = message;
-    errorBox.style.position = "fixed";
-    errorBox.style.top = "20px";
-    errorBox.style.left = "50%";
-    errorBox.style.transform = "translateX(-50%)";
-    errorBox.style.background = "red";
-    errorBox.style.color = "white";
-    errorBox.style.padding = "10px";
-    errorBox.style.borderRadius = "5px";
-    errorBox.style.zIndex = "9999";
     document.body.appendChild(errorBox);
 
     setTimeout(() => errorBox.remove(), 3000);
