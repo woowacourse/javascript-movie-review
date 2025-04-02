@@ -27,6 +27,14 @@ export default class MovieModal {
     const modal = document.createElement('div');
     modal.className = 'modal';
 
+    const closeButton = this.createModalCloseButton();
+    const container = this.createModalContainer();
+
+    modal.append(closeButton, container);
+    return modal;
+  }
+
+  createModalCloseButton() {
     const closeButton = document.createElement('button');
     closeButton.className = 'close-modal';
     closeButton.id = 'closeModal';
@@ -35,9 +43,21 @@ export default class MovieModal {
     closeImg.src = 'images/modal_button_close.png';
     closeButton.appendChild(closeImg);
 
+    return closeButton;
+  }
+
+  createModalContainer() {
     const container = document.createElement('div');
     container.className = 'modal-container';
 
+    const imageWrapper = this.createPosterImage();
+    const description = this.createDescriptionContent();
+
+    container.append(imageWrapper, description);
+    return container;
+  }
+
+  createPosterImage() {
     const imageWrapper = document.createElement('div');
     imageWrapper.className = 'modal-image';
 
@@ -46,51 +66,69 @@ export default class MovieModal {
     poster.alt = this.movie.title;
 
     imageWrapper.appendChild(poster);
+    return imageWrapper;
+  }
 
+  createDescriptionContent() {
     const description = document.createElement("div");
     description.className = "modal-description";
 
-    const movieBasicInfo = document.createElement('div');
-    movieBasicInfo.className = 'movie-basic-info';
+    const movieBasicInfo = this.createMovieBasicInfo();
+    const ratingBox = this.createRatingBox();
+    const detailBox = this.createDetailBox();
+
+    const hr1 = document.createElement("hr");
+    const hr2 = document.createElement("hr");
+
+    description.append(movieBasicInfo, hr1, ...ratingBox, hr2, ...detailBox);
+    return description;
+  }
+
+  createMovieBasicInfo() {
+    const movieBasicInfo = document.createElement("div");
+    movieBasicInfo.className = "movie-basic-info";
 
     const title = document.createElement("h2");
     title.textContent = this.movie.title;
 
     const category = document.createElement("p");
     category.className = "category";
-    category.textContent = '불러오는 중...'
+    category.textContent = "불러오는 중...";
     this.getMovieDetailText().then((text) => {
       category.textContent = text;
     });
 
-    const rateBox = document.createElement('div');
-    rateBox.className = 'rate-box';
+    const rateBox = document.createElement("div");
+    rateBox.className = "rate-box";
 
     const rate = document.createElement("p");
     rate.className = "rate";
+
     const starImg = document.createElement("img");
     starImg.src = "./images/star_filled.png";
     starImg.className = "star";
+
     const rateText = document.createElement("span");
     rateText.textContent = this.movie.getVoteAverage();
+
     rate.append(starImg, rateText);
 
-    const rateTitle = document.createElement('p')
-    rateTitle.textContent = '평균';
+    const rateTitle = document.createElement("p");
+    rateTitle.textContent = "평균";
 
     rateBox.append(rateTitle, rate);
-
     movieBasicInfo.append(title, category, rateBox);
 
-    const hr1 = document.createElement("hr");
-    const hr2 = document.createElement("hr");
+    return movieBasicInfo;
+  }
 
+  createRatingBox() {
     const myRatingTitle = document.createElement("p");
     myRatingTitle.textContent = "내 별점";
     myRatingTitle.className = "user-rating-title";
 
-    const ratingBox = document.createElement('div');
-    ratingBox.className = 'rating-box';
+    const ratingBox = document.createElement("div");
+    ratingBox.className = "rating-box";
 
     const ratingMessage = document.createElement("p");
     ratingMessage.className = "rating-message";
@@ -98,6 +136,7 @@ export default class MovieModal {
     const starRating = new StarRating(this.movie.id, (score) => {
       ratingMessage.textContent = this.getMessageByScore(score);
     });
+
     const starUI = starRating.render();
 
     const rating = starRating.getRating();
@@ -107,18 +146,18 @@ export default class MovieModal {
 
     ratingBox.append(starUI, ratingMessage);
 
-    const detailTitle = document.createElement('p')
-    detailTitle.textContent = '줄거리'
+    return [myRatingTitle, ratingBox];
+  }
+
+  createDetailBox() {
+    const detailTitle = document.createElement("p");
+    detailTitle.textContent = "줄거리";
 
     const detail = document.createElement("p");
     detail.className = "detail";
-    detail.textContent = `${this.movie.overview || "설명 정보 없음"}`;
+    detail.textContent = this.movie.overview || "설명 정보 없음";
 
-    description.append(movieBasicInfo, hr1, myRatingTitle, ratingBox, hr2, detailTitle, detail);
-    container.append(imageWrapper, description);
-    modal.append(closeButton, container);
-
-    return modal;
+    return [detailTitle, detail];
   }
 
   addEventListeners() {
