@@ -237,6 +237,10 @@ input::placeholder {
   height: 100px;
 }
 
+#movieListTitle {
+  padding: 0 0 40px 0;
+}
+
 .line {
   border: none;
   height: 1px;
