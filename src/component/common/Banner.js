@@ -27,7 +27,7 @@ async function Banner (data) {
     const detailButton = document.getElementById("자세히 보기");
       detailButton.addEventListener("click", () => {
         Modal(`${data.id}modal`,MovieDetail({poster_path, title, vote_average, release_date, genres, overview}))
-        Modal.open(`${data.id}modal`,MovieDetail({poster_path,title, vote_average, release_date, genres, overview}));
+        Modal.open(`${data.id}modal`);
       });
 
 }
