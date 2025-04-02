@@ -53,7 +53,6 @@ const MovieContainer = ({ movies, status }: MovieContainerProps) => {
 
 export default MovieContainer;
 
-// 초기 1회만 호출되도록 외부에서 실행
 setupInfiniteScroll({
   onLoad: async () => {
     const params = new URLSearchParams(window.location.search);
