@@ -8,14 +8,12 @@ function InfiniteScrollLoader() {
 
 InfiniteScrollLoader.render = function () {
     const $el = document.querySelector(".infinite-scroll-loader")
-    console.log("o")
     $el.classList.add("active")
 };
 
 InfiniteScrollLoader.hide = function () {
     const $el = document.querySelector(".infinite-scroll-loader")
     $el.classList.remove("active")
-    console.log("hi")
 }
 
 export default InfiniteScrollLoader

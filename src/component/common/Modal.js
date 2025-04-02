@@ -17,7 +17,14 @@ function Modal(id, content) {
         $el.addEventListener("click", (event) => {
             event.stopPropagation();
         });
+
+        const $closeButtonEl = document.querySelector(".close-modal")
+        $closeButtonEl.addEventListener("click", (event) => {
+            Modal.close(id)
+        });
     }
+
+   
 
     createModalBackdrop(id)
     createModalContainer(content)
