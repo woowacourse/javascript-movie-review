@@ -26,7 +26,7 @@ class Modal {
 
     if (
       (this.movieId && !this.#movie) ||
-      (this.#movie && this.#movie.id !== this.movieId)
+      (this.#movie && this.movieId && this.#movie.id !== this.movieId)
     ) {
       const movieDetail = await this.getMovieDetailData();
       this.setMovie(movieDetail);
