@@ -1,12 +1,12 @@
 import { UserMovieRateData } from "../../types/data.ts";
 import movieApi from "../api/movieApi.ts";
-import { KEY } from "../constants/store.ts";
+import { KEY } from "../constants/storage.ts";
 import calculatePageNumber from "../domain/calculatePageNumber.ts";
 import {
   extractMovieDetails,
   extractTotalMovies,
 } from "../domain/extractData.ts";
-import store from "../store/store.ts";
+import storage from "../storage/storage.ts";
 
 const movieService = {
   async getMovies(totalCount: number) {
@@ -30,7 +30,7 @@ const movieService = {
   },
 
   getRateList() {
-    return JSON.parse(store.getData(KEY.movieList) ?? "[]");
+    return JSON.parse(storage.getData(KEY.movieList) ?? "[]");
   },
 
   updateRateById(id: number, newData: UserMovieRateData) {
@@ -44,7 +44,7 @@ const movieService = {
     const newMovieList = [...storedMoviesRates, newData];
     const stringifyData = JSON.stringify(newMovieList);
 
-    store.setData(KEY.movieList, stringifyData);
+    storage.setData(KEY.movieList, stringifyData);
   },
 
   addRate(data: UserMovieRateData) {
@@ -52,7 +52,7 @@ const movieService = {
     const newMovieList = [...totalMovieRates, data];
     const stringifyData = JSON.stringify(newMovieList);
 
-    store.setData(KEY.movieList, stringifyData);
+    storage.setData(KEY.movieList, stringifyData);
   },
 
   checkHasRated(movieId: number) {
