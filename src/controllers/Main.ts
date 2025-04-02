@@ -5,7 +5,8 @@ import { ContentsContainer, replaceSkeletonWithMovies, showSkeleton } from "./Co
 import MovieService from "../services/MovieService.ts";
 import { getPopularParam } from "../apis/config.js";
 import MovieList from '../domains/MovieList';
-import registerSearchEventHandlers from "./MovieSearchHandlers.js";
+import movieSearch, { clickHome } from "./MovieSearch.ts";
+import { fetchPopularMovies } from "../apis/fetch.js";
 
 export interface ObserverHTMLElement extends HTMLElement {
   observer?: IntersectionObserver;
@@ -18,6 +19,7 @@ async function renderHeader({ title, poster_path, vote_average }: MovieInfo) {
     poster_path,
     vote_average
   });
+ 
   $wrap?.prepend($header);
 }
 
@@ -37,14 +39,14 @@ export function setupSearchEvents(movieService: MovieService) {
     if (keyboardEvent.key === "Enter" && keyboardEvent.isComposing === false) {
       const inputValue = (event.target as HTMLInputElement).value;
       movieService.initPage(); 
-      registerSearchEventHandlers(inputValue, movieService);
+      movieSearch(inputValue, movieService);
     }
   });
 
   button?.addEventListener("click", () => {
     const inputValue = (input as HTMLInputElement)?.value;
     movieService.initPage();
-    registerSearchEventHandlers(inputValue, movieService);
+    movieSearch(inputValue, movieService);
   });
 }
 
@@ -53,14 +55,17 @@ async function renderInitContent(movieList:MovieList, movieService: MovieService
   setupSearchEvents(movieService);
 }
 
-async function loadMoreMovies(fetchMoviesCallback: FetchMoviesCallback) {
-  showSkeleton(10);
+export async function loadMoreMovies(fetchMoviesCallback: FetchMoviesCallback) {
+  showSkeleton(20);
   const movies = await fetchMoviesCallback()
   const movieList = new MovieList(movies.results);
   replaceSkeletonWithMovies(movieList.movieList);
 }
 
-export function setupInfiniteScroll(FetchMoviesCallback: FetchMoviesCallback) {
+export function setupInfiniteScroll(
+  FetchMoviesCallback: FetchMoviesCallback,
+  movieService: MovieService
+) {
   const sentinel = document.getElementById("sentinel") as ObserverHTMLElement;
   if (!sentinel) return;
 
@@ -71,7 +76,7 @@ export function setupInfiniteScroll(FetchMoviesCallback: FetchMoviesCallback) {
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
+        if (entry.isIntersecting && movieService.currentPage-1 !== movieService.totalPages) {
           loadMoreMovies(FetchMoviesCallback);
         }
       });
@@ -79,34 +84,26 @@ export function setupInfiniteScroll(FetchMoviesCallback: FetchMoviesCallback) {
     {
       root: null,
       rootMargin: "0px",
-      threshold: 0.1,
+      threshold: 1,
     }
   );
   sentinel.observer = observer;
   observer.observe(sentinel);
 }
 
-async function main() {
+async function Main() {
   const movieService = new MovieService();
   showSkeleton(20)
-  const movies = await movieService.fetchMovies(
-    "/movie/popular",
-    getPopularParam(movieService.currentPage)
-  );
+  const movies = await fetchPopularMovies(movieService);
   const movieList = new MovieList(movies.results);
-  replaceSkeletonWithMovies(movieList.movieList);
 
   renderHeader(movies.results[0]);
+  clickHome()
+  renderInitContent(movieList, movieService)
   renderFooter();
-  renderInitContent(movieList, movieService);
 
-  const popularFetchCallback = () =>
-    movieService.fetchMovies(
-      "/movie/popular",
-      getPopularParam(movieService.currentPage)
-    );
-
-  setupInfiniteScroll(popularFetchCallback);
+  const popularFetchCallback = () => fetchPopularMovies(movieService);
+  setupInfiniteScroll(popularFetchCallback, movieService);
 }
 
-main();
+Main();

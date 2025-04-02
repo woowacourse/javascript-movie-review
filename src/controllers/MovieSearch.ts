@@ -2,7 +2,7 @@
 import MovieService from "../services/MovieService";
 import MovieList from "../domains/MovieList";
 import { ContentsContainer, showSkeleton } from "./Contents";
-import { ObserverHTMLElement, setupInfiniteScroll } from "./Main";
+import { ObserverHTMLElement, setupInfiniteScroll } from "./Main.ts";
 import { fetchSearchMovies } from "../apis/fetch";
 
 function validateSearchInput(inputValue: string) {
@@ -38,10 +38,7 @@ function clearMoviesContainer() {
   }
 }
 
-async function registerSearchEventHandlers(
-  inputValue: string,
-  movieService: MovieService
-) {
+async function MovieSearch(inputValue: string, movieService: MovieService) {
   if (!validateSearchInput(inputValue)) return;
   const sentinel = document.getElementById("sentinel") as ObserverHTMLElement;
   if (sentinel && sentinel.observer) {
@@ -54,9 +51,9 @@ async function registerSearchEventHandlers(
   const movies = await fetchSearchMovies(inputValue, movieService);
   const movieList = new MovieList(movies.results);
   const searchFetchCallback = () => fetchSearchMovies(inputValue, movieService);
-    
+
   ContentsContainer(`"${inputValue}" 검색 결과`, movieList);
   setupInfiniteScroll(searchFetchCallback, movieService);
 }
 
-export default registerSearchEventHandlers;
+export default MovieSearch;

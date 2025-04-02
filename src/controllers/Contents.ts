@@ -3,7 +3,7 @@ import { MovieInfo } from "../../types/movieType.js";
 import MovieItem from "../components/MovieItem.js";
 import Skeleton from "../components/Skeleton.js";
 import { openModal } from "./MovieDetailModalHandlers.js";
-import { ObserverHTMLElement } from "./Main.js";
+import { ObserverHTMLElement } from "./Main.ts";
 
 function renderContentHeader($section: HTMLElement, contentTitle: string) {
   const existingHeader = $section.querySelector("h2");
@@ -14,48 +14,27 @@ function renderContentHeader($section: HTMLElement, contentTitle: string) {
   $section.prepend($h2); 
 }
 
-function removeMoreButton($main:HTMLElement) {
-  const existingButton = $main.querySelector("button.more");
-  if (existingButton) {
-    existingButton.remove();
-  }
-}
-
 export function showSkeleton(count: number) {
   const $moviesContainer = document.getElementById("movies-container");
-  const $listContainer = document.createElement("ul");
-  $listContainer.classList.add("thumbnail-list");
+  const $listContainer = document.querySelector(".thumbnail-list") as HTMLElement;
+
   for (let index = 0; index < count; index++) {
     const skeleton = Skeleton();
-    $listContainer.appendChild(skeleton);
+    $listContainer?.appendChild(skeleton);
   }
   $moviesContainer?.appendChild($listContainer);
 }
 
 export function replaceSkeletonWithMovies(movies: MovieInfo[]) {
-  const $moviesContainer = document.getElementById("movies-container");
-  if (!$moviesContainer) return;
-  const itemContainerCount =
-    $moviesContainer.querySelectorAll("ul.thumbnail-list").length;
-  const $listContainer =
-    $moviesContainer.querySelectorAll("ul.thumbnail-list")[
-      itemContainerCount - 1
-    ];
-  if (!$listContainer) return;
-
-  movies.forEach((movie, index) => {
-    const $movieItem = MovieItem(movie, openModal);
-    const $skeleton = $listContainer.children[index];
-    if ($skeleton) {
-      $listContainer.replaceChild($movieItem, $skeleton);
-    } else {
-      $listContainer.appendChild($movieItem);
-    }
+  const $skeletonContainers = document.querySelectorAll(".skeletonContainer");
+  const $thumbnailList = document.querySelector(".thumbnail-list");
+  $skeletonContainers.forEach(($skeletonContainer) => {
+    $skeletonContainer.remove();
   });
-
-  while ($listContainer.children.length > movies.length) {
-    $listContainer.removeChild($listContainer.lastChild!);
-  }
+  movies.forEach((movie) => {
+    const $movieItem = MovieItem(movie, openModal);
+    $thumbnailList?.appendChild($movieItem);
+  })
 }
 
 function renderNoResults($main: HTMLElement) {
@@ -66,21 +45,20 @@ function renderNoResults($main: HTMLElement) {
   const $contentContainer = document.createElement("div");
   $contentContainer.classList.add("contentContainer");
   $contentContainer.innerHTML = `
-        <img src="./no_results.png" alt="검색 결과 없음">
+        <img src="/images/no_results.png" alt="검색 결과 없음">
         <div>검색 결과가 없습니다.</div>
     `;
   $main.appendChild($contentContainer);
-  removeMoreButton($main);
 }
 
 export function ContentsContainer(contentTitle: string, movieList:MovieList) {
   const $main = document.querySelector("main") as HTMLElement;
+  const $thumbnailList = document.querySelector(".thumbnail-list")?.children;
 
   renderContentHeader($main, contentTitle);
   replaceSkeletonWithMovies(movieList.movieList);
-  removeMoreButton($main);
 
-  if (movieList.movieList.length === 0) {
+  if (movieList.movieList.length === 0 && $thumbnailList?.length === 0) {
     renderNoResults($main);
   }
 
@@ -88,8 +66,8 @@ export function ContentsContainer(contentTitle: string, movieList:MovieList) {
       const sentinel = document.getElementById(
         "sentinel"
       ) as ObserverHTMLElement;
-      if (sentinel && sentinel.observer) {
-        sentinel.observer.disconnect();
-      }
+    if (sentinel && sentinel.observer) {
+      sentinel.observer.disconnect();
+    }
   }
 }
