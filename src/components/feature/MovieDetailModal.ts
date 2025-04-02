@@ -1,8 +1,6 @@
 import { ratingMap } from '../../constants/ratingMap';
-import {
-  getMovieRating,
-  saveMovieRating,
-} from '../../service/MovieRatingService';
+import { LocalStorageService } from '../../service/LocalStorageService';
+import { MovieRatingService } from '../../service/MovieRatingService';
 import { MovieDetail } from '../../types/Movie.types';
 import { createElement } from '../../utils/createElement';
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/original';
@@ -56,7 +54,8 @@ const getRatingText = (rating: number): string => {
 };
 
 const createMyRatingSection = (movieId: number): HTMLDivElement => {
-  const savedRating = getMovieRating(movieId);
+  const movieRatingService = new MovieRatingService(new LocalStorageService());
+  const savedRating = movieRatingService.getMovieRating(movieId);
   const ratingText = getRatingText(savedRating);
 
   const starContainer = createElement<HTMLDivElement>('div', {
@@ -82,7 +81,7 @@ const createMyRatingSection = (movieId: number): HTMLDivElement => {
     });
 
     starButton.addEventListener('click', () => {
-      saveMovieRating(movieId, starValue);
+      movieRatingService.saveMovieRating(movieId, starValue);
 
       const stars = starContainer.querySelectorAll('.rating-star img');
       stars.forEach((star, index) => {
