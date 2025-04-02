@@ -61,7 +61,7 @@ class MainController {
 
   async openDetailModal(id: number) {
     const movieItem = await this.detailMovieResults.getDetailMovieResultById(id);
-    this.detailModalController.changeContent(movieItem);
+    this.detailModalController.initialize(movieItem);
   }
 }
 
