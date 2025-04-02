@@ -93,48 +93,15 @@ const $Modal = () => {
     className: "user-rate-stars",
   });
 
-  const $userRateStar1 = createElement("img", {
-    src: ICON_PATH.STAR_EMPTY,
-    className: "star",
-    id: "userRateStar1",
-  }) as HTMLImageElement;
-  $userRateStar1.dataset.value = "1";
-
-  const $userRateStar2 = createElement("img", {
-    src: ICON_PATH.STAR_EMPTY,
-    className: "star",
-    id: "userRateStar2",
-  }) as HTMLImageElement;
-  $userRateStar2.dataset.value = "2";
-
-  const $userRateStar3 = createElement("img", {
-    src: ICON_PATH.STAR_EMPTY,
-    className: "star",
-    id: "userRateStar3",
-  }) as HTMLImageElement;
-  $userRateStar3.dataset.value = "3";
-
-  const $userRateStar4 = createElement("img", {
-    src: ICON_PATH.STAR_EMPTY,
-    className: "star",
-    id: "userRateStar4",
-  }) as HTMLImageElement;
-  $userRateStar4.dataset.value = "4";
-
-  const $userRateStar5 = createElement("img", {
-    src: ICON_PATH.STAR_EMPTY,
-    className: "star",
-    id: "userRateStar5",
-  }) as HTMLImageElement;
-  $userRateStar5.dataset.value = "5";
-
-  $userRateStars.append(
-    $userRateStar1,
-    $userRateStar2,
-    $userRateStar3,
-    $userRateStar4,
-    $userRateStar5
-  );
+  [1, 2, 3, 4, 5].forEach((starValue) => {
+    const $userRateStar = createElement("img", {
+      src: ICON_PATH.STAR_EMPTY,
+      className: "star",
+      id: `userRateStar${starValue}`,
+    }) as HTMLImageElement;
+    $userRateStar.dataset.value = starValue.toString();
+    $userRateStars.append($userRateStar);
+  });
 
   const $userRateTextContainer = createElement("div", {
     className: "user-rate-text-container",
