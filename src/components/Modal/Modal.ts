@@ -19,6 +19,7 @@ const $Modal = () => {
 
   const $closeImage = createElement("img", {
     src: ICON_PATH.MODAL_CLOSE,
+    alt: "modal_close",
   });
   $closeButton.appendChild($closeImage);
 
@@ -32,6 +33,7 @@ const $Modal = () => {
 
   const $image = createElement("img", {
     src: "",
+    alt: "movie_poster",
   });
   $modalImage.appendChild($image);
 
@@ -64,6 +66,7 @@ const $Modal = () => {
   const $star = createElement("img", {
     src: ICON_PATH.STAR_EMPTY,
     className: "star",
+    alt: "평균 별점",
   });
 
   const $rateValue = createElement("span", {
@@ -98,6 +101,7 @@ const $Modal = () => {
       src: ICON_PATH.STAR_EMPTY,
       className: "star",
       id: `userRateStar${starValue}`,
+      alt: `${starValue}점`,
     }) as HTMLImageElement;
     $userRateStar.dataset.value = starValue.toString();
     $userRateStars.append($userRateStar);

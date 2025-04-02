@@ -26,6 +26,7 @@ const $Banner = () => {
 
   const $star = createElement("img", {
     src: ICON_PATH.STAR_EMPTY,
+    alt: "star_empty",
     className: "star",
   });
   const $rateValue = createElement("span", {

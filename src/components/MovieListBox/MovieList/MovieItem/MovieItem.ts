@@ -11,6 +11,7 @@ const $MovieItem = ({ id, title, poster_path, vote_average }: MovieData) => {
   });
   const $star = createElement("img", {
     src: ICON_PATH.STAR_EMPTY,
+    alt: "star_empty",
     className: "star",
   });
   const $rateValue = createElement("span", {
