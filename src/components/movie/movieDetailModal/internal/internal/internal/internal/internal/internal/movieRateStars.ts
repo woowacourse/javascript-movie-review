@@ -6,6 +6,7 @@ import { isScore } from "./internal/comment";
 import { MyMovieRate, MyMovieRates } from "../movieRateBox";
 import updateMovieRateComments from "./internal/updateMovieRateComments";
 import updateMovieRateStars from "./internal/updateMovieRateStars";
+import { updateMovieItemRateStar } from "../../../../../../../movieContainer/internal/movieItem";
 
 interface HandleMovieRateUpdateParams {
   movie: MovieDetail;
@@ -50,6 +51,8 @@ const handleMovieRateUpdate = ({
     });
 
     updateMovieRateComments({ $movieRateBox, newMovieRate });
+
+    updateMovieItemRateStar(movie.id);
   };
 };
 
