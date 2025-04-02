@@ -23,7 +23,11 @@ class Modal {
     document.addEventListener("keydown", this.handleKeyDown);
 
     this.movieId = movieId;
-    if (this.movieId) {
+
+    if (
+      (this.movieId && !this.#movie) ||
+      (this.#movie && this.#movie.id !== this.movieId)
+    ) {
       const movieDetail = await this.getMovieDetailData();
       this.setMovie(movieDetail);
     }
