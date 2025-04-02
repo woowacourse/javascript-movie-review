@@ -1,8 +1,7 @@
 import { MovieDetails } from "../../types/domain.ts";
-import { RATING_MESSAGE, RATING_SCORE, VOTE } from "../constants/movie.ts";
-import { calculateFilledStar } from "../domain/ratingMovie.ts";
-import movieService from "../service/movieService.ts";
-import { selectElement, selectElementAll } from "../utils/ui.ts";
+import { VOTE } from "../constants/movie.ts";
+import { selectElement } from "../utils/ui.ts";
+import UserRating from "./UserRating.ts";
 
 class MovieItemDetails {
   #id;
@@ -21,8 +20,6 @@ class MovieItemDetails {
     this.#createContainer();
     this.#createPoster();
     this.#createDescription();
-    this.#onRateBoxClick();
-    this.#onInitialRateClick();
 
     this.#element.classList.add("modal-container");
     return this.#element;
@@ -110,121 +107,17 @@ class MovieItemDetails {
   }
 
   #createVotingRate(description: HTMLDivElement) {
-    const filledIndex = calculateFilledStar(this.#rate) - 1;
-    const starMarks = Array.from({ length: VOTE.maximumIconCount })
-      .map((_, index) => {
-        return /*html*/ `
-          <img src="${
-            index <= filledIndex ? VOTE.filledStarImage : VOTE.emptyStarImage
-          }" class="star-mark" data-mark-index="${index + 1}"/>
-        `;
-      })
-      .join("");
-
-    const votingRate = /*html*/ `
-      <div class="voting-rate">
-        <div class="star-marks-container">${starMarks}</div>
-        <p class="rate-message">${
-          RATING_MESSAGE[this.#rate] ?? VOTE.noticeMessage
-        }
-          <span>(${this.#rate}/${VOTE.MaximumRate})</span>
-        </p>
-      </div>
-    `;
-
     const h3 = document.createElement("h3");
     h3.textContent = "내 별점";
 
+    const userRating = new UserRating({
+      id: this.#id,
+      rate: this.#rate,
+    }).create();
+
     description.insertAdjacentElement("beforeend", h3);
-    description.insertAdjacentHTML("beforeend", votingRate);
+    description.insertAdjacentElement("beforeend", userRating);
   }
-
-  #onRateBoxClick() {
-    const starMarksContainer = selectElement<HTMLDivElement>(
-      ".star-marks-container",
-      this.#element
-    );
-
-    const eventHandler = this.#handleRateHover.bind(this);
-
-    let isVotingActive = false;
-    const handleRateBoxClick = () => {
-      if (!isVotingActive) {
-        starMarksContainer.addEventListener("mouseover", eventHandler);
-        isVotingActive = true;
-      } else {
-        starMarksContainer.removeEventListener("mouseover", eventHandler);
-
-        this.#ratingMovie(this.#id, this.#rate);
-        isVotingActive = false;
-      }
-    };
-
-    starMarksContainer.addEventListener("click", handleRateBoxClick);
-  }
-
-  #onInitialRateClick() {
-    const handleInitialRateClick = (event: MouseEvent) => {
-      const hoveredStar = document.elementFromPoint(
-        event.clientX,
-        event.clientY
-      ) as HTMLImageElement;
-
-      const starredIndex = Number(hoveredStar.dataset.markIndex);
-      const stars = selectElementAll<HTMLImageElement>(".star-mark");
-
-      stars.forEach((star) => {
-        const markIndex = Number(star.dataset.markIndex);
-
-        star.src =
-          markIndex <= starredIndex
-            ? VOTE.filledStarImage
-            : VOTE.emptyStarImage;
-      });
-    };
-    const starMarksContainer = selectElement<HTMLDivElement>(
-      ".star-marks-container",
-      this.#element
-    );
-
-    starMarksContainer.addEventListener("click", handleInitialRateClick);
-  }
-
-  #handleRateHover(event: MouseEvent) {
-    const target = event.target as HTMLImageElement;
-    if (!target.closest(".star-marks-container")) {
-      return;
-    }
-    const starredIndex = Number(target.dataset.markIndex);
-    const stars = selectElementAll<HTMLImageElement>(".star-mark");
-    stars.forEach((star) => {
-      const markIndex = Number(star.dataset.markIndex);
-
-      star.src =
-        markIndex <= starredIndex ? VOTE.filledStarImage : VOTE.emptyStarImage;
-    });
-
-    const score = RATING_SCORE[starredIndex];
-    this.#rate = score;
-
-    const ratingMessage = selectElement<HTMLParagraphElement>(".rate-message");
-    ratingMessage.textContent = RATING_MESSAGE[score];
-
-    const ratingScore = document.createElement("span");
-    ratingScore.textContent = `(${this.#rate}/${VOTE.MaximumRate})`;
-    ratingMessage.insertAdjacentElement("beforeend", ratingScore);
-  }
-
-  #ratingMovie = (id: number, rate: number) => {
-    const movieRate = { id, rate };
-    const isRated = movieService.checkHasRated(id);
-    if (isRated) {
-      movieService.updateRateById(id, movieRate);
-      return;
-    }
-
-    movieService.addRate(movieRate);
-  };
 }
 
 export default MovieItemDetails;

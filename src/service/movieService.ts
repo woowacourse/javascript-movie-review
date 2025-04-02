@@ -6,6 +6,7 @@ import {
   extractMovieDetails,
   extractTotalMovies,
 } from "../domain/extractData.ts";
+import { calculateFilledStar } from "../domain/ratingMovie.ts";
 import storage from "../storage/storage.ts";
 
 const movieService = {
@@ -71,6 +72,10 @@ const movieService = {
       totalMovieRates.filter(({ id }: { id: number }) => id === movieId)
         .length > 0
     );
+  },
+
+  getRateStars(rate: number) {
+    return calculateFilledStar(rate);
   },
 };
 
