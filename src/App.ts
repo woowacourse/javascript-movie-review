@@ -1,7 +1,7 @@
-import { initMovie } from "./apis/config/config";
 import useGetMovieList from "./apis/movies/useGetMovieList";
 import Modal from "./components/@common/Modal";
 import Footer from "./components/footer/Footer";
+import { initMovie } from "./constants/initData";
 import {
   headerRender,
   subTitleRenderer,
@@ -28,17 +28,6 @@ const App = () => {
       }
     });
   }
-
-  const mutationObserver = new MutationObserver(() => {
-    observeLastMovie();
-  });
-
-  setTimeout(() => {
-    const movieListElement = document.querySelector(".thumbnail-list");
-    if (movieListElement) {
-      mutationObserver.observe(movieListElement, { childList: true });
-    }
-  }, 0);
 
   return ` 
   ${headerRender()}

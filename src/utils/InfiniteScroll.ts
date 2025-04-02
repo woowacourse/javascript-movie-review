@@ -14,15 +14,14 @@ export const observeLastMovie = () => {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
-          observer.unobserve(lastMovie);
           fetchMoreMovies(fetchMovies).then((result) => {
             if (result.length !== 0) {
-              setTimeout(observeLastMovie, 500);
+              observeLastMovie();
             }
           });
         }
       },
-      { threshold: 1.0 }
+      { threshold: 0.25 }
     );
 
     observer.observe(lastMovie);
