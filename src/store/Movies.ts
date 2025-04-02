@@ -1,6 +1,7 @@
 import { MovieType } from "../types/MovieType";
 
 class StoreMovies {
+
   #movieList: MovieType[];
 
   constructor() {

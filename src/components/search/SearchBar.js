@@ -55,6 +55,7 @@ const SearchBar = () => {
 
     const $thumbnailList = document.querySelector(".thumbnail-list");
     $thumbnailList.replaceWith(MovieList({ movies: movies.movieList }));
+
   };
 
   $form.addEventListener("submit", handleSearch);
