@@ -6,6 +6,7 @@ import { getElement } from "../../util/utils.js";
 import Modal from "../common/Modal.js";
 import MovieDetail from "../common/MovieDetail.js";
 import { fetchDetailMovie } from "../../api/fetch.js";
+import InfiniteScrollLoader from "../common/InfiniteScrollLoader.js";
 
 class MovieLayout {
     #state:MovieState;
@@ -81,6 +82,8 @@ class MovieLayout {
                     Modal.open(`${clickedItem.id}modal`)
                     });
             })
+        }else{
+            InfiniteScrollLoader.hide()
         }
     }
 

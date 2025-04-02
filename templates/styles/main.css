@@ -237,6 +237,19 @@ input::placeholder {
   height: 100px;
 }
 
+.infinite-scroll-loader{
+  width: 100%;
+  height:50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  visibility: hidden;
+}
+
+.infinite-scroll-loader.active {
+  visibility: visible;
+}
+
 #movieListTitle {
   padding: 0 0 40px 0;
 }

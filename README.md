@@ -54,6 +54,7 @@ FE 레벨1 영화 리뷰 미션
 - [x] Modal.js
 - [x] MovieDetail.js
 - [x] StartButton.js
+- [x] InfiniteScrollLoader.js
 
 [feature]
 

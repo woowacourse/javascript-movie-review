@@ -4,6 +4,7 @@ import submitEvent from "./component-event/submitEvent.js";
 import { fetchPopularMovies } from "./api/fetch.js";
 import Banner from "./component/common/Banner.js";
 import { intersectionObserver } from "./component-event/intersectionObserver.js";
+import InfiniteScrollLoader from "./component/common/InfiniteScrollLoader.js";
 
 addEventListener("load", async() => {
   if ('scrollRestoration' in history) {
@@ -16,5 +17,6 @@ addEventListener("load", async() => {
   Banner(movieData.results[0])
   await submitEvent(movieLayout);
   Header();
-  intersectionObserver(movieLayout)
+  intersectionObserver(movieLayout);
+  InfiniteScrollLoader()
 });

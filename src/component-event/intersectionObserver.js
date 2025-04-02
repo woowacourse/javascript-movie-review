@@ -1,6 +1,7 @@
 import hideskeleton from "../util/hideskeleton.js";
 import { fetchPopularMovies,fetchSearchMovies } from "../api/fetch.js";
 import state from "../state/state.js";
+import InfiniteScrollLoader from "../component/common/InfiniteScrollLoader.js";
 
 export const intersectionObserver = (movieLayout) => {
     const $target = document.getElementById("loader")
@@ -30,6 +31,7 @@ export const intersectionObserver = (movieLayout) => {
 }
 
 const readMoreMovieList = (function () {
+    InfiniteScrollLoader.render()
     let pageIndex = 2;
 
     async function loadMovieData() {
@@ -47,6 +49,7 @@ const readMoreMovieList = (function () {
 
 
  const readMoreSearchList = (function () {
+    InfiniteScrollLoader.render()
       let pageIndex = 2;
       async function loadMovieData() {
  
