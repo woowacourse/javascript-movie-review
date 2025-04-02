@@ -1,7 +1,17 @@
-import { MovieDetail, MovieItem, MovieResponse } from '../types/Movie.types';
+import {
+  MovieDetail,
+  MovieDetailAPI,
+  MovieItem,
+  MovieResponse,
+  MovieResponseAPI,
+} from '../types/Movie.types';
 import { ENV } from '../api/env';
 import Fetcher from '../api/Fetcher';
 import { movieFetcherEvent } from './MovieFetcherEvent';
+import {
+  convertToMovieDetail,
+  convertToMovieResponse,
+} from '../converter/APIConverter';
 
 export const API_PATHS = {
   MOVIE: 'movie/popular',
@@ -37,13 +47,13 @@ class MovieFetcher {
     movieFetcherEvent.notify();
 
     try {
-      const response = await this.movieFetcher.get<MovieResponse>(url);
+      const response = await this.movieFetcher.get<MovieResponseAPI>(url);
       this.updateMovieData(response);
 
       this.isLoading = false;
       movieFetcherEvent.notify();
 
-      return response;
+      return convertToMovieResponse(response);
     } catch (error) {
       this.isLoading = false;
       this.error = error as Error;
@@ -89,7 +99,8 @@ class MovieFetcher {
   public async getMovieDetail(movieId: number): Promise<MovieDetail> {
     try {
       const url = `${API_PATHS.DETAIL}/${movieId}?language=ko-KR`;
-      return await this.movieFetcher.get<MovieDetail>(url);
+      const response = await this.movieFetcher.get<MovieDetailAPI>(url);
+      return convertToMovieDetail(response);
     } catch (error) {
       throw error;
     }
