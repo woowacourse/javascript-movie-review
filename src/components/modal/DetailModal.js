@@ -6,16 +6,16 @@ class DetailModal {
   }
 
   render() {
-    const modalBackground = document.createElement('div');
-    modalBackground.classList.add('modal-background', 'active');
-    modalBackground.id = 'modalBackground';
+    const modal = document.createElement('div');
+    modal.classList.add('modal', 'active');
+    modal.id = 'modal';
 
-    modalBackground.innerHTML = /*html*/ `
-      <div class="modal">
-        <button class="close-modal" id="closeModal">
-          <img src="./images/modal_button_close.png" />
-        </button>
+    modal.innerHTML = /*html*/ `
+      <div class="modal-background" id="modalBackground">
         <div class="modal-container">
+          <button class="close-modal" id="closeModal">
+            <img src="./images/modal_button_close.png" />
+          </button>
           <div class="modal-image">
             <img src="https://image.tmdb.org/t/p/original${
               this.movie.poster_path
@@ -48,20 +48,19 @@ class DetailModal {
                 ${this.movie.overview}
               </p>
             </div>
-
           </div>
         </div>
       </div>
     `;
 
     // StarRating 컴포넌트 추가
-    const starRatingContainer = modalBackground.querySelector(
+    const starRatingContainer = modal.querySelector(
       '.star-rating-container',
     );
     const starRating = new StarRating(this.movie);
     starRatingContainer.appendChild(starRating.render());
 
-    return modalBackground;
+    return modal;
   }
 
   addDetailModal(movie) {
@@ -90,9 +89,9 @@ class DetailModal {
   }
 
   removeDetailModal() {
-    const modalBackground = document.querySelector('.modal-background');
+    const modal = document.querySelector('.modal');
     document.body.classList.remove('modal-open');
-    modalBackground.remove();
+    modal.remove();
   }
 }
 
