@@ -4,6 +4,7 @@ import {
   MovieRate,
   saveMovieRating,
 } from "../utils/localStorage";
+import { ratingTexts } from "../utils/rating";
 
 interface StarRatingHandlers {
   updateRating: (rating: number) => void;
@@ -30,14 +31,6 @@ const useStarRating = (
         star.setAttribute("src", images.starEmpty);
       }
     });
-
-    const ratingTexts = {
-      2: "최악이에요",
-      4: "별로에요",
-      6: "보통이에요",
-      8: "재미있어요",
-      10: "명작이에요",
-    };
 
     // rating 값이 2, 4, 6, 8, 10 중 하나인지 확인
     if (ratingText && rating in ratingTexts) {
