@@ -14,5 +14,5 @@ export interface MovieDetailData {
   genres: string;
   overview: string;
   release_date: string;
-  userRating: ('filled' | 'empty')[];
+  userRating?: number;
 }

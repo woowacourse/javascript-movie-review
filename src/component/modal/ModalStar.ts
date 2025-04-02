@@ -2,12 +2,12 @@ import LocalStorage from '../../domain/LocalStorage';
 
 class ModalStar {
   #container;
-  #starRating;
+  #userRating: number;
   #rate: number;
   #movieId;
 
-  constructor(movieId: number, userRating: ('filled' | 'empty')[] = ['empty', 'empty', 'empty', 'empty', 'empty']) {
-    this.#starRating = userRating;
+  constructor(movieId: number, userRating: number | 0) {
+    this.#userRating = userRating;
     this.#movieId = movieId;
     this.#rate = this.#updateRate();
     this.#container = document.createElement('div');
@@ -19,23 +19,24 @@ class ModalStar {
   #render() {
     this.#container.innerHTML = `
       <div class="text-body">내 별점</div>
-      ${this.#starRating
-        .map(
-          (starRating, index) => `
-          <img 
-            src="https://h0ngju.github.io/javascript-movie-review/star_${starRating}.png"
-            class="modal-star"
-            data-index="${index}"
-          />`,
-        )
-        .join('')}
+      ${this.#renderStar()}
       <div class="text-body review">${this.#updateComent()}</div>
       <div class="text-body">(${this.#rate}/10)</div>
     `;
   }
 
-  #calculateRate() {
-    return this.#starRating.filter((star) => star === 'filled').length * 2;
+  #renderStar() {
+    return Array.from({ length: 5 }, (_, i) => {
+      const starValue = i + 1;
+      const starType = starValue <= this.#userRating ? 'filled' : 'empty';
+      return `
+        <img 
+          src="https://h0ngju.github.io/javascript-movie-review/star_${starType}.png"
+          class="modal-star"
+          data-value="${starValue}"
+        />
+      `;
+    }).join('');
   }
 
   #bindClickEvent() {
@@ -43,31 +44,29 @@ class ModalStar {
       const target = e.target as HTMLElement;
       if (!target.classList.contains('modal-star')) throw new Error('별점을 찾을 수 없습니다.');
 
-      const index = Number(target.dataset.index);
+      this.#userRating = Number(target.dataset.value);
+      this.#rate = this.#updateRate();
 
-      this.#rate = (index + 1) * 2;
-      this.#updateState(index + 1);
-      LocalStorage.updateMovieStarById(this.#movieId, this.#starRating);
+      LocalStorage.updateMovieStarById(this.#movieId, this.#userRating);
       this.#render();
     });
   }
 
-  #updateState(filledCount: number) {
-    this.#starRating = this.#starRating.map((_, i) => (i < filledCount ? 'filled' : 'empty'));
-  }
-
   #updateRate() {
-    return (this.#rate = this.#calculateRate());
+    return (this.#rate = this.#userRating * 2);
   }
 
   #updateComent() {
-    if (this.#rate === 0) return '영화 어떻게 보셨나요?';
-    if (this.#rate === 2) return '최악이에요';
-    if (this.#rate === 4) return '별로에요';
-    if (this.#rate === 6) return '보통이에요';
-    if (this.#rate === 8) return '재미있어요';
-    if (this.#rate === 10) return '명작이에요';
-    return '';
+    const COMMENT: Record<number, string> = {
+      0: '영화 어떻게 보셨나요?',
+      2: '최악이에요',
+      4: '별로에요',
+      6: '보통이에요',
+      8: '재미있어요',
+      10: '명작이에요',
+    };
+
+    return COMMENT[this.#rate] || '';
   }
 
   get element() {
