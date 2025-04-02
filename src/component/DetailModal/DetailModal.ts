@@ -1,9 +1,9 @@
-import { MovieItemType, storedMovieItemType } from "../../types/movieResultType";
+import { MovieItemType, storedDetailMovieItemType } from "../../types/movieResultType";
 import createDOMElement from "../../util/createDomElement";
 import defaultImage from "../../../public/images/default_poster_image.png";
 import MyStarRatingComponent from "./MyStarRatingComponent";
 
-const DetailModal = (movieItem: MovieItemType | storedMovieItemType) => {
+const DetailModal = (movieItem: MovieItemType | storedDetailMovieItemType) => {
   return createDOMElement({
     tag: "dialog",
     className: "detail-modal-container",

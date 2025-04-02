@@ -1,5 +1,5 @@
 import { RATING_MESSAGE } from "../constant/ratingMessage";
-import { MovieItemType, storedMovieItemType } from "../types/movieResultType";
+import { MovieItemType, storedDetailMovieItemType } from "../types/movieResultType";
 import filledStar from "../../public/images/star_filled.png";
 import emptyStar from "../../public/images/star_empty.png";
 import DetailModal from "../component/DetailModal/DetailModal";
@@ -73,7 +73,7 @@ class DetailModalController {
     return newScore;
   }
 
-  renderDetailModalFrame(movieItem: MovieItemType | storedMovieItemType) {
+  renderDetailModalFrame(movieItem: MovieItemType | storedDetailMovieItemType) {
     // 기존 모달 제거
     if (this.detailModalElement?.isConnected) {
       this.detailModalElement.remove();
@@ -86,7 +86,7 @@ class DetailModalController {
     this.detailModalElement.showModal();
   }
 
-  changeContent(movieItem: MovieItemType | storedMovieItemType) {
+  changeContent(movieItem: MovieItemType | storedDetailMovieItemType) {
     this.renderDetailModalFrame(movieItem);
   }
 }

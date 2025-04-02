@@ -1,33 +1,33 @@
 import { getPopularMovieResult } from "../api/movie/getPopularMovieResult";
 import MovieItem from "../component/MovieItem";
 import MovieListSection from "../component/MovieListSection";
-import MovieResults from "../domain/MovieResults";
+import PopularMovieResults from "../domain/PopularMovieResults";
 import { MovieItemType, MovieResultType } from "../types/movieResultType";
 import infinityScrollObserver from "../util/infinityScrollObserver";
 
 interface MovieListControllerType {
   mainElement: HTMLElement;
-  movieResults: MovieResults;
+  PopularMovieResults: PopularMovieResults;
 }
 
 class MovieListController {
   mainElement;
-  movieResults;
+  PopularMovieResults;
 
-  constructor({ mainElement, movieResults }: MovieListControllerType) {
+  constructor({ mainElement, PopularMovieResults }: MovieListControllerType) {
     this.mainElement = mainElement;
-    this.movieResults = movieResults;
+    this.PopularMovieResults = PopularMovieResults;
   }
 
   async render() {
     this.mainElement.innerHTML = "";
 
-    const hasExistingData = this.movieResults.getMovieList().length > 0;
+    const hasExistingData = this.PopularMovieResults.getMovieList().length > 0;
 
     if (hasExistingData) {
       // 기존에 저장된 영화 리스트가 있을 경우
-      const movieList = this.movieResults.getMovieList();
-      const hasMore = this.movieResults.hasMore();
+      const movieList = this.PopularMovieResults.getMovieList();
+      const hasMore = this.PopularMovieResults.hasMore();
 
       this.renderMovieList({ movieList, hasMore });
     } else {
@@ -50,8 +50,8 @@ class MovieListController {
       results: movieList,
     }: MovieResultType = await getPopularMovieResult(page);
 
-    this.movieResults.addMovieList(newPage, movieList);
-    this.movieResults.initialTotalPage(totalPage);
+    this.PopularMovieResults.addMovieList(newPage, movieList);
+    this.PopularMovieResults.initialTotalPage(totalPage);
 
     return { movieList, newPage, totalPage };
   }
@@ -66,7 +66,7 @@ class MovieListController {
   }
 
   async loadNextMoviePage() {
-    const nextPage = this.movieResults.getPage() + 1;
+    const nextPage = this.PopularMovieResults.getPage() + 1;
     const { movieList, newPage, totalPage } = await this.fetchAndStoreMovies(nextPage);
 
     this.addMovieList({

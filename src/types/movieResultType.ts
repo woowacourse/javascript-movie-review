@@ -22,7 +22,7 @@ export interface MovieItemType {
   vote_count: number;
 }
 
-export interface storedMovieItemType {
+export interface storedDetailMovieItemType {
   id: number;
   overview: string;
   poster_path: string;

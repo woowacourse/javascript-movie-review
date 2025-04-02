@@ -1,6 +1,6 @@
 import { MovieItemType } from "../types/movieResultType";
 
-class MovieResults {
+class PopularMovieResults {
   movieList: MovieItemType[] = [];
   page: number = 0;
   maxPage: number = 0;
@@ -31,4 +31,4 @@ class MovieResults {
   }
 }
 
-export default MovieResults;
+export default PopularMovieResults;

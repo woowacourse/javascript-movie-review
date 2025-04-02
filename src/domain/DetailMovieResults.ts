@@ -1,18 +1,18 @@
 import { getDetailMovieResult } from "../api/movie/getDetailMovieResult";
-import { storedMovieItemType } from "../types/movieResultType";
+import { storedDetailMovieItemType } from "../types/movieResultType";
 
-class StorageMovieResults {
-  storedMovieResults: storedMovieItemType[] = [];
+class DetailMovieResults {
+  detailMovieResults: storedDetailMovieItemType[] = [];
 
   constructor() {
-    const storedMovieResults = localStorage.getItem("storedMovieResults");
-    if (storedMovieResults) {
-      this.storedMovieResults = JSON.parse(storedMovieResults);
+    const detailMovieResults = localStorage.getItem("detailMovieResults");
+    if (detailMovieResults) {
+      this.detailMovieResults = JSON.parse(detailMovieResults);
     }
   }
 
   async getDetailMovieResultById(id: number) {
-    const movieItem = this.storedMovieResults.find((movie: storedMovieItemType) => movie.id === id);
+    const movieItem = this.detailMovieResults.find((movie: storedDetailMovieItemType) => movie.id === id);
     if (movieItem) {
       return movieItem;
     } else {
@@ -29,13 +29,13 @@ class StorageMovieResults {
     }
   }
 
-  addDetailMovieResult(movieItem: storedMovieItemType) {
-    this.storedMovieResults.push(movieItem);
+  addDetailMovieResult(movieItem: storedDetailMovieItemType) {
+    this.detailMovieResults.push(movieItem);
     this.updateLocalStorage();
   }
 
   updateStarScore(id: number, score: number) {
-    const targetMovie = this.storedMovieResults.find((movie) => movie.id === id);
+    const targetMovie = this.detailMovieResults.find((movie) => movie.id === id);
     if (targetMovie) {
       targetMovie.starScore = score;
     }
@@ -45,8 +45,8 @@ class StorageMovieResults {
 
   // 로컬스토리지 업데이트
   updateLocalStorage(): void {
-    localStorage.setItem("storedMovieResults", JSON.stringify(this.storedMovieResults));
+    localStorage.setItem("detailMovieResults", JSON.stringify(this.detailMovieResults));
   }
 }
 
-export default StorageMovieResults;
+export default DetailMovieResults;

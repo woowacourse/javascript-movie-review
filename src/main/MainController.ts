@@ -3,15 +3,15 @@ import MessageModalController from "../controller/MessageModalController";
 import MovieListController from "../controller/MovieListController";
 import SearchMovieListController from "../controller/SearchMovieListController";
 import BackgroundThumbnailController from "../controller/BackgroundThumbnailController";
-import MovieResults from "../domain/MovieResults";
+import PopularMovieResults from "../domain/PopularMovieResults";
 import DetailModalController from "../controller/DetailModalController";
-import StorageMovieResults from "../domain/StorageMovieResults";
+import DetailMovieResults from "../domain/DetailMovieResults";
 import MovieItemOpenHandler from "../event/MovieItemOpenHandler";
 
 class MainController {
   mainElement;
-  movieResults;
-  storageMovieResults;
+  PopularMovieResults;
+  detailMovieResults;
 
   messageModalController!: MessageModalController;
   movieListController!: MovieListController;
@@ -21,8 +21,8 @@ class MainController {
 
   constructor() {
     this.mainElement = document.querySelector("main") as HTMLElement;
-    this.movieResults = new MovieResults();
-    this.storageMovieResults = new StorageMovieResults();
+    this.PopularMovieResults = new PopularMovieResults();
+    this.detailMovieResults = new DetailMovieResults();
 
     this.initController();
   }
@@ -31,12 +31,12 @@ class MainController {
     this.messageModalController = new MessageModalController();
     this.detailModalController = new DetailModalController({
       mainElement: this.mainElement,
-      updateStarScore: (id, score) => this.storageMovieResults.updateStarScore(id, score),
+      updateStarScore: (id, score) => this.detailMovieResults.updateStarScore(id, score),
     });
 
     this.movieListController = new MovieListController({
       mainElement: this.mainElement,
-      movieResults: this.movieResults,
+      PopularMovieResults: this.PopularMovieResults,
     });
 
     this.backgroundThumbnailController = new BackgroundThumbnailController({
@@ -54,13 +54,13 @@ class MainController {
 
   async render() {
     await this.movieListController.render();
-    await this.backgroundThumbnailController.render(this.movieResults.getFirstMovieItem());
+    await this.backgroundThumbnailController.render(this.PopularMovieResults.getFirstMovieItem());
 
     MovieItemOpenHandler(this.mainElement, this.openDetailModal.bind(this));
   }
 
   async openDetailModal(id: number) {
-    const movieItem = await this.storageMovieResults.getDetailMovieResultById(id);
+    const movieItem = await this.detailMovieResults.getDetailMovieResultById(id);
     this.detailModalController.changeContent(movieItem);
   }
 }
