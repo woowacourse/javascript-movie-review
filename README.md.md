@@ -54,3 +54,13 @@
   - [x] api 호출시, 로딩스피너 및 에러메시지 공통처리
   - [x] movieListController 역할 재분리 (내부에서 api 처리)
   - [x] movieListController, searchListController 이벤트 변경 (무한 스크롤)
+
+피드백 바탕 리팩토링 사항
+
+- [ ] 디테일 모달 컴포넌트 분리
+- [ ] starRating 5 상수 처리
+- [ ] 별점 소수점 처리
+- [ ] 모달이나 바텀 시트가 열렸을 때 백드롭 영역 스크롤 막기
+- [ ] apiWrapper 파일 수정
+  - [ ] 이벤트 emitter 구조로 변경
+- [ ] 코드 구조 전체 리팩토링
