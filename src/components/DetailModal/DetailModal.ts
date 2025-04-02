@@ -92,7 +92,7 @@ const DetailModal = (movieItem: MovieItemType | storedDetailMovieItemType) => {
                               createDOMElement({
                                 tag: "span",
                                 className: "star-description",
-                                textContent: movieItem.vote_average,
+                                textContent: movieItem.vote_average.toFixed(2),
                               }),
                             ],
                           }),
