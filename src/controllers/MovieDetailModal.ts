@@ -1,10 +1,11 @@
-import { getDetailParam } from "../apis/config";
-import MovieModal, { ratingDescriptions } from "../controllers/MovieModal.ts";
-import MovieService from "../services/MovieService";
+import { getDetailParam } from "../apis/config.js";
+import MovieModal, { ratingDescriptions } from "./MovieModal.ts";
+import MovieService from "../services/MovieService.ts";
 
-export async function openModal(event) {
-  const $wrap = document.getElementById("wrap");
-  const movieId = event.currentTarget.dataset.id;
+export async function openModal(event: MouseEvent): Promise<void> {
+  const $wrap = document.getElementById("wrap") as HTMLElement;
+  const target = event.currentTarget as HTMLElement;
+  const movieId = target.dataset.id as string;
   const movieService = new MovieService();
   const movieData = await movieService.fetchMovies(
     `/movie/${movieId}`,
@@ -20,7 +21,7 @@ export function closeModal() {
   if ($modalBackground) $modalBackground.remove();
 }
 
-function registerModalClose($modal, $modalBackground) {
+function registerModalClose($modal:HTMLElement, $modalBackground:HTMLElement) {
   const closeButton = $modal.querySelector("#closeModal");
 
   window.addEventListener("keydown", handleKeyDown);
@@ -31,21 +32,24 @@ function registerModalClose($modal, $modalBackground) {
     });
   }
 
-  function handleKeyDown(event) {
+  function handleKeyDown(event:KeyboardEvent) {
     if (event.key === "Escape" && !event.isComposing) {
       closeModal();
     }
   }
 
-  function handleBackgroundClick(event) {
-    if (event.target.className === "modal-background active") {
+  function handleBackgroundClick(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    if (target.className === "modal-background active") {
       closeModal();
     }
   }
 }
 
-function updateStarImages($modal, movieId, rating = 0) {
-  const starElements = $modal.querySelectorAll("img.star.point");
+function updateStarImages($modal:HTMLElement, movieId:string, rating = 0) {
+  const starElements = $modal.querySelectorAll(
+    "img.star.point"
+  ) as NodeListOf<HTMLImageElement>;
   starElements.forEach((star, idx) => {
     const starRating = (idx + 1) * 2;
     if (starRating <= rating) {
@@ -56,31 +60,33 @@ function updateStarImages($modal, movieId, rating = 0) {
   });
 }
 
-function updateRatingDescription($modal, rating = 0) {
+function updateRatingDescription($modal:HTMLElement, rating = 0) {
   const ratingDescriptionEl = $modal.querySelector(
     ".rating-description p:nth-child(1)"
-  );
-  const ratingValueEl = $modal.querySelector(".rating-description .rating");
+  ) as HTMLParagraphElement;
+  const ratingValueEl = $modal.querySelector(
+    ".rating-description .rating"
+  ) as HTMLElement;
   const defaultRating = 2;
 
   if (ratingDescriptionEl && ratingValueEl) {
     if (rating === 0) {
-      ratingDescriptionEl.innerText = ratingDescriptions[defaultRating];
+      ratingDescriptionEl.innerText = ratingDescriptions[defaultRating] as string;
       ratingValueEl.innerText = `(0/10)`;
     } else {
-      ratingDescriptionEl.innerText = ratingDescriptions[rating];
+      ratingDescriptionEl.innerText = ratingDescriptions[rating] as string;
       ratingValueEl.innerText = `(${rating}/10)`;
     }
   }
 }
 
-function setRating($modal, movieId, rating = 0) {
+function setRating($modal:HTMLElement, movieId:string, rating = 0) {
   updateStarImages($modal, movieId, rating);
   updateRatingDescription($modal, rating);
 }
 
-function registerModalEventHandlers($modalBackground, movieId) {
-  const $modal = $modalBackground.querySelector(".modal");
+function MovieDetailModal($modalBackground: HTMLElement, movieId: string) {
+  const $modal = $modalBackground.querySelector(".modal") as HTMLElement;
   const storedRating = localStorage.getItem(movieId);
   let selectedRating = storedRating !== null ? Number(storedRating) : 0;
 
@@ -89,7 +95,6 @@ function registerModalEventHandlers($modalBackground, movieId) {
   setRating($modal, movieId, selectedRating);
 
   const starElements = $modal.querySelectorAll("img.star.point");
-  // 별 이벤트 등록: hover, mouseout, click
   starElements.forEach((star, index) => {
     star.addEventListener("mouseover", () => {
       if (selectedRating) return;
@@ -98,17 +103,17 @@ function registerModalEventHandlers($modalBackground, movieId) {
     });
 
     star.addEventListener("click", () => {
-      const rating = (index + 1) * 2;
+      const rating = (index + 1) * 2 as number;
       if (selectedRating === rating) {
         selectedRating = 0;
         setRating($modal, movieId);
       } else {
         selectedRating = rating;
         setRating($modal, movieId, selectedRating);
-        localStorage.setItem(movieId, rating);
+        localStorage.setItem(movieId, `${rating}`);
       }
     });
   });
 }
 
-export default registerModalEventHandlers;
+export default MovieDetailModal;

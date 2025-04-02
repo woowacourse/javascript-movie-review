@@ -2,7 +2,7 @@ import MovieList from "../domains/MovieList.js";
 import { MovieInfo } from "../../types/movieType.js";
 import MovieItem from "../components/MovieItem.js";
 import Skeleton from "../components/Skeleton.js";
-import { openModal } from "./MovieDetailModalHandlers.js";
+import { openModal } from "./MovieDetailModal.ts";
 import { ObserverHTMLElement } from "./Main.ts";
 
 function renderContentHeader($section: HTMLElement, contentTitle: string) {
@@ -32,7 +32,8 @@ export function replaceSkeletonWithMovies(movies: MovieInfo[]) {
     $skeletonContainer.remove();
   });
   movies.forEach((movie) => {
-    const $movieItem = MovieItem(movie, openModal);
+  const $movieItem = MovieItem(movie, ((event: MouseEvent) =>
+    openModal(event)) as unknown as () => void);
     $thumbnailList?.appendChild($movieItem);
   })
 }
