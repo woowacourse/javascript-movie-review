@@ -1,4 +1,5 @@
 import MovieApi from "../api/MovieApi";
+import ScrollManeger from "../events/ScrollManager";
 import { Movie } from "../types/movie";
 import { isHTMLElement } from "../utils/typeGuards";
 import ErrorScreen from "./ErrorScreen";
@@ -10,6 +11,7 @@ class PopularMovieBoard {
   #parentElement;
   #MovieList!: MovieList;
   #TopRatedMovie!: TopRatedMovie;
+  #ScrollManager!: ScrollManeger;
   #page;
   #isLoading: boolean = false;
 
@@ -105,26 +107,17 @@ class PopularMovieBoard {
     this.#isLoading = false;
 
     if (this.#page >= PopularMovieBoard.MAX_PAGE || this.#page >= total_pages) {
-      window.removeEventListener("scroll", this.#handleScroll);
+      this.destroy();
     }
   }
 
-  #handleScroll = () => {
-    const scrollTop = window.scrollY;
-    const windowHeight = window.innerHeight;
-    const documentHeight = document.body.scrollHeight;
-
-    if (scrollTop + windowHeight >= documentHeight - 150) {
-      this.#loadMoreMovies();
-    }
-  };
-
   destroy(): void {
-    window.removeEventListener("scroll", this.#handleScroll);
+    this.#ScrollManager.stop();
   }
 
   #addEventListeners(): void {
-    window.addEventListener("scroll", this.#handleScroll);
+    this.#ScrollManager = new ScrollManeger(() => this.#loadMoreMovies(), 150);
+    this.#ScrollManager.start();
   }
 }
 

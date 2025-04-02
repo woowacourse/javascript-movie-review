@@ -1,4 +1,5 @@
 import MovieApi from "../api/MovieApi";
+import ScrollManeger from "../events/ScrollManager";
 import { Movie } from "../types/movie";
 import { isHTMLElement } from "../utils/typeGuards";
 import ErrorScreen from "./ErrorScreen";
@@ -12,6 +13,7 @@ class SearchMovieBoard {
   private static readonly LOAD_COUNT = 20;
   #parentElement;
   #MovieList!: MovieList;
+  #ScrollManager!: ScrollManeger;
   #props;
   #page;
   #isLoading: boolean = false;
@@ -50,7 +52,7 @@ class SearchMovieBoard {
     const { movies } = await this.#movieData();
 
     if (movies.length === 0) {
-      window.removeEventListener("scroll", this.#handleScroll);
+      this.#ScrollManager.stop();
       this.#renderNoResult();
       return;
     }
@@ -107,19 +109,9 @@ class SearchMovieBoard {
       newMovies.length < SearchMovieBoard.LOAD_COUNT ||
       this.#page >= total_pages
     ) {
-      window.removeEventListener("scroll", this.#handleScroll);
+      this.#ScrollManager.stop();
     }
   }
-
-  #handleScroll = () => {
-    const scrollTop = window.scrollY;
-    const windowHeight = window.innerHeight;
-    const documentHeight = document.body.scrollHeight;
-
-    if (scrollTop + windowHeight >= documentHeight - 150) {
-      this.#loadMoreMovies();
-    }
-  };
 
   #renderNoResult() {
     const h2 = document.querySelector(".movie-list-container h2");
@@ -138,11 +130,12 @@ class SearchMovieBoard {
   }
 
   destroy(): void {
-    window.removeEventListener("scroll", this.#handleScroll);
+    this.#ScrollManager.stop();
   }
 
   #addEventListeners(): void {
-    window.addEventListener("scroll", this.#handleScroll);
+    this.#ScrollManager = new ScrollManeger(() => this.#loadMoreMovies(), 150);
+    this.#ScrollManager.start();
   }
 }
 
