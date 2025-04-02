@@ -11,9 +11,11 @@ const POSTER_SIZES = {
   ORIGINAL: "original",
 } as const;
 
+type PosterSize = (typeof POSTER_SIZES)[keyof typeof POSTER_SIZES];
+
 export const getPosterUrl = (
   posterPath: string | null,
-  size = POSTER_SIZES.MOVIE_DETAIL
+  size: PosterSize = POSTER_SIZES.MOVIE_DETAIL
 ): string => {
   if (!posterPath) return POSTER_PATH.DEFAULT;
   return `${TMDB_IMAGE_BASE_URL}/${size}${posterPath}`;
