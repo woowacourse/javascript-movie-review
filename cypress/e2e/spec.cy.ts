@@ -132,6 +132,7 @@ describe("Fixture를 이용한 E2E 테스트", () => {
   it("스크롤 시 추가 영화가 로드되어야 한다", () => {
     cy.wait("@getPopularMovies");
     cy.get(".thumbnail-list > li").should("have.length", 20);
+    cy.wait(500);
 
     cy.scrollTo("bottom");
 
