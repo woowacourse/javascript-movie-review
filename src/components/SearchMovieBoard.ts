@@ -3,7 +3,6 @@ import { Movie } from "../types/movie";
 import { isHTMLElement } from "../utils/typeGuards";
 import ErrorScreen from "./ErrorScreen";
 import MovieList from "./MovieList";
-import Skeleton from "./Skeleton";
 
 interface Props {
   searchParams: string;
@@ -12,6 +11,7 @@ interface Props {
 class SearchMovieBoard {
   private static readonly LOAD_COUNT = 20;
   #parentElement;
+  #MovieList!: MovieList;
   #props;
   #page;
   #isLoading: boolean = false;
@@ -20,8 +20,10 @@ class SearchMovieBoard {
     this.#parentElement = parentElement;
     this.#props = props;
     this.#page = 1;
-    window.scrollTo(0, 0);
     this.#renderInitialLayout();
+    window.scrollTo(0, 0);
+
+    this.#initComponents();
     this.#fetchAndRenderMovies();
   }
 
@@ -29,13 +31,22 @@ class SearchMovieBoard {
     this.#parentElement.innerHTML = /*html*/ `
       <section class="movie-list-container search-movie-list-container">
           <h2>"${this.#props.searchParams}" 검색 결과 </h2>
-          <ul class='thumbnail-list'>${Skeleton.MovieList}</ul>
+          <ul class='thumbnail-list'></ul>
           <div class="more-button-container"></div>
       </section>
     `;
   }
 
+  #initComponents(): void {
+    const $thumbnailList = this.#parentElement.querySelector(".thumbnail-list");
+
+    if (isHTMLElement($thumbnailList))
+      this.#MovieList = new MovieList($thumbnailList);
+  }
+
   async #fetchAndRenderMovies(): Promise<void> {
+    this.#showLoading();
+
     const { movies } = await this.#movieData();
 
     if (movies.length === 0) {
@@ -49,16 +60,20 @@ class SearchMovieBoard {
     if (movies.length < SearchMovieBoard.LOAD_COUNT) return;
   }
 
+  #showLoading(): void {
+    this.#MovieList.render({ status: "loading" });
+  }
+
   #renderMovies(movies: Movie[]): void {
     const ul = document.querySelector(".thumbnail-list");
     if (!isHTMLElement(ul)) return;
     if (this.#page === 1) {
-      ul.innerHTML = "";
-      new MovieList(ul, movies);
+      this.#MovieList.init();
+      this.#MovieList.render({ status: "success", movies });
       return;
     }
 
-    new MovieList(ul, movies);
+    this.#MovieList.render({ status: "success", movies });
   }
 
   async #movieData(): Promise<{ movies: Movie[]; total_pages: number }> {

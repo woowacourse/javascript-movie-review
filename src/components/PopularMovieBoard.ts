@@ -3,37 +3,53 @@ import { Movie } from "../types/movie";
 import { isHTMLElement } from "../utils/typeGuards";
 import ErrorScreen from "./ErrorScreen";
 import MovieList from "./MovieList";
-import Skeleton from "./Skeleton";
 import TopRatedMovie from "./TopRatedMovie";
 
 class PopularMovieBoard {
   private static readonly MAX_PAGE = 500;
   #parentElement;
+  #MovieList!: MovieList;
+  #TopRatedMovie!: TopRatedMovie;
   #page;
   #isLoading: boolean = false;
 
   constructor(parentElement: HTMLElement) {
     this.#parentElement = parentElement;
     this.#page = 1;
-    window.scrollTo(0, 0);
     this.#renderInitialLayout();
+    window.scrollTo(0, 0);
+    this.#initComponents();
     this.#fetchAndRenderMovies();
   }
 
   #renderInitialLayout(): void {
     this.#parentElement.innerHTML = /*html*/ `
       <section class="top-rated-container">
-        ${Skeleton.TopRatedMovie}
       </section>
       <section class="movie-list-container">
           <h2>지금 인기 있는 영화</h2>
-          <ul class='thumbnail-list'>${Skeleton.MovieList}</ul>
+          <ul class='thumbnail-list'></ul>
           <div class="more-button-container"></div>
       </section>
     `;
   }
 
+  #initComponents(): void {
+    const $thumbnailList = this.#parentElement.querySelector(".thumbnail-list");
+    const $topRatedContainer = this.#parentElement.querySelector(
+      ".top-rated-container"
+    );
+
+    if (isHTMLElement($thumbnailList))
+      this.#MovieList = new MovieList($thumbnailList);
+
+    if (isHTMLElement($topRatedContainer))
+      this.#TopRatedMovie = new TopRatedMovie($topRatedContainer);
+  }
+
   async #fetchAndRenderMovies(): Promise<void> {
+    this.#showLoading();
+
     const { movies } = await this.#movieData();
     if (!movies) return;
 
@@ -42,23 +58,23 @@ class PopularMovieBoard {
     this.#addEventListeners();
   }
 
+  #showLoading(): void {
+    this.#MovieList.render({ status: "loading" });
+    this.#TopRatedMovie.render({ status: "loading" });
+  }
+
   #renderTopRatedMovie(movie: Movie): void {
-    const $topRated = document.querySelector(".top-rated-container");
-    if (isHTMLElement($topRated))
-      $topRated.innerHTML = new TopRatedMovie(movie).ui;
+    this.#TopRatedMovie.render({ status: "success", movie });
   }
 
   #renderMovies(movies: Movie[]): void {
-    const ul = document.querySelector(".thumbnail-list");
-    if (!isHTMLElement(ul)) return;
-
     if (this.#page === 1) {
-      ul.innerHTML = "";
-      new MovieList(ul, movies);
+      this.#MovieList.init();
+      this.#MovieList.render({ status: "success", movies });
       return;
     }
 
-    new MovieList(ul, movies);
+    this.#MovieList.render({ status: "success", movies });
   }
 
   async #movieData(): Promise<{ movies: Movie[]; total_pages: number }> {

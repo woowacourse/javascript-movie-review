@@ -1,26 +1,43 @@
 import { Movie } from "../types/movie";
 import MovieDetailModal from "./MovieDetailModal";
 import MovieItem from "./MovieItem";
+import Skeleton from "./Skeleton";
 
 class MovieList {
   #parentElement: HTMLElement;
-  #modal: MovieDetailModal;
-  #movies: Movie[];
+  #Modal!: MovieDetailModal;
 
-  constructor(parentElement: HTMLElement, movies: Movie[]) {
+  constructor(parentElement: HTMLElement) {
     this.#parentElement = parentElement;
-    const $modalBackground = document.querySelector(".modal-background");
-    this.#modal = new MovieDetailModal($modalBackground as HTMLElement);
-    this.#movies = movies;
-    this.#render();
+    this.#initComponents();
   }
 
-  #render() {
-    this.#movies.map((movie) => {
+  #initComponents(): void {
+    const $modalBackground = document.querySelector(".modal-background");
+    this.#Modal = new MovieDetailModal($modalBackground as HTMLElement);
+  }
+
+  init() {
+    this.#parentElement.innerHTML = "";
+  }
+
+  render({
+    status,
+    movies,
+  }: {
+    status: "loading" | "success";
+    movies?: Movie[];
+  }) {
+    if (status === "loading") {
+      this.#parentElement.innerHTML = /*html*/ `${Skeleton.MovieList}`;
+      return;
+    }
+
+    if (!movies) return;
+
+    movies.forEach((movie) => {
       const $list = document.createElement("li");
-
-      new MovieItem($list, movie, this.#modal);
-
+      new MovieItem($list, movie, this.#Modal);
       this.#parentElement.appendChild($list);
     });
   }
