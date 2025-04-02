@@ -3,7 +3,6 @@ import Header from "../components/Header.js";
 import { FetchMoviesCallback, MovieInfo } from "../../types/movieType.ts";
 import { ContentsContainer, replaceSkeletonWithMovies, showSkeleton } from "./Contents.ts";
 import MovieService from "../services/MovieService.ts";
-import { getPopularParam } from "../apis/config.js";
 import MovieList from '../domains/MovieList';
 import movieSearch, { clickHome } from "./MovieSearch.ts";
 import { fetchPopularMovies } from "../apis/fetch.js";
