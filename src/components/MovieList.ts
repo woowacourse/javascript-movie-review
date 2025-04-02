@@ -1,4 +1,4 @@
-import { MovieDetails } from "../../types/domain.ts";
+import movieService from "../service/movieService.ts";
 import { selectElement } from "../utils/ui.ts";
 import Modal from "./Modal.ts";
 import MovieItemDetails from "./MovieItemDetails.ts";
@@ -35,7 +35,7 @@ class MovieList {
     return this.#totalItems;
   }
 
-  onMovieClick(getDetail: (id: number) => Promise<MovieDetails>, modal: Modal) {
+  onMovieClick(modal: Modal) {
     const handleMovieClick = async (event: MouseEvent) => {
       const target = event.target as HTMLElement;
       if (!target.closest("ul.thumbnail-list > li")) {
@@ -47,7 +47,7 @@ class MovieList {
       ) as HTMLLIElement;
       const id = Number(movieContainer.dataset.id);
 
-      const details = await getDetail(id);
+      const details = await movieService.getMovieDetail(id);
       const modalDetails = new MovieItemDetails(details).create();
       modal.open(modalDetails);
     };

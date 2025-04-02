@@ -8,9 +8,23 @@ import Modal from "./components/Modal.ts";
 import ScrollRenderer from "./utils/scrollRenderer.ts";
 import MovieList from "./components/MovieList.ts";
 import MovieItem from "./components/MovieItem.ts";
+import ErrorUI from "./components/ErrorUI.ts";
+import { ERROR, STATUS_MESSAGE } from "./constants/error.ts";
 
-const getDetail = async (id: number) => {
-  return await movieService.getMovieDetail(id);
+const getMovieData = async (totalItems: number) => {
+  try {
+    return await SkeletonUl.getInstance().getLoadingResult(() =>
+      movieService.getMovies(totalItems)
+    );
+  } catch (error) {
+    if (error instanceof Error) {
+      const status = Number(error.message);
+      const message = STATUS_MESSAGE[status] ?? ERROR.DEFAULT;
+      const errorUI = new ErrorUI({ status, message });
+      errorUI.create();
+      errorUI.renderError();
+    }
+  }
 };
 
 const renderTitleMovie = (movieData: Movie[]) => {
@@ -52,17 +66,17 @@ const updateMovieList = async (
   scrollRenderer: ScrollRenderer
 ) => {
   const totalItems = movieList.getTotalItems();
-  const { results } = await SkeletonUl.getInstance().getLoadingResult(() =>
-    movieService.getMovies(totalItems)
-  );
+  const movieData = await getMovieData(totalItems);
+  if (movieData) {
+    const { results } = movieData;
+    const movieItems = createMovieItems(results);
+    movieList.updateList(movieItems);
 
-  const movieItems = createMovieItems(results);
-  movieList.updateList(movieItems);
-
-  scrollRenderer.setNewObservingTarget(
-    observer,
-    "ul.thumbnail-list > li:last-child"
-  );
+    scrollRenderer.setNewObservingTarget(
+      observer,
+      "ul.thumbnail-list > li:last-child"
+    );
+  }
 };
 
 const searchBar = new SearchBar();
@@ -77,28 +91,28 @@ const app = async () => {
   logo.appendChild(searchBar.create());
   searchBar.setEvent();
 
-  const { results } = await SkeletonUl.getInstance().getLoadingResult(() =>
-    movieService.getMovies(ITEMS.initialCount)
-  );
+  const movieData = await getMovieData(ITEMS.initialCount);
+  if (movieData) {
+    const { results } = movieData;
+    const movieList = createMovieList(results);
+    renderTitleMovie(results);
+    movieList.create();
 
-  const movieList = createMovieList(results);
-  renderTitleMovie(results);
-  movieList.create();
+    const detailsModal = new Modal();
+    movieList.onMovieClick(detailsModal);
 
-  const detailsModal = new Modal();
-  movieList.onMovieClick(getDetail, detailsModal);
+    const scrollRenderer = ScrollRenderer.getInstance();
+    const lastMovieItemObserver = new IntersectionObserver(
+      scrollRenderer.createObserverCallback(updateMovieList, movieList),
+      { threshold: 1 }
+    );
 
-  const scrollRenderer = ScrollRenderer.getInstance();
-  const lastMovieItemObserver = new IntersectionObserver(
-    scrollRenderer.createObserverCallback(updateMovieList, movieList),
-    { threshold: 1 }
-  );
+    const targetElement = selectElement<HTMLLIElement>(
+      "ul.thumbnail-list > li:last-child"
+    );
 
-  const targetElement = selectElement<HTMLLIElement>(
-    "ul.thumbnail-list > li:last-child"
-  );
-
-  lastMovieItemObserver.observe(targetElement);
+    lastMovieItemObserver.observe(targetElement);
+  }
 };
 
 app();

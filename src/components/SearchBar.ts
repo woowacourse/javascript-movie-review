@@ -1,7 +1,9 @@
 import { Movie } from "../../types/domain.ts";
+import { ERROR, STATUS_MESSAGE } from "../constants/error.ts";
 import movieService from "../service/movieService.ts";
 import ScrollRenderer from "../utils/scrollRenderer.ts";
 import { selectElement } from "../utils/ui.ts";
+import ErrorUI from "./ErrorUI.ts";
 import MovieItem from "./MovieItem.ts";
 import MovieList from "./MovieList.ts";
 import SkeletonUl from "./SkeletonUl.ts";
@@ -25,22 +27,25 @@ class SearchBar {
 
   async #onSearch(movieList: MovieList) {
     const totalItems = movieList.getTotalItems();
-    const { results } = await this.#getSearchResults(totalItems, this.#query);
-    const movieItems = this.#createResultMovieItems(results);
-    movieList.updateList(movieItems);
+    const searchData = await this.#getSearchResults(totalItems, this.#query);
+    if (searchData) {
+      const { results } = searchData;
+      const movieItems = this.#createResultMovieItems(results);
+      movieList.updateList(movieItems);
 
-    const scrollRenderer = ScrollRenderer.getInstance();
-    const updateList = this.#updateMovieList.bind(this);
-    const lastMovieItemObserver = new IntersectionObserver(
-      scrollRenderer.createObserverCallback(updateList, movieList),
-      { threshold: 1 }
-    );
+      const scrollRenderer = ScrollRenderer.getInstance();
+      const updateList = this.#updateMovieList.bind(this);
+      const lastMovieItemObserver = new IntersectionObserver(
+        scrollRenderer.createObserverCallback(updateList, movieList),
+        { threshold: 1 }
+      );
 
-    const targetElement = selectElement<HTMLLIElement>(
-      "ul.thumbnail-list > li:last-child"
-    );
+      const targetElement = selectElement<HTMLLIElement>(
+        "ul.thumbnail-list > li:last-child"
+      );
 
-    lastMovieItemObserver.observe(targetElement);
+      lastMovieItemObserver.observe(targetElement);
+    }
   }
 
   async #updateMovieList(
@@ -49,14 +54,17 @@ class SearchBar {
     scrollRenderer: ScrollRenderer
   ) {
     const totalItems = movieList.getTotalItems();
-    const { results } = await this.#getSearchResults(totalItems, this.#query);
-    const movieItems = this.#createResultMovieItems(results);
-    movieList.updateList(movieItems);
+    const searchData = await this.#getSearchResults(totalItems, this.#query);
+    if (searchData) {
+      const { results } = searchData;
+      const movieItems = this.#createResultMovieItems(results);
+      movieList.updateList(movieItems);
 
-    scrollRenderer.setNewObservingTarget(
-      observer,
-      "ul.thumbnail-list > li:last-child"
-    );
+      scrollRenderer.setNewObservingTarget(
+        observer,
+        "ul.thumbnail-list > li:last-child"
+      );
+    }
   }
 
   async #onSubmitQuery(event: SubmitEvent) {
@@ -120,9 +128,19 @@ class SearchBar {
   }
 
   async #getSearchResults(totalItems: number, query: string) {
-    return await SkeletonUl.getInstance().getLoadingResult(() =>
-      movieService.searchMovies(totalItems, query)
-    );
+    try {
+      return await SkeletonUl.getInstance().getLoadingResult(() =>
+        movieService.searchMovies(totalItems, query)
+      );
+    } catch (error) {
+      if (error instanceof Error) {
+        const status = Number(error.message);
+        const message = STATUS_MESSAGE[status] ?? ERROR.DEFAULT;
+        const errorUI = new ErrorUI({ status, message });
+        errorUI.create();
+        errorUI.renderError();
+      }
+    }
   }
 }
 
