@@ -42,8 +42,6 @@ const createIntersectionObserver = ({
         return;
       }
 
-      observer.unobserve(entry.target);
-      updateObserverTarget(observer);
       isLoading = false;
     }
   };
@@ -51,19 +49,9 @@ const createIntersectionObserver = ({
   return new IntersectionObserver(onIntersectHandler, options);
 };
 
-function updateObserverTarget(observer: IntersectionObserver) {
-  observer.disconnect();
-
-  const thumbnails = document.querySelectorAll(".thumbnail");
-  if (thumbnails.length === 0) return;
-
-  const lastThumbnail = thumbnails[thumbnails.length - 1];
-  observer.observe(lastThumbnail);
-}
-
 export function initInfiniteScroll() {
-  const $movieContainer = document.getElementById("movie-container");
-  if (!$movieContainer) return;
+  const $target = document.querySelector(".observer-target");
+  if (!$target) return;
 
   if (pageManager.isLastPage()) return;
 
@@ -72,7 +60,7 @@ export function initInfiniteScroll() {
     onError: showErrorPage,
   });
 
-  updateObserverTarget(observer);
+  observer.observe($target);
 }
 
 async function handleIntersect() {

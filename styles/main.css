@@ -325,3 +325,7 @@ footer.footer p:not(:last-child) {
   height: 130px;
   object-fit: cover;
 }
+
+.observer-target {
+  visibility: hidden;
+}
