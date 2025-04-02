@@ -1,28 +1,26 @@
 import { getSearchMovieResult } from "../api/movie/getSearchMovieResult";
-import MovieEmptySection from "../components/MovieEmptySection";
-import MovieItem from "../components/MovieItem";
-import MovieListSection from "../components/MovieListSection";
-import { MovieItemType, MovieResultType } from "../types/movieResultType";
+import { MovieResultType } from "../types/movieResultType";
 import infinityScrollObserver from "../util/infinityScrollObserver";
+import SeacrhMovieListView from "../view/searchMovieListView";
 
 class SearchMovieListController {
-  mainElement;
   searchText = "";
   page = 0;
+  searchMovieListView;
 
   constructor(mainElement: HTMLElement) {
-    this.mainElement = mainElement;
+    this.searchMovieListView = new SeacrhMovieListView(mainElement);
   }
 
-  async render(searchText: string) {
-    this.mainElement.innerHTML = "";
+  async initialize(searchText: string) {
+    this.searchMovieListView.clearMainElement();
     this.searchText = searchText;
     this.page = 0;
 
     const { movieList, hasMore } = await this.fetchMovies();
-    this.renderSearchMovieList({ movieList, hasMore });
+    this.searchMovieListView.renderMovieList(this.searchText, { movieList, hasMore });
 
-    this.bindEvents();
+    this.observeSeeMore();
   }
 
   async fetchMovies() {
@@ -33,42 +31,19 @@ class SearchMovieListController {
     }: MovieResultType = await getSearchMovieResult(this.searchText, this.page + 1);
     this.page = newPage;
 
-    const hasMore = newPage !== totalPage;
-
-    return { movieList, hasMore };
+    return { movieList, hasMore: newPage !== totalPage };
   }
 
-  renderSearchMovieList({ movieList, hasMore }: { movieList: MovieItemType[]; hasMore: boolean }) {
-    let sectionElement;
-    if (movieList.length !== 0) {
-      sectionElement = MovieListSection({
-        title: `"${this.searchText}" 검색 결과`,
-        movieList,
-        hasMore,
-      });
-    } else {
-      sectionElement = MovieEmptySection(`"${this.searchText}" 검색 결과`);
-    }
-
-    this.mainElement.appendChild(sectionElement);
-  }
-
-  async addMovieList() {
-    const movieListContainer = this.mainElement.querySelector("ul");
-    if (!movieListContainer) return;
-
+  async loadNextMoviePage() {
     const { movieList, hasMore } = await this.fetchMovies();
 
-    movieList.forEach((movie) => {
-      movieListContainer?.appendChild(MovieItem(movie));
-    });
-
-    if (!hasMore) this.mainElement.querySelector(".see-more")?.remove();
+    this.searchMovieListView.appendMovieList(movieList);
+    this.searchMovieListView.handleSeeMoreElement(hasMore);
   }
 
-  bindEvents() {
-    const seeMoreElement = this.mainElement.querySelector(".see-more") as Element;
-    infinityScrollObserver(seeMoreElement, this.addMovieList.bind(this));
+  observeSeeMore() {
+    const seeMoreElement = this.searchMovieListView.getSeeMoreElement();
+    infinityScrollObserver(seeMoreElement, this.loadNextMoviePage.bind(this));
   }
 }
 

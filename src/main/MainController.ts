@@ -47,7 +47,7 @@ class MainController {
     this.searchMovieListController = new SearchMovieListController(this.mainElement);
 
     new HeaderController({
-      renderSearchMovieList: (searchValue) => this.searchMovieListController.render(searchValue),
+      renderSearchMovieList: (searchValue) => this.searchMovieListController.initialize(searchValue),
       renderMovieList: () => this.movieListController.initialize(),
     });
   }
