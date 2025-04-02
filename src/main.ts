@@ -8,6 +8,7 @@ import LoadMoreSection from "./components/movie/LoadMoreSection.ts";
 import MovieList from "./components/movie/MovieList.ts";
 import NoSearchResults from "./components/movie/NoSearchResults.ts";
 import hideSkeleton from "./components/utils/hideSkeleton.ts";
+import loadDetailMovie from "./components/utils/loadDetailMovie.ts";
 import showSkeleton from "./components/utils/showSkeleton.ts";
 import observeLoadMore from "./domain/observeLoadMore.ts";
 import { createElement } from "./utils/createElement.ts";
@@ -30,6 +31,13 @@ addEventListener("load", async () => {
     processMovies();
 
     app.appendChild(Modal());
+
+    const url = new URL(location.href);
+    const movieId = url.searchParams.get("movieID");
+    if (movieId) {
+      loadDetailMovie(parseInt(movieId));
+    }
+
     app.appendChild(footer);
   }
 });
