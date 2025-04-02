@@ -7,7 +7,6 @@ interface SearchMoviesResponse {
 }
 
 export default async function fetchSearchMovies(query: string, page: number) {
-  console.log("hi");
   const url = `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(
     query
   )}&include_adult=false&language=ko-KR&page=${page}`;
