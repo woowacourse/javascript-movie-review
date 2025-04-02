@@ -1,3 +1,4 @@
+import { pipe } from "@zoeykr/function-al";
 import { images } from "../../assets/images";
 import { isDetailError, movieDetail, setIsModalOpen } from "../../store/store";
 import { useEvents } from "../../utils/Core";
@@ -22,15 +23,20 @@ const MovieDetail = () => {
   });
 
   addEvent("click", ".my-vote-star", (event) => {
-    const target = (event.target as HTMLElement).closest(
-      ".my-vote-star"
-    ) as HTMLImageElement;
-    if (!target?.dataset?.index) return;
-    if (movieDetail)
-      window.localStorage.setItem(
-        JSON.stringify(movieDetail.id),
-        target.dataset.index
-      );
+    const clickProcess = pipe(
+      (e: Event) =>
+        (e.target as HTMLElement).closest(".my-vote-star") as HTMLImageElement,
+      (target: HTMLElement | null) => {
+        return target?.dataset?.index ? target.dataset.index : null;
+      },
+      (index: string | null) => {
+        if (index && movieDetail) {
+          window.localStorage.setItem(JSON.stringify(movieDetail.id), index);
+        }
+      }
+    );
+
+    clickProcess(event);
   });
 
   addEvent("mouseover", ".my-vote-star", (event) => {
@@ -47,8 +53,8 @@ const MovieDetail = () => {
       if (i <= index) {
         element.src = images.starFull;
       } else element.src = images.starEmpty;
-      starTextElement.textContent = VOTE_TEXT[index];
     });
+    starTextElement.textContent = VOTE_TEXT[index];
   });
 
   addEvent("mouseout", ".my-vote-star", () => {
