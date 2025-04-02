@@ -3,6 +3,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  transform: translateY(-164px);
   gap: 56px;
+  margin-top: -196px;
+}
+
+.scroll-sentinel {
+  width: 100%;
+  height: 1px;
 }

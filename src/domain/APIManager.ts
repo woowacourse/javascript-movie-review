@@ -1,11 +1,12 @@
-import { ASSET_PATHS } from '../constants/systemConstants';
-import { apiClient } from '../util/apiClient';
+import { ASSET_PATHS, GENRE_MAP } from '../constants/systemConstants';
+import { apiClient } from '../util/web/apiClient';
 
 interface MovieListResponse {
   results: MovieListJSON[];
   total_pages: number;
   page: number;
   total_results: number;
+  release_date: Date;
 }
 
 interface MovieListJSON {
@@ -17,7 +18,7 @@ interface MovieListJSON {
   popularity: number;
   poster_path: string;
   backdrop_path: string | null;
-  genres: number[];
+  genre_ids: number[];
   original_language: string;
   vote_average: number;
   vote_count: number;
@@ -28,13 +29,16 @@ interface MovieListJSON {
 export async function extractedData(url: string) {
   const movieJSON = await fetchMovieList(url);
   const movieListData = movieJSON.results.map((movieItem: MovieListJSON) => ({
+    id: movieItem.id,
     title: movieItem.title,
     imgUrl: `${ASSET_PATHS.IMAGE_BASE}${movieItem.poster_path}`,
     score: Number(movieItem.vote_average.toFixed(1)),
+    category: movieItem.genre_ids.map((genre) => GENRE_MAP[genre]),
+    description: movieItem.overview,
+    releasedDate: new Date(movieItem.release_date).getFullYear(),
   }));
 
   const totalPage = movieJSON.total_pages;
-
   return { movieListData, totalPage };
 }
 

@@ -1,53 +1,109 @@
-import Button from '../../component/common/button/Button';
 import MainBanner from '../../component/domain/main-banner/MainBanner';
 import MovieGrid from '../../component/domain/movie-grid/MovieGrid';
 import { Title } from '../../component/common/title/Title';
 import { extractedData } from '../../domain/APIManager';
-import mainPageLoadingTemplate from './loadingTemplate';
 import { MOVIE_API } from '../../constants/systemConstants';
 import { MovieData } from '../../../types/movie';
+import { Modal } from '../../component/common/modal/Modal';
+import { MovieDetail } from '../../component/domain/movie-detail/MovieDetail';
+import { DEBUG_ERROR } from '../../constants/debugErrorMessage';
+import { observeScrollEnd } from '../../util/web/scroll';
 
 export class MainPage {
   #container: HTMLElement;
+  #modal: Modal | null = null;
+  #movieGrid: MovieGrid | null = null;
+  #mainBanner: MainBanner | null = null;
+
   #movieListData: MovieData[] = [];
   #currentPage = 1;
-  #isLoading: boolean = true;
+  #modalData: MovieData = {
+    id: 0,
+    imgUrl: '/',
+    score: 10,
+    title: '',
+    description: '',
+    category: [''],
+    releasedDate: new Date().getFullYear(),
+  };
+
+  #isFetching: boolean = false;
+  #loadTriggerElement: HTMLElement;
+  #disconnectObserver: () => void = () => {};
 
   constructor() {
     this.#container = document.createElement('div');
     this.#container.classList.add('main-page');
 
+    this.#loadTriggerElement = document.createElement('div');
+    this.#loadTriggerElement.classList.add('scroll-sentinel');
+
+    this.#isFetching;
+
     this.init();
   }
 
+  get element() {
+    return this.#container;
+  }
+
   async init() {
-    this.#isLoading = true;
     this.render();
 
+    if (!this.#movieGrid) {
+      throw new Error(DEBUG_ERROR.getNoComponentMessage('MovieGrid'));
+    }
+    if (!this.#mainBanner) {
+      throw new Error(DEBUG_ERROR.getNoComponentMessage('MainBanner'));
+    }
+
+    this.#movieGrid.appendSkeletonItems();
+
+    this.#movieGrid.setStatus('loading');
     const { movieListData } = await extractedData(MOVIE_API.getPopularUrl(this.#currentPage));
     this.#movieListData = movieListData;
-    this.#isLoading = false;
-    this.render();
+    this.setGridStatus();
+
+    this.#movieGrid.replaceLastNItems(movieListData);
+
+    this.#mainBanner.setData(this.#movieListData[0]);
+
+    this.#setObserver();
+    this.#bindMovieSelectEvent();
   }
 
   render() {
     this.#container.innerHTML = '';
-    if (this.#isLoading) {
-      this.#container.innerHTML = mainPageLoadingTemplate;
-      return;
-    }
     this.#container.appendChild(this.#mainBannerElement());
     this.#container.appendChild(this.#titleElement());
+    this.#container.appendChild(this.#modalElement());
+
     this.renderDynamicSection();
   }
 
-  renderDynamicSection() {
-    const loadMoreButton = document.querySelector('.button--full');
-    if (loadMoreButton) {
-      loadMoreButton.remove();
+  #setObserver() {
+    this.#disconnectObserver = observeScrollEnd({
+      target: this.#loadTriggerElement,
+      callback: () => this.#guardedLoadMore(),
+      threshold: 1.0,
+    });
+  }
+
+  setGridStatus() {
+    if (!this.#movieGrid) {
+      throw new Error(DEBUG_ERROR.getNoComponentMessage('MovieGrid'));
     }
+
+    if (this.#movieListData.length === 0) {
+      this.#movieGrid.setStatus('empty');
+      return;
+    }
+    this.#movieGrid.setStatus('loaded');
+  }
+
+  renderDynamicSection() {
     this.#container.appendChild(this.#movieGridElement());
-    this.#container.appendChild(this.#loadMoreButtonElement());
+    this.#container.appendChild(this.#loadTriggerElement);
   }
 
   #titleElement() {
@@ -55,25 +111,53 @@ export class MainPage {
   }
 
   #mainBannerElement() {
-    return new MainBanner({ data: this.#movieListData[0] }).element;
+    this.#mainBanner = new MainBanner();
+    return this.#mainBanner.element;
   }
 
   #movieGridElement() {
-    return new MovieGrid({ movieItems: this.#movieListData }).element;
+    this.#movieGrid = new MovieGrid();
+    return this.#movieGrid.element;
   }
 
-  #loadMoreButtonElement() {
-    return new Button({ size: 'full', innerText: '더보기', onclick: this.#loadMoreData }).element;
+  #modalElement() {
+    this.#modal = new Modal();
+    return this.#modal.element;
   }
 
   #loadMoreData = async () => {
+    if (!this.#movieGrid) {
+      throw new Error(DEBUG_ERROR.getNoComponentMessage('MovieGrid'));
+    }
     this.#currentPage += 1;
+    this.#movieGrid.appendSkeletonItems();
+
     const { movieListData } = await extractedData(MOVIE_API.getPopularUrl(this.#currentPage));
-    this.#movieListData = movieListData;
-    this.renderDynamicSection();
+    this.#movieListData = [...this.#movieListData, ...movieListData];
+    this.#movieGrid.replaceLastNItems(movieListData);
   };
 
-  get element() {
-    return this.#container;
+  #guardedLoadMore() {
+    if (this.#isFetching) return;
+    this.#isFetching = true;
+    this.#loadMoreData().finally(() => {
+      this.#isFetching = false;
+    });
+  }
+
+  destroy() {
+    this.#disconnectObserver();
+  }
+
+  #bindMovieSelectEvent() {
+    this.#container.addEventListener('movieSelect', (event) => {
+      this.#modalData = (event as CustomEvent).detail;
+      const movieDetail = new MovieDetail({ data: this.#modalData }).element;
+
+      if (!this.#modal) throw new Error(DEBUG_ERROR.getNoComponentMessage('Modal'));
+
+      this.#modal.setContent(movieDetail);
+      this.#modal.open();
+    });
   }
 }

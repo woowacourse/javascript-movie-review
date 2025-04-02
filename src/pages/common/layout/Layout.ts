@@ -1,6 +1,6 @@
-import Footer from '../../component/layout/footer/Footer';
-import Header from '../../component/layout/header/Header';
-import { renderContent } from '../../route/router';
+import Footer from '../../../component/layout/footer/Footer';
+import Header from '../../../component/layout/header/Header';
+import { renderContent } from '../../../route/router';
 
 class Layout {
   #container;
@@ -22,7 +22,7 @@ class Layout {
     this.#container.appendChild(this.#contentContainer);
     this.#container.appendChild(this.#footer.element);
 
-    document.querySelector('body')?.appendChild(this.#container);
+    document.querySelector('body')!.appendChild(this.#container);
 
     this.render();
   }
