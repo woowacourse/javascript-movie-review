@@ -1,7 +1,8 @@
-import { MovieDetail } from "../../../types/MovieType";
+import { MovieDetail } from "../../../types/Type";
 import imageUrl from "../../../utils/imageUrl";
 import createElement from "../../utils/createElement";
 import { getGenres, getYear } from "../../../utils/parsingData";
+import { SCORE_MESSAGE } from "../../Constants/constants";
 import "/styles/modal.css";
 
 class Modal {
@@ -147,7 +148,6 @@ class Modal {
       tag: "p",
       classNames: ["comment"],
     });
-    $comment.textContent = "명작이에요";
 
     const $score = createElement({
       tag: "span",
@@ -187,6 +187,8 @@ class Modal {
       $stars.replaceChildren();
       const score = rating * 2;
       $score.textContent = `(${score}/10)`;
+
+      $comment.textContent = SCORE_MESSAGE[String(score)];
 
       const filledCount = rating;
       const emptyCount = 5 - rating;
@@ -235,7 +237,7 @@ class Modal {
     this.modalElement.replaceChildren($modal);
     const saved = JSON.parse(localStorage.getItem("myRating")!) ?? {};
     const rateValue = Number(saved[this.movieId]);
-    renderStars(rateValue ? rateValue : 4);
+    renderStars(rateValue ? rateValue : 0);
   }
 }
 

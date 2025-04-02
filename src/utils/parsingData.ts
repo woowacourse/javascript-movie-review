@@ -1,4 +1,4 @@
-import { Genre } from "../types/MovieType";
+import { Genre } from "../types/Type";
 
 export const getYear = (releaseDate: string) => {
   const data = new Date(releaseDate);

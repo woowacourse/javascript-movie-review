@@ -24,7 +24,7 @@
 .search-bar-container {
   display: flex;
   border: 2px solid #d1d5db;
-  width: 90%;
+  width: 70%;
   height: 36px;
   border-radius: 32px;
 }

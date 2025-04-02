@@ -17,3 +17,7 @@ export interface MovieDetail {
   overview: string;
   poster_path: string;
 }
+
+export interface scoreMessage {
+  [key: string]: string;
+}
