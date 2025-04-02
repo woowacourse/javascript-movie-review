@@ -19,7 +19,7 @@ class SearchBar {
     this.#container.innerHTML = `
       <input placeholder="검색어를 입력하세요" class="text-placeholder searchbar__input" />
       <button class="searchbar__button" type="submit">
-        <img src="./search-icon.png" class="searchbar__icon"/>
+        <img src="./search-icon.png" class="searchbar__icon" alt="검색 버튼"/>
       </button>
   `;
   }

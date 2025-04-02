@@ -23,7 +23,7 @@ export class Modal {
     this.#background.innerHTML = `
   <div class="modal">
     <button class="close-modal" id="closeModal">
-      <img src="./modal_button_close.png" />
+      <img src="./modal_button_close.png" alt="닫힘 버튼"/>
     </button>
   </div>
     `;

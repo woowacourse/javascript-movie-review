@@ -31,12 +31,12 @@ export class MovieDetail {
   render() {
     this.#container.innerHTML = `
     <div class="movie__detail-image">
-      <img src=${this.#data.imgUrl} />
+      <img src=${this.#data.imgUrl} alt=${this.#data.title} 포스터 이미지/>
     </div>
     <div class="movie__detail-description">
       <h2 class="movie__detail-title">${this.#data.title}</h2>
       <p class="movie__detail-category">${this.#data.releasedDate} · ${this.#data.category}</p>
-      <p class="movie__detail-rate"><img src="./star_filled.png" class="star" /><span class="text-body rate__detail">${
+      <p class="movie__detail-rate"><img src="./star_filled.png" class="star" alt="별 아이콘"/><span class="text-body rate__detail">${
         this.#data.score
       }</span></p>
       <hr />
@@ -44,11 +44,11 @@ export class MovieDetail {
       <div class="myrate"> 
       <div class="myrate__panel">
         <div class="myrate__icons">
-         <img src="./star_empty.png" data-index="1" class="myrate__icon" />
-         <img src="./star_empty.png" data-index="2" class="myrate__icon" />
-         <img src="./star_empty.png" data-index="3" class="myrate__icon" />
-         <img src="./star_empty.png" data-index="4" class="myrate__icon" />
-         <img src="./star_empty.png" data-index="5" class="myrate__icon" />
+         <img src="./star_empty.png" data-index="1" class="myrate__icon" alt="별점 아이콘"/>
+         <img src="./star_empty.png" data-index="2" class="myrate__icon" alt="별점 아이콘"/>
+         <img src="./star_empty.png" data-index="3" class="myrate__icon" alt="별점 아이콘"/>
+         <img src="./star_empty.png" data-index="4" class="myrate__icon" alt="별점 아이콘"/>
+         <img src="./star_empty.png" data-index="5" class="myrate__icon" alt="별점 아이콘"/>
         </div>
         <p class="myrate__score text-body">
       (${calculateRate(this.#selectedStars)}/10)

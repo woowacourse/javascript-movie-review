@@ -54,7 +54,7 @@ class MovieItem {
       <img class="thumbnail" src=${this.#matchImgUrl()} alt=${this.#data.title} />
       <div class="item-desc">
         <p class="rate">
-          <img src="./star_empty.png" class="star" />
+          <img src="./star_empty.png" class="star" alt="별 아이콘"/>
           <span>${this.#data.score}</span>
         </p>
         <strong class="text-body">${this.#data.title}</strong>
