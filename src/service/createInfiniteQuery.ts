@@ -4,21 +4,19 @@ import { defaultOptions, defaultQueryObject } from "../setting/settings";
 interface CreateInfiniteQueryProp {
   searchTerm?: string;
   searchKey?: string;
-  baseQuery?: Record<string, string | boolean | number>;
 }
 
 export default function createInfiniteQuery<T>(
   url: string,
   options: CreateInfiniteQueryProp = {}
 ) {
-  const { searchTerm, searchKey = "query", baseQuery = {} } = options;
+  const { searchTerm, searchKey = "query" } = options;
 
   let page = 1;
 
   return async () => {
     const query: Record<string, string> = {
       ...defaultQueryObject,
-      ...baseQuery,
       ...(searchTerm ? { [searchKey]: searchTerm } : {}),
       page: String(page),
     };
