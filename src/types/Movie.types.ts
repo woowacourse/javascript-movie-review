@@ -77,4 +77,5 @@ export type MovieDetail = {
   genres: Genre[];
   vote_average: number;
   runtime: number | null;
+  categoryText: string;
 };

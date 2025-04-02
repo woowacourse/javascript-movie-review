@@ -116,17 +116,6 @@ const createMyRatingSection = (movieId: number): HTMLDivElement => {
   });
 };
 
-const createCategoryText = (movie: MovieDetail): string => {
-  const year = movie.release_date ? movie.release_date.split('-')[0] : '';
-  let categories = '';
-
-  if (movie.genres && movie.genres.length > 0) {
-    categories = movie.genres.map((genre) => genre.name).join(', ');
-  }
-
-  return `${year}${categories ? ' · ' + categories : ''}`;
-};
-
 const createDescriptionSection = (movie: MovieDetail): HTMLDivElement => {
   return createElement<HTMLDivElement>('div', {
     className: 'modal-description',
@@ -136,7 +125,7 @@ const createDescriptionSection = (movie: MovieDetail): HTMLDivElement => {
       }),
       createElement<HTMLParagraphElement>('p', {
         className: 'category',
-        textContent: createCategoryText(movie),
+        textContent: movie.categoryText,
       }),
       createRatingSection(movie.vote_average),
       createElement<HTMLHRElement>('hr'),
