@@ -124,7 +124,9 @@ hr {
     align-items: center;
   }
 
-  .modal-description > h2,
+  .modal-description > h2 {
+    text-align: center;
+  }
   .modal-description > .category {
     text-align: center;
   }
