@@ -2,8 +2,8 @@ import { MovieDetailInfo } from "../../../types/movieApiType";
 import Modal from "../../components/Modal";
 import ModalSkeleton from "../../components/ModalSkeleton";
 import { DEFAULT_BACK_DROP_URL } from "../../constants/movieApi";
-import { fetchMovieRatingById } from "../../event/utils/ratingStorage";
-import { fetchMovieDetail } from "./movieService";
+import { readStoredMovieRatingById } from "../../event/utils/ratingStorage";
+import { readMovieDetail } from "./movieService";
 
 const $modalContainer = document.querySelector(".modal-container");
 
@@ -25,13 +25,13 @@ export const movieDetailRenderer = async () => {
     release_date,
     title,
     vote_average,
-  }: MovieDetailInfo = await fetchMovieDetail();
+  }: MovieDetailInfo = await readMovieDetail();
 
   const img = new Image();
   img.src = DEFAULT_BACK_DROP_URL + backdrop_path;
   img.alt = "영화 포스터 이미지";
 
-  const localStorageMovieRate = fetchMovieRatingById(Number(id));
+  const localStorageMovieRate = readStoredMovieRatingById(Number(id));
 
   const $modal = Modal({
     id,

@@ -1,6 +1,7 @@
 const key = "userRating";
 
-function fetchAllMovieRatings() {
+//read
+function readAllStoredMovieRatings() {
   const raw = localStorage.getItem(key);
   if (!raw) {
     localStorage.setItem(key, "[]");
@@ -9,8 +10,10 @@ function fetchAllMovieRatings() {
   return JSON.parse(raw);
 }
 
-export function fetchMovieRatingById(movieId: number) {
-  const movieRatings: { id: number; rate: number }[] = fetchAllMovieRatings();
+//read
+export function readStoredMovieRatingById(movieId: number) {
+  const movieRatings: { id: number; rate: number }[] =
+    readAllStoredMovieRatings();
 
   const existingMovie = movieRatings.find((rating) => rating.id === movieId);
 
@@ -18,14 +21,16 @@ export function fetchMovieRatingById(movieId: number) {
   return 0;
 }
 
-export function saveMovieRatingById({
+//update
+export function updateStoredMovieRatingById({
   movieId,
   movieRate,
 }: {
   movieId: number;
   movieRate: number;
 }) {
-  const movieRatings: { id: number; rate: number }[] = fetchAllMovieRatings();
+  const movieRatings: { id: number; rate: number }[] =
+    readAllStoredMovieRatings();
 
   if (!movieRatings) return;
 

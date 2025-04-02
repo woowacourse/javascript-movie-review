@@ -2,7 +2,7 @@ import { ratingMessages } from "../components/Modal";
 import { movieDetailRenderer } from "../features/movies/movieDetailRenderer";
 import { movieStore } from "../state/movieStore";
 import { addEvent } from "./utils/addEvent";
-import { saveMovieRatingById } from "./utils/ratingStorage";
+import { updateStoredMovieRatingById } from "./utils/ratingStorage";
 
 const $modalBackground = document.querySelector("#modalBackground");
 
@@ -79,7 +79,7 @@ addEvent({
     const targetIndex = getTargetIndex(target!);
     selectedIndex = targetIndex;
 
-    movieId && saveMovieRatingById({ movieId, movieRate: targetIndex });
+    movieId && updateStoredMovieRatingById({ movieId, movieRate: targetIndex });
 
     if ($rateSubtitle) {
       $rateSubtitle.innerHTML = `

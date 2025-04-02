@@ -3,7 +3,7 @@ import MovieListSkeleton from "../../components/MovieListSkeleton";
 import TopRatedMovie from "../../components/TopRatedMovie";
 import { DEFAULT_BACK_DROP_URL } from "../../constants/movieApi";
 import { movieStore } from "../../state/movieStore";
-import { loadSearchList, loadTotalList } from "./movieService";
+import { updateSearchList, updateTotalList } from "./movieService";
 
 const $mainSection = document.querySelector("main section");
 const $ul = document.querySelector(".thumbnail-list");
@@ -91,10 +91,10 @@ export const renderMoviesList = async () => {
 
   try {
     if (movieStore.searchKeyword === "") {
-      await loadTotalList();
+      await updateTotalList();
       renderHeaderBackground();
     } else {
-      await loadSearchList();
+      await updateSearchList();
       toggleEmptySearchError();
     }
     changeHeaderBackground();

@@ -1,8 +1,13 @@
 import { MovieDetailInfo } from "../../../types/movieApiType";
 import { MovieDetail, MoviesResponse } from "../../apis/apiTypes";
-import { getMovieByName, getMovieDetail, getMovies } from "../../apis/MovieApi";
+import {
+  fetchMovieByName,
+  fetchMovieDetail,
+  fetchMovies,
+} from "../../apis/MovieApi";
 import { movieStore } from "../../state/movieStore";
 
+//update
 const updateMovieList = (response: MoviesResponse) => {
   const summary = response.results.map((movie) => ({
     backdrop_path: movie.backdrop_path,
@@ -14,8 +19,9 @@ const updateMovieList = (response: MoviesResponse) => {
   movieStore.totalPages = response.total_pages;
 };
 
-export const fetchMovieDetail = async (): Promise<MovieDetailInfo> => {
-  const movieResponse = (await getMovieDetail({
+//read
+export const readMovieDetail = async (): Promise<MovieDetailInfo> => {
+  const movieResponse = (await fetchMovieDetail({
     id: movieStore.selectedMovie,
   })) as MovieDetail;
   return {
@@ -29,15 +35,17 @@ export const fetchMovieDetail = async (): Promise<MovieDetailInfo> => {
   };
 };
 
-export const loadTotalList = async () => {
-  const moviesResponse = (await getMovies({
+//update
+export const updateTotalList = async () => {
+  const moviesResponse = (await fetchMovies({
     page: movieStore.page,
   })) as MoviesResponse;
   updateMovieList(moviesResponse);
 };
 
-export const loadSearchList = async () => {
-  const moviesResponse = (await getMovieByName({
+//update
+export const updateSearchList = async () => {
+  const moviesResponse = (await fetchMovieByName({
     name: movieStore.searchKeyword,
     page: movieStore.page,
   })) as MoviesResponse;

@@ -19,7 +19,7 @@ async function fetchWithErrorHandling(
   });
 }
 
-export async function getMovies({ page }: { page: number }) {
+export async function fetchMovies({ page }: { page: number }) {
   const params = new URLSearchParams({
     language: "ko-KR",
     page: String(page),
@@ -29,7 +29,7 @@ export async function getMovies({ page }: { page: number }) {
   return fetchWithErrorHandling(url);
 }
 
-export async function getMovieByName({
+export async function fetchMovieByName({
   name,
   page,
 }: {
@@ -47,7 +47,7 @@ export async function getMovieByName({
   return fetchWithErrorHandling(url);
 }
 
-export async function getMovieDetail({ id }: { id: number }) {
+export async function fetchMovieDetail({ id }: { id: number }) {
   const params = new URLSearchParams({
     language: "ko-KR",
   });
