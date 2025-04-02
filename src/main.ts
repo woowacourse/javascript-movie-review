@@ -1,79 +1,164 @@
-import { Movie, PaginatedMovies } from "../types/domain";
-import api from "./api/api";
+import fetchMovieDetail from "./api/fetchMovieDetail";
+import fetchPopularMovies from "./api/fetchPopularMovies";
+import fetchSearchMovies from "./api/fetchSearchMovies";
+import Header from "./components/Header/Header";
+import SearchInput from "./components/Header/SearchInput";
+import Modal from "./components/Modal/Modal";
+import ModalDetail from "./components/Modal/ModalDetail/ModalDetail";
+import ModalLoadingSpinner from "./components/Modal/ModalLoadingSpinner/ModalLoadingSpinner";
 import MovieItem from "./components/MovieItem";
-import SearchBar from "./components/SearchBar";
-import SkeletonUl from "./components/SkeletonUl";
-import TextButton from "./components/TextButton";
-import { BACKDROP_IMG_PREFIX, MOVIE_AMOUNT_IN_PAGE } from "./constants/movie";
-import { toggleVisibility } from "./utils/Render";
+import MovieList from "./components/MovieList/MovieList";
+import NoThumbnail from "./components/NoThumbnail/NoThumbnail";
+import ScrollObserver from "./components/ScrollObserver/ScrollObserver";
+import Skeleton from "./components/Skeleton/Skeleton";
+import Subtitle from "./components/Subtitle/Subtitle";
+import ErrorMessage from "./constants/ErrorMessage";
+import { MOVIE_RATE_LIST_KEY } from "./constants/MovieRate";
+import handleError from "./utils/handleError";
+import LocalStorage from "./utils/localStorage";
 
-const thumbnailList = document.querySelector("ul.thumbnail-list");
-const mainSection = document.querySelector("main section");
-const skeletonUl = new SkeletonUl();
+let pageNumber = 1;
 
-const seeMoreButton = new TextButton({
-  id: "seeMore",
-  title: "더보기",
-  onClick: renderMovieData,
-  type: "primary",
-});
-
-const searchBar = new SearchBar();
-const logo = document.querySelector(".logo");
-const logoImage = document.querySelector(".logo img");
-
-renderTitleMovie();
-logoImage?.addEventListener("click", () => {
-  window.location.reload();
-});
-logo?.appendChild(searchBar.create());
-mainSection?.appendChild(skeletonUl.create());
-mainSection?.appendChild(seeMoreButton.create());
-renderMovieData();
-
-async function getMovieData() {
-  const itemCount = document.querySelectorAll("ul.thumbnail-list li").length;
-  const pageNumber = itemCount / MOVIE_AMOUNT_IN_PAGE + 1;
-
+addEventListener("load", async () => {
   try {
-    return (await api.getMovieData(pageNumber)) as PaginatedMovies;
+    if (!LocalStorage.getJSON(MOVIE_RATE_LIST_KEY))
+      LocalStorage.setJSON(MOVIE_RATE_LIST_KEY, {});
+
+    const { movies } = await getPopularMovieList();
+    const observer = ScrollObserver.get();
+
+    Modal.init();
+    Header.init({
+      id: movies[0].id,
+      title: movies[0].title,
+      posterPath: movies[0].backdropPath || "",
+      rate: movies[0].rate,
+    });
+    Header.onDetailButtonClick = (e) => showMovieDetailModal(e);
+
+    SearchInput.init();
+    SearchInput.onButtonClick = () => search(observer);
+    SearchInput.onEnterKeydown = () => search(observer);
+
+    Subtitle.init();
+
+    MovieList.init(movies);
+
+    MovieItem.onClickItem = (e) => showMovieDetailModal(e);
+
+    Skeleton.init();
+
+    ScrollObserver.intersect = () => seeMorePopularMovies(observer);
+    ScrollObserver.turnOn(observer);
   } catch (error) {
-    if (error instanceof Error) alert(error.message);
+    handleError(error);
+  }
+});
+
+async function getPopularMovieList() {
+  try {
+    const movieList = await fetchPopularMovies(pageNumber);
+    pageNumber += 1;
+    if (!movieList) throw new Error(ErrorMessage.FETCH_POPULAR_MOVIES);
+
+    return movieList;
+  } catch (error) {
+    handleError(error);
+    return { movies: [], canMore: false };
   }
 }
 
-async function renderTitleMovie() {
-  const topMovieData = (await getMovieData())?.results[0] as Movie;
-  const movieTitle = topMovieData.title;
-  const movieRate = topMovieData.vote_average;
-  const movieBackdropUrl = BACKDROP_IMG_PREFIX + topMovieData.backdrop_path;
+async function getSearchMovieList(query: string) {
+  try {
+    const movieList = await fetchSearchMovies(query, pageNumber);
+    pageNumber += 1;
+    if (!movieList) throw new Error(ErrorMessage.FETCH_POPULAR_MOVIES);
 
-  const topMovieTitle = document.querySelector(
-    ".top-rated-movie .title"
-  ) as HTMLDivElement;
-  const topMovieRateValue = document.querySelector(
-    ".top-rated-movie .rate-value"
-  ) as HTMLSpanElement;
-  const backgroundOverlay = document.querySelector(
-    ".background-container .overlay"
-  ) as HTMLDivElement;
-
-  topMovieTitle.textContent = movieTitle;
-  topMovieRateValue.textContent = String(movieRate);
-  backgroundOverlay.style.backgroundImage = `url("${movieBackdropUrl}")`;
+    return movieList;
+  } catch (error) {
+    handleError(error);
+    return { movies: [], canMore: false };
+  }
 }
 
-async function renderMovieData() {
-  const skeletonUlElement = document.querySelector(".skeleton-list");
-  toggleVisibility(skeletonUlElement, "show");
+async function seeMorePopularMovies(observer: IntersectionObserver) {
+  Skeleton.show();
+  ScrollObserver.turnOn(observer);
+  try {
+    const { movies, canMore } = await getPopularMovieList();
+    if (!canMore) ScrollObserver.turnOff(observer);
+    MovieList.add(movies);
+    Skeleton.hidden();
+  } catch (error) {
+    handleError(error);
+  }
+}
 
-  const movieData = (await getMovieData())?.results as Movie[];
+async function search(observer: IntersectionObserver) {
+  Header.setSearchMode();
+  NoThumbnail.hidden();
+  MovieList.init([]);
+  pageNumber = 1;
+  ScrollObserver.turnOn(observer);
 
-  movieData.forEach(({ title, poster_path, vote_average }) => {
-    const movieItem = new MovieItem({ title, vote_average, poster_path });
-    const movieItemElement = movieItem.create();
-    thumbnailList?.appendChild(movieItemElement);
-  });
+  Skeleton.show();
+  ScrollObserver.intersect = () => seeMoreSearchMovies(query, observer);
+  const query = SearchInput.getSearchValue();
+  try {
+    const { movies, canMore } = await getSearchMovieList(query);
+    Subtitle.set(`"${query}" 검색 결과`);
+    Skeleton.hidden();
+    MovieList.set(movies);
+    if (!canMore) ScrollObserver.turnOff(observer);
 
-  toggleVisibility(skeletonUlElement, "hidden");
+    if (movies.length === 0) {
+      NoThumbnail.show();
+      return;
+    }
+  } catch (error) {
+    handleError(error);
+  }
+}
+
+async function seeMoreSearchMovies(
+  query: string,
+  observer: IntersectionObserver
+) {
+  Skeleton.show();
+  try {
+    const { movies, canMore } = await getSearchMovieList(query);
+    if (!canMore) ScrollObserver.turnOff(observer);
+    MovieList.add(movies);
+    Skeleton.hidden();
+  } catch (error) {
+    handleError(error);
+  }
+}
+
+async function showMovieDetailModal(e: MouseEvent) {
+  const clickedMovieItem = e.currentTarget as HTMLElement;
+  if (!clickedMovieItem.dataset.id) return;
+
+  Modal.show();
+  ModalLoadingSpinner.show();
+  Modal.reset();
+  try {
+    const movieDetail = await fetchMovieDetail(clickedMovieItem.dataset.id);
+    if (!movieDetail) throw new Error(ErrorMessage.FETCH_MOVIE_DETAIL);
+
+    ModalLoadingSpinner.hidden();
+    Modal.setContent(
+      ModalDetail.create({
+        id: movieDetail.id,
+        posterPath: movieDetail.posterPath,
+        category: movieDetail.category,
+        title: movieDetail.title,
+        releaseYear: movieDetail.releaseYear,
+        rate: movieDetail.rate,
+        detail: movieDetail.detail,
+      })
+    );
+  } catch (error) {
+    handleError(error);
+  }
 }

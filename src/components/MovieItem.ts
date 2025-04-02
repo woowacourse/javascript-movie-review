@@ -1,48 +1,40 @@
-import { IMG_PREFIX } from "../constants/movie";
+import { noop } from "@zoeykr/function-al";
+import { MovieItemProps } from "../../types/domain";
+import { POSTER_IMG_PREFIX } from "../constants/URL";
 
-interface MovieItemProps {
-  title: string;
-  vote_average: number;
-  poster_path: string;
-}
-
-class MovieItem {
-  #title: string;
-  #rate: number;
-  #posterPath: string;
-
-  constructor({ title, vote_average, poster_path }: MovieItemProps) {
-    this.#title = title;
-    this.#rate = vote_average;
-    this.#posterPath = poster_path;
-  }
-
-  create() {
+const MovieItem = {
+  create({ id, posterPath, rate, title }: MovieItemProps) {
     const movieItemElement = document.createElement("li");
+    movieItemElement.addEventListener("click", (e) => this.onClickItem(e));
+    movieItemElement.dataset.id = id.toString();
     const content = /*html*/ `
-    <div class="item">
-        <img
-        class="thumbnail"
-        src=${IMG_PREFIX + this.#posterPath}
-        onload="this.src='${IMG_PREFIX + this.#posterPath}"
-        onerror="this.src='./images/null_image.png'"
-        alt=${this.#title}
-        />
-        <div class="item-desc">
-        <p class="rate">
-            <img src="./images/star_empty.png" class="star" /><span>${
-              this.#rate
-            }</span>
-        </p>
-        <strong>${this.#title}</strong>
-        </div>
-    </div>
+      <div class="item">
+          <div class="item-img">
+            <img
+            class="thumbnail"
+            src=${POSTER_IMG_PREFIX + posterPath}
+            onerror="this.onerror=null; this.src='./images/null_image.png'"
+            alt=${title}
+            />
+          </div>
+          <div class="item-desc">
+          <p class="rate">
+              <img src="./images/star_empty.png" class="star" /><span
+              >${rate.toFixed(1)}</span
+              >
+          </p>
+          <strong>${title}</strong>
+          </div>
+      </div>
     `;
 
     movieItemElement.insertAdjacentHTML("beforeend", content);
-
     return movieItemElement;
-  }
-}
+  },
+
+  onClickItem(event: MouseEvent) {
+    noop();
+  },
+};
 
 export default MovieItem;

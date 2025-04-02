@@ -1,8 +1,10 @@
 @import "./colors.css";
-@import "./main.css";
-@import "./modal.css";
+@import "./screen.scss";
+@import "./main.scss";
+@import "./modal.scss";
 @import "./reset.css";
 @import "./tab.css";
-@import "./thumbnail.css";
-@import "./searchBar.css";
-@import "./skeleton.css";
+@import "./thumbnail.scss";
+@import "./searchBar.scss";
+@import "./skeleton.scss";
+@import "./spinner.css";

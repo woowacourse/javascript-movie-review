@@ -1,7 +1,9 @@
-export const toggleVisibility = (
-  element: Element | null,
-  option: "show" | "hidden"
-) => {
-  if (option === "show") element?.classList.remove("hidden");
-  if (option === "hidden") element?.classList.add("hidden");
+export const toggleDisplay = (element: HTMLElement, isVisible: boolean) => {
+  if (isVisible) element.classList.remove("hidden");
+  else element.classList.add("hidden");
+};
+
+export const toggleVisibility = (element: HTMLElement, isVisible: boolean) => {
+  if (isVisible) element.classList.add("active");
+  else element.classList.remove("active");
 };

@@ -1,0 +1,180 @@
+@import "./colors.css";
+@import "./screen.scss";
+
+/* modal.css */
+body.modal-open {
+  overflow: hidden;
+}
+
+.modal-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경을 위해 설정 */
+  backdrop-filter: blur(10px); /* 블러 효과 적용 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  visibility: hidden; /* 모달이 기본적으로 보이지 않도록 설정 */
+  opacity: 0;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.modal-background.active {
+  visibility: visible;
+  opacity: 1;
+}
+
+.modal {
+  background-color: var(--color-bluegray-90);
+  padding: 20px;
+  border-radius: 16px;
+  color: white;
+  z-index: 2;
+  position: relative;
+  min-width: var(--screen-mobile);
+  width: 1000px;
+  height: 630px;
+  overflow-y: auto;
+}
+
+.close-modal {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  top: 24px;
+  right: 24px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.modal-loading-spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.modal-detail {
+  display: flex;
+}
+
+.modal-image img {
+  width: 380px;
+  border-radius: 16px;
+}
+
+.modal-description {
+  width: 100%;
+  padding: 8px;
+  margin-left: 16px;
+  line-height: 1.6rem;
+}
+
+.modal-description .rate > img {
+  position: relative;
+  top: 5px;
+}
+
+.modal-description > *:not(:last-child) {
+  margin-bottom: 8px;
+}
+
+.modal-description h2 {
+  font-size: 2rem;
+  margin: 0 0 8px;
+}
+
+.detail {
+  max-height: 430px;
+  overflow-y: auto;
+}
+
+.rate-container {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.my-rate {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.my-rate-description {
+  font-weight: bold;
+}
+
+.my-rate-score {
+  color: var(--color-bluegray-30);
+}
+
+.star-container > img {
+  cursor: pointer;
+}
+
+@keyframes modal-up {
+  0% {
+    transform: translateY(100%);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@media screen and (max-width: 1023px) {
+  .modal {
+    width: 100vw;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  .modal-background {
+    align-items: end;
+  }
+
+  .modal-detail {
+    display: block;
+  }
+
+  .modal-image {
+    text-align: center;
+  }
+
+  .modal-image img {
+    margin: auto;
+    width: 200px;
+    height: 300px;
+  }
+
+  .modal-description {
+    margin-left: 0;
+  }
+
+  .modal-description h2 {
+    margin-bottom: 8px !important;
+    text-align: center;
+  }
+
+  .modal-description .category {
+    text-align: center;
+  }
+
+  .modal-description .rate-container {
+    justify-content: center;
+  }
+}
+
+@media screen and (max-width: ($screen-tablet - 1px)) {
+  .modal-image img {
+    display: none;
+  }
+}

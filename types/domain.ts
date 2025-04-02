@@ -1,23 +1,16 @@
-export interface PaginatedMovies {
-  page: number;
-  results: Movie[];
-  total_pages: number;
-  total_results: number;
+export interface MovieItemProps {
+  id: number;
+  posterPath: string;
+  rate: number;
+  title: string;
 }
 
-export interface Movie {
-  adult: boolean;
-  backdrop_path: null | string;
-  genre_ids: number[];
+export interface MovieDetailProps {
   id: number;
-  original_language: string;
-  original_title: string;
-  overview: string;
-  popularity: number;
-  poster_path: string;
-  release_date: Date;
+  posterPath: string;
   title: string;
-  video: boolean;
-  vote_average: number;
-  vote_count: number;
+  releaseYear: string;
+  category: string[];
+  rate: number;
+  detail: string;
 }
