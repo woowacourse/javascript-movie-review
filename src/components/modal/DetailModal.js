@@ -1,5 +1,6 @@
 import BaseModal from '../common/BaseModal.js';
 import StarRating from './StarRating.js';
+import MovieRatingStorageService from '../../domain/MovieRatingStorageService.ts';
 
 class DetailModal extends BaseModal {
   constructor(movie) {
@@ -49,8 +50,16 @@ class DetailModal extends BaseModal {
 
     const modal = document.querySelector('.modal');
     const starRatingContainer = modal.querySelector('.star-rating-container');
-    const starRating = new StarRating(this.movie);
-    starRatingContainer.appendChild(starRating.render());
+    const initialRating = MovieRatingStorageService.getRating(this.movie.id);
+
+    const starRating = new StarRating(
+      starRatingContainer,
+      this.movie.id,
+      initialRating,
+      movieRating => {
+        MovieRatingStorageService.saveRating(movieRating);
+      },
+    );
   }
 }
 

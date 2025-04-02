@@ -1,5 +1,3 @@
-// src/components/search/SearchBar.js
-
 export default class SearchBar {
   constructor(onSearch) {
     this.onSearch = onSearch;
