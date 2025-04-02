@@ -32,7 +32,8 @@ const movieService = {
   },
 
   getRateList() {
-    return JSON.parse(storage.getData(KEY.movieList) ?? "[]");
+    const rate = storage.getData<string>(KEY.movieList) ?? "[]";
+    return JSON.parse(rate);
   },
 
   getRateById(movieId: number) {
@@ -55,7 +56,7 @@ const movieService = {
     const newMovieList = [...storedMoviesRates, newData];
     const stringifyData = JSON.stringify(newMovieList);
 
-    storage.setData(KEY.movieList, stringifyData);
+    storage.setData<string>(KEY.movieList, stringifyData);
   },
 
   addRate(data: UserMovieRateData) {
@@ -63,7 +64,7 @@ const movieService = {
     const newMovieList = [...totalMovieRates, data];
     const stringifyData = JSON.stringify(newMovieList);
 
-    storage.setData(KEY.movieList, stringifyData);
+    storage.setData<string>(KEY.movieList, stringifyData);
   },
 
   checkHasRated(movieId: number) {
