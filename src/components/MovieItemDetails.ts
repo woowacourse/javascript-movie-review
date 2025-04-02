@@ -1,6 +1,7 @@
 import { MovieDetails } from "../../types/domain.ts";
 import { RATING_MESSAGE, RATING_SCORE, VOTE } from "../constants/movie.ts";
-import { calculateFilledStar, ratingMovie } from "../domain/ratingMovie.ts";
+import { calculateFilledStar } from "../domain/ratingMovie.ts";
+import movieService from "../service/movieService.ts";
 import { selectElement, selectElementAll } from "../utils/ui.ts";
 
 class MovieItemDetails {
@@ -154,7 +155,7 @@ class MovieItemDetails {
       } else {
         starMarksContainer.removeEventListener("mouseover", eventHandler);
 
-        ratingMovie(this.#id, this.#rate);
+        this.#ratingMovie(this.#id, this.#rate);
         isVotingActive = false;
       }
     };
@@ -213,6 +214,17 @@ class MovieItemDetails {
     ratingScore.textContent = `(${this.#rate}/${VOTE.MaximumRate})`;
     ratingMessage.insertAdjacentElement("beforeend", ratingScore);
   }
+
+  #ratingMovie = (id: number, rate: number) => {
+    const movieRate = { id, rate };
+    const isRated = movieService.checkHasRated(id);
+    if (isRated) {
+      movieService.updateRateById(id, movieRate);
+      return;
+    }
+
+    movieService.addRate(movieRate);
+  };
 }
 
 export default MovieItemDetails;

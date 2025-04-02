@@ -25,12 +25,22 @@ const movieService = {
 
   async getMovieDetail(movieId: number) {
     const rawData = await movieApi.getMovieDetailsData(movieId);
+    const movieRate = this.getRateById(movieId);
 
-    return extractMovieDetails(rawData);
+    return extractMovieDetails(rawData, movieRate);
   },
 
   getRateList() {
     return JSON.parse(storage.getData(KEY.movieList) ?? "[]");
+  },
+
+  getRateById(movieId: number) {
+    const totalMovieRates = this.getRateList();
+    const targetRate = totalMovieRates.find(({ id }: { id: number }) => {
+      return id === movieId;
+    });
+
+    return targetRate ?? null;
   },
 
   updateRateById(id: number, newData: UserMovieRateData) {
