@@ -1,4 +1,3 @@
-// App.ts
 import Header from "./components/Header/index";
 import Footer from "./components/Footer/index";
 import Banner from "./components/Banner/index";
@@ -6,7 +5,7 @@ import MovieList from "./components/MovieList/index";
 import { fetchPopularMovies, fetchSearchedMovies } from "./APIs/movieAPI";
 import Store from "./store/store";
 import { MOVIE_COUNT } from "./constants/config";
-import { appendHTML, isScrolledToBottom } from "./ui/dom";
+import { appendHTML, appendHTMLs, isScrolledToBottom } from "./ui/dom";
 import debounce from "./utils/debounce";
 import {
   getCurrentPage,
@@ -14,6 +13,7 @@ import {
   isPossibleLoadSearchedMovies,
   withLoading,
 } from "./domains/movie";
+import SkeletonMovieItem from "./components/Skeleton/SkeletonMovieItem";
 
 class App {
   private $target: HTMLElement;
@@ -75,6 +75,13 @@ class App {
             state.movies.length,
             MOVIE_COUNT.UNIT
           );
+          const $ul =
+            this.$mainContainer.querySelector<HTMLElement>("#movie-list")!;
+
+          appendHTMLs(
+            $ul,
+            Array.from({ length: MOVIE_COUNT.UNIT }, SkeletonMovieItem).join("")
+          );
 
           if (isPossibleLoadPopularMovies(state)) {
             const newMovies = await withLoading(store, () =>
@@ -96,6 +103,8 @@ class App {
               movies: [...state.movies, ...newMoviesData.results],
             });
           }
+
+          $ul.querySelectorAll(".skeleton-item").forEach(($li) => $li.remove());
         }
       }, 200)
     );

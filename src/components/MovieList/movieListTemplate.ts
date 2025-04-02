@@ -30,10 +30,7 @@ export const movieItemsTemplate = (movies: Movie[], query: string): string => {
         </div>
       `;
     }
-    return new Array(MOVIE_COUNT.UNIT)
-      .fill(0)
-      .map(() => SkeletonMovieItem())
-      .join("");
+    return Array.from({ length: MOVIE_COUNT.UNIT }, SkeletonMovieItem).join("");
   }
   return movies.map(MovieItem).join("");
 };
