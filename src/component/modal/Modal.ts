@@ -3,6 +3,8 @@ import LocalStorage from '../../domain/LocalStorage';
 import { $ } from '../../utils/selector';
 import modalLoadingTemplate from './loadingTemplate';
 import ModalStar from './ModalStar';
+import { MovieData } from '../../../types/movie';
+import { MovieDetailData } from '../../../types/movie';
 
 class Modal {
   #container;

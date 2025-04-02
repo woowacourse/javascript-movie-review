@@ -1,11 +1,12 @@
 import { SYSTEM_CONSTANTS } from '../constants/systemConstants';
 import { redirectToPage } from '../route/router';
 import APIClient from './APIClient';
+import { Movie } from '../../types/apiMovie';
 
 export async function extractedData(url: string) {
   try {
     const movieList = await APIClient.get(url);
-    const movieListData = movieList.results.map((movieItem: MovieItem) => ({
+    const movieListData = movieList.results.map((movieItem: Movie) => ({
       id: movieItem.id,
       title: movieItem.title,
       imgUrl: `${SYSTEM_CONSTANTS.BASE_IMG_URL}${movieItem.poster_path}`,
