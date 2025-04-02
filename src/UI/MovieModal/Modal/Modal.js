@@ -7,8 +7,9 @@ class Modal {
   #isLoading;
   #show;
 
-  constructor($target) {
+  constructor($target, setMovieId) {
     this.$target = $target;
+    this.setMovieId = setMovieId;
 
     this.#movie;
     this.#show = false;
@@ -18,6 +19,9 @@ class Modal {
   }
 
   async init(movieId) {
+    document.removeEventListener("keydown", this.handleKeyDown);
+    document.addEventListener("keydown", this.handleKeyDown);
+
     this.movieId = movieId;
     if (this.movieId) {
       const movieDetail = await this.getMovieDetailData();
@@ -163,6 +167,17 @@ class Modal {
     this.$target.appendChild(this.$div);
   }
 
+  handleKeyDown(e) {
+    const $modalBg = document.querySelector("#modalBackground");
+
+    if (!$modalBg) return;
+
+    if ($modalBg.classList.contains("active") && e.key === "Escape") {
+      $modalBg.classList.remove("active");
+      this.setMovieId(undefined);
+    }
+  }
+
   handleModalBackClick = (e) => {
     if (!e.target.closest(".modal") && !e.target.closest(".rating-selector")) {
       this.handleCloseButtonClick();
@@ -170,6 +185,7 @@ class Modal {
   };
 
   handleCloseButtonClick = () => {
+    this.setMovieId(undefined);
     this.$div.classList.remove("active");
   };
 }

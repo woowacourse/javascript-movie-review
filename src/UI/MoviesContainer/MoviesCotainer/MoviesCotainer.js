@@ -24,7 +24,6 @@ class MoviesCotainer {
     this.#mode = mode;
     this.$target = $target;
     this.#lastPage = 0;
-    this.#movieId = 0;
 
     this.renderModal();
   }
@@ -61,7 +60,7 @@ class MoviesCotainer {
 
     $body.appendChild($modalContainer);
 
-    this.modal = new Modal($modalContainer);
+    this.modal = new Modal($modalContainer, this.setMovieId);
   }
 
   setLastPage(lastPage) {
