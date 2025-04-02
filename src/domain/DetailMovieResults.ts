@@ -22,7 +22,7 @@ class DetailMovieResults {
         poster_path: movieItem.poster_path,
         overview: movieItem.overview,
         title: movieItem.title,
-        vote_average: movieItem.vote_average.toFixed(2),
+        vote_average: Number(Number(movieItem.vote_average).toFixed(2)),
         starScore: 0,
       });
       return movieItem;

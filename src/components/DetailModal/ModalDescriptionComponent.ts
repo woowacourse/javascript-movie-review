@@ -55,7 +55,7 @@ const MovieInfoSectionComponent = (movieItem: MovieItemType | storedDetailMovieI
               createDOMElement({
                 tag: "span",
                 className: "star-description",
-                textContent: movieItem.vote_average.toFixed(2),
+                textContent: Number(movieItem.vote_average).toFixed(2),
               }),
             ],
           }),

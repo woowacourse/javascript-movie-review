@@ -45,7 +45,7 @@ const BackgroundThumbnailSection = (movie: MovieItemType) => {
                 createDOMElement({
                   tag: "span",
                   className: "rate-value",
-                  textContent: movie.vote_average.toFixed(2),
+                  textContent: Number(movie.vote_average).toFixed(2),
                 }),
               ],
             }),
