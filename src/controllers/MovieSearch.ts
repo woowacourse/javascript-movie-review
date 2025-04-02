@@ -27,6 +27,7 @@ function removeHeader() {
     ".logo-searchBar"
   ) as HTMLDivElement;
 
+  $logoSearchBar.classList.add("noBanner");
   if ($header) $header.remove();
   $wrap.prepend($logoSearchBar);
 }

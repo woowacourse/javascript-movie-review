@@ -214,6 +214,10 @@ footer.footer p:not(:last-child) {
   gap: 24px;
 }
 
+.logo-searchBar.noBanner{
+margin-top: 40px;
+}
+
 .thumbnail.skeleton{
   width: 200px;
   height: 300px;
