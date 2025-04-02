@@ -1,12 +1,12 @@
-import page from "../../store/page";
-
 export function setupInfiniteScroll({
   onLoad,
   onEnd,
+  hasNextPage,
   offset = 100,
 }: {
   onLoad: () => Promise<void>;
   onEnd?: () => void;
+  hasNextPage: () => boolean;
   offset?: number;
 }) {
   let isLoading = false;
@@ -15,7 +15,7 @@ export function setupInfiniteScroll({
     const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
     const reachedBottom = scrollTop + clientHeight >= scrollHeight - offset;
 
-    if (!reachedBottom || isLoading || !page.hasNextPage()) return;
+    if (!reachedBottom || isLoading || !hasNextPage()) return;
 
     isLoading = true;
 
@@ -24,7 +24,7 @@ export function setupInfiniteScroll({
       .finally(() => {
         isLoading = false;
 
-        if (!page.hasNextPage()) {
+        if (!hasNextPage()) {
           onEnd?.();
         }
       });
