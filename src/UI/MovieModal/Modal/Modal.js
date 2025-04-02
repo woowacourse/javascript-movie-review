@@ -3,6 +3,8 @@ import { getMovieDetail } from "../../../Domain/getMovieDetail";
 import Rate from "../Rate/Rate";
 
 class Modal {
+  static currentKeydownHandler = null;
+
   #movie;
   #isLoading;
   #show;
@@ -19,8 +21,12 @@ class Modal {
   }
 
   async init(movieId) {
-    document.removeEventListener("keydown", this.handleKeyDown);
+    if (Modal.currentKeydownHandler) {
+      document.removeEventListener("keydown", Modal.currentKeydownHandler);
+    }
+
     document.addEventListener("keydown", this.handleKeyDown);
+    Modal.currentKeydownHandler = this.handleKeyDown;
 
     this.movieId = movieId;
 
@@ -184,13 +190,8 @@ class Modal {
   }
 
   handleKeyDown = (e) => {
-    const $modalBg = document.querySelector("#modalBackground");
-
-    if (!$modalBg) return;
-
-    if ($modalBg.classList.contains("active") && e.key === "Escape") {
-      $modalBg.classList.remove("active");
-      this.setMovieId(undefined);
+    if (e.key === "Escape") {
+      this.handleCloseButtonClick();
     }
   };
 
