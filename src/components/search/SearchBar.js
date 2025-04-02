@@ -39,6 +39,7 @@ const SearchBar = () => {
     if (!query) return;
 
     document.querySelector(".background-container").classList.add("disappear");
+    document.querySelector(".overlay").classList.add("disappear");
 
     const params = new URLSearchParams(window.location.search);
     params.set("query", query);
@@ -55,7 +56,6 @@ const SearchBar = () => {
 
     const $thumbnailList = document.querySelector(".thumbnail-list");
     $thumbnailList.replaceWith(MovieList({ movies: movies.movieList }));
-
   };
 
   $form.addEventListener("submit", handleSearch);
