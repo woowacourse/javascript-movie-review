@@ -17,31 +17,41 @@ export default class StarRating {
     this.element.innerHTML = `
       <div class="star-rating">
         <div class="star-rating-item">
-          ${Array(5)
-            .fill(0)
-            .map(
-              (_, index) => `
-            <span class="${
-              index < this.movieRating.getRating()
-                ? 'filled-star'
-                : 'empty-star'
-            }" data-rating="${index + 1}">
-              <img src="./images/${
-                index < this.movieRating.getRating()
-                  ? 'star_filled'
-                  : 'star_empty'
-              }.png" class="star" />
-            </span>
-          `,
-            )
-            .join('')}
+          ${this.renderStars()}
         </div>
         <div class="detail-rating">
-          <span class="rating-text">${this.movieRating.getRatingText()}</span>
-          <span class="rating-score">${this.movieRating.getRatingScore()}</span>
+          ${this.renderRatingText()}
+          ${this.renderRatingScore()}
         </div>
       </div>
     `;
+  }
+
+  renderStars() {
+    return Array(5)
+      .fill(0)
+      .map((_, index) => this.renderStar(index))
+      .join('');
+  }
+
+  renderStar(index) {
+    const isFilled = index < this.movieRating.getRating();
+    const starType = isFilled ? 'filled-star' : 'empty-star';
+    const starImage = isFilled ? 'star_filled' : 'star_empty';
+
+    return `
+      <span class="${starType}" data-rating="${index + 1}">
+        <img src="./images/${starImage}.png" class="star" />
+      </span>
+    `;
+  }
+
+  renderRatingText() {
+    return `<span class="rating-text">${this.movieRating.getRatingText()}</span>`;
+  }
+
+  renderRatingScore() {
+    return `<span class="rating-score">${this.movieRating.getRatingScore()}</span>`;
   }
 
   bindEvents() {
