@@ -1,4 +1,4 @@
-import { openModal } from "../controllers/MovieDetailModal";
+import { openModal } from "../controllers/MovieDetail";
 import Button from "./Button";
 import LogoSearchBar from "./LogoSearchBar";
 

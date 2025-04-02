@@ -2,7 +2,7 @@ import MovieList from "../domains/MovieList.js";
 import { MovieInfo } from "../../types/movieType.js";
 import MovieItem from "../components/MovieItem.js";
 import Skeleton from "../components/Skeleton.js";
-import { openModal } from "./MovieDetailModal.ts";
+import { openModal } from "./MovieDetail.ts";
 import { ObserverHTMLElement } from "./Main.ts";
 
 function renderContentHeader($section: HTMLElement, contentTitle: string) {

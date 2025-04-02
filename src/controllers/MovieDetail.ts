@@ -49,7 +49,7 @@ function registerModalClose($modal:HTMLElement, $modalBackground:HTMLElement) {
   }
 }
 
-function updateStarImages($modal:HTMLElement, movieId:string, rating = 0) {
+function updateStarImages($modal:HTMLElement, rating = 0) {
   const starElements = $modal.querySelectorAll(
     "img.star.point"
   ) as NodeListOf<HTMLImageElement>;
@@ -83,40 +83,40 @@ function updateRatingDescription($modal:HTMLElement, rating = 0) {
   }
 }
 
-function setRating($modal:HTMLElement, movieId:string, rating = 0) {
-  updateStarImages($modal, movieId, rating);
+function setRating($modal:HTMLElement, rating = 0) {
+  updateStarImages($modal, rating);
   updateRatingDescription($modal, rating);
 }
 
-function MovieDetailModal($modalBackground: HTMLElement, movieId: string) {
+function MovieDetail($modalBackground: HTMLElement, movieId: string) {
   const $modal = $modalBackground.querySelector(".modal") as HTMLElement;
   const storedRating = localStorage.getItem(movieId);
   let selectedRating = storedRating !== null ? Number(storedRating) : 0;
 
   registerModalClose($modal, $modalBackground);
 
-  setRating($modal, movieId, selectedRating);
+  setRating($modal, selectedRating);
 
   const starElements = $modal.querySelectorAll("img.star.point");
   starElements.forEach((star, index) => {
     star.addEventListener("mouseover", () => {
       if (selectedRating) return;
       const hoverRating = (index + 1) * 2;
-      setRating($modal, movieId, hoverRating);
+      setRating($modal, hoverRating);
     });
 
     star.addEventListener("click", () => {
-      const rating = (index + 1) * 2 as number;
+      const rating = ((index + 1) * 2) as number;
       if (selectedRating === rating) {
         selectedRating = 0;
-        setRating($modal, movieId);
+        setRating($modal);
       } else {
         selectedRating = rating;
-        setRating($modal, movieId, selectedRating);
+        setRating($modal, selectedRating);
         localStorage.setItem(movieId, `${rating}`);
       }
     });
   });
 }
 
-export default MovieDetailModal;
+export default MovieDetail;
