@@ -64,3 +64,4 @@
 - [ ] apiWrapper 파일 수정
   - [ ] 이벤트 emitter 구조로 변경
 - [ ] 코드 구조 전체 리팩토링
+  - [x] movieListController 뷰 분리 및 리팩토링 작업

@@ -29,6 +29,10 @@ class PopularMovieResults {
   hasMore(): boolean {
     return this.page !== this.maxPage;
   }
+
+  hasMovieList(): boolean {
+    return this.movieList.length > 0;
+  }
 }
 
 export default PopularMovieResults;

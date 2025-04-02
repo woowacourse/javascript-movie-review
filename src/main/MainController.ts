@@ -48,12 +48,12 @@ class MainController {
 
     new HeaderController({
       renderSearchMovieList: (searchValue) => this.searchMovieListController.render(searchValue),
-      renderMovieList: () => this.movieListController.render(),
+      renderMovieList: () => this.movieListController.initialize(),
     });
   }
 
   async render() {
-    await this.movieListController.render();
+    await this.movieListController.initialize();
     await this.backgroundThumbnailController.render(this.PopularMovieResults.getFirstMovieItem());
 
     MovieItemOpenHandler(this.mainElement, this.openDetailModal.bind(this));
