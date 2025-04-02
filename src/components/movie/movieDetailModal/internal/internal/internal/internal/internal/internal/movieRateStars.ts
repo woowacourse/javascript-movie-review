@@ -31,7 +31,7 @@ const handleMovieRateUpdate = ({
     }
 
     const myMovieRates: MyMovieRates =
-      moviesRatingLocalStorage.getDataFromLocalStorage<MyMovieRates>() ?? {};
+      moviesRatingLocalStorage.getData<MyMovieRates>() ?? {};
     const myMovieRate = myMovieRates[movie.id] || 0;
 
     const newMovieRate = Number.parseInt(event.target.value, 10);
@@ -44,7 +44,7 @@ const handleMovieRateUpdate = ({
     }
 
     const newMovieRates = { ...myMovieRates, [movie.id]: newMovieRate };
-    moviesRatingLocalStorage.setDataToLocalStorage(newMovieRates);
+    moviesRatingLocalStorage.setData(newMovieRates);
 
     const $images = $movieRateStars.querySelectorAll(".star");
     $images.forEach(($img, idx) => {

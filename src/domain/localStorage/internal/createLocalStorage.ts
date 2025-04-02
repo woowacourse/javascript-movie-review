@@ -1,7 +1,7 @@
 const createLocalStorage = (key: string) => {
   const myKey = key;
 
-  const getDataFromLocalStorage = <T>(): T | null => {
+  const getData = <T>(): T | null => {
     const data = localStorage.getItem(myKey);
     if (data === null) {
       return null;
@@ -14,11 +14,11 @@ const createLocalStorage = (key: string) => {
     }
   };
 
-  const setDataToLocalStorage = <T>(data: T) => {
+  const setData = <T>(data: T) => {
     localStorage.setItem(myKey, JSON.stringify(data));
   };
 
-  return { getDataFromLocalStorage, setDataToLocalStorage };
+  return { getData, setData };
 };
 
 export default createLocalStorage;
