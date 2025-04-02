@@ -1,5 +1,5 @@
 import Modal from '../Modal';
-import { MovieDetailType } from '../../type';
+import { currentRateType, MovieDetailType } from '../../type';
 import { $ } from '../../util/selector';
 import { hideModalSkeletons, modalSkeletons } from './skeleton/modalSkeleton';
 
@@ -13,8 +13,8 @@ function waitForImageLoad(img: HTMLImageElement): Promise<void> {
   });
 }
 
-export const renderModal = async (movieDetail: MovieDetailType) => {
-  const modal = Modal(movieDetail) as HTMLDialogElement;
+export const renderModal = async (movieDetail: MovieDetailType, currentRate: currentRateType) => {
+  const modal = Modal(movieDetail, currentRate) as HTMLDialogElement;
   const poster = modal.querySelector('#movieDetailPoster') as HTMLImageElement;
 
   modalSkeletons();

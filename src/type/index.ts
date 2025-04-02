@@ -87,3 +87,8 @@ export interface RateMovieType {
 }
 
 export type RatingScore = 0 | 2 | 4 | 6 | 8 | 10;
+
+export interface currentRateType {
+  rate: number;
+  status: boolean;
+}

@@ -1,14 +1,14 @@
 import createDOMElement from '../util/createDomElement';
 import { $ } from '../util/selector';
 import { RATING_COMMENTS } from '../constant';
-import { saveMovieRateToStorage, getStoredRate } from '../domain/localStorageRate';
-import { MovieDetailType, RatingScore } from '../type';
+import { saveMovieRateToStorage } from '../domain/localStorageRate';
+import { currentRateType, MovieDetailType, RatingScore } from '../type';
 
-function Modal(movieDetail: MovieDetailType) {
+function Modal(movieDetail: MovieDetailType, currentRate: currentRateType) {
   const genre = movieDetail.genres.map((genre) => genre.name).join(', ');
   const releaseYear = movieDetail.releaseDate.substring(0, 4);
 
-  const { rate, status } = getStoredRate(movieDetail.id);
+  const { rate, status } = currentRate;
   const ratingComment = RATING_COMMENTS[rate as RatingScore];
   const ratingScore = `(${rate}/10)`;
 

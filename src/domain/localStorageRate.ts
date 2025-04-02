@@ -1,4 +1,5 @@
 import { STORAGE_KEY } from '../constant';
+import { currentRateType } from '../type';
 import { movieStorageManager } from './movieStorageManager';
 
 export const saveMovieRateToStorage = (id: number, rate: number) => {
@@ -11,7 +12,7 @@ export const saveMovieRateToStorage = (id: number, rate: number) => {
   }
 };
 
-export const getStoredRate = (id: number) => {
+export const getStoredRate = (id: number): currentRateType => {
   const result = movieStorageManager.findItem(STORAGE_KEY, id);
 
   return result;
