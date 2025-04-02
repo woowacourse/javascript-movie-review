@@ -11,22 +11,22 @@ export function setupInfiniteScroll({
 
   const handleScroll = () => {
     const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+    const reachedBottom = scrollTop + clientHeight >= scrollHeight - offset;
 
-    if (!isLoading && scrollTop + clientHeight >= scrollHeight - offset) {
-      isLoading = true;
+    if (!reachedBottom || isLoading || !page.hasNextPage()) return;
 
-      onLoad().finally(() => {
-        if (!page.hasNextPage()) {
-          isLoading = true;
-        }
+    isLoading = true;
+
+    onLoad()
+      .catch(console.error)
+      .finally(() => {
         isLoading = false;
-      });
-    }
 
-    if (!page.hasNextPage()) {
-      const $button = document.querySelector(".primary.more");
-      $button?.classList.add("disappear");
-    }
+        if (!page.hasNextPage()) {
+          const $button = document.querySelector(".primary.more");
+          $button?.classList.add("disappear");
+        }
+      });
   };
 
   window.addEventListener("scroll", handleScroll);

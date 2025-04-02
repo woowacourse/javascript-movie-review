@@ -27,7 +27,7 @@ class Page {
   }
 
   hasNextPage() {
-    return this.#page >= this.#total;
+    return this.#page <= this.#total;
   }
 }
 
