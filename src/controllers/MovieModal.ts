@@ -2,7 +2,7 @@ import { MovieDetailInfo } from "../../types/movieType";
 import MovieDetailModal from "../components/MovieDetailModal";
 import MovieDetail from "./MovieDetail.ts";
 
-export const ratingDescriptions: { [key: number]: string } = {
+export const ratingDescriptions: Record<number, string> = {
   2: "최악이예요",
   4: "별로예요",
   6: "보통이에요",
