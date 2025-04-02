@@ -27,7 +27,7 @@ const MovieDetail = () => {
     const target = (event.target as HTMLElement).closest(
       ".my-vote-star"
     ) as HTMLImageElement;
-    if (!target || !target.dataset.index) return;
+    if (!target?.dataset?.index) return;
     if (movieDetail)
       window.localStorage.setItem(
         JSON.stringify(movieDetail.id),
@@ -39,7 +39,7 @@ const MovieDetail = () => {
     const target = (event.target as HTMLElement).closest(
       ".my-vote-star"
     ) as HTMLImageElement;
-    if (!target || !target.dataset.index) return;
+    if (!target?.dataset?.index) return;
     const index = Number(target.dataset.index);
 
     const starElements = $$(".my-vote-star") as NodeListOf<HTMLImageElement>;
@@ -60,7 +60,7 @@ const MovieDetail = () => {
       );
       const starElements = $$(".my-vote-star") as NodeListOf<HTMLImageElement>;
       starElements.forEach((element) => {
-        if (!element.dataset.index) return;
+        if (!element?.dataset?.index) return;
         const index = parseInt(element.dataset.index);
         if (vIndex >= index) element.src = images.starFull;
         else element.src = images.starEmpty;
