@@ -3,7 +3,7 @@ import hideSkeletonMovieList from "../../../skeleton/hideSkeletonMovieList";
 import { createElementWithAttributes } from "../../../utils/createElementWithAttributes";
 import { LoadMoreCallback } from "../movieContainer";
 import movieList from "./movieList";
-import createObserver from "../../../../domain/observer/observer";
+import createIntersectionObserver from "../../../../domain/observer/createIntersectionObserver";
 import showErrorContainer from "../../../errorContainer/showErrorContainer";
 
 interface SetupSeeMoreMoviesHandlerProps {
@@ -17,7 +17,7 @@ const setupSeeMoreMoviesHandler = ({
   $seeMoreButton,
   loadMoreCallback,
 }: SetupSeeMoreMoviesHandlerProps) => {
-  const observer = createObserver({
+  const loadMovieObserver = createIntersectionObserver({
     options: {
       root: document.querySelector(".movie-container"),
       rootMargin: "0px",
@@ -31,7 +31,7 @@ const setupSeeMoreMoviesHandler = ({
     },
   });
 
-  observer.observeTarget($seeMoreButton);
+  loadMovieObserver.observeTarget($seeMoreButton);
 
   const MAX_PAGES = 500;
   let pageNumber = 1;
@@ -44,8 +44,8 @@ const setupSeeMoreMoviesHandler = ({
       const { results, total_pages } = await loadMoreCallback(pageNumber);
 
       if (pageNumber === total_pages || pageNumber === MAX_PAGES) {
-        observer.unObserveTarget($seeMoreButton);
-        observer.disconnect();
+        loadMovieObserver.unObserveTarget($seeMoreButton);
+        loadMovieObserver.disconnect();
 
         $seeMoreButton.removeEventListener("click", seeMoreMovies);
         $seeMoreButton.remove();

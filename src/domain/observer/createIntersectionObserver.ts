@@ -3,7 +3,7 @@ interface ObserverProps {
   options: IntersectionObserverInit;
 }
 
-const createObserver = ({ callback, options }: ObserverProps) => {
+const createIntersectionObserver = ({ callback, options }: ObserverProps) => {
   let observer = new IntersectionObserver(callback, options);
 
   const observeTarget = (target: Element) => {
@@ -27,4 +27,4 @@ const createObserver = ({ callback, options }: ObserverProps) => {
   return { observeTarget, unObserveTarget, disconnect };
 };
 
-export default createObserver;
+export default createIntersectionObserver;
