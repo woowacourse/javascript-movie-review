@@ -103,7 +103,7 @@ body.modal-open {
   z-index: 0;
 }
 
-.modal-skeleton > skeleton {
+.modal-skeleton > section {
   opacity: 1;
   width: 60%;
   display: flex;

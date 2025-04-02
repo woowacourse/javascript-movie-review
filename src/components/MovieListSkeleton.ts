@@ -4,9 +4,7 @@ import Skeleton from "./Skeleton";
 export default function MovieListSkeleton() {
   const $movieListFragment = document.createDocumentFragment();
 
-  for (let i = 0; i < 20; i++) {
-    const $movieItem = toElement(`
-      <li>
+  const movieItemSkeleton = /* html */ ` <li>
         <div class="item">
           ${Skeleton({ width: "200px", height: "300px" })}
           <div class="item-desc">
@@ -14,8 +12,10 @@ export default function MovieListSkeleton() {
             ${Skeleton({ width: "150px", height: "20px" })}
           </div>
         </div>
-      </li>
-      `);
+      </li>`;
+
+  for (let i = 0; i < 20; i++) {
+    const $movieItem = toElement(movieItemSkeleton);
     $movieListFragment.appendChild($movieItem);
   }
 
