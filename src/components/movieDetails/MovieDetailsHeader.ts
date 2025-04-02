@@ -1,5 +1,5 @@
-import { MovieDetails } from "../../types/domain";
-import { VOTE } from "../constants/movie.ts";
+import { MovieDetails } from "../../../types/domain.ts";
+import { VOTE } from "../../constants/movie.ts";
 
 export type MovieHeader = Pick<
   MovieDetails,

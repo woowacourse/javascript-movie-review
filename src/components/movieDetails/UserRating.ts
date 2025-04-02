@@ -1,6 +1,6 @@
-import { RATING_MESSAGE, RATING_SCORE, VOTE } from "../constants/movie";
-import movieService from "../service/movieService";
-import { selectElement, selectElementAll } from "../utils/ui";
+import { RATING_MESSAGE, RATING_SCORE, VOTE } from "../../constants/movie";
+import movieService from "../../service/movieService";
+import { selectElement, selectElementAll } from "../../utils/ui";
 
 interface UserRatingParams {
   id: number;

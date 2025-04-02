@@ -1,7 +1,7 @@
 import movieService from "../service/movieService.ts";
 import { selectElement } from "../utils/ui.ts";
 import Modal from "./Modal.ts";
-import MovieItemDetails from "./MovieItemDetails.ts";
+import MovieItemDetails from "./movieDetails/MovieItemDetails.ts";
 
 class MovieList {
   #movieList: string[];
