@@ -48,9 +48,8 @@ const MovieItem = ({ movie }) => {
       String(movie.id),
       "0"
     );
-
   }
-
+  
   return $li;
 };
 
