@@ -33,17 +33,17 @@ export default function Modal({
 }: ModalType) {
   let dataIndex = 1;
 
-  function loadFilledStar() {
-    return Array.from({ length: rate_number }, () => {
-      return `<img src="./images/star_filled.png" class="star" data-index="${dataIndex++}" />`;
-    }).join("");
-  }
+  const filledStars = Array.from(
+    { length: rate_number },
+    () =>
+      `<img src="./images/star_filled.png" class="star" data-index="${dataIndex++}" />`
+  ).join("");
 
-  function loadEmptyStar() {
-    return Array.from({ length: 5 - rate_number }, () => {
-      return `<img src="./images/star_empty.png" class="star" data-index="${dataIndex++}" />`;
-    }).join("");
-  }
+  const emptyStars = Array.from(
+    { length: 5 - rate_number },
+    () =>
+      `<img src="./images/star_empty.png" class="star" data-index="${dataIndex++}" />`
+  ).join("");
 
   return toElement(/* html */ `
         <div class="modal-image" >
@@ -70,8 +70,8 @@ export default function Modal({
             <p class="modal-subtitle">내 별점</p>
             <div class="personal-rate-container">
                 <div class="personal-rate">
-                  ${loadFilledStar()}
-                  ${loadEmptyStar()}
+                  ${filledStars}
+                  ${emptyStars}
                 </div>
                 <div class="personal-rate-message">
                     <span class="rating-message">${
