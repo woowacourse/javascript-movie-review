@@ -1,7 +1,6 @@
 function Button(text, className = "button", onClick) {
   const $button = document.createElement("button");
-
-  $button.classList.add(className);
+  $button.className = className;
   $button.innerText = text;
 
   $button.addEventListener("click", onClick);

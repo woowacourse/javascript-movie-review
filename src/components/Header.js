@@ -1,6 +1,8 @@
+import { openModal } from "../controllers/MovieDetailModal";
+import Button from "./Button";
 import LogoSearchBar from "./LogoSearchBar";
 
-function Header({ title, poster_path, vote_average }) {
+function Header({ id, title, poster_path, vote_average }) {
   const $header = document.createElement("header");
 
   $header.innerHTML = `
@@ -15,11 +17,15 @@ function Header({ title, poster_path, vote_average }) {
           <span class="rate-value">${vote_average.toFixed(1)}</span>
         </div>
         <div class="title">${title}</div>
-        <button class="primary detail">자세히 보기</button>
+        ${Button("자세히 보기", "primary detail").outerHTML}
       </div>
     </div>
   </div>
 `;
+
+  const $button = $header.querySelector(".primary.detail");
+  $button.dataset.id = id;
+  $button.addEventListener("click", openModal);
 
   return $header;
 }

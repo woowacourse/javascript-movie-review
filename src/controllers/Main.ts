@@ -11,9 +11,10 @@ export interface ObserverHTMLElement extends HTMLElement {
   observer?: IntersectionObserver;
 }
 
-async function renderHeader({ title, poster_path, vote_average }: MovieInfo) {
+async function renderHeader({ id, title, poster_path, vote_average }: MovieInfo) {
   const $wrap = document.querySelector("#wrap");
   const $header = Header({
+    id,
     title,
     poster_path,
     vote_average
