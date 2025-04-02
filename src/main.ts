@@ -1,5 +1,4 @@
 import "./event/movieEventHandler";
-import "./event/modalEventHandler";
 import "./apis/intersectionApi";
 import { renderMoviesList } from "./features/movies/movieListRenderer";
 import { createObserver } from "./apis/intersectionApi";
