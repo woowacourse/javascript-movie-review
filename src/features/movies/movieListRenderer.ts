@@ -2,7 +2,7 @@ import MovieList from "../../components/MovieList";
 import MovieListSkeleton from "../../components/MovieListSkeleton";
 import TopRatedMovie from "../../components/TopRatedMovie";
 import { DEFAULT_BACK_DROP_URL } from "../../constants/movieApi";
-import { movieStore } from "../../state/movieStore";
+import { movieStore, searchState } from "../../state/movieStore";
 import { updateSearchList, updateTotalList } from "./movieService";
 
 const $mainSection = document.querySelector("main section");
@@ -23,7 +23,7 @@ const errorMessages = (status: number) => {
 const changeHeaderBackground = () => {
   const $backgroundContainer = document.querySelector(".background-container");
 
-  if (movieStore.searchKeyword === "") {
+  if (searchState.keyword === "") {
     const backgroundImage = movieStore.movies[0].backdrop_path
       ? `${DEFAULT_BACK_DROP_URL}${movieStore.movies[0].backdrop_path}`
       : "./images/default_thumbnail.jpeg";
@@ -90,7 +90,7 @@ export const renderMoviesList = async () => {
   renderSkeleton();
 
   try {
-    if (movieStore.searchKeyword === "") {
+    if (searchState.keyword === "") {
       await updateTotalList();
       renderHeaderBackground();
     } else {

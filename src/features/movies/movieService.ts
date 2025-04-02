@@ -5,7 +5,11 @@ import {
   fetchMovieDetail,
   fetchMovies,
 } from "../../apis/MovieApi";
-import { movieStore } from "../../state/movieStore";
+import {
+  movieStore,
+  searchState,
+  selectionState,
+} from "../../state/movieStore";
 
 //update
 const updateMovieList = (response: MoviesResponse) => {
@@ -22,7 +26,7 @@ const updateMovieList = (response: MoviesResponse) => {
 //read
 export const readMovieDetail = async (): Promise<MovieDetailInfo> => {
   const movieResponse = (await fetchMovieDetail({
-    id: movieStore.selectedMovie,
+    id: selectionState.movieId,
   })) as MovieDetail;
   return {
     backdrop_path: movieResponse.backdrop_path,
@@ -46,7 +50,7 @@ export const updateTotalList = async () => {
 //update
 export const updateSearchList = async () => {
   const moviesResponse = (await fetchMovieByName({
-    name: movieStore.searchKeyword,
+    name: searchState.keyword,
     page: movieStore.page,
   })) as MoviesResponse;
   updateMovieList(moviesResponse);

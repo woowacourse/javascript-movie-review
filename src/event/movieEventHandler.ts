@@ -1,7 +1,7 @@
 import { renderMoviesList } from "../features/movies/movieListRenderer";
 import { ratingMessages } from "../components/Modal";
 import { movieDetailRenderer } from "../features/movies/movieDetailRenderer";
-import { movieStore } from "../state/movieStore";
+import { movieStore, searchState, selectionState } from "../state/movieStore";
 import { addEvent } from "./utils/addEvent";
 import { updateStoredMovieRatingById } from "./utils/ratingStorage";
 
@@ -32,12 +32,12 @@ addEvent({
     (target as HTMLFormElement).reset();
 
     if (value) {
-      movieStore.searchKeyword = value;
+      searchState.keyword = value;
       movieStore.page = 1;
 
       if ($ul && $title) {
         $ul.innerHTML = "";
-        $title.textContent = `"${movieStore.searchKeyword}" 검색 결과`;
+        $title.textContent = `"${searchState.keyword}" 검색 결과`;
       }
 
       $topRatedContainer?.classList.add("close");
@@ -60,7 +60,7 @@ function closeModal() {
 }
 
 function opneModal(id: number) {
-  movieStore.selectedMovie = id;
+  selectionState.movieId = id;
   document.body.classList.add("lock-scroll");
   $modalBackground?.classList.toggle("active");
   movieDetailRenderer();

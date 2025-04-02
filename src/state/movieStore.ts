@@ -4,6 +4,12 @@ export const movieStore = {
   page: 1,
   totalPages: 1,
   movies: [] as MovieSummary[],
-  searchKeyword: "",
-  selectedMovie: 0,
+};
+
+export const searchState = {
+  keyword: "",
+};
+
+export const selectionState = {
+  movieId: 0,
 };
