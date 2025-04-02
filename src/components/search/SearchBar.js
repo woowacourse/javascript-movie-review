@@ -29,31 +29,14 @@ export default class SearchBar {
     `;
 
     this.searchInput = searchHeader.querySelector('.search-bar-input');
-    this.searchButton = searchHeader.querySelector('.search-bar-button');
-    const searchForm = searchHeader.querySelector('.search-form');
+    this.searchForm = searchHeader.querySelector('.search-form');
 
-    searchForm.addEventListener('submit', this.handleSubmit.bind(this));
-    this.searchButton.addEventListener('click', this.handleSearchClick.bind(this));
-    this.searchInput.addEventListener('keypress', this.handleKeyPress.bind(this));
+    this.searchForm.addEventListener('submit', this.handleSubmit.bind(this));
   }
 
   async handleSubmit(event) {
     event.preventDefault();
     const query = this.searchInput.value;
     await this.onSearch(query);
-  }
-  
-
-  async handleSearchClick() {
-    const query = this.searchInput.value;
-    await this.onSearch(query);
-  }
-
-  async handleKeyPress(event) {
-    if (event.key === 'Enter') {
-      event.preventDefault();
-      const query = this.searchInput.value;
-      await this.onSearch(query);
-    }
   }
 }
