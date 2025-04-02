@@ -17,7 +17,7 @@ const NothingMovieList = () => {
     attributes: {
       src: NothingImg,
       alt: "으아아",
-    }
+    },
   });
 
   $p.textContent = NOTHING_TEXT;

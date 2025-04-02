@@ -19,7 +19,7 @@ function createSearchBarUI(onSubmit: (query: string) => void) {
     classNames: ["search-bar"],
     attributes: {
       placeholder: SEARCH_BAR_PLACEHOLDER,
-    }
+    },
   });
 
   const $button = createElement({
@@ -31,7 +31,7 @@ function createSearchBarUI(onSubmit: (query: string) => void) {
     tag: "img",
     attributes: {
       src: SearchButtonImage,
-    }
+    },
   });
 
   $button.appendChild($img);

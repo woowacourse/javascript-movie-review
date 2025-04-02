@@ -18,7 +18,7 @@ const Gnb = () => {
     attributes: {
       src: LogoImg,
       alt: "MovieList",
-    }
+    },
   });
 
   $div.appendChild($logo);

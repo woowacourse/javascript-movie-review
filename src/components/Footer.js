@@ -20,7 +20,7 @@ const Footer = () => {
     attributes: {
       src: LogoImage,
       width: "180",
-    }
+    },
   });
 
   const COPY_TEXT = "우아한테크코스 All Rights Reserved.";

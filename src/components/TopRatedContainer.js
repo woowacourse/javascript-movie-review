@@ -3,7 +3,6 @@ import MoviePreviewInfo from "./MoviePreviewInfo";
 import createElement from "./utils/createElement";
 import openMovieModal from "./utils/openMovieModal";
 
-
 const BUTTON_DETAIL = "자세히 보기";
 
 const TopRatedContainer = ({ popularMovie }) => {

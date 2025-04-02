@@ -21,7 +21,7 @@ const Header = ({ popularMovie }) => {
     classNames: ["overlay"],
     attributes: {
       "aria-hidden": "true",
-    }
+    },
   });
 
   const $img = createElement({
@@ -29,7 +29,7 @@ const Header = ({ popularMovie }) => {
     attributes: {
       src: `${proxiedImageUrl(posterPath)}`,
       alt: `${title}`,
-    }
+    },
   });
 
   $header.appendChild(Gnb());

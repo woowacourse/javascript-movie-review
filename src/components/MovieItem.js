@@ -23,7 +23,7 @@ const MovieItem = ({ movie }) => {
     attributes: {
       src: posterPath ? `${proxiedImageUrl(posterPath)}` : nullImage,
       alt: `${title}`,
-    }
+    },
   });
 
   $img.onerror = () => {
@@ -42,14 +42,11 @@ const MovieItem = ({ movie }) => {
   $li.addEventListener("click", async () => {
     openMovieModal(movie);
   });
-  
-  if(!localStorage.getItem(movie.id)) {
-    localStorage.setItem(
-      String(movie.id),
-      "0"
-    );
+
+  if (!localStorage.getItem(movie.id)) {
+    localStorage.setItem(String(movie.id), "0");
   }
-  
+
   return $li;
 };
 

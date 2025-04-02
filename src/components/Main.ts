@@ -17,14 +17,14 @@ const Main = ({ movies, status }: MainProps) => {
       tag: "div",
       attributes: {
         id: "wrap",
-      }
+      },
     });
 
     const $container = createElement({
       tag: "div",
       attributes: {
         id: "container",
-      }
+      },
     });
 
     $body.appendChild($wrap);

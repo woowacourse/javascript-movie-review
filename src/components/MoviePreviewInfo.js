@@ -14,7 +14,7 @@ const MoviePreviewInfo = ({ movie, bigFont = true }) => {
     classNames: ["star"],
     attributes: {
       src: EmptyStarImage,
-    }
+    },
   });
 
   const $rateValue = createElement({

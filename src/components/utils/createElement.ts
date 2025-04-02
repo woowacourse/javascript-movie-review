@@ -1,8 +1,8 @@
 type CreateElementProps<K extends keyof HTMLElementTagNameMap> = {
-      tag: K;
-      classNames?: string[];
-      attributes?: Partial<HTMLElementTagNameMap[K]>;
-    }
+  tag: K;
+  classNames?: string[];
+  attributes?: Partial<HTMLElementTagNameMap[K]>;
+};
 
 export default function createElement<K extends keyof HTMLElementTagNameMap>(
   props: CreateElementProps<K>
