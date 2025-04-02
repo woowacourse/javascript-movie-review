@@ -10,6 +10,7 @@ import MovieManager from "./Domain/MovieManager";
 import UIManager from "./Domain/UIManager";
 import MovieItem from "./UI/MoviesContainer/MovieItem/MovieItem";
 import Modal from "./UI/Modal/Modal";
+import { throttle } from "./utils/throttle";
 
 class App {
   #movieManager;
@@ -82,25 +83,28 @@ class App {
     $container.appendChild($main);
     $main.appendChild($movieListSection);
 
-    window.addEventListener("scroll", () => {
-      if (!this.#uiManager.getHasMore() || this.#uiManager.getLoading()) {
-        return;
-      }
+    window.addEventListener(
+      "scroll",
+      throttle(() => {
+        if (!this.#uiManager.getHasMore() || this.#uiManager.getLoading()) {
+          return;
+        }
 
-      const scrollPosition = window.scrollY || window.pageYOffset;
-      const windowHeight = window.innerHeight;
-      const documentHeight = Math.max(
-        document.body.scrollHeight,
-        document.body.offsetHeight,
-        document.documentElement.clientHeight,
-        document.documentElement.scrollHeight,
-        document.documentElement.offsetHeight
-      );
+        const scrollPosition = window.scrollY || window.pageYOffset;
+        const windowHeight = window.innerHeight;
+        const documentHeight = Math.max(
+          document.body.scrollHeight,
+          document.body.offsetHeight,
+          document.documentElement.clientHeight,
+          document.documentElement.scrollHeight,
+          document.documentElement.offsetHeight
+        );
 
-      if (scrollPosition + windowHeight >= documentHeight - 100) {
-        this.handleScroll();
-      }
-    });
+        if (scrollPosition + windowHeight >= documentHeight - 100) {
+          this.handleScroll();
+        }
+      }, 300)
+    );
 
     const $footer = new Footer().render();
     app.appendChild($footer);
