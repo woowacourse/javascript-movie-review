@@ -1,3 +1,4 @@
+import searchMovie from "../../feature/searchMovie.ts";
 import { createElement } from "../../utils/createElement.ts";
 import { $multiSelect } from "../../utils/dom.ts";
 import Button from "../common/Button.ts";
@@ -35,7 +36,7 @@ const Header = ({ id, title, imageUrl, voteAverage }: Props) => {
     </header>
   `);
 
-  const searchBar = SearchBar();
+  const searchBar = SearchBar({ handleSearch: searchMovie });
   const rate = Rate({ rate: voteAverage, className: ["rate-value"] });
   const button = Button({
     text: "자세히 보기",
