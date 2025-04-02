@@ -3,6 +3,7 @@ import { Movie } from "../../../types/movie";
 import { isHTMLElement } from "../../../utils/typeGuards";
 import MovieDetailModal from "./MovieDetailModal";
 import MovieList from "./MovieList";
+import { InfiniteScrollManager } from "./InfiniteScrollManager";
 
 export interface MovieBoardConfig {
   parentElement: HTMLElement;
@@ -18,7 +19,7 @@ abstract class BaseMovieBoard {
   protected currentPage: number = 1;
   protected totalPages: number = 0;
   protected isLoading: boolean = false;
-  protected observer: IntersectionObserver | null = null;
+  #scrollManager: InfiniteScrollManager | null = null;
 
   constructor(protected readonly config: MovieBoardConfig) {
     this.parentElement = config.parentElement;
@@ -47,7 +48,6 @@ abstract class BaseMovieBoard {
       }
       this.renderMovies(movies);
       this.currentPage++;
-      // 마지막 페이지에 도달하면 sentinel 제거
       if (this.currentPage > this.totalPages) {
         this.disableInfiniteScroll();
       }
@@ -109,31 +109,17 @@ abstract class BaseMovieBoard {
   }
 
   protected initInfiniteScroll(): void {
-    const sentinel = document.createElement("div");
-    sentinel.className = "scroll-sentinel";
-    this.parentElement.appendChild(sentinel);
-
-    this.observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (
-          entry.isIntersecting &&
-          !this.isLoading &&
-          this.currentPage <= this.totalPages
-        ) {
-          this.fetchAndRenderMovies();
-        }
-      });
+    this.#scrollManager = new InfiniteScrollManager(this.parentElement, () => {
+      if (!this.isLoading && this.currentPage <= this.totalPages) {
+        this.fetchAndRenderMovies();
+      }
     });
-    this.observer.observe(sentinel);
   }
 
   protected disableInfiniteScroll(): void {
-    if (!this.observer) return;
-    this.observer.disconnect();
-    this.observer = null;
-    const sentinel = this.parentElement.querySelector(".scroll-sentinel");
-    if (sentinel && isHTMLElement(sentinel)) {
-      sentinel.remove();
+    if (this.#scrollManager) {
+      this.#scrollManager.disconnect();
+      this.#scrollManager = null;
     }
   }
 }
