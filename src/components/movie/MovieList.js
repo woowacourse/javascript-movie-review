@@ -2,7 +2,6 @@ import Movie from '../../domain/Movie.ts';
 import MovieCard from '../movie/MovieCard.js';
 import NoResultsMessage from '../search/NoResultsMessage.js';
 import DetailModal from '../modal/DetailModal.js';
-import TmdbApi from '../../domain/tmdbApi.ts';
 import MovieListHandler from '../../handlers/MovieListHandler.ts';
 import { store } from '../../store/store.js';
 export default class MovieList {

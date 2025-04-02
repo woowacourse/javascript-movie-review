@@ -1,4 +1,4 @@
-import { MovieDetailResponse } from './tmdbApi';
+import { MovieDetailResponse } from '../api/tmdb/tmdbApiClient';
 
 export interface MovieDetailDTO {
   id: number;

@@ -1,15 +1,28 @@
-import TmdbApi, {
-  TmdbApiError,
+import { ApiError } from '../api/ApiClient';
+import {
   APIResponse,
   MovieResponse,
   MovieDetailResponse,
-} from '../domain/tmdbApi';
-import Movie from '../domain/Movie';
+} from '../api/tmdb/tmdbApiClient';
+import Movie from './Movie';
+
+export interface MovieApiService {
+  getPopularMovies: (page?: number) => Promise<APIResponse<MovieResponse>>;
+  searchMovies: (
+    query?: string,
+    page?: number,
+  ) => Promise<APIResponse<MovieResponse>>;
+  getMovieDetail: (
+    movieId: number,
+    appendToResponse?: string,
+  ) => Promise<MovieDetailResponse>;
+}
 
 export default class MovieService {
-  private api: TmdbApi;
-  constructor(tmdbApi: TmdbApi) {
-    this.api = tmdbApi;
+  private apiService: MovieApiService;
+
+  constructor(apiService: MovieApiService) {
+    this.apiService = apiService;
   }
 
   private convertToMovies(moviesData: APIResponse<MovieResponse>): {
@@ -38,12 +51,12 @@ export default class MovieService {
     totalPages: number;
   }> {
     try {
-      const response = await this.api.popularMovies(page);
+      const response = await this.apiService.getPopularMovies(page);
       return this.convertToMovies(response);
     } catch (error) {
       console.error('영화 목록 가져오기 실패:', error);
       let errorMessage = '영화 목록 가져오기 실패';
-      if (error instanceof TmdbApiError) {
+      if (error instanceof ApiError) {
         errorMessage = error.message;
       } else if (error instanceof Error) {
         errorMessage = error.message;
@@ -62,12 +75,12 @@ export default class MovieService {
     totalPages: number;
   }> {
     try {
-      const response = await this.api.searchMovies(query, page);
+      const response = await this.apiService.searchMovies(query, page);
       return this.convertToMovies(response);
     } catch (error) {
       console.error('영화 검색 실패', error);
       let errorMessage = '영화 검색 실패';
-      if (error instanceof TmdbApiError) {
+      if (error instanceof ApiError) {
         errorMessage = error.message;
       } else if (error instanceof Error) {
         errorMessage = error.message;
@@ -80,11 +93,11 @@ export default class MovieService {
 
   async getMovieDetail(movieId: number): Promise<MovieDetailResponse> {
     try {
-      return await this.api.getMovieDetail(movieId);
+      return await this.apiService.getMovieDetail(movieId);
     } catch (error) {
       console.error('영화 상세 정보 가져오기 실패', error);
       let errorMessage = '영화 상세 정보 가져오기 실패';
-      if (error instanceof TmdbApiError) {
+      if (error instanceof ApiError) {
         errorMessage = error.message;
       } else if (error instanceof Error) {
         errorMessage = error.message;

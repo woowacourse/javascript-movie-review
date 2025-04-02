@@ -1,24 +1,28 @@
 // src/App.ts
-import TmdbApi from './domain/tmdbApi.js';
-import MovieService from './domain/MovieService.js';
-import SearchBar from './components/search/SearchBar.js';
-import MovieListHandler from './handlers/MovieListHandler.js';
-import SearchHandler from './handlers/SearchHandler.js';
-import Logo from './components/header/Logo.js';
+import {
+  getPopularMovies,
+  searchMovies,
+  getMovieDetail,
+} from './api/tmdb/tmdbApiService';
+import MovieService from './domain/MovieService';
+import SearchBar from './components/search/SearchBar';
+import MovieListHandler from './handlers/MovieListHandler';
+import SearchHandler from './handlers/SearchHandler';
+import Logo from './components/header/Logo';
 
 export default class App {
-  private api: TmdbApi;
   private movieService: MovieService;
   private movieListHandler: MovieListHandler;
   private searchHandler: SearchHandler;
   private logo: Logo;
-  constructor() {
-    this.api = new TmdbApi(
-      import.meta.env.VITE_API_TOKEN || '',
-      import.meta.env.VITE_BASE_URL || '',
-    );
 
-    this.movieService = new MovieService(this.api);
+  constructor() {
+    this.movieService = new MovieService({
+      getPopularMovies,
+      searchMovies,
+      getMovieDetail,
+    });
+
     this.movieListHandler = new MovieListHandler(this.movieService);
     this.searchHandler = new SearchHandler();
     this.logo = new Logo();
