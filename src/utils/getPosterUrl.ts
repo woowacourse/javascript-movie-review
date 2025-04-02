@@ -9,7 +9,7 @@ const POSTER_SIZES = {
   X_LARGE: "w500",
   MOVIE_DETAIL: "w440_and_h660_face",
   ORIGINAL: "original",
-};
+} as const;
 
 export const getPosterUrl = (
   posterPath: string | null,
