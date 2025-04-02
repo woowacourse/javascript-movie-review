@@ -1,6 +1,4 @@
 import { Movie } from "../types/movie";
-import { isHTMLElement } from "../utils/typeGuards";
-import MovieDetailModal from "./MovieDetailModal";
 
 class MovieItem {
   #parentElement;
@@ -11,12 +9,12 @@ class MovieItem {
   constructor(
     parentElement: HTMLElement,
     movie: Movie,
-    modal: MovieDetailModal
+    showModal: (id: number) => void
   ) {
     this.#parentElement = parentElement;
     this.#movie = movie;
     this.#render();
-    this.#addEventListeners(modal);
+    this.#addEventListeners(showModal);
   }
 
   #render() {
@@ -40,15 +38,9 @@ class MovieItem {
       : "./images/null_image.png";
   }
 
-  #addEventListeners(modal: MovieDetailModal) {
+  #addEventListeners(showModal: (id: number) => void) {
     this.#parentElement.addEventListener("click", () => {
-      const $body = document.querySelector("body");
-      const $modalBackground = document.querySelector(".modal-background");
-      if (!isHTMLElement($modalBackground) || !isHTMLElement($body)) return;
-
-      modal.show(this.#movie.id);
-      $modalBackground.classList.add("active");
-      $body.classList.add("active");
+      showModal(this.#movie.id);
     });
   }
 }

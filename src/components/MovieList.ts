@@ -1,4 +1,5 @@
 import { Movie } from "../types/movie";
+import { isHTMLElement } from "../utils/typeGuards";
 import MovieDetailModal from "./MovieDetailModal";
 import MovieItem from "./MovieItem";
 import Skeleton from "./Skeleton";
@@ -37,9 +38,15 @@ class MovieList {
 
     movies.forEach((movie) => {
       const $list = document.createElement("li");
-      new MovieItem($list, movie, this.#Modal);
+      new MovieItem($list, movie, (id: number) => {
+        this.#showModal(id);
+      });
       this.#parentElement.appendChild($list);
     });
+  }
+
+  #showModal(id: number): void {
+    this.#Modal.show(id);
   }
 }
 

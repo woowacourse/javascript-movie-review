@@ -30,13 +30,20 @@ class MovieDetailModal {
 
   async #fetchAndRenderModal(id: number) {
     const details = await MovieApi.fetchMovieDetail(id);
+
     this.#render(details);
     this.#renderStarRate(details.id);
     this.#addEventListeners();
   }
 
   #renderInitial() {
+    const $modalBackground = document.querySelector(".modal-background");
+    const $body = document.querySelector("body");
+    if (!isHTMLElement($modalBackground) || !isHTMLElement($body)) return;
+
     this.#parentElement.innerHTML = Skeleton.MovieDetailModal;
+    $modalBackground.classList.add("active");
+    $body.classList.add("active");
   }
 
   #render(details: MovieDetail) {
