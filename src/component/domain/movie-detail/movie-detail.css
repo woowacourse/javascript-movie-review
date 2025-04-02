@@ -63,6 +63,9 @@
 
 .myrate__icon {
   width: 24px;
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .movie__detail-description .myrate > img {
