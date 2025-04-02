@@ -9,6 +9,7 @@ import { pageManager } from "./shared/domain/pageManager";
 import { getCurrentMovieList } from "./shared/domain/getCurrentMovieList";
 import { initInfiniteScroll } from "./shared/observer/infiniteScroll";
 import errorMessageParser from "./shared/parser/errorMessageParser";
+import HeaderSkeleton from "./shared/ui/components/HeaderSkeleton";
 
 addEventListener("DOMContentLoaded", async () => {
   const $movieList = document.querySelector(".thumbnail-list") as HTMLElement;
@@ -19,6 +20,11 @@ addEventListener("DOMContentLoaded", async () => {
 
 async function initMovieList(movieList: HTMLElement) {
   try {
+    const $header = document.getElementById("header") as HTMLElement;
+
+    if (!$header) return;
+
+    $header.innerHTML = HeaderSkeleton();
     showSkeletons(movieList);
 
     const query = getQueryParam(new URL(window.location.href), "query");
