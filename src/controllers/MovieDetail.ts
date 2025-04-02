@@ -2,6 +2,8 @@ import { getDetailParam } from "../apis/config.js";
 import MovieModal, { ratingDescriptions } from "./MovieModal.ts";
 import MovieService from "../services/MovieService.ts";
 
+const STAR_UNIT = 2;
+
 export async function openModal(event: MouseEvent): Promise<void> {
   const $wrap = document.getElementById("wrap") as HTMLElement;
   const target = event.currentTarget as HTMLElement;
@@ -54,7 +56,7 @@ function updateStarImages($modal:HTMLElement, rating = 0) {
     "img.star.point"
   ) as NodeListOf<HTMLImageElement>;
   starElements.forEach((star, idx) => {
-    const starRating = (idx + 1) * 2;
+    const starRating = (idx + 1) * STAR_UNIT;
     if (starRating <= rating) {
       star.src = "images/star_filled.png";
     } else {
@@ -70,7 +72,7 @@ function updateRatingDescription($modal:HTMLElement, rating = 0) {
   const ratingValueEl = $modal.querySelector(
     ".rating-description .rating"
   ) as HTMLElement;
-  const defaultRating = 2;
+  const defaultRating = STAR_UNIT;
 
   if (ratingDescriptionEl && ratingValueEl) {
     if (rating === 0) {
@@ -101,12 +103,12 @@ function MovieDetail($modalBackground: HTMLElement, movieId: string) {
   starElements.forEach((star, index) => {
     star.addEventListener("mouseover", () => {
       if (selectedRating) return;
-      const hoverRating = (index + 1) * 2;
+      const hoverRating = (index + 1) * STAR_UNIT;
       setRating($modal, hoverRating);
     });
 
     star.addEventListener("click", () => {
-      const rating = ((index + 1) * 2) as number;
+      const rating = ((index + 1) * STAR_UNIT) as number;
       if (selectedRating === rating) {
         selectedRating = 0;
         setRating($modal);
