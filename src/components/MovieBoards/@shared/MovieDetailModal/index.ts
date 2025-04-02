@@ -2,14 +2,11 @@ import { createApi } from "../../../../api/ApiFactory";
 import { MovieDetail } from "../../../../types/movie";
 import { isHTMLElement } from "../../../../utils/typeGuards";
 import Spinner from "../../../@shared/Spinner";
-import ErrorScreen from "../ErrorScreen";
 import MovieDetailModalContent from "./Content";
 
 class MovieDetailModal {
   #dialogElement: HTMLDialogElement;
-  #api = createApi(() =>
-    new ErrorScreen("상세 정보를 불러오는 중 오류가 발생했습니다.").render()
-  );
+  #api = createApi(() => this.#renderError());
 
   constructor(private movieId: number) {
     this.#dialogElement = this.#dialogTemplate();
@@ -67,7 +64,6 @@ class MovieDetailModal {
       this.#updateModalContent(detail);
     } catch (error) {
       console.error("영화 상세 정보를 불러오는 중 오류 발생:", error);
-      this.#renderError();
     }
   }
 
