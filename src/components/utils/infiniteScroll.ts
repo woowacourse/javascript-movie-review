@@ -2,9 +2,11 @@ import page from "../../store/page";
 
 export function setupInfiniteScroll({
   onLoad,
+  onEnd,
   offset = 100,
 }: {
   onLoad: () => Promise<void>;
+  onEnd?: () => void;
   offset?: number;
 }) {
   let isLoading = false;
@@ -23,8 +25,7 @@ export function setupInfiniteScroll({
         isLoading = false;
 
         if (!page.hasNextPage()) {
-          const $button = document.querySelector(".primary.more");
-          $button?.classList.add("disappear");
+          onEnd?.();
         }
       });
   };

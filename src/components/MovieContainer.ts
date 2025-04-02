@@ -55,6 +55,10 @@ const init = () => {
         })
       );
     },
+    onEnd: () => {
+      const $button = document.querySelector(".primary.more");
+      $button?.classList.add("disappear");
+    },
     offset: 150,
   });
 };
