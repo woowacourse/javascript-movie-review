@@ -10,7 +10,7 @@ import NoSearchResults from "./components/movie/NoSearchResults.ts";
 import hideSkeleton from "./components/utils/hideSkeleton.ts";
 import loadDetailMovie from "./components/utils/loadDetailMovie.ts";
 import showSkeleton from "./components/utils/showSkeleton.ts";
-import observeLoadMore from "./domain/observeLoadMore.ts";
+import observeLoadMore from "./feature/observeLoadMore.ts";
 import { createElement } from "./utils/createElement.ts";
 import { $ } from "./utils/dom.ts";
 
@@ -42,8 +42,6 @@ addEventListener("load", async () => {
   }
 });
 
-// 이런 것들은 어디에 위치해야하는가?
-// components 내의 utils ??
 function createLayout() {
   const header = Header({
     id: 0,

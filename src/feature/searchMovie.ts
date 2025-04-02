@@ -6,7 +6,7 @@ import NoSearchResults from "../components/movie/NoSearchResults";
 import hideSkeleton from "../components/utils/hideSkeleton";
 import showSkeleton from "../components/utils/showSkeleton";
 import { $ } from "../utils/dom";
-import observeLoadMore from "../domain/observeLoadMore";
+import observeLoadMore from "./observeLoadMore";
 
 const INITIAL_PAGE = 1;
 
