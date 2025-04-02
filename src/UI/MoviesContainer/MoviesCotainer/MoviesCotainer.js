@@ -25,6 +25,8 @@ class MoviesCotainer {
     this.$target = $target;
     this.#lastPage = 0;
     this.#movieId = 0;
+
+    this.renderModal();
   }
 
   async init() {
@@ -52,12 +54,23 @@ class MoviesCotainer {
     this.setMovies([...this.#movies, ...results]);
   }
 
+  renderModal() {
+    const $body = document.querySelector("body");
+    const $modalContainer = document.createElement("div");
+    $modalContainer.classList.add("modal-background-container");
+
+    $body.appendChild($modalContainer);
+
+    this.modal = new Modal($modalContainer);
+  }
+
   setLastPage(lastPage) {
     this.#lastPage = lastPage;
     this.render();
   }
 
   setMovieId = (movieId) => {
+    console.log("movieId", movieId);
     this.#movieId = movieId;
     this.render();
   };
@@ -128,22 +141,7 @@ class MoviesCotainer {
     $main.appendChild($div);
 
     this.$target.appendChild($container);
-
-    const $body = document.querySelector("body");
-    const $modalContainer = document.createElement("div");
-    $modalContainer.classList.add("modal-background-container");
-
-    const $el = document.querySelector(".modal-background-container");
-
-    if ($el) {
-      $modalContainer.innerHTML = "";
-      $el.remove();
-    }
-
-    $body.appendChild($modalContainer);
-
-    const modal = new Modal($modalContainer, this.#movieId);
-    modal.init();
+    this.modal.init(this.#movieId);
   }
 
   isLastPage = () => {

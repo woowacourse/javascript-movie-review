@@ -7,9 +7,8 @@ class Modal {
   #isLoading;
   #show;
 
-  constructor($target, movieId) {
+  constructor($target) {
     this.$target = $target;
-    this.movieId = movieId;
 
     this.#movie;
     this.#show = false;
@@ -18,7 +17,8 @@ class Modal {
     this.$div;
   }
 
-  async init() {
+  async init(movieId) {
+    this.movieId = movieId;
     if (this.movieId) {
       const movieDetail = await this.getMovieDetailData();
       this.setMovie(movieDetail);
@@ -56,6 +56,8 @@ class Modal {
   }
 
   render() {
+    this.$target.innerHTML = "";
+
     this.$div = document.createElement("div");
 
     this.$div.classList.add("modal-background");
@@ -83,11 +85,6 @@ class Modal {
       </div>`;
       this.$target.appendChild(this.$div);
       return;
-    }
-
-    if (!this.#isLoading) {
-      const $el = document.querySelector(".modal-background");
-      $el.remove();
     }
 
     if (!this.#movie) return;
