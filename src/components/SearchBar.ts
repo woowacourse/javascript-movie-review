@@ -3,6 +3,7 @@ import { ERROR, STATUS_MESSAGE } from "../constants/error.ts";
 import movieService from "../service/movieService.ts";
 import ScrollRenderer from "../utils/scrollRenderer.ts";
 import { selectElement } from "../utils/ui.ts";
+import Banner from "./Banner.ts";
 import ErrorUI from "./ErrorUI.ts";
 import MovieItem from "./MovieItem.ts";
 import MovieList from "./MovieList.ts";
@@ -107,17 +108,9 @@ class SearchBar {
   }
 
   #changeTitleStyle() {
-    const overlay = selectElement<HTMLDivElement>(".overlay");
-    const topRatedContainer = selectElement<HTMLDivElement>(".top-rated-movie");
-    const backgroundContainer = selectElement<HTMLDivElement>(
-      ".background-container"
-    );
     const subTitle = selectElement<HTMLHeadingElement>(".subTitle");
-
     subTitle.textContent = `"${this.#query}" 검색 결과`;
-    overlay.style.display = "none";
-    topRatedContainer.style.display = "none";
-    backgroundContainer.style.height = "auto";
+    Banner.hiddenTitleMovie();
   }
 
   #createResultMovieItems(movies: Movie[]): string[] {

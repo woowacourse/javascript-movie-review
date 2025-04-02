@@ -1,7 +1,7 @@
 import { Movie } from "../types/domain.ts";
 import SearchBar from "./components/SearchBar";
 import SkeletonUl from "./components/SkeletonUl";
-import { IMAGE, ITEMS } from "./constants/movie.ts";
+import { ITEMS } from "./constants/movie.ts";
 import { selectElement } from "./utils/ui.ts";
 import movieService from "./service/movieService.ts";
 import Modal from "./components/Modal.ts";
@@ -10,6 +10,7 @@ import MovieList from "./components/MovieList.ts";
 import MovieItem from "./components/MovieItem.ts";
 import ErrorUI from "./components/ErrorUI.ts";
 import { ERROR, STATUS_MESSAGE } from "./constants/error.ts";
+import Banner from "./components/Banner.ts";
 
 const getMovieData = async (totalItems: number) => {
   try {
@@ -29,23 +30,8 @@ const getMovieData = async (totalItems: number) => {
 
 const renderTitleMovie = (movieData: Movie[]) => {
   const topMovieData = movieData[0];
-  const movieTitle = topMovieData.title;
-  const movieRate = topMovieData.voteAverage;
-  const movieBackdropUrl = IMAGE.backdropPrefix + topMovieData.backdropPath;
-
-  const topMovieTitle = selectElement<HTMLDivElement>(
-    ".top-rated-movie .title"
-  );
-  const topMovieRateValue = selectElement<HTMLSpanElement>(
-    ".top-rated-movie .rate-value"
-  );
-  const backgroundOverlay = selectElement<HTMLDivElement>(
-    ".background-container .overlay"
-  );
-
-  topMovieTitle.textContent = movieTitle;
-  topMovieRateValue.textContent = String(movieRate);
-  backgroundOverlay.style.backgroundImage = `url("${movieBackdropUrl}")`;
+  const banner = new Banner(topMovieData);
+  banner.renderTitleMovie();
 };
 
 const createMovieItems = (movieData: Movie[]): string[] => {
