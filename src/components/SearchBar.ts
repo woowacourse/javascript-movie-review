@@ -7,6 +7,7 @@ import Banner from "./Banner.ts";
 import ErrorUI from "./ErrorUI.ts";
 import MovieItem from "./MovieItem.ts";
 import MovieList from "./MovieList.ts";
+import NonResultUI from "./NonResultUI.ts";
 import SkeletonUl from "./SkeletonUl.ts";
 
 class SearchBar {
@@ -28,9 +29,8 @@ class SearchBar {
 
   async #onSearch(movieList: MovieList) {
     const totalItems = movieList.getTotalItems();
-    const searchData = await this.#getSearchResults(totalItems, this.#query);
-    if (searchData) {
-      const { results } = searchData;
+    const results = await this.#getSearchResults(totalItems, this.#query);
+    if (results) {
       const movieItems = this.#createResultMovieItems(results);
       movieList.updateList(movieItems);
 
@@ -55,9 +55,8 @@ class SearchBar {
     scrollRenderer: ScrollRenderer
   ) {
     const totalItems = movieList.getTotalItems();
-    const searchData = await this.#getSearchResults(totalItems, this.#query);
-    if (searchData) {
-      const { results } = searchData;
+    const results = await this.#getSearchResults(totalItems, this.#query);
+    if (results) {
       const movieItems = this.#createResultMovieItems(results);
       movieList.updateList(movieItems);
 
@@ -122,9 +121,14 @@ class SearchBar {
 
   async #getSearchResults(totalItems: number, query: string) {
     try {
-      return await SkeletonUl.getInstance().getLoadingResult(() =>
-        movieService.searchMovies(totalItems, query)
-      );
+      const { results, totalResults } =
+        await SkeletonUl.getInstance().getLoadingResult(() =>
+          movieService.searchMovies(totalItems, query)
+        );
+
+      NonResultUI.getInstance().toggle(totalResults);
+
+      return results;
     } catch (error) {
       if (error instanceof Error) {
         const status = Number(error.message);
