@@ -5,12 +5,10 @@ import infinityScrollObserver from "../util/infinityScrollObserver";
 import MovieListView from "../view/movieListView";
 
 class MovieListController {
-  mainElement;
   PopularMovieResults;
   MovieListView;
 
   constructor({ mainElement, PopularMovieResults }: MovieListControllerType) {
-    this.mainElement = mainElement;
     this.PopularMovieResults = PopularMovieResults;
     this.MovieListView = new MovieListView(mainElement);
   }
