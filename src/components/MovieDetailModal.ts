@@ -11,15 +11,19 @@ type MovieDetail = {
   vote_average: number;
   overview: string;
 };
-class Modal {
+
+class MovieDetailModal {
   #parentElement;
 
   private static readonly IMAGE_BASE_URL =
     "https://image.tmdb.org/t/p/original";
   // #props;
 
-  constructor(parentElement: HTMLElement, id: number) {
+  constructor(parentElement: HTMLElement) {
     this.#parentElement = parentElement;
+  }
+
+  show(id: number) {
     this.#renderInitial();
     this.#fetchAndRenderModal(id);
   }
@@ -32,7 +36,7 @@ class Modal {
   }
 
   #renderInitial() {
-    this.#parentElement.innerHTML = Skeleton.Modal;
+    this.#parentElement.innerHTML = Skeleton.MovieDetailModal;
   }
 
   #render(details: MovieDetail) {
@@ -80,7 +84,7 @@ class Modal {
 
   #posterImage(poster_path: Movie["poster_path"]): string {
     return poster_path
-      ? `${Modal.IMAGE_BASE_URL}${poster_path}`
+      ? `${MovieDetailModal.IMAGE_BASE_URL}${poster_path}`
       : "./images/null_image.png";
   }
 
@@ -121,4 +125,4 @@ class Modal {
     }
   };
 }
-export default Modal;
+export default MovieDetailModal;

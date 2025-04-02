@@ -1,6 +1,6 @@
 import { Movie } from "../types/movie";
 import { isHTMLElement } from "../utils/typeGuards";
-import Modal from "./Modal";
+import MovieDetailModal from "./MovieDetailModal";
 
 class MovieItem {
   #parentElement;
@@ -8,11 +8,15 @@ class MovieItem {
   private static readonly IMAGE_BASE_URL =
     "https://image.tmdb.org/t/p/original";
 
-  constructor(parentElement: HTMLElement, movie: Movie) {
+  constructor(
+    parentElement: HTMLElement,
+    movie: Movie,
+    onClickMovieItem: () => void
+  ) {
     this.#parentElement = parentElement;
     this.#movie = movie;
     this.#render();
-    this.#addEventListeners();
+    this.#addEventListeners(onClickMovieItem);
   }
 
   #render() {
@@ -36,15 +40,12 @@ class MovieItem {
       : "./images/null_image.png";
   }
 
-  #addEventListeners() {
-    const $modalBackground = document.querySelector(".modal-background");
-    const $body = document.querySelector("body");
-    if (!isHTMLElement($modalBackground) || !isHTMLElement($body)) return;
+  #addEventListeners(eventsCallback: () => void) {
+    const $item = this.#parentElement.querySelector(".item");
+    if (!isHTMLElement($item)) return;
 
-    this.#parentElement.addEventListener("click", () => {
-      new Modal($modalBackground, this.#movie.id);
-      $modalBackground.classList.add("active");
-      $body.classList.add("active");
+    $item.addEventListener("click", () => {
+      eventsCallback();
     });
   }
 }

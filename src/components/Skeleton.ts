@@ -1,5 +1,5 @@
 class Skeleton {
-  static get Modal() {
+  static get MovieDetailModal() {
     return /*html*/ `
         <div class="modal">
           <button class="close-modal" id="closeModal">
