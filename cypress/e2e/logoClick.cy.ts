@@ -38,25 +38,22 @@ describe("로고 클릭 테스트", () => {
     });
 
     cy.get("#thumbnail-list > li").should("have.length", 20);
-    cy.get("#load-more").scrollIntoView();
-    cy.get("#load-more").click();
-
+    cy.scrollTo("bottom");
+    cy.wait(2000);
     cy.get("#thumbnail-list > li").should("have.length", 40);
 
     const searchValue = "짱구";
     cy.get(".search-bar").type(`${searchValue}{enter}`);
 
-    cy.get("#thumbnail-list > li").each(($li) => {
-      cy.wrap($li).should("contain.text", searchValue);
-    });
-    cy.get("#load-more").scrollIntoView();
-    cy.get("#load-more").click();
+    cy.wait(3000);
+    cy.scrollTo("bottom");
     cy.get("#thumbnail-list > li").each(($li) => {
       cy.wrap($li).should("contain.text", "짱구");
     });
 
     cy.get("#logo > img").click();
-
+    cy.wait("@getPopularMovies");
+    cy.get("#thumbnail-list").should("be.visible");
     cy.get("#thumbnail-list > li").should("have.length", 20);
   });
 });

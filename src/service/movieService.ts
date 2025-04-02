@@ -7,13 +7,15 @@ export async function fetchMovies(
   url: string,
   queryObject: { [key: string]: string },
   options: FetchOptions,
-  onError: (error: Error) => void
+  onError: (error: Error) => void,
+  path?: string
 ): Promise<TMDBResponse> {
   try {
     const response = await fetchUrl<TMDBResponse>(
       url,
       new URLSearchParams(queryObject),
-      options
+      options,
+      path
     );
     validateResponse(response);
     return response;
@@ -24,6 +26,6 @@ export async function fetchMovies(
       throw error;
     }
 
-    return { results: [], total_pages: 0, page: 1, total_results: 0 };
+    return { id: -1, results: [], total_pages: 0, page: 1, total_results: 0 };
   }
 }

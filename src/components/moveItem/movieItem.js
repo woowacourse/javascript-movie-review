@@ -1,11 +1,11 @@
+import { URLS } from "../../setting/settings";
 import { createElement } from "../../util/dom";
-export default function MovieItem({ src, title, rate, onload }) {
-  const $li = createElement("li");
-  let url = `https://image.tmdb.org/t/p/w500/${src}`;
+export default function MovieItem({ id, src, title, rate, onload }) {
+  const $li = createElement("li", { id });
+  let url = `${URLS.imgW500}${src}`;
   if (!src) url = "images/fallback.png";
 
   $li.innerHTML = `
-    <li>
       <div class="skeleton-thumbnail thumbnail"></div>
       <div class="item">
         <img
@@ -21,7 +21,6 @@ export default function MovieItem({ src, title, rate, onload }) {
           <strong>${title}</strong>
         </div>
       </div>
-    </li>
   `;
 
   if (onload) {

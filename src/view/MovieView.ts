@@ -1,10 +1,24 @@
+import type { Result, TMDBDetails } from "../../types/tmdb.types";
+import {
+  ratingMessages,
+  ratingNumbers,
+  defaultRating,
+} from "../setting/settings";
 import Header from "../components/header/header";
 import Hero from "../components/hero/hero";
-import Button from "../components/button/button";
 import MovieItem from "../components/moveItem/movieItem";
-import type { Result } from "../../types/tmdb.types";
-import { createElementsFragment } from "../util/dom";
-import type { StateTypes } from "../state/state";
+import { bindHeroEvents } from "../binders/event-binders";
+
+export interface BasicMovieDetails {
+  poster_path: string;
+  release_date: string;
+  overview: string;
+  title: string;
+  vote_average: number;
+  genres: { name: string }[];
+  id: number;
+}
+
 export function showElement(element: Element | null) {
   element?.classList.remove("hide");
 }
@@ -23,55 +37,27 @@ export function hideImgSkeleton(event: Event) {
     ".skeleton-thumbnail"
   );
 
-  // 아.. 타입 정말.. 타입 가드를 너무 빡빡히 주네요.
-  // 충분히 가드를 하고 있다고 생각하는데,
-  // 타입스크립트는 마음에 안드나 봅니다.
-
   skeleton?.remove();
 }
 
-function renderMovieItems(results: Result[], reset?: boolean) {
+export function renderMovieItems(results: Result[], reset?: boolean) {
   const $list = document.getElementById("thumbnail-list");
-  if (reset && $list) $list.innerHTML = "";
 
-  const movieItems = results.map((result: Result) => {
-    const { title, poster_path, vote_average } = result;
-    return MovieItem({
+  if (reset && $list) {
+    $list.innerHTML = "";
+  }
+
+  for (const result of results) {
+    const { id, title, poster_path, vote_average } = result;
+    const movieItem = MovieItem({
+      id,
       title,
       src: poster_path,
       rate: vote_average,
       onload: hideImgSkeleton,
     });
-  });
-
-  $list?.appendChild(createElementsFragment(movieItems));
-}
-
-async function handleMovieList(
-  loadMovies: () => Promise<{ results: Result[]; isLastPage: boolean }>,
-  reset?: boolean
-) {
-  const skeleton = document.querySelector(".skeleton-list");
-  const loadMore = document.getElementById("load-more");
-
-  showElement(skeleton);
-  hideElement(loadMore);
-
-  const { results, isLastPage } = await loadMovies();
-
-  showElement(loadMore);
-  hideElement(skeleton);
-
-  if (isLastPage) hideElement(loadMore);
-
-  renderMovieItems(results, reset);
-}
-
-export async function renderMovieList(
-  loadMovies: () => Promise<{ results: Result[]; isLastPage: boolean }>,
-  reset?: boolean
-) {
-  await handleMovieList(loadMovies, reset);
+    $list?.appendChild(movieItem);
+  }
 }
 
 export function renderHeaderAndHero() {
@@ -82,17 +68,189 @@ export function renderHeaderAndHero() {
   }
 }
 
-export function renderLoadMoreButton(state: StateTypes) {
-  const $thumbnailContainer = document.getElementById("thumbnail-container");
-  if ($thumbnailContainer) {
-    const loadMoreButton = Button({
-      className: ["primary", "width-100"],
-      placeholder: "더보기",
-      id: "load-more",
-      onClick: () => {
-        if (state.loadMovies) renderMovieList(state.loadMovies);
-      },
-    });
-    $thumbnailContainer.append(loadMoreButton);
+// Hero 렌더링 관련 함수들
+function renderHeroImage(
+  heroImg: HTMLImageElement,
+  poster_path: string | null
+) {
+  const url = getHeroImageUrl(poster_path);
+  heroImg.src = url;
+}
+
+function renderHeroContent(
+  heroAverage: HTMLElement | null,
+  heroTitle: HTMLElement | null,
+  topRatedContainer: HTMLElement | null,
+  vote_average: number,
+  title: string
+) {
+  if (heroAverage) heroAverage.innerText = Number(vote_average).toFixed(1);
+  if (heroTitle) heroTitle.innerText = title;
+  showElement(topRatedContainer);
+}
+
+export function updateHero({ poster_path, title, vote_average }: Result) {
+  const heroImg = document.getElementById("hero-img") as HTMLImageElement;
+  const heroTitle = document.getElementById("hero-title");
+  const heroAverage = document.getElementById("hero-rate");
+  const topRatedContainer = document.getElementById("top-rated-container");
+
+  if (heroImg) {
+    renderHeroImage(heroImg, poster_path);
   }
+
+  renderHeroContent(
+    heroAverage,
+    heroTitle,
+    topRatedContainer,
+    vote_average,
+    title
+  );
+  bindHeroEvents();
+}
+
+// Details 렌더링 관련 함수들
+function renderDetailsContent(
+  detailsTitle: HTMLElement,
+  detailsRate: HTMLElement,
+  detailsCategory: HTMLElement,
+  detailsDescription: HTMLElement,
+  title: string,
+  vote_average: number,
+  categoryNames: string,
+  overview: string
+) {
+  detailsTitle.innerText = title;
+  detailsRate.innerText = Number(vote_average).toFixed(1);
+  detailsCategory.innerText = categoryNames;
+  detailsDescription.innerText = overview;
+}
+
+function renderDetailsImage(
+  detailsImage: HTMLImageElement,
+  detailsSkeleton: HTMLElement | null,
+  imgUrl: string
+) {
+  hideElement(detailsImage);
+  if (detailsSkeleton) {
+    showElement(detailsSkeleton);
+  }
+
+  detailsImage.src = imgUrl;
+  detailsImage.onload = () => {
+    if (detailsSkeleton) {
+      hideElement(detailsSkeleton);
+    }
+    showElement(detailsImage);
+  };
+}
+
+function renderRatingDisplay(
+  id: number,
+  starRatingDetails: HTMLElement,
+  starRatingNumbers: HTMLElement
+) {
+  const savedRating = localStorage.getItem(String(id));
+  if (savedRating) {
+    const input = document.querySelector(
+      `input[name="star-rating"][value="${savedRating}"]`
+    ) as HTMLInputElement;
+    if (input) input.checked = true;
+    starRatingDetails.innerText =
+      ratingMessages[savedRating as keyof typeof ratingMessages];
+    starRatingNumbers.innerText =
+      ratingNumbers[savedRating as keyof typeof ratingNumbers];
+  } else {
+    starRatingDetails.innerText = ratingMessages[defaultRating];
+    starRatingNumbers.innerText = ratingNumbers[defaultRating];
+    (document.getElementById("star3") as HTMLInputElement).checked = true;
+  }
+}
+
+export function updateDetails({
+  poster_path,
+  release_date,
+  overview,
+  title,
+  vote_average,
+  genres,
+  id,
+}: TMDBDetails) {
+  const detailsImage = document.getElementById(
+    "details-image"
+  ) as HTMLImageElement;
+  const detailsTitle = document.getElementById("details-title") as HTMLElement;
+  const detailsCategory = document.getElementById(
+    "details-category"
+  ) as HTMLElement;
+  const detailsRate = document.getElementById("details-rate") as HTMLElement;
+  const detailsDescription = document.getElementById(
+    "details-description"
+  ) as HTMLElement;
+  const starRatingDetails = document.getElementById(
+    "star-rating-details"
+  ) as HTMLElement;
+  const starRatingNumbers = document.getElementById(
+    "star-rating-numbers"
+  ) as HTMLElement;
+  const detailsSkeleton = document.getElementById("details-skeleton");
+
+  const categoryNames = getCategoryNames(genres, release_date);
+  const imgUrl = getDetailsImageUrl(poster_path);
+
+  renderDetailsContent(
+    detailsTitle,
+    detailsRate,
+    detailsCategory,
+    detailsDescription,
+    title,
+    vote_average,
+    categoryNames,
+    overview
+  );
+
+  if (detailsImage && detailsSkeleton) {
+    renderDetailsImage(detailsImage, detailsSkeleton, imgUrl);
+  }
+
+  renderRatingDisplay(id, starRatingDetails, starRatingNumbers);
+}
+
+// 유틸리티 함수들
+function getHeroImageUrl(poster_path: string | null): string {
+  if (!poster_path) return "images/fallback.png";
+  return `https://image.tmdb.org/t/p/original${poster_path}`;
+}
+
+function getDetailsImageUrl(poster_path: string | null): string {
+  if (!poster_path) return "./images/fallback_no_movies.png";
+  return `https://image.tmdb.org/t/p/original${poster_path}`;
+}
+
+function getCategoryNames(
+  genres: { name: string }[] | undefined,
+  release_date: Date | string
+): string {
+  if (!genres) return "";
+  return `${new Date(release_date).getFullYear()} · ${genres
+    .map((genre) => genre.name)
+    .join(", ")} `;
+}
+
+export function createLoadMoreButton() {
+  const button = document.createElement("button");
+  button.id = "load-more";
+  button.className = "load-more-button";
+  button.textContent = "더 보기";
+  return button;
+}
+
+export function showLoadMoreButton() {
+  const $loadMore = document.getElementById("load-more");
+  showElement($loadMore);
+}
+
+export function hideLoadMoreButton() {
+  const $loadMore = document.getElementById("load-more");
+  hideElement($loadMore);
 }

@@ -9,40 +9,177 @@
 @import "src/components/button/button.css";
 @import "src/components/fallback/fallback.css";
 @import "src/components/Toast/toast.css";
+@import "src/components/scrollToTop/scrollToTop.css";
+
 .show {
   display: block;
 }
-
+/* 고치도록 노력하겠습니다. */
 .hide {
-  display: none;
+  display: none !important;
 }
 
 .width-100 {
-  width: 100%;
+  width: 80%;
 }
 
 .skeleton-thumbnail {
-  background-color: rgba(139, 177, 195, 0.7);
+  background-color: rgba(223, 230, 233, 0.3);
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
-  border-radius: 4px;
+  border-radius: 8px;
+  width: 200px;
+  height: 300px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
-.skeleton-thumbnail::after {
+.skeleton-thumbnail::before {
   content: "";
   position: absolute;
-  top: 0;
-  left: 0;
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(139, 177, 195, 0.2);
+  border-radius: 50%;
+  border-top-color: #3498db;
+  animation: spin 1s ease-in-out infinite;
+  -webkit-animation: spin 1s ease-in-out infinite;
+  box-shadow: 0 0 5px rgba(52, 152, 219, 0.2);
+}
+
+.skeleton-thumbnail.details-thumbnail {
+  width: 380px;
+  height: 570px;
+  margin-bottom: 0;
+}
+
+.skeleton-thumbnail.details-thumbnail::before {
+  width: 60px;
+  height: 60px;
+  border-width: 4px;
+}
+.loading {
+  margin-top: 100px;
+  display: flex;
+  align-self: center;
+  justify-content: center;
+}
+.orbit-spinner {
+  position: relative;
+  width: 50px;
+  height: 50px;
+}
+
+.detail-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(166, 177, 195, 0.3) 50%,
-    transparent 100%
-  );
-  animation: shimmer 1.2s infinite linear;
-  will-change: transform;
+  min-height: 500px;
+}
+.planet {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 40%;
+  height: 40%;
+  background-color: var(--color-white);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.orbit {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 2px solid var(--color-white);
+  animation: orbit-spin 2s linear infinite;
+  -webkit-animation: orbit-spin 2s linear infinite;
+  width: 100%;
+  height: 100%;
+}
+
+.satellite {
+  position: absolute;
+  width: 22%;
+  height: 22%;
+  background-color: var(--color-white);
+  border-radius: 50%;
+}
+
+.orbit .satellite-1 {
+  top: 25%;
+  right: -10%;
+}
+
+.orbit .satellite-2 {
+  bottom: 25%;
+  left: -10%;
+}
+
+@media (max-width: 1024px) {
+  .skeleton-thumbnail.details-thumbnail {
+    width: 200px;
+    height: 295px;
+    margin-bottom: 1rem;
+  }
+  .skeleton-thumbnail.details-thumbnail::before {
+    width: 70px;
+    height: 70px;
+    border-width: 4px;
+  }
+}
+
+@media (max-width: 768px) {
+  .skeleton-thumbnail {
+    width: 300px;
+    height: 450px;
+  }
+  .skeleton-thumbnail::before {
+    width: 50px;
+    height: 50px;
+    border: 3px solid rgba(139, 177, 195, 0.2);
+    border-top-color: #3498db;
+    animation: spin 1s ease-in-out infinite;
+    -webkit-animation: spin 1s ease-in-out infinite;
+  }
+}
+@keyframes orbit-spin {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@-webkit-keyframes orbit-spin {
+  0% {
+    -webkit-transform: translate(-50%, -50%) rotate(0deg);
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    -webkit-transform: translate(-50%, -50%) rotate(360deg);
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes spin {
+  to {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes shimmer {
@@ -52,4 +189,67 @@
   100% {
     transform: translateX(100%);
   }
+}
+
+/* 자세히 보기 버튼 스타일 */
+button.detail {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: all 0.2s ease;
+  background-color: var(--color-lightblue-90);
+  color: var(--color-white);
+  border: none;
+  cursor: pointer;
+  margin-top: 12px;
+  display: inline-block;
+}
+
+button.detail:hover {
+  background-color: var(--color-lightblue-80);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 768px) {
+  button.detail {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    margin-top: 8px;
+  }
+}
+
+/* 맨 위로 가기 버튼 스타일 */
+.scroll-to-top-btn {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: var(--color-lightblue-90);
+  color: white;
+  border: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform: translateY(20px) scale(0.9);
+  padding: 0; /* 패딩 제거 */
+}
+
+.scroll-to-top-btn svg {
+  width: 20px;
+  height: 20px;
+  stroke-width: 3;
+  display: block; /* 인라인 요소 대신 블록으로 변경 */
+  margin: 0 auto; /* 가운데 정렬 */
+  position: relative; /* 위치 조정을 위한 상대 위치 설정 */
+  top: 0; /* 위치 미세 조정 */
 }

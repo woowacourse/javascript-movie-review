@@ -1,26 +1,62 @@
 import createMovieLoader from "./loaderService.ts";
-import state from "../state/state.ts";
 import {
   URLS,
   defaultOptions,
   defaultQueryObject,
 } from "../setting/settings.ts";
-import { hideElement, showElement } from "../view/MovieView.ts";
+import {
+  hideElement,
+  renderMovieItems,
+  showElement,
+} from "../view/MovieView.ts";
 import Toast from "../components/Toast/Toast.ts";
-import { renderMovieList } from "../view/MovieView.ts";
+
+import { ERROR_MESSAGE } from "../setting/ErrorMessage.ts";
+import { handleNetworkError } from "./errorService.ts";
+import { getScrollInstance, setLoadMovies } from "../state/movieState.ts";
+
+import fetchAndSetLoadingEvent from "./fetchService.ts";
+import { scrollToTop } from "./scrollService.ts";
 
 export default async function handleSearch(searchValue: string) {
+  // 최상단으로 스크롤 이동
+  // 이 함수가 없으면, 스크롤 하다 중간에 fetch가 발생하면
+  // 잘못된 fetch가 발생할 수 있습니다.
+
+  await scrollToTop();
+
   setSearchResultTitle(searchValue);
   setSearchLoadingState();
-  state.loadMovies = createMovieLoader(
-    URLS.searchMovieUrl,
-    defaultQueryObject,
-    defaultOptions,
-    (error) => handleSearchError(error),
-    searchValue
+
+  setLoadMovies(
+    createMovieLoader(
+      URLS.searchMovieUrl,
+      defaultQueryObject,
+      defaultOptions,
+      (error) => handleSearchError(error),
+      searchValue
+    )
   );
-  await renderMovieList(state.loadMovies, true);
-  displaySearchResults();
+  // 먼저 stopInfiniteScroll를 호출합니다.
+  // 혹시 모를 이중 fetch를 방지하기 위함입니다.
+
+  const scrollInstance = getScrollInstance();
+  scrollInstance?.stopInfiniteScroll();
+
+  try {
+    const data = await fetchAndSetLoadingEvent(scrollInstance);
+
+    if (data?.results) renderMovieItems(data.results, true);
+    if (data?.isLastPage) scrollInstance?.stopInfiniteScroll();
+    else {
+      scrollInstance?.resumeInfiniteScroll();
+    }
+
+    displaySearchResults();
+  } catch (error) {
+    handleSearchError(error as Error);
+    return;
+  }
 }
 
 function setSearchResultTitle(searchValue: string): void {
@@ -48,14 +84,19 @@ function displaySearchResults(): void {
   showElement($thumbnailList);
 }
 
-function handleSearchError(error: unknown): void {
-  const $thumbnailContainer = document.getElementById("thumbnail-container");
-  const $fallback = document.getElementById("fallback");
-
-  if (error instanceof Error) {
+function handleSearchError(error: Error): void {
+  if (error.message !== ERROR_MESSAGE.NO_DATA) {
+    Toast.showToast(error.message, "error", 3000);
+    handleNetworkError();
+  } else {
+    const scrollInstance = getScrollInstance();
+    if (scrollInstance) scrollInstance.stopInfiniteScroll();
+    const $thumbnailContainer = document.getElementById("thumbnail-container");
+    const $fallback = document.getElementById("fallback");
+    const $fallbackDetails = document.getElementById("fallback-details");
     Toast.showToast(error.message, "error", 5000);
+    if ($fallbackDetails) $fallbackDetails.innerText = ERROR_MESSAGE.NO_DATA;
+    hideElement($thumbnailContainer);
+    showElement($fallback);
   }
-
-  hideElement($thumbnailContainer);
-  showElement($fallback);
 }

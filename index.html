@@ -13,27 +13,108 @@
       <div class="container">
         <main class="main">
           <section class="thumbnail-container" id="thumbnail-container">
-            <h2 id="description">지금 인기 있는 영화</h2>
+            <h1 id="description">지금 인기 있는 영화</h1>
             <ul class="thumbnail-list" id="thumbnail-list"></ul>
-            <ul class="thumbnail-list skeleton-list">
-              <li><div class="skeleton-thumbnail thumbnail"></div></li>
-              <li><div class="skeleton-thumbnail thumbnail"></div></li>
-              <li><div class="skeleton-thumbnail thumbnail"></div></li>
-              <li><div class="skeleton-thumbnail thumbnail"></div></li>
-              <li><div class="skeleton-thumbnail thumbnail"></div></li>
-              <li><div class="skeleton-thumbnail thumbnail"></div></li>
-              <li><div class="skeleton-thumbnail thumbnail"></div></li>
-              <li><div class="skeleton-thumbnail thumbnail"></div></li>
-              <li><div class="skeleton-thumbnail thumbnail"></div></li>
-              <li><div class="skeleton-thumbnail thumbnail"></div></li>
-            </ul>
+            <button id="load-more" class="load-more-button hide">
+              더 보기
+            </button>
+            <div class="thumbnail-list skeleton-list loading">
+              <div class="orbit-spinner" style="scale: 2">
+                <div class="planet"></div>
+                <div class="orbit">
+                  <div class="satellite satellite-1"></div>
+                  <div class="satellite satellite-2"></div>
+                </div>
+              </div>
+            </div>
           </section>
           <div class="fallback-div hide" id="fallback">
             <img src="./images/fallback_no_movies.png" alt="머리 아픈 행성이" />
-            <h1 class="title">검색 결과가 없습니다.</h1>
+            <h1 class="title" id="fallback-details"></h1>
           </div>
         </main>
       </div>
+      <dialog id="modal-dialog" class="modal">
+        <div class="detail-loading" id="detail-loading">
+          <div class="orbit-spinner" style="scale: 2">
+            <div class="planet"></div>
+            <div class="orbit">
+              <div class="satellite satellite-1"></div>
+              <div class="satellite satellite-2"></div>
+            </div>
+          </div>
+        </div>
+        <button class="close-modal" id="closeModal">
+          <img src="./images/modal_button_close.png" />
+        </button>
+        <div class="modal-container" id="modal-container">
+          <div class="modal-image">
+            <div
+              class="skeleton-thumbnail details-thumbnail"
+              id="details-skeleton"
+            ></div>
+            <img id="details-image" class="hide" />
+          </div>
+          <div class="modal-description">
+            <h2 id="details-title">인사이드 아웃 2</h2>
+
+            <div id="details-category" class="category">
+              2024 · 모험, 애니메이션, 코미디, 드라마, 가족
+            </div>
+            <div class="rate">
+              <span class="rate-description">평균</span>
+              <span class="star">★</span>
+              <span id="details-rate">7.7</span>
+            </div>
+            <div class="star-rating-wrapper">
+              <div class="star-rating-header">내 별점</div>
+              <div class="star-rating-container">
+                <div class="star-rating">
+                  <input type="radio" id="star5" name="star-rating" value="5" />
+                  <label for="star5">★</label>
+                  <input type="radio" id="star4" name="star-rating" value="4" />
+                  <label for="star4">★</label>
+                  <input
+                    type="radio"
+                    id="star3"
+                    name="star-rating"
+                    value="3"
+                    checked
+                  />
+                  <label for="star3">★</label>
+                  <input type="radio" id="star2" name="star-rating" value="2" />
+                  <label for="star2">★</label>
+                  <input type="radio" id="star1" name="star-rating" value="1" />
+                  <label for="star1">★</label>
+                </div>
+                <div class="star-rating-text">
+                  <span id="star-rating-details">보통이에요</span>
+                  <span id="star-rating-numbers" class="star-rating-numbers"
+                    >(3/5)</span
+                  >
+                </div>
+              </div>
+            </div>
+            <p id="details-description" class="detail"></p>
+          </div>
+        </div>
+      </dialog>
+
+      <button id="scroll-to-top-btn" class="scroll-to-top-btn hide">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="28"
+          height="28"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="3"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M18 15l-6-6-6 6" />
+        </svg>
+      </button>
 
       <footer class="footer">
         <p>&copy; 우아한테크코스 All Rights Reserved.</p>

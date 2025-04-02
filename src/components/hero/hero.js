@@ -1,5 +1,6 @@
 import { paths } from "../../setting/settings.ts";
 import { createElement } from "../../util/dom";
+import { hideElement, hideImgSkeleton } from "../../view/MovieView.ts";
 
 export default function Hero() {
   const backgroundHero = createElement("div", {
@@ -8,19 +9,21 @@ export default function Hero() {
   });
 
   backgroundHero.innerHTML = `
-
-    <div class="overlay" aria-hidden="true" ></div>
-       <div class="top-rated-container">
-            <div class="top-rated-movie">
-               <div class="rate">
-                 <img src="${paths.star_empty}" class="star" />
-                 <span class="rate-value">9.5</span>
-               </div>
-               <div class="title">인사이드 아웃2</div>
-              <button class="primary detail">자세히 보기</button>
-             </div>
-  </div>
-`;
+    <div class="hero-skeleton" id="hero-skeleton"></div>
+    <img id="hero-img" alt="Hero Image" class="hero-img"/>
+    <div class="overlay">
+      <div class="top-rated-container">
+        <div class="top-rated-movie hide" id="top-rated-container">
+          <div class="rate">
+            <img src="${paths.star_empty}" class="star" />
+            <span class="rate-value" id="hero-rate"></span>
+          </div>
+          <div class="title" id="hero-title"></div>
+          <button class="detail" id="hero-details-button">자세히 보기</button>
+        </div>
+      </div>
+    </div>
+  `;
 
   return backgroundHero;
 }

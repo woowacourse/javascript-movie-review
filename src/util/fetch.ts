@@ -6,13 +6,34 @@ export interface FetchOptions {
   body?: BodyInit | null;
 }
 
+export function createUrlWithParams(
+  baseUrl: string,
+  path?: string,
+  queryObject: Record<string, string> | URLSearchParams = {}
+): string {
+  let url = baseUrl;
+
+  if (path) {
+    url += `/${path}`;
+  }
+
+  const queryParams =
+    queryObject instanceof URLSearchParams
+      ? queryObject
+      : new URLSearchParams(queryObject);
+
+  const queryString = queryParams.toString();
+
+  return queryString ? `${url}?${queryString}` : url;
+}
+
 export async function fetchUrl<T>(
   url: string,
   queryObject: URLSearchParams,
-  options: FetchOptions = {}
+  options: FetchOptions = {},
+  path?: string
 ): Promise<T> {
-  const queryString = new URLSearchParams(queryObject).toString();
-  const finalUrl = queryString ? `${url}?${queryString}` : url;
+  const finalUrl = createUrlWithParams(url, path, queryObject);
 
   try {
     const response = await fetch(finalUrl, options);
