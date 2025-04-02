@@ -69,7 +69,6 @@ class MoviesCotainer {
   }
 
   setMovieId = (movieId) => {
-    console.log("movieId", movieId);
     this.#movieId = movieId;
     this.render();
   };
@@ -119,11 +118,12 @@ class MoviesCotainer {
     const $container = document.createElement("div");
     $container.classList.add("container");
 
-    const $main = document.createElement("main");
-
     if (this.#searchKeyword === "") {
       new Thumbnail(this.#movies[0], this.$target, this.setMovieId).render();
     }
+    if (this.#searchKeyword !== "") $container.classList.add("margin-top");
+
+    const $main = document.createElement("main");
 
     const $div = document.createElement("div");
     new MovieListSection(

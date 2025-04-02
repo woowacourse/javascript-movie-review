@@ -60,6 +60,10 @@ button.primary {
   width: 100%;
 }
 
+.margin-top {
+  margin-top: 140px;
+}
+
 .background-container {
   position: relative;
   background-position: center center;
