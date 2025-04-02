@@ -1,14 +1,27 @@
 import Header from "../components/layout/Header";
 import Main from "../components/layout/Main";
 import Modal from "../components/layout/Modal";
+import Genres from "../domains/entities/Genres";
+import Movies from "../domains/entities/Movies";
+import Pagination from "../domains/entities/Pagination";
+import Search from "../domains/entities/Search";
 import MovieRenderer from "../domains/MovieRenderer";
-import { getGenreList } from "../domains/movieHelpers";
 import UserMovieRatingStorage from "../storages/UserMovieRatingStorage";
-import { store } from "../stores";
 import EventBus from "./EventBus";
 import { EVENT_TYPES, EventPayloadType } from "./types/eventTypes";
 
 const eventBus = EventBus.getInstance();
+const movieRating = UserMovieRatingStorage.getInstance();
+const movieRenderer = MovieRenderer.getInstance();
+
+const modal = Modal.getInstance();
+const header = Header.getInstance();
+const main = Main.getInstance();
+
+const movies = Movies.getInstance();
+const genres = Genres.getInstance();
+const pagination = Pagination.getInstance();
+const search = Search.getInstance();
 
 export function initializeEventHandler() {
   eventBus.on(EVENT_TYPES.modal.open, handleModalOpen);
@@ -18,15 +31,13 @@ export function initializeEventHandler() {
 }
 
 async function handleModalOpen(movieId: EventPayloadType["MODAL_OPEN"]) {
-  const modal = Modal.getInstance();
-
   modal.setState({ isLoading: true });
   modal.open();
 
-  const movieData = store.movies.find((m) => m.id === movieId);
+  const movieData = movies.movies.find((m) => m.id === movieId);
   if (!movieData) return;
 
-  await getGenreList();
+  await genres.setGenres();
 
   const {
     genre_ids,
@@ -37,12 +48,9 @@ async function handleModalOpen(movieId: EventPayloadType["MODAL_OPEN"]) {
     release_date,
   } = movieData;
 
-  const genres = store.genres
-    .filter(({ id }) => genre_ids.includes(id))
-    .map(({ name }) => name);
+  const genreNames = genres.getGenreNamesByIds(genre_ids);
   const releaseDate = release_date.split("-")[0];
-
-  const ratings = UserMovieRatingStorage.getInstance().getRatings();
+  const ratings = movieRating.getRatings();
   const myRate = ratings.find((r) => r.movieId === movieId)?.rate ?? 0;
 
   const finalMovieData = {
@@ -51,7 +59,7 @@ async function handleModalOpen(movieId: EventPayloadType["MODAL_OPEN"]) {
     poster_path,
     vote_average,
     overview,
-    genres: genres,
+    genres: genreNames,
     release_date: releaseDate,
     isLoading: false,
     my_rate: myRate,
@@ -61,32 +69,31 @@ async function handleModalOpen(movieId: EventPayloadType["MODAL_OPEN"]) {
 }
 
 function handleModalClose() {
-  Modal.getInstance().close();
+  modal.close();
 }
 
 async function handleSearch(value: EventPayloadType["SEARCH_SUBMIT"]) {
-  store.searchKeyword = value;
-  store.page = 1;
-  store.movies = [];
+  search.updateSearchKeyword(value);
+  pagination.resetCurrentPage();
+  movies.reset();
 
-  const main = Main.getInstance();
   main.setState({
-    title: `"${store.searchKeyword}" 검색 결과`,
+    title: `"${search.searchKeyword}" 검색 결과`,
     isLoading: true,
   });
 
-  Header.getInstance().setState({ hasSearched: true });
-  await MovieRenderer.getInstance().renderMovies();
+  header.setState({ hasSearched: true });
+  await movieRenderer.renderMovies();
 }
 
 function handleSetRating(newRating: EventPayloadType["SET_RATING"]) {
-  const currentMovieId = Modal.getInstance().getMovieId();
+  const currentMovieId = modal.getMovieId();
   if (!currentMovieId) return;
 
-  UserMovieRatingStorage.getInstance().setRating({
+  movieRating.setRating({
     movieId: currentMovieId,
     rate: newRating,
   });
 
-  Modal.getInstance().setState({ my_rate: newRating });
+  modal.setState({ my_rate: newRating });
 }

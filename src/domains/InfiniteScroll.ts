@@ -1,17 +1,10 @@
-import { MAX_MOVIE_PAGE } from "../constants/constants";
-import { store } from "../stores";
+import Pagination from "./entities/Pagination";
 import MovieRenderer from "./MovieRenderer";
 
 export default class InfiniteScroll {
-  private static instance: InfiniteScroll;
+  private pagination = Pagination.getInstance();
   private isLoading = false;
   private hasReachedEnd = false;
-
-  static getInstance(): InfiniteScroll {
-    if (!InfiniteScroll.instance)
-      InfiniteScroll.instance = new InfiniteScroll();
-    return InfiniteScroll.instance;
-  }
 
   initialize() {
     window.removeEventListener("scroll", this.handleScroll.bind(this));
@@ -41,7 +34,7 @@ export default class InfiniteScroll {
     if (
       this.hasReachedEnd ||
       this.isLoading ||
-      store.page >= Math.min(MAX_MOVIE_PAGE, store.totalPages)
+      this.pagination.hasReachedEnd()
     ) {
       this.hasReachedEnd = true;
       return;
@@ -49,7 +42,7 @@ export default class InfiniteScroll {
 
     this.isLoading = true;
 
-    store.page = store.page + 1;
+    this.pagination.nextPage();
 
     await MovieRenderer.getInstance().renderMovies();
 

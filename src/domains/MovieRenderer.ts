@@ -1,19 +1,21 @@
 import { getMovies, searchMovies } from "../api/services/movie";
 import { MoviesResponse } from "../api/types/movie/response";
 import { handleApiResponse } from "../api/utils/handlers";
+import Header from "../components/layout/Header";
 import Main from "../components/layout/Main";
-import { store } from "../stores";
+import { PREFIX_POSTER_PATH } from "../constants/constants";
+import Movies from "./entities/Movies";
+import Pagination from "./entities/Pagination";
+import Search from "./entities/Search";
 import InfiniteScroll from "./InfiniteScroll";
-import {
-  isLastPage,
-  updateHeaderWithFirstMovie,
-  updateMovieStore,
-} from "./movieHelpers";
 
 export default class MovieRenderer {
   private static instance: MovieRenderer;
-  private infiniteScroll = InfiniteScroll.getInstance();
   private main = Main.getInstance();
+  private movies = Movies.getInstance();
+  private pagination = Pagination.getInstance();
+  private search = Search.getInstance();
+  private infiniteScroll = new InfiniteScroll();
 
   static getInstance(): MovieRenderer {
     if (!MovieRenderer.instance) MovieRenderer.instance = new MovieRenderer();
@@ -21,27 +23,30 @@ export default class MovieRenderer {
   }
 
   async renderMovies() {
-    if (store.searchKeyword === "") await this.renderTotalList();
+    if (!this.search.hasSearchKeyword()) await this.renderTotalList();
     else await this.renderSearchList();
 
     this.main.render();
 
-    if (store.page === 1) this.infiniteScroll.initialize();
+    if (this.pagination.isFirstPage()) this.infiniteScroll.initialize();
   }
 
   renderTotalList = async () => {
-    const moviesResponse = await getMovies({ page: store.page });
+    const moviesResponse = await getMovies({
+      page: this.pagination.currentPage,
+    });
 
     handleApiResponse<MoviesResponse>(moviesResponse, {
       onSuccess: (data) => {
-        updateMovieStore(data);
+        this.updateFromResponse(data);
 
-        if (isLastPage()) this.infiniteScroll.setHasReachedEnd(true);
+        if (this.pagination.hasReachedEnd())
+          this.infiniteScroll.setHasReachedEnd(true);
 
-        updateHeaderWithFirstMovie();
+        this.updateHeaderWithFirstMovie();
 
         this.main.setState({
-          movies: store.movies,
+          movies: this.movies.movies,
           isLoading: false,
         });
       },
@@ -56,23 +61,24 @@ export default class MovieRenderer {
   };
 
   renderSearchList = async () => {
-    updateHeaderWithFirstMovie();
+    this.updateHeaderWithFirstMovie();
 
     const moviesResponse = await searchMovies({
-      page: store.page,
-      title: store.searchKeyword,
+      page: this.pagination.currentPage,
+      title: this.search.searchKeyword,
     });
 
     handleApiResponse<MoviesResponse>(moviesResponse, {
       onSuccess: (data) => {
-        updateMovieStore(data);
+        this.updateFromResponse(data);
 
-        if (isLastPage()) this.infiniteScroll.setHasReachedEnd(true);
+        if (this.pagination.hasReachedEnd())
+          this.infiniteScroll.setHasReachedEnd(true);
 
         this.main.setState({
-          movies: store.movies,
+          movies: this.movies.movies,
           isLoading: false,
-          error: store.movies.length === 0 ? "검색 결과가 없습니다." : null,
+          error: this.movies.isEmpty() ? "검색 결과가 없습니다." : null,
         });
       },
       onError: (error) => {
@@ -84,4 +90,24 @@ export default class MovieRenderer {
       },
     });
   };
+
+  updateHeaderWithFirstMovie() {
+    const header = Header.getInstance();
+    const firstMovieData = this.movies.getFirstMovie();
+
+    if (!firstMovieData) return;
+
+    header.setState({
+      id: firstMovieData.id,
+      posterImage: `${PREFIX_POSTER_PATH}${firstMovieData.poster_path}`,
+      title: firstMovieData.title,
+      voteAverage: firstMovieData.vote_average,
+      isLoading: false,
+    });
+  }
+
+  updateFromResponse(data: MoviesResponse) {
+    this.movies.updateMovies(data);
+    this.pagination.updateTotalPages(data.total_pages);
+  }
 }
