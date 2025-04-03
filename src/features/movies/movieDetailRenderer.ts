@@ -3,7 +3,7 @@ import Modal from "../../components/Modal";
 import ModalSkeleton from "../../components/ModalSkeleton";
 import { DEFAULT_BACK_DROP_URL } from "../../constants/movieApi";
 import { movieRatingService } from "./movieRatingService";
-import { readMovieDetail } from "./movieService";
+import { movieService } from "./movieService";
 
 const $modalContainer = document.querySelector(".modal-container");
 
@@ -25,7 +25,7 @@ export const movieDetailRenderer = async () => {
     release_date,
     title,
     vote_average,
-  }: MovieDetailInfo = await readMovieDetail();
+  }: MovieDetailInfo = await movieService.getMovieDetailById();
 
   const img = new Image();
   img.src = DEFAULT_BACK_DROP_URL + backdrop_path;

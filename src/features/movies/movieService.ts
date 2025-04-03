@@ -23,35 +23,34 @@ const updateMovieList = (response: MoviesResponse) => {
   movieStore.totalPages = response.total_pages;
 };
 
-//read
-export const readMovieDetail = async (): Promise<MovieDetailInfo> => {
-  const movieResponse = (await fetchMovieDetail({
-    id: selectionState.movieId,
-  })) as MovieDetail;
-  return {
-    backdrop_path: movieResponse.backdrop_path,
-    genres: movieResponse.genres,
-    id: movieResponse.id,
-    overview: movieResponse.overview,
-    release_date: movieResponse.release_date,
-    title: movieResponse.title,
-    vote_average: movieResponse.vote_average,
-  };
-};
+export const movieService = {
+  async getMovieDetailById(): Promise<MovieDetailInfo> {
+    const movieResponse = (await fetchMovieDetail({
+      id: selectionState.movieId,
+    })) as MovieDetail;
+    return {
+      backdrop_path: movieResponse.backdrop_path,
+      genres: movieResponse.genres,
+      id: movieResponse.id,
+      overview: movieResponse.overview,
+      release_date: movieResponse.release_date,
+      title: movieResponse.title,
+      vote_average: movieResponse.vote_average,
+    };
+  },
 
-//update
-export const updateTotalList = async () => {
-  const moviesResponse = (await fetchMovies({
-    page: movieStore.page,
-  })) as MoviesResponse;
-  updateMovieList(moviesResponse);
-};
+  async updateTotalList() {
+    const moviesResponse = (await fetchMovies({
+      page: movieStore.page,
+    })) as MoviesResponse;
+    updateMovieList(moviesResponse);
+  },
 
-//update
-export const updateSearchList = async () => {
-  const moviesResponse = (await fetchMovieByName({
-    name: searchState.keyword,
-    page: movieStore.page,
-  })) as MoviesResponse;
-  updateMovieList(moviesResponse);
+  async updateSearchList() {
+    const moviesResponse = (await fetchMovieByName({
+      name: searchState.keyword,
+      page: movieStore.page,
+    })) as MoviesResponse;
+    updateMovieList(moviesResponse);
+  },
 };
