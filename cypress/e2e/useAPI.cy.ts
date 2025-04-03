@@ -1,5 +1,5 @@
 import { ITEMS } from "../../src/constants/movie.ts";
-import { MovieData } from "../../types/data.ts";
+import { MovieData } from "../../src/api/types.ts";
 
 /// <reference types="cypress" />
 

@@ -1,4 +1,4 @@
-import { Movie } from "../../types/domain.ts";
+import { Movie } from "../domain/types.ts";
 
 type MovieItemParams = Pick<
   Movie,

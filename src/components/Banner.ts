@@ -1,4 +1,4 @@
-import { Movie } from "../../types/domain";
+import { Movie } from "../domain/types";
 import { IMAGE } from "../constants/movie";
 import { selectElement } from "../utils/ui";
 

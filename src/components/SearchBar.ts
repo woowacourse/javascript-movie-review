@@ -1,4 +1,4 @@
-import { Movie } from "../../types/domain.ts";
+import { Movie } from "../domain/types.ts";
 import { ERROR, STATUS_MESSAGE } from "../constants/error.ts";
 import movieService from "../service/movieService.ts";
 import ScrollRenderer from "../utils/scrollRenderer.ts";

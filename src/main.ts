@@ -1,4 +1,4 @@
-import { Movie } from "../types/domain.ts";
+import { Movie } from "./domain/types.ts";
 import SearchBar from "./components/SearchBar";
 import SkeletonUl from "./components/SkeletonUl";
 import { ITEMS } from "./constants/movie.ts";

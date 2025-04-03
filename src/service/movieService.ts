@@ -1,4 +1,4 @@
-import { UserMovieRateData } from "../../types/data.ts";
+import { UserMovieRateData } from "../api/types.ts";
 import movieApi from "../api/movieApi.ts";
 import { KEY } from "../constants/storage.ts";
 import calculatePageNumber from "../domain/calculatePageNumber.ts";

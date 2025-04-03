@@ -1,4 +1,4 @@
-import { UserMovieRateData } from "../../types/data";
+import { UserMovieRateData } from "../api/types";
 
 interface IStorage {
   localStorage: Storage;

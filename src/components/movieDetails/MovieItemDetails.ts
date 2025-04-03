@@ -1,4 +1,4 @@
-import { MovieDetails } from "../../../types/domain.ts";
+import { MovieDetails } from "../../domain/types.ts";
 import MovieDetailsHeader from "./MovieDetailsHeader.ts";
 import MovieOverview from "./MovieOverview.ts";
 import MoviePoster from "./MoviePoster.ts";

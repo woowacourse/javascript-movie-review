@@ -3,8 +3,8 @@ import {
   MovieDetailsData,
   TotalData,
   UserMovieRateData,
-} from "../../types/data.ts";
-import { Movie, MovieDetails, TotalMovies } from "../../types/domain.ts";
+} from "../api/types.ts";
+import { Movie, MovieDetails, TotalMovies } from "./types.ts";
 import { DETAILS, IMAGE, VOTE } from "../constants/movie.ts";
 import { getMovieRate } from "./ratingMovie.ts";
 
