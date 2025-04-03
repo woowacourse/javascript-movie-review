@@ -65,15 +65,15 @@ class BaseModal {
     }
   }
 
-  setupEventListeners() {
+  setupCloseButtonEvent() {
     const modal = document.querySelector('.modal');
     const closeButton = modal.querySelector('.close-modal');
-
     closeButton.addEventListener('click', () => {
       this.close();
     });
+  }
 
-    //esc 키 옵션 켜져있으면!
+  setupEscKeyEvent() {
     if (this.options.closeOnEsc) {
       this.escKeyHandler = e => {
         if (e.key === 'Escape') {
@@ -82,8 +82,11 @@ class BaseModal {
       };
       document.addEventListener('keydown', this.escKeyHandler);
     }
+  }
 
+  setupBackdropClickEvent() {
     if (this.options.closeOnBackdropClick) {
+      const modal = document.querySelector('.modal');
       this.backdropClickHandler = e => {
         if (e.target.classList.contains('modal-background')) {
           this.close();
@@ -91,6 +94,12 @@ class BaseModal {
       };
       modal.addEventListener('click', this.backdropClickHandler);
     }
+  }
+
+  setupEventListeners() {
+    this.setupCloseButtonEvent();
+    this.setupEscKeyEvent();
+    this.setupBackdropClickEvent();
   }
 
   removeEventListeners() {
