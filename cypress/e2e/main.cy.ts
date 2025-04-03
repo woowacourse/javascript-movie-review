@@ -23,8 +23,8 @@ describe("메인 화면 테스트", () => {
     });
   });
 
-  it("더보기 클릭시 다음 페이지의 영화 20개 가져와서 보여준다.", () => {
-    cy.get(".load-more").click();
+  it("스크롤 시 다음 페이지의 영화 20개를 가져와서 총 40개가 보여진다.", () => {
+    cy.scrollTo("bottom");
 
     cy.wait("@getPopularMovies").then((interception) => {
       const popularMovies = interception.response?.body.results;

@@ -1,8 +1,8 @@
+import NoSearchResults from "../movie/NoSearchResults.ts";
 import { fetchSearchMovieList } from "../../utils/api.ts";
 import { $ } from "../../utils/dom.ts";
 import { loadMovies } from "../../utils/loadMovies.ts";
-import LoadMoreButton from "../movie/LoadMoreButton.ts";
-import NoSearchResults from "../movie/NoSearchResults.ts";
+import { movieState } from "../../state/movieState.ts";
 
 const SearchBar = () => {
   const searchBar = document.createElement("div");
@@ -23,7 +23,7 @@ const SearchBar = () => {
   });
 
   input.addEventListener("keydown", async (e) => {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && e.isComposing === false) {
       searchMovie(input.value);
     }
   });
@@ -32,29 +32,32 @@ const SearchBar = () => {
 };
 
 const searchMovie = async (input: string) => {
+  movieState.setMode("search");
+  movieState.resetPage();
+
   $(".thumbnail-list").replaceChildren();
-  $(".load-more").remove();
   $("#caption").innerText = `"${input}" 검색 결과`;
+  $(".no-result")?.remove();
 
   try {
-    const movies = await fetchSearchMovieList(input, 1);
+    movieState.setSearchKeyword(input);
+    const movies = await fetchSearchMovieList(
+      movieState.getSearchKeyword(),
+      movieState.getCurrentPage()
+    );
+
+    movieState.setMaxPage(movies.total_pages);
+
     $(".top-rated-container").classList.add("hidden");
     $(".overlay-img").classList.add("hidden");
 
-    if (movies.results.length === 0) {
+    if (movies.results.length === 0 && !$(".no-result")) {
       $(".thumbnail-list").after(NoSearchResults("검색 결과가 없습니다."));
       return;
     }
-
     loadMovies(movies);
-
-    $(".thumbnail-list").after(
-      LoadMoreButton({
-        loadFn: (currentPage: number) =>
-          fetchSearchMovieList(input, currentPage),
-      })
-    );
   } catch (error) {
+    console.log(error);
     $(".thumbnail-list").after(
       NoSearchResults("영화 목록을 가져오는 데 실패했습니다.")
     );
