@@ -42,11 +42,17 @@ const $MovieItem = ({ id, title, poster_path, vote_average }: MovieData) => {
   if (poster_path) {
     const posterUrl = getPosterUrl(poster_path);
 
-    $poster.src = posterUrl;
+    const preloadImage = new Image();
 
-    $poster.onerror = () => {
+    preloadImage.onload = () => {
+      $poster.src = posterUrl;
+    };
+
+    preloadImage.onerror = () => {
       $poster.src = POSTER_PATH.ERROR;
     };
+
+    preloadImage.src = posterUrl;
   } else {
     $poster.src = POSTER_PATH.DEFAULT;
   }
