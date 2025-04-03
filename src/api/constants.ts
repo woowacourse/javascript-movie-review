@@ -1,5 +1,5 @@
 export const baseApiUrl = "https://api.themoviedb.org/3";
-export const popularApiUrl =
-  `${baseApiUrl}/movie/popular`;
-export const searchApiUrl = `${baseApiUrl}/search/movie`;
 export const movieDetailApiUrl = `${baseApiUrl}/movie`;
+export const popularApiUrl =
+  `${movieDetailApiUrl}/popular`;
+export const searchApiUrl = `${baseApiUrl}/search/movie`;
