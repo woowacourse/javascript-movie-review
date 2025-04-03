@@ -9,37 +9,45 @@ interface AppContract {
 }
 
 class App implements AppContract {
-  constructor() {}
+  constructor() {
+    this.#renderInitialLayout();
+  }
 
   public render() {
     this.#renderHeader();
     this.#renderPopularMovies();
-    this.#renderFooter();
+  }
+
+  #renderInitialLayout(): void {
+    const $body = document.querySelector("body");
+    if (!isHTMLElement($body)) return;
+    $body.innerHTML = /*html*/ `
+      <header></header>
+      <main></main>
+      ${Footer()}
+    `;
   }
 
   #renderHeader() {
     const $header = document.querySelector("header");
-    if (isHTMLElement($header))
-      new Header($header, {
-        onSearchSubmitted: (params: string) => this.#renderSearchResult(params),
-        onLogoClicked: () => this.#renderPopularMovies(),
-      });
+    if (!isHTMLElement($header)) return;
+    new Header($header, {
+      onSearchSubmitted: (params: string) => this.#renderSearchResult(params),
+      onLogoClicked: () => this.#renderPopularMovies(),
+    });
   }
 
   #renderSearchResult(searchParams: string) {
     const $section = document.querySelector("main");
-    if (isHTMLElement($section))
-      new SearchMovieBoard($section, { searchParams });
+    window.scrollTo(0, 0);
+
+    if (!isHTMLElement($section)) return;
+    new SearchMovieBoard($section, { searchParams });
   }
 
   #renderPopularMovies() {
     const $section = document.querySelector("main");
     if (isHTMLElement($section)) new PopularMovieBoard($section);
-  }
-
-  #renderFooter() {
-    const root = document.querySelector("body");
-    root?.insertAdjacentHTML("beforeend", Footer());
   }
 }
 

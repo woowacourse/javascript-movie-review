@@ -1,0 +1,154 @@
+import { pipe } from "@zoeykr/function-al";
+import { Movie } from "../../../types/movie";
+import { isHTMLElement } from "../../../utils/typeGuards";
+import MovieDetailModal from "./MovieDetailModal";
+import MovieList from "./MovieList";
+import { InfiniteScrollManager } from "./InfiniteScrollManager";
+
+export interface MovieBoardConfig {
+  parentElement: HTMLElement;
+  initialRender: () => void;
+  fetchMovies: (
+    page: number
+  ) => Promise<{ movies: Movie[]; total_pages: number }>;
+  renderMovieList: (movies: Movie[]) => string;
+}
+
+abstract class BaseMovieBoard {
+  protected readonly parentElement: HTMLElement;
+  protected currentPage: number = 1;
+  protected totalPages: number = 0;
+  protected isLoading: boolean = false;
+  #scrollManager: InfiniteScrollManager | null = null;
+
+  constructor(protected readonly config: MovieBoardConfig) {
+    this.parentElement = config.parentElement;
+    this.#initialize();
+  }
+
+  #initialize(): void {
+    this.config.initialRender();
+    this.fetchAndRenderMovies();
+    this.initInfiniteScroll();
+    this.#attachMovieItemClickListener();
+  }
+
+  protected async fetchAndRenderMovies(): Promise<void> {
+    if (this.isLoading) return;
+    this.isLoading = true;
+
+    if (this.currentPage > 1) {
+      this.renderSkeleton();
+    }
+
+    try {
+      const { movies, total_pages } = await this.config.fetchMovies(
+        this.currentPage
+      );
+      this.totalPages = total_pages;
+      if (movies.length === 0 && this.currentPage === 1) {
+        this.#renderNoResult();
+        this.disableInfiniteScroll();
+        return;
+      }
+
+      this.removeSkeleton();
+      this.renderMovies(movies);
+      this.currentPage++;
+      if (this.currentPage > this.totalPages) {
+        this.disableInfiniteScroll();
+      }
+    } catch (error) {
+      console.error("영화 데이터를 불러오는 중 오류 발생:", error);
+      this.disableInfiniteScroll();
+    } finally {
+      this.isLoading = false;
+    }
+  }
+
+  protected renderMovies(movies: Movie[]): void {
+    const movieListContainer =
+      this.parentElement.querySelector(".thumbnail-list");
+    if (!isHTMLElement(movieListContainer)) return;
+
+    if (this.currentPage === 1) {
+      movieListContainer.innerHTML = this.config.renderMovieList(movies);
+    } else {
+      movieListContainer.insertAdjacentHTML(
+        "beforeend",
+        this.config.renderMovieList(movies)
+      );
+    }
+  }
+
+  protected renderSkeleton(): void {
+    const movieListContainer =
+      this.parentElement.querySelector(".thumbnail-list");
+    if (!isHTMLElement(movieListContainer)) return;
+
+    movieListContainer.insertAdjacentHTML(
+      "beforeend",
+      new MovieList([]).skeleton
+    );
+  }
+
+  protected removeSkeleton(): void {
+    const movieListContainer =
+      this.parentElement.querySelector(".thumbnail-list");
+    if (!isHTMLElement(movieListContainer)) return;
+
+    movieListContainer
+      .querySelectorAll(".skeleton-item")
+      .forEach((el) => el.remove());
+  }
+
+  #attachMovieItemClickListener(): void {
+    const container = this.parentElement.querySelector(".thumbnail-list");
+    if (!isHTMLElement(container)) return;
+
+    container.addEventListener(
+      "click",
+      pipe(
+        (event: Event) => event.target as HTMLElement,
+        (target: HTMLElement) => target.closest(".item"),
+        (item: Element | null) => (item ? item.getAttribute("data-id") : null),
+        (idStr: string | null) => (idStr ? parseInt(idStr, 10) : null),
+        (movieId: number | null) => {
+          if (movieId !== null) {
+            new MovieDetailModal(movieId);
+          }
+        }
+      )
+    );
+  }
+
+  #renderNoResult(): void {
+    const container = this.config.parentElement.querySelector(
+      ".movie-list-container"
+    );
+    if (!container) return;
+    const ul = container.querySelector("ul.thumbnail-list");
+    if (!isHTMLElement(ul)) return;
+    ul.innerHTML = "";
+
+    const h2 = container.querySelector("h2");
+    if (!isHTMLElement(h2)) return;
+    h2.insertAdjacentHTML("afterend", new MovieList([]).fallback);
+  }
+
+  protected initInfiniteScroll(): void {
+    this.#scrollManager = new InfiniteScrollManager(this.parentElement, () => {
+      if (!this.isLoading && this.currentPage <= this.totalPages) {
+        this.fetchAndRenderMovies();
+      }
+    });
+  }
+
+  protected disableInfiniteScroll(): void {
+    if (this.#scrollManager) {
+      this.#scrollManager.disconnect();
+      this.#scrollManager = null;
+    }
+  }
+}
+export default BaseMovieBoard;

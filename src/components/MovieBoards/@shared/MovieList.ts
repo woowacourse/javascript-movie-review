@@ -1,8 +1,9 @@
 import { Movie } from "../../../types/movie";
 
 interface MovieListContract {
-  skeleton: string;
   ui: string;
+  skeleton: string;
+  fallback: string;
 }
 
 class MovieList implements MovieListContract {
@@ -12,6 +13,40 @@ class MovieList implements MovieListContract {
 
   constructor(movies: Movie[]) {
     this.#movies = movies;
+  }
+
+  #posterImage(poster_path: Movie["poster_path"]): string {
+    return poster_path
+      ? `${MovieList.IMAGE_BASE_URL}${poster_path}`
+      : "./images/null_image.png";
+  }
+
+  public get ui() {
+    return /*html*/ `
+      ${this.#movies
+        .map(
+          ({ id, poster_path, title, vote_average }) => /*html*/ `
+            <li class="item" data-id="${id}">
+                <img 
+                  class="thumbnail" 
+                  src="./images/placeholder.png"
+                  data-src="${this.#posterImage(poster_path)}"
+                  alt="${title}" 
+                  onload="if(this.dataset.loaded !== 'true'){ this.dataset.loaded = 'true'; this.src = this.getAttribute('data-src'); }"
+                  onerror="this.onerror=null; this.src='./images/dizzy_planet.png';"
+                />
+                <div class="item-desc">
+                  <p class="rate">
+                    <img src="./images/star_empty.png" class="star" />
+                    <span>${vote_average.toFixed(1).toString()}</span>
+                  </p>
+                  <strong>${title}</strong>
+                </div>
+            </li>
+          `
+        )
+        .join("")}
+    `;
   }
 
   public get skeleton(): string {
@@ -30,36 +65,12 @@ class MovieList implements MovieListContract {
       .trim();
   }
 
-  #posterImage(poster_path: Movie["poster_path"]): string {
-    return poster_path
-      ? `${MovieList.IMAGE_BASE_URL}${poster_path}`
-      : "./images/null_image.png";
-  }
-
-  public get ui() {
+  public get fallback(): string {
     return /*html*/ `
-      ${this.#movies
-        .map(
-          ({ poster_path, title, vote_average }) => /*html*/ `
-            <li>
-              <div class="item">
-                <img 
-                  class="thumbnail" 
-                  src="${this.#posterImage(poster_path)}" alt="${title}" 
-                  onerror="this.onerror=null; this.src='./images/dizzy_planet.png';"
-                  />
-                <div class="item-desc">
-                  <p class="rate">
-                    <img src="./images/star_empty.png" class="star" />
-                    <span>${vote_average}</span>
-                  </p>
-                  <strong>${title}</strong>
-                </div>
-              </div>
-            </li>
-          `
-        )
-        .join("")}
+      <div class="fallback-screen">
+        <img src="./images/dizzy_planet.png" alt="영화 정보 없음"/>
+        <p>현재 표시할 영화가 없습니다</p>
+      </div>
     `;
   }
 }

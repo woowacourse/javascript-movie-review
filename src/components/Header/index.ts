@@ -20,9 +20,7 @@ class Header {
   #render() {
     this.#parentElement.innerHTML = /*html*/ `
         <button class="logo">
-          <h1>
-              <img src="./images/logo.png" alt="MovieList" />
-          </h1>
+          <h1><img src="./images/logo.png" alt="MovieList" /></h1>
         </button>
         <div class="search-bar-container"></div>
     `;
