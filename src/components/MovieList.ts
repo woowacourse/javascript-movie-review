@@ -4,6 +4,9 @@ import { toElement } from "../utils/domUtils";
 
 export default function MovieList(moviesResult: MovieSummary[]) {
   const $ul = document.querySelector(".thumbnail-list");
+
+  if (!$ul) return;
+
   const $movieListFragment = document.createDocumentFragment();
 
   $movieListFragment.append(
@@ -34,6 +37,7 @@ export default function MovieList(moviesResult: MovieSummary[]) {
     })
   );
 
-  $ul?.appendChild($movieListFragment);
+  $ul.appendChild($movieListFragment);
+
   return $ul;
 }
