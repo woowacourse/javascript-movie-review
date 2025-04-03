@@ -281,7 +281,7 @@ footer.footer p:not(:last-child) {
   }
 
   .search-wrapper {
-    width: 60%;
+    width: 100%;
   }
 }
 
