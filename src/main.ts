@@ -6,8 +6,9 @@ import ErrorModal from "./shared/ui/components/ErrorModal";
 import { withSkeleton } from "./features/skeleton/ui/withSkeleton";
 import { initUrl } from "./shared/utils/updateUrl";
 import { movieDetailModalHandler } from "./features/detailModal/ui/movieDetailModalHandler";
-import { intersectionObserver } from "./shared/ui/intersectionObserver/intersectionObserver";
+import { intersectionObserver } from "./features/movie/utils/intersectionObserver";
 import { addMoreMovies } from "./features/movie/ui/addMoreMovies";
+import { getUrlParams } from "./shared/utils/getUrlParams";
 
 async function init() {
   const $movieList = document.querySelector(".thumbnail-list") as HTMLElement;
@@ -52,9 +53,12 @@ async function init() {
     }
   });
 
-  intersectionObserver(() =>
-    withSkeleton($movieList, addMoreMovies($movieList))
-  );
+  const query = getUrlParams().get("query");
+  if (!query) {
+    intersectionObserver(() =>
+      withSkeleton($movieList, addMoreMovies($movieList))
+    );
+  }
 
   movieDetailModalHandler();
 }
