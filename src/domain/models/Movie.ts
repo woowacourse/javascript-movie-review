@@ -3,6 +3,7 @@ interface MovieDTO {
   title: string;
   posterPath: string;
   voteAverage: number;
+  overview: string;
 }
 
 export default class Movie {
@@ -10,12 +11,14 @@ export default class Movie {
   title: string;
   posterPath: string;
   voteAverage: number;
+  overview: string;
 
   constructor(movieData: MovieDTO) {
     this.id = movieData.id;
     this.title = movieData.title;
     this.posterPath = movieData.posterPath;
     this.voteAverage = movieData.voteAverage;
+    this.overview = movieData.overview;
   }
 
   getPosterUrl(): string {

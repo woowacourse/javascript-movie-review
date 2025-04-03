@@ -11,13 +11,16 @@ body.modal-open {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경을 위해 설정 */
-  backdrop-filter: blur(10px); /* 블러 효과 적용 */
+  background-color: rgba(0, 0, 0, 0.5);
+  /* 반투명 배경을 위해 설정 */
+  backdrop-filter: blur(10px);
+  /* 블러 효과 적용 */
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 10;
-  visibility: hidden; /* 모달이 기본적으로 보이지 않도록 설정 */
+  visibility: hidden;
+  /* 모달이 기본적으로 보이지 않도록 설정 */
   opacity: 0;
   transition:
     opacity 0.3s ease,
@@ -66,14 +69,16 @@ body.modal-open {
   padding: 8px;
   margin-left: 16px;
   line-height: 1.6rem;
+  display: flex;
+  flex-direction: column;
 }
 
-.modal-description .rate > img {
+.modal-description .rate>img {
   position: relative;
   top: 5px;
 }
 
-.modal-description > *:not(:last-child) {
+.modal-description>*:not(:last-child) {
   margin-bottom: 8px;
 }
 
@@ -85,4 +90,90 @@ body.modal-open {
 .detail {
   max-height: 430px;
   overflow-y: auto;
+}
+
+.rate-box {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  gap: 15px;
+}
+
+.rating-box {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 15px;
+}
+
+.modal-container hr {
+  width: 100%;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+@media (max-width: 1024px) {
+  .modal {
+    width: 100%;
+    height: auto;
+    position: absolute;
+    bottom: 0;
+  }
+
+  .modal-container {
+    flex-direction: column;
+    /* 좌우 → 세로로 배치 */
+    align-items: center;
+    padding: 20px;
+  }
+
+  .modal-image img {
+    width: 100%;
+    max-width: 200px;
+    margin-bottom: 16px;
+  }
+
+  .modal-description {
+    width: 100%;
+  }
+
+  .movie-basic-info {
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .modal-image {
+    display: none;
+    /* 썸네일 숨기기 */
+  }
+
+  .modal-description {
+    padding: 0 10px;
+    /* 좌우 여백 조금 */
+  }
+
+  .modal-description {
+    align-items: center;
+  }
+
+  .modal-description .detail {
+    display: -webkit-box;
+    /* Flex 대신 박스 모델 */
+    -webkit-line-clamp: 6;
+    /* 최대 줄 수 */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    /* 넘치는 텍스트 숨김 */
+    text-overflow: ellipsis;
+    /* 말줄임표 */
+  }
+
+  .rating-box {
+    display: flex;
+    flex-direction: column;
+  }
 }

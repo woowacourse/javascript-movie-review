@@ -1,4 +1,4 @@
-import TmdbApi from "../../api/tmdbApi";
+import TmdbApi, { Genre } from "../../api/tmdbApi";
 import Movie from "../models/Movie";
 
 export default class MovieService {
@@ -12,26 +12,25 @@ export default class MovieService {
     page: number;
     totalPages: number;
   }> {
-    try {
-      const response = await this.api.popularMovies(page);
-      return {
-        movies: response.results.map(
-          (movie) =>
-            new Movie({
-              id: movie.id,
-              title: movie.title,
-              posterPath: movie.poster_path || "",
-              voteAverage: movie.vote_average,
-            })
-        ),
-        page: response.page,
-        totalPages: response.total_pages,
-      };
-    } catch (error) {
+    const response = await this.api.popularMovies(page).catch((error) => {
       console.error("영화 목록 가져오기 실패:", error);
-      alert("영화 목록 가져오기 실패");
       throw error;
-    }
+    });
+
+    return {
+      movies: response.results.map(
+        (movie) =>
+          new Movie({
+            id: movie.id,
+            title: movie.title,
+            posterPath: movie.poster_path || "",
+            voteAverage: movie.vote_average,
+            overview: movie.overview,
+          })
+      ),
+      page: response.page,
+      totalPages: response.total_pages,
+    };
   }
 
   async searchMovies(
@@ -42,26 +41,39 @@ export default class MovieService {
     page: number;
     totalPages: number;
   }> {
-    try {
-      const validQuery = query ?? "";
-      const response = await this.api.searchMovies(validQuery, page);
-      return {
-        movies: response.results.map(
-          (movie) =>
-            new Movie({
-              id: movie.id,
-              title: movie.title,
-              posterPath: movie.poster_path || "",
-              voteAverage: movie.vote_average,
-            })
-        ),
-        page: response.page,
-        totalPages: response.total_pages,
-      };
-    } catch (error) {
-      console.error("영화 검색 실패", error);
-      alert("영화 검색 실패");
+    const validQuery = query ?? "";
+    const response = await this.api
+      .searchMovies(validQuery, page)
+      .catch((error) => {
+        console.error("검색 영화 목록 가져오기 실패", error);
+        throw error;
+      });
+
+    return {
+      movies: response.results.map(
+        (movie) =>
+          new Movie({
+            id: movie.id,
+            title: movie.title,
+            posterPath: movie.poster_path || "",
+            voteAverage: movie.vote_average,
+            overview: movie.overview,
+          })
+      ),
+      page: response.page,
+      totalPages: response.total_pages,
+    };
+  }
+
+  async getMovieDetail(movieId: number): Promise<{
+    genres: Genre[];
+    releaseDate: string;
+  }> {
+    const response = await this.api.getMovieDetail(movieId).catch((error) => {
+      console.error("영화 장르 가져오기 실패", error);
       throw error;
-    }
+    });
+
+    return { genres: response.genres, releaseDate: response.release_date };
   }
 }

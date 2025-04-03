@@ -1,10 +1,12 @@
 export default class MovieCard {
-  constructor(movie) {
+  constructor(movie, movieService) {
     this.movie = movie;
+    this.movieService = movieService;
   }
 
   render() {
     const li = document.createElement("li");
+    li.dataset.movieId = String(this.movie.id);
 
     li.innerHTML = `
       <div class="item">

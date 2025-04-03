@@ -1,6 +1,7 @@
 import Movie from "../../domain/models/Movie.ts";
 import MovieCard from "./Movie.js";
 import CustomButton from "./CustomButton.js";
+import MovieModal from "./MovieModal.js";
 import { ADD_MOVIE_BUTTON } from "../../constants/buttonFields.ts";
 
 export default class MovieList {
@@ -20,7 +21,28 @@ export default class MovieList {
 
   init() {
     this.loadInitMovie();
-    this.addLoadMoreButton();
+    this.setupDelegatedClickEvent();
+  }
+
+  setupDelegatedClickEvent() {
+    if (!this.container) return;
+
+    this.container.addEventListener("click", (e) => {
+      const li = e.target.closest("li");
+      if (!li || !this.container.contains(li)) return;
+
+      const movieId = li.dataset.movieId;
+      if (!movieId) return;
+
+      const movieData = this.moviesData.find(
+        (m) => String(m.id) === movieId
+      );
+      if (!movieData) return;
+
+      const movie = new Movie(movieData);
+      const modal = new MovieModal(movie, this.movieService);
+      modal.render();
+    });
   }
 
   loadInitMovie() {
@@ -67,7 +89,7 @@ export default class MovieList {
 
     this.moviesData.forEach((movieData) => {
       const movie = new Movie(movieData);
-      const movieCard = new MovieCard(movie);
+      const movieCard = new MovieCard(movie, this.movieService);
       this.container.appendChild(movieCard.render());
     });
   }

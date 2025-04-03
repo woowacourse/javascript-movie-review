@@ -8,21 +8,29 @@ import { MOVIES_PER_ROW } from "../../constants/ui.js";
 export default class MovieListHandler {
   private movieList: MovieList | undefined;
   private movieService: MovieService;
+  private isLoadingMore: boolean = false;
 
   constructor(movieService: MovieService) {
     this.movieService = movieService;
   }
 
   async initMovieList(query?: string) {
-    const moviesData = query
-      ? await this.movieService.searchMovies(query, 1)
-      : await this.movieService.getPopularResults();
+    if (!query) {
+      this.showHeader();
+    }
 
-    this.updateMovieList(moviesData);
-    this.handleMoreClickButton(query);
-    this.movieList?.updateMovieListTitle(query);
-    console.log(this.movieList?.currentPage);
-    console.log(this.movieList?.totalPage);
+    try {
+      const moviesData = query
+        ? await this.movieService.searchMovies(query, 1)
+        : await this.movieService.getPopularResults();
+
+      this.updateMovieList(moviesData);
+      this.movieList?.updateMovieListTitle(query);
+      this.setupInfiniteScroll();
+    } catch (error) {
+      console.error("영화 목록 초기화 실패:", error);
+      alert("영화 목록을 불러오는데 실패했습니다.");
+    }
   }
 
   private updateMovieList(moviesData: {
@@ -49,14 +57,16 @@ export default class MovieListHandler {
     loadMoreButton.parentNode?.replaceChild(newButton, loadMoreButton);
 
     newButton.addEventListener("click", async () => {
-      await this.handleLoadMore(query);
+      await this.handleLoadMore();
     });
   }
 
-  async handleLoadMore(query: string | undefined) {
+  async handleLoadMore() {
+    if (this.isLoadingMore) return; // 로딩 중이면 실행하지 않음
+    this.isLoadingMore = true; // 로딩 시작
+
     const pageNumber = this.movieList?.currentPage + 1;
     this.movieList?.addPageNumber();
-    console.log(`pageNumber: ${pageNumber}`);
 
     const skeletonCards: HTMLElement[] = [];
     for (let i = 0; i < MOVIES_PER_ROW; i++) {
@@ -65,29 +75,40 @@ export default class MovieListHandler {
       this.movieList?.container.appendChild(skeletonCard);
     }
 
+    const query = store.getQuery();
+
     let newMoviesData: { movies: Movie[]; page: number; totalPages: number };
     setTimeout(async () => {
-      if (store.getMode() === "popularAdd") {
-        newMoviesData = await this.movieService.getPopularResults(pageNumber);
-      } else {
-        newMoviesData = await this.movieService.searchMovies(query, pageNumber);
-      }
+      try {
+        if (store.getMode() === "popularAdd") {
+          newMoviesData = await this.movieService.getPopularResults(pageNumber);
+        } else {
+          newMoviesData = await this.movieService.searchMovies(
+            query ?? undefined,
+            pageNumber
+          );
+        }
 
-      skeletonCards.forEach((skeleton) => skeleton.remove());
+        skeletonCards.forEach((skeleton) => skeleton.remove());
 
-      newMoviesData.movies.forEach((movieData) => {
-        const movie = new Movie(movieData);
-        const movieCard = new MovieCard(movie);
-        this.movieList?.container.appendChild(movieCard.render());
-      });
+        newMoviesData.movies.forEach((movieData) => {
+          const movie = new Movie(movieData);
+          const movieCard = new MovieCard(movie, this.movieService);
+          this.movieList?.container.appendChild(movieCard.render());
+        });
 
-      if (
-        this.movieList &&
-        this.movieList.currentPage >= this.movieList.totalPage
-      ) {
-        console.log("remove load more button");
-        const loadMoreButton = document.querySelector(".add-movie");
-        loadMoreButton?.remove();
+        if (
+          this.movieList &&
+          this.movieList.currentPage >= this.movieList.totalPage
+        ) {
+          const loadMoreButton = document.querySelector(".add-movie");
+          loadMoreButton?.remove();
+        }
+      } catch (error) {
+        console.error("영화 추가 로딩 실패:", error);
+        alert("영화 추가 로딩에 실패했습니다.");
+      } finally {
+        this.isLoadingMore = false; // 로딩 끝
       }
     }, 1000);
   }
@@ -99,19 +120,56 @@ export default class MovieListHandler {
     }
 
     MovieList.removeMovieList();
-    this.movieService.searchMovies(query).then((movies) => {
-      this.movieList = new MovieList(
-        ".thumbnail-list",
-        movies,
-        1,
-        500,
-        this.movieService
-      );
-      this.movieList.init();
-    });
+    this.movieService
+      .searchMovies(query)
+      .then((movies) => {
+        this.movieList = new MovieList(
+          ".thumbnail-list",
+          movies,
+          1,
+          500,
+          this.movieService
+        );
+        this.movieList.init();
+        this.setupInfiniteScroll();
+      })
+      .catch((error) => {
+        console.error("영화 검색 실패:", error);
+        alert("영화 검색에 실패했습니다.");
+      });
   }
 
   handleLogoClick() {
+    store.setMode("popularAdd");
+    store.setQuery(null);
     this.initMovieList();
+  }
+
+  showHeader() {
+    document.querySelector(".overlay")?.classList.remove("hide");
+    document.querySelector(".top-rated-movie")?.classList.remove("hide");
+    document
+      .querySelector(".background-container")
+      ?.classList.remove("hide-background");
+  }
+
+  setupInfiniteScroll() {
+    window.addEventListener("scroll", this.handleScroll.bind(this));
+  }
+
+  private async handleScroll() {
+    const scrollTop = window.scrollY;
+    const windowHeight = window.innerHeight;
+    const bodyHeight = document.body.scrollHeight;
+
+    const nearBottom = scrollTop + windowHeight >= bodyHeight - 200;
+
+    if (
+      nearBottom &&
+      this.movieList &&
+      this.movieList.currentPage < this.movieList.totalPage
+    ) {
+      await this.handleLoadMore();
+    }
   }
 }
