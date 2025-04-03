@@ -26,14 +26,14 @@ const movieService = {
 
   async getMovieDetail(movieId: number) {
     const rawData = await movieApi.getMovieDetailsData(movieId);
-    const movieRate = this.getRateById(movieId);
+    const movieRate = this.getRateById(movieId) ?? { id: movieId, rate: 0 };
 
     return extractMovieDetails(rawData, movieRate);
   },
 
   getRateList() {
-    const rate = storage.getData<string>(KEY.movieList) ?? "[]";
-    return JSON.parse(rate);
+    const rate = storage.getData(KEY.movieList);
+    return rate;
   },
 
   getRateById(movieId: number) {
@@ -54,17 +54,15 @@ const movieService = {
     );
 
     const newMovieList = [...storedMoviesRates, newData];
-    const stringifyData = JSON.stringify(newMovieList);
 
-    storage.setData<string>(KEY.movieList, stringifyData);
+    storage.setData(KEY.movieList, newMovieList);
   },
 
   addRate(data: UserMovieRateData) {
     const totalMovieRates = this.getRateList();
     const newMovieList = [...totalMovieRates, data];
-    const stringifyData = JSON.stringify(newMovieList);
 
-    storage.setData<string>(KEY.movieList, stringifyData);
+    storage.setData(KEY.movieList, newMovieList);
   },
 
   checkHasRated(movieId: number) {

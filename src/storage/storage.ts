@@ -1,18 +1,22 @@
-type StorageData = Record<string, string>;
+import { UserMovieRateData } from "../../types/data";
 
-const storage = {
+interface IStorage {
+  localStorage: Storage;
+  getData: (key: string) => UserMovieRateData[];
+  setData: (key: string, data: UserMovieRateData[]) => void;
+}
+
+const storage: IStorage = {
   localStorage: window.localStorage,
 
-  getData<K extends keyof StorageData>(key: K): StorageData[K] | null {
-    return this.localStorage.getItem(key);
+  getData(key) {
+    const data = this.localStorage.getItem(key) ?? "[]";
+    return JSON.parse(data);
   },
 
-  setData<K extends keyof StorageData>(key: K, data: StorageData[K]) {
-    this.localStorage.setItem(key, data);
-  },
-
-  removeData<K extends keyof StorageData>(key: K) {
-    this.localStorage.removeItem(key);
+  setData(key, data) {
+    const stringifyData = JSON.stringify(data);
+    this.localStorage.setItem(key, stringifyData);
   },
 };
 
