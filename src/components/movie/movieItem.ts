@@ -55,12 +55,15 @@ const movieItem = (movie: Movie): HTMLElement => {
   const $movieItemOptions = createElementWithAttributes(movieItemOptions);
 
   $movieItemOptions.addEventListener("click", async () => {
-    const $modal = $(".modal") as HTMLDialogElement;
-    const detailMovie = await getDetailMovies(movie.id);
+    const $modal = $(".modal");
 
-    $modal.replaceChildren(movieDetailModal(detailMovie));
-    handleModalEvents($modal);
-    $modal.showModal();
+    if ($modal instanceof HTMLDialogElement) {
+      const detailMovie = await getDetailMovies(movie.id);
+
+      $modal.replaceChildren(movieDetailModal(detailMovie));
+      handleModalEvents($modal);
+      $modal.showModal();
+    }
   });
 
   return $movieItemOptions;

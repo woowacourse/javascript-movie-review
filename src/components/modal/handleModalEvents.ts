@@ -14,8 +14,10 @@ const handleModalEvents = (
     }
   });
 
-  const $closeButton = $(closeButtonSelector, $modal) as HTMLButtonElement;
-  $closeButton?.addEventListener("click", closeModal);
+  const $closeButton = $(closeButtonSelector, $modal);
+  if ($closeButton instanceof HTMLButtonElement) {
+    $closeButton?.addEventListener("click", closeModal);
+  }
 };
 
 export default handleModalEvents;

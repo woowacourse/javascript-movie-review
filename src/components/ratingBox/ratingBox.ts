@@ -1,8 +1,6 @@
 import { createElementWithAttributes } from "../utils/createElementWithAttributes";
 
-type Score = keyof typeof SCORE_TEXT;
-
-const SCORE_TEXT = {
+const SCORE_TEXT: Record<number, string> = {
   2: "최악이에요",
   4: "별로예요",
   6: "보통이에요",
@@ -17,7 +15,7 @@ export const createRatingBox = (movieId: number) => {
   const $scoreText = createElementWithAttributes({
     tag: "span",
     className: "score-text",
-    textContent: initialScore ? SCORE_TEXT[initialScore as Score] : "0점",
+    textContent: initialScore in SCORE_TEXT ? SCORE_TEXT[initialScore] : "0점",
   });
 
   const $score = createElementWithAttributes({
@@ -27,7 +25,7 @@ export const createRatingBox = (movieId: number) => {
   });
 
   const $stars = Object.keys(SCORE_TEXT).map((score) => {
-    const starScore = Number(score) as Score;
+    const starScore = Number(score);
     const $star = createElementWithAttributes({
       tag: "img",
       className: "star",
@@ -42,7 +40,7 @@ export const createRatingBox = (movieId: number) => {
     return $star;
   });
 
-  const updateStars = (score: Score) => {
+  const updateStars = (score: number) => {
     $scoreText.textContent = SCORE_TEXT[score] || "0점";
     $score.textContent = `(${score}/10)`;
 
@@ -55,9 +53,9 @@ export const createRatingBox = (movieId: number) => {
     });
   };
 
-  if (initialScore) updateStars(initialScore as Score);
+  if (initialScore in SCORE_TEXT) updateStars(initialScore);
 
-  const saveRating = (movieId: number, score: Score) => {
+  const saveRating = (movieId: number, score: number) => {
     const updatedRatings = {
       ...JSON.parse(localStorage.getItem("rateValue") || "{}"),
       [movieId]: score,
