@@ -5,6 +5,9 @@ const createModal = () => {
   const modal = document.createElement("div");
   modal.classList.add("modal");
 
+  const modalContent = document.createElement("div");
+  modalContent.classList.add("modal-content");
+
   const closeButton = document.createElement("button");
   closeButton.classList.add("close-modal");
   closeButton.innerHTML = `<img src="images/modal_button_close.png" />`;
@@ -28,6 +31,7 @@ const createModal = () => {
   });
 
   modal.appendChild(closeButton);
+  modal.appendChild(modalContent);
   modalBackground.appendChild(modal);
   document.body.appendChild(modalBackground);
 
@@ -35,8 +39,7 @@ const createModal = () => {
     show: openModal,
     hide: closeModal,
     setContent: (content: string) => {
-      modal.innerHTML = content;
-      modal.prepend(closeButton);
+      modalContent.innerHTML = content;
     },
   };
 };
