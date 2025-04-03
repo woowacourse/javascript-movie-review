@@ -99,7 +99,23 @@ document.addEventListener("DOMContentLoaded", async () => {
   const $container = document.querySelector(".container");
   if (!$container) return;
 
-  window.addEventListener("scroll", async () => {
+  const throttle = <T extends (...args: any[]) => void>(
+    func: T,
+    delay: number
+  ): T => {
+    let timeoutId: NodeJS.Timeout | null = null;
+
+    return ((...args: Parameters<T>) => {
+      if (timeoutId) return;
+
+      timeoutId = setTimeout(() => {
+        func(...args);
+        timeoutId = null;
+      }, delay);
+    }) as T;
+  };
+
+  const handleScroll = async (): Promise<void> => {
     const { scrollHeight, scrollTop, clientHeight } = document.documentElement;
 
     if (scrollHeight - scrollTop - clientHeight < 10) {
@@ -121,5 +137,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       renderMovieContainer();
     }
-  });
+  };
+
+  window.addEventListener("scroll", throttle(handleScroll, 300));
 });
