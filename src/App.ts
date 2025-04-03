@@ -30,7 +30,7 @@ const App = () => {
   }
 
   return ` 
-  ${headerRender()}
+    ${headerRender()}
     <div class="app-layout">
       <h1 class="sub-title">${subTitleRenderer()}</h1>
       ${serverSearchError()}

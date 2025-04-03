@@ -10,6 +10,7 @@ export let totalResults: number = 0; // 검색 결과 총 개수
 
 export const setMovies = (newMovies: Movie[]) => {
   movies = newMovies;
+
   reRender();
 };
 
@@ -25,23 +26,27 @@ export const setSearchInputValue = (value: string) => {
 
 export const setSearchResults = (results: Movie[]) => {
   searchResults = results;
+
   reRender();
 };
 
 export const setTotalResults = (total: number) => {
   totalResults = total;
+
   reRender();
 };
 
 export const appendMovies = (newMovies: Movie[]) => {
   movies = [...movies, ...newMovies];
   currentPage += 1;
+
   reRender();
 };
 
 export const appendSearchResults = (newResults: Movie[]) => {
   searchResults = [...searchResults, ...newResults];
   currentPage += 1;
+
   reRender();
 };
 

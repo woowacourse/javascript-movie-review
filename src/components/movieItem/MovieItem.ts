@@ -35,7 +35,7 @@ const MovieItem = (props: MovieItemProps) => {
                   <div class="item-desc">
                     <p class="rate">
                       <img src="${images.starEmpty}" class="star" />
-                      <span>${rate.toFixed(1)}</span>
+                      <span>${rate?.toFixed(1)}</span>
                     </p>
                     <strong>${title}</strong>
                   </div>
