@@ -1,4 +1,4 @@
-import { IMovieList } from "../../../shared/types/movies";
+import { IMovieList } from "../../movie/types/movies";
 import { apiClient } from "../../../shared/apis/apiClient";
 
 export const getSearchedMovie = async (

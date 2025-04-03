@@ -1,4 +1,4 @@
-import { ICustomMovie } from "../../../../shared/types/movies";
+import { ICustomMovie } from "../../types/movies";
 import { toElement } from "../../../../shared/utils/toElement";
 
 export default function MovieCard(movie: ICustomMovie) {

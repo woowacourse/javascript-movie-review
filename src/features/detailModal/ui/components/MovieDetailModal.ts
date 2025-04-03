@@ -1,4 +1,4 @@
-import { IMovieDetail } from "../../../../shared/types/movies";
+import { IMovieDetail } from "../../../movie/types/movies";
 import { movieRatingStorage } from "../../service/movieRatingStorage";
 import { toElement } from "../../../../shared/utils/toElement";
 import { removeDetailModal } from "../removeDetailModal";
