@@ -8,6 +8,7 @@ export class Title {
 
   constructor({ text }: TitleProps) {
     this.#container = document.createElement('h2');
+    this.#container.classList.add('title');
     this.#text = text;
 
     this.render();

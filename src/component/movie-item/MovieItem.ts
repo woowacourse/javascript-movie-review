@@ -1,3 +1,4 @@
+import { MovieData } from '../../../types/movie';
 interface MovieItemProps {
   data: MovieData;
 }
@@ -10,6 +11,7 @@ class MovieItem {
     this.#container = document.createElement('li');
     this.#data = data;
     this.render();
+    this.#bindEvents();
   }
 
   #matchImgUrl() {
@@ -32,6 +34,16 @@ class MovieItem {
         </div>
       </div>`;
   }
+
+  #bindEvents = () => {
+    this.#container.addEventListener('click', () => {
+      const event = new CustomEvent('movie-clicked', {
+        detail: this.#data,
+        bubbles: true,
+      });
+      this.#container.dispatchEvent(event);
+    });
+  };
 
   get element() {
     // @TODO

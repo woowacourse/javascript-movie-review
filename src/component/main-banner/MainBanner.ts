@@ -1,4 +1,5 @@
 import Button from '../button/Button';
+import { MovieData } from '../../../types/movie';
 
 interface MovieBannerProps {
   data: MovieData;
@@ -7,13 +8,14 @@ interface MovieBannerProps {
 class MainBanner {
   #container;
   #data: MovieData;
+  #detailButton: Button | null = null;
 
   constructor({ data }: MovieBannerProps) {
     this.#container = document.createElement('div');
     this.#container.classList.add('main-banner');
     this.#data = data;
-
     this.render();
+    this.#detailButtonElement();
   }
 
   render() {
@@ -28,12 +30,25 @@ class MainBanner {
                 <span class="main-banner__rate-value text-subtitle">${this.#data.score}</span>
             </div>
               <div class="main-banner__title text-title">${this.#data.title}</div>
-              <div class="main-banner__button">${this.#detailButtonElement()}</div>
+              <div class="main-banner__button"></div>
         </div>`;
   }
 
   #detailButtonElement() {
-    return new Button({ cssType: 'small', innerText: '자세히 보기', onClick: () => {} }).element.outerHTML;
+    this.#detailButton = new Button({
+      cssType: 'small',
+      innerText: '자세히 보기',
+      onClick: () => {
+        const event = new CustomEvent('movie-clicked', {
+          detail: this.#data,
+          bubbles: true,
+        });
+        this.#container.dispatchEvent(event);
+      },
+    });
+
+    const buttonContainer = this.#container.querySelector('.main-banner__button');
+    buttonContainer?.appendChild(this.#detailButton.element);
   }
 
   get element() {

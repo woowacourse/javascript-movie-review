@@ -6,8 +6,19 @@
   justify-self: center;
   align-items: center;
   width: 100%;
+  padding: 20px;
+}
+
+.empty-result img {
+  margin: 50px 0;
 }
 
 .empty-result p {
   color: var(--color-white);
+  align-self: flex-start;
+}
+
+.empty-result .check-text {
+  color: var(--color-white);
+  padding: 10px 0;
 }

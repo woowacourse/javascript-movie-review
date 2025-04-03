@@ -2,11 +2,19 @@ import { MainPage } from '../pages/main-page/MainPage';
 import SearchPage from '../pages/search-page/SearchPage';
 import ErrorPage from '../pages/error-page/ErrorPage';
 import { $ } from '../utils/selector';
+import { PageRenderer } from './PageRenderer';
 
-const routes: Record<string, () => HTMLElement> = {
-  '/': () => new MainPage().element,
-  '/search': () => new SearchPage().element,
-  '/error': () => new ErrorPage().element,
+const renderer = new PageRenderer();
+
+export interface PageInstance {
+  element: HTMLElement;
+  destroy?: () => void;
+}
+
+export const routes: Record<string, () => PageInstance> = {
+  '/': () => new MainPage(),
+  '/search': () => new SearchPage(),
+  '/error': () => new ErrorPage(),
 };
 
 export async function renderInnerContentsByRoute() {
@@ -38,24 +46,10 @@ export function initRouter() {
 }
 
 export async function renderContent() {
-  const $layoutContainer = $({ selector: '.content' });
-  if ($layoutContainer) {
-    const $oldContent = $({ root: $layoutContainer, selector: '.render-content' });
-    if ($oldContent) {
-      $oldContent.remove();
-    }
+  const $layoutContainer = $({ selector: '.content' }) as HTMLElement;
+  if (!$layoutContainer) throw new Error('content가 존재하지 않습니다.');
 
-    try {
-      const newContent = await renderInnerContentsByRoute();
-
-      if (newContent) {
-        newContent.classList.add('render-content');
-        $layoutContainer.appendChild(newContent);
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        console.error(error.message);
-      }
-    }
-  }
+  const newPage = await renderInnerContentsByRoute();
+  if (!newPage) throw new Error('Page가 존재하지 않습니다.');
+  renderer.render({ $container: $layoutContainer, Page: newPage });
 }

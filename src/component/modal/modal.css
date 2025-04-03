@@ -1,0 +1,166 @@
+body.modal-open {
+  overflow: hidden;
+}
+
+.modal-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경을 위해 설정 */
+  backdrop-filter: blur(10px); /* 블러 효과 적용 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  visibility: hidden; /* 모달이 기본적으로 보이지 않도록 설정 */
+  opacity: 0;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.modal-background.active {
+  visibility: visible;
+  opacity: 1;
+}
+
+.modal {
+  background-color: var(--color-bluegray-90);
+  padding: 20px;
+  border-radius: 16px;
+  color: white;
+  z-index: 2;
+  position: relative;
+  max-width: 1000px;
+  width: 90%;
+  margin: 10px;
+}
+
+.close-modal {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  top: 24px;
+  right: 24px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.modal-container {
+  display: flex;
+}
+
+.modal-image img {
+  width: 380px;
+  border-radius: 16px;
+}
+
+.modal-description {
+  width: auto;
+  padding: 8px;
+  line-height: 1.6rem;
+}
+
+.modal-description .rate > img {
+  position: relative;
+  top: 5px;
+}
+
+.modal-description > *:not(:last-child) {
+  margin-bottom: 8px;
+}
+
+.modal-description h2 {
+  font-size: 2rem;
+  margin: 0 0 8px;
+}
+
+.detail {
+  max-height: 430px;
+  overflow-y: auto;
+}
+
+.modal-rate-star {
+  width: 24px;
+  height: 24px;
+}
+
+.modal-star {
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+}
+
+.modal-star-description {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.modal-star-container {
+  display: flex;
+}
+
+@media (max-width: 1024px) {
+  .modal {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+  }
+
+  .modal-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .modal-image img {
+    width: 200px;
+  }
+
+  .modal-description {
+    padding: 0 20px;
+  }
+
+  .modal-description h2,
+  .modal-description .category,
+  .modal-description .rate {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-image {
+    display: none;
+  }
+
+  .modal-star-description {
+    flex-direction: column;
+  }
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 8px solid var(--color-bluegray-30);
+  border-top: 8px solid var(--color-yellow);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  margin: auto;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

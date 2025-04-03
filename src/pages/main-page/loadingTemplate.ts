@@ -1,4 +1,6 @@
-const skeletonItems = Array(20)
+import { SYSTEM_CONSTANTS } from '../../constants/systemConstants';
+
+const skeletonItems = Array(SYSTEM_CONSTANTS.MOVIES_PER_PAGE)
   .fill('')
   .map(
     () => `

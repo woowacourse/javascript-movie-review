@@ -12,6 +12,7 @@
 @import './component/title/title.css';
 @import './component/error-message/error-message.css';
 @import './pages/search-page/search-page.css';
+@import '/src/component/modal/modal.css';
 
 body {
   background-color: var(--color-bluegray-100);
