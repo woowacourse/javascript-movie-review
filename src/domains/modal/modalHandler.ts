@@ -24,22 +24,6 @@ const movieRatingUtil = {
 };
 
 const handleModal = {
-  open() {
-    const $modal = document.getElementById("modalBackground");
-    if (!$modal) return;
-
-    $modal.classList.add("active");
-    document.body.classList.add("modal-open");
-  },
-
-  close() {
-    const $modal = document.getElementById("modalBackground");
-    if (!$modal) return;
-
-    $modal.classList.remove("active");
-    document.body.classList.remove("modal-open");
-  },
-
   updateModalContent(movieData: MovieDetail) {
     const $modal = document.getElementById("modalBackground");
     if (!$modal) return;
@@ -72,7 +56,10 @@ const handleModal = {
 
     this.loadUserRating(movieData.id);
 
-    this.open();
+    const modalMethods = ($modal as any).modalMethods;
+    if (modalMethods && modalMethods.open) {
+      modalMethods.open();
+    }
   },
 
   loadUserRating(movieId: number) {

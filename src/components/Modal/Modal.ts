@@ -157,19 +157,35 @@ const $Modal = () => {
   $modalElement.append($closeButton, $modalContainer);
   $modal.appendChild($modalElement);
 
+  const modalMethods = {
+    open() {
+      $modal.classList.add("active");
+      document.body.classList.add("modal-open");
+    },
+
+    close() {
+      $modal.classList.remove("active");
+      document.body.classList.remove("modal-open");
+
+      document.removeEventListener("keydown", handleKeyDown);
+    },
+  };
+
   const handleKeyDown = (e: KeyboardEvent) => {
     if (e.key === "Escape") {
-      handleModal.close();
+      modalMethods.close();
     }
   };
 
   document.addEventListener("keydown", handleKeyDown);
 
-  $closeButton.addEventListener("click", handleModal.close);
+  $closeButton.addEventListener("click", () => {
+    modalMethods.close();
+  });
 
   $modal.addEventListener("click", (e) => {
     if (e.target === $modal) {
-      handleModal.close();
+      modalMethods.close();
     }
   });
 
@@ -190,6 +206,8 @@ const $Modal = () => {
   };
 
   $userRateStars.addEventListener("click", handleStarClick);
+
+  ($modal as any).modalMethods = modalMethods;
 
   return $modal;
 };
