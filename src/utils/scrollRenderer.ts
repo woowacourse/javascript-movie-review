@@ -1,4 +1,3 @@
-import MovieList from "../components/MovieList.ts";
 import { selectElement } from "./ui.ts";
 
 class ScrollRenderer {
@@ -13,17 +12,12 @@ class ScrollRenderer {
   }
 
   createObserverCallback(
-    fetch: (
-      movieList: MovieList,
-      observer: IntersectionObserver,
-      scrollRenderer: ScrollRenderer
-    ) => Promise<void>,
-    movieList: MovieList
+    callback: (observer: IntersectionObserver) => Promise<void>
   ): IntersectionObserverCallback {
     return (entries, observer) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          fetch(movieList, observer, ScrollRenderer.getInstance());
+          callback(observer);
           observer.unobserve(entry.target);
         }
       });

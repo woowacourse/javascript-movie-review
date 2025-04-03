@@ -95,7 +95,9 @@ const app = async () => {
 
     const scrollRenderer = ScrollRenderer.getInstance();
     const lastMovieItemObserver = new IntersectionObserver(
-      scrollRenderer.createObserverCallback(updateMovieList, movieList),
+      scrollRenderer.createObserverCallback((observer) =>
+        updateMovieList(movieList, observer, scrollRenderer)
+      ),
       { threshold: 1 }
     );
 

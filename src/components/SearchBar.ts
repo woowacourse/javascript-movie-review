@@ -38,7 +38,9 @@ class SearchBar {
       const scrollRenderer = ScrollRenderer.getInstance();
       const updateList = this.#updateMovieList.bind(this);
       const lastMovieItemObserver = new IntersectionObserver(
-        scrollRenderer.createObserverCallback(updateList, movieList),
+        scrollRenderer.createObserverCallback((observer) =>
+          updateList(movieList, observer, scrollRenderer)
+        ),
         { threshold: 1 }
       );
 
