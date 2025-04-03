@@ -1,5 +1,4 @@
 import { getMovieRating } from "../../utils/localStorage";
-import { $ } from "../../utils/domHelper";
 import useStarRating from "../../hooks/useStarRating";
 import { getStarSrc, ratingTexts } from "../../utils/rating";
 import Stars from "../stars/Stars";
@@ -14,42 +13,38 @@ const StarRating = (props: StarRatingProps) => {
   const { movieId, containerClass = "rating-container" } = props;
   const currentRating = getMovieRating(movieId) || 0;
 
-  // 이벤트 위임을 위한 useEvents 호출
   const [addEvent] = useEvents(`.${containerClass}`);
 
-  // 별점 클릭 이벤트
+  const getStar = (e: Event) => {
+    const target = e.target as HTMLElement;
+    const index = Math.ceil(parseInt(target.dataset.value || "0") / 2) - 1;
+    const container = target.closest(`.${containerClass}`) as HTMLElement;
+
+    if (!container) return null;
+
+    const handlers = useStarRating(movieId, container);
+    return { index, container, handlers };
+  };
+
   addEvent("click", ".star", (e) => {
-    const target = e.target as HTMLElement;
-    const index = Math.ceil(parseInt(target.dataset.value || "0") / 2) - 1;
+    const context = getStar(e);
+    if (!context) return;
 
-    const container = target.closest(`.${containerClass}`) as HTMLElement;
-    if (!container) return;
-
-    const { handleStarClick } = useStarRating(movieId, container);
-    handleStarClick(index);
+    context.handlers.handleStarClick(context.index);
   });
 
-  // 별점 마우스오버 이벤트
   addEvent("mouseover", ".star", (e) => {
-    const target = e.target as HTMLElement;
-    const index = Math.ceil(parseInt(target.dataset.value || "0") / 2) - 1;
+    const context = getStar(e);
+    if (!context) return;
 
-    const container = target.closest(`.${containerClass}`) as HTMLElement;
-    if (!container) return;
-
-    const { handleStarHover } = useStarRating(movieId, container);
-    handleStarHover(index);
+    context.handlers.handleStarHover(context.index);
   });
 
-  // 별점 마우스아웃 이벤트
   addEvent("mouseout", ".star", (e) => {
-    const container = (e.target as HTMLElement).closest(
-      `.${containerClass}`
-    ) as HTMLElement;
-    if (!container) return;
+    const context = getStar(e);
+    if (!context) return;
 
-    const { handleStarLeave } = useStarRating(movieId, container);
-    handleStarLeave();
+    context.handlers.handleStarLeave();
   });
 
   return `
