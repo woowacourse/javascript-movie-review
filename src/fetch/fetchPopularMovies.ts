@@ -1,5 +1,5 @@
-import safeFetchJson from "./utils/safeFetchJson";
-import MovieType from "../types/MovieType"; // 필요 시
+import request from "./utils/request";
+import MovieType from "../types/MovieType";
 
 interface PopularMoviesResponse {
   results: MovieType[];
@@ -17,7 +17,7 @@ export default async function fetchPopularMovies(page: number) {
     },
   };
 
-  const { results, total_pages } = await safeFetchJson<PopularMoviesResponse>(
+  const { results, total_pages } = await request<PopularMoviesResponse>(
     url,
     options
   );

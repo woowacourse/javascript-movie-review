@@ -2,6 +2,11 @@ import MovieList from "./MovieList";
 import createElement from "./utils/createElement";
 import Button from "./Button";
 import MovieType from "../types/MovieType";
+import { setupInfiniteScroll } from "./utils/infiniteScroll";
+import renderMovieList from "./renderMovieList";
+import page from "../store/page";
+import fetchSearchMovies from "../fetch/fetchSearchMovies";
+import fetchPopularMovies from "../fetch/fetchPopularMovies";
 
 const BUTTON_MORE = "더보기";
 
@@ -19,14 +24,52 @@ const MovieContainer = ({ movies, status }: MovieContainerProps) => {
   $h2.textContent = "지금 인기 있는 영화";
 
   const movieListElement = MovieList({ movies, status });
+  const $button = Button({ text: BUTTON_MORE, type: "more" });
+
+  $button.addEventListener("click", () => {
+    const params = new URLSearchParams(window.location.search);
+    const currentPage = page.getNextPage();
+
+    renderMovieList(async () => {
+      const res = params.has("query")
+        ? await fetchSearchMovies(params.get("query") || "", currentPage)
+        : await fetchPopularMovies(currentPage);
+
+      return {
+        results: res.results,
+        totalPages: res.totalPages,
+      };
+    });
+  });
 
   $section.appendChild($h2);
   $section.appendChild(movieListElement);
   $main.appendChild($section);
-  $main.appendChild(Button({ text: BUTTON_MORE, type: "more" }));
+  $main.appendChild($button);
   $container.appendChild($main);
 
   return $container;
 };
 
 export default MovieContainer;
+
+setupInfiniteScroll({
+  onLoad: async () => {
+    const params = new URLSearchParams(window.location.search);
+    const currentPage = page.getNextPage();
+    const res = params.has("query")
+      ? await fetchSearchMovies(params.get("query") || "", currentPage)
+      : await fetchPopularMovies(currentPage);
+
+    page.setTotalPages(res.totalPages);
+
+    renderMovieList(() =>
+      Promise.resolve({ results: res.results, totalPages: res.totalPages })
+    );
+  },
+  hasNextPage: () => page.hasNextPage(),
+  onEnd: () => {
+    document.querySelector(".primary.more")?.classList.add("disappear");
+  },
+  offset: 150,
+});

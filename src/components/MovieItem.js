@@ -1,11 +1,14 @@
 import MoviePreviewInfo from "./MoviePreviewInfo";
+import ratingStorage from "../store/RatingStorage";
 import createElement from "./utils/createElement";
-import imageUrl from "../utils/imageUrl";
+import openMovieModal from "./utils/openMovieModal";
 import nullImage from "../../images/nullImage.png";
+import imageUrl from "../utils/imageUrl";
 
 const MovieItem = ({ movie }) => {
   const title = movie?.title;
   const posterPath = movie?.poster_path;
+  const movieId = String(movie.id);
 
   const $li = createElement({
     tag: "li",
@@ -19,8 +22,10 @@ const MovieItem = ({ movie }) => {
   const $img = createElement({
     tag: "img",
     classNames: ["thumbnail"],
-    src: posterPath ? `${imageUrl(posterPath)}` : nullImage,
-    alt: `${title}`,
+    attributes: {
+      src: posterPath ? `${imageUrl(posterPath)}` : nullImage,
+      alt: `${title}`,
+    },
   });
 
   $img.onerror = () => {
@@ -35,6 +40,14 @@ const MovieItem = ({ movie }) => {
       bigFont: false,
     })
   );
+
+  $li.addEventListener("click", async () => {
+    openMovieModal(movie);
+  });
+
+  if (!ratingStorage.has(movieId)) {
+    ratingStorage.set(movieId, 0);
+  }
 
   return $li;
 };

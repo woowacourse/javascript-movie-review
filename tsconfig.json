@@ -9,8 +9,6 @@
     "allowJs": true,
 
     /* Bundler mode */
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
     "isolatedModules": true,
     "moduleDetection": "force",
     "noEmit": true,
@@ -20,7 +18,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
   },
-  "include": ["src", "types"]
+  "include": ["src", "types"],
+  "exclude": ["node_modules", "dist"]
 }

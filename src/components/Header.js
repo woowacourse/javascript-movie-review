@@ -1,7 +1,7 @@
+import Gnb from "./Gnb";
 import TopRatedContainer from "./TopRatedContainer";
 import createElement from "./utils/createElement";
 import imageUrl from "../utils/imageUrl";
-import Gnb from "./Gnb";
 
 const Header = ({ popularMovie }) => {
   const title = popularMovie?.title;
@@ -19,13 +19,17 @@ const Header = ({ popularMovie }) => {
   const $overlay = createElement({
     tag: "div",
     classNames: ["overlay"],
-    "aria-hidden": "true",
+    attributes: {
+      "aria-hidden": "true",
+    },
   });
 
   const $img = createElement({
     tag: "img",
-    src: `${imageUrl(posterPath)}`,
-    alt: `${title}`,
+    attributes: {
+      src: `${imageUrl(posterPath)}`,
+      alt: `${title}`,
+    },
   });
 
   $header.appendChild(Gnb());

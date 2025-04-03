@@ -1,6 +1,6 @@
+import Main from "./components/Main";
 import fetchPopularMovies from "./fetch/fetchPopularMovies";
 import fetchSearchMovies from "./fetch/fetchSearchMovies";
-import Main from "./components/Main";
 import movies from "./store/Movies";
 import MovieType from "./types/MovieType";
 

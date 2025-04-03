@@ -13,9 +13,11 @@ const NothingMovieList = () => {
 
   const $img = createElement({
     tag: "img",
-    src: NothingImg,
-    alt: "으아아",
     classNames: ["nothing-img"],
+    attributes: {
+      src: NothingImg,
+      alt: "으아아",
+    },
   });
 
   $p.textContent = NOTHING_TEXT;
