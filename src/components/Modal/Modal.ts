@@ -177,10 +177,14 @@ const $Modal = () => {
     const target = e.target as HTMLElement;
     if (target.classList.contains("star") && target.dataset.value) {
       const value = parseInt(target.dataset.value);
-      const currentMovieId = (window as any).currentMovieId;
 
-      if (currentMovieId) {
-        handleModal.saveRating(currentMovieId, value);
+      const $modalElement = document.querySelector(".modal") as HTMLElement;
+      const movieId = $modalElement?.dataset.movieId
+        ? parseInt($modalElement.dataset.movieId)
+        : null;
+
+      if (movieId) {
+        handleModal.saveRating(movieId, value);
       }
     }
   };

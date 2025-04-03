@@ -46,7 +46,10 @@ const handleModal = {
 
     const posterUrl = getPosterUrl(movieData.poster_path);
 
-    (window as any).currentMovieId = movieData.id;
+    const $modalElement = $modal.querySelector(".modal") as HTMLElement;
+    if ($modalElement) {
+      $modalElement.dataset.movieId = movieData.id.toString();
+    }
 
     const $image = $modal.querySelector(".modal-image img") as HTMLImageElement;
     if ($image) $image.src = posterUrl;
