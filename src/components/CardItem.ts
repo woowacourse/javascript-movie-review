@@ -4,7 +4,7 @@ type CardItemProps = {
   id: number;
   title: string;
   rating?: number;
-  imageSrc?: string | null;
+  imageSrc?: string;
   description?: string;
   onShowDetail: (id: number) => void;
 };
