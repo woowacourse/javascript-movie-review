@@ -1,6 +1,8 @@
 import { DetailMovieData } from "../movie/types";
 import { createRatingBox } from "../ratingBox/ratingBox";
 import { createElementWithAttributes } from "../utils/createElementWithAttributes";
+import noImage from "/images/no_image.png";
+import placeholderImage from "/images/placeholder_poster.svg";
 
 const movieDetailModal = (detailMovie: DetailMovieData) => {
   const genres = detailMovie.genres.map((genre) => genre.name).join(", ");
@@ -27,8 +29,18 @@ const movieDetailModal = (detailMovie: DetailMovieData) => {
         children: [
           {
             tag: "img",
+            onload: function () {
+              if (this instanceof HTMLImageElement === false) {
+                return;
+              }
+              this.src =
+                detailMovie.poster_path === null
+                  ? noImage
+                  : `https://image.tmdb.org/t/p/original/${detailMovie.poster_path}`;
+            },
             attributes: {
-              src: `https://image.tmdb.org/t/p/original/${detailMovie.poster_path}`,
+              src: placeholderImage,
+              alt: "movie poster",
             },
           },
         ],

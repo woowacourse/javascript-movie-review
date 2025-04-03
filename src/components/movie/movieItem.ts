@@ -8,6 +8,7 @@ import {
 import { $ } from "../utils/selectors";
 import { Movie } from "./types";
 import noImage from "/images/no_image.png";
+import placeholderImage from "/images/placeholder_poster.svg";
 
 const movieItem = (movie: Movie): HTMLElement => {
   const movieItemOptions: ElementOptions = {
@@ -17,12 +18,18 @@ const movieItem = (movie: Movie): HTMLElement => {
       {
         tag: "img",
         className: "thumbnail",
-        attributes: {
-          src:
+        onload: function () {
+          if (this instanceof HTMLImageElement === false) {
+            return;
+          }
+
+          this.src =
             movie.poster_path === null
               ? noImage
-              : `https://image.tmdb.org/t/p/w440_and_h660_face${movie.poster_path}`,
-          alt: movie.title,
+              : `https://image.tmdb.org/t/p/w440_and_h660_face${movie.poster_path}`;
+        },
+        attributes: {
+          src: placeholderImage,
         },
       },
       {
