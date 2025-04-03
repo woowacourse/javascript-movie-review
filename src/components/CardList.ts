@@ -29,7 +29,7 @@ const CardList = ({ items = [], el, isAppend = false }: CardListProps) => {
         rating: item.rating,
         imageSrc: item.imageSrc,
         description: item.description,
-        onShowDetail: () => handleShowDetail(item.id),
+        onClick: () => handleShowDetail(item.id),
       })
     );
 

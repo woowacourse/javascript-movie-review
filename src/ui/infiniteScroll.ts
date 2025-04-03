@@ -1,9 +1,10 @@
 import { getState, updateState } from "../store/movieStore.ts";
 import { fetchMovies } from "../store/movieService.ts";
 import { loadMoreMovies } from "./movieUI.ts";
+import { $ } from "../utils/dom.ts";
 
-const $main = document.querySelector("main");
-const $loadTrigger = document.getElementById("load-trigger");
+const $main = $("main");
+const $loadTrigger = $("load-trigger");
 
 export const scrollObserver = new IntersectionObserver(
   async (entries, observer) => {

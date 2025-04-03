@@ -4,12 +4,12 @@ type CardItemProps = {
   id: number;
   title: string;
   rating?: number;
-  imageSrc?: string;
+  imageSrc: string | null;
   description?: string;
-  onShowDetail: (id: number) => void;
+  onClick: (id: number) => void;
 };
 
-const CardItem = ({ id, title, rating, imageSrc, onShowDetail }: CardItemProps) => {
+const CardItem = ({ id, title, rating, imageSrc, onClick }: CardItemProps) => {
   const mappedImage = imageSrc
     ? `https://image.tmdb.org/t/p/w500${imageSrc}`
     : "images/nullImage.png";
@@ -29,7 +29,7 @@ const CardItem = ({ id, title, rating, imageSrc, onShowDetail }: CardItemProps) 
   });
 
   $cardItem.addEventListener("click", () => {
-    onShowDetail(id);
+    onClick(id);
   });
 
   return $cardItem;
