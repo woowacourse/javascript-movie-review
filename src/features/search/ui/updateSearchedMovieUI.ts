@@ -25,7 +25,7 @@ export async function updateSearchedMovieUI(
       getSearchedMovie(String(searchQuery), 1)
     );
 
-    if (searchedMovies && searchedMovies.results.length > 0) {
+    if (searchedMovies) {
       addMovieCard(searchedMovies.results, $container);
       movieDetailModalHandler();
     }
