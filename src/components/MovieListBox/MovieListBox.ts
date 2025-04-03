@@ -165,6 +165,8 @@ const $MovieListBoxRender = () => {
     $movieListBox.appendChild($fragment);
 
     // 영화 목록이 렌더링된 후 무한 스크롤 설정
+    // setTimeout 사용 이유: DOM이 완전히 렌더링된 후에 무한 스크롤을 설정하기 위함
+    // 즉시 호출하면 DOM 요소가 완전히 문서에 추가되기 전이라 IntersectionObserver가 정상 작동하지 않을 수 있음
     setTimeout(() => {
       setupInfiniteScroll(movieResult.total_pages);
     }, 0);
