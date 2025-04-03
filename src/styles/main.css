@@ -21,7 +21,6 @@ main {
 
 button {
   border: 0;
-  padding: 4px 8px;
   cursor: pointer;
 }
 
@@ -51,7 +50,6 @@ button.primary {
 }
 
 #app {
-  min-width: 1440px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -67,6 +65,7 @@ button.primary {
 .container {
   max-width: 1280px;
   margin: 0 auto;
+  padding: 0 20px;
 }
 
 .background-container {
@@ -113,9 +112,6 @@ h1.logo {
 
 .rate {
   display: flex;
-  gap: 8px;
-  align-items: baseline;
-  color: var(--color-yellow);
 }
 
 .rate > img {
@@ -208,6 +204,7 @@ footer.footer p:not(:last-child) {
   flex-direction: column;
   justify-content: flex-start;
   gap: 10px;
+  cursor: pointer;
 }
 
 input:-webkit-autofill {
@@ -215,17 +212,6 @@ input:-webkit-autofill {
   -webkit-box-shadow: 0 0 0px 1000px transparent inset;
   transition-property: background-color, box-shadow;
   transition-delay: 86400s;
-}
-
-.movie-description {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.movie-rate {
-  display: flex;
-  gap: 8px;
 }
 
 .w-full {
@@ -273,4 +259,87 @@ input:-webkit-autofill {
   border-radius: 8px;
   animation: skeleton-gradient 1.5s infinite;
   background-color: rgb(165, 165, 165);
+}
+
+@media (max-width: 768px) {
+  .form-container {
+    width: 90%;
+  }
+  .section-container {
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .top-rated-movie > *:not(:last-child) {
+    font-size: 2rem;
+  }
+
+  .background-container {
+    height: 400px;
+  }
+
+  .top-rated-container {
+    padding: 0 16px;
+  }
+
+  .top-rated-movie {
+    margin-top: 32px;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .rate > img {
+    top: 2px;
+  }
+
+  .rate-value {
+    font-size: 1.4rem;
+  }
+
+  .footer {
+    font-size: 1rem;
+  }
+
+  .search-header-container {
+    height: 32px;
+  }
+
+  .result-container {
+    height: 200px;
+  }
+
+  .movie-item {
+    gap: 8px;
+  }
+
+  .movie-rate {
+    gap: 4px;
+  }
+
+  .skeleton-base {
+    animation: skeleton-gradient 1.5s infinite;
+  }
+
+  .poster-skeleton {
+    height: 200px;
+    margin-bottom: 8px;
+  }
+
+  .title-skeleton {
+    height: 20px;
+    margin-bottom: 4px;
+  }
+
+  .date-skeleton {
+    height: 12px;
+  }
+}
+
+.loading-indicator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
 }

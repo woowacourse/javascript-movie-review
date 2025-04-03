@@ -1,12 +1,22 @@
-import { MovieItem, MovieResponse } from '../types/Movie.types';
+import {
+  MovieDetail,
+  MovieDetailAPI,
+  MovieItem,
+  MovieResponse,
+  MovieResponseAPI,
+} from '../types/Movie.types';
 import { ENV } from '../api/env';
 import Fetcher from '../api/Fetcher';
 import { movieFetcherEvent } from './MovieFetcherEvent';
-import { delay } from '../utils/delay';
+import {
+  convertToMovieDetail,
+  convertToMovieResponse,
+} from '../converter/APIConverter';
 
 export const API_PATHS = {
   MOVIE: 'movie/popular',
   SEARCH: 'search/movie',
+  DETAIL: 'movie',
 } as const;
 
 class MovieFetcher {
@@ -37,15 +47,13 @@ class MovieFetcher {
     movieFetcherEvent.notify();
 
     try {
-      const response = await this.movieFetcher.get<MovieResponse>(url);
-      await delay(3000);
-
+      const response = await this.movieFetcher.get<MovieResponseAPI>(url);
       this.updateMovieData(response);
 
       this.isLoading = false;
       movieFetcherEvent.notify();
 
-      return response;
+      return convertToMovieResponse(response);
     } catch (error) {
       this.isLoading = false;
       this.error = error as Error;
@@ -86,6 +94,16 @@ class MovieFetcher {
 
   public async getNextPageSearchMovies() {
     await this.getSearchMovies(this.currentPage + 1, this.query);
+  }
+
+  public async getMovieDetail(movieId: number): Promise<MovieDetail> {
+    try {
+      const url = `${API_PATHS.DETAIL}/${movieId}?language=ko-KR`;
+      const response = await this.movieFetcher.get<MovieDetailAPI>(url);
+      return convertToMovieDetail(response);
+    } catch (error) {
+      throw error;
+    }
   }
 
   get movies(): MovieItem[] {

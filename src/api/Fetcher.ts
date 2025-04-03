@@ -20,20 +20,35 @@ export default class Fetcher {
     this.cleanUp();
 
     const curHttpCtrl = new AbortController();
-    const response = await fetch(`${this.baseUrl}/${url}`, {
-      headers: {
-        accept: 'application/json',
-        Authorization: `Bearer ${ENV.VITE_TMDB_HEADER}`,
-      },
-      method: 'GET',
-      signal: curHttpCtrl.signal,
-    });
+    this.currentController.push(curHttpCtrl);
 
-    if (!response.ok) {
-      throw new HttpError(response.status);
+    try {
+      const response = await fetch(`${this.baseUrl}/${url}`, {
+        headers: {
+          accept: 'application/json',
+          Authorization: `Bearer ${ENV.VITE_TMDB_HEADER}`,
+        },
+        method: 'GET',
+        signal: curHttpCtrl.signal,
+      });
+
+      if (!response.ok) {
+        throw new HttpError(response.status);
+      }
+
+      return response.json();
+    } catch (error) {
+      if (error instanceof DOMException && error.name === 'AbortError') {
+        return new Promise(() => {});
+      }
+      throw error;
+    } finally {
+      const index = this.currentController.indexOf(curHttpCtrl);
+
+      if (index > -1) {
+        this.currentController.splice(index, 1);
+      }
     }
-
-    return response.json();
   }
 
   cleanUp() {
