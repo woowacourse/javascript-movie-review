@@ -28,6 +28,12 @@ main {
 
 .star {
   width: 24px;
+  cursor: pointer;
+}
+
+.star:hover,
+.star:has(~ .star:hover) {
+  filter: drop-shadow(0 0 12px rgba(255, 255, 63, 0.5));
 }
 
 button {
@@ -43,19 +49,14 @@ button.primary {
   border-radius: 4px;
 }
 
-.show-more {
-  width: 100%;
-}
-
 #movie-review-wrap {
-  min-width: 1440px;
   background-color: var(--color-bluegray-100);
 }
 
 #movie-review-wrap h2 {
-  font-size: 2rem;
+  font-size: 1.6rem;
   font-weight: bold;
-  margin-bottom: 32px;
+  margin-bottom: 16px;
 }
 
 .container {
@@ -88,6 +89,12 @@ button.primary {
   max-width: 1280px;
   height: 350px;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 16px;
+  justify-content: center;
+  max-width: 1000px;
 }
 
 .top-rated-header {
@@ -95,6 +102,11 @@ button.primary {
   max-width: 1280px;
   margin: 0 auto;
   z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  justify-content: center;
 }
 
 .top-rated-search {
@@ -104,7 +116,9 @@ button.primary {
   margin: auto;
   border: 1.5px solid white;
   border-radius: 32px;
-  width: 525px;
+  min-width: 400px;
+  max-width: 1000px;
+  width: 100%;
 }
 
 .top-rated-search-input {
@@ -133,15 +147,14 @@ button.primary {
 }
 
 h1.logo {
-  position: absolute;
   font-size: 2rem;
   top: 10px;
+  cursor: pointer;
 }
 
 .rate {
   display: flex;
   align-items: baseline;
-  color: var(--color-yellow);
 }
 
 .rate > img {
@@ -160,12 +173,13 @@ span.rate-value {
   font-weight: bold;
 }
 
-.error {
+.result-not-found {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 32px;
+  line-height: 32px;
 }
 
 footer.footer {
@@ -195,11 +209,42 @@ footer.footer p:not(:last-child) {
     background-color: var(--color-bluegray-90);
   }
   100% {
-    background-color: var(--color-bluegray-70);
+    background-color: var(--color-bluegray-80);
   }
 }
 
 .skeleton {
   animation: skeleton-loading 1s linear infinite alternate;
   border-radius: 8px;
+}
+
+.loaded {
+  opacity: 1;
+}
+
+.picture {
+  opacity: 0;
+  transition: opacity 1s linear;
+}
+
+/** Toast */
+
+.toast {
+  width: 800px;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 10;
+  align-content: center;
+  padding: 32px;
+}
+
+.toast-success {
+  background-color: green;
+  color: var(--color-bluegray-100);
+}
+
+.toast-error {
+  background-color: red;
+  color: var(--color-white);
 }

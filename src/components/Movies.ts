@@ -1,60 +1,73 @@
-import { AppState } from '@/App';
-import { html } from '@/lib/utils';
+import { MovieApiClient } from '@/apis';
+import { errorMessage, eventHandlerInstance } from '@/modules';
+import { movieDetailResponseStore, moviesStore, serverStore } from '@/store';
+import { html } from '@/utils';
+import { forEach } from '@fxts/core';
+import { MOVIE_ITEM_PER_PAGE } from '@/constants';
 import Component from './core/Component';
-import ThumbnailList from './ThumbnailList';
+import Movie from './Movie';
 
-const TAB_LIST = ['상영 중', '인기순', '평점순', '상영 예정'];
+export default class Movies extends Component {
+  override template() {
+    const movies = moviesStore.getState();
 
-interface MoviesProps {
-  movies: AppState['movies'];
-  page: AppState['page'];
-  totalPages: AppState['totalPages'];
-  search: AppState['search'];
-  error: AppState['error'];
-}
-
-export default class Movies extends Component<MoviesProps> {
-  template() {
-    if (this.props.error) return html`<div class="error">${this.props.error.message}</div>`;
-    return html`
-      <div class="container">
-        <ul class="tab">
-          ${TAB_LIST.map(
-            (tab) => `
-              <li>
-                <a href="#">
-                  <div class="tab-item"><h3>${tab}</h3></div>
-                </a>
-              </li>
-            `,
+    if (movies === null)
+      return html`
+        <ul class="thumbnail-list">
+          ${new Array(MOVIE_ITEM_PER_PAGE).fill(null).map(
+            () => `
+              <li class="item">
+                <div class="skeleton" style="width:200px; height:300px"></div>
+                <div class="item-desc">
+                  <div class="skeleton" style="width:60px; height:16px"></div>
+                  <div class="skeleton" style="width:150px; height:16px"></div>
+                </div>
+              </li>`,
           )}
         </ul>
-        <main>
-          <section>
-            <h2 class="thumbnail-title">${this.props.search || '지금 인기 있는 영화'}</h2>
-            <slot name="thumbnail-list"> </slot>
+      `;
 
-            <slot name="error"></slot>
+    if (movies.length === 0)
+      return html`
+        <div class="result-not-found">
+          <img src="./images/woowawa_planet.svg" alt="woowawa_planet" />
+          <div>
+            <h2>검색 결과를 찾지 못하였습니다.</h2>
+            <p>단어의 철자가 정확한지 확인해 보세요.</p>
+            <p>검색어의 단어 수를 줄이거나, 보다 일반적인 검색어로 다시 검색해 보세요.</p>
+            <p>두 단어 이상의 검색어인 경우, 띄어쓰기를 확인해 보세요.</p>
+          </div>
+        </div>
+      `;
 
-            <div class="error close">
-              <img src="./images/woowawa_planet.svg" alt="woowawa_planet" />
-              <h2></h2>
-            </div>
-          </section>
-        </main>
-        ${this.props.movies && this.props.movies.length > 0 && this.props.totalPages > this.props.page
-          ? '<button class="primary show-more" data-action="show-more">더 보기</button>'
-          : ''}
-      </div>
+    return html`
+      <ul class="thumbnail-list">
+        <slot name="thumbnail-list"></slot>
+        ${movies.map((movie) => new Movie(movie))}
+      </ul>
     `;
   }
 
-  async onRender() {
-    this.fillSlot(
-      new ThumbnailList({
-        movies: this.props.movies,
-      }).element,
-      'thumbnail-list',
+  override addEventListener() {
+    forEach(
+      (thumbnail) => (thumbnail as HTMLElement).addEventListener('load', () => thumbnail.classList.remove('picture')),
+      this.element.querySelectorAll('img.thumbnail'),
     );
+
+    eventHandlerInstance.addEventListener({
+      eventType: 'click',
+      callback: async ({ currentTarget }) => {
+        if (!currentTarget.dataset.id) throw new Error(errorMessage.get('dataId'));
+
+        const id = Number(currentTarget.dataset.id);
+
+        const movieDetailResponse = await serverStore.query({
+          queryFn: () => MovieApiClient.getDetail({ id }),
+          queryKey: ['movie-detail', id],
+        });
+        movieDetailResponseStore.setState(movieDetailResponse);
+      },
+      dataAction: 'movie-detail',
+    });
   }
 }

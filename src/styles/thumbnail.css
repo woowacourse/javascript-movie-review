@@ -3,14 +3,53 @@
 .thumbnail-list {
   margin: 0 auto 56px;
   display: grid;
-  grid-template-columns: repeat(5, 200px);
   gap: 70px;
+  justify-content: center;
+}
+
+/* 모바일 */
+@media (max-width: 600px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(1, 200px);
+  }
+}
+
+@media (min-width: 600px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(2, 200px);
+  }
+}
+
+/* 태블릿 */
+@media (min-width: 800px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(3, 200px);
+  }
+}
+
+/* PC */
+
+@media (min-width: 1120px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(4, 200px);
+  }
+}
+
+@media (min-width: 1440px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(5, 200px);
+  }
 }
 
 .thumbnail {
   width: 200px;
   height: 300px;
   border-radius: 8px;
+  transition: transform 0.2s cubic-bezier(0.65, 0.05, 0.36, 1);
+}
+
+.thumbnail:hover {
+  transform: scale(1.05);
 }
 
 .item {
@@ -31,7 +70,6 @@
 p.rate {
   display: flex;
   align-items: baseline;
-  color: var(--color-yellow);
 }
 
 p.rate > span {
@@ -41,4 +79,8 @@ p.rate > span {
 .item .star {
   width: 16px;
   top: 1px;
+}
+
+.yellow {
+  color: var(--color-yellow);
 }

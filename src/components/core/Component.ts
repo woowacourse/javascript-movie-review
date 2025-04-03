@@ -1,26 +1,36 @@
-import { HTMLType, StrictObject } from '@/lib/types';
-import { html } from '@/lib/utils';
+import { Observer } from '@/modules';
+import { errorMessage } from '@/modules';
+import { Store } from '@/store';
+import { HTMLType, StrictObject } from '@/types';
+import { $, html } from '@/utils';
+import { forEach } from '@fxts/core';
 
-export default abstract class Component<
-  Props extends StrictObject | null = {},
-  State extends StrictObject | null = {},
-> {
-  state = {} as State;
+export type Props = StrictObject | null;
+export type State = StrictObject | null;
 
-  #props: Props;
+export default abstract class Component<TProps extends Props = {}, TState extends State = {}> implements Observer<any> {
+  state = {} as TState;
+
+  #props: TProps;
   #element: HTMLElement | null = null;
 
-  constructor(props?: Props) {
-    this.#props = (props ?? {}) as Props;
+  constructor(props?: TProps) {
+    this.#props = (props ?? {}) as TProps;
     this.setup();
 
     this.render();
     this.addEventListener();
-
-    this.dataFetchAsync();
   }
 
-  dataFetchAsync() {}
+  subsribe(stores: Store<any>[]) {
+    forEach((store) => {
+      store.subscribe(this.update.bind(this));
+    }, stores);
+  }
+
+  update() {
+    this.render();
+  }
 
   setup() {}
 
@@ -38,29 +48,25 @@ export default abstract class Component<
     return this.#element;
   }
 
-  setState(nextState: Partial<State>) {
+  setState(nextState: Partial<TState>) {
     this.state = { ...this.state, ...nextState };
     this.render();
-  }
-
-  appendChild(element: HTMLElement, selector?: string) {
-    if (selector) this.element.querySelector(selector)?.appendChild(element);
-    else this.element.appendChild(element);
   }
 
   template(): HTMLType {
     return html`<div></div>`;
   }
 
-  addEventListener() {}
+  fillSlot(component: Component, slotName: string) {
+    const targetSlot = $(`slot[name=${slotName}]`, this.element);
+    if (!targetSlot) throw new Error(errorMessage.get('slot', slotName));
 
-  onRender() {}
+    targetSlot.replaceWith(component.element);
+  }
 
-  fillSlot(element: HTMLElement, slotName: string) {
-    const targetSlot = this.element.querySelector(`slot[name=${slotName}]`);
-    if (!targetSlot) throw new Error(`name=${slotName} 속성을 가진 slot 요소를 만들어주세요.`);
-
-    targetSlot.replaceWith(element);
+  remove() {
+    this.onUnmount();
+    this.element.remove();
   }
 
   get element() {
@@ -70,4 +76,10 @@ export default abstract class Component<
   get props() {
     return this.#props;
   }
+
+  addEventListener() {}
+
+  onRender() {}
+
+  protected onUnmount() {}
 }
