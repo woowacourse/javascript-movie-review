@@ -1,5 +1,5 @@
 import fetchMovies from "../api/http";
-import { Movie, MovieType } from "../../types/movie";
+import { Movie, MovieType, MovieDetail } from "../../types/movie";
 import { popularApiUrl, searchApiUrl } from "../api/config";
 import { mapToMovie } from "../utils/mapper";
 
@@ -79,6 +79,14 @@ const fetchSearchedMovies = async (
   }
 };
 
+const fetchDetailMovie = async (movie_id?: number): Promise<MovieDetail> => {
+  const url = `https://api.themoviedb.org/3/movie/${movie_id}?language=ko-KR`;
+  console.log(url);
+  const data = await fetchMovies(url);
+
+  return data;
+};
+
 const movieState: { mode: MovieType; query: string } = {
   mode: "popular",
   query: "",
@@ -88,6 +96,7 @@ export {
   popularMovieList,
   searchedMovieList,
   fetchPopularMovies,
+  fetchDetailMovie,
   isLastPage,
   fetchSearchedMovies,
   movieState,

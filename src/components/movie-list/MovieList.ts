@@ -18,6 +18,7 @@ const MovieList = ({ movieItems = [] }: MovieListProps) => {
         title: movie.title,
         voteAverage: movie.voteAverage,
         posterPath: movie.posterPath,
+        id: movie.id,
       });
 
       $ul.appendChild($movieItem);

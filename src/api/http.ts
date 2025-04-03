@@ -19,6 +19,7 @@ const defaultOptions: Options = {
 };
 
 export const fetchMovies = (apiUrl: string = popularApiUrl) => {
+  console.log(apiUrl);
   return fetch(apiUrl, defaultOptions)
     .then((res) => {
       if (!res.ok) {

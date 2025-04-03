@@ -19,7 +19,7 @@ const MostPopularMovieBanner = () => {
       <div class="top-rated-movie">
         <div class="rate">
           <img src="images/star_empty.png" class="star" />
-          <span class="rate-value">${movie?.voteAverage}</span>
+          <span class="rate-value">${movie?.voteAverage.toFixed(1)}</span>
         </div>
         <div class="title">${movie?.title}</div>
         <button class="primary detail">자세히 보기</button>
