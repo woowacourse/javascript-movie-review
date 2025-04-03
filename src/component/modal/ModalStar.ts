@@ -68,10 +68,6 @@ class ModalStar {
   get element() {
     return this.#container;
   }
-
-  getUserRating() {
-    return this.#rating.userRating;
-  }
 }
 
 export default ModalStar;
