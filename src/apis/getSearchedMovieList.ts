@@ -11,13 +11,7 @@ const getSearchedMovieList = async (
     page: page.toString(),
   });
 
-  const response = await tmdbClient.get(`/search/movie?${params.toString()}`);
-
-  if ("status_message" in response) {
-    throw new Error(response.status_message);
-  }
-
-  return response;
+  return await tmdbClient.get(`/search/movie?${params.toString()}`);
 };
 
 export default getSearchedMovieList;
