@@ -6,6 +6,7 @@ export interface TotalMovies {
   readonly results: Movie[];
   readonly totalPages: number;
   readonly totalResults: number;
+  readonly page: number;
 }
 
 export interface Movie {

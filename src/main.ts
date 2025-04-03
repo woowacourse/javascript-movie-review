@@ -54,7 +54,13 @@ const updateMovieList = async (
   const totalItems = movieList.getTotalItems();
   const movieData = await getMovieData(totalItems);
   if (movieData) {
-    const { results } = movieData;
+    const { page, results, totalPages } = movieData;
+
+    if (page >= totalPages) {
+      observer.disconnect();
+      return;
+    }
+
     const movieItems = createMovieItems(results);
     movieList.updateList(movieItems);
 

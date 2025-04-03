@@ -9,13 +9,14 @@ import { DETAILS, IMAGE, VOTE } from "../constants/movie.ts";
 import { getMovieRate } from "./ratingMovie.ts";
 
 export const extractTotalMovies = (totalData: TotalData): TotalMovies => {
-  const { results, total_pages, total_results } = totalData;
+  const { results, total_pages, total_results, page } = totalData;
   const movies = results.map((movieData) => extractMovie(movieData));
 
   return {
     results: movies,
     totalPages: total_pages,
     totalResults: total_results,
+    page,
   };
 };
 

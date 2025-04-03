@@ -29,8 +29,9 @@ class SearchBar {
 
   async #onSearch(movieList: MovieList) {
     const totalItems = movieList.getTotalItems();
-    const results = await this.#getSearchResults(totalItems, this.#query);
-    if (results) {
+    const movieData = await this.#getSearchResults(totalItems, this.#query);
+    if (movieData) {
+      const { results } = movieData;
       const movieItems = this.#createResultMovieItems(results);
       movieList.updateList(movieItems);
 
@@ -55,8 +56,15 @@ class SearchBar {
     scrollRenderer: ScrollRenderer
   ) {
     const totalItems = movieList.getTotalItems();
-    const results = await this.#getSearchResults(totalItems, this.#query);
-    if (results) {
+    const movieData = await this.#getSearchResults(totalItems, this.#query);
+    if (movieData) {
+      const { results, page, totalPages } = movieData;
+
+      if (page >= totalPages) {
+        observer.disconnect();
+        return;
+      }
+
       const movieItems = this.#createResultMovieItems(results);
       movieList.updateList(movieItems);
 
@@ -121,14 +129,14 @@ class SearchBar {
 
   async #getSearchResults(totalItems: number, query: string) {
     try {
-      const { results, totalResults } =
+      const { totalResults, ...movieData } =
         await SkeletonUl.getInstance().getLoadingResult(() =>
           movieService.searchMovies(totalItems, query)
         );
 
       NonResultUI.getInstance().toggle(totalResults);
 
-      return results;
+      return movieData;
     } catch (error) {
       if (error instanceof Error) {
         const status = Number(error.message);
