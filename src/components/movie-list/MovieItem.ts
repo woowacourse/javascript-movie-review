@@ -36,7 +36,9 @@ const MovieItem = ({ title, voteAverage, posterPath, id }: Movie) => {
         <img class="thumbnail" src="${img.src}" alt="${title}" />
         <div class="item-desc">
           <p class="rate">
-            <img src="images/star_empty.png" class="star" /><span>${voteAverage}</span>
+            <img src="images/star_empty.png" class="star" /><span>${voteAverage.toFixed(
+              1
+            )}</span>
           </p>
           <strong class="movie-title">${title}</strong>
         </div>

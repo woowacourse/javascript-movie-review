@@ -122,7 +122,7 @@ export const setMovieDetailModalContent = ({
   $categoryContainer.innerHTML = `${release_date.split("-")[0]} · ${genres
     .map(({ name }) => name)
     .join(", ")}`;
-  $voteAverageContainer.innerHTML = `${voteAverage}`;
+  $voteAverageContainer.innerHTML = `${voteAverage.toFixed(1)}`;
   $overViewContainer.innerHTML = overview;
   $starRateTextContainer.innerHTML = `${getStarRateMessage(
     starRate
