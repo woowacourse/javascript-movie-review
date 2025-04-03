@@ -4,7 +4,6 @@ import ModalStar from './ModalStar';
 import { MovieData } from '../../../types/movie';
 import { MovieDetailData } from '../../../types/movie';
 import MovieClient from '../../domain/MovieClient';
-import LocalStorage from '../../domain/LocalStorage';
 
 class Modal {
   #container;
@@ -54,7 +53,7 @@ class Modal {
   #appendStars() {
     const starSection = $({ root: this.#container, selector: '.modal-star-section' });
     if (!this.#movieData) throw new Error('영화 데이터가 존재하지 않습니다.');
-    this.#modalStar = new ModalStar(this.#movieData.id);
+    this.#modalStar = new ModalStar(this.#movieData);
     starSection?.appendChild(this.#modalStar.element);
   }
 
@@ -114,13 +113,6 @@ class Modal {
     if (!modalBackground) throw Error('모달이 존재하지 않습니다.');
     if (!this.#modalStar) throw Error('modalStar를 찾을 수 없습니다.');
     if (!this.#movieData) throw Error('movieData 찾을 수 없습니다.');
-
-    const userRating = this.#modalStar.getUserRating();
-    const updatedMovie = {
-      ...this.#movieData,
-      userRating: userRating,
-    };
-    LocalStorage.saveMovie(updatedMovie);
 
     modalBackground.classList.remove('active');
     document.body.style.overflow = '';

@@ -1,14 +1,15 @@
+import { MovieDetailData } from '../../../types/movie';
 import LocalStorage from '../../domain/LocalStorage';
 import Rating from '../../domain/Rating';
 
 class ModalStar {
   #container;
   #rating: Rating;
-  #movieId;
+  #movieData;
 
-  constructor(movieId: number) {
-    this.#movieId = movieId;
-    const savedRating = LocalStorage.getMovieStarById(this.#movieId);
+  constructor(movieData: MovieDetailData) {
+    this.#movieData = movieData;
+    const savedRating = LocalStorage.getMovieStarById(this.#movieData.id);
     this.#rating = new Rating(savedRating);
     this.#container = document.createElement('div');
     this.#container.classList.add('modal-star-description');
@@ -49,8 +50,19 @@ class ModalStar {
 
       const newRating = Number(e.target.dataset.value);
       this.#rating.update(newRating);
+
+      this.#saveLocalStorage();
+
       this.#render();
     });
+  }
+
+  #saveLocalStorage() {
+    const updatedMovie = {
+      ...this.#movieData,
+      userRating: this.#rating.userRating,
+    };
+    LocalStorage.saveMovie(updatedMovie);
   }
 
   get element() {
