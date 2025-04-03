@@ -39,10 +39,7 @@ function Header(movie: ICustomMovie) {
             <span class="rate-value">${movie.vote_average}</span>
           </div>
           <div class="title">${movie.title}</div>
-          ${
-            CustomButton({ title: "자세히 보기", className: "banner-button" })
-              .outerHTML
-          }
+          ${CustomButton({ title: "자세히 보기", className: "banner-button" })}
         </div>
       </div>
     </div>

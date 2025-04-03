@@ -11,12 +11,10 @@ export default function ErrorModal(errorMessage?: string) {
       </div>
       <h1>오류가 발생했습니다.</h1>
       <p>${errorMessage}</p>
-      ${
-        CustomButton({
-          title: "홈으로 돌아가기",
-          className: "error-modal-button",
-        }).outerHTML
-      }
+      ${CustomButton({
+        title: "홈으로 돌아가기",
+        className: "error-modal-button",
+      })}
     </div>
   `);
 
