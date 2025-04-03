@@ -14,7 +14,7 @@ export function MovieItemRender({ id, poster_path, title, vote_average }) {
         <img class="thumbnail" src="${imageUrl}" alt="${title}" />
         <div class="item-desc">
           <p class="rate">
-            <img src="./images/star_empty.png" class="star" />
+            <img class="star" src="./images/star_empty.png" alt="star" />
             <span>${vote_average}</span>
           </p>
           <strong>${title}</strong>
