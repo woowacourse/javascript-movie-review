@@ -1,5 +1,5 @@
-import MovieDetails from "../../types/MovieDetails";
+import Movie from "../../store/Movie";
 
-export default function extractReleaseYear(movieDetails: MovieDetails) {
-  return movieDetails.release_date.split("-")[0];
+export default function extractReleaseYear(movieDetails: Movie) {
+  return movieDetails.releaseDate.split("-")[0];
 }

@@ -1,9 +1,9 @@
 import MoviePreviewInfo from "./MoviePreviewInfo";
-import { proxiedImageUrl } from "../fetch/utils/imageProxy";
 import ratingStorage from "../store/RatingStorage";
 import createElement from "./utils/createElement";
 import openMovieModal from "./utils/openMovieModal";
 import nullImage from "../../images/nullImage.png";
+import imageUrl from "../utils/imageUrl";
 
 const MovieItem = ({ movie }) => {
   const title = movie?.title;
@@ -23,7 +23,7 @@ const MovieItem = ({ movie }) => {
     tag: "img",
     classNames: ["thumbnail"],
     attributes: {
-      src: posterPath ? `${proxiedImageUrl(posterPath)}` : nullImage,
+      src: posterPath ? `${imageUrl(posterPath)}` : nullImage,
       alt: `${title}`,
     },
   });

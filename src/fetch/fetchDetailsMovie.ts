@@ -1,7 +1,8 @@
 import MovieDetails from "../types/MovieDetails";
 import request from "./utils/request";
+import Movie from "../store/Movie";
 
-export default async function fetchDetailsMovie(id: number) {
+export default async function fetchDetailsMovie(id: number): Promise<Movie> {
   const url = `https://api.themoviedb.org/3/movie/${id}?language=ko-KR`;
 
   const options = {
@@ -12,6 +13,6 @@ export default async function fetchDetailsMovie(id: number) {
     },
   };
 
-  const results = await request<MovieDetails>(url, options);
-  return results;
+  const data = await request<MovieDetails>(url, options);
+  return Movie.fromTMDB(data);
 }

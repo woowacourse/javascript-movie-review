@@ -1,7 +1,7 @@
 import Gnb from "./Gnb";
 import TopRatedContainer from "./TopRatedContainer";
 import createElement from "./utils/createElement";
-import { proxiedImageUrl } from "../fetch/utils/imageProxy";
+import imageUrl from "../utils/imageUrl";
 
 const Header = ({ popularMovie }) => {
   const title = popularMovie?.title;
@@ -27,7 +27,7 @@ const Header = ({ popularMovie }) => {
   const $img = createElement({
     tag: "img",
     attributes: {
-      src: `${proxiedImageUrl(posterPath)}`,
+      src: `${imageUrl(posterPath)}`,
       alt: `${title}`,
     },
   });

@@ -1,17 +1,16 @@
 import MyRate from "./MyRate";
 import extractReleaseYear from "./utils/extractReleaseYear";
 import extractGenres from "./utils/extractGenres";
-import MovieDetails from "../types/MovieDetails";
 
 import FilledStarSrc from "../../images/star_filled.png";
 import CloseBtnSrc from "../../images/modal_button_close.png";
-import { proxiedImageUrl } from "../fetch/utils/imageProxy";
 import ratingStorage from "../store/RatingStorage";
+import Movie from "../store/Movie";
 
 export type StarRate = 0 | 1 | 2 | 3 | 4 | 5;
 
 export default function MovieItemModal(
-  movieDetails: MovieDetails,
+  movieDetails: Movie,
   rate: number
 ): string {
   const year = extractReleaseYear(movieDetails);
@@ -25,7 +24,7 @@ export default function MovieItemModal(
       </button>
       <div class="modal-container">
         <div class="modal-image">
-          <img src="${proxiedImageUrl(movieDetails.poster_path)}" />
+          <img src="${movieDetails.posterUrl}" />
         </div>
         <div class="modal-description">
           <h2>${movieDetails.title}</h2>
@@ -33,7 +32,7 @@ export default function MovieItemModal(
           <p class="rate">
             <span>평균</span>
             <img src="${FilledStarSrc}" class="star" />
-            <span>${movieDetails.vote_average.toFixed(1)}</span>
+            <span>${movieDetails.voteAverage.toFixed(1)}</span>
           </p>
           <hr />
           ${MyRate(rate as StarRate, movieId)}

@@ -1,5 +1,5 @@
-import MovieDetails from "../../types/MovieDetails";
+import Movie from "../../store/Movie";
 
-export default function extractGenres(movieDetails: MovieDetails) {
-  return movieDetails.genres.map((genre) => genre.name).join(", ");
+export default function extractGenres(movieDetails: Movie) {
+  return movieDetails.genres.map((genre) => genre).join(", ");
 }
