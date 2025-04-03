@@ -1,4 +1,4 @@
-import ErrorModal from "../components/ErrorModal";
+import ErrorModal from "../../../shared/ui/components/ErrorModal";
 
 export const intersectionObserver = (handler: () => Promise<void>) => {
   const target = document.getElementById("target") as HTMLElement;
