@@ -10,11 +10,8 @@ import { MovieItem } from './MovieItem';
 import { MovieSkeleton } from './MovieSkeleton';
 import { Empty } from './Empty';
 
-let isLoading = false;
-let hasMorePages = true;
 let observer: IntersectionObserver | null = null;
 let prevSearchQuery = '';
-let isFirstSearch = true;
 
 const renderErrorState = () => {
   const error = movieFetcher.errorState;
@@ -41,16 +38,6 @@ const renderErrorState = () => {
 
 const createMovieItems = (movies: MovieItemType[]) => {
   return movies.map((movie) => MovieItem(movie));
-};
-
-const updateListTitle = (
-  titleElement: HTMLElement,
-  isSearch: boolean,
-  query: string,
-) => {
-  titleElement.textContent = isSearch
-    ? `검색 결과: ${query}`
-    : '지금 인기 있는 영화';
 };
 
 const observerTarget = Text({
@@ -83,16 +70,17 @@ const createSkeletonItems = (count = 20) => {
   });
 };
 
+const hasMorePagesToLoad = (): boolean => {
+  const response = movieFetcher.currentMovieResponse;
+  return response.page < response.total_pages;
+};
+
 const loadNextPage = async () => {
-  if (isLoading || !hasMorePages) return;
-  isLoading = true;
+  if (movieFetcher.isLoadingState || !hasMorePagesToLoad()) return;
 
   movieUl.append(...createSkeletonItems());
 
-  const response = movieFetcher.currentMovieResponse;
-  hasMorePages = response.page < response.total_pages;
-
-  if (!hasMorePages) {
+  if (!hasMorePagesToLoad()) {
     removeSkeletons();
     return;
   }
@@ -102,8 +90,6 @@ const loadNextPage = async () => {
   await (isSearchMode
     ? movieFetcher.getNextPageSearchMovies()
     : movieFetcher.getNextPagePopularMovies());
-
-  isLoading = false;
 };
 
 const removeSkeletons = () => {
@@ -117,7 +103,11 @@ const setupInfiniteScroll = () => {
   }
 
   observer = new IntersectionObserver((entries) => {
-    if (entries[0].isIntersecting && !isLoading && hasMorePages) {
+    if (
+      entries[0].isIntersecting &&
+      !movieFetcher.isLoadingState &&
+      hasMorePagesToLoad()
+    ) {
       loadNextPage();
     }
   });
@@ -149,9 +139,7 @@ const renderMovies = (movies: MovieItemType[], response: MovieResponse) => {
     movieUl.append(...movieElements);
   }
 
-  hasMorePages = response.page < response.total_pages;
-
-  if (!hasMorePages) {
+  if (!hasMorePagesToLoad()) {
     observerTarget.classList.add('hidden');
   } else {
     observerTarget.classList.remove('hidden');
@@ -168,17 +156,17 @@ const renderMovieList = () => {
 
   const isNewSearch = isSearch && query !== prevSearchQuery;
   prevSearchQuery = query;
-
-  updateListTitle(titleText, isSearch, query);
+  titleText.textContent = isSearch
+    ? `검색 결과: ${query}`
+    : '지금 인기 있는 영화';
 
   if (error) {
     renderErrorState();
     return;
   }
 
-  if (isLoadingState && response.page === 1 && (isFirstSearch || isNewSearch)) {
+  if (isLoadingState && response.page === 1 && isNewSearch) {
     renderInitialLoadingState();
-    isFirstSearch = false;
     return;
   }
 
@@ -194,12 +182,7 @@ const renderMovieList = () => {
 };
 
 export const handleSearch = async (query: string) => {
-  isFirstSearch = true;
-  isLoading = false;
-  hasMorePages = true;
-
   window.scrollTo({ top: 0, behavior: 'smooth' });
-
   await movieFetcher.getSearchMovies(1, query);
 };
 
