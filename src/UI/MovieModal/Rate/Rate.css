@@ -17,3 +17,10 @@
 .rate-number {
   color: #95a1b2;
 }
+
+@media screen and (max-width: 390px) {
+  .rating-selector {
+    flex-direction: column;
+    align-items: center;
+  }
+}

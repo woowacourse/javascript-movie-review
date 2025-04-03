@@ -44,10 +44,12 @@ class Rate {
           )
           .join("")}
     </div>
-    <span class="rate-text">${this.getRateText(this.#rate)}</span>
-    <span class="rate-number">${
-      this.#rate === 0 ? "" : `(${this.#rate}/10)`
-    }</span>
+    <div class="rate-text-wrap">
+      <span class="rate-text">${this.getRateText(this.#rate)}</span>
+      <span class="rate-number">${
+        this.#rate === 0 ? "" : `(${this.#rate}/10)`
+      }</span>
+    </div>
       `;
 
     $div.addEventListener("click", this.handleRateButtonClick);
