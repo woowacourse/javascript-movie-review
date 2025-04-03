@@ -1,6 +1,6 @@
 @import "./colors.css";
 
-/* modal.css */
+/* 기본 모달 스타일 (데스크탑) */
 body.modal-open {
   overflow: hidden;
 }
@@ -21,7 +21,7 @@ body.modal-open {
   transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
-.modal-background.active {
+.active {
   visibility: visible;
   opacity: 1;
 }
@@ -33,6 +33,7 @@ body.modal-open {
   color: white;
   position: relative;
   width: 1000px;
+  height: 614px;
 }
 
 .close-modal {
@@ -59,18 +60,18 @@ body.modal-open {
 
 .modal-description {
   width: 100%;
-  padding: 8px;
   margin-left: 16px;
   line-height: 1.6rem;
 }
 
-.modal-description .rate > img {
+.modal-description .modal-rate > img {
   position: relative;
   top: 5px;
 }
 
-.modal-description > *:not(:last-child) {
-  margin-bottom: 8px;
+.modal-description .modal-rate-average {
+  color: white;
+  padding-right: 8px;
 }
 
 .modal-description h2 {
@@ -78,7 +79,170 @@ body.modal-open {
   margin: 0 0 8px;
 }
 
-.detail {
+.modal-detail {
   max-height: 430px;
   overflow-y: auto;
+}
+
+.modal-rate-star {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.modal-rate-description,
+.modal-rate-scale {
+  padding-top: 4px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.modal-rate-description {
+  margin: 0 6px;
+}
+
+.modal--scale {
+  color: var(--color-bluegray-30);
+}
+
+.modal-rate-star .star {
+  cursor: pointer;
+}
+
+.modal-subtitle {
+  font-weight: bold;
+  font-size: 20px;
+  line-height: 1.5;
+  margin: 4px;
+}
+
+/* 큰 태블릿 + 작은 노트북 화면 (992px ~ 1400px) */
+@media screen and (max-width: 1400px) {
+  .modal {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    max-width: 100%;
+    border-radius: 16px 16px 0 0;
+    padding: 24px;
+    overflow-y: auto;
+    height: 70%;
+  }
+
+  .modal-container {
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .modal-subtitle {
+    font-size: 1.6rem !important;
+  }
+
+  .modal-rate-description,
+  .modal-rate-scale {
+    font-size: 1.3rem !important;
+  }
+
+  .modal-detail {
+    font-size: 1.3rem !important;
+    line-height: 1.8;
+  }
+
+  .modal-image,
+  .modal-category,
+  .modal-title,
+  .modal-rate {
+    display: flex;
+    justify-content: center;
+  }
+
+  .modal-image img {
+    width: auto;
+    max-height: 350px;
+    max-width: 100%;
+  }
+
+  .modal-description {
+    margin-left: 0;
+    padding: 0;
+  }
+}
+
+/* 태블릿 화면 (768px ~ 991px) */
+@media screen and (max-width: 991px) {
+  .modal {
+    height: 80%;
+  }
+
+  .close-modal {
+    top: 16px;
+    right: 16px;
+  }
+
+  .modal-image {
+    display: none;
+  }
+
+  .modal-category,
+  .modal-title,
+  .modal-rate,
+  .modal-subtitle,
+  .modal-rate-star {
+    display: flex;
+    justify-content: center;
+  }
+
+  .modal-rate-star {
+    flex-direction: column;
+  }
+}
+
+/* 모바일 화면 (767px 이하) */
+@media screen and (max-width: 767px) {
+  .modal {
+    height: 80%;
+  }
+
+  .close-modal {
+    top: 16px;
+    right: 16px;
+  }
+
+  .modal-image {
+    display: none;
+  }
+
+  .modal-title {
+    font-size: 1.5rem !important;
+  }
+
+  .modal-category,
+  .modal-rate {
+    font-size: 0.9rem !important;
+  }
+
+  .modal-subtitle,
+  .modal-rate-description,
+  .modal-rate-scale {
+    font-size: 1.1rem !important;
+  }
+
+  .modal-detail {
+    font-size: 1rem !important;
+    line-height: 1.6;
+  }
+
+  .modal-category,
+  .modal-title,
+  .modal-rate,
+  .modal-subtitle,
+  .modal-rate-star {
+    display: flex;
+    justify-content: center;
+  }
+
+  .modal-rate-star {
+    flex-direction: column;
+  }
 }

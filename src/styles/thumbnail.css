@@ -1,25 +1,48 @@
 @import "./colors.css";
 
-.thumbnail-list {
-  margin: 0 auto 56px;
-  display: grid;
-  grid-template-columns: repeat(5, 200px);
-  gap: 70px;
+.thumbnail-title {
+  margin-bottom: 32px;
+  padding: 0 20px;
 }
 
+/* 기본 그리드 레이아웃 (데스크탑) */
+.thumbnail-list {
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr)); /* 5열 그리드 */
+  gap: 40px;
+  width: 100%;
+  max-width: 100%;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+/* 썸네일 이미지 반응형 처리 */
 .thumbnail {
-  width: 200px;
-  height: 300px;
+  width: 100%;
+  height: auto;
   border-radius: 8px;
+  aspect-ratio: 2/3;
+  object-fit: cover;
 }
 
 .item {
   user-select: none;
   cursor: pointer;
+  width: 100%; /* 칸에 맞게 너비 조정 */
 }
 
 .item-desc {
-  margin-top: 4px;
+  margin-top: 8px;
+  width: 100%;
+}
+
+/* 제목 텍스트가 너무 길면 줄임표로 표시 */
+.item-desc strong {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .item-desc > *:not(:last-child) {
@@ -41,4 +64,70 @@ p.rate > span {
 .item .star {
   width: 16px;
   top: 1px;
+}
+
+.error {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 32px;
+  width: 100%;
+}
+
+/* 큰 노트북 화면 (1200px ~ 1400px) */
+@media screen and (max-width: 1400px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(4, minmax(0, 1fr)); /* 4열 그리드 */
+    max-width: 100%;
+    gap: 35px;
+    padding: 0 20px;
+  }
+
+  .thumbnail-title {
+    padding: 0 20px;
+  }
+}
+
+/* 노트북 화면 (992px ~ 1199px) */
+@media screen and (max-width: 1199px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr)); /* 3열 그리드 */
+    max-width: 100%;
+    gap: 30px;
+    padding: 0 20px;
+  }
+
+  .thumbnail-title {
+    padding: 0 20px;
+  }
+}
+
+/* 태블릿 화면 (768px ~ 991px) */
+@media screen and (max-width: 991px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr)); /* 2열 그리드 */
+    max-width: 100%;
+    gap: 25px;
+  }
+}
+
+/* 모바일 화면 (767px 이하) */
+@media screen and (max-width: 767px) {
+  .thumbnail-list {
+    grid-template-columns: minmax(0, 1fr); /* 1열 그리드 */
+    max-width: 100%;
+    gap: 20px;
+    padding: 0 16px;
+  }
+
+  .thumbnail-title {
+    padding: 0 16px;
+    margin-bottom: 20px;
+  }
+
+  .error-message,
+  .thumbnail-title {
+    font-size: 1.5rem !important;
+  }
 }

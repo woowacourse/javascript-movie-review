@@ -15,6 +15,13 @@ body {
   background-color: var(--color-bluegray-80);
 }
 
+body,
+html,
+main {
+  overflow-x: hidden;
+  width: 100%;
+}
+
 #wrap,
 section {
   display: flex;
@@ -43,97 +50,23 @@ button.primary {
   border-radius: 4px;
 }
 
-.show-more {
-  width: 100%;
-  display: none;
-}
-
 #wrap {
-  min-width: 1440px;
+  min-width: 100%;
+  min-width: auto;
   background-color: var(--color-bluegray-100);
 }
 
 #wrap h2 {
   font-size: 2rem;
   font-weight: bold;
-  margin-bottom: 32px;
+  line-height: 1.5;
 }
 
 .container {
   max-width: 1280px;
   margin: 0 auto;
   padding-bottom: 40px;
-}
-
-.background-container {
-  position: relative;
-  background-position: center center;
-  background-size: cover;
-  padding: 48px;
-}
-
-.overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  background-color: rgba(0, 0, 0, 0.5);
   width: 100%;
-  height: 100%;
-}
-
-.top-rated-container {
-  user-select: none;
-  position: relative;
-  max-width: 1280px;
-  height: 350px;
-  margin: 0 auto;
-}
-
-.top-rated-header {
-  position: relative;
-  max-width: 1280px;
-  margin: 0 auto;
-}
-
-.top-rated-search {
-  display: flex;
-  justify-content: space-between;
-  padding: 8px 16px;
-  margin: auto;
-  border: 1.5px solid white;
-  border-radius: 32px;
-  width: 525px;
-}
-
-.top-rated-search-input {
-  width: 100%;
-  border: none;
-  font-size: 16px;
-  outline: none;
-  background-color: transparent;
-  color: white;
-}
-
-.top-rated-search-input::placeholder {
-  color: white;
-}
-
-.top-rated-search-button {
-  background-color: transparent;
-}
-
-.top-rated-movie {
-  margin-top: 64px;
-}
-
-.top-rated-movie > *:not(:last-child) {
-  margin-bottom: 8px;
-}
-
-h1.logo {
-  position: absolute;
-  font-size: 2rem;
-  top: 10px;
 }
 
 .rate {
@@ -145,25 +78,6 @@ h1.logo {
 .rate > img {
   position: relative;
   top: 2px;
-}
-
-span.rate-value {
-  margin-left: 8px;
-  font-weight: bold;
-  font-size: 1.66rem;
-}
-
-.title {
-  font-size: 3rem;
-  font-weight: bold;
-}
-
-.error {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 32px;
 }
 
 footer.footer {
@@ -180,10 +94,27 @@ footer.footer p:not(:last-child) {
   margin-bottom: 8px;
 }
 
-.close {
-  display: none;
+/* 모바일 화면 (767px 이하) */
+@media screen and (max-width: 767px) {
+  main {
+    margin: 24px 0 0 0;
+  }
+
+  footer.footer {
+    font-size: 0.8rem;
+  }
 }
 
-.open {
-  display: block;
+/* 태블릿 화면 (768px ~ 991px) */
+@media screen and (max-width: 991px) {
+  main {
+    margin: 32px 0 0 0;
+  }
+}
+
+/* 노트북 화면 (992px ~ 1199px) */
+@media screen and (max-width: 1199px) {
+  main {
+    margin: 40px 0 0 0;
+  }
 }
