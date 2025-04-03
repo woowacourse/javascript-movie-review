@@ -5,10 +5,12 @@ import Footer from "./UI/Layout/Footer/Footer";
 import { getPopularityMovie } from "./Domain/getPopularityMovie";
 import { searchMovie } from "./Domain/searchMovie";
 import MovieListSection from "./UI/MoviesContainer/MovieListSection/MovieListSection";
-import { IMG_PATH } from "./constants/constants";
+import { IMG_PATH, MOVIE_COUNT } from "./constants/constants";
 import MovieManager from "./Domain/MovieManager";
 import UIManager from "./Domain/UIManager";
 import MovieItem from "./UI/MoviesContainer/MovieItem/MovieItem";
+import Modal from "./UI/Modal/Modal";
+import { throttle } from "./utils/throttle";
 
 class App {
   #movieManager;
@@ -35,7 +37,7 @@ class App {
       this.render(null);
       return;
     }
-    this.#uiManager.setShowMore(true);
+    this.#uiManager.setHasMore(true);
     this.render(results.results);
   }
 
@@ -48,39 +50,63 @@ class App {
     const $wrap = document.createElement("div");
     $wrap.id = "wrap";
 
+    const $thumbnail = new Thumbnail({
+      movie: !isLoading && movies && movies.length > 0 ? movies[0] : null,
+      isLoading,
+    }).render();
+
     const $header = new TitleSearchBar(
       this.onSubmit,
       this.onLogoClick
     ).render();
-
-    const $thumbnail = new Thumbnail(
-      !isLoading && movies && movies.length > 0 ? movies[0] : null,
-      isLoading
-    ).render();
-    $wrap.append($thumbnail);
 
     const $container = document.createElement("div");
     $container.classList.add("container");
 
     const $main = document.createElement("main");
 
-    const $movieListSection = new MovieListSection(
+    this.#movieListSection = new MovieListSection(
       this.getKeywordFromURL(),
       movies,
-      isLoading
-    ).render();
+      isLoading,
+      this.handleMovieClick
+    );
+
+    const $movieListSection = this.#movieListSection.render();
 
     app.appendChild($wrap);
-    $wrap.append($header);
+
+    if ($thumbnail) {
+      $wrap.appendChild($thumbnail);
+    }
+    $wrap.appendChild($header);
+
     $wrap.appendChild($container);
     $container.appendChild($main);
     $main.appendChild($movieListSection);
 
-    if (movies && movies.length > 0 && this.#uiManager.getShowMore()) {
-      const $moreButton = new Button().render();
-      $main.appendChild($moreButton);
-      $moreButton.addEventListener("click", this.handleButtonClick);
-    }
+    window.addEventListener(
+      "scroll",
+      throttle(() => {
+        if (!this.#uiManager.getHasMore() || this.#uiManager.getLoading()) {
+          return;
+        }
+
+        const scrollPosition = window.scrollY || window.pageYOffset;
+        const windowHeight = window.innerHeight;
+        const documentHeight = Math.max(
+          document.body.scrollHeight,
+          document.body.offsetHeight,
+          document.documentElement.clientHeight,
+          document.documentElement.scrollHeight,
+          document.documentElement.offsetHeight
+        );
+
+        if (scrollPosition + windowHeight >= documentHeight - 100) {
+          this.handleScroll();
+        }
+      }, 300)
+    );
 
     const $footer = new Footer().render();
     app.appendChild($footer);
@@ -99,13 +125,13 @@ class App {
 
     this.#movieManager.reset();
     this.#uiManager.setLoading(true);
-    this.#uiManager.setShowMore(true);
+    this.#uiManager.setHasMore(true);
     const { results, totalPage } = await this.#movieManager.fetchSearch(
       keyword
     );
 
     if (totalPage === 1) {
-      this.#uiManager.setShowMore(false);
+      this.#uiManager.setHasMore(false);
     }
     this.#uiManager.setLoading(false);
     this.render(results);
@@ -119,34 +145,41 @@ class App {
     window.history.pushState({}, "", url);
 
     this.#movieManager.reset();
-    this.#uiManager.setShowMore(true);
+    this.#uiManager.setHasMore(true);
 
     const { results } = await this.#movieManager.fetchPopular();
 
     this.render(results);
   };
 
-  handleButtonClick = async () => {
+  handleScroll = async () => {
     const keyword = this.getKeywordFromURL();
 
     const $main = document.querySelector("main");
     const $ul = document.querySelector(".thumbnail-list");
+    this.#uiManager.setLoading(true);
 
     const skeletonElements = this.#movieListSection.renderSkeleton($ul);
 
     const { results, totalPage, currentPage } = keyword
       ? await this.#movieManager.fetchSearch(keyword)
       : await this.#movieManager.fetchPopular();
+    this.#uiManager.setLoading(false);
 
     if (currentPage >= totalPage) {
-      this.#uiManager.setShowMore(false);
-      this.#movieListSection.removeMoreButton();
+      this.#uiManager.setHasMore(false);
     }
 
     this.#movieListSection.removeSkeleton(skeletonElements);
 
-    const newMovies = results.slice(-20);
+    const newMovies = results.slice(-MOVIE_COUNT);
     this.#movieListSection.appendMovies(newMovies, $ul);
+  };
+
+  handleMovieClick = async (movieId) => {
+    const movieDetail = await this.#movieManager.fetchDetail(movieId);
+    const modal = new Modal(movieDetail).render();
+    document.body.appendChild(modal);
   };
 
   getKeywordFromURL() {

@@ -1,0 +1,11 @@
+@import "./colors.css";
+@import "./main.css";
+@import "./reset.css";
+@import "../UI/Header/Thumbnail/Thumbnail.css";
+@import "../UI/Header/TitleSearchBar/TitleSearchBar.css";
+@import "../UI/Layout/Footer/Footer.css";
+@import "../UI/Modal/Modal.css";
+@import "../UI/MoviesContainer/Button/Button.css";
+@import "../UI/MoviesContainer/EmptyView/EmptyView.css";
+@import "../UI/MoviesContainer/MovieItem/MovieItem.css";
+@import "../UI/MoviesContainer/MovieListSection/MovieListSection.css";

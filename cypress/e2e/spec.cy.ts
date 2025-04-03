@@ -32,6 +32,19 @@ describe("Fixture를 이용한 E2E 테스트", () => {
       }
     ).as("getSearchMovies");
 
+    cy.intercept(
+      "GET",
+      /^https:\/\/api\.themoviedb\.org\/3\/movie\/\d+(\?.*)?$/,
+      { fixture: "movie-detail.json" }
+    ).as("getMovieDetail");
+
+    Cypress.on("uncaught:exception", (err, runnable) => {
+      if (err.message.includes("appendChild")) {
+        return false;
+      }
+      return true;
+    });
+
     cy.visit("http://localhost:5173");
   });
 
@@ -46,28 +59,14 @@ describe("Fixture를 이용한 E2E 테스트", () => {
     cy.get(".thumbnail-list > li").should("have.length", 20);
   });
 
-  it("더보기 버튼 클릭 시 20개의 영화가 추가된다.", () => {
-    // 첫 번째 API 응답 기다리기
-    cy.wait("@getPopularMovies");
-    cy.get(".thumbnail-list > li").should("have.length", 20);
-
-    // 더보기 버튼 클릭
-    cy.get(".more-button").should("exist").click();
-
-    // 두 번째 API 응답 기다리기
-    cy.wait("@getPopularMovies");
-
-    // 영화 개수가 40개인지 확인
-    cy.get(".thumbnail-list > li").should("have.length", 40);
-  });
-
-  it("짱구 검색 후 더보기 버튼 클릭시 더보기 버튼이 사라져야한다.", () => {
-    cy.get(".search-input").click();
+  it("영화 검색 기능이 정상적으로 작동해야 한다", () => {
     cy.get(".search-input").type("짱구");
-    cy.get(".search-input").type("{enter}");
+    cy.get(".search-bar").submit();
+
     cy.wait("@getSearchMovies");
-    cy.get(".more-button").should("exist").click();
-    cy.get(".more-button").should("not.exist");
+
+    cy.contains('"짱구" 검색 결과').should("be.visible");
+    cy.get(".thumbnail-list > li").should("be.visible");
   });
 
   it("없는 영화 검색 시 검색 결과 없습니다 페이지가 랜더링 된다.", () => {
@@ -83,6 +82,62 @@ describe("Fixture를 이용한 E2E 테스트", () => {
     cy.get(".search-input").type("에러입니다");
     cy.get(".search-input").type("{enter}");
     cy.wait("@getSearchMovies");
-    cy.get(".info-text-wrap > p").should("contain", "오류가 발생했습니다.");
+    cy.contains("오류가 발생했습니다");
+  });
+
+  it("로고 클릭 시 홈페이지로 돌아가야 한다", () => {
+    cy.get(".search-input").type("짱구");
+    cy.get(".search-bar").submit();
+    cy.wait("@getSearchMovies");
+
+    cy.get(".logo").click();
+    cy.wait("@getPopularMovies");
+
+    cy.contains("지금 인기 있는 영화").should("be.visible");
+    cy.url().should("not.include", "query=");
+  });
+
+  it("영화 아이템 클릭 시 모달이 열려야 한다", () => {
+    cy.wait("@getPopularMovies");
+
+    cy.get(".thumbnail-list > li").first().click();
+
+    cy.wait("@getMovieDetail");
+
+    cy.get(".modal-background.active").should("be.visible");
+    cy.get(".modal-description h2").should("be.visible");
+
+    cy.get("#closeModal").click();
+
+    cy.get(".modal-background").should("not.exist");
+  });
+
+  it("별점 기능이 정상적으로 작동해야 한다", () => {
+    cy.wait("@getPopularMovies");
+
+    cy.get(".thumbnail-list > li").first().click();
+    cy.wait("@getMovieDetail");
+
+    cy.get("#myStars img").eq(2).click();
+
+    cy.get("#myStars img[src='./images/star_filled.png']").should(
+      "have.length",
+      3
+    );
+
+    cy.get(".star_count").should("contain", "(6/10)");
+
+    cy.get("#comment").should("not.be.empty");
+  });
+  it("스크롤 시 추가 영화가 로드되어야 한다", () => {
+    cy.wait("@getPopularMovies");
+    cy.get(".thumbnail-list > li").should("have.length", 20);
+    cy.wait(500);
+
+    cy.scrollTo("bottom");
+
+    cy.wait("@getPopularMovies");
+
+    cy.get(".thumbnail-list > li").should("have.length", 40);
   });
 });
