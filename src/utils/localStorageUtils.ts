@@ -1,54 +1,42 @@
 import { Movie } from "../../types/movie.ts";
 
-type LocalStorageMap = {
-  movies: Movie[];
-};
-
-const getLocalStorage = <T extends keyof LocalStorageMap>(key: T) => {
-  if (typeof window !== "undefined") {
-    const item = localStorage.getItem(key);
-    if (item) {
-      try {
-        return JSON.parse(item) as LocalStorageMap[T];
-      } catch (error) {
-        console.error(error);
-        return null;
-      }
-    }
-    return null;
-  }
-  return null;
-};
-
-const setLocalStorage = <T extends keyof LocalStorageMap>(
-  key: T,
-  value: LocalStorageMap[T]
+const createStorage = <T>(
+  key: string,
+  storage: Storage = typeof window !== "undefined"
+    ? window.localStorage
+    : undefined!
 ) => {
-  if (typeof window !== "undefined") {
+  if (!storage) {
+    throw new Error("storage를 사용할 수 없습니다.");
+  }
+
+  const get = (): T | null => {
+    const item = storage.getItem(key);
+    if (!item) return null;
     try {
-      const jsonStringifyValue = JSON.stringify(value);
-      localStorage.setItem(key, jsonStringifyValue);
+      return JSON.parse(item) as T;
     } catch (error) {
-      console.error(error);
+      console.error(`Error parsing localStorage item for key "${key}":`, error);
+      return null;
     }
-  }
+  };
+
+  const set = (value: T) => {
+    try {
+      const jsonValue = JSON.stringify(value);
+      storage.setItem(key, jsonValue);
+    } catch (error) {
+      console.error(`Error setting localStorage item for key "${key}":`, error);
+    }
+  };
+
+  const remove = () => {
+    storage.removeItem(key);
+  };
+
+  return { get, set, remove };
 };
 
-const removeLocalStorage = <T extends keyof LocalStorageMap>(key: T) => {
-  if (typeof window !== "undefined") {
-    localStorage.removeItem(key);
-  }
-};
+const moviesStorage = createStorage<Movie[]>("movies");
 
-const clearLocalStorage = () => {
-  if (typeof window !== "undefined") {
-    localStorage.clear();
-  }
-};
-
-export const localStorageUtils = {
-  get: getLocalStorage,
-  set: setLocalStorage,
-  remove: removeLocalStorage,
-  clear: clearLocalStorage,
-};
+export { createStorage, moviesStorage };
