@@ -46,8 +46,6 @@ class SkeletonUl {
     toggleElementVisibility(this.#element, "show");
     try {
       return await callback();
-    } catch (error) {
-      throw error;
     } finally {
       toggleElementVisibility(this.#element, "hidden");
     }
