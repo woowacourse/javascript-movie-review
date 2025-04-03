@@ -8,24 +8,28 @@ history.scrollRestoration = 'manual'
 
 Header()
 
-const movieData = await fetchPopularMovies(1)
-const movieLayout = MovieLayout(movieData.results)
-const bannerElement = document.getElementById('bannerSection')
-if (bannerElement) bannerElement.innerHTML = Banner()
+async function main() {
+  const movieData = await fetchPopularMovies(1)
+  const movieLayout = MovieLayout(movieData.results)
+  const bannerElement = document.getElementById('bannerSection')
+  if (bannerElement) bannerElement.innerHTML = Banner()
 
-const searchForm = await SearchForm('headerSearchBox')
-searchForm.render()
-searchForm.onSearch(async (keyword) => {
-  const { results, total_pages } = await fetchSearchMovies(1, keyword)
-  bannerElement?.setAttribute('style', 'display: none')
-  movieLayout.replaceChildren({
-    title: `"${keyword}" 검색 결과`,
-    movieData: results,
-    isPossibleMore: results.length === 20,
-    searchKeyword: keyword,
-    totalPages: total_pages,
+  const searchForm = await SearchForm('headerSearchBox')
+  searchForm.render()
+  searchForm.onSearch(async (keyword) => {
+    const { results, total_pages } = await fetchSearchMovies(1, keyword)
+    bannerElement?.setAttribute('style', 'display: none')
+    movieLayout.replaceChildren({
+      title: `"${keyword}" 검색 결과`,
+      movieData: results,
+      isPossibleMore: results.length === 20,
+      searchKeyword: keyword,
+      totalPages: total_pages,
+    })
   })
-})
+}
+
+main()
 
 window.addEventListener('scroll', () => {
   const headerBack = document.querySelector('#headerBackground')
