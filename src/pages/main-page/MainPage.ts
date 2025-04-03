@@ -5,6 +5,7 @@ import { $ } from '../../utils/selector';
 import mainPageLoadingTemplate from './loadingTemplate';
 import { MovieData } from '../../../types/movie';
 import MovieClient from '../../domain/MovieClient';
+import { SYSTEM_CONSTANTS } from '../../constants/systemConstants';
 
 export class MainPage {
   #container;
@@ -53,7 +54,7 @@ export class MainPage {
       this.#container.appendChild(this.#movieGridElement());
       return;
     }
-    const newItems = this.#movieListData.slice(-20);
+    const newItems = this.#movieListData.slice(-SYSTEM_CONSTANTS.MOVIES_PER_PAGE);
     const movieElements = this.#movieGrid.appendMovies(newItems);
 
     const list = $({ selector: '.thumbnail-list' });

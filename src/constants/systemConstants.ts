@@ -5,6 +5,7 @@ export const SYSTEM_CONSTANTS = {
     `/search/movie?query=${searchValue}&language=ko-KR&include_adult=false&page=${page}`,
   MAIN_URL: (page: number) => `/movie/popular?language=ko-KR&include_adult=false&page=${page}`,
   DETAIL_URL: (id: number) => `/movie/${id}?language=ko-KR`,
+  MOVIES_PER_PAGE: 20,
 } as const;
 
 export const IMAGE_URL = {
