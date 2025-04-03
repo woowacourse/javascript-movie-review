@@ -2,8 +2,8 @@ import { renderMoviesList } from "../features/movies/movieListRenderer";
 import { ratingMessages } from "../components/Modal";
 import { movieDetailRenderer } from "../features/movies/movieDetailRenderer";
 import { movieStore, searchState, selectionState } from "../state/movieStore";
-import { addEvent } from "./utils/addEvent";
-import { movieRatingService } from "./utils/ratingStorage";
+import { addEvent } from "./addEvent";
+import { movieRatingService } from "../features/movies/movieRatingService";
 
 const $title = document.querySelector(".thumbnail-title");
 const $ul = document.querySelector(".thumbnail-list");

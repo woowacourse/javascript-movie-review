@@ -1,20 +1,20 @@
 import { createStorage } from "../../utils/createStorage";
 
-const movieRatingStorage =
+const ratingStorage =
   createStorage<Record<"id" | "rate", number>[]>("userRating");
 
 export const movieRatingService = {
   getAllRatings() {
-    return movieRatingStorage.get();
+    return ratingStorage.get();
   },
 
   getRatingById(id: number) {
-    const items = movieRatingStorage.get();
+    const items = ratingStorage.get();
     return items.find((item) => item.id === id)?.rate ?? 0;
   },
 
   updateRatingById({ id, rate }: { id: number; rate: number }) {
-    const items = movieRatingStorage.get();
+    const items = ratingStorage.get();
     const existingRating = items.find((item) => item.id === id);
 
     if (existingRating) {
@@ -22,6 +22,6 @@ export const movieRatingService = {
     } else {
       items.push({ id, rate });
     }
-    movieRatingStorage.set(items);
+    ratingStorage.set(items);
   },
 };

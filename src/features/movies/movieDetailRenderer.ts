@@ -2,7 +2,7 @@ import { MovieDetailInfo } from "../../../types/movieApiType";
 import Modal from "../../components/Modal";
 import ModalSkeleton from "../../components/ModalSkeleton";
 import { DEFAULT_BACK_DROP_URL } from "../../constants/movieApi";
-import { movieRatingService } from "../../event/utils/ratingStorage";
+import { movieRatingService } from "./movieRatingService";
 import { readMovieDetail } from "./movieService";
 
 const $modalContainer = document.querySelector(".modal-container");
