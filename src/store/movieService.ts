@@ -1,5 +1,5 @@
 import { movieApi } from "../api/movieApi";
-import { mapToMovie } from "./movieMapper"; // 이미 있다면 import
+import { mapToMovie } from "./movieMapper";
 import { getState, updateState } from "./movieStore";
 
 export const fetchMovies = async (
@@ -37,11 +37,6 @@ export const fetchMovies = async (
   }
 };
 
-export const fetchMovieDetail = async (movieId: number)=> {
-  try {
-    const response = await movieApi.fetchMovieDetail(movieId);
-    return mapToMovie(response);
-  } catch (error) {
-    throw error;
-  }
+export const fetchMovieDetail = async (movieId: number) => {
+  return await movieApi.fetchMovieDetail(movieId).then(mapToMovie);
 };
