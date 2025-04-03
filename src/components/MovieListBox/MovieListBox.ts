@@ -8,6 +8,7 @@ import {
 } from "../Skeleton/MovieList/SkeletonList";
 import asyncErrorBoundary from "../ErrorBoundary/Async/asyncErrorBoundary";
 import { addErrorBox } from "../ErrorBox/ErrorBox";
+import { createElement } from "../../utils/dom";
 
 type MovieListType = "popular" | "search";
 interface MovieState {
@@ -52,6 +53,37 @@ const $MovieListBoxRender = () => {
 
   let observer: IntersectionObserver | null = null;
 
+  const setupInfiniteScroll = (totalPages: number) => {
+    if (movieState.page >= totalPages) return;
+
+    if (observer) {
+      observer.disconnect();
+      observer = null;
+    }
+
+    const $loadingObserver =
+      document.querySelector(".loading-observer") ||
+      createElement("div", {
+        className: "loading-observer",
+      });
+
+    document.querySelector(".movie-list-box")?.appendChild($loadingObserver);
+
+    observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (entry.isIntersecting && !movieState.isLoading) {
+          loadMoreMovies();
+        }
+      },
+      {
+        rootMargin: "100px",
+      }
+    );
+
+    observer.observe($loadingObserver);
+  };
+
   const initCurrentPage = () => {
     movieState.page = 1;
     movieState.isLoading = false;
@@ -60,6 +92,7 @@ const $MovieListBoxRender = () => {
       observer.disconnect();
       observer = null;
     }
+    removeLoadingObserver();
   };
 
   const setMovieListType = (type: MovieListType) => {
@@ -99,32 +132,6 @@ const $MovieListBoxRender = () => {
     movieState.isLoading = false;
   };
 
-  const setupInfiniteScroll = (totalPages: number) => {
-    if (movieState.page >= totalPages) return;
-
-    const $loadingObserver =
-      document.querySelector(".loading-observer") ||
-      createElement("div", {
-        className: "loading-observer",
-      });
-
-    document.querySelector(".movie-list-box")?.appendChild($loadingObserver);
-
-    observer = new IntersectionObserver(
-      (entries) => {
-        const entry = entries[0];
-        if (entry.isIntersecting && !movieState.isLoading) {
-          loadMoreMovies();
-        }
-      },
-      {
-        rootMargin: "100px",
-      }
-    );
-
-    observer.observe($loadingObserver);
-  };
-
   const $MovieListBox = ({ title, movieResult }: MovieListSectionProps) => {
     const $fragment = document.createDocumentFragment();
     const $title = createElement("h2", {
@@ -139,6 +146,7 @@ const $MovieListBoxRender = () => {
     });
     $movieListBox.appendChild($fragment);
 
+    // 영화 목록이 렌더링된 후 무한 스크롤 설정
     setTimeout(() => {
       setupInfiniteScroll(movieResult.total_pages);
     }, 0);
