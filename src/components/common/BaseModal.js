@@ -1,10 +1,11 @@
 class BaseModal {
-  constructor(options = {}) {
-    this.options = {
+  constructor(
+    options = {
       closeOnEsc: true,
       closeOnBackdropClick: true,
-      ...options,
-    };
+    },
+  ) {
+    this.options = options;
     this.isOpen = false;
     this.eventListeners = {};
   }
