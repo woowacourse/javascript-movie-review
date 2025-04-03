@@ -75,14 +75,19 @@ const Modal = ({ item }: ModalProps) => {
       return 0;
     }
 
-    const userRating = ratings.find((rating: MovieRating) => rating.movieId === movieId);
+    const userRating = ratings.find(
+      (rating: MovieRating) => rating.movieId === movieId
+    );
+
     return userRating ? userRating.rating : 0;
   };
 
   const saveUserRating = (movieId: number, rating: number) => {
     const ratings = movieRatingsStorage.get() || [];
 
-    const existingRatingIndex = ratings.findIndex((rating: MovieRating) => rating.movieId === movieId);
+    const existingRatingIndex = ratings.findIndex(
+      (rating: MovieRating) => rating.movieId === movieId
+    );
 
     if (existingRatingIndex !== -1) {
       ratings[existingRatingIndex].rating = rating;
