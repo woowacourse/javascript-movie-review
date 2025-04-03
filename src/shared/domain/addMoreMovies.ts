@@ -1,37 +1,28 @@
-import { getMovieList } from "../../features/movie/api/getMovieList";
-import { getSearchedPost } from "../../features/search/api/getSearchedPost";
-import { addMoviePost } from "../ui/addMoviePost";
-import { disableMoreButton } from "../ui/disabledMoreButton";
-import { showErrorPage } from "../ui/showErrorPage";
+import { addMoviePost } from "../ui/renderers/addMoviePost";
+import { getQueryParam } from "../utils/getParams";
+import { pageManager } from "./pageManager";
+import { getCurrentMovieList } from "./getCurrentMovieList";
 
 export async function addMoreMovies($movieList: HTMLElement) {
-  const params = new URLSearchParams(window.location.search);
-  const query = params.get("query") ?? null;
-  const pageStr = params.get("page");
-  const currentPage = pageStr ? parseInt(pageStr) : 1;
-  const nextPage = currentPage + 1;
-
-  if (!pageStr) return;
-
-  params.set("page", nextPage.toString());
-  const movies = await getCurrentMovieList(nextPage, query);
-
-  if (!movies) return;
-  addMoviePost(movies.results, $movieList);
-  disableMoreButton(movies.total_pages, currentPage, movies.results);
-
-  const newUrl = `${window.location.pathname}?${params.toString()}`;
-  history.pushState(null, "", newUrl);
-}
-
-async function getCurrentMovieList(page: number, query: string | null) {
   try {
-    if (query) {
-      return await getSearchedPost(query, page);
+    const query = getQueryParam(new URL(window.location.href), "query");
+    const nextPage = pageManager.currentPage + 1;
+
+    const movies = await getCurrentMovieList(nextPage, query);
+
+    if (!movies || !movies.results || movies.results.length === 0) {
+      throw new Error("영화 데이터를 불러오지 못했습니다.");
     }
 
-    return await getMovieList({ page });
+    addMoviePost(movies.results, $movieList);
+
+    pageManager.incrementCurrentPage();
+    pageManager.setTotalPages(movies.totalPages);
+
+    return {
+      success: true,
+    };
   } catch (error) {
-    showErrorPage();
+    return { success: false, error };
   }
 }

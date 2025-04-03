@@ -1,4 +1,4 @@
-import { MovieSkeleton } from "../../features/movie/ui/components/MovieSkeleton";
+import { MovieSkeleton } from "../../../features/movie/ui/components/MovieSkeleton";
 
 export const createSkeletons = (count: number = 10) => {
   const fragment = document.createDocumentFragment();

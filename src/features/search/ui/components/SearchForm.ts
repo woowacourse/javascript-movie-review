@@ -8,6 +8,7 @@ const SearchForm = () => {
       name="search-input"
       type="text"
       placeholder="검색어를 입력하세요"
+      required
     />
     <button type="submit" class="search-button">
       <img src="images/search.png" alt="Search" />
@@ -16,5 +17,4 @@ const SearchForm = () => {
 
   return searchForm;
 };
-
 export default SearchForm;

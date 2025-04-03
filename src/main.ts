@@ -1,73 +1,51 @@
-import { getMovieList } from "./features/movie/api/getMovieList";
-import { getSearchedPost } from "./features/search/api/getSearchedPost";
 import Header from "./shared/ui/components/Header";
-import { CustomButton } from "./shared/ui/components/CustomButton";
-import { showSkeletons } from "./shared/ui/showSkeletons";
-import { addMoviePost } from "./shared/ui/addMoviePost";
-import { addMoreMovies } from "./shared/domain/addMoreMovies";
-import { updateSearchPageUI } from "./features/search/ui/searchFormSubmitHandler";
-import { showErrorPage } from "./shared/ui/showErrorPage";
+import { showSkeletons } from "./shared/ui/renderers/showSkeletons";
+import { addMoviePost } from "./shared/ui/renderers/addMoviePost";
+import { updateSearchPageUI } from "./features/search/ui/renderers/updateSearchPageUI";
+import { showErrorPage } from "./shared/ui/renderers/showErrorPage";
+import { getQueryParam } from "./shared/utils/getParams";
+import { setParams } from "./shared/utils/setParams";
+import { pageManager } from "./shared/domain/pageManager";
+import { getCurrentMovieList } from "./shared/domain/getCurrentMovieList";
+import { initInfiniteScroll } from "./shared/observer/infiniteScroll";
+import errorMessageParser from "./shared/parser/errorMessageParser";
+import HeaderSkeleton from "./shared/ui/components/HeaderSkeleton";
 
 addEventListener("DOMContentLoaded", async () => {
   const $movieList = document.querySelector(".thumbnail-list") as HTMLElement;
 
   await initMovieList($movieList);
-  await initAddMoreMoviesButton($movieList);
+  initInfiniteScroll();
 });
 
 async function initMovieList(movieList: HTMLElement) {
   try {
-    const url = new URL(window.location.href);
-    const params = new URLSearchParams(url.search);
-    const query = params.get("query");
-    const movies = query
-      ? await getSearchedPost(query, 1)
-      : await getMovieList({ page: 1 });
+    const $header = document.getElementById("header") as HTMLElement;
 
-    if (!movies || !movieList) return;
+    if (!$header) return;
 
+    $header.innerHTML = HeaderSkeleton();
     showSkeletons(movieList);
 
+    const query = getQueryParam(new URL(window.location.href), "query");
+    const movies = await getCurrentMovieList(pageManager.currentPage, query);
+
+    if (!movies) return;
+
+    pageManager.setTotalPages(movies.totalPages);
     Header(movies.results[0]);
 
     if (query) {
-      initializeUrl(url);
-      updateSearchPageUI(movies.results, movies.total_pages, {
-        pageNum: 1,
-        searchQuery: query,
+      updateSearchPageUI(movies.results, query, {
+        pageNum: pageManager.currentPage,
+        totalPages: pageManager.totalPages,
       });
     } else {
-      initializeUrl(url);
+      setParams("", "query");
       movieList.innerHTML = "";
       addMoviePost(movies.results, movieList);
     }
   } catch (error) {
-    showErrorPage();
+    showErrorPage(errorMessageParser(error as Error));
   }
-}
-
-async function initAddMoreMoviesButton(movieList: HTMLElement) {
-  const $movieContainer = document.getElementById("movie-container");
-  if (!$movieContainer) return;
-
-  const addMoreMoviesButton = CustomButton({
-    title: "더보기",
-    className: "add-more-button",
-    id: "more-movies-button",
-  });
-
-  $movieContainer.appendChild(addMoreMoviesButton);
-
-  const $moreMoviesButton = document.getElementById("more-movies-button");
-  if (!$moreMoviesButton) return;
-
-  $moreMoviesButton.addEventListener("click", async () => {
-    if (!movieList) return;
-    await addMoreMovies(movieList);
-  });
-}
-
-function initializeUrl(url: URL) {
-  url.searchParams.set("page", "1");
-  window.history.replaceState({}, document.title, url.toString());
 }

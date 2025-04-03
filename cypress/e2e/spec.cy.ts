@@ -37,7 +37,7 @@ describe("영화 리뷰 페이지 테스트", () => {
       cy.intercept(
         {
           method: "GET",
-          url: /^https:\/\/api.themoviedb.org\/3\/tv\/popular*/,
+          url: /^https:\/\/api.themoviedb.org\/3\/movie\/popular*/,
         },
         {
           fixture: "movie-popular.json",
@@ -61,7 +61,7 @@ describe("api 요청에 실패하면 에러 페이지가 나온다.", () => {
     cy.intercept(
       {
         method: "GET",
-        url: /^https:\/\/api.themoviedb.org\/3\/tv\/popular*/,
+        url: /^https:\/\/api.themoviedb.org\/3\/movie\/popular*/,
       },
       {
         statusCode: 404,
@@ -72,7 +72,6 @@ describe("api 요청에 실패하면 에러 페이지가 나온다.", () => {
   });
 
   it("영화 API 요청에 실패하면 에러 페이지가 보인다.", () => {
-    cy.visit("localhost:5173");
     cy.wait("@getPopularMoviesError").then(() => {
       cy.get(".error-page-container").should("exist");
     });

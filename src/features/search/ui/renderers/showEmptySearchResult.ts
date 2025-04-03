@@ -1,4 +1,4 @@
-import EmptySearchResult from "./components/EmptySearchResult";
+import EmptySearchResult from "../components/EmptySearchResult";
 
 export function showEmptySearchResult() {
   const $movieContainer = document.getElementById("movie-container");
