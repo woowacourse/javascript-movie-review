@@ -1,7 +1,8 @@
 import { $, createElement } from "../utils/dom";
-import { Genre } from "../../types/movie.ts";
+import { Genre, MovieDetail, MovieRating } from "../../types/movie.ts";
 import { fetchMovieDetail } from "../store/movieService.ts";
 import { mappedImage } from "../utils/mappedImage.ts";
+import { createStorage } from "../utils/localStorageUtils.ts";
 
 type ModalProps = {
   item: {
@@ -14,7 +15,24 @@ type ModalProps = {
   };
 };
 
+const RATING_MESSAGES: Record<number, string> = {
+  0: "별점을 남겨 주세요",
+  2: "별로였어요",
+  4: "아쉬운 작품이에요",
+  6: "그럭저럭 볼만했어요",
+  8: "재밌게 봤어요",
+  10: "명작이에요",
+};
+
+const movieRatingsStorage = createStorage<MovieRating[]>("movieRatings");
+
 const Modal = ({ item }: ModalProps) => {
+  const { id } = item;
+  const modalState = {
+    movieDetail: null as MovieDetail | null,
+    userRating: 0,
+  };
+
   const $body = $("body");
 
   const $modalBackground = createElement("div", {
@@ -51,6 +69,70 @@ const Modal = ({ item }: ModalProps) => {
     }
   };
 
+  const getUserRating = (movieId: number): number => {
+    const ratings = movieRatingsStorage.get();
+    if (!ratings || !Array.isArray(ratings)) {
+      return 0;
+    }
+
+    const userRating = ratings.find((rating: MovieRating) => rating.movieId === movieId);
+    return userRating ? userRating.rating : 0;
+  };
+
+  const saveUserRating = (movieId: number, rating: number) => {
+    const ratings = movieRatingsStorage.get() || [];
+
+    const existingRatingIndex = ratings.findIndex((rating: MovieRating) => rating.movieId === movieId);
+
+    if (existingRatingIndex !== -1) {
+      ratings[existingRatingIndex].rating = rating;
+    } else {
+      ratings.push({ movieId, rating });
+    }
+
+    movieRatingsStorage.set(ratings);
+    return rating;
+  };
+
+  const handleStarClick = (event: Event) => {
+    const target = event.target as HTMLElement;
+    if (!target.classList.contains("star-item")) return;
+
+    const rating = parseInt(target.dataset.value || "0", 10);
+    modalState.userRating = saveUserRating(id, rating);
+
+    renderStars(modalState.userRating);
+    updateRatingMessage(modalState.userRating);
+  };
+
+  const renderStars = (rating: number) => {
+    const starContainer = $modal.querySelector(".star-container");
+    if (!starContainer) return;
+
+    starContainer.innerHTML = "";
+
+    for (const i of [2, 4, 6, 8, 10]) {
+      const starClass = i <= rating ? "star_filled.png" : "star_empty.png";
+
+      const star = createElement("img");
+      star.src = `images/${starClass}`;
+      star.classList.add("star");
+      star.classList.add("star-item");
+      star.dataset.value = i.toString();
+
+      starContainer.appendChild(star);
+    }
+  };
+
+  const updateRatingMessage = (rating: number) => {
+    const ratingMessage = $modal.querySelector(".rating-message");
+    if (!ratingMessage) return;
+
+    const message = RATING_MESSAGES[rating] || RATING_MESSAGES[0];
+    ratingMessage.textContent =
+      rating > 0 ? `${message}(${rating}/10)` : message;
+  };
+
   const extractYear = (date: string) => {
     return date.slice(0, 4);
   };
@@ -69,7 +151,9 @@ const Modal = ({ item }: ModalProps) => {
         <div class="modal-container">
           <div class="modal-image">
             <img
-              src="${item.imageSrc ? mappedImage(item.imageSrc) : ''}" alt="${item.title}"
+              src="${item.imageSrc ? mappedImage(item.imageSrc) : ""}" alt="${
+    item.title
+  }"
             />
           </div>
           <div class="modal-description">
@@ -92,13 +176,9 @@ const Modal = ({ item }: ModalProps) => {
             <h3>내 별점</h3>
             <div class="my-rate-content">
             <div class="star-container">
-              <img src="images/star_filled.png" class="star" />
-              <img src="images/star_filled.png" class="star" />
-              <img src="images/star_filled.png" class="star" />
-              <img src="images/star_filled.png" class="star" />
-              <img src="images/star_empty.png" class="star" />
+              <!-- 별점 동적으로 추가 -->
             </div>
-            <span>명작이에요(8/10)</span>
+            <span class="rating-message">${RATING_MESSAGES[0]}</span>
             </div>
             </div>
             <hr />
@@ -118,40 +198,12 @@ const Modal = ({ item }: ModalProps) => {
   closeButton?.addEventListener("click", handleClickClose);
   $modal.addEventListener("click", handleClickBackDrop);
 
-  const $star = $modal.querySelectorAll(".star-container .star");
-  $star.forEach((star, index) => {
-    star.addEventListener("click", () => {
-      const rating = (index + 1) * 2;
-      $star.forEach((s, i) => {
-        s.setAttribute(
-          "src",
-          i <= index ? "images/star_filled.png" : "images/star_empty.png"
-        );
-      });
-      let comment = "";
-      switch (rating) {
-        case 2:
-          comment = "최악이예요";
-          break;
-        case 4:
-          comment = "별로예요";
-          break;
-        case 6:
-          comment = "보통이에요";
-          break;
-        case 8:
-          comment = "재미있어요";
-          break;
-        case 10:
-          comment = "명작이에요";
-          break;
-      }
-      const ratingTextSpan = $modal.querySelector(".my-rate-content span");
-      if (ratingTextSpan) {
-        ratingTextSpan.textContent = `${comment} (${rating}/10)`;
-      }
-    });
-  });
+  const starContainer = $modal.querySelector(".star-container");
+  starContainer?.addEventListener("click", handleStarClick);
+
+  modalState.userRating = getUserRating(id);
+  renderStars(modalState.userRating);
+  updateRatingMessage(modalState.userRating);
 
   const loadMovieDetail = async () => {
     try {
@@ -164,7 +216,9 @@ const Modal = ({ item }: ModalProps) => {
       const $category = $modal.querySelector(".category");
 
       if ($category) {
-        $category.innerHTML = `<span>${extractYear(item.releaseDate)}</span> · ${genresText}`;
+        $category.innerHTML = `<span>${extractYear(
+          item.releaseDate
+        )}</span> · ${genresText}`;
       }
     } catch (error) {
       console.error("영화 상세 정보를 불러오는데 실패했습니다.", error);

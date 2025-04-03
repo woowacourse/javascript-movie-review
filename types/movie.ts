@@ -12,3 +12,12 @@ export type Genre = {
   id: number;
   name: string;
 };
+
+export type MovieDetail = Movie & {
+  voteCount: number;
+};
+
+export type MovieRating = {
+  movieId: number;
+  rating: number;
+};
