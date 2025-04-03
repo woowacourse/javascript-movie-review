@@ -1,6 +1,7 @@
 import { $, createElement } from "../utils/dom";
 import { Genre } from "../../types/movie.ts";
 import { fetchMovieDetail } from "../store/movieService.ts";
+import { mappedImage } from "../utils/mappedImage.ts";
 
 type ModalProps = {
   item: {
@@ -68,11 +69,7 @@ const Modal = ({ item }: ModalProps) => {
         <div class="modal-container">
           <div class="modal-image">
             <img
-              src="${
-                item.imageSrc
-                  ? `https://image.tmdb.org/t/p/w500${item.imageSrc}`
-                  : "images/nullImage.png"
-              }" alt="${item.title}"
+              src="${item.imageSrc ? mappedImage(item.imageSrc) : ''}" alt="${item.title}"
             />
           </div>
           <div class="modal-description">
