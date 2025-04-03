@@ -20,6 +20,9 @@ const useGetSearchMovieList = () => {
       setTotalResults(data.total_results);
       setSearchResults(results);
       resetPage();
+      if (!response.ok) {
+        setIsSearchError(true);
+      }
       return results;
     } catch (error) {
       setIsSearchError(true);
