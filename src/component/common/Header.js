@@ -1,4 +1,5 @@
-import SearchForm from './SearchForm.js'
+import { getHTML } from '../../util/utils'
+import SearchForm from './SearchForm'
 
 function Header() {
   function template() {
@@ -7,7 +8,7 @@ function Header() {
         <a href="/javascript-movie-review/" class="header-logo">
             <img src="./images/logo.png" alt="MovieList" />
         </a>
-            ${SearchForm()}
+            <div id="headerSearchBox" class="header-search-box"></div>
             <img src="./images/logo.png" alt="MovieList" class="header-transparent-logo" />
         </div>
         <div id="headerBackground" class="header-background">
@@ -16,7 +17,7 @@ function Header() {
   }
 
   function render() {
-    document.querySelector('#headerSection').innerHTML = template()
+    getHTML('headerSection').innerHTML = template()
   }
   render()
 }

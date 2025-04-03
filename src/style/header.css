@@ -48,6 +48,12 @@ header {
   z-index: 500;
 }
 
+.header-search-box {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
 .header-logo {
   cursor: pointer;
   z-index: 500;
