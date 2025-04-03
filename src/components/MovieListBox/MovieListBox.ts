@@ -7,7 +7,7 @@ import {
   removeSkeletonItems,
 } from "../Skeleton/MovieList/SkeletonList";
 import asyncErrorBoundary from "../ErrorBoundary/Async/asyncErrorBoundary";
-import { addErrorBox } from "../ErrorBox/ErrorBox";
+import { addErrorBox, removeErrorBox } from "../ErrorBox/ErrorBox";
 import { createElement } from "../../utils/dom";
 
 type MovieListType = "popular" | "search";
@@ -93,6 +93,7 @@ const $MovieListBoxRender = () => {
       observer = null;
     }
     removeLoadingObserver();
+    removeErrorBox();
   };
 
   const setMovieListType = (type: MovieListType) => {
@@ -107,26 +108,43 @@ const $MovieListBoxRender = () => {
     if (movieState.isLoading) return;
 
     movieState.isLoading = true;
+    const originalPage = movieState.page;
     movieState.page += 1;
 
-    if (movieState.type === "popular") {
-      await asyncErrorBoundary({
-        asyncFn: () =>
-          renderMoreMovieList({
-            currentPage: movieState.page,
-            fetchFn: getPopularMovieList,
-          }),
-        fallbackComponent: (errorMessage) => addErrorBox(errorMessage),
-      });
-    } else {
-      await asyncErrorBoundary({
-        asyncFn: () =>
-          renderMoreMovieList({
-            currentPage: movieState.page,
-            fetchFn: (page) => getSearchedMovieList(movieState.keyword, page),
-          }),
-        fallbackComponent: (errorMessage) => addErrorBox(errorMessage),
-      });
+    let success = false;
+
+    try {
+      if (movieState.type === "popular") {
+        await asyncErrorBoundary({
+          asyncFn: () =>
+            renderMoreMovieList({
+              currentPage: movieState.page,
+              fetchFn: getPopularMovieList,
+            }),
+          fallbackComponent: (errorMessage) => {
+            addErrorBox(errorMessage);
+          },
+        });
+      } else {
+        await asyncErrorBoundary({
+          asyncFn: () =>
+            renderMoreMovieList({
+              currentPage: movieState.page,
+              fetchFn: (page) => getSearchedMovieList(movieState.keyword, page),
+            }),
+          fallbackComponent: (errorMessage) => {
+            addErrorBox(errorMessage);
+          },
+        });
+      }
+
+      success = true;
+    } catch (error) {
+      success = false;
+    }
+
+    if (!success) {
+      movieState.page = originalPage;
     }
 
     movieState.isLoading = false;
@@ -154,7 +172,12 @@ const $MovieListBoxRender = () => {
     return $movieListBox;
   };
 
-  return { initCurrentPage, setKeyword, setMovieListType, $MovieListBox };
+  return {
+    initCurrentPage,
+    setKeyword,
+    setMovieListType,
+    $MovieListBox,
+  };
 };
 
 export const { initCurrentPage, setKeyword, setMovieListType, $MovieListBox } =
