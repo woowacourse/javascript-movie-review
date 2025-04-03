@@ -43,37 +43,29 @@ const renderMovieList = async () => {
 
   addMovieList({ movies: response.results, title: '지금 인기있는 영화' });
 
-  observeScroll();
+  const newTarget = createObserverTarget();
+  container.appendChild(newTarget);
+  createInfiniteScrollObserver(newTarget, observeScroll);
 };
 
 let isFetching = false;
 
-const observeScroll = () => {
+const observeScroll = async () => {
   const container = $('.container');
   if (!container) return;
 
-  const observe = async () => {
-    if (isFetching || currentPage >= TOTAL_PAGES) return;
-    isFetching = true;
+  if (isFetching || currentPage >= TOTAL_PAGES) return;
+  isFetching = true;
 
-    currentPage++;
-    addSkeletonList(container);
+  currentPage++;
+  addSkeletonList(container);
 
-    const res = await getPopularMovies({ page: currentPage });
+  const res = await getPopularMovies({ page: currentPage });
 
-    removeSkeletonList();
-    addMoreMovieList(res.results);
+  removeSkeletonList();
+  addMoreMovieList(res.results);
 
-    isFetching = false;
-
-    const newTarget = createObserverTarget();
-    container.appendChild(newTarget);
-    createInfiniteScrollObserver(newTarget, observe);
-  };
-
-  const initialTarget = createObserverTarget();
-  container.appendChild(initialTarget);
-  createInfiniteScrollObserver(initialTarget, observe);
+  isFetching = false;
 };
 
 const renderFooter = () => {
