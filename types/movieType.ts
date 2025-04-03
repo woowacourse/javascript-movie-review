@@ -5,14 +5,14 @@ export interface MovieInfo {
   vote_average: number;
 }
 
-type movieGenre = {
+export type movieGenre = {
   id: number;
   name: string;
 }
 
 export interface MovieDetailInfo extends MovieInfo {
   release_date: string;
-  genres: movieGenre[];
+  movieGenres: movieGenre[];
   overview: string;
 }
 

@@ -1,5 +1,6 @@
 import { QueryParams } from "../../types/apiType";
 import { getApiOptions } from "../apis/config";
+import { adaptMovieData } from '../../templates/utils/transform';
 
 const MAXIMUM_PAGE = 500;
 class MovieService {
@@ -29,7 +30,7 @@ class MovieService {
       const data = await response.json();
       this.totalPages = data.total_pages;
       this.currentPage++;
-      return data;
+      return adaptMovieData(data)
     }
 
     if (response.status === 500) {

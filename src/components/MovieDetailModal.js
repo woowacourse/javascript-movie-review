@@ -3,7 +3,7 @@ import "../../templates/styles/modal.css";
 import { ratingDescriptions } from "../controllers/MovieModal.ts";
 
 function MovieDetailModal(
-  { title, poster_path, release_date, vote_average, genres, overview },
+  { title, poster_path, release_date, vote_average, movieGenres, overview },
   movieId
 ) {
   const $modalBackground = document.createElement("div");
@@ -17,7 +17,7 @@ function MovieDetailModal(
   $button.id = "closeModal";
 
   const releaseYear = release_date.split("-")[0];
-  const genresString = genres.map((genre) => genre.name).join(", ");
+  const genresString = movieGenres.map((genre) => genre.name).join(", ");
   const defaultRating = 2;
 
   $modal.innerHTML = `
