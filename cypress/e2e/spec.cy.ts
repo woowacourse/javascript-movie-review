@@ -28,7 +28,7 @@ describe("영화 리뷰 페이지 테스트", () => {
     });
 
     it("검색 결과가 없으면 해당 관련 UI를 보여준다.", () => {
-      cy.get("#search-input").type("flskefjslfjelkf");
+      cy.get("#search-input").type("randomMovieNamethatdoesnotexist");
       cy.get(".search-button").click();
       cy.get(".empty-search-result-container").should("exist");
     });
