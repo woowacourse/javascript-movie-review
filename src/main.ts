@@ -32,6 +32,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         const updatedHeader = Header({ movie: list[0] });
         header.replaceWith(updatedHeader);
       }
+
+      const $header = $("#app-header");
+      const $navigation = $('.navigation-container');
+      if ($header) $header.style.display = "none";
+      if ($navigation) $navigation.style.position = "unset";
     },
   });
 
