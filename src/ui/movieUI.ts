@@ -50,26 +50,22 @@ export const renderMovies = ($main: HTMLElement) => {
   scrollObserver.observe($loadTrigger);
 };
 
-export const loadMoreMovies = ($main: HTMLElement) => {
-  const state = getState();
-
+export const showLoadingIndicator = ($main: HTMLElement) => {
   const $existingLoadTrigger = $("#load-trigger");
+
   if ($existingLoadTrigger) {
     $existingLoadTrigger.remove();
   }
 
-  if (state.isLoading) {
-    const $loadingMore = createElement("div", {
-      id: "loading-more",
-    });
+  const $loadingMore = createElement("div", { id: "loading-more" });
+  $main.appendChild($loadingMore);
+  Skeleton.render($loadingMore);
+};
 
-    $main.appendChild($loadingMore);
-    Skeleton.render($loadingMore);
+export const appendNewMovies = ($main: HTMLElement) => {
+  $("#loading-more")?.remove();
 
-    return;
-  } else {
-    $("#loading-more")?.remove();
-  }
+  const state = getState();
 
   if (state.currentPage <= 1) {
     renderMovies($main);
@@ -79,7 +75,6 @@ export const loadMoreMovies = ($main: HTMLElement) => {
   const totalItems = state.list.length;
   const itemsPerPage = Math.ceil(totalItems / state.currentPage);
   const startIndex = Math.max(0, totalItems - itemsPerPage);
-
   const newItems = state.list.slice(startIndex);
 
   CardList({

@@ -1,6 +1,6 @@
 import { getState, updateState } from "../store/movieStore.ts";
 import { fetchMovies } from "../store/movieService.ts";
-import { loadMoreMovies } from "./movieUI.ts";
+import { showLoadingIndicator, appendNewMovies } from "./movieUI.ts";
 import { $ } from "../utils/dom.ts";
 
 const $main = $("main");
@@ -10,7 +10,7 @@ export const scrollObserver = new IntersectionObserver(
   async (entries, observer) => {
     if (!$main) return;
 
-    if (!entries.some(entry => entry.isIntersecting)) {
+    if (!entries.some((entry) => entry.isIntersecting)) {
       return;
     }
 
@@ -22,10 +22,10 @@ export const scrollObserver = new IntersectionObserver(
     }
 
     updateState({ isLoading: true });
-    loadMoreMovies($main);
+    showLoadingIndicator($main);
 
     await fetchMovies(currentPage + 1, query);
-    loadMoreMovies($main);
+    appendNewMovies($main);
   },
   { threshold: 0.1 }
 );
