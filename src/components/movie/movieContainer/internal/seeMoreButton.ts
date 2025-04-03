@@ -1,0 +1,83 @@
+import showSkeletonMovieList from "../../../skeleton/showSkeletonMovieList";
+import hideSkeletonMovieList from "../../../skeleton/hideSkeletonMovieList";
+import { createElementWithAttributes } from "../../../utils/createElementWithAttributes";
+import { LoadMoreCallback } from "../movieContainer";
+import movieList from "./movieList";
+import createIntersectionObserver from "../../../../domain/observer/createIntersectionObserver";
+import showErrorContainer from "../../../errorContainer/showErrorContainer";
+
+interface SetupSeeMoreMoviesHandlerProps {
+  $movieList: HTMLElement;
+  $seeMoreButton: HTMLElement;
+  loadMoreCallback: LoadMoreCallback;
+}
+
+const setupSeeMoreMoviesHandler = ({
+  $movieList,
+  $seeMoreButton,
+  loadMoreCallback,
+}: SetupSeeMoreMoviesHandlerProps) => {
+  const loadMovieObserver = createIntersectionObserver({
+    options: {
+      root: document.querySelector(".movie-container"),
+      rootMargin: "0px",
+      threshold: 0.25,
+    },
+    callback: async (entries) => {
+      const entry = entries[0];
+      if (entry.isIntersecting) {
+        await seeMoreMovies();
+      }
+    },
+  });
+
+  loadMovieObserver.observeTarget($seeMoreButton);
+
+  const MAX_PAGES = 500;
+  let pageNumber = 1;
+  const seeMoreMovies = async () => {
+    try {
+      pageNumber += 1;
+
+      showSkeletonMovieList($movieList);
+
+      const { results, total_pages } = await loadMoreCallback(pageNumber);
+
+      if (pageNumber === total_pages || pageNumber === MAX_PAGES) {
+        loadMovieObserver.unObserveTarget($seeMoreButton);
+        loadMovieObserver.disconnect();
+
+        $seeMoreButton.removeEventListener("click", seeMoreMovies);
+        $seeMoreButton.remove();
+      }
+
+      hideSkeletonMovieList();
+
+      const $newMovieList = movieList(results);
+      $movieList.append(...$newMovieList.children);
+    } catch (error) {
+      showErrorContainer(error);
+    }
+  };
+};
+
+const seeMoreButton = (
+  $movieList: HTMLElement,
+  loadMoreCallback: LoadMoreCallback
+) => {
+  const $seeMoreButton = createElementWithAttributes({
+    tag: "button",
+    textContent: "더보기",
+    className: "see-more",
+  });
+
+  setupSeeMoreMoviesHandler({
+    $movieList,
+    loadMoreCallback,
+    $seeMoreButton,
+  });
+
+  return $seeMoreButton;
+};
+
+export default seeMoreButton;

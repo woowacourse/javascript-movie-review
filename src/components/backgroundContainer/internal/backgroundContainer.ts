@@ -38,6 +38,7 @@ const backgroundContainer = () => {
                     className: "star",
                     attributes: {
                       src: "./images/star_empty.png",
+                      alt: "별",
                     },
                   },
                   {
@@ -54,7 +55,7 @@ const backgroundContainer = () => {
               },
               {
                 tag: "button",
-                className: "primary detail",
+                className: "primary",
                 textContent: "자세히 보기",
               },
             ],

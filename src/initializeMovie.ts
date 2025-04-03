@@ -1,4 +1,4 @@
-import movieContainer from "./components/movie/movieContainer";
+import movieContainer from "./components/movie/movieContainer/movieContainer";
 import hideSkeletonContainer from "./components/skeleton/hideSkeletonContainer";
 import showSkeletonContainer from "./components/skeleton/showSkeletonContainer";
 import { $ } from "./components/utils/selectors";
@@ -25,7 +25,7 @@ const initializeMovie = async () => {
 
   showSkeletonContainer($main, true);
 
-  createMovieDisplay($main);
+  await createMovieDisplay($main);
 
   hideSkeletonContainer();
 };

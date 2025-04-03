@@ -2,8 +2,14 @@ import { createElementWithAttributes } from "../../utils/createElementWithAttrib
 
 const skeletonContainerTitle = () => {
   return createElementWithAttributes({
-    tag: "h2",
-    className: "skeleton skeleton-container-title",
+    tag: "p",
+    className: "skeleton-container-title-box",
+    children: [
+      {
+        tag: "h2",
+        className: "skeleton skeleton-container-title",
+      },
+    ],
   });
 };
 

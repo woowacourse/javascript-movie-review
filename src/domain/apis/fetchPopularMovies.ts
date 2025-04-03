@@ -1,10 +1,14 @@
 import { MovieData } from "../types";
 import tmdbApi from "./tmdbApi";
 
-export const fetchPopularMovies = async (page = 1): Promise<MovieData> => {
-  const response = await tmdbApi("/movie/popular", "GET", {
-    language: "ko-KR",
-    page,
+export const fetchPopularMovies = async (page = 1) => {
+  const response = await tmdbApi<MovieData>({
+    endpoint: "/movie/popular",
+    method: "GET",
+    params: {
+      language: "ko-KR",
+      page,
+    },
   });
 
   return response;

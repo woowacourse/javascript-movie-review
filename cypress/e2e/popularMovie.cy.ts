@@ -24,8 +24,8 @@ describe("인기 있는 영화 비동기 API 테스트", () => {
     cy.get("@popularMovies").its("body.results").should("have.length", 20);
   });
 
-  it("인기 있는 영화에서 더보기 버튼을 누르면 영화 목록 API를 호출하며 20개가 목록에 추가된다.", () => {
-    cy.get(".see-more").click();
+  it("인기 있는 영화에서 페이지 하단으로 스크롤하면 영화 목록 API를 호출하며 20개가 목록에 추가된다.", () => {
+    cy.scrollTo("bottom");
     cy.get("@popularMovies").its("status").should("eq", 200);
     cy.get("@popularMovies").its("body.results").should("have.length", 20);
     cy.get(".thumbnail-list").find(".thumbnail").should("have.length", 40);

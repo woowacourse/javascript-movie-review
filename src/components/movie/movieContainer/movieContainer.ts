@@ -1,6 +1,6 @@
-import { createElementWithAttributes } from "../utils/createElementWithAttributes";
+import { createElementWithAttributes } from "../../utils/createElementWithAttributes";
 import movieList from "./internal/movieList";
-import { MovieData } from "../../domain/types";
+import { MovieData } from "../../../domain/types";
 import seeMoreButton from "./internal/seeMoreButton";
 
 export type LoadMoreCallback = (pageNumber: number) => Promise<MovieData>;

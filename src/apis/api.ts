@@ -1,12 +1,12 @@
 export type HttpMethod = "GET" | "POST" | "PUT" | "DELETE";
 
-const api = async (
+const api = async <T>(
   baseURL: string,
   token: string,
   endpoint: string,
   method: HttpMethod,
   params = {}
-) => {
+): Promise<T> => {
   const url = new URL(`${baseURL}${endpoint}`);
   url.search = new URLSearchParams(params).toString();
 

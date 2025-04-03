@@ -1,6 +1,6 @@
 import hideBackgroundContainer from "./components/backgroundContainer/hideBackgroundContainer";
 import showErrorContainer from "./components/errorContainer/showErrorContainer";
-import movieContainer from "./components/movie/movieContainer";
+import movieContainer from "./components/movie/movieContainer/movieContainer";
 import hideSkeletonContainer from "./components/skeleton/hideSkeletonContainer";
 import showSkeletonContainer from "./components/skeleton/showSkeletonContainer";
 import { $ } from "./components/utils/selectors";
