@@ -1,39 +1,27 @@
-const key = "userRating";
+import { createStorage } from "../../utils/createStorage";
 
-//read
-function readAllStoredMovieRatings() {
-  return JSON.parse(localStorage.getItem(key) ?? "[]");
-}
+const movieRatingStorage =
+  createStorage<Record<"id" | "rate", number>[]>("userRating");
 
-//read
-export function readStoredMovieRatingById(movieId: number) {
-  const movieRatings: { id: number; rate: number }[] =
-    readAllStoredMovieRatings();
+export const movieRatingService = {
+  getAllRatings() {
+    return movieRatingStorage.get();
+  },
 
-  const existingMovie = movieRatings.find((rating) => rating.id === movieId);
+  getRatingById(id: number) {
+    const items = movieRatingStorage.get();
+    return items.find((item) => item.id === id)?.rate ?? 0;
+  },
 
-  return existingMovie?.rate ?? 0;
-}
+  updateRatingById({ id, rate }: { id: number; rate: number }) {
+    const items = movieRatingStorage.get();
+    const existingRating = items.find((item) => item.id === id);
 
-//update
-export function updateStoredMovieRatingById({
-  movieId,
-  movieRate,
-}: {
-  movieId: number;
-  movieRate: number;
-}) {
-  const movieRatings: { id: number; rate: number }[] =
-    readAllStoredMovieRatings();
-
-  if (!movieRatings) return;
-
-  const existingMovie = movieRatings.find((rating) => rating.id === movieId);
-  if (existingMovie) {
-    existingMovie.rate = movieRate;
-  } else {
-    movieRatings.push({ id: movieId, rate: movieRate });
-  }
-
-  localStorage.setItem(key, JSON.stringify(movieRatings));
-}
+    if (existingRating) {
+      existingRating.rate = rate;
+    } else {
+      items.push({ id, rate });
+    }
+    movieRatingStorage.set(items);
+  },
+};

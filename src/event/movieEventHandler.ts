@@ -3,7 +3,7 @@ import { ratingMessages } from "../components/Modal";
 import { movieDetailRenderer } from "../features/movies/movieDetailRenderer";
 import { movieStore, searchState, selectionState } from "../state/movieStore";
 import { addEvent } from "./utils/addEvent";
-import { updateStoredMovieRatingById } from "./utils/ratingStorage";
+import { movieRatingService } from "./utils/ratingStorage";
 
 const $title = document.querySelector(".thumbnail-title");
 const $ul = document.querySelector(".thumbnail-list");
@@ -124,7 +124,8 @@ addEvent({
     const targetIndex = getTargetIndex(target!);
     selectedIndex = targetIndex;
 
-    movieId && updateStoredMovieRatingById({ movieId, movieRate: targetIndex });
+    movieId &&
+      movieRatingService.updateRatingById({ id: movieId, rate: targetIndex });
 
     if ($rateSubtitle) {
       $rateSubtitle.innerHTML = `
