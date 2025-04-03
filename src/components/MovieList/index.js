@@ -5,6 +5,7 @@ import { ERROR_MESSAGES, MOVIE_COUNT } from "../../constants/config.js";
 import { fetchMoreMovies } from "./fetchMoreMovies.js";
 import store from "../../store/store.js";
 import { fetchPopularMovies } from "../../APIs/movieAPI.js";
+import { throttle } from "../../utils/throttle";
 
 export function MovieListRender({
   movies,
@@ -51,28 +52,31 @@ export function MovieListRender({
 export function MovieListMount() {
   MovieItemMount();
 
-  window.addEventListener("scroll", async () => {
-    if (
-      window.innerHeight + window.scrollY >=
-      document.body.offsetHeight - 300
-    ) {
-      const state = store.getState();
-      const currentPage =
-        Math.floor(state.movies.length / MOVIE_COUNT.UNIT) + 1;
-
-      if (state.isLoading) return;
+  window.addEventListener(
+    "scroll",
+    throttle(async () => {
       if (
-        !state.query &&
-        state.movies.length >= MOVIE_COUNT.MAX_PAGE * MOVIE_COUNT.UNIT
+        window.innerHeight + window.scrollY >=
+        document.body.offsetHeight - 300
       ) {
-        return;
-      }
-      if (state.query && state.movies.length >= state.searchedMoviesLength) {
-        return;
-      }
+        const state = store.getState();
+        const currentPage =
+          Math.floor(state.movies.length / MOVIE_COUNT.UNIT) + 1;
 
-      store.setState({ ...state, isLoading: true });
-      await fetchMoreMovies(currentPage);
-    }
-  });
+        if (state.isLoading) return;
+        if (
+          !state.query &&
+          state.movies.length >= MOVIE_COUNT.MAX_PAGE * MOVIE_COUNT.UNIT
+        ) {
+          return;
+        }
+        if (state.query && state.movies.length >= state.searchedMoviesLength) {
+          return;
+        }
+
+        store.setState({ ...state, isLoading: true });
+        await fetchMoreMovies(currentPage);
+      }
+    }, 1000)
+  );
 }
