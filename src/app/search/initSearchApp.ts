@@ -1,54 +1,61 @@
 import mountSearchTitle from "../mount/mountSearchTitle";
 import mountMovieItemList from "../mount/mountMovieItemList";
-import mountLoadMoreButton from "../mount/mountLoadMoreButton";
-import LoadMoreButton from "../../components/longButton/longButton";
 import MovieItemList from "../../components/movieItemList/movieItemList";
 import { URLS } from "../../setting/settings";
-import type { MovieItemListInstance } from "../../../types/components";
+import type { MovieItemListInstance } from "../../../types/components.types";
 import { showSkeleton, hideSkeleton } from "../../service/skeleton";
-import { hideElement } from "../../view/InputView";
-import { $ } from "../../util/querySelector";
-import Fallback from "../../components/fallback/fallback";
-import createMovieLoader from "../../service/createMovieLoader";
+import getSearchParams from "../../util/getSearchParams";
+import { registerObserver, releaseObserver } from "../../util/observer";
+import fetchWithErrorHandling from "../../util/fetchWithErrorHandling";
+import { TMDBResponse } from "../../../types/TMDB.types";
+import createInfiniteQuery from "../../service/createInfiniteQuery";
+import showFallback from "../../components/fallback/shwoFallback";
+
+const SENTINEL_SELECTOR = "#sentinel";
 
 const movieItemList: MovieItemListInstance = MovieItemList();
+const fetchSearchMovies = createInfiniteQuery<TMDBResponse>(
+  URLS.searchMovieUrl,
+  {
+    searchTerm: getSearchParams("query"),
+  }
+);
 
-export async function initSearchApp(): Promise<void> {
-  const query: string = getSearchParams("query");
-  const loader = createMovieLoader(URLS.searchMovieUrl, query);
-
-  const $loadMoreButton = LoadMoreButton({
-    text: "더보기",
-    onClick: async () => await searchAndDisplayMovies({ loader }),
+export async function initSearchApp() {
+  registerObserver({
+    callback: loadAndDisplayMovies,
+    sentinel: SENTINEL_SELECTOR,
   });
 
-  mountIndexPageUI($loadMoreButton);
-  await searchAndDisplayMovies({ loader });
+  mountSearchPageUI();
+
+  await loadAndDisplayMovies();
 }
 
-function getSearchParams(key: string): string {
-  return new URLSearchParams(window.location.search).get(key) ?? "";
-}
-
-async function searchAndDisplayMovies({ loader }: any) {
-  try {
-    showSkeleton();
-    const { results, isLastPage } = await loader();
-    hideSkeleton();
-
-    if (isLastPage) hideElement($("#load-more"));
-    movieItemList.render(results);
-  } catch {
-    showFallback();
-  }
-}
-
-function showFallback(): void {
-  $("#thumbnail-container")?.replaceChildren(Fallback());
-}
-
-function mountIndexPageUI(loadMoreButton: HTMLButtonElement) {
+function mountSearchPageUI() {
   mountSearchTitle();
   mountMovieItemList(movieItemList);
-  mountLoadMoreButton(loadMoreButton);
+}
+
+async function loadAndDisplayMovies() {
+  const { results, page: currentPage, total_pages } = await loadSearchMovies();
+
+  if (results.length === 0) {
+    showFallback("검색 결과가 없습니다.");
+    return;
+  }
+
+  if (total_pages <= currentPage) {
+    releaseObserver({ sentinel: SENTINEL_SELECTOR });
+  }
+
+  movieItemList.render(results);
+}
+
+async function loadSearchMovies() {
+  showSkeleton();
+  const data = await fetchWithErrorHandling<TMDBResponse>(fetchSearchMovies);
+  hideSkeleton();
+
+  return data;
 }

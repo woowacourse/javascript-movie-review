@@ -48,9 +48,10 @@ describe("search 테스트", () => {
 
   it("더 불러올 수 있는 영화가 없으면 더보기 버튼이 사라진다", () => {
     const searchValue = "짱구";
+    const countResult = 35;
     cy.get(".search-bar").type(`${searchValue}{enter}`);
     cy.get("#load-more").scrollIntoView().should("be.visible").click();
-    cy.get("#thumbnail-list > li").should("have.length", 35);
+    cy.get("#thumbnail-list > li").should("have.length", countResult)
     cy.get(".footer").scrollIntoView();
     cy.get("#load-more").should("not.be.visible");
   });

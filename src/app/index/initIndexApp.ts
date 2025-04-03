@@ -1,41 +1,53 @@
 import mountHeader from "../mount/mountHeader";
 import mountMovieItemList from "../mount/mountMovieItemList";
-import mountLoadMoreButton from "../mount/mountLoadMoreButton";
 import { URLS } from "../../setting/settings";
 import MovieItemList from "../../components/movieItemList/movieItemList";
-import LoadMoreButton from "../../components/longButton/longButton";
 import mountHero from "../mount/mountHero";
-import type { MovieItemListInstance } from "../../../types/components";
+import type { MovieItemListInstance } from "../../../types/components.types";
 import { hideSkeleton, showSkeleton } from "../../service/skeleton";
-import { hideElement } from "../../view/InputView";
-import { $ } from "../../util/querySelector";
-import createMovieLoader from "../../service/createMovieLoader";
+import createInfiniteQuery from "../../service/createInfiniteQuery";
+import { TMDBResponse } from "../../../types/TMDB.types";
+import fetchWithErrorHandling from "../../util/fetchWithErrorHandling";
+import { registerObserver, releaseObserver } from "../../util/observer";
+
+const SENTINEL_SELECTOR = "#sentinel";
 
 const movieItemList: MovieItemListInstance = MovieItemList();
+const fetchPopularMovies = createInfiniteQuery<TMDBResponse>(
+  URLS.popularMovieUrl
+);
 
 export async function initIndexApp() {
-  const loader = createMovieLoader(URLS.popularMovieUrl);
-  const $loadMoreButton = LoadMoreButton({
-    text: "더보기",
-    onClick: () => loadAndDisplayMovies({ loader }),
+  registerObserver({
+    callback: loadAndDisplayMovies,
+    sentinel: SENTINEL_SELECTOR,
   });
 
-  mountIndexPageUI($loadMoreButton);
-  await loadAndDisplayMovies({ loader });
+  mountIndexPageUI();
+
+  await loadAndDisplayMovies();
 }
 
-async function loadAndDisplayMovies({ loader }: any) {
-  showSkeleton();
-  const { results, isLastPage } = await loader();
-  hideSkeleton();
-
-  if (isLastPage) hideElement($("#load-more"));
-  movieItemList.render(results);
-}
-
-function mountIndexPageUI($loadMoreButton: HTMLButtonElement) {
+function mountIndexPageUI() {
   mountHeader();
   mountHero();
   mountMovieItemList(movieItemList);
-  mountLoadMoreButton($loadMoreButton);
+}
+
+async function loadAndDisplayMovies() {
+  const { results, page: currentPage, total_pages } = await loadPopularMovies();
+
+  if (total_pages <= currentPage) {
+    releaseObserver({ sentinel: SENTINEL_SELECTOR });
+  }
+
+  movieItemList.render(results);
+}
+
+async function loadPopularMovies() {
+  showSkeleton();
+  const data = await fetchWithErrorHandling<TMDBResponse>(fetchPopularMovies);
+  hideSkeleton();
+
+  return data;
 }
