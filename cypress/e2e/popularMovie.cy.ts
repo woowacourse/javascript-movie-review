@@ -34,7 +34,10 @@ describe('영화 목록 테스트', () => {
 
     cy.get('.thumbnail-list > li').should('have.length', 20);
 
-    cy.get('#moreButton').click();
+    /** 더보기 버튼에서 무한 스크롤로 대체되었습니다. */
+
+    // cy.get('#moreButton').click();
+    cy.scrollTo('bottom');
 
     cy.wait('@getPopularMovies');
 

@@ -8,13 +8,13 @@ function Header() {
     children: [
       createDOMElement({
         tag: 'a',
+        className: 'logo-img',
         attributes: {
           href: '/javascript-movie-review'
         },
         children: [
           createDOMElement({
             tag: 'img',
-            className: 'logo-img',
             attributes: {
               src: 'images/logo.png',
               alt: 'MovieList'

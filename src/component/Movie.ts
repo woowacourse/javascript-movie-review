@@ -1,21 +1,21 @@
 import createDOMElement from '../util/createDomElement';
 import { DEFAULT_IMAGE_URL, IMAGE_BASE_URL } from '../constant';
-import { IMovie } from '../type';
+import { MovieType } from '../type';
+import { handleMovieDetail } from '../view/events/handleMovieDetail';
 
-function Movie({ movie }: { movie: IMovie }) {
-  const poster_path = movie.poster_path
-    ? IMAGE_BASE_URL + '/w440_and_h660_face/' + movie.poster_path
-    : DEFAULT_IMAGE_URL;
+function Movie({ movie }: { movie: MovieType }) {
+  const posterPath = movie.posterPath ? IMAGE_BASE_URL + '/w440_and_h660_face' + movie.posterPath : DEFAULT_IMAGE_URL;
 
   return createDOMElement({
     tag: 'li',
     className: 'item',
+    attributes: { tabIndex: '0', role: 'button' },
     children: [
       createDOMElement({
         tag: 'img',
         className: 'thumbnail',
         attributes: {
-          src: poster_path,
+          src: posterPath,
           alt: movie.title
         }
       }),
@@ -34,7 +34,7 @@ function Movie({ movie }: { movie: IMovie }) {
               }),
               createDOMElement({
                 tag: 'span',
-                textContent: movie.vote_average.toFixed(1)
+                textContent: movie.voteAverage.toFixed(1)
               })
             ]
           }),
@@ -44,7 +44,18 @@ function Movie({ movie }: { movie: IMovie }) {
           })
         ]
       })
-    ]
+    ],
+    event: {
+      click: () => {
+        handleMovieDetail(movie.id);
+      },
+      keydown: (e: Event) => {
+        const keyboardEvent = e as KeyboardEvent;
+        if (keyboardEvent.code === 'Enter') {
+          handleMovieDetail(movie.id);
+        }
+      }
+    }
   });
 }
 

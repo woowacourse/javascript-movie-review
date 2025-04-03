@@ -1,17 +1,18 @@
 import createDOMElement from '../util/createDomElement';
 import Button from '../component/Button';
 import { IMAGE_BASE_URL } from '../constant';
-import { IMovie } from '../type';
+import { MovieType } from '../type';
+import { handleMovieDetail } from './events/handleMovieDetail';
 
-function Banner({ movie }: { movie: IMovie }) {
-  const { backdrop_path, vote_average, title } = movie;
+function Banner({ movie }: { movie: MovieType }) {
+  const { backdropPath, voteAverage, title, id } = movie;
   return createDOMElement({
     tag: 'header',
     children: [
       createDOMElement({
         tag: 'div',
         className: 'background-container',
-        children: [BackDrop({ backDropUrl: backdrop_path }), TopRatedMovie({ vote_average, title })]
+        children: [BackDrop({ backDropUrl: backdropPath }), TopRatedMovie({ voteAverage, title, id })]
       })
     ]
   });
@@ -24,6 +25,10 @@ function BackDrop({ backDropUrl }: { backDropUrl: string | null }) {
     attributes: { 'aria-hidden': 'true' },
     children: [
       createDOMElement({
+        tag: 'div',
+        className: 'overlay'
+      }),
+      createDOMElement({
         tag: 'img',
         attributes: { src: `${IMAGE_BASE_URL}/w1920/${backDropUrl}` }
       })
@@ -31,7 +36,7 @@ function BackDrop({ backDropUrl }: { backDropUrl: string | null }) {
   });
 }
 
-function TopRatedMovie({ vote_average, title }: { vote_average: number; title: string }) {
+function TopRatedMovie({ voteAverage, title, id }: { voteAverage: number; title: string; id: number }) {
   return createDOMElement({
     tag: 'div',
     className: 'top-rated-container',
@@ -52,7 +57,7 @@ function TopRatedMovie({ vote_average, title }: { vote_average: number; title: s
               createDOMElement({
                 tag: 'span',
                 className: 'rate-value',
-                textContent: vote_average.toFixed(1)
+                textContent: voteAverage.toFixed(1)
               })
             ]
           }),
@@ -61,7 +66,12 @@ function TopRatedMovie({ vote_average, title }: { vote_average: number; title: s
             className: 'title',
             textContent: title
           }),
-          Button({ text: '자세히보기', id: 'bannerMovieButton' })
+          Button({
+            text: '자세히보기',
+            id: 'bannerMovieButton',
+            className: 'primary',
+            onClick: () => handleMovieDetail(id)
+          })
         ]
       })
     ]

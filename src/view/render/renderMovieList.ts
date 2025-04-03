@@ -1,26 +1,44 @@
-import MovieList from '../MovieList';
+import Movie from '../../component/Movie';
+import createDOMElement from '../../util/createDomElement';
 import { $ } from '../../util/selector';
 import { INITIAL_PAGE } from '../../constant';
-import { IMovie } from '../../type';
-import { moreButton } from '../moreButton';
-interface IResponse {
-  page: number;
-  results: IMovie[];
-  total_pages: number;
-  total_results: number;
-}
+import { MovieType, ResponseType } from '../../type';
+import { createMovieInfiniteScrollButton } from '../MovieInfinityScrollButton';
+import { hideSkeletons } from './skeleton/showMovieListSkeletons';
+import { errorUi } from '../errorUi';
+import { ERROR } from '../../api/constant';
 
-export const renderMovieList = async (response: IResponse, keyword?: string) => {
-  const { results, total_pages } = response;
-  const container = $('.container');
+let scrollHandler: ReturnType<typeof createMovieInfiniteScrollButton>;
 
-  const movieList = MovieList({
-    movies: results,
-    title: keyword ? `"${keyword}" 검색 결과` : '지금 인기 있는 영화'
-  });
-  container?.replaceChildren(movieList);
+export const renderMovieList = async (response: ResponseType<MovieType>, keyword?: string) => {
+  if (!response) return;
+  const { results, total_pages, total_results } = response;
 
-  if (INITIAL_PAGE < total_pages) {
-    container?.appendChild(moreButton(INITIAL_PAGE, total_pages, keyword));
+  const movieList = $('.thumbnail-list');
+  const fragment = document.createDocumentFragment();
+  if (results.length === 0) {
+    errorUi(ERROR.NO_SEARCH_RESULTS);
+    return;
+  }
+  results.map((movie) => fragment.appendChild(Movie({ movie })));
+  movieList?.appendChild(fragment);
+  if (!movieList) {
+    const newMovieList = createDOMElement({
+      tag: 'ul',
+      className: 'thumbnail-list'
+    });
+    $('.container')?.appendChild(newMovieList);
+    newMovieList?.appendChild(fragment);
+    $('.error-ui')?.remove();
+  }
+
+  hideSkeletons();
+
+  if (scrollHandler) {
+    scrollHandler.destroy();
+  }
+
+  if (INITIAL_PAGE < total_pages && total_results > 20) {
+    scrollHandler = createMovieInfiniteScrollButton(keyword ?? '', total_pages);
   }
 };

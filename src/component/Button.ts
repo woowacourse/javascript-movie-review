@@ -4,12 +4,13 @@ interface ButtonProps {
   text: string;
   id: string;
   onClick?: () => void;
+  className?: string;
 }
 
-function Button({ text, onClick, id }: ButtonProps) {
+function Button({ text, onClick, id, className }: ButtonProps) {
   return createDOMElement({
+    className,
     tag: 'button',
-    className: 'primary',
     textContent: text,
     event: onClick ? { click: onClick } : undefined,
     attributes: {

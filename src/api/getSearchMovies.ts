@@ -1,16 +1,12 @@
-import { errorUi } from '../view/errorUi';
+import { convertMovieData } from '../domain/convertMovieData';
+import { MovieParamsType, MovieResponseType, ResponseType } from '../type';
 import { getAppClient } from './appClient';
 
-const getSearchMovies = async (query: string, params: Record<string, string>) => {
-  try {
-    const searchMovies = await getAppClient(query, params);
+const getSearchMovies = async (params: MovieParamsType) => {
+  const movies = await getAppClient<ResponseType<MovieResponseType>, MovieParamsType>('/search/movie', params);
+  const convertMovies = { ...movies, results: movies.results.map(convertMovieData) };
 
-    return searchMovies;
-  } catch (error) {
-    if (error instanceof Error) {
-      errorUi(error.message);
-    }
-  }
+  return convertMovies;
 };
 
 export default getSearchMovies;

@@ -3,8 +3,8 @@ import { httpErrorStatus } from './error/httpErrorStatus';
 
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
-const requestAppClient = async (method: HttpMethod, query: string, params: Record<string, string>) => {
-  const newParams = new URLSearchParams(params);
+const requestAppClient = async <T, P>(method: HttpMethod, query: string, params: P): Promise<T> => {
+  const newParams = new URLSearchParams(params as Record<string, string>);
   const newUrl = `${BASE_URL}${query}?${newParams.toString()}`;
   const options = {
     method,
@@ -19,7 +19,6 @@ const requestAppClient = async (method: HttpMethod, query: string, params: Recor
     if (!response.ok) {
       httpErrorStatus(response.status);
     }
-
     const data = await response.json();
 
     return data;
@@ -28,12 +27,10 @@ const requestAppClient = async (method: HttpMethod, query: string, params: Recor
       throw new Error(ERROR.NETWORK);
     }
 
-    if (error instanceof Error) {
-      throw Error(ERROR.NOT_FOUND);
-    }
+    throw new Error(ERROR.NOT_FOUND);
   }
 };
 
-export const getAppClient = (query: string, params: Record<string, string>) => {
-  return requestAppClient('GET', query, params);
+export const getAppClient = <T, P>(query: string, params: P) => {
+  return requestAppClient<T, P>('GET', query, params);
 };

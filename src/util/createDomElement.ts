@@ -1,12 +1,12 @@
 type Event = Partial<Record<keyof GlobalEventHandlersEventMap, EventListenerOrEventListenerObject>>;
 
-interface IProps {
+interface PropsType {
   textContent?: HTMLElement['textContent'];
   className?: HTMLElement['className'];
   id?: HTMLElement['id'];
 }
 
-interface DOMElementProps extends IProps {
+interface DOMElementProps extends PropsType {
   tag: keyof HTMLElementTagNameMap;
   children?: HTMLElement[];
   event?: Event;
@@ -30,7 +30,7 @@ const createDOMElement = ({
     element.setAttribute(attrName, attributes);
   });
 
-  (Object.keys(props) as Array<keyof IProps>).forEach((key) => {
+  (Object.keys(props) as Array<keyof PropsType>).forEach((key) => {
     const value = props[key];
     if (value !== undefined && value !== null) {
       element[key] = value;
