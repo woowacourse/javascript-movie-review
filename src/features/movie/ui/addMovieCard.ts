@@ -1,16 +1,33 @@
 import MovieCard from "./components/MovieCard";
 import { showEmptySearchResult } from "../../search/ui/showEmptySearchResult";
-import { ICustomMovie, IMovie } from "../../../shared/types/movies";
+import { ICustomMovie } from "../types/movies";
 import { createFragment } from "../../../shared/utils/createFragment";
+import { intersectionObserver } from "../utils/intersectionObserver";
+import { addMoreMovies } from "./addMoreMovies";
+import { withSkeleton } from "../../skeleton/ui/withSkeleton";
 
 export function addMovieCard(
   movieList: ICustomMovie[],
   $movieListContainer: HTMLElement
 ) {
   if (movieList.length === 0) {
-    showEmptySearchResult();
-
+    const $targetDiv = document.getElementById("target") as HTMLElement;
+    $targetDiv.remove();
+    if (!document.querySelector(".item")) {
+      showEmptySearchResult();
+    }
     return;
+  }
+
+  if (!document.getElementById("target")) {
+    const newTargetDiv = document.createElement("div");
+    newTargetDiv.id = "target";
+    const $wrapDiv = document.getElementById("wrap") as HTMLElement;
+    $wrapDiv.appendChild(newTargetDiv);
+
+    intersectionObserver(() =>
+      withSkeleton($movieListContainer, addMoreMovies($movieListContainer))
+    );
   }
 
   const $emptySearchResult = document.querySelector(
@@ -21,10 +38,10 @@ export function addMovieCard(
     $emptySearchResult.remove();
   }
 
-  addMoreMovies($movieListContainer, movieList);
+  addMoreMovieCards($movieListContainer, movieList);
 }
 
-function addMoreMovies(
+function addMoreMovieCards(
   $movieListContainer: HTMLElement,
   movieList: ICustomMovie[]
 ) {
