@@ -17,7 +17,7 @@ import {
   isOpenModal,
 } from "./store/store";
 import { useEvents } from "./utils/Core";
-import { renderIf, renderIfString } from "./utils/render";
+import { renderComponent, renderText } from "./utils/render";
 
 const App = () => {
   const { handleMovieItemClick } = useMovieDetail();
@@ -44,7 +44,7 @@ const App = () => {
   const displayMovieList = searchResults.length > 0 ? searchResults : movies;
   const isSearchMode = searchResults.length > 0;
 
-  const headerContent = renderIf(
+  const headerContent = renderComponent(
     isError || !movies.length,
     ErrorMessage({
       children: "에러가 발생했습니다. 다시 시도해주세요.",
@@ -59,13 +59,9 @@ const App = () => {
     })
   );
 
-  const subTitle = renderIfString(
-    isSearchMode,
-    "검색 결과",
-    "지금 인기 있는 영화"
-  );
+  const subTitle = renderText(isSearchMode, "검색 결과", "지금 인기 있는 영화");
 
-  const moreErrorMessage = renderIfString(
+  const moreErrorMessage = renderComponent(
     isMoreError,
     ErrorMessage({
       children: "영화 목록을 불러오는 데 실패했습니다.",
@@ -75,7 +71,7 @@ const App = () => {
     })
   );
 
-  const modalContent = renderIfString(
+  const modalContent = renderComponent(
     isOpenModal && !!movieDetail,
     MovieDetailModal({
       title: movieDetail?.title ?? "",

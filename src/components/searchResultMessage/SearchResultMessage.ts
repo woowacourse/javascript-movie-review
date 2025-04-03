@@ -1,6 +1,6 @@
 import { Attribute, PropsWithChildren } from "../../../types";
 import { parseAttribute } from "../../utils/domHelper";
-import { renderIfString } from "../../utils/render";
+import { renderText } from "../../utils/render";
 
 interface SearchResultMessageProps {
   isError: boolean;
@@ -12,7 +12,7 @@ const SearchResultMessage = (
 ) => {
   const { isError, children, attribute } = props;
 
-  return renderIfString(
+  return renderText(
     isError,
     `<div ${parseAttribute(attribute)}>${children}</div>`
   );

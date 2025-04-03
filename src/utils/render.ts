@@ -1,4 +1,4 @@
-export const renderIf = <T>(
+export const renderComponent = <T>(
   condition: boolean,
   trueValue: T,
   falseValue?: T
@@ -10,7 +10,7 @@ export const renderIf = <T>(
     : falseValue;
 };
 
-export const renderIfString = (
+export const renderText = (
   condition: boolean,
   trueValue: string,
   falseValue: string = ""
