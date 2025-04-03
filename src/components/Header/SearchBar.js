@@ -40,11 +40,10 @@ export function SearchBarMount() {
 
       const searchedMovies = await fetchSearchedMovies(query);
       if (searchedMovies) {
-        store.setState({
-          movies: searchedMovies.results,
-          query: query,
-          searchedMoviesLength: searchedMovies.total_results,
-        });
+        store.setMovies(searchedMovies.results);
+        store.setQuery(query);
+        store.setSearchedMoviesLength(searchedMovies.total_results);
+
         window.scrollTo({ top: 0 });
       }
     });

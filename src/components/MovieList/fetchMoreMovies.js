@@ -10,17 +10,11 @@ export async function fetchMoreMovies(currentPage) {
 
   if (!state.query) {
     const newMovies = await fetchPopularMovies(currentPage);
-    store.setState({
-      ...store.getState(),
-      movies: [...state.movies, ...newMovies],
-      isLoading: false,
-    });
+    store.setLoading(false);
+    store.setMovies([...state.movies, ...newMovies]);
   } else {
     const newMoviesData = await fetchSearchedMovies(state.query, currentPage);
-    store.setState({
-      ...store.getState(),
-      movies: [...state.movies, ...newMoviesData.results],
-      isLoading: false,
-    });
+    store.setLoading(false);
+    store.setMovies([...state.movies, ...newMoviesData.results]);
   }
 }

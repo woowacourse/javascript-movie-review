@@ -13,9 +13,6 @@ export async function openDetailModal(movieId) {
 
     DetailModalMount();
   } catch (error) {
-    store.setState({
-      ...store.getState(),
-      errorMessage: ERROR_MESSAGES.MOVIE_FETCH_FAILED,
-    });
+    store.setErrorMessage(ERROR_MESSAGES.MOVIE_FETCH_FAILED);
   }
 }

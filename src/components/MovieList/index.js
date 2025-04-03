@@ -74,7 +74,7 @@ export function MovieListMount() {
           return;
         }
 
-        store.setState({ ...state, isLoading: true });
+        store.setLoading(true);
         await fetchMoreMovies(currentPage);
       }
     }, 1000)

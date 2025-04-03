@@ -26,7 +26,7 @@ export const fetchPopularMovies = async (
     return data.results;
   } catch (error: unknown) {
     if (error instanceof Error) {
-      store.setState({ errorMessage: error.message });
+      store.setErrorMessage(error.message);
     }
     return [];
   }
@@ -57,7 +57,7 @@ export const fetchSearchedMovies = async (
     return data;
   } catch (error: unknown) {
     if (error instanceof Error) {
-      store.setState({ errorMessage: error.message });
+      store.setErrorMessage(error.message);
     }
     return null;
   }
@@ -83,7 +83,7 @@ export const fetchMovieDetail = async (movieId: number): Promise<Movie> => {
     return data;
   } catch (error: unknown) {
     if (error instanceof Error) {
-      store.setState({ errorMessage: error.message });
+      store.setErrorMessage(error.message);
     }
     return {} as Movie;
   }

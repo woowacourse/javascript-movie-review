@@ -45,7 +45,7 @@ class App {
 
     if (state.errorMessage && !this.toastTimeout) {
       this.toastTimeout = setTimeout(() => {
-        store.setState({ ...store.getState(), errorMessage: null });
+        store.setErrorMessage(state.errorMessage);
         this.toastTimeout = null;
       }, 3000);
     }
