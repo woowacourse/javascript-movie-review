@@ -39,7 +39,6 @@ const MovieContainer = ({ movies }) => {
   });
 
   const callback = (entries, observer) => {
-    console.log(entries);
     entries.forEach(async (entry) => {
       if (entry.isIntersecting) {
         const params = new URLSearchParams(window.location.search);
