@@ -1,9 +1,13 @@
 import { Movie } from "../../../types/movie";
-import createModal from "../modal.ts";
+import { fetchDetailMovie } from "../../store/movieService.ts";
+import { getStarRateByMovieId } from "../../utils/starRateStorage.ts";
+import {
+  movieDetailModal,
+  setMovieDetailModalContent,
+  setMovieDetailModalStarRate,
+} from "./movieDetailModalController.ts";
 
-const modal = createModal();
-
-const MovieItem = ({ title, voteAverage, posterPath }: Movie) => {
+const MovieItem = ({ title, voteAverage, posterPath, id }: Movie) => {
   const movieItem = document.createElement("li");
   movieItem.classList.add("movie-item");
 
@@ -39,22 +43,22 @@ const MovieItem = ({ title, voteAverage, posterPath }: Movie) => {
       </div>
     `;
 
-    const openModal = () => {
-      modal.setContent(`
-        <div class="modal-container">
-          <div class="modal-image">
-            <img src="${img.src}" alt="${title}" />
-          </div>
-          <div class="modal-description">
-            <h2>${title}</h2>
-            <p class="rate">
-              <img src="images/star_filled.png" class="star" />
-              <span>${voteAverage}</span>
-            </p>
-          </div>
-        </div>
-      `);
-      modal.show();
+    const openModal = async () => {
+      const { genres, overview, release_date } = await fetchDetailMovie(id);
+      const myStarRate = getStarRateByMovieId(id);
+      setMovieDetailModalContent({
+        img,
+        genres,
+        id,
+        overview,
+        release_date,
+        title,
+        voteAverage,
+        starRate: myStarRate,
+      });
+      setMovieDetailModalStarRate(myStarRate, id);
+
+      movieDetailModal.show();
     };
 
     movieItem.querySelector(".thumbnail")?.addEventListener("click", openModal);
