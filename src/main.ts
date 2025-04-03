@@ -31,12 +31,12 @@ async function main() {
 
 main()
 
+const headerBack = document.querySelector('#headerBackground')
+let isScrolled = window.scrollY > 400
 window.addEventListener('scroll', () => {
-  const headerBack = document.querySelector('#headerBackground')
   if (!headerBack) return
-  if (window.scrollY > 400) {
-    headerBack.classList.add('scrolled')
-  } else {
-    headerBack.classList.remove('scrolled')
+  if (window.scrollY > 400 !== isScrolled) {
+    headerBack.classList.toggle('scrolled')
+    isScrolled = !isScrolled
   }
 })
