@@ -19,7 +19,7 @@ export const extractTotalMovies = (totalData: TotalData): TotalMovies => {
   };
 };
 
-export const extractMovie = (movieData: MovieData): Movie => {
+const extractMovie = (movieData: MovieData): Movie => {
   const { id, backdrop_path, poster_path, title, vote_average } = movieData;
 
   const backdropPath = IMAGE.backdropPrefix + backdrop_path;
