@@ -2,11 +2,13 @@ import { getPosterUrl } from "../../utils/getPosterUrl";
 import { MovieDetail } from "../../../types/type";
 import { ICON_PATH } from "../../constants/imagePaths";
 import RATING_TEXTS from "../../constants/ratingTexts";
+import { getItemFromStorage, setItemToStorage } from "../../utils/localStorage";
+
+const MOVIE_RATINGS_KEY = "movie_rate";
 
 const movieRatingUtil = {
   getRatings() {
-    const ratings = localStorage.getItem("movie_rate");
-    return ratings ? JSON.parse(ratings) : {};
+    return getItemFromStorage<Record<number, number>>(MOVIE_RATINGS_KEY, {});
   },
 
   getRating(movieId: number) {
@@ -17,7 +19,7 @@ const movieRatingUtil = {
   saveRating(movieId: number, rating: number) {
     const ratings = this.getRatings();
     ratings[movieId] = rating;
-    localStorage.setItem("movie_rate", JSON.stringify(ratings));
+    setItemToStorage(MOVIE_RATINGS_KEY, ratings);
   },
 };
 
