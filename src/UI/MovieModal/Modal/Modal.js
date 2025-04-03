@@ -1,6 +1,8 @@
 import "./Modal.css";
 import { getMovieDetail } from "../../../Domain/getMovieDetail";
 import Rate from "../Rate/Rate";
+import Spinner from "../../Common/Spinner/Spinner";
+import MovieDescription from "../MovieDescription/MovieDescription";
 
 class Modal {
   static currentKeydownHandler = null;
@@ -88,25 +90,19 @@ class Modal {
       const $closeButton = document.createElement("button");
       $closeButton.classList.add("close-modal");
       $closeButton.id = "closeModal";
-      $closeButton.innerHTML = /*html*/ `
-          <img src="./images/modal_button_close.png" />
-      `;
 
+      const $img = document.createElement("img");
+      $img.setAttribute("src", "./images/modal_button_close.png");
+
+      $closeButton.appendChild($img);
       $closeButton.addEventListener("click", this.handleCloseButtonClick);
 
       const $modalContainer = document.createElement("div");
       $modalContainer.classList.add("modal-container");
-      $modalContainer.innerHTML = /*html*/ `
-        <div class="orbit-spinner" style="scale: 1">
-          <div class="planet"></div>
-          <div class="orbit">
-            <div class="satellite satellite-1"></div>
-            <div class="satellite satellite-2"></div>
-          </div>
-        </div>
-      `;
 
       $modal.appendChild($closeButton);
+      new Spinner($modalContainer).render();
+
       $modal.appendChild($modalContainer);
       this.$div.appendChild($modal);
       this.$target.appendChild(this.$div);
@@ -131,56 +127,30 @@ class Modal {
     const $closeButton = document.createElement("button");
     $closeButton.classList.add("close-modal");
     $closeButton.id = "closeModal";
-    $closeButton.innerHTML = /*html*/ `
-        <img src="./images/modal_button_close.png" />
-    `;
 
+    const $img = document.createElement("img");
+    $img.setAttribute("src", "./images/modal_button_close.png");
+
+    $closeButton.appendChild($img);
     $closeButton.addEventListener("click", this.handleCloseButtonClick);
 
     const $modalContainer = document.createElement("div");
     $modalContainer.classList.add("modal-container");
-    $modalContainer.innerHTML = /*html*/ `
-        <div class="modal-image">
-          <img
-            src=${`https://image.tmdb.org/t/p/w300${poster_path}`}
-          />
-        </div>
 
-    `;
+    const $modalImageDiv = document.createElement("div");
+    $modalImageDiv.classList.add("modal-image");
 
-    const $modalDescription = document.createElement("div");
-    $modalDescription.classList.add("modal-description");
-    $modalDescription.innerHTML = /*html*/ `
-        <h2>${title}</h2>
-        <p class="category">
-        ${release_date.substr(0, 4)} · ${genres
-      .map((genre) => genre.name)
-      .join(", ")}
-        </p>
-        <div class="average-container">
-            <span class="average-info-text">평균</span>
-            <p class="rate">
-              <img src="./images/star_filled.png" class="star" />
-              <span>${vote_average.toFixed(1)}</span>
-            </p>
-        </div>
-        <hr />
-        <p class="info-text">내 별점</p>
-        <div class="rate-container"></div>
-    `;
+    const $modalImg = document.createElement("img");
 
-    $modalContainer.appendChild($modalDescription);
-    new Rate($modalDescription.querySelector(".rate-container"), id).render();
-    const $hr = document.createElement("hr");
-    const $overviewText = document.createElement("p");
-    $overviewText.classList.add("info-text");
-    $overviewText.textContent = "줄거리";
+    $modalImg.setAttribute(
+      "src",
+      `https://image.tmdb.org/t/p/w300${poster_path}`
+    );
 
-    const $detail = document.createElement("p");
-    $detail.classList.add("detail");
-    $detail.textContent = overview;
+    $modalContainer.appendChild($modalImageDiv);
+    $modalImageDiv.appendChild($modalImg);
 
-    $modalDescription.append($hr, $overviewText, $detail);
+    new MovieDescription($modalContainer, this.#movie).render();
 
     $modal.appendChild($closeButton);
     $modal.appendChild($modalContainer);
