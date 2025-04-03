@@ -49,18 +49,22 @@ class BaseModal {
 
   setContent(content) {
     const container = document.querySelector('.modal-container');
-    if (container) {
-      const closeButton = container.querySelector('.close-modal');
-      container.innerHTML = '';
-      container.appendChild(closeButton);
 
-      if (typeof content === 'string') {
-        container.insertAdjacentHTML('beforeend', content);
-      } else if (content instanceof HTMLElement) {
-        container.appendChild(content);
-      }
+    if (!container) {
+      throw new Error('Modal container not found');
+    }
+
+    const closeButton = container.querySelector('.close-modal');
+    container.innerHTML = '';
+    container.appendChild(closeButton);
+
+    if (typeof content === 'string') {
+      container.insertAdjacentHTML('beforeend', content);
+    } else if (content instanceof HTMLElement) {
+      container.appendChild(content);
     }
   }
+
   setupEventListeners() {
     const modal = document.querySelector('.modal');
     const closeButton = modal.querySelector('.close-modal');
