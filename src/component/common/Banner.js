@@ -3,17 +3,19 @@ import Button from './Button.js'
 
 function Banner(data) {
   return `
-    <div class="background-container" style="background-image: url('https://media.themoviedb.org/t/p/w440_and_h660_face/${
-      data.poster_path
-    }');">
+    <div class="background-container" style="background-image: url('./images/banner_poster_insideout2.jpg');">
         <div class="overlay" aria-hidden="true"></div>
           <div class="top-rated-movie">
+            <div class="banner-logo-box">
+              <img src="./images/banner_logo_insideout2.png" />
+            </div>
             <div class="rate">
               <img src="./images/star_empty.png" class="star" />
-              <span class="rate-value">${roundRating(data.vote_average)}</span>
+              <span class="rate-value">7.6</span>
             </div>
-            <div class="title">${data.title}</div>
-            ${Button({ content: '자세히 보기', class: 'primary detail', style: 'width: 120px' })}
+            <div class="title">인사이드 아웃2</div>
+
+            ${Button({ content: '자세히 보기', class: 'primary detail', style: 'width: 120px;' })}
             
           </div>
         </div>

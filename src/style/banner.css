@@ -1,0 +1,76 @@
+#bannerSection {
+  display: block;
+}
+
+.title {
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+.banner-logo-box {
+  width: 300px; /* 또는 100% */
+  overflow: hidden;
+}
+
+.banner-logo-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  margin-top: 30px;
+}
+
+.background-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  background-position: center center;
+  background-size: cover;
+  height: calc(100vh / 1.8);
+  padding: 48px;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+
+  background: linear-gradient(to right, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
+}
+
+.top-rated-movie {
+  z-index: 1;
+  width: 100%;
+  max-width: 1440px;
+}
+
+.top-rated-movie > *:not(:last-child) {
+  margin-bottom: 8px;
+}
+
+.rate {
+  display: flex;
+  align-items: baseline;
+  color: var(--color-yellow);
+  margin: 4px 0;
+}
+
+.rate > img {
+  position: relative;
+  top: 2px;
+}
+
+span.rate-value {
+  margin-left: 8px;
+  font-weight: bold;
+  font-size: 1.66rem;
+}
+
+@media (min-width: 1024px) {
+  .banner-logo-box img {
+    margin-top: 0;
+  }
+}

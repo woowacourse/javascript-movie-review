@@ -3,12 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./templates/styles/index.css" />
+    <link rel="stylesheet" href="./src/style/index.css" />
     <title>영화 리뷰</title>
   </head>
   <body>
     <div id="wrap">
-      <header>
+      <header id="headerSection">
       </header>
       <section id="bannerSection">
   
@@ -16,7 +16,7 @@
       </div>
       <div class="container">
         <main id="app">
-          <section id="movieSection">
+          <section id="movieSection" class="mt-48">
             <h2>지금 인기 있는 영화</h2>
             <ul id="thumbnailList" class="thumbnail-list">
             </ul>
@@ -29,6 +29,21 @@
         <p><img src="./images/woowacourse_logo.png" width="180" /></p>
       </footer>
     </div>
+    <!-- <div id="modalBackground" class="modal-background">
+      <div id="modalLayout" class="modal-layout">
+
+
+
+        
+      </div>
+    </div> -->
+<dialog id="dialogID" class="modal-dialog">
+  
+  
+
+
+  </div>
+</dialog>
 
     <script type="module" src="./src/main.ts"></script>
   </body>

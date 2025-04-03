@@ -1,0 +1,267 @@
+.modal-title {
+  margin-bottom: 36px;
+}
+
+.modal-dialog::backdrop {
+  backdrop-filter: blur(8px);
+  background-color: #00000080;
+}
+
+.modal-dialog {
+  background-color: #2d3748;
+  width: 100%;
+  overflow: hidden;
+  color: white;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  border-radius: 16px 16px 0 0;
+  padding: 0;
+  margin: 0;
+  bottom: 0;
+  position: fixed;
+  max-width: 100%;
+  heigth: 600px;
+  margin-top: calc(100vh - 600px);
+}
+
+.modal-container {
+  display: flex;
+  flex-direction: column;
+  border-radius: 0px;
+  padding: 24px;
+  gap: 24px;
+  height: 600px;
+}
+
+.modal-close {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  cursor: pointer;
+  z-index: 10;
+  opacity: 0.5;
+  transition: opacity 0.3s;
+}
+
+.modal-close:hover {
+  opacity: 1;
+}
+
+.modal-content-box {
+  width: 100%;
+  display: flex;
+  justify-items: center;
+}
+
+.modal-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.movie-title {
+  font-size: 28px;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.movie-info {
+  font-size: 14px;
+  color: #a0aec0;
+  margin-bottom: 20px;
+}
+
+.movie-rating {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.rating-label {
+  margin-right: 10px;
+  color: #a0aec0;
+}
+
+.rating-value {
+  display: flex;
+  align-items: center;
+}
+
+.rating-star {
+  color: var(--color-yellow);
+  margin-right: 5px;
+}
+
+.rating-number {
+  color: var(--color-yellow);
+  font-size: 18px;
+  font-weight: bold;
+}
+
+#starRatingFormBox {
+  width: 100%;
+}
+
+.my-rating-section {
+  width: 100%;
+  padding: 20px 0;
+  border-bottom: 1px solid #4a5568;
+}
+
+.my-rating-title {
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+.stars-container {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 10px;
+  align-items: center;
+}
+
+.star-box {
+  display: flex;
+}
+
+.star {
+  position: relative;
+  width: 30px;
+  height: 29px;
+  display: inline-block;
+  margin-right: 4px;
+  cursor: pointer;
+}
+
+.star-bg,
+.star-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.star-fill {
+  width: 0;
+  overflow: hidden;
+  transition: width 0.3s ease;
+}
+
+/* 
+.star-fill.hover {
+  opacity: 0.6;
+} */
+
+.rating-text {
+  font-size: 16px;
+  color: var(--color-yellow);
+  line-height: 16px;
+  margin-top: 4px;
+}
+
+.rating-score {
+  color: #a0aec0;
+  margin-left: 5px;
+}
+
+.synopsis-section {
+  padding: 20px 0;
+}
+
+.synopsis-title {
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+.synopsis-content {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #cbd5e0;
+  overflow: hidden;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 6;
+  -webkit-box-orient: vertical;
+}
+.modal-image {
+  height: 200px;
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex; /* 이미지 가운데 정렬시 유용 */
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-image img {
+  height: 100%; /* 부모 높이에 맞춤 */
+  width: auto; /* 비율 유지 */
+  object-fit: contain; /* 또는 cover, 상황에 따라 */
+}
+
+.movie-content-title-box {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-bottom: 1px solid #4a5568;
+}
+
+.poster-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.sm-star-box {
+  display: flex;
+  gap: 6px;
+}
+
+.sm-star-box p {
+  line-height: 1;
+}
+
+@media (min-width: 1024px) {
+  .modal-dialog {
+    position: fixed;
+    background-color: #2d3748;
+    width: 90%;
+    max-width: 1000px;
+    overflow: hidden;
+    color: white;
+    border-radius: 16px;
+    max-height: calc(100% - 2em - 6px);
+    margin: auto;
+  }
+
+  .modal-container {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+  }
+
+  .modal-image {
+    height: 100%;
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .modal-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .poster-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .modal-content {
+    align-items: flex-start;
+  }
+
+  .movie-content-title-box {
+    align-items: flex-start;
+  }
+}

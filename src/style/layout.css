@@ -1,0 +1,29 @@
+:root {
+  --breakpoint-mobile: 480px;
+  --breakpoint-tablet: 768px;
+  --breakpoint-desktop: 1024px;
+  --breakpoint-4k: 1440px;
+}
+
+.flex-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.gap-16 {
+  gap: 16px;
+}
+
+.my-36 {
+  margin: 36px 0;
+}
+
+.ml-48 {
+  margin-left: 48px;
+}
+
+.mt-48 {
+  margin-top: 100px;
+}
