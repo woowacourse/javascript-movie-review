@@ -5,7 +5,7 @@ export interface MovieRating {
   rating: MovieRate;
 }
 
-const MOVIE_RATINGS_KEY = "movie_ratings" as const;
+const MOVIE_RATINGS_KEY = "movie_ratings";
 
 export const withMovieRatings = <T>(
   callback: (ratings: MovieRating[]) => T
