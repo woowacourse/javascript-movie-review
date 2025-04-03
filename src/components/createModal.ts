@@ -9,32 +9,31 @@ const createModal = () => {
   closeButton.classList.add("close-modal");
   closeButton.innerHTML = `<img src="images/modal_button_close.png" />`;
 
-  closeButton.addEventListener("click", () => {
+  const closeModal = () => {
     modalBackground.classList.remove("active");
     document.body.classList.remove("modal-open");
-  });
+  };
+
+  const openModal = () => {
+    modalBackground.classList.add("active");
+    document.body.classList.add("modal-open");
+  };
+
+  closeButton.addEventListener("click", closeModal);
 
   modalBackground.addEventListener("click", (event) => {
     if (event.target === modalBackground) {
-      modalBackground.classList.remove("active");
-      document.body.classList.remove("modal-open");
+      closeModal();
     }
   });
 
   modal.appendChild(closeButton);
   modalBackground.appendChild(modal);
-
   document.body.appendChild(modalBackground);
 
   return {
-    show: () => {
-      modalBackground.classList.add("active");
-      document.body.classList.add("modal-open");
-    },
-    hide: () => {
-      modalBackground.classList.remove("active");
-      document.body.classList.remove("modal-open");
-    },
+    show: openModal,
+    hide: closeModal,
     setContent: (content: string) => {
       modal.innerHTML = content;
       modal.prepend(closeButton);
