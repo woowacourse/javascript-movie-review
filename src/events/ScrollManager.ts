@@ -1,31 +1,51 @@
-class ScrollManeger {
-  private readonly threshold: number;
+class ScrollManager {
   private readonly callback: () => void;
-  private readonly onScroll: () => void;
+  private readonly threshold: number;
+  private readonly target: HTMLElement;
+  private observer: IntersectionObserver | null = null;
 
-  constructor(callback: () => void, threshold = 150) {
+  constructor({
+    target,
+    callback,
+    threshold = 150,
+  }: {
+    target: HTMLElement;
+    callback: () => void;
+    threshold?: number;
+  }) {
+    this.target = target;
     this.callback = callback;
     this.threshold = threshold;
-    this.onScroll = () => this.handleScroll();
-  }
-
-  private handleScroll() {
-    const scrollTop = window.scrollY;
-    const windowHeight = window.innerHeight;
-    const documentHeight = document.body.scrollHeight;
-
-    if (scrollTop + windowHeight >= documentHeight - this.threshold) {
-      this.callback();
-    }
   }
 
   start() {
-    window.addEventListener("scroll", this.onScroll);
+    if (this.observer) return; // 중복 방지
+
+    this.observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            this.callback();
+          }
+        });
+      },
+      {
+        root: null,
+        rootMargin: `0px 0px ${this.threshold}px 0px`, //
+        threshold: 0,
+      }
+    );
+
+    this.observer.observe(this.target);
   }
 
   stop() {
-    window.removeEventListener("scroll", this.onScroll);
+    if (this.observer && this.target) {
+      this.observer.unobserve(this.target);
+      this.observer.disconnect();
+      this.observer = null;
+    }
   }
 }
 
-export default ScrollManeger;
+export default ScrollManager;

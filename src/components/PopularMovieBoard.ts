@@ -31,7 +31,7 @@ class PopularMovieBoard {
       <section class="movie-list-container">
           <h2>지금 인기 있는 영화</h2>
           <ul class='thumbnail-list'></ul>
-          <div class="more-button-container"></div>
+          <div class="scroll-sentinel" style="height: 1px;"></div> 
       </section>
     `;
   }
@@ -115,7 +115,14 @@ class PopularMovieBoard {
   }
 
   #addEventListeners(): void {
-    this.#ScrollManager = new ScrollManeger(() => this.#loadMoreMovies(), 150);
+    const $sentinel = this.#parentElement.querySelector(".scroll-sentinel");
+    if (!isHTMLElement($sentinel)) return;
+
+    this.#ScrollManager = new ScrollManeger({
+      target: $sentinel,
+      threshold: 150,
+      callback: () => this.#loadMoreMovies(),
+    });
     this.#ScrollManager.start();
   }
 }

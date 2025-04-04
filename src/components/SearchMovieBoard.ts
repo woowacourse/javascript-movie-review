@@ -34,7 +34,7 @@ class SearchMovieBoard {
       <section class="movie-list-container search-movie-list-container">
           <h2>"${this.#props.searchParams}" 검색 결과 </h2>
           <ul class='thumbnail-list'></ul>
-          <div class="more-button-container"></div>
+          <div class="scroll-sentinel" style="height: 1px;"></div>
       </section>
     `;
   }
@@ -69,7 +69,7 @@ class SearchMovieBoard {
   #renderMovies(movies: Movie[]): void {
     const ul = document.querySelector(".thumbnail-list");
     if (!isHTMLElement(ul)) return;
-    
+
     if (this.#page === 1) {
       this.#MovieList.init();
       this.#MovieList.render({ status: "success", data: movies });
@@ -135,7 +135,14 @@ class SearchMovieBoard {
   }
 
   #addEventListeners(): void {
-    this.#ScrollManager = new ScrollManeger(() => this.#loadMoreMovies(), 150);
+    const $sentinel = this.#parentElement.querySelector(".scroll-sentinel");
+    if (!isHTMLElement($sentinel)) return;
+
+    this.#ScrollManager = new ScrollManeger({
+      target: $sentinel,
+      threshold: 150,
+      callback: () => this.#loadMoreMovies(),
+    });
     this.#ScrollManager.start();
   }
 }
