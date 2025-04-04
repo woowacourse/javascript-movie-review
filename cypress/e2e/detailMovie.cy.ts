@@ -17,6 +17,7 @@ describe('영화 상세 정보 모달', () => {
   });
 
   it('ESC 키를 누르면 모달이 닫힌다', () => {
+    cy.get('.thumbnail').first().click();
     cy.get('body').type('{esc}');
     cy.get('.modal-background').should('not.have.class', 'active');
   });
