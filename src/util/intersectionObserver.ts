@@ -9,7 +9,7 @@ export function createInfiniteScrollObserver(
   callback: () => void,
   options: ObserverOptions = { root: null, threshold: 1 }
 ): IntersectionObserver {
-  const observer = new IntersectionObserver(([entry], obs) => {
+  const observer = new IntersectionObserver(([entry]) => {
     if (entry.isIntersecting) {
       callback();
     }

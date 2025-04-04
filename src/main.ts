@@ -30,9 +30,8 @@ const renderHeader = () => {
   addHeader();
 };
 
-let currentPage = INITIAL_PAGE;
-
 const renderMovieList = async () => {
+  let currentPage = INITIAL_PAGE;
   const container = $('.container');
   if (!container) return;
 
@@ -45,16 +44,20 @@ const renderMovieList = async () => {
 
   const newTarget = createObserverTarget();
   container.appendChild(newTarget);
-  createInfiniteScrollObserver(newTarget, observeScroll);
+
+  const observer = createInfiniteScrollObserver(newTarget, () => observeScroll(currentPage));
+  if (currentPage >= TOTAL_PAGES) {
+    observer.disconnect();
+  }
 };
 
-let isFetching = false;
-
-const observeScroll = async () => {
+const observeScroll = async (currentPage: number) => {
+  let isFetching = false;
   const container = $('.container');
   if (!container) return;
 
   if (isFetching || currentPage >= TOTAL_PAGES) return;
+
   isFetching = true;
 
   currentPage++;
