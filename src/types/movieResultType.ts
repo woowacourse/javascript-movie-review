@@ -21,3 +21,19 @@ export interface IMovieItem {
   vote_average: number;
   vote_count: number;
 }
+
+export interface IMovieDetail {
+  id: number;
+  poster_path: string;
+  title: string;
+  release_date: string;
+  genres: MovieGenre[];
+  overview: string;
+  vote_average: number;
+  starScore: number;
+}
+
+export interface MovieGenre {
+  id: number;
+  name: string;
+}

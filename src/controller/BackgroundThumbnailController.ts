@@ -1,53 +1,39 @@
-import BackgroundThumbnailSection from "../component/BackgroundThumbnailSection";
-import SkeletonBackgroundThumbnailSection from "../component/Skeleton/SkeletonBackgroundThumbnailSection";
-import { IMovieItem } from "../types/movieResultType";
 import { $ } from "../util/selector";
+import BackgroundThumbnailView from "../view/BackgroundThumbnailView";
+import { IMovieItem } from "./../types/movieResultType";
 
 class BackgroundThumbnailController {
+  #view;
   backgroundElement!: HTMLElement;
+  movie: IMovieItem | null = null;
 
-  onMovieDetailButtonClick;
+  #onMovieDetailButtonClick;
 
-  constructor({
-    onMovieDetailButtonClick,
-  }: {
-    onMovieDetailButtonClick: (text: string) => void;
-  }) {
-    this.onMovieDetailButtonClick = onMovieDetailButtonClick;
+  constructor({ onMovieDetailButtonClick }: { onMovieDetailButtonClick: (movieId: number) => void }) {
+    this.#view = new BackgroundThumbnailView();
+    this.#onMovieDetailButtonClick = onMovieDetailButtonClick;
   }
 
-  renderSkeleton() {
-    this.backgroundElement = SkeletonBackgroundThumbnailSection();
-
-    const headerElement = $("header");
-    headerElement?.insertAdjacentElement("afterend", this.backgroundElement);
-  }
-
-  renderBackgroundThumbnail(movie: IMovieItem) {
-    const backgroundThumbnailSectionElement = BackgroundThumbnailSection(movie);
-    this.backgroundElement.replaceWith(backgroundThumbnailSectionElement);
-
-    this.backgroundElement = backgroundThumbnailSectionElement;
-
-    this.bindEvents();
+  render(movie: IMovieItem) {
+    this.#view.renderBackgroundThumbnail(movie);
+    this.#view.bindDetailButtonClick(this.#onMovieDetailButtonClick);
   }
 
   bindEvents() {
-    const detailButtonElement = $<HTMLButtonElement>(
-      "button.detail",
-      this.backgroundElement,
-    );
-    detailButtonElement?.addEventListener("click", () =>
-      this.onMovieDetailButtonClick("아직 지원되지 않은 기능입니다."),
-    );
+    const detailButtonElement = $<HTMLButtonElement>("button.detail", this.backgroundElement);
+    if (this.movie) {
+      detailButtonElement?.addEventListener("click", () => {
+        if (this.movie) this.#onMovieDetailButtonClick(this.movie.id);
+      });
+    }
   }
 
   hideBackground() {
-    this.backgroundElement.classList.add("search");
+    this.#view.hide();
   }
 
   showBackground() {
-    this.backgroundElement.classList.remove("search");
+    this.#view.show();
   }
 }
 

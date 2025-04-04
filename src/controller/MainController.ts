@@ -1,5 +1,7 @@
 import { ERROR_MESSAGE } from "../constant/errorMessage";
+import { scrollToTop } from "../util/scroll";
 import BackgroundThumbnailController from "./BackgroundThumbnailController";
+import DetailModalController from "./DetailModalController";
 import HeaderController from "./HeaderController";
 import MessageModalController from "./MessageModalController";
 import MovieListController from "./MovieListController";
@@ -9,22 +11,36 @@ class MainController {
   static instance: MainController;
 
   backgroundThumbnailController;
-  messageModalController;
   movieListController;
+  searchMovieListController;
+  messageModalController;
+  detailModalController;
 
   constructor() {
+    scrollToTop();
     this.messageModalController = new MessageModalController();
+    this.detailModalController = new DetailModalController({
+      onErrorModalOpen: this.#onErrorModalOpen.bind(this),
+    });
 
     this.backgroundThumbnailController = new BackgroundThumbnailController({
-      onMovieDetailButtonClick: this.#openModal.bind(this),
+      onMovieDetailButtonClick: (movieId: number) => {
+        this.detailModalController.showModal(movieId);
+      },
     });
 
     this.movieListController = new MovieListController({
-      onBeforeFetchMovieList: () => {
-        this.backgroundThumbnailController.renderSkeleton();
+      onFetchMovieList: (movie) => {
+        this.backgroundThumbnailController.render(movie);
       },
-      onAfterFetchMovieList: (movie) => {
-        this.backgroundThumbnailController.renderBackgroundThumbnail(movie);
+      onDetailModalOpen: (movieId: number) => {
+        this.detailModalController.showModal(movieId);
+      },
+    });
+
+    this.searchMovieListController = new SearchMovieListController({
+      onDetailModalOpen: (movieId: number) => {
+        this.detailModalController.showModal(movieId);
       },
     });
 
@@ -44,36 +60,32 @@ class MainController {
     try {
       await this.movieListController.render();
     } catch (error) {
-      this.#openModal(
-        ERROR_MESSAGE[Number((error as Error).message)] ||
-          "알 수 없는 오류가 발생했습니다.",
-      );
+      this.#onErrorModalOpen(error as Error);
     }
   }
 
-  #openModal(text: string) {
-    this.messageModalController.changeContentMessage(text);
-    this.messageModalController.messageModalElement.showModal();
-  }
-
   async #onSearchKeywordSubmit(searchValue: string) {
+    scrollToTop();
+
     try {
       this.backgroundThumbnailController.hideBackground();
-      const searchMovieListController = new SearchMovieListController(
-        searchValue,
-      );
-      await searchMovieListController.render();
+      this.movieListController.removeScrollEvent();
+      await this.searchMovieListController.render(searchValue);
     } catch (error) {
-      this.#openModal(
-        ERROR_MESSAGE[Number((error as Error).message)] ||
-          "알 수 없는 오류가 발생했습니다.",
-      );
+      this.#onErrorModalOpen(error as Error);
     }
   }
 
   #onHomeLogoClick() {
+    scrollToTop();
+
     this.backgroundThumbnailController.showBackground();
+    this.searchMovieListController.removeScrollEvent();
     this.movieListController.renderExistingMovieList();
+  }
+
+  #onErrorModalOpen(error: Error) {
+    this.messageModalController.showModal(ERROR_MESSAGE[Number(error.message)] || "알 수 없는 오류가 발생했습니다.");
   }
 }
 

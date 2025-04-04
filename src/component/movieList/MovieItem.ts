@@ -1,6 +1,6 @@
-import { IMovieItem } from "../types/movieResultType";
-import createDOMElement from "../util/createDomElement";
-import defaultImage from "../../public/images/default_poster_image.png";
+import { IMovieItem } from "../../types/movieResultType";
+import createDOMElement from "../../util/createDomElement";
+import defaultImage from "../../../public/images/default_poster_image.png";
 
 const MovieItem = (movie: IMovieItem) => {
   return createDOMElement({
@@ -9,14 +9,22 @@ const MovieItem = (movie: IMovieItem) => {
       createDOMElement({
         tag: "div",
         class: "item",
+        id: movie.id,
         children: [
           createDOMElement({
-            tag: "img",
-            class: "thumbnail",
-            src: movie.poster_path
-              ? `https://media.themoviedb.org/t/p/w440_and_h660_face${movie.poster_path}`
-              : defaultImage,
-            alt: movie.title,
+            tag: "div",
+            class: "thumbnail-wrapper loading",
+            children: createDOMElement({
+              tag: "img",
+              class: "thumbnail",
+              src: movie.poster_path
+                ? `https://media.themoviedb.org/t/p/w440_and_h660_face${movie.poster_path}`
+                : defaultImage,
+              alt: movie.title,
+              onload: function () {
+                this.parentElement?.classList.remove("loading");
+              },
+            }),
           }),
           createDOMElement({
             tag: "div",

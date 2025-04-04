@@ -14,8 +14,6 @@ body.modal-open {
   background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경을 위해 설정 */
   backdrop-filter: blur(10px); /* 블러 효과 적용 */
   display: flex;
-  justify-content: center;
-  align-items: center;
   z-index: 10;
   visibility: hidden; /* 모달이 기본적으로 보이지 않도록 설정 */
   opacity: 0;
@@ -29,6 +27,11 @@ body.modal-open {
   opacity: 1;
 }
 
+.modal-background.loading {
+  justify-content: center;
+  align-items: center;
+}
+
 .modal {
   background-color: var(--color-bluegray-90);
   padding: 20px;
@@ -36,7 +39,8 @@ body.modal-open {
   color: white;
   z-index: 2;
   position: relative;
-  width: 1000px;
+  width: 100%;
+  margin-top: auto;
 }
 
 .close-modal {
@@ -54,18 +58,94 @@ body.modal-open {
 
 .modal-container {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.modal-text {
+  width: 100%;
+  padding: 8px;
+  line-height: 1.6rem;
+  color: black;
 }
 
 .modal-image img {
-  width: 380px;
-  border-radius: 16px;
+  display: none;
+}
+
+.modal-star-wrapper {
+  padding: 24px 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: center;
+}
+
+.modal-star-title {
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 100%;
+}
+
+.modal-star-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 16px;
+}
+
+.modal-star-button-wrapper {
+  display: flex;
+  gap: 2px;
+}
+
+.modal-star-button {
+  width: 32px;
+}
+
+.modal-star-score-box {
+  display: flex;
+  align-items: end;
+}
+
+.modal-star-text {
+  font-size: 24px;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: 0.18px;
+  text-align: right;
+}
+
+.modal-star-text .modal-star-score {
+  color: #95a1b2;
 }
 
 .modal-description {
   width: 100%;
-  padding: 8px;
+  padding: 16px;
   margin-left: 16px;
   line-height: 1.6rem;
+}
+
+.modal-description-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.modal-vote-average {
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.modal-vote-average span {
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: 0.18px;
+  color: #ffc700;
+  line-height: 30px;
+  text-align: center;
 }
 
 .modal-description .rate > img {
@@ -85,4 +165,52 @@ body.modal-open {
 .detail {
   max-height: 430px;
   overflow-y: auto;
+}
+
+@media (min-width: 768px) {
+  .modal-image img {
+    width: 200px;
+    border-radius: 16px;
+    margin-bottom: 24px;
+    display: block;
+  }
+
+  .modal-star-box {
+    flex-direction: row;
+    align-items: flex-end;
+  }
+
+  .modal-star-wrapper {
+    align-items: flex-start;
+  }
+
+  .modal-star-text {
+    width: 200px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .modal-background {
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modal {
+    width: 1000px;
+    margin: 0;
+  }
+
+  .modal-container {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .modal-image img {
+    width: 380px;
+    margin-bottom: 0;
+  }
+
+  .modal-description-title {
+    align-items: flex-start;
+  }
 }

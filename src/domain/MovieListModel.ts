@@ -1,6 +1,6 @@
 import { IMovieItem } from "../types/movieResultType";
 
-const MovieResults = () => {
+const MovieListModel = () => {
   const movieList: IMovieItem[] = [];
   let page = 0;
   let maxPage = 0;
@@ -23,4 +23,4 @@ const MovieResults = () => {
   };
 };
 
-export default MovieResults;
+export default MovieListModel;

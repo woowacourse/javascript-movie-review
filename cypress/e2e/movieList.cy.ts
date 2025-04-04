@@ -8,9 +8,9 @@ describe("movieList 테스트", () => {
     expect(popularMovieItems.should("have.length", 20));
   });
 
-  it("더 보기 버튼을 한 번 누를 경우 영화 목록 API를 호출하여 40개가 목록에 나열되어야 한다.", () => {
+  it("스크롤을 하단까지 내릴 경우 영화 목록 API를 호출하여 40개가 목록에 나열되어야 한다.", () => {
     cy.get(".thumbnail-list > li").should("have.length", 20);
-    cy.get(".see-more").click();
+    cy.scrollTo("bottom");
     cy.wait(500);
 
     const popularMovieItems = cy.get(".thumbnail-list > li");

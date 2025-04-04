@@ -1,4 +1,4 @@
-import { $ } from "../util/selector";
+import { $ } from "../../util/selector";
 
 const mainElement = $("main")!;
 export default mainElement;
