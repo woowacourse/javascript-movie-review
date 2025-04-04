@@ -36,13 +36,17 @@ class MovieList {
 
     if (!movies) return;
 
+    const fragment = document.createDocumentFragment();
+
     movies.forEach((movie) => {
       const $list = document.createElement("li");
       new MovieItem($list, movie, (id: number) => {
         this.#showModal(id);
       });
-      this.#parentElement.appendChild($list);
+      fragment.appendChild($list);
     });
+
+    this.#parentElement.appendChild(fragment);
   }
 
   #showModal(id: number): void {
