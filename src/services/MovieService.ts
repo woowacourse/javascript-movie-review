@@ -1,16 +1,22 @@
 import { QueryParams } from "../../types/apiType";
 import { getApiOptions } from "../apis/config";
+import { adaptMovieData } from '../../templates/utils/transform';
 
+const MAXIMUM_PAGE = 500;
 class MovieService {
   currentPage: number;
   baseUrl: string;
+  totalPages: number;
 
   constructor() {
     this.currentPage = 1;
+    this.totalPages = MAXIMUM_PAGE;
     this.baseUrl = import.meta.env.VITE_REQUEST_URL;
   }
 
   async fetchMovies(endPoint: string, queryParams: QueryParams) {
+    if (queryParams.page === MAXIMUM_PAGE + 1) return;
+    if (this.currentPage > this.totalPages) return;
     const queryString = new URLSearchParams(
       Object.entries(queryParams).map(([key, value]) => [key, String(value)])
     ).toString();
@@ -22,22 +28,19 @@ class MovieService {
 
     if (response.status === 200) {
       const data = await response.json();
-      this.currentPage++
-      return data;
+      this.totalPages = data.total_pages;
+      this.currentPage++;
+      return adaptMovieData(data)
     }
 
     if (response.status === 500) {
       alert("데이터를 불러오는 중 문제가 발생했습니다. 다시 시도해주세요😅");
     }
-    return []
+    return [];
   }
 
   initPage() {
     this.currentPage = 1;
-  }
-
-  getCurrentPage() {
-    return this.currentPage;
   }
 }
 

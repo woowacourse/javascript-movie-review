@@ -74,7 +74,7 @@ body.modal-open {
 }
 
 .modal-description > *:not(:last-child) {
-  margin-bottom: 8px;
+  margin-bottom: 16px;
 }
 
 .modal-description h2 {
@@ -85,4 +85,112 @@ body.modal-open {
 .detail {
   max-height: 430px;
   overflow-y: auto;
+}
+
+.rate.average{
+  display: flex;
+  gap: 6px;
+}
+
+.average-container{
+  display: flex;
+  align-items: end;
+  gap: 16px;
+}
+
+.category{
+  margin: 16px 0;
+}
+
+.point-text {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.star.point {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.modal-container .detail{
+  margin: 0;
+}
+
+.detail.summary{
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.modal-description .star-rating{
+  display: flex;
+  justify-content: space-between;
+  margin-top: 24px;
+  gap: 16px;
+
+}
+
+.rating-description{
+  display: flex;
+  gap: 5px;
+}
+
+.rating{
+  color: #95A1B2;
+}
+
+@media (max-width:970px) {
+  .modal {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 40px 24px;
+    border-radius: 0;
+    width: 100%;
+  }
+  .modal-container{
+    flex-direction: column;
+  }
+
+  .modal-image{
+    display: flex;
+    justify-content: center;
+  }
+
+  .modal-image img{
+    width: 200px;
+  }
+
+  .modal-description > *:not(:last-child){
+    margin: 10px 0;
+  }
+
+  .modal-title, .category{
+    text-align: center;
+  }
+  .average-container{
+    justify-content: center;
+  }
+
+  .modal-description {
+    padding: 0px;
+    margin-left: 0px;
+  }
+}
+
+@media (max-width:720px) {
+  .thumbnail-list{
+    grid-template-columns: repeat(2, 200px);
+  }  
+}
+
+@media (max-width:500px) {
+  .thumbnail-list{
+    grid-template-columns: repeat(1, 200px);
+  }
+  .modal-image{
+    display: none;
+  } 
 }

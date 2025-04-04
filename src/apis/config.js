@@ -23,3 +23,9 @@ export function getSearchParam(inputValue, currentPage) {
     include_adult: "false",
   };
 }
+
+export function getDetailParam() {
+  return {
+    language: "ko-KR",
+  };
+}

@@ -1,5 +1,3 @@
-import "./skeleton.css";
-
 function Skeleton() {
   const $skeletonContainer = document.createElement("li");
   $skeletonContainer.classList.add("skeletonContainer");

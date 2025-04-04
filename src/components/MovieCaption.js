@@ -4,7 +4,7 @@ function MovieCaption({ title, vote_average }) {
   $movieCaption.classList.add("item-desc");
   $movieCaption.innerHTML = ` 
   <p class="rate">
-    <img src="./star_empty.png" class="star" />
+    <img src="images/star_empty.png" class="star" />
     <span>${vote_average.toFixed(1)}</span>
   </p>
   <strong>${title}</strong>

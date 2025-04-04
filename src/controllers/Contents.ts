@@ -1,11 +1,9 @@
-import MovieService from "../services/MovieService.js";
 import MovieList from "../domains/MovieList.js";
-import Button from "../components/Button.js";
-import { FetchMoviesCallback, MovieInfo } from "../../types/movieType.js";
+import { MovieInfo } from "../../types/movieType.js";
 import MovieItem from "../components/MovieItem.js";
 import Skeleton from "../components/Skeleton.js";
-
-const MAXIMUM_PAGE = 500;
+import { openModal } from "./MovieDetail.ts";
+import { ObserverHTMLElement } from "./Main.ts";
 
 function renderContentHeader($section: HTMLElement, contentTitle: string) {
   const existingHeader = $section.querySelector("h2");
@@ -16,68 +14,30 @@ function renderContentHeader($section: HTMLElement, contentTitle: string) {
   $section.prepend($h2); 
 }
 
-function removeMoreButton($main:HTMLElement) {
-  const existingButton = $main.querySelector("button.more");
-  if (existingButton) {
-    existingButton.remove();
-  }
-}
-
-async function handleMoreMovies(
-  event: MouseEvent,
-  movieService:MovieService,
-  fetchMoviesCallback: FetchMoviesCallback
-) {
-  showSkeleton(20);
-  const movies = await fetchMoviesCallback();
-  const movieList = new MovieList(movies.results);
-  replaceSkeletonWithMovies(movieList.movieList);
-
-  const $moreButton = event.target as HTMLButtonElement;
-
-  if (movieService.currentPage === MAXIMUM_PAGE) {
-    $moreButton.remove();
-  }
-}
-
 export function showSkeleton(count: number) {
   const $moviesContainer = document.getElementById("movies-container");
-  const $listContainer = document.createElement("ul");
-  $listContainer.classList.add("thumbnail-list");
+  const $listContainer = document.querySelector(".thumbnail-list") as HTMLElement;
+
   for (let index = 0; index < count; index++) {
     const skeleton = Skeleton();
-    $listContainer.appendChild(skeleton);
+    $listContainer?.appendChild(skeleton);
   }
   $moviesContainer?.appendChild($listContainer);
 }
 
 export function replaceSkeletonWithMovies(movies: MovieInfo[]) {
-  const $moviesContainer = document.getElementById("movies-container");
-  if (!$moviesContainer) return;
-  const itemContainerCount =
-    $moviesContainer.querySelectorAll("ul.thumbnail-list").length;
-  const $listContainer =
-    $moviesContainer.querySelectorAll("ul.thumbnail-list")[
-      itemContainerCount - 1
-    ];
-  if (!$listContainer) return;
-
-  movies.forEach((movie, index) => {
-    const $movieItem = MovieItem(movie);
-    const $skeleton = $listContainer.children[index];
-    if ($skeleton) {
-      $listContainer.replaceChild($movieItem, $skeleton);
-    } else {
-      $listContainer.appendChild($movieItem);
-    }
+  const $skeletonContainers = document.querySelectorAll(".skeletonContainer");
+  const $thumbnailList = document.querySelector(".thumbnail-list");
+  $skeletonContainers.forEach(($skeletonContainer) => {
+    $skeletonContainer.remove();
   });
-
-  while ($listContainer.children.length > movies.length) {
-    $listContainer.removeChild($listContainer.lastChild!);
-  }
+  movies.forEach((movie) => {
+  const $movieItem = MovieItem(movie, ((event: MouseEvent) =>
+    openModal(event)) as unknown as () => void);
+    $thumbnailList?.appendChild($movieItem);
+  })
 }
 
-// 결과가 없을 경우 "검색 결과 없음" 메시지 렌더링
 function renderNoResults($main: HTMLElement) {
   const existingContentContainer = document.querySelector(".contentContainer");
   if (existingContentContainer) {
@@ -86,39 +46,37 @@ function renderNoResults($main: HTMLElement) {
   const $contentContainer = document.createElement("div");
   $contentContainer.classList.add("contentContainer");
   $contentContainer.innerHTML = `
-        <img src="./no_results.png" alt="검색 결과 없음">
+        <img src="images/no_results.png" alt="검색 결과 없음">
         <div>검색 결과가 없습니다.</div>
     `;
   $main.appendChild($contentContainer);
-  removeMoreButton($main);
 }
 
-export function ContentsContainer(
-  contentTitle: string,
-  movieList:MovieList,
-  movieService:MovieService,
-  fetchMoviesCallback: FetchMoviesCallback
-) {
-  const $main = document.querySelector("main") as HTMLElement;
+function removeNoResults() {
+  const $contentContainer = document.querySelector(".contentContainer");
+  if ($contentContainer) $contentContainer.remove();
+  
+}
 
-  // 콘텐츠 헤더 렌더링
+export function ContentsContainer(contentTitle: string, movieList:MovieList) {
+  const $main = document.querySelector("main") as HTMLElement;
+  const $thumbnailList = document.querySelector(".thumbnail-list")?.children;
+
   renderContentHeader($main, contentTitle);
   replaceSkeletonWithMovies(movieList.movieList);
-  removeMoreButton($main);
 
-  if (movieList.movieList.length === 0) {
+  if (movieList.movieList.length === 0 && $thumbnailList?.length === 0) {
     renderNoResults($main);
   } else {
-    const $moreButton = Button("더 보기", "more", (event: MouseEvent) =>
-      handleMoreMovies(event,movieService, fetchMoviesCallback)
-    );
-    $main.appendChild($moreButton);
+    removeNoResults()
   }
 
-  if (
-    movieList.movieList.length < 20 ||
-    movieService.currentPage === MAXIMUM_PAGE
-  ) {
-    removeMoreButton($main);
+  if (movieList.movieList.length < 20) {
+      const sentinel = document.getElementById(
+        "sentinel"
+      ) as ObserverHTMLElement;
+    if (sentinel && sentinel.observer) {
+      sentinel.observer.disconnect();
+    }
   }
 }

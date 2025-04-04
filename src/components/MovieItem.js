@@ -1,10 +1,15 @@
 import MovieCaption from "./MovieCaption";
 import ThumbnailImage from "./ThumbnailImage";
 
-function MovieItem({ title, poster_path, vote_average }) {
+function MovieItem(
+  { id, title, poster_path, vote_average },
+  onClick = () => {}
+) {
   const $movieItem = document.createElement("li");
   const $movieItemContainer = document.createElement("div");
+
   $movieItemContainer.classList.add("item");
+  $movieItem.dataset.id = id.toString();
 
   const thumbnailImage = ThumbnailImage({
     title,
@@ -15,6 +20,7 @@ function MovieItem({ title, poster_path, vote_average }) {
     vote_average,
   });
 
+  $movieItem.addEventListener("click", (event) => onClick(event));
   $movieItemContainer.appendChild(thumbnailImage);
   $movieItemContainer.appendChild(movieCaption);
   $movieItem.appendChild($movieItemContainer);

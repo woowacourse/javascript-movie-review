@@ -1,25 +1,26 @@
 import Footer from "../components/Footer.js";
 import Header from "../components/Header.js";
-import { MovieInfo } from "../../types/movieType.ts";
+import { FetchMoviesCallback, MovieInfo } from "../../types/movieType.ts";
 import { ContentsContainer, replaceSkeletonWithMovies, showSkeleton } from "./Contents.ts";
 import MovieService from "../services/MovieService.ts";
-import LogoSearchBar from "../components/LogoSearchBar.js";
-import EVENT_HANDLER from "./EventHandler.js";
-import { getPopularParam } from "../apis/config.js";
 import MovieList from '../domains/MovieList';
+import movieSearch, { clickHome } from "./MovieSearch.ts";
+import { fetchPopularMovies } from "../apis/fetch.js";
 
-async function renderHeader({ title, poster_path, vote_average }: MovieInfo) {
-  const container = document.querySelector("#wrap");
-  const logoSearchBar = LogoSearchBar();
+export interface ObserverHTMLElement extends HTMLElement {
+  observer?: IntersectionObserver;
+}
+
+async function renderHeader({ id, title, poster_path, vote_average }: MovieInfo) {
+  const $wrap = document.querySelector("#wrap");
   const $header = Header({
+    id,
     title,
     poster_path,
     vote_average
   });
-
-  container?.prepend($header);
-  $header.prepend(logoSearchBar);
-  container?.prepend(logoSearchBar);
+ 
+  $wrap?.prepend($header);
 }
 
 function renderFooter() {
@@ -38,41 +39,71 @@ export function setupSearchEvents(movieService: MovieService) {
     if (keyboardEvent.key === "Enter" && keyboardEvent.isComposing === false) {
       const inputValue = (event.target as HTMLInputElement).value;
       movieService.initPage(); 
-      EVENT_HANDLER.SEARCH_MOVIE(inputValue, movieService);
+      movieSearch(inputValue, movieService);
     }
   });
 
   button?.addEventListener("click", () => {
     const inputValue = (input as HTMLInputElement)?.value;
     movieService.initPage();
-    EVENT_HANDLER.SEARCH_MOVIE(inputValue, movieService);
+    movieSearch(inputValue, movieService);
   });
 }
 
 async function renderInitContent(movieList:MovieList, movieService: MovieService) {
-  ContentsContainer("지금 인기 있는 영화", movieList, movieService, () =>
-     movieService.fetchMovies(
-      "/movie/popular",
-      getPopularParam(movieService.currentPage)
-    )
-  );
-
+  ContentsContainer("지금 인기 있는 영화", movieList);
   setupSearchEvents(movieService);
 }
 
-async function main() {
-  const movieService = new MovieService();
-  showSkeleton(20)
-  const movies = await movieService.fetchMovies(
-    "/movie/popular",
-    getPopularParam(movieService.currentPage)
-  );
+export async function loadMoreMovies(fetchMoviesCallback: FetchMoviesCallback) {
+  showSkeleton(20);
+  const movies = await fetchMoviesCallback()
   const movieList = new MovieList(movies.results);
   replaceSkeletonWithMovies(movieList.movieList);
-
-  renderHeader(movies.results[0]);
-  renderFooter();
-  renderInitContent(movieList, movieService);
 }
 
-main();
+export function setupInfiniteScroll(
+  FetchMoviesCallback: FetchMoviesCallback,
+  movieService: MovieService
+) {
+  const sentinel = document.getElementById("sentinel") as ObserverHTMLElement;
+  if (!sentinel) return;
+
+  if (sentinel.observer) {
+    sentinel.observer.disconnect();
+  }
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && movieService.currentPage-1 !== movieService.totalPages) {
+          loadMoreMovies(FetchMoviesCallback);
+        }
+      });
+    },
+    {
+      root: null,
+      rootMargin: "0px",
+      threshold: 1,
+    }
+  );
+  sentinel.observer = observer;
+  observer.observe(sentinel);
+}
+
+async function Main() {
+  const movieService = new MovieService();
+  showSkeleton(20)
+  const movies = await fetchPopularMovies(movieService);
+  const movieList = new MovieList(movies.results);
+
+  renderHeader(movies.results[0]);
+  clickHome()
+  renderInitContent(movieList, movieService)
+  renderFooter();
+
+  const popularFetchCallback = () => fetchPopularMovies(movieService);
+  setupInfiniteScroll(popularFetchCallback, movieService);
+}
+
+Main();
