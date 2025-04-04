@@ -1,13 +1,6 @@
-import { Movie } from "../types/movie";
+import { Movie, MovieDetail } from "../types/movie";
 import ApiClient from "./ApiClient";
-type MovieDetail = {
-  poster_path: string;
-  title: string;
-  genres: { id: number; name: string }[];
-  vote_average: number;
-  overview: string;
-  id: number;
-};
+
 class MovieApi {
   private static readonly BASE_URL = "https://api.themoviedb.org/3";
   private static readonly options = {

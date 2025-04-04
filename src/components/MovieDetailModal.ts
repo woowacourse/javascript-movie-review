@@ -1,17 +1,8 @@
 import MovieApi from "../api/MovieApi";
-import { Movie } from "../types/movie";
+import { Movie, MovieDetail } from "../types/movie";
 import { isHTMLElement } from "../utils/typeGuards";
 import MyRate from "./MyRate";
 import Skeleton from "./Skeleton";
-
-type MovieDetail = {
-  poster_path: string;
-  title: string;
-  genres: { id: number; name: string }[];
-  vote_average: number;
-  overview: string;
-  id: number;
-};
 
 class MovieDetailModal {
   #parentElement;
