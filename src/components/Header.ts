@@ -22,7 +22,6 @@ class Header {
             <img src="./images/logo.png" alt="MovieList" />
         </button>
         <div class="search-bar-container"></div>
-        <div class="header-dummy" style=""></div>
     `;
   }
 

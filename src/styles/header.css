@@ -2,21 +2,22 @@ header {
   position: fixed;
   top: 0;
   left: 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  display: grid;
+  grid-template-columns: auto 1fr 130px;
   padding: 30px 40px;
   z-index: var(--z-header);
   width: 100%;
 }
 
-.header-dummy {
-  width: 155px;
-}
-
 h1.logo {
   font-size: 2rem;
   display: block;
+}
+
+.search-bar-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .search-bar {
