@@ -100,7 +100,6 @@ class PopularMovieBoard {
     this.#page += 1;
 
     const { movies: newMovies, total_pages } = await this.#movieData();
-    if (!newMovies) return;
 
     this.#renderMovies(newMovies);
 
