@@ -21,3 +21,12 @@ export interface MovieItemType {
   vote_average: number;
   vote_count: number;
 }
+
+export interface storedDetailMovieItemType {
+  id: number;
+  overview: string;
+  poster_path: string;
+  title: string;
+  vote_average: number;
+  starScore: number;
+}

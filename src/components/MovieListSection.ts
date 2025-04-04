@@ -8,13 +8,10 @@ interface IMovieListSectionProps {
   hasMore: boolean;
 }
 
-const MovieListSection = ({
-  title,
-  movieList,
-  hasMore,
-}: IMovieListSectionProps) => {
+const MovieListSection = ({ title, movieList, hasMore }: IMovieListSectionProps) => {
   return createDOMElement({
     tag: "section",
+    className: "movie-list-section",
     children: [
       createDOMElement({
         tag: "h2",
@@ -29,7 +26,6 @@ const MovieListSection = ({
         ? createDOMElement({
             tag: "div",
             className: "see-more",
-            textContent: "더 보기",
           })
         : null,
     ],

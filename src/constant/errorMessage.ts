@@ -1,6 +1,7 @@
 /**
  * TMDB에서 제공하는 에러 코드에 대한 메시지 매핑
  * key: TMDB 고유 error code (공식 문서 기준)
+ * https://developer.themoviedb.org/docs/errors
  */
 export const ERROR_MESSAGE: Record<number, string> = {
   3: "인증 실패: 서비스 접근 권한이 없습니다.",

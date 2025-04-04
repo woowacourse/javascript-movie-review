@@ -3,10 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./src/styles/reset.css" />
-    <link rel="stylesheet" href="./src/styles/main.css" />
-    <link rel="stylesheet" href="./src/styles/tab.css" />
-    <link rel="stylesheet" href="./src/styles/thumbnail.css" />
+    <link rel="stylesheet" href="./src/styles/index.css" />
     <title>영화 리뷰</title>
   </head>
   <body>
@@ -16,16 +13,14 @@
           <h1 class="logo">
             <img src="./images/logo.png" alt="MovieList" />
           </h1>
-          <form class="search-bar">
-            <input
-              class="search-input"
-              type="text"
-              placeholder="검색어를 입력하세요"
-            />
-            <button type="submit" class="search-button">
-              <img src="./images/search.png" alt="" />
-            </button>
-          </form>
+          <div class="search-bar-wrapper">
+            <form class="search-bar">
+              <input class="search-input" type="text" placeholder="검색어를 입력하세요" />
+              <button type="submit" class="search-button">
+                <img src="./images/search.png" alt="" />
+              </button>
+            </form>
+          </div>
         </div>
       </header>
 
@@ -36,6 +31,7 @@
         <p><img src="./images/woowacourse_logo.png" width="180" /></p>
       </footer>
     </div>
+
     <script type="module" src="./src/main/main.ts"></script>
   </body>
 </html>

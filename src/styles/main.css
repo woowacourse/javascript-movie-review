@@ -33,7 +33,7 @@ button.primary {
 }
 
 #app {
-  min-width: 1440px;
+  min-width: 340px;
   background-color: var(--color-bluegray-100);
 }
 
@@ -59,13 +59,20 @@ header {
   max-width: 1280px;
   margin: 0 auto;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 24px;
   padding: 40px 0;
   align-items: center;
+  border-radius: 0 0 50px 50px;
+  transition: background-color 0.3s ease;
+}
+
+.header-wrapper.scroll {
+  background-color: rgba(36, 42, 50, 0.95);
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
 }
 
 .header-wrapper .logo {
-  width: 200px;
   cursor: pointer;
 }
 
@@ -76,13 +83,22 @@ header {
   height: auto;
 }
 
+header .search-bar-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 0 20px;
+}
+
 header .search-bar {
   border: 2px solid #d1d5db;
-  width: 525px;
-  height: 36px;
-  border-radius: 32px;
+  width: 100%;
+  max-width: 525px;
+  min-width: 250px;
   display: flex;
   justify-content: space-between;
+  height: 45px;
+  border-radius: 32px;
   padding-top: 6px;
   padding-right: 16px;
   padding-bottom: 6px;
@@ -171,23 +187,23 @@ header .search-bar {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: top;
+  object-position: center;
 }
 
 .top-rated-container {
   user-select: none;
   position: relative;
   z-index: 2;
-  max-width: 1280px;
+  max-width: 800px;
   margin: 0 auto;
 }
 
 .top-rated-movie {
-  margin-top: 64px;
+  margin-top: 200px;
 }
 
 .top-rated-movie > *:not(:last-child) {
-  margin-bottom: 8px;
+  margin-bottom: 25px;
 }
 
 h1.logo {
@@ -218,15 +234,8 @@ span.rate-value {
 
 .see-more {
   width: 100%;
-  background-color: var(--color-lightblue-90, #0da9fd);
-  text-align: center;
-  border-radius: 8px;
-  padding: 10px;
-  font-weight: 600;
-  font-size: 24px;
-  line-height: 100%;
-  letter-spacing: 0.24px;
-  cursor: pointer;
+  height: 200px;
+  background-color: transparent;
 }
 
 .empty-wrapper {
@@ -250,34 +259,6 @@ footer.footer {
 
 footer.footer p:not(:last-child) {
   margin-bottom: 8px;
-}
-
-dialog {
-  padding: 0;
-  border: none;
-  border-radius: 4px;
-  background: transparent; /* 기본 배경 제거 */
-}
-
-dialog::backdrop {
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-.modal-content-box {
-  padding: 30px;
-  border-radius: 20px;
-  background-color: var(--color-white);
-  font-size: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  justify-content: center;
-  align-items: center;
-  border: none;
-}
-
-.modal-content-box img {
-  filter: invert(100);
 }
 
 .skeleton {

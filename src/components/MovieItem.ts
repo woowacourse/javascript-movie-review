@@ -9,6 +9,7 @@ const MovieItem = (movie: MovieItemType) => {
       createDOMElement({
         tag: "div",
         className: "item",
+        id: movie.id,
         children: [
           createDOMElement({
             tag: "div",
@@ -43,7 +44,7 @@ const MovieItem = (movie: MovieItemType) => {
                   }),
                   createDOMElement({
                     tag: "span",
-                    textContent: movie.vote_average,
+                    textContent: Number(movie.vote_average).toFixed(2),
                   }),
                 ],
               }),

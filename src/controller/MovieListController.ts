@@ -1,38 +1,48 @@
-import { getPopularMovieResult } from "../api/getPopularMovieResult";
-import MovieItem from "../component/MovieItem";
-import MovieListSection from "../component/MovieListSection";
-import SkeletonMovieItem from "../component/Skeleton/SkeletonMovieItem";
-import SkeletonMovieListSection from "../component/Skeleton/SkeletonMovieListSection";
-import MovieResults from "../domain/MovieResults";
-import { MovieItemType, MovieResultType } from "../types/movieResultType";
+import { getPopularMovieResult } from "../api/movie/getPopularMovieResult";
+import { MovieListControllerType } from "../types/controllerType";
+import { MovieResultType } from "../types/movieResultType";
+import infinityScrollObserver from "../util/infinityScrollObserver";
+import MovieListView from "../view/movieListView";
 
 class MovieListController {
-  movieResults;
-  mainElement;
+  PopularMovieResults;
+  MovieListView;
 
-  constructor(mainElement: HTMLElement) {
-    this.movieResults = MovieResults();
-    this.mainElement = mainElement;
+  constructor({ mainElement, PopularMovieResults }: MovieListControllerType) {
+    this.PopularMovieResults = PopularMovieResults;
+    this.MovieListView = new MovieListView(mainElement);
   }
 
-  async render() {
-    this.renderSkeleton();
+  async initialize() {
+    this.MovieListView.clearMainElement();
+
+    if (this.PopularMovieResults.hasMovieList()) {
+      this.renderStoredMovies();
+    } else {
+      await this.fetchAndRenderInitialMovies();
+    }
+
+    this.observeSeeMore();
+  }
+
+  renderStoredMovies() {
+    const movieList = this.PopularMovieResults.getMovieList();
+    const hasMore = this.PopularMovieResults.hasMore();
+
+    this.MovieListView.renderMovieList({ movieList, hasMore });
+  }
+
+  async fetchAndRenderInitialMovies() {
     const { movieList, hasMore } = await this.fetchAndStoreMovies();
-    this.renderMovieList({
-      movieList,
-      hasMore,
-    });
-
-    this.bindEvents();
-
-    return movieList[0];
+    this.MovieListView.renderMovieList({ movieList, hasMore });
   }
 
-  bindEvents() {
-    const seeMoreElement = this.mainElement.querySelector(".see-more");
-    seeMoreElement?.addEventListener("click", () => {
-      this.addMovieList();
-    });
+  async loadNextMoviePage() {
+    const nextPage = this.PopularMovieResults.getPage() + 1;
+    const { movieList, hasMore } = await this.fetchAndStoreMovies(nextPage);
+
+    this.MovieListView.appendMovieList(movieList);
+    this.MovieListView.handleSeeMoreElement(hasMore);
   }
 
   async fetchAndStoreMovies(page: number = 1) {
@@ -42,70 +52,15 @@ class MovieListController {
       results: movieList,
     }: MovieResultType = await getPopularMovieResult(page);
 
-    this.movieResults.addMovieList(newPage, movieList);
-    this.movieResults.initialTotalPage(totalPage);
+    this.PopularMovieResults.addMovieList(newPage, movieList);
+    this.PopularMovieResults.initialTotalPage(totalPage);
 
     return { movieList, hasMore: newPage !== totalPage };
   }
 
-  renderSkeleton() {
-    const skeletonSectionElement = SkeletonMovieListSection();
-    this.mainElement.replaceChildren(skeletonSectionElement);
-  }
-
-  renderMovieList({
-    movieList,
-    hasMore,
-  }: {
-    movieList: MovieItemType[];
-    hasMore: boolean;
-  }) {
-    const sectionElement = MovieListSection({
-      title: "지금 인기 있는 영화",
-      movieList,
-      hasMore,
-    });
-
-    this.mainElement.replaceChildren(sectionElement);
-  }
-
-  async renderExistingMovieList() {
-    const movieList = this.movieResults.getMovieList();
-    const hasMore = this.movieResults.hasMore();
-    const sectionElement = MovieListSection({
-      title: "지금 인기 있는 영화",
-      movieList,
-      hasMore,
-    });
-
-    this.mainElement.replaceChildren(sectionElement);
-
-    this.bindEvents();
-  }
-
-  async addMovieList() {
-    const movieListContainer = this.mainElement.querySelector("ul");
-    if (!movieListContainer) return;
-
-    // 스켈레톤 추가
-    const skeletonElements = Array.from({ length: 20 }, () =>
-      SkeletonMovieItem(),
-    );
-    skeletonElements.forEach((skeleton) =>
-      movieListContainer.appendChild(skeleton),
-    );
-
-    const { movieList, hasMore } = await this.fetchAndStoreMovies(
-      this.movieResults.getPage() + 1,
-    );
-
-    // 스켈레톤 제거 후 새로운 영화 추가
-    skeletonElements.forEach((skeleton) => skeleton.remove());
-    movieList.forEach((movie) =>
-      movieListContainer.appendChild(MovieItem(movie)),
-    );
-
-    if (!hasMore) this.mainElement.querySelector(".see-more")?.remove();
+  observeSeeMore() {
+    const seeMoreElement = this.MovieListView.getSeeMoreElement();
+    infinityScrollObserver(seeMoreElement, this.loadNextMoviePage.bind(this));
   }
 }
 

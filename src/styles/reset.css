@@ -2,6 +2,7 @@
    v2.0 | 20110126
    License: none (public domain)
 */
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 
 html,
 body,
@@ -84,6 +85,7 @@ time,
 mark,
 audio,
 video {
+  font-family: "Roboto", sans-serif !important;
   margin: 0;
   padding: 0;
   border: 0;

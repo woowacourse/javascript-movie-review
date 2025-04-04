@@ -1,52 +1,23 @@
-import BackgroundThumbnailSection from "../component/BackgroundThumbnailSection";
-import SkeletonBackgroundThumbnailSection from "../component/Skeleton/SkeletonBackgroundThumbnailSection";
 import { MovieItemType } from "../types/movieResultType";
+import BackgroundThumbnailView from "../view/backgroundThumbnailView";
 
 class BackgroundThumbnailController {
-  mainElement;
-  openModal;
-  backgroundElement!: HTMLElement;
+  openDetailModal;
+  BackgroundThumbnailView;
 
-  constructor({
-    mainElement,
-    openModal,
-  }: {
-    mainElement: HTMLElement;
-    openModal: (text: string) => void;
-  }) {
-    this.mainElement = mainElement;
-    this.openModal = openModal;
+  constructor({ mainElement, openDetailModal }: { mainElement: HTMLElement; openDetailModal: (id: number) => void }) {
+    this.openDetailModal = openDetailModal;
+    this.BackgroundThumbnailView = new BackgroundThumbnailView(mainElement);
   }
 
-  async render(movieItem: MovieItemType) {
-    this.renderSkeleton();
-    await this.renderMovieList(movieItem);
-    this.bindEvents();
+  async initialize(movieItem: MovieItemType) {
+    this.BackgroundThumbnailView.renderBackgroundThumbnail(movieItem);
+    this.clickDetailButton(movieItem);
   }
 
-  bindEvents() {
-    const detailButtonElement = this.backgroundElement.querySelector(
-      "button.detail",
-    ) as HTMLButtonElement;
-    detailButtonElement.addEventListener("click", () =>
-      this.openModal("아직 지원되지 않은 기능입니다."),
-    );
-  }
-
-  renderSkeleton() {
-    this.backgroundElement = SkeletonBackgroundThumbnailSection();
-    this.mainElement?.insertAdjacentElement(
-      "beforebegin",
-      this.backgroundElement,
-    );
-  }
-
-  async renderMovieList(movieItem: MovieItemType) {
-    const backgroundThumbnailSectionElement =
-      BackgroundThumbnailSection(movieItem);
-    this.backgroundElement.replaceWith(backgroundThumbnailSectionElement);
-
-    this.backgroundElement = backgroundThumbnailSectionElement;
+  clickDetailButton(movieItem: MovieItemType) {
+    const detailButtonElement = this.BackgroundThumbnailView.getDetailButton();
+    detailButtonElement.addEventListener("click", () => this.openDetailModal(movieItem.id));
   }
 }
 
