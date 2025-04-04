@@ -28,11 +28,31 @@ class MovieDetailModal {
   }
 
   async #fetchAndRenderModal(id: number) {
-    const details = await MovieApi.fetchMovieDetail(id);
+    try {
+      const details = await MovieApi.fetchMovieDetail(id);
 
-    this.#render(details);
-    this.#renderStarRate(details.id);
-    this.#addEventListeners();
+      this.#render(details);
+      this.#renderStarRate(details.id);
+      this.#addEventListeners();
+    } catch (e) {
+      //에러 처리
+      const $modalContainer = document.querySelector(".modal-container");
+      if (!isHTMLElement($modalContainer)) return;
+
+      $modalContainer.innerHTML = /*html*/ `
+        <div class="modal-error">
+          <img src="./images/dizzy_planet.png" alt="error" />
+          <p>영화 정보를 불러오지 못했습니다.</p>
+          <button class="retry-button" id="retryButton">다시 시도</button>
+        </div>`;
+
+      const $retryButton = document.querySelector("#retryButton");
+      if (!isHTMLElement($retryButton)) return;
+
+      $retryButton.addEventListener("click", () => {
+        this.#fetchAndRenderModal(id);
+      });
+    }
   }
 
   #renderInitial() {
