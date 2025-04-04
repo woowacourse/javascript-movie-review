@@ -7,7 +7,7 @@ import $HeaderBox from "./components/HeaderBox/HeaderBox";
 import $Modal from "./components/Modal/Modal";
 import {
   $MovieListBox,
-  initCurrentPage,
+  resetMovieListState,
 } from "./components/MovieListBox/MovieListBox";
 import { replaceSkeletonList } from "./components/Skeleton/MovieList/SkeletonList";
 import registerMovieDetailEventListener from "./domains/movie/movieDetailHandler";
@@ -16,7 +16,7 @@ export const replaceMovieListBox = ({
   title,
   movieResult,
 }: MovieListSectionProps) => {
-  initCurrentPage();
+  resetMovieListState();
   const $movieListSection = document.querySelector(
     ".movie-list-section"
   ) as HTMLElement;

@@ -84,7 +84,7 @@ const $MovieListBoxRender = () => {
     observer.observe($loadingObserver);
   };
 
-  const initCurrentPage = () => {
+  const resetMovieListState = () => {
     movieState.page = 1;
     movieState.isLoading = false;
 
@@ -175,12 +175,16 @@ const $MovieListBoxRender = () => {
   };
 
   return {
-    initCurrentPage,
+    resetMovieListState,
     setKeyword,
     setMovieListType,
     $MovieListBox,
   };
 };
 
-export const { initCurrentPage, setKeyword, setMovieListType, $MovieListBox } =
-  $MovieListBoxRender();
+export const {
+  resetMovieListState,
+  setKeyword,
+  setMovieListType,
+  $MovieListBox,
+} = $MovieListBoxRender();
