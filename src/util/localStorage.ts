@@ -6,7 +6,15 @@ type LocalStorageKey = (typeof LOCAL_STORAGE_KEYS)[keyof typeof LOCAL_STORAGE_KE
 
 export function getLocalStorage<T>(key: LocalStorageKey, defaultValue: T): T {
   const storedData = localStorage.getItem(key);
-  return storedData ? JSON.parse(storedData) : defaultValue;
+
+  if (!storedData) return defaultValue;
+
+  try {
+    return JSON.parse(storedData) as T;
+  } catch (error) {
+    console.warn(`[getLocalStorage] ${key}의 파싱에 실패했습니다. 기본값을 반환합니다.`);
+    return defaultValue;
+  }
 }
 
 export function setLocalStorage<T>(key: LocalStorageKey, value: T): void {
