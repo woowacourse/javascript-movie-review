@@ -1,6 +1,6 @@
 .skeleton-item {
   animation: pulse 1.5s infinite;
-  background-color: #e0e0e0;
+  background-color: transparent;
   border-radius: 4px;
 }
 
@@ -12,8 +12,16 @@
   animation: pulse 1.5s infinite;
 }
 
+.skeleton-detail-thumbnail {
+  width: 380px;
+  height: 570px;
+  background-color: #ccc;
+  border-radius: 16px;
+  animation: pulse 1.5s infinite;
+}
+
 .skeleton-desc {
-  padding: 8px;
+  padding: 8px 0;
 }
 
 .skeleton-rate,
@@ -73,5 +81,18 @@
   }
   100% {
     transform: translateX(150%);
+  }
+}
+
+@media screen and (max-width: 940px) {
+  .skeleton-detail-thumbnail {
+    width: 200px;
+    height: 300px;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .skeleton-detail-thumbnail {
+    display: none;
   }
 }

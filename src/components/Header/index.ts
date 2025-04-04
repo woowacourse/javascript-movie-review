@@ -1,11 +1,13 @@
-import SearchBar from "./SearchBar.js";
+// Header.ts
+import SearchBar from "./SearchBar";
+import Store from "../../store/store";
 
-const Header = (store) => {
+const Header = (store: Store): string => {
   setTimeout(attachHeaderStyle, 0);
 
   return /* html */ `
-    <header id="header" class="header">
-      <div class="header-container">
+    <header id="header" class="header-container">
+      <div class="header">
         <h1 class="logo">
           <a href="/javascript-movie-review">
             <img src="./images/logo.png" alt="MovieList" />
@@ -18,16 +20,15 @@ const Header = (store) => {
   `;
 };
 
-function attachHeaderStyle() {
-  const $header = document.querySelector("#header");
-
+function attachHeaderStyle(): void {
+  const $header = document.querySelector<HTMLElement>("#header");
   if ($header) {
-    window.addEventListener("scroll", async (event) => {
+    window.addEventListener("scroll", () => {
       if (window.scrollY > 0) {
         $header.classList.add("scrolled");
-        return;
+      } else {
+        $header.classList.remove("scrolled");
       }
-      $header.classList.remove("scrolled");
     });
   }
 }

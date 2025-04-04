@@ -5,7 +5,7 @@ export interface MovieResponse {
   total_results: number;
 }
 
-export interface Movie {
+export interface MovieResult {
   adult: boolean;
   backdrop_path: null | string;
   genre_ids: number[];
@@ -15,9 +15,21 @@ export interface Movie {
   overview: string;
   popularity: number;
   poster_path: null | string;
-  release_date: Date;
+  release_date: string;
   title: string;
   video: boolean;
   vote_average: number;
   vote_count: number;
+}
+
+export interface Movie {
+  id: string;
+  title: string;
+  backdrop_path: null | string;
+  poster_path: null | string;
+  vote_average: number;
+  gernes: string[];
+  release_date: string;
+  overview: string;
+  original_title: string;
 }

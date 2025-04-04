@@ -1,0 +1,72 @@
+{
+  "adult": false,
+  "backdrop_path": "/qJzloL8O9YHhiWBrhlPfKAtZu2I.jpg",
+  "belongs_to_collection": {
+    "id": 556,
+    "name": "스파이더맨 시리즈",
+    "poster_path": "/bp5PqLa06QA1LsELA1SsKZ008H7.jpg",
+    "backdrop_path": "/waZqriYTuBE3WqXI3SDGi3kfDQE.jpg"
+  },
+  "budget": 139000000,
+  "genres": [
+    {
+      "id": 28,
+      "name": "액션"
+    },
+    {
+      "id": 878,
+      "name": "SF"
+    }
+  ],
+  "homepage": "",
+  "id": 557,
+  "imdb_id": "tt0145487",
+  "origin_country": ["US"],
+  "original_language": "en",
+  "original_title": "Spider-Man",
+  "overview": "평범하고 내성적인 고등학생 피터 파커는 우연히 방사능에 감염된 거미에 물린다.그 후, 피터는 손에서 거미줄이 튀어 나오고 벽을 기어 오를 수 있는 거미와 같은 능력을 갖게 된다. 다가오는 위험을 본능적으로 감지하는 초감각과 엄청난 파워를 소유하게 된 것이다. 피터는 짝사랑하던 메리 제인의 관심을 끌기 위해 멋진 스포츠카를 구입하는데 초능력을 처음 사용한다. 그러다 사랑하는 벤 아저씨의 죽음을 계기로 그 힘을 악의 세력에 대항하는데 쓰기로 결심한다. 한편 피터의 절친 해리 오스본의 아버지인 노만은 실험 도중 가스에 중독되어 악의 화신 그린 고블린으로 변하는데...",
+  "popularity": 20.5894,
+  "poster_path": "/4xOhtzXGt0if74dTmS4qtizFelX.jpg",
+  "production_companies": [
+    {
+      "id": 19551,
+      "logo_path": "/2WpWp9b108hizjHKdA107hFmvQ5.png",
+      "name": "Marvel Enterprises",
+      "origin_country": "US"
+    },
+    {
+      "id": 326,
+      "logo_path": null,
+      "name": "Laura Ziskin Productions",
+      "origin_country": "US"
+    },
+    {
+      "id": 5,
+      "logo_path": "/71BqEFAF4V3qjjMPCpLuyJFB9A.png",
+      "name": "Columbia Pictures",
+      "origin_country": "US"
+    }
+  ],
+  "production_countries": [
+    {
+      "iso_3166_1": "US",
+      "name": "United States of America"
+    }
+  ],
+  "release_date": "2002-05-01",
+  "revenue": 821708551,
+  "runtime": 121,
+  "spoken_languages": [
+    {
+      "english_name": "English",
+      "iso_639_1": "en",
+      "name": "English"
+    }
+  ],
+  "status": "Released",
+  "tagline": "큰 힘에는 큰 책임이 따른다",
+  "title": "스파이더맨",
+  "video": false,
+  "vote_average": 7.306,
+  "vote_count": 19463
+}

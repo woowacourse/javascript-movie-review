@@ -1,4 +1,5 @@
-import { Movie, MovieResponse } from "../../types/movie";
+import { Genre, MovieDetail } from "../../types/movieDetail";
+import { Movie, MovieResponse, MovieResult } from "../../types/movieList";
 import APIClient from "./APIClient";
 
 export const fetchPopularMovies = async (
@@ -13,7 +14,11 @@ export const fetchPopularMovies = async (
 
     const response = await APIClient.get(`/movie/popular?${params.toString()}`);
 
-    return response.results;
+    return response.results.map((movie: MovieResult) => ({
+      ...movie,
+      id: movie.id.toString(),
+      vote_average: movie.vote_average.toFixed(1),
+    }));
   } catch (error) {
     if (error instanceof Error && onError) {
       onError(error);
@@ -37,7 +42,38 @@ export const fetchSearchedMovies = async (
 
     const response = await APIClient.get(`/search/movie?${params.toString()}`);
 
-    return response;
+    return {
+      ...response,
+      results: response.results.map((movie: MovieResult) => ({
+        ...movie,
+        id: movie.id.toString(),
+        vote_average: movie.vote_average.toFixed(1),
+      })),
+    };
+  } catch (error) {
+    if (error instanceof Error && onError) {
+      onError(error);
+    }
+    throw error;
+  }
+};
+
+export const fetchMovieDetail = async (
+  id: string,
+  onError?: (error: Error) => void
+): Promise<MovieDetail> => {
+  try {
+    const params = new URLSearchParams({
+      language: "ko-KR",
+    });
+
+    const response = await APIClient.get(`/movie/${id}?${params.toString()}`);
+
+    return {
+      ...response,
+      genres: response.genres.map((genre: Genre) => genre.name),
+      vote_average: response.vote_average.toFixed(1),
+    };
   } catch (error) {
     if (error instanceof Error && onError) {
       onError(error);
