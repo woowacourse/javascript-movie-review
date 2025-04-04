@@ -1,7 +1,10 @@
 import Footer from "./components/Footer/Footer.js";
 import Header from "./components/Header/Header.js";
-import { MovieInfo } from "../types/movieType.ts";
-import ContentsContainer from "./components/Main/ContentsContainer.ts";
+import { HeaderContent, ModalContent, MovieInfo } from "../types/movieType.ts";
+import {
+  ContentsContainer,
+  handleAdditionalData,
+} from "./components/Main/ContentsContainer.ts";
 import MovieService from "./services/MovieService.ts";
 import LogoSearchBar from "./components/Header/LogoSearchBar.js";
 import HeaderSkeleton from "./components/Skeleton/HeaderSkeleton.js";
@@ -9,10 +12,26 @@ import {
   hideSkeleton,
   showSkeleton,
 } from "./components/Skeleton/showSkeleton.ts";
+import openModal from "./components/Modal/openModal.ts";
+import SearchMovieService from "./services/SearchMovieService.ts";
+import DetailMovieService from "./services/DetailMovieService.ts";
 
-function renderHeader({ title, poster_path, vote_average }: MovieInfo) {
+function renderHeader({
+  id,
+  title,
+  backdrop_path,
+  poster_path,
+  overview,
+  vote_average,
+}: HeaderContent) {
   const $container = document.querySelector("#wrap");
-  const $header = Header({ title, poster_path, vote_average });
+  const $header = Header({
+    title,
+    backdrop_path,
+    poster_path,
+    overview,
+    vote_average,
+  });
   const $logoSearchBar = LogoSearchBar();
   $header.querySelector(".top-rated-container")?.prepend($logoSearchBar);
   const $headerSkeleton = document
@@ -21,31 +40,56 @@ function renderHeader({ title, poster_path, vote_average }: MovieInfo) {
   if ($headerSkeleton) {
     $headerSkeleton.remove();
   }
+
   $container?.prepend($header);
+  const $openModalButton = $header.querySelector(".detail");
+  if ($openModalButton) {
+    $openModalButton.addEventListener("click", async () => {
+      const movieDetails = await DetailMovieService.getMovieDetails(id);
+      const event = new CustomEvent("modalOpenClicked", {
+        detail: movieDetails,
+      });
+      document.dispatchEvent(event);
+    });
+  }
 }
 
-async function renderContent(movieService: MovieService, results: MovieInfo[]) {
-  ContentsContainer(results, "지금 인기 있는 영화");
+document.addEventListener("modalOpenClicked", (event: Event) => {
+  const customEvent = event as unknown as CustomEvent<ModalContent>;
 
+  const { title, release_date, genres, poster_path, vote_average, overview } =
+    customEvent.detail;
+  openModal({
+    title,
+    release_date,
+    genres,
+    poster_path,
+    vote_average,
+    overview,
+  });
+});
+
+function handleSearchEvent(searchMovieService: SearchMovieService) {
   // 이벤트 등록
   const $input = document.querySelector(".search-input") as HTMLInputElement;
   const $button = document.querySelector(".search-button") as HTMLButtonElement;
   const $section = document.querySelector("section") as HTMLDivElement;
 
-  $input?.addEventListener("keypress", async (event) => {
+  $input?.addEventListener("keydown", async (event) => {
     const keyboardEvent = event as KeyboardEvent;
-    if (keyboardEvent.key === "Enter") {
+    if (keyboardEvent.key === "Enter" && !event.isComposing) {
       const inputValue = (event.target as HTMLInputElement).value;
       showSkeleton(20, "section");
       if (inputValue === "") {
         alert("검색어를 입력해주세요.");
       } else {
-        const searchResult = await movieService.getSearchResult(inputValue);
+        const searchResult = await searchMovieService.getSearchResult(
+          inputValue
+        );
         if ($section) {
           $section.innerHTML = "";
         }
-
-        ContentsContainer(searchResult.results, `"${inputValue}" 검색 결과`);
+        renderContent(searchResult.results, `"${inputValue}" 검색 결과`);
       }
     }
   });
@@ -56,14 +100,43 @@ async function renderContent(movieService: MovieService, results: MovieInfo[]) {
     if (inputValue === "") {
       alert("검색어를 입력해주세요.");
     } else {
-      const searchResult = await movieService.getSearchResult(inputValue);
+      const searchResult = await searchMovieService.getSearchResult(inputValue);
       if ($section) {
         $section.innerHTML = "";
       }
-
-      ContentsContainer(searchResult.results, `"${inputValue}" 검색 결과`);
+      renderContent(searchResult.results, `"${inputValue}" 검색 결과`);
     }
   });
+}
+let currentObserver: IntersectionObserver;
+
+async function renderContent(results: MovieInfo[], title: string) {
+  if (currentObserver) {
+    currentObserver.disconnect();
+  }
+
+  ContentsContainer(results, title);
+  const $main = document.querySelector("main")!;
+  const $lastItem = document.createElement("div");
+  $lastItem.style.height = "10px";
+  $main.appendChild($lastItem);
+
+  const movieService = new MovieService();
+  const searchMovieService = new SearchMovieService();
+  currentObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        handleAdditionalData(
+          movieService,
+          searchMovieService,
+          title,
+          currentObserver
+        );
+      }
+    });
+  });
+
+  currentObserver.observe($lastItem);
 }
 
 function renderFooter() {
@@ -74,6 +147,7 @@ function renderFooter() {
 
 async function main() {
   const movieService = new MovieService();
+  const searchMovieService = new SearchMovieService();
   const $container = document.querySelector("#wrap");
 
   const $headerSkeleton = HeaderSkeleton();
@@ -87,7 +161,9 @@ async function main() {
 
   hideSkeleton();
 
-  renderContent(movieService, data.results);
+  renderContent(data.results, "지금 인기 있는 영화");
+
+  handleSearchEvent(searchMovieService);
 
   renderFooter();
 }

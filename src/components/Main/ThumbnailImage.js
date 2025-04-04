@@ -1,4 +1,4 @@
-function ThumbnailImage({ title, poster_path }) {
+function ThumbnailImage({ id, title, poster_path }) {
   if (!poster_path) {
     const $titleElement = document.createElement("div");
     $titleElement.classList.add("thumbnail-title");
@@ -8,6 +8,7 @@ function ThumbnailImage({ title, poster_path }) {
 
   const $thumbnailImage = document.createElement("img");
   $thumbnailImage.classList.add("thumbnail");
+  $thumbnailImage.dataset.id = id;
 
   const defaultImage = "./default_poster_image.png";
   $thumbnailImage.src = `https://media.themoviedb.org/t/p/w440_and_h660_face${poster_path}`;
