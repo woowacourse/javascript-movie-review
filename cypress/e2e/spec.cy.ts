@@ -1,15 +1,23 @@
+/// <reference types="cypress" />
+
 describe("영화 리뷰 페이지 테스트", () => {
   beforeEach(() => {
     cy.visit("localhost:5173");
   });
+
+  describe("무한스크롤 동작 확인", () => {
+    it("첫 로딩 후 스크롤을 가장 하단으로 내릴 시 20개가 추가되어 총 40개의 영화 목록이 로딩된다", () => {
+      cy.get(".item").should("have.length", 20);
+
+      cy.get("#target").scrollIntoView();
+
+      cy.get(".item").should("have.length", 40);
+    });
+  });
+
   describe("인기 있는 영화가 정상적으로 보여진다.", async () => {
     it("처음 페이지에 접속하면 20개의 영화 목록이 보인다.", () => {
       cy.get(".item").should("have.length", 20);
-    });
-
-    it("더보기 버튼을 누르면 20개의 영화가 추가된다.", () => {
-      cy.get(".add-more-button").click();
-      cy.get(".item").should("have.length", 40);
     });
   });
   describe("특정 키워드로 영화 검색을 하면 해당 영화들이 보여진다.", () => {
@@ -20,7 +28,7 @@ describe("영화 리뷰 페이지 테스트", () => {
     });
 
     it("검색 결과가 없으면 해당 관련 UI를 보여준다.", () => {
-      cy.get("#search-input").type("크하하하");
+      cy.get("#search-input").type("randomMovieNamethatdoesnotexist");
       cy.get(".search-button").click();
       cy.get(".empty-search-result-container").should("exist");
     });
@@ -32,12 +40,12 @@ describe("영화 리뷰 페이지 테스트", () => {
     });
   });
 
-  describe("영화 API 테스트", () => {
+  describe("인기 영화 API 테스트", () => {
     beforeEach(() => {
       cy.intercept(
         {
           method: "GET",
-          url: /^https:\/\/api.themoviedb.org\/3\/tv\/popular*/,
+          url: /^https:\/\/api.themoviedb.org\/3\/movie\/popular*/,
         },
         {
           fixture: "movie-popular.json",
@@ -49,9 +57,41 @@ describe("영화 리뷰 페이지 테스트", () => {
 
     it("영화 API를 통해 영화 목록을 받아온다.", () => {
       cy.wait("@getPopularMovies").then((interception) => {
-        const popularMovies = interception.response.body.results;
+        const popularMovies = interception.response?.body.results;
         expect(popularMovies.length).to.equal(20);
       });
+    });
+  });
+
+  describe("영화 상세 모달 테스트", () => {
+    it("상단 배너에 자세히 보기 버튼을 누르면 첫번째 인기있는 영화의 상세 모달이 띄어진다.", () => {
+      cy.get(".banner-button").click();
+      cy.get(".modal").should("exist");
+      cy.get("#closeModal").click();
+      cy.get(".modal").should("not.exist");
+    });
+
+    it("지금 인기 있는 영화 페이지에서 특정 Movie Card 클릭 시 영화 상세 모달이 띄어지고 삭제 버튼 클릭 시 모달이 삭제된다.", () => {
+      cy.get(".movie-card-button").first().click();
+      cy.get(".modal").should("exist");
+      cy.get("#closeModal").click();
+      cy.get(".modal").should("not.exist");
+    });
+  });
+
+  describe("영화 내 별점 업데이트 테스트", () => {
+    it("영화 상세 모달에서 내 별점 2점 클릭 시 내 별점이 2점으로 업데이트 된다.", () => {
+      cy.get(".movie-card-button").first().click();
+      cy.get(".star-button").first().click();
+      cy.get(".star-rating")
+        .first()
+        .find('img[src="./images/star_filled.png"]')
+        .should("have.length", 1);
+
+      cy.get(".rating-out-of-ten")
+        .invoke("text")
+        .should("include", "최악이에요")
+        .and("include", "(2/10)");
     });
   });
 });
@@ -61,7 +101,7 @@ describe("api 요청에 실패하면 에러 페이지가 나온다.", () => {
     cy.intercept(
       {
         method: "GET",
-        url: /^https:\/\/api.themoviedb.org\/3\/tv\/popular*/,
+        url: /^https:\/\/api.themoviedb.org\/3\/movie\/popular.*/,
       },
       {
         statusCode: 404,
@@ -74,7 +114,14 @@ describe("api 요청에 실패하면 에러 페이지가 나온다.", () => {
   it("영화 API 요청에 실패하면 에러 페이지가 보인다.", () => {
     cy.visit("localhost:5173");
     cy.wait("@getPopularMoviesError").then(() => {
-      cy.get(".error-page-container").should("exist");
+      cy.get(".error-modal-container").should("exist");
+    });
+  });
+
+  it("영화 API 요청에 실패하면 에러 페이지가 보인다.", () => {
+    cy.visit("localhost:5173");
+    cy.wait("@getPopularMoviesError").then(() => {
+      cy.get(".error-modal-container").should("exist");
     });
   });
 });

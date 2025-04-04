@@ -15,6 +15,10 @@ body {
   background-color: var(--color-bluegray-80);
 }
 
+#target {
+  height: 100px;
+}
+
 #wrap,
 section {
   display: flex;
@@ -44,9 +48,17 @@ button.primary {
   border-radius: 8px;
 }
 
+button.primary:hover {
+  background-color: var(--color-darkblue-90);
+  transition: 0.2s;
+}
+
 #wrap {
-  min-width: 1440px;
+  width: 100%;
   background-color: var(--color-bluegray-100);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 #wrap h2 {
@@ -55,9 +67,16 @@ button.primary {
   margin-bottom: 32px;
 }
 
+#header {
+  width: 100%;
+}
+
 .container {
-  max-width: 1280px;
-  margin: 0 auto;
+  width: 100%;
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .background-container {
@@ -112,10 +131,6 @@ button.logo :hover {
   transition: 0.3s;
 }
 
-button.add-more-button {
-  width: 100%;
-}
-
 .rate {
   display: flex;
   align-items: baseline;
@@ -138,7 +153,14 @@ span.rate-value {
   font-weight: bold;
 }
 
+@media (max-width: 768px) {
+  .title {
+    font-size: 2rem;
+  }
+}
+
 footer.footer {
+  width: 100%;
   min-height: 180px;
   background-color: var(--color-bluegray-80);
   display: flex;
@@ -154,11 +176,23 @@ footer.footer p:not(:last-child) {
 
 .header-container {
   display: flex;
+  flex-direction: row;
   justify-content: center;
+  align-items: center;
+}
+
+@media (max-width: 1200px) {
+  .header-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+  }
 }
 
 .search-form {
-  width: 40%;
+  width: 60%;
   margin: auto;
   display: flex;
   justify-content: space-between;
@@ -196,6 +230,12 @@ footer.footer p:not(:last-child) {
   margin-bottom: 56px;
 }
 
+@media (max-width: 768px) {
+  .movie-list-title {
+    font-size: 24px;
+  }
+}
+
 .disabled {
   display: none;
 }
@@ -223,29 +263,40 @@ footer.footer p:not(:last-child) {
   font-weight: 600;
 }
 
-.error-page-container {
-  display: flex;
-  flex-direction: column;
+.error-modal-container {
+  position: fixed;
+  background-color: white;
+  border-radius: 16px;
+  width: 40%;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   gap: 30px;
+  display: flex;
+  padding: 18px 15px;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 80vh;
-  font-size: 36px;
+  font-size: 25px;
+  color: black;
   font-weight: 600;
 }
 
-.error-page-button {
+.close-error-modal {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 25px;
+  font-size: bold;
+  cursor: pointer;
+}
+
+.error-modal-button {
   width: 100%;
   font-size: 24px;
 }
 
-.error-page-button:hover {
-  scale: 1.1;
-  transition: 0.3s;
-}
-
-.error-page-image {
-  width: 150px;
-  height: 130px;
-  object-fit: cover;
+.error-modal-button:hover {
+  scale: 1.05;
+  transition: 0.2s;
 }

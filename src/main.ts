@@ -1,45 +1,46 @@
 import { getMovieList } from "./features/movie/api/getMovieList";
-import Header from "./shared/ui/components/Header";
-import { CustomButton } from "./shared/ui/components/CustomButton";
-import { addMoreMovies } from "./shared/ui/addMoreMovies";
+import Header from "./features/movie/ui/components/Header";
 import { searchFormSubmitHandler } from "./features/search/ui/searchFormSubmitHandler";
-import { addMovieCard } from "./shared/ui/addMovieCard";
-import MoreMoviesButton from "./shared/ui/components/MoreMoviesButton";
-import ErrorPage from "./shared/ui/components/ErrorPage";
-import { withSkeleton } from "./shared/ui/withSkeleton";
+import { addMovieCard } from "./features/movie/ui/addMovieCard";
+import ErrorModal from "./shared/ui/components/ErrorModal";
+import { withSkeleton } from "./features/skeleton/ui/withSkeleton";
+import { initUrl } from "./shared/utils/updateUrl";
+import { movieDetailModalHandler } from "./features/detailModal/ui/movieDetailModalHandler";
+import { intersectionObserver } from "./features/movie/utils/intersectionObserver";
+import { addMoreMovies } from "./features/movie/ui/addMoreMovies";
+import { getUrlParams } from "./shared/utils/getUrlParams";
 
 async function init() {
   const $movieList = document.querySelector(".thumbnail-list") as HTMLElement;
 
   if (!$movieList) {
-    ErrorPage("영화 리스트를 불러오는데 실패하였습니다.");
+    ErrorModal("영화 리스트를 불러오는데 실패하였습니다.");
     return;
   }
 
+  initUrl();
+
   try {
-    const movies = await withSkeleton($movieList, getMovieList({ page: 1 }));
-    if (movies) {
-      Header(movies.results[0]);
-      addMovieCard(movies.results, $movieList);
+    const movieLists = await withSkeleton(
+      $movieList,
+      getMovieList({ page: 1 })
+    );
+    if (movieLists) {
+      const movies = movieLists.results.map((movieList) => {
+        const { id, title, poster_path, vote_average } = movieList;
+        return {
+          id,
+          title,
+          poster_path,
+          vote_average,
+        };
+      });
+      Header(movies[0]);
+      addMovieCard(movies, $movieList);
     }
   } catch (error) {
-    if (error instanceof Error) {
-      ErrorPage("영화 리스트를 불러오는데 실패하였습니다.");
-    }
+    ErrorModal("영화 리스트를 불러오는데 실패하였습니다.");
   }
-
-  const $movieContainer = document.getElementById("movie-container");
-  const addMoreMoviesButton = CustomButton({
-    title: "더보기",
-    className: "add-more-button",
-  });
-  addMoreMoviesButton.id = "more-movies-button";
-  $movieContainer?.appendChild(addMoreMoviesButton);
-
-  const $moreMoviesButton = MoreMoviesButton();
-  $moreMoviesButton?.addEventListener("click", async () => {
-    withSkeleton($movieList, addMoreMovies($movieList));
-  });
 
   const searchForm = document.querySelector(".search-form");
 
@@ -48,11 +49,18 @@ async function init() {
     try {
       await searchFormSubmitHandler(e);
     } catch (error) {
-      if (error instanceof Error) {
-        ErrorPage("영화 리스트를 불러오는데 실패하였습니다.");
-      }
+      ErrorModal("영화 리스트를 불러오는데 실패하였습니다.");
     }
   });
+
+  const query = getUrlParams().get("query");
+  if (!query) {
+    intersectionObserver(() =>
+      withSkeleton($movieList, addMoreMovies($movieList))
+    );
+  }
+
+  movieDetailModalHandler();
 }
 
 if (document.readyState === "loading") {

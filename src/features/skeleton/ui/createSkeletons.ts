@@ -1,4 +1,4 @@
-import { createFragment } from "../utils/createFragment";
+import { createFragment } from "../../../shared/utils/createFragment";
 import { MovieSkeleton } from "./components/MovieSkeleton";
 
 export const createSkeletons = (count = 10) => {

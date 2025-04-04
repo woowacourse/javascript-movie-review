@@ -1,4 +1,4 @@
-import { toElement } from "../../utils/toElement";
+import { toElement } from "../../../../shared/utils/toElement";
 
 export const MovieSkeleton = () => {
   return toElement(`

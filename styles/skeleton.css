@@ -5,13 +5,31 @@
   gap: 70px;
 }
 
+@media (max-width: 1200px) {
+  .skeleton {
+    grid-template-columns: repeat(4, 200px);
+  }
+}
+
+@media (max-width: 768px) {
+  .skeleton {
+    grid-template-columns: repeat(3, 200px);
+  }
+}
+
+@media (max-width: 480px) {
+  .skeleton {
+    grid-template-columns: repeat(1, 200px);
+  }
+}
+
 .skeleton-item {
   animation: skeleton-loading 1.5s infinite;
 }
 
 .skeleton-thumbnail {
   width: 100%;
-  height: 180px;
+  height: 300px;
   background-color: #e0e0e0;
   border-radius: 8px;
 }
