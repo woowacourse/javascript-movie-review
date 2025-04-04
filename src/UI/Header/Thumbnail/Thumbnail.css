@@ -19,10 +19,12 @@
 
 .top-rated-container {
   user-select: none;
-  position: relative;
+  position: absolute;
   z-index: 2;
   max-width: 1280px;
   margin: 0 auto;
+  bottom: 100px;
+  left: 10%;
 }
 
 .top-rated-movie {

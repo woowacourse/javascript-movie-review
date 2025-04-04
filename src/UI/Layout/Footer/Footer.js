@@ -1,6 +1,10 @@
 import "./Footer.css";
 
 class Footer {
+  constructor($target) {
+    this.$target = $target;
+  }
+
   render() {
     const $footer = document.createElement("footer");
     $footer.classList.add("footer");
@@ -9,7 +13,7 @@ class Footer {
     <p><img src="./images/woowacourse_logo.png" width="180" /></p>
     `;
 
-    return $footer;
+    this.$target.appendChild($footer);
   }
 }
 export default Footer;

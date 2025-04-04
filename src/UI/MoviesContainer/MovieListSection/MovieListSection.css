@@ -8,3 +8,18 @@
 .block {
   display: block;
 }
+
+@media screen and (min-width: 390px) and (max-width: 800px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(3, 200px);
+    justify-content: center;
+  }
+}
+
+@media screen and (max-width: 390px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(1, 200px);
+    margin: 0 auto;
+    justify-content: center;
+  }
+}

@@ -1,9 +1,11 @@
 import "./MovieItem.css";
 
 class MovieItem {
-  constructor(movie, isLoading) {
+  constructor(movie, isLoading, onMovieItemClick, $target) {
     this.movie = movie;
     this.isLoading = isLoading;
+    this.onMovieItemClick = onMovieItemClick;
+    this.$target = $target;
   }
 
   render() {
@@ -11,7 +13,9 @@ class MovieItem {
 
     if (this.isLoading) {
       $li.classList.add("skeleton-box");
-      return $li;
+      this.$target.appendChild($li);
+
+      return;
     }
 
     const { title, poster_path, vote_average } = this.movie;
@@ -40,7 +44,9 @@ class MovieItem {
     
     `;
 
-    return $li;
+    $li.addEventListener("click", () => this.onMovieItemClick(this.movie.id));
+
+    this.$target.appendChild($li);
   }
 }
 export default MovieItem;

@@ -9,6 +9,11 @@
   width: 100%;
   z-index: 3;
   margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  gap: 24px;
 }
 
 .search-bar {
@@ -17,9 +22,6 @@
   border-radius: 32px;
   border: 2px solid white;
   padding: 6px 16px;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
   display: flex;
   justify-content: space-between;
 }
@@ -37,8 +39,17 @@
   color: white;
 }
 
+.search-input::placeholder {
+  color: white;
+}
+
 h1.logo {
   font-size: 2rem;
-  float: left;
-  margin-left: 125px;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 620px) {
+  .search-bar {
+    width: 80%;
+  }
 }

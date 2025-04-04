@@ -1,0 +1,26 @@
+.rating-selector {
+  font-size: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.rate-button {
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
+.rate-text {
+  font-weight: bold;
+}
+
+.rate-number {
+  color: #95a1b2;
+}
+
+@media screen and (max-width: 390px) {
+  .rating-selector {
+    flex-direction: column;
+    align-items: center;
+  }
+}

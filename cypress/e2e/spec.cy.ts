@@ -6,6 +6,7 @@ describe("Fixture를 이용한 E2E 테스트", () => {
     setupMovieApiMocks();
 
     cy.visit("http://localhost:5173");
+    cy.viewport(1536, 960);
   });
 
   it("영화 목록 API를 호출하면 20개의 영화가 랜더링 되어야 한다.", () => {
@@ -19,28 +20,31 @@ describe("Fixture를 이용한 E2E 테스트", () => {
     cy.get(".thumbnail-list > li").should("have.length", 20);
   });
 
-  it("더보기 버튼 클릭 시 20개의 영화가 추가된다.", () => {
-    // 첫 번째 API 응답 기다리기
-    cy.wait("@getPopularMovies");
-    cy.get(".thumbnail-list > li").should("have.length", 20);
+  it("영화 아이템을 클릭하면 모달이 뜨고 해당 영화의 상세 정보가 모달안에 나타난다.", () => {
+    cy.get(".thumbnail-list > li:first-child").click();
 
-    // 더보기 버튼 클릭
-    cy.get(".more-button").should("exist").click();
+    cy.get(".modal").should("exist").should("be.visible");
 
-    // 두 번째 API 응답 기다리기
-    cy.wait("@getPopularMovies");
+    cy.wait("@getMovieDetail").then((interception) => {
+      const movie = interception.response?.body;
 
-    // 영화 개수가 40개인지 확인
-    cy.get(".thumbnail-list > li").should("have.length", 40);
+      cy.contains(movie.title);
+      cy.contains(movie.overview);
+      cy.contains(movie.genres.map((genre) => genre.name).join(", "));
+      cy.contains(movie.release_date.slice(0, 4));
+    });
   });
 
-  it("짱구 검색 후 더보기 버튼 클릭시 더보기 버튼이 사라져야한다.", () => {
+  it("가장 하단으로 스크롤을 내리면 무한스크롤이 동작한다.", () => {
     cy.get(".search-input").click();
     cy.get(".search-input").type("짱구");
     cy.get(".search-input").type("{enter}");
-    cy.wait("@getSearchMovies");
-    cy.get(".more-button").should("exist").click();
-    cy.get(".more-button").should("not.exist");
+
+    cy.get(".thumbnail-list > li").should("have.length.at.least", 20);
+
+    cy.scrollTo("bottom");
+
+    cy.get(".thumbnail-list > li").should("have.length", 35);
   });
 
   it("없는 영화 검색 시 검색 결과 없습니다 페이지가 랜더링 된다.", () => {
