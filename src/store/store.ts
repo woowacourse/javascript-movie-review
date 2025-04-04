@@ -1,10 +1,10 @@
-type Mode = "popularAdd" | "searchAdd";
+type Mode = 'popularAdd' | 'searchAdd';
 
 class Store {
   private state: { currentMode: Mode };
 
   constructor() {
-    this.state = { currentMode: "popularAdd" };
+    this.state = { currentMode: 'popularAdd' };
   }
 
   setMode(newMode: Mode) {
