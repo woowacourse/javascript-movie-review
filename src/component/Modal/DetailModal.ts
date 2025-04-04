@@ -29,7 +29,7 @@ function DetailModal(movie: MovieDetailResponse): HTMLElement {
   });
 
   const averageRate = createDOMElement({
-    tag: 'p',
+    tag: 'div',
     className: 'average-rate',
     children: [
       createDOMElement({ tag: 'span', textContent: '평균', className: 'average' }),
