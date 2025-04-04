@@ -1,6 +1,8 @@
 .gnb {
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
   position: relative;
   z-index: 100;
   margin: 48px;
@@ -8,15 +10,9 @@
   margin-bottom: 50px;
 }
 
-.logo {
-  position: absolute;
-  left: 0;
+.logo-bar {
+  margin-bottom: 15px;
 }
-
-/* .overlay {
-  width: 100%;
-  height: 80%
-} */
 
 .overlay img {
   width: 100%;
@@ -28,19 +24,23 @@
 .search-bar-container {
   display: flex;
   border: 2px solid #d1d5db;
-  width: 525px;
+  width: 70%;
   height: 36px;
   border-radius: 32px;
 }
 
 .search-bar {
-  flex-grow: 2;
+  width: 100%;
   border: none;
   color: #ffff;
   border: 1px solid transparent;
   background-color: transparent;
   border-radius: 32px;
   padding-left: 20px;
+}
+
+.search-bar::placeholder {
+  color: #ffff;
 }
 
 .search-bar:focus {

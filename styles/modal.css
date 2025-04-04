@@ -13,15 +13,13 @@ body.modal-open {
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경을 위해 설정 */
   backdrop-filter: blur(10px); /* 블러 효과 적용 */
-  display: flex;
+  /* display: flex; */
   justify-content: center;
   align-items: center;
   z-index: 10;
   visibility: hidden; /* 모달이 기본적으로 보이지 않도록 설정 */
   opacity: 0;
-  transition:
-    opacity 0.3s ease,
-    visibility 0.3s ease;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
 .modal-background.active {
@@ -35,7 +33,10 @@ body.modal-open {
   border-radius: 16px;
   color: white;
   z-index: 2;
-  position: relative;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
   width: 1000px;
 }
 
@@ -85,4 +86,69 @@ body.modal-open {
 .detail {
   max-height: 430px;
   overflow-y: auto;
+}
+
+dialog {
+  margin: 0;
+  padding: 0;
+}
+
+dialog:-internal-dialog-in-top-layer {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+#modalTitle {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 2px;
+}
+
+.my-star {
+  border: 10px;
+}
+
+.category {
+  padding-top: 15px;
+  font-size: 1.2rem;
+}
+
+.rate-score {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.rate-box {
+  border-top: 1.5px solid var(--color-bluegray-custom);
+  border-bottom: 1.5px solid var(--color-bluegray-custom);
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.star-comment-box {
+  display: flex;
+  flex-direction: row;
+}
+
+.comment {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-left: 10px;
+  margin-right: 5px;
+}
+
+.score {
+  color: var(--color-bluegray-custom);
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+p.rate > span {
+  font-size: 1.2rem;
+  margin-left: 4px;
+  margin-right: 10px;
+}
+
+.overview {
+  padding-top: 15px;
 }

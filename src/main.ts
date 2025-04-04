@@ -5,14 +5,10 @@ import deleteParams from "./utils/deleteParams";
 
 deleteParams();
 
-Main({
-  movies: "loading",
-});
-
 async function init() {
   const PAGE = 1;
   const popularMovieData = await fetchPopularMovies(PAGE);
-  movies.updateMovies(popularMovieData.results);
+  movies.updateMovies(popularMovieData!.results);
 
   document.querySelector("#wrap")?.remove();
 

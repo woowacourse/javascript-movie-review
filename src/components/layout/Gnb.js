@@ -1,3 +1,4 @@
+import deleteParams from "../../utils/deleteParams";
 import SearchBar from "../search/SearchBar";
 import createElement from "../utils/createElement";
 
@@ -7,6 +8,11 @@ const Gnb = () => {
   const $div = createElement({
     tag: "div",
     classNames: ["gnb"],
+  });
+
+  const $logoBar = createElement({
+    tag: "div",
+    classNames: ["logo-bar"],
   });
 
   const $logo = createElement({
@@ -20,7 +26,8 @@ const Gnb = () => {
     alt: "MovieList",
   });
 
-  $div.appendChild($logo);
+  $div.appendChild($logoBar);
+  $logoBar.append($logo);
   $logo.appendChild($logoImg);
   $div.appendChild(SearchBar());
 

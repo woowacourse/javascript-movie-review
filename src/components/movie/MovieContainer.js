@@ -1,6 +1,10 @@
 import MovieList from "./MovieList";
 import createElement from "../utils/createElement";
 import Button from "../common/Button";
+import storeMovies from "../../store/Movies";
+import { getNextPage } from "../../store/page";
+import fetchSearchMovies from "../../fetch/fetchSearchMovies";
+import fetchPopularMovies from "../../fetch/fetchPopularMovies";
 
 const BUTTON_MORE = "더보기";
 
@@ -28,8 +32,51 @@ const MovieContainer = ({ movies }) => {
   $container.appendChild($main);
   $main.appendChild($section);
   $section.appendChild($h2);
+
+  const $div = createElement({
+    tag: "div",
+    classNames: ["observer"],
+  });
+
+  const callback = (entries, observer) => {
+    entries.forEach(async (entry) => {
+      if (entry.isIntersecting) {
+        const params = new URLSearchParams(window.location.search);
+
+        let fetchedMovies;
+        const currentPage = getNextPage();
+        if (params.has("query")) {
+          fetchedMovies = await fetchSearchMovies(
+            params.get("query"),
+            currentPage
+          );
+        } else {
+          fetchedMovies = await fetchPopularMovies(currentPage);
+        }
+        storeMovies.addMovies(fetchedMovies.results);
+
+        if (fetchedMovies.totalPages === currentPage) {
+          return;
+        }
+
+        document.querySelector(".thumbnail-list").remove();
+        const observer = document.querySelector(".observer");
+        const section = document.querySelector("section");
+        section.insertBefore(
+          MovieList({
+            movies: storeMovies.movieList,
+          }),
+          observer
+        );
+      }
+    });
+  };
+
+  const observer = new IntersectionObserver(callback);
+  observer.observe($div);
+
   $section.appendChild(MovieList({ movies }));
-  $main.appendChild(Button({ text: BUTTON_MORE, type: "more" }));
+  $section.appendChild($div);
 
   return $container;
 };

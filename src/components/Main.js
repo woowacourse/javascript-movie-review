@@ -1,7 +1,7 @@
+import Modal from "./movie/movieModal/Modal";
+import Footer from "./layout/Footer";
 import Header from "./layout/Header";
 import MovieContainer from "./movie/MovieContainer";
-//import DetailModal from "./layout/DetailModal";
-import Footer from "./layout/Footer";
 import createElement from "./utils/createElement";
 
 const Main = ({ movies }) => {
@@ -22,7 +22,8 @@ const Main = ({ movies }) => {
 
     $container.appendChild(
       Header({
-        popularMovie: movies[0], // STEP 2에서 추가 구현하는 부분
+        popularMovie: movies[0],
+
       })
     );
 
@@ -31,16 +32,14 @@ const Main = ({ movies }) => {
         movies,
       })
     );
-    // const $modal = createElement({
-    //   tag: "div",
-    //   id: "modal",
-    // });
 
-    //$wrap.appendChild($modal);
+    const $dialog = createElement({
+      tag: "dialog",
+      classNames: ["modal-background", "active"],
+      id: "modalBackground",
+    });
 
-    $wrap.appendChild($container);
-    //$wrap.appendChild(Modal());
-    $wrap.appendChild(Footer());
+    $wrap.append($container, Footer(), $dialog);
   }
 };
 

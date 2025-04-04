@@ -7,6 +7,27 @@
   gap: 70px;
 }
 
+@media screen and (max-width: 1200px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+@media screen and (max-width: 1000px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media screen and (max-width: 700px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media screen and (max-width: 400px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
 .thumbnail {
   width: 200px;
   height: 300px;
