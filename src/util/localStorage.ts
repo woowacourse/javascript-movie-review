@@ -1,10 +1,8 @@
-export const LOCAL_STORAGE_KEYS = {
-  RATING: 'rating'
-} as const;
+export enum LOCAL_STORAGE_KEYS {
+  RATING = 'rating'
+}
 
-type LocalStorageKey = (typeof LOCAL_STORAGE_KEYS)[keyof typeof LOCAL_STORAGE_KEYS];
-
-export function getLocalStorage<T>(key: LocalStorageKey, defaultValue: T): T {
+export function getLocalStorage<T>(key: LOCAL_STORAGE_KEYS, defaultValue: T): T {
   const storedData = localStorage.getItem(key);
 
   if (!storedData) return defaultValue;
@@ -17,11 +15,11 @@ export function getLocalStorage<T>(key: LocalStorageKey, defaultValue: T): T {
   }
 }
 
-export function setLocalStorage<T>(key: LocalStorageKey, value: T): void {
+export function setLocalStorage<T>(key: LOCAL_STORAGE_KEYS, value: T): void {
   localStorage.setItem(key, JSON.stringify(value));
 }
 
-export function removeItemById<T extends { id: number }>(key: LocalStorageKey, id: number) {
+export function removeItemById<T extends { id: number }>(key: LOCAL_STORAGE_KEYS, id: number) {
   const storedData = getLocalStorage<T[]>(key, []);
   if (!Array.isArray(storedData)) {
     return;
