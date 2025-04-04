@@ -15,6 +15,9 @@ export function setLocalStorage<T>(key: LocalStorageKey, value: T): void {
 
 export function removeItemById<T extends { id: number }>(key: LocalStorageKey, id: number) {
   const storedData = getLocalStorage<T[]>(key, []);
+  if (!Array.isArray(storedData)) {
+    return;
+  }
   const updatedData = storedData.filter((item) => item.id !== id);
   setLocalStorage(key, updatedData);
 }
