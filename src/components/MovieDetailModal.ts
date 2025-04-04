@@ -10,6 +10,7 @@ type MovieDetail = {
   genres: { id: number; name: string }[];
   vote_average: number;
   overview: string;
+  id: number;
 };
 
 class MovieDetailModal {

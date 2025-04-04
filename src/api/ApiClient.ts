@@ -1,5 +1,11 @@
 class ApiClient {
-  static async fetch({ url, options }: { url: string; options: RequestInit }) {
+  static async fetch<T>({
+    url,
+    options,
+  }: {
+    url: string;
+    options: RequestInit;
+  }): Promise<T> {
     const raw = await fetch(url, options);
 
     if (!raw.ok) {
@@ -8,7 +14,7 @@ class ApiClient {
 
     const data = await raw.json();
 
-    return data;
+    return data as T;
   }
 }
 
