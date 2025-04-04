@@ -16,6 +16,9 @@ async function submitEvent(this:void, movieLayout: MovieLayout) {
 
     const {results: searchData} = await fetchSearchMovies(1);
     movieLayout.setState({title: `"${state.searchKeyword}" 검색 결과`, eventName: 'readMoreSearchList', movieData: searchData, isPossibleMore: searchData.length === MOVIE_COUNT_PER_PAGE});
+
+    const inputEl = document.querySelector("#searchInput");
+    inputEl?.setAttribute("value", state.searchKeyword); 
   }
 
 

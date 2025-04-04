@@ -2,11 +2,12 @@ import SearchForm from './SearchForm.js'
 import { getElement } from '../../util/utils.js'
 
 function Header() {
+
   function template() {
     return `
     
-     <h1 class="logo" data-action="reload">
-            <img data-action="reload" src="./images/logo.png" alt="MovieList" />
+     <h1 class="logo">
+            <img src="./images/logo.png" alt="MovieList" />
         </h1>
     <div class="header-container">
 
@@ -19,6 +20,8 @@ function Header() {
     getElement('header').innerHTML = template()
   }
   render()
+  const $el = document.querySelector(".logo")
+  $el.addEventListener("click", () => window.location.reload());
 }
 
 export default Header

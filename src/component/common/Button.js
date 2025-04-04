@@ -1,7 +1,9 @@
-function Button({content, eventName, type, width}) {
+function Button(id, text){
     return `
-        <button type="${type}" style=${width ? `width: ${width}` : ""} class="primary" data-action="${eventName}">${content}</button>
-    `;
+        <a>
+            <button id="${id}" class="primary" style="width: 120px">${text}</button>
+        </a>
+    `
 }
 
 export default Button;

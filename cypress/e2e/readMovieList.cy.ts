@@ -42,7 +42,7 @@ describe("Fixture를 이용한 테스트", () => {
         });
       });
 
-      it("더보기 버튼 클릭 시 다음 영화 목록이 20개 더 출력된다.", () => {
+      it("스크롤을 내리면 다음 영화 목록이 20개 더 출력된다.", () => {
         
 
         cy.wait("@getPopularMovies").then((interception) => {  
@@ -53,7 +53,7 @@ describe("Fixture를 이용한 테스트", () => {
             },
             { fixture: "movie-search.json" }
           ).as("getMoreMovieList");
-          cy.get('.primary[data-action="readMoreMovieList"]').click()
+          cy.scrollTo("bottom");
           cy.wait("@getMoreMovieList").then((interception) => {
             const popularMovieItems = cy.get(".thumbnail-list > li");
             expect(popularMovieItems.should("have.length", 40));
