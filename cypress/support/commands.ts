@@ -25,9 +25,14 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 //
+
 declare global {
   namespace Cypress {
     interface Chainable {
+      /**
+       * 검색 입력창에 값을 입력하고 검색을 실행합니다.
+       * @param title 검색어 문자열
+       */
       search(title: string): Chainable<void>;
     }
   }

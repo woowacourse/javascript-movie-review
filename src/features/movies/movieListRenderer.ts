@@ -2,20 +2,28 @@ import MovieList from "../../components/MovieList";
 import MovieListSkeleton from "../../components/MovieListSkeleton";
 import TopRatedMovie from "../../components/TopRatedMovie";
 import { DEFAULT_BACK_DROP_URL } from "../../constants/movieApi";
-import { movieStore } from "../../store/movieStore";
-import { errorMessages } from "../../utils/errorUtils";
-import { fetchSearchList, fetchTotalList } from "./movieListService";
+import { movieStore, searchState } from "../../state/movieStore";
+import { movieService } from "./movieService";
 
 const $mainSection = document.querySelector("main section");
 const $ul = document.querySelector(".thumbnail-list");
 const $error = document.querySelector(".error");
 const $h2 = $error?.querySelector("h2");
-const MAX_MOVIE_PAGE = 500;
+export const MAX_MOVIE_PAGE = 500;
+
+const ErrorMessages: { [key: number]: string } = {
+  400: "검색 가능한 페이지 수를 넘겼습니다.",
+  401: "사용자 인증 정보가 잘못되었습니다.",
+};
+
+const errorMessages = (status: number) => {
+  return ErrorMessages[status] ?? "예상치 못한 오류가 발생했습니다.";
+};
 
 const changeHeaderBackground = () => {
   const $backgroundContainer = document.querySelector(".background-container");
 
-  if (movieStore.searchKeyword === "") {
+  if (searchState.keyword === "") {
     const backgroundImage = movieStore.movies[0].backdrop_path
       ? `${DEFAULT_BACK_DROP_URL}${movieStore.movies[0].backdrop_path}`
       : "./images/default_thumbnail.jpeg";
@@ -30,6 +38,7 @@ const renderHeaderBackground = () => {
     const $topRatedContainer = document.querySelector(".top-rated-container");
     $topRatedContainer?.append(
       TopRatedMovie({
+        id: movieStore.movies[0].id,
         title: movieStore.movies[0].title,
         voteAverage: movieStore.movies[0].vote_average,
       })
@@ -38,14 +47,14 @@ const renderHeaderBackground = () => {
 };
 
 const renderSkeleton = () => {
-  const $skeleton = MovieListSkeleton();
-  $skeleton && $mainSection?.appendChild($skeleton);
+  if ($ul) {
+    $ul.appendChild(MovieListSkeleton());
+  }
 };
 
 const renderErrorPage = (error: any) => {
   $ul?.classList.add("close");
   $error?.classList.remove("close");
-
   $ul && ($ul.innerHTML = "");
   if (!$h2 || !error.message) {
     return;
@@ -64,22 +73,28 @@ const toggleEmptySearchError = () => {
   }
 };
 
+/* 
+- 페이지 개수에 따라 button display 결정 코드
+- 옵저버 api 사용하면서 해당 방식은 불필요해짐 
+
 const toggleShowMoreButton = () => {
-  const $showMore = document.querySelector(".show-more");
+  const $showMore = document.querySelector(".show-more");   '
+
   if (movieStore.page !== Math.min(MAX_MOVIE_PAGE, movieStore.totalPages))
     $showMore?.classList.add("open");
   else $showMore?.classList.remove("open");
 };
+*/
 
 export const renderMoviesList = async () => {
   renderSkeleton();
 
   try {
-    if (movieStore.searchKeyword === "") {
-      await fetchTotalList();
+    if (searchState.keyword === "") {
+      await movieService.updateTotalList();
       renderHeaderBackground();
     } else {
-      await fetchSearchList();
+      await movieService.updateSearchList();
       toggleEmptySearchError();
     }
     changeHeaderBackground();
@@ -88,8 +103,6 @@ export const renderMoviesList = async () => {
       renderErrorPage(error);
     }
   }
-
-  toggleShowMoreButton();
 
   if ($ul) $ul.innerHTML = "";
   const $movies = MovieList(movieStore.movies);

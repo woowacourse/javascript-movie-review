@@ -1,19 +1,23 @@
-import { MovieResult } from "../apis/MovieApi";
+import { MovieSummary } from "../../types/movieApiType";
 import { DEFAULT_BACK_DROP_URL } from "../constants/movieApi";
 import { toElement } from "../utils/domUtils";
 
-export default function MovieList(moviesResult: MovieResult[]) {
+export default function MovieList(moviesResult: MovieSummary[]) {
   const $ul = document.querySelector(".thumbnail-list");
+
+  if (!$ul) return;
+
   const $movieListFragment = document.createDocumentFragment();
 
-  moviesResult.forEach((movie) => {
-    const backgroundImage = movie.backdrop_path
-      ? `${DEFAULT_BACK_DROP_URL}${movie.backdrop_path}`
-      : "./images/default_thumbnail.jpeg";
+  $movieListFragment.append(
+    ...moviesResult.map((movie) => {
+      const backgroundImage = movie.backdrop_path
+        ? `${DEFAULT_BACK_DROP_URL}${movie.backdrop_path}`
+        : "./images/default_thumbnail.jpeg";
 
-    const movieItemHTML = /*html*/ `
+      return toElement(`
       <li>
-        <div class="item">
+        <div class="item" id=${movie.id}>
           <img
             class="thumbnail"
             src="${backgroundImage}"
@@ -29,12 +33,11 @@ export default function MovieList(moviesResult: MovieResult[]) {
           </div>
         </div>
       </li>
-    `;
+    `);
+    })
+  );
 
-    const $movieItem = toElement(movieItemHTML);
-    $movieListFragment.appendChild($movieItem);
-  });
+  $ul.appendChild($movieListFragment);
 
-  $ul?.appendChild($movieListFragment);
   return $ul;
 }

@@ -28,6 +28,7 @@ body.modal-open {
 }
 
 .modal {
+  display: flex;
   background-color: var(--color-bluegray-90);
   padding: 20px;
   border-radius: 16px;
@@ -52,6 +53,7 @@ body.modal-open {
 
 .modal-container {
   display: flex;
+  width: 100%;
 }
 
 .modal-image img {
@@ -69,6 +71,14 @@ body.modal-open {
 .modal-description .rate > img {
   position: relative;
   top: 5px;
+  width: 20px;
+}
+
+.modal-description .rate-container {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  font-size: 0.9rem;
 }
 
 .modal-description > *:not(:last-child) {
@@ -83,4 +93,116 @@ body.modal-open {
 .detail {
   max-height: 430px;
   overflow-y: auto;
+}
+
+.modal-skeleton {
+  display: flex;
+  padding: 32px 16px 32px 16px;
+  gap: 8px;
+  width: 100%;
+  z-index: 0;
+}
+
+.modal-skeleton > section {
+  opacity: 1;
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.modal-skeleton.hide {
+  opacity: 0;
+}
+
+.modal-detail {
+  position: relative;
+  z-index: 2;
+}
+
+.modal-subtitle {
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.personal-rate-container {
+  display: flex;
+  gap: 8px;
+}
+
+.personal-rate {
+  display: flex;
+  gap: 8px;
+}
+
+.personal-rate .star {
+  width: 24px;
+  height: 24px;
+  transition: transform 0.2s ease, filter 0.2s ease;
+  cursor: pointer;
+}
+
+.personal-rate .star:hover {
+  filter: brightness(1.2);
+}
+
+.personal-rate-message {
+  display: flex;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.personal-rate-message .caption {
+  color: #95a1b2;
+  display: block;
+  width: 50px;
+}
+
+.personal-rate-message .rating-message {
+  display: block;
+  width: 92px;
+}
+
+@media (max-width: 800px) {
+  #modalBackground {
+    overflow: auto;
+    align-items: end;
+  }
+
+  .modal-container {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* overflow: auto; */
+  }
+  .movie-description-container {
+    text-align: center;
+  }
+  .rate-container {
+    justify-content: center;
+  }
+  .modal-image img {
+    width: 200px;
+  }
+}
+
+@media (max-width: 390px) {
+  #modalBackground {
+    overflow: auto;
+    align-items: end;
+  }
+
+  .modal-image img {
+    display: none;
+  }
+  .modal-subtitle {
+    text-align: center;
+  }
+  .personal-rate-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
 }

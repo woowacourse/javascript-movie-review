@@ -17,6 +17,7 @@ body {
 
 #wrap,
 section {
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -49,7 +50,7 @@ button.primary {
 }
 
 #wrap {
-  min-width: 1440px;
+  min-width: 360px;
   background-color: var(--color-bluegray-100);
 }
 
@@ -60,6 +61,7 @@ button.primary {
 }
 
 .container {
+  width: 100%;
   max-width: 1280px;
   margin: 0 auto;
   padding-bottom: 40px;
@@ -105,7 +107,8 @@ button.primary {
   margin: auto;
   border: 1.5px solid white;
   border-radius: 32px;
-  width: 525px;
+  /* width: 525px; */
+  width: clamp(300px, 50vw, 525px);
 }
 
 .top-rated-search-input {
@@ -126,7 +129,8 @@ button.primary {
 }
 
 .top-rated-movie {
-  margin-top: 64px;
+  margin: clamp(24px, 5vw, 64px);
+  padding: clamp(24px, 5vw, 64px) clamp(16px, 4vw, 32px) 16px;
 }
 
 .top-rated-movie > *:not(:last-child) {
@@ -134,9 +138,10 @@ button.primary {
 }
 
 h1.logo {
-  position: absolute;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 32px;
   font-size: 2rem;
-  top: 10px;
 }
 
 .rate {
@@ -189,4 +194,18 @@ footer.footer p:not(:last-child) {
 
 .open {
   display: block;
+}
+
+.lock-scroll {
+  overflow: hidden;
+}
+
+.thumbnail-title {
+  text-align: start;
+}
+
+@media (max-width: 500px) {
+  .thumbnail-title {
+    text-align: center;
+  }
 }

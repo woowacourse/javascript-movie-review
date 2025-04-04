@@ -1,12 +1,12 @@
-import { toElement } from "../utils/domUtils";
-
 interface SkeletonProps {
-  width: number;
-  height: number;
+  width: string | null;
+  height: string | null;
 }
 
-export default function Skeleton({ width, height }: SkeletonProps): Element {
-  return toElement(
-    ` <div class="skeleton" style="width: ${width}px; height: ${height}px;"></div>`
-  );
+export default function Skeleton({
+  width = null,
+  height = null,
+}: SkeletonProps) {
+  return ` <div class="skeleton" style=
+  "width: ${width}; height: ${height};"></div>`;
 }
