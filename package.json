@@ -50,6 +50,7 @@
     "node": ">=20.17.0"
   },
   "dependencies": {
+    "@zoeykr/function-al": "^0.0.5",
     "dotenv": "^16.4.7"
   }
 }
