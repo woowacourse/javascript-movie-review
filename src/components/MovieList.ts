@@ -1,5 +1,5 @@
+import { APIData } from "../types/apiData";
 import { Movie } from "../types/movie";
-import { isHTMLElement } from "../utils/typeGuards";
 import MovieDetailModal from "./MovieDetailModal";
 import MovieItem from "./MovieItem";
 import Skeleton from "./Skeleton";
@@ -22,23 +22,17 @@ class MovieList {
     this.#parentElement.innerHTML = "";
   }
 
-  render({
-    status,
-    movies,
-  }: {
-    status: "loading" | "success";
-    movies?: Movie[];
-  }) {
-    if (status === "loading") {
+  render(response: APIData<Movie[]>) {
+    if (response.status === "loading") {
       this.#parentElement.innerHTML = /*html*/ `${Skeleton.MovieList}`;
       return;
     }
 
-    if (!movies) return;
+    if (!response.data) return;
 
     const fragment = document.createDocumentFragment();
 
-    movies.forEach((movie) => {
+    response.data.forEach((movie) => {
       const $list = document.createElement("li");
       new MovieItem($list, movie, (id: number) => {
         this.#showModal(id);

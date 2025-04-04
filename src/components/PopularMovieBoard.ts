@@ -66,17 +66,17 @@ class PopularMovieBoard {
   }
 
   #renderTopRatedMovie(movie: Movie): void {
-    this.#TopRatedMovie.render({ status: "success", movie });
+    this.#TopRatedMovie.render({ status: "success", data: movie });
   }
 
   #renderMovies(movies: Movie[]): void {
     if (this.#page === 1) {
       this.#MovieList.init();
-      this.#MovieList.render({ status: "success", movies });
+      this.#MovieList.render({ status: "success", data: movies });
       return;
     }
 
-    this.#MovieList.render({ status: "success", movies });
+    this.#MovieList.render({ status: "success", data: movies });
   }
 
   async #movieData(): Promise<{ movies: Movie[]; total_pages: number }> {

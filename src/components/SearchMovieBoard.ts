@@ -69,13 +69,14 @@ class SearchMovieBoard {
   #renderMovies(movies: Movie[]): void {
     const ul = document.querySelector(".thumbnail-list");
     if (!isHTMLElement(ul)) return;
+    
     if (this.#page === 1) {
       this.#MovieList.init();
-      this.#MovieList.render({ status: "success", movies });
+      this.#MovieList.render({ status: "success", data: movies });
       return;
     }
 
-    this.#MovieList.render({ status: "success", movies });
+    this.#MovieList.render({ status: "success", data: movies });
   }
 
   async #movieData(): Promise<{ movies: Movie[]; total_pages: number }> {
