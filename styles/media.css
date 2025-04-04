@@ -78,4 +78,11 @@
   .item {
     align-items: center;
   }
+
+  .skeleton-list {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    justify-content: center;
+    gap: 70px;
+  }
 }
