@@ -1,6 +1,6 @@
-///  <reference types="cypress" />
+/// <reference types="cypress" />
 
-describe("인기 있는 영화 비동기 API 테스트", () => {
+describe("인기 있는 영화 비동기 API 테스트 (무한 스크롤)", () => {
   beforeEach(() => {
     cy.intercept(
       {
@@ -27,11 +27,13 @@ describe("인기 있는 영화 비동기 API 테스트", () => {
     cy.get(".thumbnail-list").find(".thumbnail").should("have.length", 20);
   });
 
-  it("인기 있는 영화에서 더보기 버튼을 누르면 스켈레톤이 표시되고, 영화 목록 API를 호출하며 20개가 목록에 추가된다.", () => {
+  it("페이지 하단으로 스크롤하면 새로운 영화 목록이 추가로 로드된다.", () => {
     cy.get(".thumbnail-list").find(".thumbnail").should("have.length", 20);
-    cy.get(".see-more").click();
+
+    cy.scrollTo("bottom");
 
     cy.get(".skeleton-container").should("exist");
+
     cy.wait("@fetchMovies").its("request.url").should("include", "page=2");
 
     cy.get(".skeleton-container").should("not.exist");

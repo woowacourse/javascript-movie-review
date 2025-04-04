@@ -9,6 +9,7 @@ export type ElementOptions = {
   attributes?: ElementAttributes;
   textContent?: string;
   children?: (ElementOptions | HTMLElement)[];
+  onload?: () => void;
 };
 
 export const createElementWithAttributes = ({
@@ -18,6 +19,7 @@ export const createElementWithAttributes = ({
   attributes = {},
   textContent = "",
   children = [],
+  onload = () => {},
 }: ElementOptions): HTMLElement => {
   const element = document.createElement(tag);
 
@@ -47,6 +49,10 @@ export const createElementWithAttributes = ({
       }
     });
     element.append(fragment);
+  }
+
+  if (typeof onload === "function") {
+    element.onload = onload;
   }
 
   return element;

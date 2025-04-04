@@ -1,7 +1,6 @@
-export interface Movie {
+export interface BaseMovie {
   adult: boolean;
   backdrop_path: null | string;
-  genre_ids: number[];
   id: number;
   original_language: string;
   original_title: string;
@@ -15,9 +14,30 @@ export interface Movie {
   vote_count: number;
 }
 
+export interface Movie extends BaseMovie {
+  genre_ids: number[];
+}
+
+export interface DetailMovieData extends BaseMovie {
+  budget: number;
+  genres: Genre[];
+  homepage: string;
+  imdb_id: string;
+  origin_country: string[];
+  revenue: number;
+  runtime: number;
+  status: string;
+  tagline: string;
+}
+
 export interface MovieData {
   page: number;
   results: Movie[];
   total_pages: number;
   total_results: number;
+}
+
+export interface Genre {
+  id: number;
+  name: string;
 }

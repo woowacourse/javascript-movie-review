@@ -1,9 +1,14 @@
+import { getDetailMovies } from "../../apis/getDetailMovies";
+import handleModalEvents from "../modal/handleModalEvents";
+import movieDetailModal from "../modal/movieDetailModal";
 import {
   createElementWithAttributes,
   ElementOptions,
 } from "../utils/createElementWithAttributes";
+import { $ } from "../utils/selectors";
 import { Movie } from "./types";
 import noImage from "/images/no_image.png";
+import placeholderImage from "/images/placeholder_poster.svg";
 
 const movieItem = (movie: Movie): HTMLElement => {
   const movieItemOptions: ElementOptions = {
@@ -13,12 +18,18 @@ const movieItem = (movie: Movie): HTMLElement => {
       {
         tag: "img",
         className: "thumbnail",
-        attributes: {
-          src:
+        onload: function () {
+          if (this instanceof HTMLImageElement === false) {
+            return;
+          }
+
+          this.src =
             movie.poster_path === null
               ? noImage
-              : `https://image.tmdb.org/t/p/w440_and_h660_face${movie.poster_path}`,
-          alt: movie.title,
+              : `https://image.tmdb.org/t/p/w440_and_h660_face${movie.poster_path}`;
+        },
+        attributes: {
+          src: placeholderImage,
         },
       },
       {
@@ -38,7 +49,7 @@ const movieItem = (movie: Movie): HTMLElement => {
               },
               {
                 tag: "span",
-                textContent: String(movie.vote_average),
+                textContent: String(movie.vote_average).slice(0, 3),
               },
             ],
           },
@@ -48,7 +59,21 @@ const movieItem = (movie: Movie): HTMLElement => {
     ],
   };
 
-  return createElementWithAttributes(movieItemOptions);
+  const $movieItemOptions = createElementWithAttributes(movieItemOptions);
+
+  $movieItemOptions.addEventListener("click", async () => {
+    const $modal = $(".modal");
+
+    if ($modal instanceof HTMLDialogElement) {
+      const detailMovie = await getDetailMovies(movie.id);
+
+      $modal.replaceChildren(movieDetailModal(detailMovie));
+      handleModalEvents($modal);
+      $modal.showModal();
+    }
+  });
+
+  return $movieItemOptions;
 };
 
 export default movieItem;
