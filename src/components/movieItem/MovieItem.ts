@@ -4,13 +4,14 @@ interface MovieItemProps {
   title: string;
   rate: number;
   src: string;
+  id: string;
 }
 
 const MovieItem = (props: MovieItemProps) => {
-  const { title, rate, src } = props;
+  const { title, rate, src, id } = props;
 
   return `
-              <li>
+              <li class="item-container" data-id="${id}">
                 <div class="item">
                   <img
                     class="thumbnail"

@@ -1,0 +1,37 @@
+.rating-container {
+  display: flex;
+  margin: 16px 0;
+}
+
+.stars {
+  display: flex;
+  gap: 8px;
+}
+
+.star {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+.star:hover {
+  transform: scale(1.2);
+}
+
+.rating-text {
+  display: inline-block;
+  margin-left: 12px;
+  font-size: 14px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.rating-text.visible {
+  opacity: 1;
+}
+
+.star-filled {
+  width: 24px;
+  height: 24px;
+}
