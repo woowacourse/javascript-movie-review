@@ -46,7 +46,7 @@ function renderNoResults($main: HTMLElement) {
   const $contentContainer = document.createElement("div");
   $contentContainer.classList.add("contentContainer");
   $contentContainer.innerHTML = `
-        <img src="/images/no_results.png" alt="검색 결과 없음">
+        <img src="images/no_results.png" alt="검색 결과 없음">
         <div>검색 결과가 없습니다.</div>
     `;
   $main.appendChild($contentContainer);
