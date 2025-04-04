@@ -26,8 +26,10 @@ function StarRating({ movieId }: StarRatingProps): HTMLElement {
     children: [descriptionText, scoreText]
   });
 
+  const POINTS_PER_STAR = 2;
+
   const stars = Array.from({ length: 5 }, (_, i) => {
-    const value = (i + 1) * 2;
+    const value = (i + 1) * POINTS_PER_STAR;
     const isFilled = value <= savedRating;
 
     const star = createDOMElement({
