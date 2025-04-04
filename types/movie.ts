@@ -1,6 +1,23 @@
 export type Movie = {
-  id?: number;
+  id: number;
   title: string;
-  voteAverage: number;
-  posterPath: string | null;
+  rating: number;
+  imageSrc: string | null;
+  description: string;
+  releaseDate: string;
+  genres: Genre[];
+};
+
+export type Genre = {
+  id: number;
+  name: string;
+};
+
+export type MovieDetail = Movie & {
+  voteCount: number;
+};
+
+export type MovieRating = {
+  movieId: number;
+  rating: number;
 };

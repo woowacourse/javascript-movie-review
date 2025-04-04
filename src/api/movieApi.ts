@@ -1,30 +1,25 @@
-import { popularApiUrl, searchApiUrl } from "./config.ts";
 import http from "./http.ts";
+import { popularApiUrl, searchApiUrl, movieDetailApiUrl } from "./constants.ts";
 
 const fetchPopularMovies = (page = 1) => {
-  try {
-    return http.get(
-      `${popularApiUrl}?language=ko-KR&region=ko-KR&page=${page}`
-    );
-  } catch (error) {
-    throw error;
-  }
+  return http.get(`${popularApiUrl}?language=ko-KR&region=ko-KR&page=${page}`);
 };
 
 const fetchSearchedMovies = (searchQuery: string, page = 1) => {
-  try {
-    const queryString = `query=${encodeURIComponent(
-      searchQuery
-    )}&page=${page}&language=ko-KR&region=ko-KR&include_adult=false`;
-    const url = `${searchApiUrl}?${queryString}`;
+  const queryString = `query=${encodeURIComponent(
+    searchQuery
+  )}&page=${page}&language=ko-KR&region=ko-KR&include_adult=false`;
+  const url = `${searchApiUrl}?${queryString}`;
 
-    return http.get(url);
-  } catch (error) {
-    throw error;
-  }
+  return http.get(url);
+};
+
+const fetchMovieDetail = (movieId: number) => {
+  return http.get(`${movieDetailApiUrl}/${movieId}?language=ko-KR`);
 };
 
 export const movieApi = {
   fetchPopularMovies,
   fetchSearchedMovies,
+  fetchMovieDetail,
 };

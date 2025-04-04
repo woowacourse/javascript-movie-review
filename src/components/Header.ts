@@ -1,19 +1,21 @@
 import { Movie } from "../../types/movie";
+import { createElement } from "../utils/dom.ts";
 
 type HeaderProps = {
   movie?: Movie | null;
 };
 
 const Header = ({ movie }: HeaderProps) => {
-  const header = document.createElement("header");
-  header.id = "app-header"
+  const $header = createElement("header", {
+    id: "app-header",
+  });
 
   const backgroundImageUrl =
-    movie && movie.posterPath
-      ? `https://image.tmdb.org/t/p/original${movie.posterPath}`
+    movie && movie.imageSrc
+      ? `https://image.tmdb.org/t/p/original${movie.imageSrc}`
       : "images/default-background.jpg";
 
-  header.innerHTML = `
+  $header.innerHTML = `
   <div class="background-container" style="background-image: url('${backgroundImageUrl}');">
     <div class="overlay" aria-hidden="true"></div>
     <div class="top-rated-container">
@@ -21,7 +23,7 @@ const Header = ({ movie }: HeaderProps) => {
       ${movie ? `<div class="top-rated-movie">
         <div class="rate">
           <img src="images/star_empty.png" class="star" />
-          <span class="rate-value">${movie?.voteAverage}</span>
+          <span class="rate-value">${movie?.rating}</span>
         </div>
         <div class="title">${movie?.title}</div>
         <button class="primary detail">자세히 보기</button>
@@ -30,7 +32,7 @@ const Header = ({ movie }: HeaderProps) => {
   </div>
 `;
 
-  return header;
+  return $header;
 };
 
 export default Header;
