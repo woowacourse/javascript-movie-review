@@ -1,76 +1,74 @@
-import { IMovie, IPage } from "../types/domain";
-import MovieItem from "./components/MovieItem";
+import { Movie } from "./domain/types.ts";
 import SearchBar from "./components/SearchBar";
 import SkeletonUl from "./components/SkeletonUl";
-import TextButton from "./components/TextButton";
-import { IMAGE, ITEMS } from "./constants/movie.ts";
-import movieApi from "./api/movieApi.ts";
-import { selectElement } from "./utils/dom.ts";
-import { toggleElementVisibility } from "./utils/Render.ts";
+import { ITEMS } from "./constants/movie.ts";
+import { selectElement } from "./utils/ui.ts";
+import movieService from "./service/movieService.ts";
+import Modal from "./components/Modal.ts";
+import ScrollRenderer from "./utils/scrollRenderer.ts";
 import MovieList from "./components/MovieList.ts";
-import calculatePageNumber from "./domain/calculatePageNumber.ts";
+import MovieItem from "./components/MovieItem.ts";
+import ErrorUI from "./components/ErrorUI.ts";
+import { ERROR, STATUS_MESSAGE } from "./constants/error.ts";
+import Banner from "./components/Banner.ts";
 
-const getMovieData = async (currentItemCount: number = ITEMS.initialCount) => {
-  const pageNumber = calculatePageNumber(currentItemCount);
-
-  return (await movieApi.getMovieData(pageNumber)) as IPage;
+const getMovieData = async (totalItems: number) => {
+  try {
+    return await SkeletonUl.getInstance().getLoadingResult(() =>
+      movieService.getMovies(totalItems)
+    );
+  } catch (error) {
+    if (error instanceof Error) {
+      const status = Number(error.message);
+      const message = STATUS_MESSAGE[status] ?? ERROR.DEFAULT;
+      const errorUI = new ErrorUI({ status, message });
+      errorUI.create();
+      errorUI.renderError();
+    }
+  }
 };
 
-const renderTitleMovie = (movieData: IMovie[]) => {
+const renderTitleMovie = (movieData: Movie[]) => {
   const topMovieData = movieData[0];
-  const movieTitle = topMovieData.title;
-  const movieRate = topMovieData.vote_average;
-  const movieBackdropUrl = IMAGE.backdropPrefix + topMovieData.backdrop_path;
-
-  const topMovieTitle = selectElement<HTMLDivElement>(
-    ".top-rated-movie .title"
-  );
-  const topMovieRateValue = selectElement<HTMLSpanElement>(
-    ".top-rated-movie .rate-value"
-  );
-  const backgroundOverlay = selectElement<HTMLDivElement>(
-    ".background-container .overlay"
-  );
-
-  topMovieTitle.textContent = movieTitle;
-  topMovieRateValue.textContent = String(movieRate);
-  backgroundOverlay.style.backgroundImage = `url("${movieBackdropUrl}")`;
+  const banner = new Banner(topMovieData);
+  banner.renderTitleMovie();
 };
 
-const renderMovieData = (movieData: IMovie[]) => {
-  toggleElementVisibility(".skeleton-list", "show");
-
-  const movieItems = movieData.map(({ title, poster_path, vote_average }) => {
-    const movieItem = new MovieItem({ title, vote_average, poster_path });
+const createMovieItems = (movieData: Movie[]): string[] => {
+  return movieData.map(({ id, title, posterPath, voteAverage }) => {
+    const movieItem = new MovieItem({ id, title, voteAverage, posterPath });
     return movieItem.create();
   });
+};
 
-  toggleElementVisibility(".skeleton-list", "hidden");
-
+const createMovieList = (movieData: Movie[]) => {
+  const movieItems = createMovieItems(movieData);
   return new MovieList(movieItems);
 };
 
-const mainSection = selectElement<HTMLElement>("main section");
-const skeletonUl = new SkeletonUl();
+const updateMovieList = async (
+  movieList: MovieList,
+  observer: IntersectionObserver,
+  scrollRenderer: ScrollRenderer
+) => {
+  const totalItems = movieList.getTotalItems();
+  const movieData = await getMovieData(totalItems);
+  if (movieData) {
+    const { page, results, totalPages } = movieData;
 
-const seeMoreButton = (movieListInstance: MovieList) => {
-  return new TextButton({
-    id: "seeMore",
-    title: "더보기",
-    onClick: async () => {
-      const currentItemCount = movieListInstance.getTotalItems();
-      const newMovieData = (await getMovieData(currentItemCount)).results;
-      const movieItems = newMovieData.map(
-        ({ title, poster_path, vote_average }) => {
-          const movieItem = new MovieItem({ title, vote_average, poster_path });
-          return movieItem.create();
-        }
-      );
+    if (page >= totalPages) {
+      observer.disconnect();
+      return;
+    }
 
-      movieListInstance.updateList(movieItems);
-    },
-    type: "primary",
-  });
+    const movieItems = createMovieItems(results);
+    movieList.updateList(movieItems);
+
+    scrollRenderer.setNewObservingTarget(
+      observer,
+      "ul.thumbnail-list > li:last-child"
+    );
+  }
 };
 
 const searchBar = new SearchBar();
@@ -78,23 +76,36 @@ const logo = selectElement<HTMLDivElement>(".logo");
 const logoImage = selectElement<HTMLImageElement>(".logo img");
 
 const app = async () => {
-  try {
-    logoImage.addEventListener("click", () => {
-      window.location.reload();
-    });
-    const movieData = (await getMovieData()).results;
+  logoImage.addEventListener("click", () => {
+    window.location.reload();
+  });
 
-    logo.appendChild(searchBar.create());
-    mainSection.appendChild(skeletonUl.create());
+  logo.appendChild(searchBar.create());
+  searchBar.setEvent();
 
-    renderTitleMovie(movieData);
-    const totalMovieList = renderMovieData(movieData);
-    totalMovieList.create();
+  const movieData = await getMovieData(ITEMS.initialCount);
+  if (movieData) {
+    const { results } = movieData;
+    const movieList = createMovieList(results);
+    renderTitleMovie(results);
+    movieList.create();
 
-    const seeMoreButtonInstance = seeMoreButton(totalMovieList);
-    mainSection.appendChild(seeMoreButtonInstance.create());
-  } catch (error) {
-    if (error instanceof Error) alert(error.message);
+    const detailsModal = new Modal();
+    movieList.onMovieClick(detailsModal);
+
+    const scrollRenderer = ScrollRenderer.getInstance();
+    const lastMovieItemObserver = new IntersectionObserver(
+      scrollRenderer.createObserverCallback((observer) =>
+        updateMovieList(movieList, observer, scrollRenderer)
+      ),
+      { threshold: 1 }
+    );
+
+    const targetElement = selectElement<HTMLLIElement>(
+      "ul.thumbnail-list > li:last-child"
+    );
+
+    lastMovieItemObserver.observe(targetElement);
   }
 };
 

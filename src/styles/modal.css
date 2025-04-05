@@ -1,4 +1,4 @@
-@import "./colors.css";
+@import "./global.css";
 
 /* modal.css */
 body.modal-open {
@@ -16,12 +16,10 @@ body.modal-open {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 10;
+  z-index: var(--z-index-backdrop);
   visibility: hidden; /* 모달이 기본적으로 보이지 않도록 설정 */
   opacity: 0;
-  transition:
-    opacity 0.3s ease,
-    visibility 0.3s ease;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
 .modal-background.active {
@@ -34,7 +32,7 @@ body.modal-open {
   padding: 20px;
   border-radius: 16px;
   color: white;
-  z-index: 2;
+  z-index: var(--z-index-default);
   position: relative;
   width: 1000px;
 }
@@ -62,19 +60,49 @@ body.modal-open {
 }
 
 .modal-description {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
   width: 100%;
   padding: 8px;
   margin-left: 16px;
   line-height: 1.6rem;
+  font-size: 20px;
 }
 
-.modal-description .rate > img {
-  position: relative;
-  top: 5px;
+.modal-description hr {
+  width: 100%;
+  height: 1px;
+  border: 0;
+
+  background: var(--color-bluegray-30);
 }
 
-.modal-description > *:not(:last-child) {
-  margin-bottom: 8px;
+.modal-description > .rate {
+  margin-right: 16px;
+
+  display: flex;
+  align-items: center;
+
+  color: var(--color-ffffff);
+  font-weight: 400;
+  font-size: 20px;
+
+  line-height: 1.2rem;
+}
+
+.modal-description > .rate > img {
+  margin-left: 16px;
+  margin-bottom: 3px;
+  margin: 0 5px 3px 16px;
+
+  width: 24px;
+  height: 24px;
+}
+
+.modal-description > .rate > span {
+  color: var(--color-yellow);
 }
 
 .modal-description h2 {
@@ -82,7 +110,117 @@ body.modal-open {
   margin: 0 0 8px;
 }
 
-.detail {
+.modal-description h3 {
+  color: var(--color-ffffff);
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 100%;
+  letter-spacing: 0.18px;
+}
+
+.modal-description .detail {
   max-height: 430px;
   overflow-y: auto;
+}
+
+.voting-rate {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+
+  white-space: nowrap;
+}
+
+.rate-message {
+  margin-left: 16px;
+}
+
+.rate-message > span {
+  margin-left: 5px;
+
+  color: var(--color-bluegray-30);
+}
+
+.star-marks-container {
+  display: flex;
+}
+
+.star-mark {
+  width: 32px;
+
+  background: none;
+  cursor: pointer;
+}
+
+@media (max-width: 1200px) {
+  .modal {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }
+
+  .modal-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .modal-image img {
+    width: 200px;
+    height: 300px;
+    margin: 20px 0;
+  }
+
+  .modal-description {
+    align-items: center;
+  }
+
+  .modal-description h3 {
+    align-self: flex-start;
+    margin: 10px 0;
+  }
+
+  .modal-description .detail {
+    align-self: flex-start;
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 800px) {
+  .modal-image img {
+    display: none;
+  }
+
+  .modal-description h2 {
+    margin: 30px 0 8px;
+  }
+
+  .modal-description h3 {
+    align-self: center;
+  }
+
+  .modal-description > .category {
+    width: 100%;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .modal-description > .rate {
+    margin: 0;
+  }
+
+  .voting-rate {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .voting-rate > p {
+    margin: 0;
+    font-weight: 500;
+  }
 }

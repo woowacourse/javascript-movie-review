@@ -1,6 +1,6 @@
 export const ERROR = {
   DEFAULT: "문제가 발생했습니다. 관리자에게 문의해 주세요.",
-  FAIL_CONNECT_API: "API 서버와의 통신에 실패했습니다.",
+  NETWORK_ERROR_MESSAGE: "Failed to fetch",
 };
 
 export const STATUS_MESSAGE: Record<string, string> = {

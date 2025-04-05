@@ -1,4 +1,9 @@
-import { ITEMS } from "../../src/constants/movie.ts";
+import {
+  IMAGE,
+  ITEMS,
+  RATING_MESSAGE,
+  VOTE,
+} from "../../src/constants/movie.ts";
 
 /// <reference types="cypress" />
 
@@ -28,16 +33,22 @@ describe("Fixture를 이용한 테스트", () => {
       { fixture: "movie-search-second.json" }
     ).as("getSecondSearchedMovies");
 
+    cy.intercept(
+      {
+        method: "GET",
+        url: /^https:\/\/api\.themoviedb\.org\/3\/movie\/\d+\?.*/,
+      },
+      { fixture: "movie-details.json" }
+    ).as("getMovieDetails");
+
     cy.visit("http://localhost:5173");
   });
 
   it(`영화 목록 API를 호출하면 한 번에 ${ITEMS.perPage}개씩 목록에 나열되어야 한다`, () => {
     cy.wait("@getPopularMovies").then((interception) => {
-      // interception으로 fixture가 잘 불러와졌는지 확인하는 코드 샘플
       const popularMovies = interception.response?.body.results;
       expect(popularMovies.length).to.equal(ITEMS.perPage);
 
-      // 제대로 렌더링이 되었는지 테스트하는 코드 샘플
       const popularMovieItems = cy.get(".thumbnail-list > li");
       expect(popularMovieItems.should("have.length", ITEMS.perPage));
     });
@@ -53,12 +64,52 @@ describe("Fixture를 이용한 테스트", () => {
 
     expect(cy.get(".thumbnail-list > li").should("have.length", ITEMS.perPage));
 
-    cy.get("#seeMore").click();
+    cy.get(".thumbnail-list > li").last().scrollIntoView();
 
     cy.wait("@getSecondSearchedMovies").then((interception) => {
       expect(interception.response?.body.results.length).to.equal(15);
     });
 
     expect(cy.get(".thumbnail-list > li").should("have.length", 35));
+  });
+
+  it("영화 아이템을 클릭하면 영화 상세정보 데이터를 받아온다.", () => {
+    cy.wait("@getPopularMovies");
+
+    cy.get(".thumbnail-list > li").first().click();
+    cy.wait("@getMovieDetails").then((interception) => {
+      const movie = interception.response?.body;
+      expect(movie).to.include.all.keys(
+        "genres",
+        "id",
+        "overview",
+        "poster_path",
+        "release_date",
+        "title",
+        "vote_average"
+      );
+    });
+
+    cy.get(".modal-image img")
+      .should("exist")
+      .and("have.attr", "alt", "미키 17");
+    cy.get(".modal-description h2").should("exist").contains("미키 17");
+    cy.get(".category").should("exist").contains("SF, 코미디, 모험");
+    cy.get(".detail").should("exist").contains("미키");
+  });
+
+  it("영화 상세정보 모달에서 평점을 등록한다.", () => {
+    cy.wait("@getPopularMovies");
+    cy.get(".thumbnail-list > li").first().click();
+
+    cy.get(".star-marks-container").click();
+    cy.get(".star-marks-container > img").last().click();
+    cy.get("#closeModal").click();
+
+    cy.get(".thumbnail-list > li").first().click();
+    cy.get(".star-marks-container > img")
+      .last()
+      .should("have.attr", "src", VOTE.filledStarImage);
+    cy.get(".voting-rate > p").contains(RATING_MESSAGE[10]);
   });
 });

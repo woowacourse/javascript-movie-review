@@ -1,4 +1,4 @@
-@import "./colors.css";
+@import "./global.css";
 @import "./main.css";
 @import "./modal.css";
 @import "./reset.css";
@@ -6,3 +6,4 @@
 @import "./thumbnail.css";
 @import "./searchBar.css";
 @import "./skeleton.css";
+@import "./error.css";

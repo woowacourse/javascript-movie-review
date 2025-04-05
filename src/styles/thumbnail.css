@@ -1,10 +1,11 @@
-@import "./colors.css";
+@import "./global.css";
 
 .thumbnail-list {
-  margin: 0 auto 56px;
+  margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(5, 200px);
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 70px;
+  justify-content: space-between;
 }
 
 .thumbnail {
@@ -18,20 +19,33 @@
   cursor: pointer;
 }
 
-.item-desc > *:not(:last-child) {
-  position: relative;
-  margin-bottom: 4px;
+.item-desc {
+  margin-top: 2px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
   line-height: 1.2rem;
 }
 
-p.rate {
+.item-desc > .rate {
   display: flex;
-  align-items: baseline;
-  color: var(--color-yellow);
+  font-size: 16px;
 }
 
-p.rate > span {
+.item-desc > .rate > img {
+  width: 16px;
+  height: 16px;
+}
+
+.item-desc > .rate > span {
   margin-left: 4px;
+}
+
+.item-desc > strong {
+  font-size: 20px;
+  line-height: 20px;
 }
 
 .item .star {
@@ -44,8 +58,23 @@ p.rate > span {
   flex-direction: column;
   gap: 16px;
   align-items: center;
+  text-align: center;
 }
 
 .hidden {
   display: none !important;
+}
+
+@media (max-width: 1200px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(3, 200px);
+    justify-content: center;
+  }
+}
+
+@media (max-width: 800px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(1, 200px);
+    justify-content: center;
+  }
 }

@@ -1,32 +1,36 @@
-import { IMovie } from "../../types/domain";
-import { IMAGE } from "../constants/movie";
+import { Movie } from "../domain/types.ts";
 
-type IMovieItem = Pick<IMovie, "title" | "vote_average" | "poster_path">;
+type MovieItemParams = Pick<
+  Movie,
+  "id" | "title" | "voteAverage" | "posterPath"
+>;
 
 class MovieItem {
+  #id: number;
   #title: string;
-  #rate: number;
+  #voteAverage: number;
   #posterPath: string;
 
-  constructor({ title, vote_average, poster_path }: IMovieItem) {
+  constructor({ id, title, voteAverage, posterPath }: MovieItemParams) {
+    this.#id = id;
     this.#title = title;
-    this.#rate = vote_average;
-    this.#posterPath = poster_path;
+    this.#voteAverage = voteAverage;
+    this.#posterPath = posterPath;
   }
 
   create() {
     const content = /*html*/ `
-    <li class="item">
+    <li class="item" data-id="${this.#id}">
         <img
         class="thumbnail"
-        src=${IMAGE.prefix + this.#posterPath}
+        src=${this.#posterPath}
         onerror="this.src='./images/null_image.png'"
         alt=${this.#title}
         />
         <div class="item-desc">
         <p class="rate">
             <img src="./images/star_empty.png" class="star" /><span>${
-              this.#rate
+              this.#voteAverage
             }</span>
         </p>
         <strong>${this.#title}</strong>
