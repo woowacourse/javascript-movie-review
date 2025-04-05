@@ -1,12 +1,15 @@
 import { APIData } from "../types/apiData";
 import { Movie } from "../types/movie";
-import MovieDetailModal from "./MovieDetailModal";
+import { isHTMLElement } from "../utils/typeGuards";
+import Modal from "./modal/Modal";
+// import MovieDetailModal from "./modal/MovieDetailModal";
+import MovieDetailModalStrategy from "./modal/MovieDetailModalStrategy";
 import MovieItem from "./MovieItem";
 import Skeleton from "./Skeleton";
 
 class MovieList {
   #parentElement: HTMLElement;
-  #Modal!: MovieDetailModal;
+  #Modal!: Modal;
 
   constructor(parentElement: HTMLElement) {
     this.#parentElement = parentElement;
@@ -15,7 +18,8 @@ class MovieList {
 
   #initComponents(): void {
     const $modalBackground = document.querySelector(".modal-background");
-    this.#Modal = new MovieDetailModal($modalBackground as HTMLElement);
+    if (isHTMLElement($modalBackground))
+      this.#Modal = new Modal($modalBackground, new MovieDetailModalStrategy());
   }
 
   init() {
