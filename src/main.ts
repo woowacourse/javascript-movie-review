@@ -1,7 +1,7 @@
 import Footer from "./components/Footer";
 import Header from "./components/Header";
-import PopularMovieBoard from "./components/PopularMovieBoard";
-import SearchMovieBoard from "./components/SearchMovieBoard";
+import PopularMovieBoard from "./components/board/PopularMovieBoard";
+import SearchMovieBoard from "./components/board/SearchMovieBoard";
 import RateStorage from "./storages/RateStorage";
 import { isHTMLElement } from "./utils/typeGuards";
 
