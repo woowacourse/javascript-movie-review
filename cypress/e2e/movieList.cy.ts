@@ -6,7 +6,7 @@ describe("영화 리스트(초기 화면) 테스트", () => {
       id: "getPopularMovieList",
       url: "^https://api.themoviedb.org/3/movie/popular*",
       delay: 1000,
-      staticResponse: { fixture: "popularMovieData.json" },
+      staticResponse: { fixture: "popularMovieListData.json" },
     });
 
     cy.visit("http://localhost:5173/");

@@ -1,19 +1,17 @@
-import { MovieData } from "../../types/type";
+import { MovieListData } from "../../types/type";
 import { tmdbClient } from "./api";
 
 const getSearchedMovieList = async (
   query: string,
   page: number
-): Promise<MovieData> => {
-  const response = await tmdbClient.get(
-    `/search/movie?query=${query}&language=ko-KR&page=${page}`
-  );
+): Promise<MovieListData> => {
+  const params = new URLSearchParams({
+    query: query,
+    language: "ko-KR",
+    page: page.toString(),
+  });
 
-  if ("status_message" in response) {
-    throw new Error(response.status_message);
-  }
-
-  return response;
+  return await tmdbClient.get(`/search/movie?${params.toString()}`);
 };
 
 export default getSearchedMovieList;

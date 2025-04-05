@@ -15,11 +15,25 @@ class HTTPClient {
       ...(this.apiKey && { Authorization: `Bearer ${this.apiKey}` }),
     };
 
-    const response = await fetch(this.baseUrl + url, {
-      headers,
-    });
+    try {
+      const response = await fetch(this.baseUrl + url, {
+        headers,
+      });
 
-    return response.json();
+      const data = await response.json();
+
+      if ("status_message" in data) {
+        throw new Error(data.status_message);
+      }
+
+      return data;
+    } catch (error) {
+      if (error instanceof Error) {
+        throw error;
+      } else {
+        throw new Error("API 요청 중 오류가 발생했습니다.");
+      }
+    }
   }
 
   setApiKey(apiKey: string) {

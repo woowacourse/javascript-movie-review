@@ -1,0 +1,104 @@
+import { getPosterUrl } from "../../utils/getPosterUrl";
+import { MovieDetail } from "../../../types/type";
+import { ICON_PATH } from "../../constants/imagePaths";
+import RATING_TEXTS from "../../constants/ratingTexts";
+import { getItemFromStorage, setItemToStorage } from "../../utils/localStorage";
+
+const MOVIE_RATINGS_KEY = "movie_rate";
+
+const movieRatingUtil = {
+  getRatings() {
+    return getItemFromStorage<Record<number, number>>(MOVIE_RATINGS_KEY, {});
+  },
+
+  getRating(movieId: number) {
+    const ratings = this.getRatings();
+    return ratings[movieId] || 0;
+  },
+
+  saveRating(movieId: number, rating: number) {
+    const ratings = this.getRatings();
+    ratings[movieId] = rating;
+    setItemToStorage(MOVIE_RATINGS_KEY, ratings);
+  },
+};
+
+const handleModal = {
+  updateModalContent(movieData: MovieDetail) {
+    const $modal = document.getElementById("modalBackground");
+    if (!$modal) return;
+
+    const posterUrl = getPosterUrl(movieData.poster_path);
+
+    const $modalElement = $modal.querySelector(".modal") as HTMLElement;
+    if ($modalElement) {
+      $modalElement.dataset.movieId = movieData.id.toString();
+    }
+
+    const $image = $modal.querySelector(".modal-image img") as HTMLImageElement;
+    if ($image) $image.src = posterUrl;
+
+    const $title = $modal.querySelector(".modal-description h2");
+    if ($title) $title.textContent = movieData.title;
+
+    const $category = $modal.querySelector(".category");
+    if ($category)
+      $category.textContent =
+        movieData.release_year + " · " + movieData.genres.join(", ") || "";
+
+    const $rateValue = $modal.querySelector(".rate span");
+    if ($rateValue)
+      $rateValue.textContent = movieData.vote_average?.toFixed(1) || "0.0";
+
+    const $detail = $modal.querySelector(".detail");
+    if ($detail)
+      $detail.textContent = movieData.overview || "(줄거리 내용이 없습니다.)";
+
+    this.loadUserRating(movieData.id);
+
+    const modalMethods = ($modal as any).modalMethods;
+    if (modalMethods && modalMethods.open) {
+      modalMethods.open();
+    }
+  },
+
+  loadUserRating(movieId: number) {
+    const ratingValue = movieRatingUtil.getRating(movieId);
+    this.updateStars(ratingValue);
+  },
+
+  updateStars(ratingValue: number) {
+    for (let i = 1; i <= 5; i++) {
+      const star = document.getElementById(
+        `userRateStar${i}`
+      ) as HTMLImageElement;
+      if (star) {
+        star.src =
+          i <= ratingValue ? ICON_PATH.STAR_FILLED : ICON_PATH.STAR_EMPTY;
+      }
+    }
+    this.updateRatingText(ratingValue);
+  },
+
+  updateRatingText(ratingValue: number) {
+    const $rateText = document.getElementById("userRateText");
+    const $rateValue = document.getElementById("userRateValue");
+
+    if ($rateText) {
+      $rateText.textContent =
+        RATING_TEXTS[String(ratingValue) as keyof typeof RATING_TEXTS] ||
+        RATING_TEXTS["0"];
+    }
+
+    if ($rateValue) {
+      $rateValue.textContent = `(${ratingValue * 2}/10)`;
+    }
+  },
+
+  saveRating(movieId: number, rating: number) {
+    movieRatingUtil.saveRating(movieId, rating);
+    this.updateStars(rating);
+  },
+};
+
+export default handleModal;

@@ -1,8 +1,20 @@
+import { IMAGE_PATH } from "../../constants/imagePaths";
+import { createElement } from "../../utils/dom";
+
 export const addErrorBox = (text: string) => {
   const $movieListSection = document.querySelector(
     ".movie-list-section"
   ) as HTMLElement;
-  $movieListSection.replaceChildren($ErrorBox({ text }));
+  const $errorBox = $ErrorBox({ text });
+  $movieListSection.appendChild($errorBox);
+  return $errorBox;
+};
+
+export const removeErrorBox = () => {
+  const $errorBox = document.querySelector(".error-box");
+  if ($errorBox) {
+    $errorBox.remove();
+  }
 };
 
 interface ErrorBoxProps {
@@ -11,7 +23,7 @@ interface ErrorBoxProps {
 
 const $ErrorBox = ({ text }: ErrorBoxProps) => {
   const $errorPlanet = createElement("img", {
-    src: "./empty-planet.svg",
+    src: IMAGE_PATH.EMPTY_PLANET,
     className: "empty-planet",
     alt: text,
   });

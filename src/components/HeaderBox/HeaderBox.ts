@@ -1,12 +1,13 @@
 import $SearchForm from "../SearchForm/SearchForm";
+import { LOGO_PATH } from "../../constants/imagePaths";
 
 const $HeaderBox = () => {
   const $headerBox = createElement("div", {
     className: "header-box",
   });
-  const $logoLink = createElement("a", { href: "/" });
+  const $logoLink = createElement("a", { href: "/javascript-movie-review" });
   const $logoImage = createElement("img", {
-    src: "./logo.png",
+    src: LOGO_PATH.LOGO,
     alt: "MovieList",
   });
   $logoLink.appendChild($logoImage);

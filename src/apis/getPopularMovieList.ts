@@ -1,7 +1,7 @@
-import { MovieData } from "../../types/type";
+import { MovieListData } from "../../types/type";
 import { tmdbClient } from "./api";
 
-const getPopularMovieList = async (page: number): Promise<MovieData> => {
+const getPopularMovieList = async (page: number): Promise<MovieListData> => {
   const response = await tmdbClient.get(
     `/movie/popular?language=ko-KR&page=${page}`
   );

@@ -4,17 +4,19 @@ import $Banner from "./components/Banner/Banner";
 import asyncErrorBoundary from "./components/ErrorBoundary/Async/asyncErrorBoundary";
 import { addErrorBox } from "./components/ErrorBox/ErrorBox";
 import $HeaderBox from "./components/HeaderBox/HeaderBox";
+import $Modal from "./components/Modal/Modal";
 import {
   $MovieListBox,
-  initCurrentPage,
+  resetMovieListState,
 } from "./components/MovieListBox/MovieListBox";
 import { replaceSkeletonList } from "./components/Skeleton/MovieList/SkeletonList";
+import registerMovieDetailEventListener from "./domains/movie/movieDetailHandler";
 
 export const replaceMovieListBox = ({
   title,
   movieResult,
 }: MovieListSectionProps) => {
-  initCurrentPage();
+  resetMovieListState();
   const $movieListSection = document.querySelector(
     ".movie-list-section"
   ) as HTMLElement;
@@ -33,13 +35,18 @@ const initPopularMovieListRender = async () => {
   const popularMovieListResult = await getPopularMovieList(1);
 
   replaceMovieListBox({
-    title: "인기있는 영화",
+    title: "지금 인기있는 영화",
     movieResult: popularMovieListResult,
   });
 };
 
 const $header = document.querySelector("header");
 $header?.append($Banner(), $HeaderBox());
+
+const $modal = $Modal();
+document.body.append($modal);
+
+registerMovieDetailEventListener();
 
 asyncErrorBoundary({
   asyncFn: () => initPopularMovieListRender(),

@@ -6,14 +6,14 @@ describe("영화 데이터가 없는 경우 테스트", () => {
       id: "getPopularMovieList",
       url: "^https://api.themoviedb.org/3/movie/popular*",
       delay: 1000,
-      staticResponse: { fixture: "emptyMovieData.json" },
+      staticResponse: { fixture: "emptyMovieListData.json" },
     });
 
     createIntercept({
       id: "getSearchMovieList",
       url: "^https://api.themoviedb.org/3/search/movie*",
       delay: 1000,
-      staticResponse: { fixture: "emptyMovieData.json" },
+      staticResponse: { fixture: "emptyMovieListData.json" },
     });
 
     cy.visit("http://localhost:5173/");

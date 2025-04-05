@@ -1,21 +1,22 @@
 @keyframes pulse {
   0% {
-    opacity: 0.7;
+    opacity: 0.5;
   }
   50% {
     opacity: 0.8;
   }
   100% {
-    opacity: 0.7;
+    opacity: 0.5;
   }
 }
 
 .skeleton-list {
   display: grid;
-  grid-template-columns: repeat(5, 200px);
-  justify-content: space-between;
+  grid-template-columns: repeat(4, 200px);
+  justify-content: center;
   gap: 70px;
-  width: 1280px;
+  max-width: 1120px;
+  width: 100%;
   margin: 4rem auto;
 }
 
@@ -26,7 +27,7 @@
 }
 
 .skeleton-poster {
-  width: 100%;
+  width: 200px;
   height: 300px;
   background-color: #a9a9a9;
   border-radius: 5px;
@@ -41,4 +42,20 @@
   border-radius: 5px;
   margin-bottom: 10px;
   animation: pulse 1.5s infinite;
+}
+
+@media screen and (max-width: 1120px) {
+  .skeleton-list {
+    grid-template-columns: repeat(3, 200px);
+    gap: 4.38rem;
+    max-width: 800px;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .skeleton-list {
+    grid-template-columns: repeat(1, 200px);
+    gap: 4.38rem;
+    max-width: 300px;
+  }
 }

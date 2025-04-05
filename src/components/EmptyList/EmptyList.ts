@@ -1,6 +1,8 @@
+import { IMAGE_PATH } from "../../constants/imagePaths";
+
 const $EmptyList = () => {
   const $emptyPlanet = createElement("img", {
-    src: "./empty-planet.svg",
+    src: IMAGE_PATH.EMPTY_PLANET,
     className: "empty-planet",
     alt: "검색 결과가 없습니다.",
   });

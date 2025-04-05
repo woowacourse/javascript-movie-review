@@ -1,3 +1,5 @@
+import { ICON_PATH } from "../../constants/imagePaths";
+
 export const removeBanner = () => {
   const $header = document.querySelector("header") as HTMLElement;
   $header.classList.remove("banner-open");
@@ -17,15 +19,41 @@ const $Banner = () => {
     className: "background-container",
   });
 
-  $backgroundContainer.innerHTML = `
-  <div class="overlay" aria-hidden="true"></div>
-  <div class="top-rated-container">
-    <div class="rate">
-      <img src="./star_empty.png" class="star" />
-      <span class="rate-value">9.5</span>
-    </div>
-    <div class="title">인사이드 아웃2</div>
-  </div>`;
+  const $overlay = createElement("div", {
+    className: "overlay",
+    ariaHidden: "true",
+  });
+
+  const $star = createElement("img", {
+    src: ICON_PATH.STAR_EMPTY,
+    alt: "star_empty",
+    className: "star",
+  });
+  const $rateValue = createElement("span", {
+    className: "rate-value",
+    textContent: "9.5",
+  });
+  const $rate = createElement("div", {
+    className: ["banner-rate", "rate"],
+  });
+  $rate.append($star, $rateValue);
+
+  const $title = createElement("div", {
+    className: "title",
+    textContent: "인사이드 아웃2",
+  });
+
+  const $detailButton = createElement("button", {
+    className: "detail-button",
+    textContent: "자세히 보기",
+  });
+
+  const $topRatedContainer = createElement("div", {
+    className: "top-rated-container",
+  });
+  $topRatedContainer.append($rate, $title, $detailButton);
+
+  $backgroundContainer.append($overlay, $topRatedContainer);
 
   return $backgroundContainer;
 };
