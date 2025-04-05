@@ -1,0 +1,216 @@
+/* modal.css */
+body.modal-open {
+  overflow: hidden;
+}
+
+.modal-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경을 위해 설정 */
+  backdrop-filter: blur(10px); /* 블러 효과 적용 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  visibility: hidden; /* 모달이 기본적으로 보이지 않도록 설정 */
+  opacity: 0;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.modal-background.active {
+  visibility: visible;
+  opacity: 1;
+}
+
+.modal {
+  background-color: var(--color-bluegray-90);
+  padding: 20px;
+  border-radius: 16px;
+  color: white;
+  z-index: 2;
+  position: relative;
+  width: 1000px;
+  min-height: 600px;
+}
+
+.close-modal {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  top: 24px;
+  right: 24px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.modal-container {
+  display: flex;
+}
+
+.modal-container hr {
+  width: 100%;
+  height: 1px;
+  background-color: var(--color-bluegray-30);
+  border: none;
+}
+.modal-image img {
+  width: 380px;
+  border-radius: 16px;
+}
+
+.modal-description {
+  width: 100%;
+  padding: 8px;
+  margin-left: 16px;
+  line-height: 1.6rem;
+}
+
+.modal-description .rate {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.modal-description .rate__title {
+  color: var(--color-ffffff);
+}
+
+.modal-description .rate__bar {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.rate__bar > img {
+  width: 16px;
+}
+
+.rate__bar > span {
+  margin-top: 2px;
+}
+
+.modal-description .rate > img {
+  position: relative;
+  top: 5px;
+}
+
+.modal-description > *:not(:last-child) {
+  margin-bottom: 8px;
+}
+
+.modal-description h2 {
+  font-size: 2rem;
+  margin: 0 0 8px;
+}
+
+.modal-description .score {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-description .score h3 {
+  font-size: 1.2rem;
+  margin: 4px 0 12px 0;
+}
+
+.score__container {
+  display: flex;
+  gap: 12px;
+}
+
+.score__stars {
+  cursor: pointer;
+}
+
+.score__description {
+  font-size: 1.1rem;
+}
+
+.score__description-modal-description -score {
+  color: var(--color-bluegray-30);
+}
+
+.modal-description .detail {
+  max-height: 430px;
+  overflow-y: auto;
+}
+
+.modal-description .detail h3 {
+  font-size: 1.2rem;
+  margin: 4px 0 12px 0;
+}
+
+@media screen and (max-width: 1300px) {
+  .modal {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+  }
+
+  .modal-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .modal-image img {
+    width: 200px;
+  }
+
+  .modal-description {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-self: center;
+  }
+
+  .modal-description__title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .category {
+    width: 100%;
+    text-align: center;
+  }
+
+  .modal-description .rate {
+    display: flex;
+    justify-content: center;
+  }
+
+  .modal-description .score {
+    width: 100%;
+  }
+
+  .modal-description .detail {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .modal-image img {
+    display: none;
+  }
+  .modal-description .score {
+    align-items: center;
+  }
+
+  .score__container {
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .modal-description .detail {
+    justify-items: center;
+  }
+}

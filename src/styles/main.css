@@ -41,7 +41,7 @@ button.primary {
 
 #wrap {
   position: relative;
-  min-width: 1440px;
+  min-width: 1300px;
   background-color: var(--color-bluegray-100);
 }
 
@@ -70,4 +70,32 @@ h1.logo {
   justify-content: center;
   align-items: center;
   gap: 30px;
+}
+
+@media screen and (max-width: 1440px) {
+  #wrap {
+    min-width: 1250px;
+  }
+}
+
+@media screen and (max-width: 1300px) {
+  #wrap {
+    min-width: 850px;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  #wrap {
+    min-width: 550px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  #wrap {
+    min-width: 300px;
+  }
+
+  body {
+    overflow-x: hidden;
+  }
 }

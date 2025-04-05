@@ -9,9 +9,12 @@ import { State, Movie } from "../../../types/movie.ts";
 export async function initializeMovieDomain(): Promise<void> {
   const state = store.getState() as State;
   if (state.movies.length === 0) {
-    store.setState({ ...state, isLoading: true });
+    store.setLoading(true);
+
     const movies: Movie[] = await fetchPopularMovies();
-    store.setState({ ...store.getState(), movies, isLoading: false });
+    store.setLoading(false);
+
+    store.setMovies(movies);
   }
 }
 

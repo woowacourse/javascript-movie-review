@@ -1,8 +1,11 @@
 import { ListTitleRender } from "./ListTitle.js";
-import { MovieItemRender } from "./MovieItem.js";
-import { MoreButtonMount, MoreButtonRender } from "../MoreButton/MoreButton.js";
+import { MovieItemRender, MovieItemMount } from "./MovieItem.js";
 import { SkeletonMovieItemRender } from "../Skeleton/SkeletonMovieItem.js";
 import { ERROR_MESSAGES, MOVIE_COUNT } from "../../constants/config.js";
+import { fetchMoreMovies } from "./fetchMoreMovies.js";
+import store from "../../store/store.js";
+import { fetchPopularMovies } from "../../APIs/movieAPI.js";
+import { throttle } from "../../utils/throttle";
 
 export function MovieListRender({
   movies,
@@ -10,38 +13,70 @@ export function MovieListRender({
   searchedMoviesLength,
   isLoading,
 }) {
-  const showMoreButton = !query || movies.length < searchedMoviesLength;
-
   let movieContent = "";
   if (isLoading) {
-    movieContent = new Array(MOVIE_COUNT.UNIT)
-      .fill(0)
-      .map(() => SkeletonMovieItemRender())
-      .join("");
+    movieContent = /* html */ `
+       <ul id="movie-list" class="thumbnail-list" data-testid="movie-list">
+          ${new Array(MOVIE_COUNT.UNIT)
+            .fill(0)
+            .map(() => SkeletonMovieItemRender())
+            .join("")}
+        </ul>
+      `;
   } else if (movies.length === 0 && query) {
-    movieContent = `<div></div>
-                    <div></div>
-                    <div class="center">
-                      <img src="./images/not_found.png"/>
-                      <h2 data-testid='no-result-message'>${ERROR_MESSAGES.NO_RESULT}</h2>
-                    </div>`;
+    movieContent = /* html */ `
+        <div class="not-found-movie">
+          <img src="./images/not_found.png"/>
+          <h2 data-testid='no-result-message'>${ERROR_MESSAGES.NO_RESULT}</h2>
+        </div>
+        <ul id="movie-list" class="thumbnail-list" data-testid="movie-list"></ul>
+      `;
   } else {
-    movieContent = movies.map((movie) => MovieItemRender(movie)).join("");
+    movieContent = /* html */ `
+        <ul id="movie-list" class="thumbnail-list" data-testid="movie-list">
+          ${movies.map((movie) => MovieItemRender(movie)).join("")}
+        </ul>
+    `;
   }
 
   return /* html */ `
     <main>
-      <section>
+      <section class="movie-list-container">
         ${ListTitleRender({ query })}
-        <ul id="movie-list" class="thumbnail-list" data-testid="movie-list">
-          ${movieContent}
-        </ul>
-        ${showMoreButton ? MoreButtonRender() : ""}
+        ${movieContent}
       </section>
     </main>
   `;
 }
 
 export function MovieListMount() {
-  MoreButtonMount();
+  MovieItemMount();
+
+  window.addEventListener(
+    "scroll",
+    throttle(async () => {
+      if (
+        window.innerHeight + window.scrollY >=
+        document.body.offsetHeight - 300
+      ) {
+        const state = store.getState();
+        const currentPage =
+          Math.floor(state.movies.length / MOVIE_COUNT.UNIT) + 1;
+
+        if (state.isLoading) return;
+        if (
+          !state.query &&
+          state.movies.length >= MOVIE_COUNT.MAX_PAGE * MOVIE_COUNT.UNIT
+        ) {
+          return;
+        }
+        if (state.query && state.movies.length >= state.searchedMoviesLength) {
+          return;
+        }
+
+        store.setLoading(true);
+        await fetchMoreMovies(currentPage);
+      }
+    }, 1000)
+  );
 }

@@ -6,28 +6,24 @@ export async function syncSearchStateWithURL(): Promise<void> {
   const params = new URLSearchParams(window.location.search);
   const query: string | null = params.get("query");
 
-  store.setState({ ...store.getState(), isLoading: true });
+  store.setLoading(true);
 
   if (query) {
     const searchedMovies = await fetchSearchedMovies(query);
     if (searchedMovies) {
-      store.setState({
-        movies: searchedMovies.results,
-        query: query,
-        searchedMoviesLength: searchedMovies.total_results,
-        isLoading: false,
-      });
+      store.setLoading(false);
+      store.setMovies(searchedMovies.results);
+      store.setQuery(query);
+      store.setSearchedMoviesLength(searchedMovies.total_results);
     } else {
-      store.setState({ ...store.getState(), isLoading: false });
+      store.setLoading(false);
     }
   } else {
-    store.setState({
-      ...store.getState(),
-      movies: [],
-      query: "",
-      searchedMoviesLength: 0,
-      isLoading: true,
-    });
+    store.setLoading(true);
+    store.setMovies([]);
+    store.setQuery("");
+    store.setSearchedMoviesLength(0);
+
     await MovieModule.initializeMovieDomain();
   }
 }

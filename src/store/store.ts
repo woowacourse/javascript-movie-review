@@ -16,9 +16,33 @@ class Store {
     fn(this.state);
   }
 
+  initialSubscribe(subscribers: Subscriber[]) {
+    subscribers.forEach((fn) => fn(this.state));
+  }
+
   setState(newState: Partial<State>) {
     this.state = { ...this.state, ...newState };
-    this.subscribers.forEach((fn) => fn(this.state));
+    this.initialSubscribe(this.subscribers);
+  }
+
+  setMovies(movies: State["movies"]) {
+    this.setState({ ...this.state, movies });
+  }
+
+  setQuery(query: State["query"]) {
+    this.setState({ ...this.state, query });
+  }
+
+  setSearchedMoviesLength(searchedMoviesLength: State["searchedMoviesLength"]) {
+    this.setState({ ...this.state, searchedMoviesLength });
+  }
+
+  setLoading(isLoading: State["isLoading"]) {
+    this.setState({ ...this.state, isLoading });
+  }
+
+  setErrorMessage(errorMessage: State["errorMessage"]) {
+    this.setState({ ...this.state, errorMessage });
   }
 
   getState(): State {

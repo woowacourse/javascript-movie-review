@@ -10,6 +10,7 @@
   height: 300px;
   border-radius: 8px;
   object-fit: contain;
+  background-color: var(--color-bluegray-80);
 }
 
 .item {
@@ -40,4 +41,36 @@ p.rate > span {
 
 .primary.more {
   width: 100%;
+}
+
+.not-found-movie {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+}
+
+@media screen and (max-width: 1440px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(4, 200px);
+  }
+}
+
+@media screen and (max-width: 1300px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(3, 200px);
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(2, 200px);
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(1, 200px);
+  }
 }
