@@ -1,31 +1,52 @@
+import useGetMovieDetail from "../../apis/movies/useGetMovieDetail";
 import useGetSearchMovieList from "../../apis/movies/useGetSearchMovieList";
 import { images } from "../../assets/images";
 import useInputChange from "../../hooks/useInputChange";
-import { searchInputValue, setSearchInputValue } from "../../store/store";
+import {
+  isModalOpen,
+  searchInputValue,
+  setIsModalOpen,
+  setMovieDetail,
+  setSearchInputValue,
+} from "../../store/store";
 import { useEvents } from "../../utils/Core";
+import { observeLastMovie } from "../../utils/InfiniteScroll";
 import Button from "../@common/Button";
 import Input from "../@common/Input";
 
 interface HeaderProps {
+  id: number;
   rate: number;
   title: string;
   src: string;
 }
 
 const Header = (props: HeaderProps) => {
-  const { rate, title, src } = props;
+  const { id, rate, title, src } = props;
   const { fetchSearchMovieList } = useGetSearchMovieList();
+  const { fetchMovieDetail } = useGetMovieDetail();
   const { handleInputChange } = useInputChange(
     ".search-input",
     setSearchInputValue
   );
+
   const [addEvent] = useEvents(".background-container");
 
-  addEvent("click", ".search-button-icon", (e) => {
+  addEvent("click", ".search-button-icon", async (e) => {
     e.preventDefault();
     handleInputChange();
 
-    fetchSearchMovieList(searchInputValue);
+    await fetchSearchMovieList(searchInputValue);
+
+    observeLastMovie();
+  });
+
+  addEvent("click", `.detail`, async () => {
+    if (!isModalOpen) {
+      setIsModalOpen(true);
+    }
+    const detail = await fetchMovieDetail(id);
+    setMovieDetail(detail);
   });
 
   return `
@@ -35,8 +56,12 @@ const Header = (props: HeaderProps) => {
             <img src="https://image.tmdb.org/t/p/w500${src}" alt="background" />
           </div>
           <div class="top-rated-container">
-           <div class="input-container">
-            <form>
+          <div class="logo-search-container">
+            <h1 class="logo">
+              <img src="${images.logo}" alt="MovieList" />
+            </h1>
+            <div class="input-container">
+              <form>
             ${Input({
               attribute: {
                 class: "search-input",
@@ -52,11 +77,9 @@ const Header = (props: HeaderProps) => {
                 },
                 children: `<img src="${images.search}" alt="search" />`,
               })}
-             </form>
+              </form>
             </div>
-            <h1 class="logo">
-              <img src="${images.logo}" alt="MovieList" />
-            </h1>
+            </div>
             <div class="top-rated-movie">
               <div class="rate">
                 <img src="${images.starEmpty}" class="star" />
