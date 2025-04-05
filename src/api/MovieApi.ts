@@ -1,3 +1,4 @@
+import { Movie, MovieDetail } from "../types/movie";
 import ApiClient from "./ApiClient";
 
 class MovieApi {
@@ -11,7 +12,10 @@ class MovieApi {
   };
 
   static async fetchSearchMovies(page: number, searchParams: string) {
-    const data = await ApiClient.fetch({
+    const data = await ApiClient.fetch<{
+      results: Movie[];
+      total_pages: number;
+    }>({
       url: `${this.BASE_URL}/search/movie?query=${searchParams}&include_adult=false&language=ko-KR&page=${page}`,
       options: this.options,
     });
@@ -22,7 +26,10 @@ class MovieApi {
   }
 
   static async fetchPopularMovies(page: number) {
-    const data = await ApiClient.fetch({
+    const data = await ApiClient.fetch<{
+      results: Movie[];
+      total_pages: number;
+    }>({
       url: `${this.BASE_URL}/movie/popular?language=ko-KR&page=${page}`,
       options: this.options,
     });
@@ -30,6 +37,15 @@ class MovieApi {
     const movies = data.results;
 
     return { movies, total_pages: data.total_pages };
+  }
+
+  static async fetchMovieDetail(movieId: number) {
+    const data = await ApiClient.fetch<MovieDetail>({
+      url: `${this.BASE_URL}/movie/${movieId}?language=ko-KR`,
+      options: this.options,
+    });
+
+    return data;
   }
 }
 

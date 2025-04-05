@@ -1,7 +1,8 @@
 import Footer from "./components/Footer";
 import Header from "./components/Header";
-import PopularMovieBoard from "./components/PopularMovieBoard";
-import SearchMovieBoard from "./components/SearchMovieBoard";
+import PopularMovieBoard from "./components/board/PopularMovieBoard";
+import SearchMovieBoard from "./components/board/SearchMovieBoard";
+import RateStorage from "./storages/RateStorage";
 import { isHTMLElement } from "./utils/typeGuards";
 
 interface AppContract {
@@ -9,7 +10,10 @@ interface AppContract {
 }
 
 class App implements AppContract {
-  constructor() {}
+  #currentBoard: PopularMovieBoard | SearchMovieBoard | null = null;
+  constructor() {
+    RateStorage.init();
+  }
 
   public render() {
     this.#renderHeader();
@@ -27,14 +31,17 @@ class App implements AppContract {
   }
 
   #renderSearchResult(searchParams: string) {
+    if (this.#currentBoard) this.#currentBoard.destroy();
     const $section = document.querySelector("main");
     if (isHTMLElement($section))
-      new SearchMovieBoard($section, { searchParams });
+      this.#currentBoard = new SearchMovieBoard($section, { searchParams });
   }
 
   #renderPopularMovies() {
+    if (this.#currentBoard) this.#currentBoard.destroy();
     const $section = document.querySelector("main");
-    if (isHTMLElement($section)) new PopularMovieBoard($section);
+    if (isHTMLElement($section))
+      this.#currentBoard = new PopularMovieBoard($section);
   }
 
   #renderFooter() {

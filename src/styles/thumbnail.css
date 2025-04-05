@@ -14,8 +14,9 @@
 .thumbnail-list {
   margin-bottom: 56px;
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 70px;
+  place-items: center;
 }
 
 .thumbnail {
@@ -27,6 +28,17 @@
 .item {
   user-select: none;
   cursor: pointer;
+}
+
+.item-desc {
+  width: 200px;
+}
+
+.item-desc strong {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .item-desc > *:not(:last-child) {

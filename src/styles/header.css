@@ -2,21 +2,25 @@ header {
   position: fixed;
   top: 0;
   left: 0;
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 1fr 130px;
   padding: 30px 40px;
-  z-index: 100;
+  z-index: var(--z-header);
   width: 100%;
 }
 
 h1.logo {
   font-size: 2rem;
+  display: block;
+}
+
+.search-bar-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .search-bar {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   width: 525px;
   padding: 3px 20px;
   color: var(--color-white);
@@ -42,5 +46,18 @@ h1.logo {
   }
   &::placeholder {
     color: var(--color-white);
+  }
+}
+
+@media (max-width: 800px) {
+  header {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .search-bar-container {
+    display: flex;
+    width: 100%;
+    justify-content: center;
   }
 }

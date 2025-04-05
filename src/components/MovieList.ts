@@ -1,69 +1,54 @@
+import { APIData } from "../types/apiData";
 import { Movie } from "../types/movie";
+import { isHTMLElement } from "../utils/typeGuards";
+import Modal from "./modal/Modal";
+// import MovieDetailModal from "./modal/MovieDetailModal";
+import MovieDetailModalStrategy from "./modal/MovieDetailModalStrategy";
+import MovieItem from "./MovieItem";
+import Skeleton from "./Skeleton";
 
-interface MovieListContract {
-  skeleton: string;
-  ui: string;
-}
+class MovieList {
+  #parentElement: HTMLElement;
+  #Modal!: Modal;
 
-class MovieList implements MovieListContract {
-  private static readonly IMAGE_BASE_URL =
-    "https://image.tmdb.org/t/p/original";
-
-  #movies: Movie[];
-
-  constructor(movies: Movie[]) {
-    this.#movies = movies;
+  constructor(parentElement: HTMLElement) {
+    this.#parentElement = parentElement;
+    this.#initComponents();
   }
 
-  public get skeleton(): string {
-    return /*html*/ `
-      ${Array.from({ length: 20 })
-        .map(
-          () => /*html*/ `
-            <li>
-              <div class="skeleton-item">
-                <div class="skeleton-thumbnail"></div>
-                <div class="skeleton-item-desc">
-                  <div class="skeleton-text"></div>
-                  <div class="skeleton-text" style="width: 50%"></div>
-                </div>
-              </div>
-            </li>
-          `
-        )
-        .join("")}
-    `;
+  #initComponents(): void {
+    const $modalBackground = document.querySelector(".modal-background");
+    if (isHTMLElement($modalBackground))
+      this.#Modal = new Modal($modalBackground, new MovieDetailModalStrategy());
   }
 
-  #posterImage(poster_path: Movie["poster_path"]): string {
-    return poster_path
-      ? `${MovieList.IMAGE_BASE_URL}${poster_path}`
-      : "./images/null_image.png";
+  init() {
+    this.#parentElement.innerHTML = "";
   }
 
-  public get ui() {
-    return /*html*/ `
-      ${this.#movies
-        .map(
-          ({ poster_path, title, vote_average }) => /*html*/ `
-            <li>
-              <div class="item">
-                <img class="thumbnail" src="${this.#posterImage(
-                  poster_path
-                )}" alt="${title}" />
-                <div class="item-desc">
-                  <p class="rate">
-                    <img src="./images/star_empty.png" class="star" alt="star-empty"/>
-                    <span>${vote_average}</span>
-                  </p>
-                  <strong>${title}</strong>
-                </div>
-              </div>
-            </li>
-          `
-        )
-        .join("")}
-    `;
+  render(response: APIData<Movie[]>) {
+    if (response.status === "loading") {
+      this.#parentElement.innerHTML = /*html*/ `${Skeleton.MovieList}`;
+      return;
+    }
+
+    if (!response.data) return;
+
+    const fragment = document.createDocumentFragment();
+
+    response.data.forEach((movie) => {
+      const $list = document.createElement("li");
+      new MovieItem($list, movie, (id: number) => {
+        this.#showModal(id);
+      });
+      fragment.appendChild($list);
+    });
+
+    this.#parentElement.appendChild(fragment);
+  }
+
+  #showModal(id: number): void {
+    this.#Modal.show(id);
   }
 }
 

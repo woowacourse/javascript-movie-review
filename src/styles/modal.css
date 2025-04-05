@@ -16,12 +16,10 @@ body.modal-open {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 10;
+  z-index: var(--z-modal);
   visibility: hidden; /* 모달이 기본적으로 보이지 않도록 설정 */
   opacity: 0;
-  transition:
-    opacity 0.3s ease,
-    visibility 0.3s ease;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
 .modal-background.active {
@@ -34,7 +32,7 @@ body.modal-open {
   padding: 20px;
   border-radius: 16px;
   color: white;
-  z-index: 2;
+  z-index: var(--z-modal);
   position: relative;
   width: 1000px;
 }
@@ -85,4 +83,100 @@ body.modal-open {
 .detail {
   max-height: 430px;
   overflow-y: auto;
+}
+
+.star-container {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+
+.stars {
+  min-width: 250px;
+}
+.rate-comment {
+  flex-shrink: 0;
+}
+
+.modal-image-skeleton {
+  width: 380px;
+  height: 570px;
+  border-radius: 16px;
+  background-color: var(--color-bluegray-80);
+}
+
+.modal-error {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  flex-grow: 1;
+  height: 300px;
+}
+
+.retry-button {
+  background-color: var(--color-bluegray-80);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+@media (max-width: 800px) {
+  .modal-background {
+    align-items: end;
+  }
+
+  .modal-container {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modal-description {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .modal-description hr {
+    width: 100%;
+  }
+
+  .modal-image img {
+    width: 200px;
+    border-radius: 16px;
+  }
+
+  .modal-image-skeleton {
+    width: 200px;
+    height: 300px;
+  }
+
+  .my-rate {
+    width: 100%;
+  }
+}
+
+@media (max-width: 390px) {
+  .modal-image img {
+    display: none;
+  }
+
+  .modal-image-skeleton {
+    display: none;
+  }
+
+  .my-rate {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .star-container {
+    flex-direction: column;
+  }
 }
