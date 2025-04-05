@@ -30,12 +30,12 @@ describe('영화 목록 테스트', () => {
     cy.get('.thumbnail-list > li').eq(1).contains('The Twister: Caught in the Storm');
   });
 
-  it('"더보기" 버튼을 클릭하면 추가 영화가 로드되어야 한다.', () => {
+  it('무한스크롤 테스트', () => {
     cy.wait('@getPopularMovies');
 
     cy.get('.thumbnail-list > li').should('have.length', 20);
 
-    cy.get('#moreButton').click();
+    cy.scrollTo('bottom', { duration: 500 });
 
     cy.wait('@getPopularMovies');
 

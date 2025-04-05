@@ -4,7 +4,7 @@ import ApiClient from './ApiClient';
 export const getSearchMovies = async ({ page, query }: { page: number; query: string }): Promise<Response> => {
   const params = new URLSearchParams({
     include_adult: 'false',
-    language: 'en-US',
+    language: 'ko-KR',
     page: String(page),
     query
   });

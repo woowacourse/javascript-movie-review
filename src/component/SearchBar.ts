@@ -4,7 +4,9 @@ import MovieList from './MovieList';
 import SkeletonList from './SkeletonList';
 import { $ } from '../util/selector';
 import { removeBanner } from './Banner';
-import MoreButton from './MoreButton';
+import { createObserverTarget } from './MovieList';
+import Movie from './Movie';
+import { createInfiniteScrollObserver } from '../util/intersectionObserver';
 
 function SearchBar() {
   return createDOMElement({
@@ -59,7 +61,8 @@ const renderMovies = async (searchKeyword: string) => {
   const response = await getSearchMovies({ page: 1, query: searchKeyword });
   if (!response) return;
 
-  const { results: movies, total_pages, page } = response;
+  const { results: movies, total_pages } = response;
+  let currentPage = 1;
 
   const searchedMovieList = MovieList({
     movies,
@@ -68,13 +71,31 @@ const renderMovies = async (searchKeyword: string) => {
 
   container.replaceChildren(searchedMovieList);
 
-  if (total_pages !== page) {
-    const moreButton = MoreButton({
-      totalPages: total_pages,
-      fetchMovies: getSearchMovies,
-      fetchArgs: { query: searchKeyword }
+  if (currentPage < total_pages) {
+    observeNextPage(searchKeyword, total_pages, currentPage);
+  }
+};
+
+const observeNextPage = (searchKeyword: string, totalPages: number, startPage: number = 1) => {
+  let page = startPage;
+
+  const container = $('.container');
+  const list = $('.thumbnail-list');
+  if (!container || !list) return;
+
+  const observe = async () => {
+    page++;
+    if (page > totalPages) return;
+
+    const response = await getSearchMovies({ page, query: searchKeyword });
+
+    response.results.forEach((movie) => {
+      list.appendChild(Movie({ movie }));
     });
 
-    container.appendChild(moreButton);
-  }
+    const newTarget = createObserverTarget();
+    container.appendChild(newTarget);
+    createInfiniteScrollObserver(newTarget, observe);
+  };
+  observe();
 };

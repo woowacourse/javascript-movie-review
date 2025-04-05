@@ -45,7 +45,6 @@ button.primary {
 }
 
 #wrap {
-  min-width: 1440px;
   background-color: var(--color-bluegray-100);
 }
 
@@ -58,8 +57,7 @@ button.primary {
 .container {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 64px 0;
-  width: 100%;
+  padding: 130px 0px 64px;
 }
 
 .background-container {
@@ -96,7 +94,7 @@ button.primary {
 }
 
 .top-rated-movie {
-  margin-top: 64px;
+  padding: 142px 304px 63px 90px;
 }
 
 .top-rated-movie > button {
@@ -113,18 +111,12 @@ button.primary {
   top: 3%;
   left: 50%;
   transform: translateX(-50%);
-  width: 1280px;
   font-size: 2rem;
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.logo-img {
-  position: absolute;
-  top: 50%;
-  left: 0px;
-  transform: translateY(-50%);
+  flex-direction: column;
+  gap: 24px;
 }
 
 .search-form {
