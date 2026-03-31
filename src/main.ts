@@ -3,6 +3,7 @@ import type { Movie } from "./api.ts";
 import Component from "./component.ts";
 
 let nextPageNum = 0;
+let requestMovieCount = 0;
 
 async function loadInitialMovie() {
   const app = document.querySelector("#app");
@@ -11,16 +12,19 @@ async function loadInitialMovie() {
       pageNum: 1,
       onSuccess: ({ page, results: movies }) => {
         nextPageNum = page + 1;
+        requestMovieCount = movies.length;
         const ul = document.querySelector(".thumbnail-list");
         const loadMoreButton = document.querySelector(".load-more-button");
         if (ul) {
-          // ul.innerHTML = "";
+          clearSkeleton(ul);
           renderMovies(ul, movies);
         }
         loadMoreButton?.addEventListener("click", loadMoreMovies);
       },
       onLoading: () => {
         // 로딩 중일 때 ui 보여주기
+        const ul = document.querySelector(".thumbnail-list");
+        if (ul) renderSkeleton(ul, requestMovieCount);
       },
       onError: (error) => {
         // 에러 ui 보여주기
@@ -48,6 +52,31 @@ async function loadMoreMovies() {
 }
 
 addEventListener("load", loadInitialMovie);
+
+function renderSkeleton(ul: Element, length: number) {
+  ul.innerHTML = Array.from({ length: length })
+    .map(() => addSkeletonMovies())
+    .join("");
+}
+
+function addSkeletonMovies() {
+  return Component.movieSkeleton();
+}
+
+function clearSkeleton(parent: Element) {
+  parent.innerHTML = [...parent.children]
+    .filter((child) => {
+      if (
+        child instanceof HTMLElement &&
+        child.classList.contains("skeleton")
+      ) {
+        return false;
+      }
+      return true;
+    })
+    .map((child) => child.outerHTML)
+    .join("");
+}
 
 function renderMovies(ul: Element, movies: Movie[]) {
   movies.forEach((movie) => addMovies(ul, movie));

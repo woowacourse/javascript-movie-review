@@ -17,4 +17,9 @@ describe("컴포넌트 테스트", () => {
     expect(movieComponent).contain("<span>8.9</span>");
     expect(movieComponent).contain('alt="겨울왕국"');
   });
+  test("movie 스캘레톤", () => {
+    const movieSkeletonComponent = Component.movieSkeleton();
+
+    expect(movieSkeletonComponent).contain('<li class="skeleton">');
+  });
 });

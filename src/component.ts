@@ -24,7 +24,7 @@ const Component = {
 
   movieSkeleton() {
     return `
-    <li>
+    <li class="skeleton">
       <div class="item">
         <div class="thumbnail skeleton-box"></div>
         <div class="item-desc">
