@@ -77,6 +77,15 @@ const renderMovies = (movies: Movies): void => {
   }
 };
 
+const renderEmpty = () => {
+  const thumbnailList = document.querySelector(".thumbnail-list");
+  if (!thumbnailList) return;
+  const empty = "<p>검색 결과가 없습니다</p>";
+  thumbnailList.innerHTML = empty;
+
+  hideMoreButton();
+};
+
 const renderTopRatedMovie = (movies: Movies) => {
   const topRatedMovie = movies.results[0];
   const topRatedContainer = document.querySelector(".top-rated-container");
@@ -139,7 +148,11 @@ addEventListener("load", async () => {
       movieListTitle.textContent = `"${search}" 검색 결과`;
 
       removeThumbnailList();
-      renderMovies(movies);
+      if (movies.results.length) {
+        renderMovies(movies);
+      } else {
+        renderEmpty();
+      }
     })();
   };
 
