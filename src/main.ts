@@ -48,6 +48,63 @@ addEventListener("load", async () => {
       movieDisplay.appendChild(li);
     });
 
+    const input = document.querySelector(".search-bar") as HTMLInputElement;
+
+    input.addEventListener("keydown", async (event) => {
+      if (event.key === "Enter") {
+        const searchBar = document.querySelector(
+          ".search-bar",
+        ) as HTMLInputElement;
+
+        const searchBarText = searchBar.value;
+        const background = document.querySelector(
+          ".background-container",
+        ) as HTMLElement;
+        background.hidden = true;
+
+        let URL;
+
+        if (searchBarText === "") {
+          background.hidden = false;
+          pageNum = 1;
+          movieDisplay.replaceChildren();
+
+          URL = `https://api.themoviedb.org/3/movie/popular?api_key=${import.meta.env.VITE_API_KEY}&language=ko-KR&page=${pageNum}`;
+        } else {
+          movieDisplay.replaceChildren();
+          URL = `https://api.themoviedb.org/3/search/movie?api_key=${import.meta.env.VITE_API_KEY}&query=${encodeURIComponent(searchBarText)}&language=ko-KR`;
+        }
+
+        const response = await fetch(URL);
+        const data = await response.json();
+
+        const movieList = data.results;
+
+        // 영화 20개
+        movieList.forEach((movie: any) => {
+          const li = document.createElement("li");
+
+          li.innerHTML = html` <div class="item">
+            <img
+              class="thumbnail"
+              src="https://image.tmdb.org/t/p/w500${movie.poster_path}"
+              alt="인사이드 아웃 2"
+            />
+            <div class="item-desc">
+              <p class="rate">
+                <img class="star" src="${star_empty}" />
+                <span class="vote-average"
+                  >${movie.vote_average.toFixed(1)}</span
+                >
+              </p>
+              <strong>${movie.title}</strong>
+            </div>
+          </div>`;
+
+          movieDisplay.appendChild(li);
+        });
+      }
+    });
     const displayMoreBtn = document.querySelector(".display-more-btn");
     displayMoreBtn?.addEventListener("click", async () => {
       pageNum++;
@@ -61,6 +118,59 @@ addEventListener("load", async () => {
       const movieDisplay = document.querySelector(
         ".thumbnail-list",
       ) as HTMLUListElement;
+
+      // 영화 20개
+      movieList.forEach((movie: any) => {
+        const li = document.createElement("li");
+
+        li.innerHTML = html` <div class="item">
+          <img
+            class="thumbnail"
+            src="https://image.tmdb.org/t/p/w500${movie.poster_path}"
+            alt="인사이드 아웃 2"
+          />
+          <div class="item-desc">
+            <p class="rate">
+              <img class="star" src="${star_empty}" />
+              <span class="vote-average">${movie.vote_average.toFixed(1)}</span>
+            </p>
+            <strong>${movie.title}</strong>
+          </div>
+        </div>`;
+
+        movieDisplay.appendChild(li);
+      });
+    });
+
+    const searchBtn = document.querySelector(".search-btn");
+    searchBtn?.addEventListener("click", async () => {
+      const searchBar = document.querySelector(
+        ".search-bar",
+      ) as HTMLInputElement;
+
+      const searchBarText = searchBar.value;
+      const background = document.querySelector(
+        ".background-container",
+      ) as HTMLElement;
+      background.hidden = true;
+
+      let URL;
+
+      if (searchBarText === "") {
+        background.hidden = false;
+        pageNum = 1;
+        movieDisplay.replaceChildren();
+
+        URL = `https://api.themoviedb.org/3/movie/popular?api_key=${import.meta.env.VITE_API_KEY}&language=ko-KR&page=${pageNum}`;
+      } else {
+        movieDisplay.replaceChildren();
+        URL = `https://api.themoviedb.org/3/search/movie?api_key=${import.meta.env.VITE_API_KEY}&query=${encodeURIComponent(searchBarText)}&language=ko-KR`;
+      }
+
+      const response = await fetch(URL);
+      const data = await response.json();
+
+      const movieList = data.results;
 
       // 영화 20개
       movieList.forEach((movie: any) => {

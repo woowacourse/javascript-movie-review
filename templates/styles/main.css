@@ -67,6 +67,13 @@ button.primary {
   padding: 48px;
 }
 
+.search-container {
+  position: absolute;
+  top: 10%;
+  left: 45%;
+  z-index: 3;
+}
+
 .overlay {
   position: absolute;
   top: 0;
