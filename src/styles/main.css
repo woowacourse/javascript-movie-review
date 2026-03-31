@@ -157,6 +157,11 @@ span.rate-value {
   font-weight: bold;
 }
 
+.load-more-button {
+  width: 100%;
+  font-size: 20px;
+}
+
 footer.footer {
   min-height: 180px;
   background-color: var(--color-bluegray-80);
