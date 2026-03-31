@@ -8,5 +8,5 @@ interface FetcherArgs<T> {
 export function fetcher<T>(arg: FetcherArgs<T>) {
   const { fn, onSuccess, onError, onLoading } = arg;
   onLoading();
-  fn().then(onSuccess).catch(onError);
+  fn().then(onSuccess, onError);
 }

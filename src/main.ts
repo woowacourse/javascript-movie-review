@@ -40,13 +40,17 @@ async function loadMoreMovies() {
     onSuccess: ({ page, results: movies }) => {
       const ul = document.querySelector(".thumbnail-list");
       nextPageNum = page + 1;
-      if (ul) renderMovies(ul, movies);
+      if (ul) {
+        clearSkeleton(ul);
+        renderMovies(ul, movies);
+      }
     },
     onError: function (error: Error): void {
       throw new Error("Function not implemented.");
     },
     onLoading: function (): void {
-      throw new Error("Function not implemented.");
+      const ul = document.querySelector(".thumbnail-list");
+      if (ul) renderSkeleton(ul, requestMovieCount);
     },
   });
 }
@@ -54,7 +58,7 @@ async function loadMoreMovies() {
 addEventListener("load", loadInitialMovie);
 
 function renderSkeleton(ul: Element, length: number) {
-  ul.innerHTML = Array.from({ length: length })
+  ul.innerHTML += Array.from({ length: length })
     .map(() => addSkeletonMovies())
     .join("");
 }
