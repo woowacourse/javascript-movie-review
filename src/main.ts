@@ -1,11 +1,15 @@
-import image from "../templates/images/star_filled.png";
+const searchInput = document.getElementById(
+  "search-input",
+) as HTMLInputElement | null;
+const searchButton = document.getElementById("search-button");
+const banner = document.getElementById("background-container");
 
-addEventListener("load", () => {
-  const app = document.querySelector("#app");
-  const buttonImage = document.createElement("img");
-  buttonImage.src = image;
+const handleSearch = () => {
+  if (!banner || searchInput?.value.trim() === "") return;
+  banner.style.visibility = "hidden";
+  banner.style.height = "100px";
+};
 
-  if (app) {
-    app.appendChild(buttonImage);
-  }
-});
+if (searchInput && searchButton) {
+  searchButton.addEventListener("click", handleSearch);
+}
