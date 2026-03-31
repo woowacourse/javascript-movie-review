@@ -7,12 +7,12 @@ interface MoviesResponse {
   total_results: number,
 }
 
-interface Movie {
+export interface Movie {
   adult: boolean;
   backdrop_path: string;
   genre_ids: number[];
   id: number;
-  original_language: 'en';
+  original_language: 'en-US';
   original_title: string;
   overview: string;
   popularity: number;
