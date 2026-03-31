@@ -16,3 +16,15 @@ export const getMoviePopular = async ({
 
   return await res.json();
 };
+
+export const getTopRatedMovie = async () => {
+  const url = `${apiUrl}/movie/top_rated`;
+  const res = await fetch(url, {
+    method: "get",
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+    },
+  });
+
+  return await res.json();
+};

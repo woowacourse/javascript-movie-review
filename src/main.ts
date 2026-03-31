@@ -1,4 +1,4 @@
-import { getMoviePopular } from "./service/api";
+import { getMoviePopular, getTopRatedMovie } from "./service/api";
 import { Movie, Movies } from "./service/dto";
 
 const createMovieNode = (movie: Movie): DocumentFragment | null => {
@@ -46,8 +46,36 @@ const renderMovies = (movies: Movies): void => {
   });
 };
 
-addEventListener("load", async () => {
-  const movies = await getMoviePopular({ page: 1 });
+const renderTopRatedMovie = (movies: Movies) => {
+  const topRatedMovie = movies.results[0];
+  const topRatedContainer = document.querySelector<HTMLDivElement>(
+    ".top-rated-container",
+  );
+  if (!topRatedContainer) return null;
 
-  renderMovies(movies);
+  const backgroundContainer = document.querySelector<HTMLDivElement>(
+    ".background-container",
+  );
+  if (!backgroundContainer) return null;
+  backgroundContainer.style.background = `url(${`https://media.themoviedb.org/t/p/w1920_and_h800_multi_faces` + topRatedMovie.backdrop_path}) center center no-repeat`;
+
+  const rateValue = topRatedContainer.querySelector(".rate-value");
+  if (!rateValue) return null;
+  rateValue.textContent = topRatedMovie.vote_average.toString();
+
+  const title = topRatedContainer.querySelector(".title");
+  if (!title) return null;
+  title.textContent = topRatedMovie.title;
+};
+
+addEventListener("load", async () => {
+  (async () => {
+    const topRatedMovies = await getTopRatedMovie();
+    renderTopRatedMovie(topRatedMovies);
+  })();
+
+  (async () => {
+    const movies = await getMoviePopular({ page: 1 });
+    renderMovies(movies);
+  })();
 });
