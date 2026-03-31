@@ -21,6 +21,22 @@ const Component = {
     </li>
   `;
   },
+
+  movieSkeleton() {
+    return `
+    <li>
+      <div class="item">
+        <div class="thumbnail skeleton-box"></div>
+        <div class="item-desc">
+          <p class="rate">
+            <span class="skeleton-box skeleton-rate"></span>
+          </p>
+          <span class="skeleton-box skeleton-title"></span>
+        </div>
+      </div>
+    </li>
+  `;
+  },
 };
 
 export default Component;

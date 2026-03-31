@@ -13,7 +13,10 @@ async function loadInitialMovie() {
         nextPageNum = page + 1;
         const ul = document.querySelector(".thumbnail-list");
         const loadMoreButton = document.querySelector(".load-more-button");
-        if (ul) renderMovies(ul, movies);
+        if (ul) {
+          // ul.innerHTML = "";
+          renderMovies(ul, movies);
+        }
         loadMoreButton?.addEventListener("click", loadMoreMovies);
       },
       onLoading: () => {
