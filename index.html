@@ -18,6 +18,10 @@
             <h1 class="logo">
               <img src="./images/logo.png" alt="MovieList" />
             </h1>
+
+            <input id="search-input" />
+            <button id="search-button">검색</button>
+
             <div class="top-rated-movie">
               <div class="rate">
                 <img src="./images/star_empty.png" class="star" />
@@ -29,7 +33,7 @@
           </div>
         </div>
       </header>
-      <div class="container">
+      <div class="container" id="wrap">
         <ul class="tab">
           <li>
             <a href="#">
@@ -54,25 +58,24 @@
         </ul>
         <main>
           <section>
-            <h2>지금 인기 있는 영화</h2>
-            <ul class="thumbnail-list">
-              <template id="movie-template">
-                <li data-movie-id="">
-                  <div class="item">
-                    <img class="thumbnail" src="" alt="" />
-                    <div class="item-desc">
-                      <p class="rate">
-                        <img
-                          src="./images/star_empty.png"
-                          class="star"
-                        /><span></span>
-                      </p>
-                      <strong></strong>
-                    </div>
+            <h2 id="movie-list-title">지금 인기 있는 영화</h2>
+            <template id="movie-template">
+              <li data-movie-id="">
+                <div class="item">
+                  <img class="thumbnail" src="" alt="" />
+                  <div class="item-desc">
+                    <p class="rate">
+                      <img
+                        src="./images/star_empty.png"
+                        class="star"
+                      /><span></span>
+                    </p>
+                    <strong></strong>
                   </div>
-                </li>
-              </template>
-            </ul>
+                </div>
+              </li>
+            </template>
+            <ul class="thumbnail-list"></ul>
             <button class="primary" id="more-button">더보기</button>
           </section>
         </main>

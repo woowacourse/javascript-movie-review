@@ -1,4 +1,8 @@
-import { getMoviePopular, getTopRatedMovie } from "./service/api";
+import {
+  getMoviePopular,
+  getTopRatedMovie,
+  getSearchMovie,
+} from "./service/api";
 import { Movie, Movies } from "./service/dto";
 
 const createMovieNode = (movie: Movie): DocumentFragment | null => {
@@ -41,7 +45,22 @@ const hideMoreButton = () => {
   moreButton.style.display = "none";
 };
 
+const showMoreButton = () => {
+  const moreButton = document.querySelector<HTMLDivElement>("#more-button");
+  if (!moreButton) return null;
+  moreButton.style.display = "block";
+};
+
+const removeThumbnailList = () => {
+  const humbnailList =
+    document.querySelector<HTMLDivElement>(".thumbnail-list");
+  if (!humbnailList) return;
+
+  humbnailList.innerHTML = "";
+};
+
 const renderMovies = (movies: Movies): void => {
+  console.log(movies);
   const thumbnailList = document.querySelector(".thumbnail-list");
 
   movies.results.forEach((movie: Movie) => {
@@ -53,6 +72,8 @@ const renderMovies = (movies: Movies): void => {
 
   if (movies.page === movies.total_pages) {
     hideMoreButton();
+  } else {
+    showMoreButton();
   }
 };
 
@@ -98,5 +119,40 @@ addEventListener("load", async () => {
       const movies = await getMoviePopular({ page: condition.page });
       renderMovies(movies);
     })();
+  });
+
+  const searchMovies = () => {
+    const searchInput =
+      document.querySelector<HTMLInputElement>("#search-input");
+    if (!searchInput) return;
+
+    const search = searchInput.value || "";
+
+    (async () => {
+      const movies = await getSearchMovie({
+        page: condition.page,
+        query: search,
+      });
+
+      const movieListTitle = document.querySelector("#movie-list-title");
+      if (!movieListTitle) return null;
+      movieListTitle.textContent = `"${search}" 검색 결과`;
+
+      removeThumbnailList();
+      renderMovies(movies);
+    })();
+  };
+
+  const searchButton = document.querySelector("#search-button");
+  searchButton?.addEventListener("click", () => {
+    searchMovies();
+  });
+
+  const searchInput = document.querySelector<HTMLInputElement>("#search-input");
+  if (!searchInput) return;
+  searchInput?.addEventListener("keyup", (e: KeyboardEvent) => {
+    if (e.key === "Enter") {
+      searchMovies();
+    }
   });
 });
