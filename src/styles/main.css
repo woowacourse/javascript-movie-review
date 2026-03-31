@@ -97,6 +97,11 @@ h1.logo {
   font-size: 2rem;
 }
 
+.home-section-heading {
+  font-weight: 600;
+  font-size: 2rem;
+}
+
 .rate {
   display: flex;
   align-items: baseline;
