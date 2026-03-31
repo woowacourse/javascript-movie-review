@@ -1,5 +1,6 @@
 import { getPopularMovies } from "./api.ts";
 import type { Movie } from "./api.ts";
+import Component from "./component.ts";
 
 let nextPageNum = 0;
 
@@ -45,22 +46,5 @@ function renderMovies(ul: Element, movies: Movie[]) {
 }
 
 function addMovies(parent: Element, movie: Movie) {
-  const { title, poster_path, vote_average } = movie;
-  parent.innerHTML += /*html*/ `
-  <li>
-    <div class="item">
-    <img
-    class="thumbnail"
-    src="https://image.tmdb.org/t/p/original/${poster_path}"
-    alt="${title}"
-    />
-      <div class="item-desc">
-        <p class="rate">
-          <img src="src/images/star_empty.png" class="star" /><span>${vote_average}</span>
-          </p>
-          <strong>${title}</strong>
-      </div>
-    </div>
-  </li>
-`;
+  parent.innerHTML += Component.movie(movie);
 }
