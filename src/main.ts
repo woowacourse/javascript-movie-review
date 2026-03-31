@@ -12,24 +12,20 @@ addEventListener("load", async () => {
         nextPageNum = page + 1;
         const ul = document.querySelector(".thumbnail-list");
         const loadMoreButton = document.querySelector(".load-more-button");
-        if (ul) {
-          movies.forEach(movie => addMovies(ul, movie));
-        }
-        loadMoreButton?.addEventListener('click', async () => {
+        if (ul) renderMovies(ul, movies);
+        loadMoreButton?.addEventListener("click", async () => {
           await getPopularMovies({
             pageNum: nextPageNum,
             onSuccess: ({ page, results: movies }) => {
               nextPageNum = page + 1;
-              if (ul) {
-                movies.forEach(movie => addMovies(ul, movie));
-              }
+              if (ul) renderMovies(ul, movies);
             },
             onError: function (error: Error): void {
               throw new Error("Function not implemented.");
             },
             onLoading: function (): void {
               throw new Error("Function not implemented.");
-            }
+            },
           });
         });
       },
@@ -39,14 +35,18 @@ addEventListener("load", async () => {
       onError: (error) => {
         // 에러 ui 보여주기
         console.error(error);
-      }
+      },
     });
   }
 });
 
+function renderMovies(ul: Element, movies: Movie[]) {
+  movies.forEach((movie) => addMovies(ul, movie));
+}
+
 function addMovies(parent: Element, movie: Movie) {
-  const { title, poster_path, vote_average } = movie
-  parent.innerHTML += /*html*/`
+  const { title, poster_path, vote_average } = movie;
+  parent.innerHTML += /*html*/ `
   <li>
     <div class="item">
     <img
@@ -62,7 +62,5 @@ function addMovies(parent: Element, movie: Movie) {
       </div>
     </div>
   </li>
-`
+`;
 }
-
-
