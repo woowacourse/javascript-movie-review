@@ -5,6 +5,13 @@ const searchButton = document.getElementById("search-button");
 const banner = document.getElementById("background-container");
 const resultSection = document.getElementById("result-section");
 const subTitle = document.getElementById("sub-title");
+const thumbnailList = document.getElementById("thumbnail-list");
+const emptyContainer = document.getElementById("empty-container");
+const errorContainer = document.getElementById("error-container");
+
+const movies: any[] = [];
+let isError: boolean = false;
+let isLoading: boolean = true;
 
 const handleSearch = (keyword: string) => {
   if (!banner || !subTitle || searchInput?.value.trim() === "") return;
@@ -20,3 +27,23 @@ if (searchInput && searchButton) {
     if (e.key === "Enter") handleSearch(searchInput.value);
   });
 }
+
+const renderResultSectionContent = (
+  isLoading: boolean,
+  isError: boolean,
+  movies: any[],
+) => {
+  if (isLoading) return;
+
+  if (isError) {
+    errorContainer?.classList.remove("hidden");
+    return;
+  }
+  if (movies.length > 0) {
+    thumbnailList?.classList.remove("hidden");
+    return;
+  }
+  emptyContainer?.classList.remove("hidden");
+};
+
+renderResultSectionContent(isLoading, isError, movies);

@@ -227,3 +227,7 @@ footer.footer {
 footer.footer p:not(:last-child) {
   margin-bottom: 8px;
 }
+
+.hidden {
+  display: none !important;
+}

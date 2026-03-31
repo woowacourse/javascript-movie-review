@@ -44,7 +44,8 @@
         <main>
           <section id="result-section">
             <h2 class="sub-title" id="sub-title">지금 인기 있는 영화</h2>
-            <ul class="thumbnail-list">
+
+            <ul class="thumbnail-list hidden" id="thumbnail-list">
               <li>
                 <div class="item">
                   <img
@@ -471,18 +472,19 @@
                 </div>
               </li>
             </ul>
-            <div class="unexpected-container">
+
+            <div class="unexpected-container hidden" id="empty-container">
               <img src="./images/으아아행성이.png" alt="" />
               <p>검색 결과가 없습니다.</p>
             </div>
 
-            <div class="unexpected-container">
+            <div class="unexpected-container hidden" id="error-container">
               <img src="./images/으아아행성이.png" alt="" />
               <p>🚨 에러 발생 🚨</p>
               <button>재시도</button>
             </div>
 
-            <button class="see-more-button">더 보기</button>
+            <button class="see-more-button hidden">더 보기</button>
           </section>
         </main>
       </div>
