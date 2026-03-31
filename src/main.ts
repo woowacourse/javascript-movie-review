@@ -11,7 +11,7 @@ const createMovieNode = (movie: Movie): DocumentFragment | null => {
     true,
   ) as DocumentFragment;
 
-  const movieItem = movieFragment.querySelector<HTMLLIElement>("li");
+  const movieItem = movieFragment.querySelector("li");
 
   if (!movieItem) return null;
   movieItem.dataset.movieId = String(movie.id);
@@ -24,15 +24,21 @@ const createMovieNode = (movie: Movie): DocumentFragment | null => {
 
   const itemDesc = movieFragment.querySelector(".item-desc");
 
-  const rate = itemDesc?.querySelector<HTMLSpanElement>("span");
+  const rate = itemDesc?.querySelector("span");
   if (!rate) return null;
   rate.textContent = movie.vote_average.toString();
 
-  const title = itemDesc?.querySelector<HTMLElement>("strong");
+  const title = itemDesc?.querySelector("strong");
   if (!title) return null;
   title.textContent = movie.title;
 
   return movieFragment;
+};
+
+const hideMoreButton = () => {
+  const moreButton = document.querySelector<HTMLDivElement>("#more-button");
+  if (!moreButton) return null;
+  moreButton.style.display = "none";
 };
 
 const renderMovies = (movies: Movies): void => {
@@ -44,13 +50,15 @@ const renderMovies = (movies: Movies): void => {
       thumbnailList?.appendChild(movieNode);
     }
   });
+
+  if (movies.page === movies.total_pages) {
+    hideMoreButton();
+  }
 };
 
 const renderTopRatedMovie = (movies: Movies) => {
   const topRatedMovie = movies.results[0];
-  const topRatedContainer = document.querySelector<HTMLDivElement>(
-    ".top-rated-container",
-  );
+  const topRatedContainer = document.querySelector(".top-rated-container");
   if (!topRatedContainer) return null;
 
   const backgroundContainer = document.querySelector<HTMLDivElement>(
