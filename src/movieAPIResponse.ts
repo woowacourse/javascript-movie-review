@@ -1,6 +1,6 @@
-export const fetchMovies = async () => {
+export const fetchMovies = async (moviePageCount) => {
   const response = await fetch(
-    `https://api.themoviedb.org/3/movie/popular?language=en-US&page=1`,
+    `https://api.themoviedb.org/3/movie/popular?language=en-US&page=${moviePageCount}`,
     {
       method: "GET",
       headers: {
