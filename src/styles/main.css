@@ -89,12 +89,45 @@ button.primary {
   margin-top: 64px;
 }
 
-.top-rated-movie > *:not(:last-child) {
+.top-rated-movie>*:not(:last-child) {
   margin-bottom: 8px;
 }
 
+.header-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header-container .search-form {
+  position: relative;
+}
+
+.search-form img {
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  transform: translateY(-50%);
+}
+
+.header-container .search {
+  padding: 8px 16px;
+  background-color: transparent;
+  color: var(--color-white);
+  width: 525px;
+  border: solid var(--color-gray-300) 2px;
+  border-radius: 50px;
+}
+
+.header-container .search::placeholder {
+  color: var(--color-white);
+}
+
 h1.logo {
+  position: absolute;
   font-size: 2rem;
+  left: 0;
 }
 
 .home-section-heading {
@@ -108,7 +141,7 @@ h1.logo {
   color: var(--color-yellow);
 }
 
-.rate > img {
+.rate>img {
   position: relative;
   top: 2px;
 }
