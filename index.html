@@ -1,12 +1,54 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./templates/styles/reset.css" />
+    <link rel="stylesheet" href="./templates/styles/main.css" />
+    <link rel="stylesheet" href="./templates/styles/tab.css" />
+    <link rel="stylesheet" href="./templates/styles/thumbnail.css" />
     <title>영화 리뷰</title>
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app">
+      <header>
+        <div class="background-container">
+          <div class="overlay" aria-hidden="true">
+            <div class="container">
+              <h1 class="logo">
+                <img src="./templates/images/logo.png" alt="MovieList" />
+              </h1>
+              <form class="search-form">
+                <input
+                  type="search"
+                  class="search-input"
+                  placeholder="검색어를 입력하세요"
+                />
+              </form>
+            </div>
+          </div>
+        </div>
+      </header>
+      <div class="container">
+        <main>
+          <section>
+            <h2>지금 인기 있는 영화</h2>
+            <ul class="thumbnail-list"></ul>
+            <button class="btn-more" style="display: none">더 보기</button>
+          </section>
+        </main>
+      </div>
+      <footer class="footer">
+        <p>&copy; 우아한테크코스 All Rights Reserved.</p>
+        <p><img src="./templates/images/woowacourse_logo.png" width="180" /></p>
+      </footer>
+    </div>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
+
+<!--
+  포스터 원본: https://image.tmdb.org/t/p/original//pmemGuhr450DK8GiTT44mgwWCP7.jpg
+  포스터 썸네일: https://media.themoviedb.org/t/p/w440_and_h660_face/pmemGuhr450DK8GiTT44mgwWCP7.jpg
+  배너 원본: https://image.tmdb.org/t/p/w1920_and_h800_multi_faces/stKGOm8UyhuLPR9sZLjs5AkmncA.jpg
+-->
