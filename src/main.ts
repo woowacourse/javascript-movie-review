@@ -1,11 +1,19 @@
-import image from "../public/images/star_filled.png";
+import { apiUrl, apiKey } from "./constants/env.ts";
+
+const getMoviePopular = ({ page }: { page: number }) => {
+  const url = `${apiUrl}/movie/popular?page=${page}`;
+  return fetch(url, {
+    method: "get",
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+    },
+  }).then((res) => {
+    return res.json();
+  });
+};
 
 addEventListener("load", () => {
-  const app = document.querySelector("#app");
-  const buttonImage = document.createElement("img");
-  buttonImage.src = image;
-
-  if (app) {
-    app.appendChild(buttonImage);
-  }
+  getMoviePopular({ page: 2 }).then((res) => {
+    console.log(res);
+  });
 });
