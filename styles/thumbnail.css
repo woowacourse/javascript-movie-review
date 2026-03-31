@@ -38,3 +38,32 @@ p.rate > span {
   width: 16px;
   top: 1px;
 }
+
+.skeleton .thumbnail {
+  animation: skeleton-loading 2s infinite;
+}
+
+.skeleton .rate {
+  width: 50px;
+  height: 20px;
+  margin-top: 4px;
+  animation: skeleton-loading 2s infinite;
+}
+
+.skeleton .title {
+  width: 120px;
+  height: 19.33px;
+  animation: skeleton-loading 2s infinite;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-color: lightgray;
+  }
+  50% {
+    background-color: rgb(184, 184, 184);
+  }
+  100% {
+    background-color: lightgray;
+  }
+}

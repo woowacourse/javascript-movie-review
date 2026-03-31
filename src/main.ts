@@ -5,11 +5,8 @@ const searchButton = document.getElementById("search-button");
 const banner = document.getElementById("background-container");
 const resultSection = document.getElementById("result-section");
 const subTitle = document.getElementById("sub-title");
-const thumbnailList = document.getElementById("thumbnail-list");
-const emptyContainer = document.getElementById("empty-container");
-const errorContainer = document.getElementById("error-container");
 
-const movies: any[] = [];
+const movies: any[] = [1, 2];
 let isError: boolean = false;
 let isLoading: boolean = true;
 
@@ -33,16 +30,25 @@ const renderResultSectionContent = (
   isError: boolean,
   movies: any[],
 ) => {
-  if (isLoading) return;
+  if (isLoading) {
+    const skeletonList = document.getElementById("skeleton-list");
+    skeletonList?.classList.remove("hidden");
+    return;
+  }
 
   if (isError) {
+    const errorContainer = document.getElementById("error-container");
     errorContainer?.classList.remove("hidden");
     return;
   }
+
   if (movies.length > 0) {
+    const thumbnailList = document.getElementById("thumbnail-list");
     thumbnailList?.classList.remove("hidden");
     return;
   }
+
+  const emptyContainer = document.getElementById("empty-container");
   emptyContainer?.classList.remove("hidden");
 };
 
