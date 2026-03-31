@@ -1,58 +1,43 @@
-import type { Movie } from "../types/Movie.ts";
-import {
-  createMovieItemHTML,
-  createBannerHTML,
-  createNoResultHTML,
-} from "./createHtml.ts";
-import DOM from "./dom.ts";
+import { fetchMovies } from "./movieAPIResponse.ts";
 
-const bannerBaseURL = "https://image.tmdb.org/t/p/w1920_and_h800_multi_faces";
+export const renderMovies = async () => {
+  const movies = await fetchMovies();
 
-export const renderMovies = (movies: Movie[]) => {
-  movies.forEach((movie: Movie) => {
-    const li = createMovieItemHTML(movie);
-    attachSkeletonEvents(li);
-    DOM.thumbnailList?.appendChild(li);
-  });
-};
+  const list = document.querySelector(".thumbnail-list");
+  const banner = document.querySelector(".top-rated-movie");
+  const backgroundContainer = document.querySelector(".background-container");
+  const posterBaseURL = "https://image.tmdb.org/t/p/original/";
+  const bannerBaseURL = "https://image.tmdb.org/t/p/w1920_and_h800_multi_faces";
+  //top-rated-movie ${bannerBaseURL} + ${mostPopularMovie.poster_path}
+  const mostPopularMovie = movies[0];
 
-const attachSkeletonEvents = (li: HTMLLIElement) => {
-  const img = li.querySelector<HTMLImageElement>(".thumbnail")!;
-  const removeSkeleton = () => {
-    li.querySelector(".item")?.classList.remove("skeleton");
-    li.querySelector(".skeleton-poster")?.remove();
-    li.querySelector(".skeleton-rate")?.remove();
-    li.querySelector(".skeleton-title")?.remove();
-  };
+  backgroundContainer.style.backgroundImage = `url("${bannerBaseURL + mostPopularMovie.backdrop_path}")`;
 
-  img.addEventListener("load", removeSkeleton, { once: true });
-  img.addEventListener(
-    "error",
-    () => {
-      img.src = "./images/no_image.png";
-      removeSkeleton();
-    },
-    { once: true },
-  );
-};
+  const mostPopularMovieBanner = `
+            <div class="rate">
+              <img src="/images/star_empty.png" class="star" />
+              <span class="rate-value">${mostPopularMovie.vote_average}</span>
+            </div>
+            <div class="title">${mostPopularMovie.title}</div>
+            <button class="primary detail">자세히 보기</button>
+            `;
 
-export const renderBanner = (movie: Movie) => {
-  if (DOM.backgroundContainer) {
-    DOM.backgroundContainer.style.backgroundImage =
-      `url("${bannerBaseURL + movie.backdrop_path}")`;
-  }
-
-  DOM.banner?.appendChild(createBannerHTML(movie));
-};
-
-export const renderSearchedMovies = (movies: Movie[]) => {
-  if (DOM.thumbnailList && movies.length === 0) {
-    DOM.thumbnailList.appendChild(createNoResultHTML());
-  }
+  banner.insertAdjacentHTML("beforeend", mostPopularMovieBanner);
 
   movies.forEach((movie: Movie) => {
-    const li = createMovieItemHTML(movie);
-    attachSkeletonEvents(li);
-    DOM.thumbnailList?.appendChild(li);
+    const li = `<li>
+              <div class="item">
+                <img class="thumbnail"
+                  src="${posterBaseURL}${movie.poster_path}"
+                  alt="영화 포스터 사진" />
+                <div class="item-desc">
+                  <p class="rate">
+                    <img src="/images/star_empty.png" class="star" /><span>${movie.vote_average}</span>
+                  </p>
+                  <strong>${movie.title}</strong>
+                </div>
+              </div>
+            </li>`;
+    list.insertAdjacentHTML("beforeend", li);
   });
 };

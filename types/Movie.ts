@@ -1,4 +1,4 @@
-export interface Movie {
+interface Movie {
   backdrop_path: string;
   title: string;
   poster_path: string;
