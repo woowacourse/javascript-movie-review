@@ -132,3 +132,37 @@ footer.footer {
 footer.footer p:not(:last-child) {
   margin-bottom: 8px;
 }
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 700px;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  border-radius: 50px;
+  overflow: hidden;
+  background: transparent;
+}
+
+.search-input {
+  flex: 1;
+  padding: 14px 20px;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: white;
+  font-size: 16px;
+}
+
+.search-input::placeholder {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.search-button {
+  padding: 14px 20px;
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+}
