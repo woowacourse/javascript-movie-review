@@ -1,14 +1,25 @@
 import { getPopularMovies } from "./api.ts";
 import type { Movie } from "./api.ts";
 
+let nextPageNum = 0;
+
 addEventListener("load", async () => {
   const app = document.querySelector("#app");
   if (app) {
-    const { results: movies } = await getPopularMovies()
+    const { results: movies, page } = await getPopularMovies();
+    nextPageNum = page + 1;
     const ul = document.querySelector(".thumbnail-list");
+    const loadMoreButton = document.querySelector(".load-more-button");
     if (ul) {
       movies.forEach(movie => addMovies(ul, movie));
     }
+    loadMoreButton?.addEventListener('click', async () => {
+      const { results: movies, page } = await getPopularMovies(nextPageNum);
+      nextPageNum = page + 1;
+      if (ul) {
+        movies.forEach(movie => addMovies(ul, movie));
+      }
+    });
   }
 });
 

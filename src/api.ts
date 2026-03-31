@@ -24,8 +24,8 @@ export interface Movie {
   vote_count: number;
 }
 
-export async function getPopularMovies() {
-  const url = 'https://api.themoviedb.org/3/movie/popular';
+export async function getPopularMovies(pageNum: number = 1) {
+  const url = `https://api.themoviedb.org/3/movie/popular?page=${pageNum}`;
   const options = {
     method: 'GET',
     headers: {
