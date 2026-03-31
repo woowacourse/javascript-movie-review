@@ -1,57 +1,53 @@
 import { getMoviePopular } from "./service/api";
+import { Movie, Movies } from "./service/dto";
 
-interface Movie {
-  adult: boolean;
-  backdrop_path: string;
-  genre_ids: number[];
-  id: number;
-  original_language: string;
-  original_title: string;
-  overview: string;
-  popularity: number;
-  poster_path: string;
-  release_date: string;
-  title: string;
-  video: boolean;
-  vote_average: number;
-  vote_count: number;
-}
+const createMovieNode = (movie: Movie): DocumentFragment | null => {
+  const movieTemplate =
+    document.querySelector<HTMLTemplateElement>(`#movie-template`);
 
-interface Movies {
-  page: number;
-  results: Movie[];
-  total_pages: number;
-  total_results: number;
-}
+  if (!movieTemplate) return null;
 
-addEventListener("load", () => {
-  getMoviePopular({ page: 1 }).then((movies: Movies) => {
-    const thumbnailList = document.querySelector(".thumbnail-list");
-    const itemList = document.querySelector<HTMLTemplateElement>(`#movie-item`);
+  const movieFragment = movieTemplate.content.cloneNode(
+    true,
+  ) as DocumentFragment;
 
-    if (!itemList) return;
+  const movieItem = movieFragment.querySelector<HTMLLIElement>("li");
 
-    movies.results.forEach((movie: Movie) => {
-      const item = itemList.content.cloneNode(true) as DocumentFragment;
+  if (!movieItem) return null;
+  movieItem.dataset.movieId = String(movie.id);
 
-      const thumbnail = item.querySelector<HTMLImageElement>(".thumbnail");
-      if (!thumbnail) return;
-      thumbnail.src =
-        `https://media.themoviedb.org/t/p/w220_and_h330_face` +
-        movie.poster_path;
-      thumbnail.alt = movie.title;
+  const thumbnail = movieFragment.querySelector<HTMLImageElement>(".thumbnail");
+  if (!thumbnail) return null;
+  thumbnail.src =
+    `https://media.themoviedb.org/t/p/w220_and_h330_face` + movie.poster_path;
+  thumbnail.alt = movie.title;
 
-      const itemDesc = item.querySelector(".item-desc");
+  const itemDesc = movieFragment.querySelector(".item-desc");
 
-      const rate = itemDesc?.querySelector<HTMLSpanElement>("span");
-      if (!rate) return;
-      rate.textContent = movie.vote_average.toString();
+  const rate = itemDesc?.querySelector<HTMLSpanElement>("span");
+  if (!rate) return null;
+  rate.textContent = movie.vote_average.toString();
 
-      const title = itemDesc?.querySelector<HTMLElement>("strong");
-      if (!title) return;
-      title.textContent = movie.title;
+  const title = itemDesc?.querySelector<HTMLElement>("strong");
+  if (!title) return null;
+  title.textContent = movie.title;
 
-      thumbnailList?.appendChild(item);
-    });
+  return movieFragment;
+};
+
+const renderMovies = (movies: Movies): void => {
+  const thumbnailList = document.querySelector(".thumbnail-list");
+
+  movies.results.forEach((movie: Movie) => {
+    const movieNode = createMovieNode(movie);
+    if (movieNode) {
+      thumbnailList?.appendChild(movieNode);
+    }
   });
+};
+
+addEventListener("load", async () => {
+  const movies = await getMoviePopular({ page: 1 });
+
+  renderMovies(movies);
 });

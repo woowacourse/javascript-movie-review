@@ -1,13 +1,18 @@
 import { apiUrl, apiKey } from "../constants/env";
+import { Movies } from "./dto";
 
-export const getMoviePopular = ({ page }: { page: number }) => {
+export const getMoviePopular = async ({
+  page,
+}: {
+  page: number;
+}): Promise<Movies> => {
   const url = `${apiUrl}/movie/popular?page=${page}`;
-  return fetch(url, {
+  const res = await fetch(url, {
     method: "get",
     headers: {
       Authorization: `Bearer ${apiKey}`,
     },
-  }).then((res) => {
-    return res.json();
   });
+
+  return await res.json();
 };
