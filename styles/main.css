@@ -64,6 +64,13 @@ button.primary {
   padding-top: 100px;
 }
 
+.sub-title {
+  font-size: 2.25rem;
+  line-height: 100%;
+  font-weight: 600;
+  margin-bottom: 3.5rem;
+}
+
 .background-container {
   position: relative;
   background-position: center center;
