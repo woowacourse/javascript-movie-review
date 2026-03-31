@@ -1,4 +1,4 @@
-import image from "../templates/images/star_filled.png";
+import image from "../public/images/star_filled.png";
 
 addEventListener("load", () => {
   const app = document.querySelector("#app");
