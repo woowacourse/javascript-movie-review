@@ -3,11 +3,12 @@ const searchInput = document.getElementById(
 ) as HTMLInputElement | null;
 const searchButton = document.getElementById("search-button");
 const banner = document.getElementById("background-container");
+const resultSection = document.getElementById("result-section");
 
 const handleSearch = () => {
   if (!banner || searchInput?.value.trim() === "") return;
-  banner.style.visibility = "hidden";
-  banner.style.height = "100px";
+  banner.hidden = true;
+  resultSection?.classList.add("result-section");
 };
 
 if (searchInput && searchButton) {

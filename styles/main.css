@@ -24,7 +24,7 @@ section {
 }
 
 main {
-  margin: 64px 0;
+  padding: 64px 0;
 }
 
 .star {
@@ -58,6 +58,10 @@ button.primary {
 .container {
   max-width: 1280px;
   margin: 0 auto;
+}
+
+.result-section {
+  padding-top: 100px;
 }
 
 .background-container {
@@ -129,6 +133,7 @@ button.primary {
   background-color: transparent;
   border: none;
   width: 100%;
+  color: var(--color-white);
 }
 
 .movie-search > input::placeholder {
