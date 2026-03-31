@@ -1,4 +1,6 @@
 import image from "../templates/images/star_filled.png";
+import modal from "../templates/modal.html?raw";
+import "../templates/styles/index.css";
 
 addEventListener("load", () => {
   const app = document.querySelector("#app");
@@ -7,5 +9,6 @@ addEventListener("load", () => {
 
   if (app) {
     app.appendChild(buttonImage);
+    app.innerHTML = modal;
   }
 });
