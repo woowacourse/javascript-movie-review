@@ -4,24 +4,7 @@ import Component from "./component.ts";
 
 let nextPageNum = 0;
 
-async function loadMoreMovies() {
-  await getPopularMovies({
-    pageNum: nextPageNum,
-    onSuccess: ({ page, results: movies }) => {
-      const ul = document.querySelector(".thumbnail-list");
-      nextPageNum = page + 1;
-      if (ul) renderMovies(ul, movies);
-    },
-    onError: function (error: Error): void {
-      throw new Error("Function not implemented.");
-    },
-    onLoading: function (): void {
-      throw new Error("Function not implemented.");
-    },
-  });
-}
-
-addEventListener("load", async () => {
+async function loadInitialMovie() {
   const app = document.querySelector("#app");
   if (app) {
     await getPopularMovies({
@@ -42,7 +25,26 @@ addEventListener("load", async () => {
       },
     });
   }
-});
+}
+
+async function loadMoreMovies() {
+  await getPopularMovies({
+    pageNum: nextPageNum,
+    onSuccess: ({ page, results: movies }) => {
+      const ul = document.querySelector(".thumbnail-list");
+      nextPageNum = page + 1;
+      if (ul) renderMovies(ul, movies);
+    },
+    onError: function (error: Error): void {
+      throw new Error("Function not implemented.");
+    },
+    onLoading: function (): void {
+      throw new Error("Function not implemented.");
+    },
+  });
+}
+
+addEventListener("load", loadInitialMovie);
 
 function renderMovies(ul: Element, movies: Movie[]) {
   movies.forEach((movie) => addMovies(ul, movie));
