@@ -119,6 +119,23 @@ span.rate-value {
   font-weight: bold;
 }
 
+.btn-container {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+.display-more-btn {
+  padding: 1rem;
+  width: 100%;
+  background-color: #4e5ba6;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
 footer.footer {
   min-height: 180px;
   background-color: var(--color-bluegray-80);
