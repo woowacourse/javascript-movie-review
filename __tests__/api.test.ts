@@ -1,26 +1,24 @@
 import { vi, expect, test, describe } from "vitest";
 import { Movie } from "../types/types";
+import { fetchMovies } from "../src/features/fetchMovies";
 
 describe("TMDB API에서 인기 영화 목록을 가져온다.", () => {
   test("API 성공 시 데이터 반환", async () => {
-    global.fetch = vi.fn(() =>
-      Promise.resolve({
-        ok: true,
-        json: () =>
-          Promise.resolve({
-            results: [
-              {
-                id: 1,
-                title: "Test Movie",
-                poster_path: "/test.jpg",
-                vote_average: 7.5,
-              },
-            ],
-          }),
+    global.fetch = vi.fn(async () => ({
+      ok: true,
+      json: () => ({
+        results: [
+          {
+            id: 1,
+            title: "Test Movie",
+            poster_path: "/test.jpg",
+            vote_average: 7.5,
+          },
+        ],
       }),
-    ) as any;
+    })) as any;
 
-    const data: { results: Movie[] } = await fetchMovies();
+    const data: { results: Movie[] } = await fetchMovies(1);
 
     expect(data.results[0].title).toBe("Test Movie");
   });
