@@ -68,6 +68,10 @@ const renderTopRatedMovie = (movies: Movies) => {
   title.textContent = topRatedMovie.title;
 };
 
+const condition = {
+  page: 1,
+};
+
 addEventListener("load", async () => {
   (async () => {
     const topRatedMovies = await getTopRatedMovie();
@@ -75,7 +79,16 @@ addEventListener("load", async () => {
   })();
 
   (async () => {
-    const movies = await getMoviePopular({ page: 1 });
+    const movies = await getMoviePopular({ page: condition.page });
     renderMovies(movies);
   })();
+
+  const moreButton = document.querySelector("#more-button");
+  moreButton?.addEventListener("click", () => {
+    condition.page += 1;
+    (async () => {
+      const movies = await getMoviePopular({ page: condition.page });
+      renderMovies(movies);
+    })();
+  });
 });
