@@ -1,0 +1,396 @@
+{
+  "page": 2,
+  "results": [
+    {
+      "adult": false,
+      "backdrop_path": "/3Vq8otoGevbhcZAKY2devVbPs6L.jpg",
+      "genre_ids": [
+        27,
+        35,
+        12
+      ],
+      "id": 1381216,
+      "original_language": "en",
+      "original_title": "Lake Jesup: Bonecrusher's Revenge",
+      "overview": "In 2003, Lake Jesup became the stage for a real-life horror story, as a monstrous alligator escaped from captivity and began a reign of terror. As the body count rose, a desperate hunt ensued to stop the creature.",
+      "popularity": 99.3798,
+      "poster_path": "/1Z1TgGXS1MD4DDfIkBNloM43vvj.jpg",
+      "release_date": "2024-05-01",
+      "title": "Lake Jesup: Bonecrusher's Revenge",
+      "video": false,
+      "vote_average": 6.2,
+      "vote_count": 30
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/yzIjyPtwvyjHelxqIRXGpiaucPG.jpg",
+      "genre_ids": [
+        27
+      ],
+      "id": 1572073,
+      "original_language": "en",
+      "original_title": "The Deadly Little Mermaid",
+      "overview": "Some secrets are better left at the bottom of the ocean. Once she's in your house, there is no escape. When a struggling artist pulls a beautiful, unconscious woman from the freezing coastal waters, he thinks he’s performed a miracle. But as she recovers within the walls of his secluded home, a series of unsettling events leads him to a terrifying realization: her presence is no coincidence. She is inextricably linked to the same watery grave that claimed his family years ago.",
+      "popularity": 94.0241,
+      "poster_path": "/uye25uG7k8r3NNPLyPiKOiRnFRF.jpg",
+      "release_date": "2026-03-06",
+      "title": "The Deadly Little Mermaid",
+      "video": false,
+      "vote_average": 4.717,
+      "vote_count": 23
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/owQeDouUZ6wI6f1aTOYEFd511zn.jpg",
+      "genre_ids": [
+        28,
+        80,
+        53
+      ],
+      "id": 1582770,
+      "original_language": "hi",
+      "original_title": "धुरंधर: द रिवेंज",
+      "overview": "As rival gangs, corrupt officials and a ruthless Major Iqbal close in, Hamza's mission for his country spirals into a bloody personal war where the line between patriot and monster disappears in the streets of Lyari.",
+      "popularity": 85.2564,
+      "poster_path": "/ov8vrRLZGoXHpYjSY9Vpv1tHJX7.jpg",
+      "release_date": "2026-03-18",
+      "title": "Dhurandhar: The Revenge",
+      "video": false,
+      "vote_average": 7.449,
+      "vote_count": 39
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/lNYympQM5O6QSInusbyG9eJDIe4.jpg",
+      "genre_ids": [
+        16,
+        28,
+        14
+      ],
+      "id": 1311031,
+      "original_language": "ja",
+      "original_title": "劇場版「鬼滅の刃」無限城編 第一章 猗窩座再来",
+      "overview": "The Demon Slayer Corps are drawn into the Infinity Castle, where Tanjiro, Nezuko, and the Hashira face terrifying Upper Rank demons in a desperate fight as the final battle against Muzan Kibutsuji begins.",
+      "popularity": 92.8253,
+      "poster_path": "/fWVSwgjpT2D78VUh6X8UBd2rorW.jpg",
+      "release_date": "2025-07-18",
+      "title": "Demon Slayer: Kimetsu no Yaiba Infinity Castle",
+      "video": false,
+      "vote_average": 7.663,
+      "vote_count": 773
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/7HKpc11uQfxnw0Y8tRUYn1fsKqE.jpg",
+      "genre_ids": [
+        878,
+        28,
+        53
+      ],
+      "id": 1236153,
+      "original_language": "en",
+      "original_title": "Mercy",
+      "overview": "In the near future, a detective stands on trial accused of murdering his wife. He has ninety minutes to prove his innocence to the advanced AI Judge he once championed, before it determines his fate.",
+      "popularity": 88.7686,
+      "poster_path": "/pyok1kZJCfyuFapYXzHcy7BLlQa.jpg",
+      "release_date": "2026-01-20",
+      "title": "Mercy",
+      "video": false,
+      "vote_average": 7.016,
+      "vote_count": 931
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/nTbO6UF944b0VZrgypMK5rFYRSW.jpg",
+      "genre_ids": [
+        9648,
+        18,
+        27
+      ],
+      "id": 680493,
+      "original_language": "en",
+      "original_title": "Return to Silent Hill",
+      "overview": "When James receives a mysterious letter from his lost love Mary, he is drawn to Silent Hill—a once-familiar town now consumed by darkness. As he searches for her, James faces monstrous creatures and unravels a terrifying truth that will push him to the edge of his sanity.",
+      "popularity": 86.6047,
+      "poster_path": "/fqAGFN2K2kDL0EHxvJaXzaMUkkt.jpg",
+      "release_date": "2026-01-21",
+      "title": "Return to Silent Hill",
+      "video": false,
+      "vote_average": 5,
+      "vote_count": 304
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/cz4vLJrmaV1zJlRYbxqtvLzeLWB.jpg",
+      "genre_ids": [
+        28,
+        35,
+        80,
+        9648
+      ],
+      "id": 1168190,
+      "original_language": "en",
+      "original_title": "The Wrecking Crew",
+      "overview": "Estranged half-brothers Jonny and James reunite after their father's mysterious death. As they search for the truth, buried secrets reveal a conspiracy threatening to tear their family apart.",
+      "popularity": 82.2252,
+      "poster_path": "/gbVwHl4YPSq6BcC92TQpe7qUTh6.jpg",
+      "release_date": "2026-01-28",
+      "title": "The Wrecking Crew",
+      "video": false,
+      "vote_average": 6.906,
+      "vote_count": 844
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/iZLqwEwUViJdSkGVjePGhxYzbDb.jpg",
+      "genre_ids": [
+        878,
+        53
+      ],
+      "id": 755898,
+      "original_language": "en",
+      "original_title": "War of the Worlds",
+      "overview": "Will Radford is a top analyst for Homeland Security who tracks potential threats through a mass surveillance program, until one day an attack by an unknown entity leads him to question whether the government is hiding something from him... and from the rest of the world.",
+      "popularity": 77.4694,
+      "poster_path": "/yvirUYrva23IudARHn3mMGVxWqM.jpg",
+      "release_date": "2025-07-29",
+      "title": "War of the Worlds",
+      "video": false,
+      "vote_average": 4.156,
+      "vote_count": 941
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/1gLFGrxHqQebqLWpISmoFR6XWtJ.jpg",
+      "genre_ids": [
+        28,
+        53
+      ],
+      "id": 1088434,
+      "original_language": "en",
+      "original_title": "Hellfire",
+      "overview": "A drifter with a mysterious past arrives in a small town and finds the residents in the grip of a ruthless crime boss and realizes he has to help them.",
+      "popularity": 79.3268,
+      "poster_path": "/tQti9QTf13MfzNpXguijgNh7ojE.jpg",
+      "release_date": "2026-02-05",
+      "title": "Hellfire",
+      "video": false,
+      "vote_average": 6.857,
+      "vote_count": 64
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/zTnAnYIn0Iv3cn0ZHlzLhou3ybm.jpg",
+      "genre_ids": [
+        9648,
+        53
+      ],
+      "id": 1368166,
+      "original_language": "en",
+      "original_title": "The Housemaid",
+      "overview": "Trying to escape her past, Millie Calloway accepts a job as a live-in housemaid for the wealthy Nina and Andrew Winchester. But what begins as a dream job quickly unravels into something far more dangerous—a sexy, seductive game of secrets, scandal, and power.",
+      "popularity": 80.2566,
+      "poster_path": "/cWsBscZzwu5brg9YjNkGewRUvJX.jpg",
+      "release_date": "2025-12-18",
+      "title": "The Housemaid",
+      "video": false,
+      "vote_average": 7.201,
+      "vote_count": 1658
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/tn95fumbkVAgXjOuw9CQOg0aYQz.jpg",
+      "genre_ids": [
+        28,
+        80,
+        18,
+        53
+      ],
+      "id": 1419406,
+      "original_language": "zh",
+      "original_title": "The Shadow's Edge",
+      "overview": "Macau Police brings the tracking expert police officer out of retirement to help catch a dangerous group of professional thieves.",
+      "popularity": 74.2425,
+      "poster_path": "/e0RU6KpdnrqFxDKlI3NOqN8nHL6.jpg",
+      "release_date": "2025-08-16",
+      "title": "The Shadow's Edge",
+      "video": false,
+      "vote_average": 7.23,
+      "vote_count": 525
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/aRR90kdGuJiEOqzhBZ5UML463CF.jpg",
+      "genre_ids": [
+        35,
+        53
+      ],
+      "id": 467905,
+      "original_language": "en",
+      "original_title": "How to Make a Killing",
+      "overview": "Disowned at birth by his obscenely wealthy family, blue-collar Becket Redfellow will stop at nothing to reclaim his inheritance, no matter how many relatives stand in his way.",
+      "popularity": 92.2571,
+      "poster_path": "/vxMeKC7o5Gi8IHMi6lUgsdprTqv.jpg",
+      "release_date": "2026-02-19",
+      "title": "How to Make a Killing",
+      "video": false,
+      "vote_average": 7.173,
+      "vote_count": 147
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/zD5v1E4joAzFvmAEytt7fM3ivyT.jpg",
+      "genre_ids": [
+        28,
+        12,
+        878
+      ],
+      "id": 634649,
+      "original_language": "en",
+      "original_title": "Spider-Man: No Way Home",
+      "overview": "Peter Parker is unmasked and no longer able to separate his normal life from the high-stakes of being a super-hero. When he asks for help from Doctor Strange the stakes become even more dangerous, forcing him to discover what it truly means to be Spider-Man.",
+      "popularity": 76.3037,
+      "poster_path": "/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg",
+      "release_date": "2021-12-15",
+      "title": "Spider-Man: No Way Home",
+      "video": false,
+      "vote_average": 7.933,
+      "vote_count": 21716
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/6bVzP9lyoSTevfblZuIUOOye895.jpg",
+      "genre_ids": [
+        878,
+        27
+      ],
+      "id": 1066313,
+      "original_language": "id",
+      "original_title": "Setan Alas!",
+      "overview": "5 student. An old villa. Old well. Forbidden room. Dark secret of the past. A seemingly omnipotent evil. Survival is the key. Let the battle of wits begins...",
+      "popularity": 81.4743,
+      "poster_path": "/6WEqtp38s1iW5VrcH78rOIi8a2Z.jpg",
+      "release_date": "2026-03-05",
+      "title": "The Draft!",
+      "video": false,
+      "vote_average": 8,
+      "vote_count": 1
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/lmns2jlRmATs8OGWKcCkgrbHLM4.jpg",
+      "genre_ids": [
+        28,
+        18
+      ],
+      "id": 1634301,
+      "original_language": "te",
+      "original_title": "Vanaveera",
+      "overview": "A descendant of the Vanara clan is pushed into conflict when a modern-day Ravana seizes his only bike for an election rally. What starts as a petty injustice soon erupts into a fierce fight for self-respect and dignity.",
+      "popularity": 66.1901,
+      "poster_path": "/oBYExKI8E3bTzQjPkofhpV2EJon.jpg",
+      "release_date": "2026-02-13",
+      "title": "Vanaveera",
+      "video": false,
+      "vote_average": 7.25,
+      "vote_count": 4
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/swxhEJsAWms6X1fDZ4HdbvYBSf9.jpg",
+      "genre_ids": [
+        12,
+        35,
+        27
+      ],
+      "id": 1234731,
+      "original_language": "en",
+      "original_title": "Anaconda",
+      "overview": "A group of friends facing mid-life crises head to the rainforest with the intention of remaking their favorite movie from their youth, only to find themselves in a fight for their lives against natural disasters, giant snakes and violent criminals.",
+      "popularity": 69.9922,
+      "poster_path": "/hBxN6dwrANN1ic3a4G9x6JZcR3C.jpg",
+      "release_date": "2025-12-24",
+      "title": "Anaconda",
+      "video": false,
+      "vote_average": 5.881,
+      "vote_count": 890
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/96VJyrJjHu1ERk9VhHw5kJK5ZsD.jpg",
+      "genre_ids": [
+        35
+      ],
+      "id": 45933,
+      "original_language": "it",
+      "original_title": "La soldatessa alla visita militare",
+      "overview": "Army Doctor Eva Marini wants to join a regiment to secure equal rights for women. So her commanding officer sends her off to a boot camp led by Renzo Montagnani, where only the most unruly soldiers end up.",
+      "popularity": 44.8979,
+      "poster_path": "/zvLqUjxh9RId7YzK8Xchu8fQaHk.jpg",
+      "release_date": "1977-09-02",
+      "title": "The Nurse on a Military Tour",
+      "video": false,
+      "vote_average": 4.9,
+      "vote_count": 40
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/ptcyGmBonW6mDQmrPhXbt6Rjrlp.jpg",
+      "genre_ids": [
+        18,
+        53
+      ],
+      "id": 1314786,
+      "original_language": "es",
+      "original_title": "Zeta",
+      "overview": "Four Spanish ex-intelligence officers are assassinated simultaneously worldwide. The CNI discovers all participated in the covert \"Operation Ciénaga\" decades ago in Colombia. Zeta, the CNI's best operative, must hunt and protect the sole survivor, facing his deadliest global mission yet. Top Colombian agent Alfa will join Zeta, seemingly knowing more about \"Ciénaga\"'s secrets than him.",
+      "popularity": 61.6954,
+      "poster_path": "/1cKLG9KMoCjsgFB8Nw1EuglteVi.jpg",
+      "release_date": "2026-03-20",
+      "title": "Agent Zeta",
+      "video": false,
+      "vote_average": 6.648,
+      "vote_count": 81
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/lZ3vcm5HtPX8BeHs4axZABJrYJa.jpg",
+      "genre_ids": [
+        27
+      ],
+      "id": 1426297,
+      "original_language": "es",
+      "original_title": "Hazte la muerta",
+      "overview": "A woman wakes up injured in a basement surrounded by corpses. To survive, she pretends to be dead while a grotesque ritual unfolds in the house above.",
+      "popularity": 60.4549,
+      "poster_path": "/ixWeYfvXT9AbfM0QPb9kwbVLbLV.jpg",
+      "release_date": "2025-03-29",
+      "title": "Play Dead",
+      "video": false,
+      "vote_average": 6,
+      "vote_count": 31
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/qbbx3NDw6FrtQSrKdxn9n72xJzO.jpg",
+      "genre_ids": [
+        53,
+        80,
+        18
+      ],
+      "id": 1630433,
+      "original_language": "th",
+      "original_title": "เส้นตาย สายลวง",
+      "overview": "Three women fall prey to a ruthless phone scam. To settle the score, they'll take on the criminal network that stole their money — and their dignity.",
+      "popularity": 62.1016,
+      "poster_path": "/q3ROA6OqVA9rWSsC2DzdkPQvxWW.jpg",
+      "release_date": "2026-03-22",
+      "title": "The Red Line",
+      "video": false,
+      "vote_average": 6.75,
+      "vote_count": 24
+    }
+  ],
+  "total_pages": 55928,
+  "total_results": 1118546
+}
