@@ -48,8 +48,8 @@ addEventListener("load", async () => {
       movieDisplay.appendChild(li);
     });
 
+    // 엔터키 이벤트
     const input = document.querySelector(".search-bar") as HTMLInputElement;
-
     input.addEventListener("keydown", async (event) => {
       if (event.key === "Enter") {
         const searchBar = document.querySelector(
@@ -64,21 +64,42 @@ addEventListener("load", async () => {
 
         let URL;
 
+        let response;
+        let data;
+        let movieList;
+
         if (searchBarText === "") {
           background.hidden = false;
           pageNum = 1;
           movieDisplay.replaceChildren();
 
           URL = `https://api.themoviedb.org/3/movie/popular?api_key=${import.meta.env.VITE_API_KEY}&language=ko-KR&page=${pageNum}`;
+          response = await fetch(URL);
+          data = await response.json();
+
+          movieList = data.results;
         } else {
           movieDisplay.replaceChildren();
           URL = `https://api.themoviedb.org/3/search/movie?api_key=${import.meta.env.VITE_API_KEY}&query=${encodeURIComponent(searchBarText)}&language=ko-KR`;
+          response = await fetch(URL);
+          data = await response.json();
+
+          movieList = data.results;
+
+          const description = document.querySelector("h2") as HTMLElement;
+          description.textContent = `'${searchBarText}' 검색 결과`;
+
+          // 검색 결과가 없을 때
+          const searchError = document.querySelector(
+            ".search-error-container",
+          ) as HTMLElement;
+
+          if (movieList.length === 0) {
+            searchError.hidden = false;
+          } else {
+            searchError.hidden = true;
+          }
         }
-
-        const response = await fetch(URL);
-        const data = await response.json();
-
-        const movieList = data.results;
 
         // 영화 20개
         movieList.forEach((movie: any) => {
@@ -105,6 +126,8 @@ addEventListener("load", async () => {
         });
       }
     });
+
+    // 더 보기 버튼
     const displayMoreBtn = document.querySelector(".display-more-btn");
     displayMoreBtn?.addEventListener("click", async () => {
       pageNum++;
@@ -142,6 +165,7 @@ addEventListener("load", async () => {
       });
     });
 
+    // 검색 버튼 '클릭'
     const searchBtn = document.querySelector(".search-btn");
     searchBtn?.addEventListener("click", async () => {
       const searchBar = document.querySelector(
@@ -156,21 +180,45 @@ addEventListener("load", async () => {
 
       let URL;
 
+      let response;
+      let data;
+      let movieList;
+
+      const description = document.querySelector("h2") as HTMLElement;
+
       if (searchBarText === "") {
         background.hidden = false;
         pageNum = 1;
         movieDisplay.replaceChildren();
 
         URL = `https://api.themoviedb.org/3/movie/popular?api_key=${import.meta.env.VITE_API_KEY}&language=ko-KR&page=${pageNum}`;
+        response = await fetch(URL);
+        data = await response.json();
+
+        movieList = data.results;
+
+        description.textContent = "지금 인기 있는 영화";
       } else {
         movieDisplay.replaceChildren();
         URL = `https://api.themoviedb.org/3/search/movie?api_key=${import.meta.env.VITE_API_KEY}&query=${encodeURIComponent(searchBarText)}&language=ko-KR`;
+        response = await fetch(URL);
+        data = await response.json();
+
+        movieList = data.results;
+
+        description.textContent = `'${searchBarText}' 검색 결과`;
+
+        // 검색 결과가 없을 때
+        const searchError = document.querySelector(
+          ".search-error-container",
+        ) as HTMLElement;
+
+        if (movieList.length === 0) {
+          searchError.hidden = false;
+        } else {
+          searchError.hidden = true;
+        }
       }
-
-      const response = await fetch(URL);
-      const data = await response.json();
-
-      const movieList = data.results;
 
       // 영화 20개
       movieList.forEach((movie: any) => {
