@@ -12,7 +12,7 @@ a {
 body {
   font-size: 16px;
   color: var(--color-white);
-  background-color: var(--color-bluegray-80);
+  background-color: var(--color-bluegray-100);
 }
 
 #wrap,
