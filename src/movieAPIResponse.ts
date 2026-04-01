@@ -10,7 +10,7 @@ export const fetchMovies = async (moviePageCount: number) => {
     },
   );
   const data = await response.json();
-  return data.results;
+  return data;
 };
 
 export const fetchSearchedMovies = async (
@@ -28,5 +28,5 @@ export const fetchSearchedMovies = async (
     },
   );
   const data = await response.json();
-  return data.results;
+  return data;
 };
