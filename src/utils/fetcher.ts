@@ -18,7 +18,7 @@ export const fetcher = async <T, U>(
       return data;
     }
     const error: U = await response.json();
-    return error;
+    throw error;
   } catch (error) {
     throw error;
   }
