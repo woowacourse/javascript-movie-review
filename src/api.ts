@@ -54,3 +54,32 @@ export async function getPopularMovies(arg: {
     onLoading,
   });
 }
+
+export async function getSearchMovies(arg: {
+  query: string;
+  pageNum: number;
+  onSuccess: (data: MoviesResponse) => void;
+  onError: (error: Error) => void;
+  onLoading: () => void;
+}) {
+  const { query, pageNum, onSuccess, onError, onLoading } = arg;
+  fetcher<MoviesResponse>({
+    fn: async () => {
+      const url = `https://api.themoviedb.org/3/search/movie?query=${query}&page=${pageNum}`;
+      const options = {
+        method: "GET",
+        headers: {
+          accept: "application/json",
+          Authorization: `Bearer ${API_KEY}`,
+        },
+      };
+
+      const response = await fetch(url, options);
+      const data = (await response.json()) as unknown as MoviesResponse;
+      return data;
+    },
+    onSuccess,
+    onError,
+    onLoading,
+  });
+}

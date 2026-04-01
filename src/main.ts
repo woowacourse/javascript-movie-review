@@ -1,4 +1,4 @@
-import { getPopularMovies } from "./api.ts";
+import { getPopularMovies, getSearchMovies } from "./api.ts";
 import type { Movie } from "./api.ts";
 import Component from "./component.ts";
 
@@ -58,13 +58,33 @@ async function loadMoreMovies() {
   });
 }
 
+async function loadSearchMovies(query: string) {
+  let pageNum = 1;
+  await getSearchMovies({
+    query,
+    pageNum: pageNum,
+    onSuccess: ({ page, results: movies }) => {
+      pageNum = page + 1;
+      clearBanner();
+      renderSearchMovies(movies);
+    },
+    onError: function (error: Error): void {
+      throw new Error("Function not implemented.");
+    },
+    onLoading: function (): void {
+      const ul = document.querySelector(".thumbnail-list");
+      if (ul) renderSkeleton(ul, requestMovieCount);
+    },
+  });
+}
+
 const searchForm = document.querySelector(".search-form");
 searchForm?.addEventListener("submit", (event) => {
   event.preventDefault();
   const input = searchForm.querySelector("input");
   if (input) {
     const searchValue = input.value;
-    // 검색 ui 보여주기
+    loadSearchMovies(searchValue);
   }
 });
 
@@ -106,6 +126,19 @@ function clearSkeleton(parent: Element) {
     })
     .map((child) => child.outerHTML)
     .join("");
+}
+
+function renderSearchMovies(movies: Movie[]) {
+  const ul = document.querySelector(".thumbnail-list");
+  if (ul) {
+    ul.innerHTML = "";
+    renderMovies(ul, movies);
+  }
+}
+
+function clearBanner() {
+  const banner = document.querySelector(".banner-container");
+  if (banner) banner.innerHTML = "";
 }
 
 function renderMovies(ul: Element, movies: Movie[]) {
