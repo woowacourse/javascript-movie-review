@@ -18,7 +18,10 @@ async function loadInitialMovie() {
         const loadMoreButton = document.querySelector(".load-more-button");
         const banner = document.querySelector(".banner-container");
 
-        if (banner) renderBanner(banner, movies[0]);
+        if (banner) {
+          renderBanner(banner, movies[0]);
+          observeHeaderScroll();
+        }
         if (ul) {
           clearSkeleton(ul);
           renderMovies(ul, movies);
@@ -130,17 +133,19 @@ searchForm?.addEventListener("submit", (event) => {
 
 addEventListener("load", loadInitialMovie);
 
-const banner = document.querySelector(".top-rated-movie");
-const header = document.querySelector(".background-container");
-
-if (banner && header) {
-  const observer = new IntersectionObserver(
-    ([entry]) => {
-      header.classList.toggle("scrolled", !entry.isIntersecting);
-    },
-    { threshold: 0 },
-  );
-  observer.observe(banner);
+function observeHeaderScroll() {
+  // 배너영역을 기준으로 헤더의 background 색상이 변경된다.
+  const topRatedMovie = document.querySelector(".top-rated-movie");
+  const header = document.querySelector(".background-container");
+  if (topRatedMovie && header) {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        header.classList.toggle("scrolled", !entry.isIntersecting);
+      },
+      { threshold: 0 },
+    );
+    observer.observe(topRatedMovie);
+  }
 }
 
 function renderSkeleton(ul: Element, length: number) {
