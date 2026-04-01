@@ -67,3 +67,5 @@
 ## 미룬이
 
 - [ ] getElementById로 가져온 html 요소 타입 좁혀주는 유틸
+- [ ] TMDBError class 사용에 대해 논의
+- [ ] 돔 요소 삭제 시 eventHandler 제거

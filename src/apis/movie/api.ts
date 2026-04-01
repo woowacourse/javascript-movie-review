@@ -1,6 +1,6 @@
 import { tmdbFetcher, TmdbPagination } from "../../utils/tmdbFetcher";
 
-interface PopularMovie {
+export interface Movie {
   adult: boolean;
   backdrop_path: string;
   genre_ids: number[];
@@ -17,6 +17,21 @@ interface PopularMovie {
   vote_count: number;
 }
 
-export const getPopularMovies = async () => {
-  return await tmdbFetcher<TmdbPagination<PopularMovie[]>>("/movie/popular");
+export interface PopularMoviesParameter {
+  language: string;
+  page: number;
+}
+
+export const getPopularMovies = async (
+  params: Partial<PopularMoviesParameter> = {},
+) => {
+  const searchParams = new URLSearchParams();
+  for (const [key, value] of Object.entries(params)) {
+    if (value === undefined) continue;
+    searchParams.set(key, String(value));
+    // TODO: value가 object나 array인 경우?!
+  }
+  return await tmdbFetcher<TmdbPagination<Movie[]>>(
+    `/movie/popular?${searchParams.toString()}`,
+  );
 };

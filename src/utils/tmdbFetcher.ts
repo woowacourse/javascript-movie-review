@@ -2,7 +2,7 @@ import { fetcher } from "./fetcher";
 
 export interface TmdbPagination<T> {
   page: number;
-  result: T;
+  results: T;
   total_pages: number;
   total_results: number;
 }
@@ -27,5 +27,8 @@ export const tmdbFetcher = async <T>(
     },
   };
 
-  return await fetcher<T, TmdbError>(endpoint, defaultOptions);
+  return await fetcher<T, TmdbError>(
+    `${import.meta.env.VITE_TMDB_BASE_URL}${endpoint}`,
+    defaultOptions,
+  );
 };
