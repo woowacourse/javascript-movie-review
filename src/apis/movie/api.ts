@@ -1,3 +1,4 @@
+import { getSearchParamsFromObject } from "../../utils/getSearchParamsFromObject";
 import { tmdbFetcher, TmdbPagination } from "../../utils/tmdbFetcher";
 
 export interface Movie {
@@ -25,12 +26,7 @@ export interface PopularMoviesParameter {
 export const getPopularMovies = async (
   params: Partial<PopularMoviesParameter> = {},
 ) => {
-  const searchParams = new URLSearchParams();
-  for (const [key, value] of Object.entries(params)) {
-    if (value === undefined) continue;
-    searchParams.set(key, String(value));
-    // TODO: value가 object나 array인 경우?!
-  }
+  const searchParams = getSearchParamsFromObject(params);
   return await tmdbFetcher<TmdbPagination<Movie[]>>(
     `/movie/popular?${searchParams.toString()}`,
   );
