@@ -8,6 +8,11 @@ import {
   fetchDefaultMovieList,
   fetchSearchMovieList,
 } from "./service/movieApi.ts";
+import {
+  getElement,
+  getInputElement,
+  getUListElement,
+} from "./view/getElementView.ts";
 
 addEventListener("load", async () => {
   const app = document.querySelector("#app");
@@ -18,25 +23,17 @@ addEventListener("load", async () => {
 
     let movieList = await fetchDefaultMovieList(pageNum);
 
-    const movieDisplay = document.querySelector(
-      ".thumbnail-list",
-    ) as HTMLUListElement;
+    const movieDisplay = getUListElement(".thumbnail-list");
 
-    // 영화 20개
     addMovieList(movieDisplay, movieList);
 
     // 엔터키 이벤트
-    const input = document.querySelector(".search-bar") as HTMLInputElement;
-    input.addEventListener("keydown", async (event) => {
+    const searchBar = getInputElement(".search-bar");
+    searchBar.addEventListener("keydown", async (event) => {
       if (event.key === "Enter") {
-        const searchBar = document.querySelector(
-          ".search-bar",
-        ) as HTMLInputElement;
-
         const searchBarText = searchBar.value;
-        const background = document.querySelector(
-          ".background-container",
-        ) as HTMLElement;
+        const background = getElement(".background-container");
+
         background.hidden = true;
 
         if (searchBarText === "") {
@@ -49,13 +46,11 @@ addEventListener("load", async () => {
           movieDisplay.replaceChildren();
           movieList = await fetchSearchMovieList(searchBarText);
 
-          const description = document.querySelector("h2") as HTMLElement;
+          const description = getElement("h2");
           description.textContent = `'${searchBarText}' 검색 결과`;
 
           // 검색 결과가 없을 때
-          const searchError = document.querySelector(
-            ".search-error-container",
-          ) as HTMLElement;
+          const searchError = getElement(".search-error-container");
 
           if (movieList.length === 0) {
             searchError.hidden = false;
@@ -76,10 +71,6 @@ addEventListener("load", async () => {
 
       movieList = await fetchDefaultMovieList(pageNum);
 
-      const movieDisplay = document.querySelector(
-        ".thumbnail-list",
-      ) as HTMLUListElement;
-
       // 영화 20개
       addMovieList(movieDisplay, movieList);
     });
@@ -87,17 +78,13 @@ addEventListener("load", async () => {
     // 검색 버튼 '클릭'
     const searchBtn = document.querySelector(".search-btn");
     searchBtn?.addEventListener("click", async () => {
-      const searchBar = document.querySelector(
-        ".search-bar",
-      ) as HTMLInputElement;
+      const searchBar = getInputElement(".search-bar");
 
       const searchBarText = searchBar.value;
-      const background = document.querySelector(
-        ".background-container",
-      ) as HTMLElement;
+      const background = getElement(".background-container");
       background.hidden = true;
 
-      const description = document.querySelector("h2") as HTMLElement;
+      const description = getElement("h2");
 
       if (searchBarText === "") {
         background.hidden = false;
@@ -114,9 +101,7 @@ addEventListener("load", async () => {
         description.textContent = `'${searchBarText}' 검색 결과`;
 
         // 검색 결과가 없을 때
-        const searchError = document.querySelector(
-          ".search-error-container",
-        ) as HTMLElement;
+        const searchError = getElement(".search-error-container");
 
         if (movieList.length === 0) {
           searchError.hidden = false;
