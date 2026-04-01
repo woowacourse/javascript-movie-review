@@ -66,6 +66,7 @@ async function loadSearchMovies(query: string) {
     onSuccess: ({ page, results: movies }) => {
       pageNum = page + 1;
       clearBanner();
+      renderSearchSectionHeading(query);
       renderSearchMovies(movies);
     },
     onError: function (error: Error): void {
@@ -126,6 +127,11 @@ function clearSkeleton(parent: Element) {
     })
     .map((child) => child.outerHTML)
     .join("");
+}
+
+function renderSearchSectionHeading(title: string) {
+  const heading = document.querySelector("section > h2");
+  if (heading) heading.innerHTML = `"${title}"검색 결과`;
 }
 
 function renderSearchMovies(movies: Movie[]) {
