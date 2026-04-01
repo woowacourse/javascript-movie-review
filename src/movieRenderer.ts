@@ -2,7 +2,8 @@ import { fetchMovies, fetchSearchedMovies } from "./movieAPIResponse.ts";
 import type { Movie } from "../types/Movie.ts";
 
 export const renderMovies = async (moviePageCount: number) => {
-  const movies = await fetchMovies(moviePageCount);
+  const movieData = await fetchMovies(moviePageCount);
+  const movies = movieData.results;
 
   const list = document.querySelector(".thumbnail-list");
   const posterBaseURL = "https://image.tmdb.org/t/p/original/";
@@ -26,10 +27,13 @@ export const renderMovies = async (moviePageCount: number) => {
             </li>`;
     list?.insertAdjacentHTML("beforeend", li);
   });
+
+  return getTotalPages(movieData);
 };
 
 export const renderBanner = async () => {
-  const movies = await fetchMovies(1);
+  const movieData = await fetchMovies(1);
+  const movies = movieData.results;
 
   const banner = document.querySelector(".top-rated-movie");
   const backgroundContainer = document.querySelector(".background-container");
@@ -54,9 +58,9 @@ export const renderBanner = async () => {
   banner?.insertAdjacentHTML("beforeend", mostPopularMovieBanner);
 };
 
-export const replaceBanner = (header: any) => {
+export const replaceBanner = (header: any, searchKeyword: string) => {
   const searchBar = `<div class="search-bar">
-                <input type="text" class="search-input" placeholder="검색어를 입력하세요" />
+                <input type="text" class="search-input" value="${searchKeyword}" placeholder="검색어를 입력하세요" />
               <button class="search-button">&#128269;</button>
              </div>
              <h1 class="logo">
@@ -69,10 +73,18 @@ export const renderSearchedMovies = async (
   searchKeyword: string,
   searchPageCount: number,
 ) => {
-  const movies = await fetchSearchedMovies(searchKeyword, searchPageCount);
+  const movieData = await fetchSearchedMovies(searchKeyword, searchPageCount);
+  const movies = movieData.results;
 
   const list = document.querySelector(".thumbnail-list");
   const posterBaseURL = "https://image.tmdb.org/t/p/original/";
+
+  if (list) {
+    const noResultDiv = `<div>검색 결과가 없습니다.</div>`;
+    if (movies.length === 0 && searchPageCount === 1)
+      list.insertAdjacentHTML("beforeend", noResultDiv);
+  }
+
   movies.forEach((movie: Movie) => {
     const posterSrc = `${posterBaseURL}${movie.poster_path}`;
 
@@ -93,4 +105,9 @@ export const renderSearchedMovies = async (
       list.insertAdjacentHTML("beforeend", li);
     }
   });
+  return getTotalPages(movieData);
+};
+
+const getTotalPages = (movieData: { total_pages: number }) => {
+  return movieData.total_pages;
 };
