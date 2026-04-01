@@ -1,10 +1,16 @@
 import { Movie } from "../../apis/movie/api";
 
-export const renderResultSectionContent = (
-  isLoading: boolean,
-  isError: boolean,
-  movies: Movie[],
-) => {
+interface RenderResultSectionContentProps {
+  isLoading: boolean;
+  isError: boolean;
+  movies: Movie[];
+}
+
+export const renderResultSectionContent = ({
+  isLoading,
+  isError,
+  movies,
+}: RenderResultSectionContentProps) => {
   const skeletonList = document.getElementById("skeleton-list");
   const errorContainer = document.getElementById("error-container");
   const thumbnailList = document.getElementById("thumbnail-list");

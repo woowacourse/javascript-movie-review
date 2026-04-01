@@ -11,10 +11,6 @@ const banner = document.getElementById("background-container");
 const resultSection = document.getElementById("result-section");
 const subTitle = document.getElementById("sub-title");
 
-let movies: Movie[] = [];
-let isError: boolean = false;
-let isLoading: boolean = true;
-
 const handleSearch = async (keyword: string) => {
   if (!banner || !subTitle || searchInput?.value.trim() === "") return;
 
@@ -27,9 +23,8 @@ const handleSearch = async (keyword: string) => {
     banner.hidden = true;
     resultSection?.classList.add("result-section");
     subTitle.innerText = `"${keyword}" 검색 결과`;
-    movies = searchResult.results;
-    isLoading = false;
-    renderResultSectionContent(isLoading, isError, movies);
+    const movies = searchResult.results;
+    renderResultSectionContent({ isLoading: false, isError: false, movies });
     renderThumbnailList(movies);
   }
 };
@@ -44,14 +39,14 @@ if (searchInput && searchButton) {
 
 // TODO: getPopularMovies try-catch 감싸 -> 에러 핸들링
 // TODO 이미지 없는 거 대체 이미지
-renderResultSectionContent(isLoading, isError, movies);
+
+renderResultSectionContent({ isLoading: true, isError: false, movies: [] });
 const popularMovies = await getPopularMovies({ language: "ko-KR" });
-movies = popularMovies.results;
+const movies = popularMovies.results;
 
 renderThumbnailList(movies);
-isLoading = false;
 
-renderResultSectionContent(isLoading, isError, movies);
+renderResultSectionContent({ isLoading: false, isError: false, movies });
 
 // 진입 -> renderResultSectionContent 호출 -> api 호출
 // api 호출 시: 요청 -> renderResultSectionContent -> 응답 옴 -> renderResultSectionContent
