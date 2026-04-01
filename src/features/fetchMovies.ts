@@ -8,7 +8,8 @@ export async function fetchMovies(
   page: number,
   params: string = "",
 ) {
-  const queryUrl: string = params === "" ? "" : `&query=${params}`;
+  const queryUrl: string =
+    params === "" ? "" : `&query=${encodeURIComponent(params)}`;
 
   const response = await fetch(
     `${BASE_URL}/${path}?api_key=${API_KEY}${queryUrl}&language=ko-KR&page=${page}`,
