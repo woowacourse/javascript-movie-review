@@ -1,4 +1,4 @@
-export const fetchMovies = async (moviePageCount) => {
+export const fetchMovies = async (moviePageCount: number) => {
   const response = await fetch(
     `https://api.themoviedb.org/3/movie/popular?language=en-US&page=${moviePageCount}`,
     {
