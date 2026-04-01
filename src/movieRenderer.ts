@@ -1,6 +1,7 @@
 import { fetchMovies, fetchSearchedMovies } from "./movieAPIResponse.ts";
+import type { Movie } from "../types/Movie.ts";
 
-export const renderMovies = async (moviePageCount) => {
+export const renderMovies = async (moviePageCount: number) => {
   const movies = await fetchMovies(moviePageCount);
 
   const list = document.querySelector(".thumbnail-list");
@@ -20,7 +21,7 @@ export const renderMovies = async (moviePageCount) => {
                 </div>
               </div>
             </li>`;
-    list.insertAdjacentHTML("beforeend", li);
+    list?.insertAdjacentHTML("beforeend", li);
   });
 };
 
@@ -33,7 +34,10 @@ export const renderBanner = async () => {
 
   const mostPopularMovie = movies[0];
 
-  backgroundContainer.style.backgroundImage = `url("${bannerBaseURL + mostPopularMovie.backdrop_path}")`;
+  if (backgroundContainer) {
+    (backgroundContainer as HTMLElement).style.backgroundImage =
+      `url("${bannerBaseURL + mostPopularMovie.backdrop_path}")`;
+  }
 
   const mostPopularMovieBanner = `
             <div class="rate">
@@ -44,7 +48,7 @@ export const renderBanner = async () => {
             <button class="primary detail">자세히 보기</button>
             `;
 
-  banner.insertAdjacentHTML("beforeend", mostPopularMovieBanner);
+  banner?.insertAdjacentHTML("beforeend", mostPopularMovieBanner);
 };
 
 export const renderSearchedMovies = async (
@@ -55,7 +59,6 @@ export const renderSearchedMovies = async (
 
   const list = document.querySelector(".thumbnail-list");
   const posterBaseURL = "https://image.tmdb.org/t/p/original/";
-  list.innerHTML = `<div></div>`;
   movies.forEach((movie: Movie) => {
     const li = `<li>
               <div class="item">
@@ -70,6 +73,8 @@ export const renderSearchedMovies = async (
                 </div>
               </div>
             </li>`;
-    list.insertAdjacentHTML("beforeend", li);
+    if (list) {
+      list.insertAdjacentHTML("beforeend", li);
+    }
   });
 };
