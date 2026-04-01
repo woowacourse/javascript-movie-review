@@ -36,7 +36,7 @@ export async function getPopularMovies(arg: {
   const { pageNum, onSuccess, onError, onLoading } = arg;
   fetcher<MoviesResponse>({
     fn: async () => {
-      const url = `https://api.themoviedb.org/3/moviezzzz/popular?page=${pageNum}`;
+      const url = `https://api.themoviedb.org/3/movie/popular?page=${pageNum}&language=ko-KR`;
       const options = {
         method: "GET",
         headers: {
@@ -67,7 +67,7 @@ export async function getSearchMovies(arg: {
   const { query, pageNum, onSuccess, onError, onLoading } = arg;
   fetcher<MoviesResponse>({
     fn: async () => {
-      const url = `https://api.themoviedb.org/3/search/movie?query=${query}&page=${pageNum}`;
+      const url = `https://api.themoviedb.org/3/search/movie?query=${query}&page=${pageNum}&language=ko-KR`;
       const options = {
         method: "GET",
         headers: {
