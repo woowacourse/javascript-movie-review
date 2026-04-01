@@ -3,10 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <link rel="stylesheet" href="./public/styles/reset.css" />
     <link rel="stylesheet" href="./public/styles/main.css" />
     <link rel="stylesheet" href="./public/styles/tab.css" />
     <link rel="stylesheet" href="./public/styles/thumbnail.css" />
+    <link rel="stylesheet" href="./public/styles/skeleton.css" />
     <title>영화 리뷰</title>
   </head>
   <body>
@@ -27,35 +29,13 @@
                 <img src="./images/star_empty.png" class="star" />
                 <span class="rate-value"></span>
               </div>
-              <div class="title"></div>
+              <div class="title">&nbsp;</div>
               <button class="primary detail">자세히 보기</button>
             </div>
           </div>
         </div>
       </header>
       <div class="container" id="wrap">
-        <ul class="tab">
-          <li>
-            <a href="#">
-              <div class="tab-item selected"><h3>상영 중</h3></div>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <div class="tab-item"><h3>인기순</h3></div>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <div class="tab-item"><h3>평점순</h3></div>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <div class="tab-item"><h3>상영 예정</h3></div>
-            </a>
-          </li>
-        </ul>
         <main>
           <section>
             <h2 id="movie-list-title">지금 인기 있는 영화</h2>
@@ -63,19 +43,21 @@
               <li data-movie-id="">
                 <div class="item">
                   <img class="thumbnail" src="" alt="" />
+                  <div class="dummy-img"></div>
                   <div class="item-desc">
                     <p class="rate">
                       <img
-                        src="./images/star_empty.png"
+                        src="./public/images/star_empty.png"
                         class="star"
-                      /><span></span>
+                      /><span>&nbsp;</span>
                     </p>
-                    <strong></strong>
+                    <strong>&nbsp;</strong>
                   </div>
                 </div>
               </li>
             </template>
-            <ul class="thumbnail-list"></ul>
+            <ul class="thumbnail-list skeleton-list" id="skeleton"></ul>
+            <ul class="thumbnail-list" id="movie-list"></ul>
             <button class="primary" id="more-button">더보기</button>
           </section>
         </main>

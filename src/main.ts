@@ -52,21 +52,21 @@ const showMoreButton = () => {
 };
 
 const removeThumbnailList = () => {
-  const humbnailList =
+  const thumbnailList =
     document.querySelector<HTMLDivElement>(".thumbnail-list");
-  if (!humbnailList) return;
+  if (!thumbnailList) return;
 
-  humbnailList.innerHTML = "";
+  thumbnailList.innerHTML = "";
 };
 
 const renderMovies = (movies: Movies): void => {
   console.log(movies);
-  const thumbnailList = document.querySelector(".thumbnail-list");
+  const movieList = document.querySelector("#movie-list");
 
   movies.results.forEach((movie: Movie) => {
     const movieNode = createMovieNode(movie);
     if (movieNode) {
-      thumbnailList?.appendChild(movieNode);
+      movieList?.appendChild(movieNode);
     }
   });
 
@@ -91,11 +91,9 @@ const renderTopRatedMovie = (movies: Movies) => {
   const topRatedContainer = document.querySelector(".top-rated-container");
   if (!topRatedContainer) return null;
 
-  const backgroundContainer = document.querySelector<HTMLDivElement>(
-    ".background-container",
-  );
-  if (!backgroundContainer) return null;
-  backgroundContainer.style.background = `url(${`https://media.themoviedb.org/t/p/w1920_and_h800_multi_faces` + topRatedMovie.backdrop_path}) center center no-repeat`;
+  const overlay = document.querySelector<HTMLDivElement>(".overlay");
+  if (!overlay) return null;
+  overlay.style.background = `url(${`https://media.themoviedb.org/t/p/w1920_and_h800_multi_faces` + topRatedMovie.backdrop_path}) center center no-repeat`;
 
   const rateValue = topRatedContainer.querySelector(".rate-value");
   if (!rateValue) return null;
@@ -106,8 +104,45 @@ const renderTopRatedMovie = (movies: Movies) => {
   title.textContent = topRatedMovie.title;
 };
 
+const renderSkeleton = () => {
+  const skeleton = document.querySelector<HTMLDivElement>("#skeleton");
+  console.log(skeleton);
+  if (!skeleton) return;
+
+  const skeletonTemplate =
+    document.querySelector<HTMLTemplateElement>("#movie-template");
+  if (!skeletonTemplate) return null;
+
+  for (let i = 0; i < 20; i++) {
+    const skeletonCloneNode = skeletonTemplate.content.cloneNode(
+      true,
+    ) as DocumentFragment;
+    if (!skeletonCloneNode) return null;
+
+    skeleton.appendChild(skeletonCloneNode);
+  }
+};
+
+const removeSkeleton = () => {
+  const skeleton = document.querySelector<HTMLDivElement>("#skeleton");
+  if (!skeleton) return;
+
+  skeleton.classList.add("animation");
+
+  setTimeout(() => {
+    skeleton.classList.remove("animation");
+    skeleton.replaceChildren();
+  }, 3000);
+};
+
 const condition = {
   page: 1,
+};
+
+const wait = (time: number) => {
+  return new Promise((resolve) => {
+    setTimeout(resolve, time);
+  });
 };
 
 addEventListener("load", async () => {
@@ -117,8 +152,11 @@ addEventListener("load", async () => {
   })();
 
   (async () => {
+    renderSkeleton();
+
     const movies = await getMoviePopular({ page: condition.page });
     renderMovies(movies);
+    removeSkeleton();
   })();
 
   const moreButton = document.querySelector("#more-button");
@@ -142,6 +180,23 @@ addEventListener("load", async () => {
         page: condition.page,
         query: search,
       });
+
+      const topRatedMovie =
+        document.querySelector<HTMLDivElement>(".top-rated-movie");
+      if (!topRatedMovie) return null;
+      topRatedMovie.style.display = "none";
+
+      const background = document.querySelector<HTMLDivElement>(
+        ".background-container",
+      );
+      if (!background) return null;
+      background.style.backgroundColor = "transparent";
+      background.style.height = "auto";
+
+      const overlay = document.querySelector<HTMLDivElement>(".overlay");
+      if (!overlay) return null;
+      overlay.style.background = "";
+      overlay.style.display = "none";
 
       const movieListTitle = document.querySelector("#movie-list-title");
       if (!movieListTitle) return null;
