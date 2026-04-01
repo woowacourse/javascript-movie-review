@@ -55,7 +55,30 @@ async function loadMoreMovies() {
   });
 }
 
+const searchForm = document.querySelector(".search-form");
+searchForm?.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const input = searchForm.querySelector("input");
+  if (input) {
+    const searchValue = input.value;
+    // 검색 ui 보여주기
+  }
+});
+
 addEventListener("load", loadInitialMovie);
+
+const banner = document.querySelector(".top-rated-movie");
+const header = document.querySelector(".background-container");
+
+if (banner && header) {
+  const observer = new IntersectionObserver(
+    ([entry]) => {
+      header.classList.toggle("scrolled", !entry.isIntersecting);
+    },
+    { threshold: 0 },
+  );
+  observer.observe(banner);
+}
 
 function renderSkeleton(ul: Element, length: number) {
   ul.innerHTML += Array.from({ length: length })

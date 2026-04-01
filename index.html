@@ -14,7 +14,6 @@
     <div id="app">
       <header>
         <div class="background-container">
-          <div class="overlay" aria-hidden="true"></div>
           <div class="top-rated-container">
             <div class="header-container">
               <h1 class="logo">
@@ -26,10 +25,18 @@
                   type="text"
                   placeholder="검색어를 입력하세요"
                 />
-                <img src="src/images/search.svg" alt="search" />
+                <button type="submit">
+                  <img src="src/images/search.svg" alt="search" />
+                </button>
               </form>
             </div>
-            <div class="top-rated-movie">
+          </div>
+        </div>
+      </header>
+        <main>
+          <div class="top-rated-movie">
+            <div class="overlay" aria-hidden="true"></div>
+            <div class="container">
               <div class="rate">
                 <img src="src/images/star_empty.png" class="star" />
                 <span class="rate-value">9.5</span>
@@ -38,15 +45,13 @@
               <button class="primary detail">자세히 보기</button>
             </div>
           </div>
-        </div>
-      </header>
-      <div class="container">
-        <main>
-          <section>
-            <h2 class="home-section-heading">지금 인기 있는 영화</h2>
-            <ul class="thumbnail-list"></ul>
-          </section>
-          <button class="primary load-more-button">더 보기</button>
+          <div class="container">
+            <section>
+              <h2 class="home-section-heading">지금 인기 있는 영화</h2>
+              <ul class="thumbnail-list"></ul>
+            </section>
+            <button class="primary load-more-button">더 보기</button>
+          </div>
         </main>
       </div>
 

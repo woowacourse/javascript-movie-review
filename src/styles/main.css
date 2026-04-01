@@ -22,10 +22,6 @@ section {
   justify-content: center;
 }
 
-main {
-  margin: 64px 0;
-}
-
 .star {
   width: 24px;
 }
@@ -60,11 +56,17 @@ button.primary {
 }
 
 .background-container {
-  position: relative;
+  position: fixed;
+  width: 100%;
   background-position: center center;
   background-size: cover;
-  height: 500px;
   padding: 48px;
+  z-index: 100;
+  transition: background-color 0.3s ease;
+}
+
+.background-container.scrolled {
+  background-color: var(--color-bluegray-80);
 }
 
 .overlay {
@@ -86,7 +88,8 @@ button.primary {
 }
 
 .top-rated-movie {
-  margin-top: 64px;
+  position: relative;
+  height: 500px;
 }
 
 .top-rated-movie > *:not(:last-child) {
@@ -104,11 +107,15 @@ button.primary {
   position: relative;
 }
 
-.search-form img {
+.search-form button {
   position: absolute;
+  display: flex;
+  align-items: center;
   top: 50%;
   right: 16px;
   transform: translateY(-50%);
+  background-color: transparent;
+  padding: 0;
 }
 
 .header-container .search {
@@ -133,6 +140,7 @@ h1.logo {
 .home-section-heading {
   font-weight: 600;
   font-size: 2rem;
+  margin-top: 64px;
 }
 
 .rate {
@@ -150,6 +158,10 @@ span.rate-value {
   margin-left: 8px;
   font-weight: bold;
   font-size: 1.66rem;
+}
+
+.top-rated-movie > .container {
+  padding-block: 200px;
 }
 
 .title {
