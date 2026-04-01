@@ -59,7 +59,6 @@ const removeMovieList = () => {
 };
 
 const renderMovies = (movies: Movies): void => {
-  console.log(movies);
   const movieList = document.querySelector("#movie-list");
 
   movies.results.forEach((movie: Movie) => {
@@ -105,7 +104,6 @@ const renderTopRatedMovie = (movies: Movies) => {
 
 const renderSkeleton = () => {
   const skeleton = document.querySelector<HTMLDivElement>("#skeleton");
-  console.log(skeleton);
   if (!skeleton) return;
 
   const skeletonTemplate =
@@ -138,6 +136,58 @@ const condition = {
   page: 1,
 };
 
+const searchMovies = () => {
+  const search = getSearchParams("search");
+
+  (async () => {
+    const movies = await getSearchMovie({
+      page: condition.page,
+      query: search,
+    });
+
+    const topRatedMovie =
+      document.querySelector<HTMLDivElement>(".top-rated-movie");
+    if (!topRatedMovie) return null;
+    topRatedMovie.style.display = "none";
+
+    const background = document.querySelector<HTMLDivElement>(
+      ".background-container",
+    );
+    if (!background) return null;
+    background.style.backgroundColor = "transparent";
+    background.style.height = "auto";
+
+    const overlay = document.querySelector<HTMLDivElement>(".overlay");
+    if (!overlay) return null;
+    overlay.style.background = "";
+    overlay.style.display = "none";
+
+    const movieListTitle = document.querySelector("#movie-list-title");
+    if (!movieListTitle) return null;
+    movieListTitle.textContent = `"${search}" 검색 결과`;
+
+    if (movies.results.length) {
+      renderMovies(movies);
+    } else {
+      renderEmpty();
+    }
+  })();
+};
+
+function navigate(path: string) {
+  history.pushState(null, "", path);
+}
+
+function getSearchParams(queryKey: string) {
+  const params = new URLSearchParams(location.search);
+  return params.get(queryKey);
+}
+
+function hasSearchParams(queryKey: string): boolean {
+  const params = new URLSearchParams(location.search);
+  return params.get(queryKey) === null ? false : true;
+}
+
 addEventListener("load", async () => {
   (async () => {
     const topRatedMovies = await getTopRatedMovie();
@@ -155,57 +205,29 @@ addEventListener("load", async () => {
   const moreButton = document.querySelector("#more-button");
   moreButton?.addEventListener("click", () => {
     condition.page += 1;
+    const isSearchParams = hasSearchParams("search");
+
+    if (isSearchParams) {
+      searchMovies();
+      return;
+    }
     (async () => {
       const movies = await getMoviePopular({ page: condition.page });
       renderMovies(movies);
     })();
   });
 
-  const searchMovies = () => {
+  const searchButton = document.querySelector("#search-button");
+  searchButton?.addEventListener("click", () => {
     const searchInput =
       document.querySelector<HTMLInputElement>("#search-input");
     if (!searchInput) return;
 
     const search = searchInput.value || "";
+    condition.page = 1;
+    navigate(`/?search=${search}`);
 
-    (async () => {
-      const movies = await getSearchMovie({
-        page: condition.page,
-        query: search,
-      });
-
-      const topRatedMovie =
-        document.querySelector<HTMLDivElement>(".top-rated-movie");
-      if (!topRatedMovie) return null;
-      topRatedMovie.style.display = "none";
-
-      const background = document.querySelector<HTMLDivElement>(
-        ".background-container",
-      );
-      if (!background) return null;
-      background.style.backgroundColor = "transparent";
-      background.style.height = "auto";
-
-      const overlay = document.querySelector<HTMLDivElement>(".overlay");
-      if (!overlay) return null;
-      overlay.style.background = "";
-      overlay.style.display = "none";
-
-      const movieListTitle = document.querySelector("#movie-list-title");
-      if (!movieListTitle) return null;
-      movieListTitle.textContent = `"${search}" 검색 결과`;
-
-      removeMovieList();
-      if (movies.results.length) {
-        renderMovies(movies);
-      } else {
-        renderEmpty();
-      }
-    })();
-  };
-
-  const searchButton = document.querySelector("#search-button");
-  searchButton?.addEventListener("click", () => {
+    removeMovieList();
     searchMovies();
   });
 
@@ -213,6 +235,15 @@ addEventListener("load", async () => {
   if (!searchInput) return;
   searchInput?.addEventListener("keyup", (e: KeyboardEvent) => {
     if (e.key === "Enter") {
+      const searchInput =
+        document.querySelector<HTMLInputElement>("#search-input");
+      if (!searchInput) return;
+
+      const search = searchInput.value || "";
+      condition.page = 1;
+      navigate(`/?search=${search}`);
+
+      removeMovieList();
       searchMovies();
     }
   });
