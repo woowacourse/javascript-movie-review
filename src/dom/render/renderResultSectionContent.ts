@@ -21,7 +21,7 @@ export const renderResultSectionContent = ({
   const mainThumbnailList = document.getElementById("main-thumbnail-list");
   const searchThumbnailList = document.getElementById("search-thumbnail-list");
   const emptyContainer = document.getElementById("empty-container");
-  const seeMoreButton = document.getElementById("see-more-button");
+  const seeMoreButton = document.getElementById("main-see-more-button");
 
   skeletonList?.classList.add("hidden");
   errorContainer?.classList.add("hidden");

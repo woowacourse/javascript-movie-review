@@ -1,13 +1,28 @@
 import { getPopularMovies, Movie } from "./apis/movie/api";
 import { handleMovieSearch } from "./dom/eventHandler/handleMovieSearch";
+import { handleMainSeeMore } from "./dom/eventHandler/handleSeeMore";
 import { renderBanner } from "./dom/render/renderBanner";
 import { renderResultSectionContent } from "./dom/render/renderResultSectionContent";
 import { renderThumbnailList } from "./dom/render/renderThumbnailList";
+
+// 로직이 흩어진다...
+// 라바: 돔 선언을 하는 곳에서만 하자
+// -> 전달받은 함수에서 인자로 받은 돔을 바로 사용 가능 (not 3항연산자)
+// -> 밖에서 타입 지정 -> 함수 내에서 타입에 따른 분기까지 있어야 해서 돔을 정하는 과정이 타입 + 홤수 내 분기 2곳으로 흩어진다
+// 아지: 같은 돔요소가 여러 곳에 있다!!!
+// -> 돔 요소가 변경될 때 두 곳을 모두 수정해야 한다 + 'search' | 'main'처럼 우리가 제어할 수 있는 타입을 선언하자
 
 const searchInput = document.getElementById(
   "search-input",
 ) as HTMLInputElement | null;
 const searchButton = document.getElementById("search-button");
+const mainSeeMoreButton = document.getElementById("main-see-more-button");
+
+if (mainSeeMoreButton) {
+  mainSeeMoreButton.addEventListener("click", () => {
+    handleMainSeeMore();
+  });
+}
 
 if (searchInput && searchButton) {
   searchButton.addEventListener("click", () =>
