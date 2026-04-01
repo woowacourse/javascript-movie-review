@@ -37,6 +37,27 @@ const Component = {
     </li>
   `;
   },
+
+  movieBanner({
+    title,
+    vote_average,
+    poster_path,
+  }: Pick<Movie, "title" | "vote_average" | "poster_path">) {
+    return `
+      <div class="top-rated-movie" style="background-image: url('https://image.tmdb.org/t/p/original/${poster_path}')">
+        <div class="overlay" aria-hidden="true"></div>
+          <div class="container">
+            <div class="rate">
+              <img src="src/images/star_empty.png" class="star" />
+              <span class="rate-value">${vote_average}</span>
+            </div>
+            <div class="title">${title}</div>
+            <button class="primary detail">자세히 보기</button>
+          </div>
+        </div>
+      </div>
+    `;
+  },
 };
 
 export default Component;

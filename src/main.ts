@@ -15,6 +15,9 @@ async function loadInitialMovie() {
         requestMovieCount = movies.length;
         const ul = document.querySelector(".thumbnail-list");
         const loadMoreButton = document.querySelector(".load-more-button");
+        const banner = document.querySelector(".banner-container");
+
+        if (banner) renderBanner(banner, movies[0]);
         if (ul) {
           clearSkeleton(ul);
           renderMovies(ul, movies);
@@ -111,4 +114,15 @@ function renderMovies(ul: Element, movies: Movie[]) {
 
 function addMovies(parent: Element, movie: Movie) {
   parent.innerHTML += Component.movie(movie);
+}
+
+function renderBanner(
+  parent: Element,
+  { title, vote_average, poster_path }: Movie,
+) {
+  parent.innerHTML = Component.movieBanner({
+    title,
+    vote_average,
+    poster_path,
+  });
 }
