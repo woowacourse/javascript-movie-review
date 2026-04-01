@@ -1,5 +1,6 @@
 import { getPopularMovies, Movie } from "./apis/movie/api";
 import { handleMovieSearch } from "./dom/eventHandler/handleMovieSearch";
+import { renderBanner } from "./dom/render/renderBanner";
 import { renderResultSectionContent } from "./dom/render/renderResultSectionContent";
 import { renderThumbnailList } from "./dom/render/renderThumbnailList";
 
@@ -28,6 +29,7 @@ const render = async () => {
   try {
     const popularMovies = await getPopularMovies({ language: "ko-KR" });
     movies = popularMovies.results;
+    renderBanner({ movie: movies[0] });
     renderThumbnailList({ movies });
   } catch (error) {
     isError = true;
