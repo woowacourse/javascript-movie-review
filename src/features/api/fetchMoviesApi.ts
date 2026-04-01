@@ -1,7 +1,7 @@
-import { Movie } from "../../types/types";
-import { API_KEY, BASE_URL } from "../constants/constant";
+import { Movie } from "../../../types/types";
+import { API_KEY, BASE_URL } from "../../constants/constant";
 
-export async function fetchMovies(
+export async function fetchMoviesApi(
   path: string,
   page: number,
   params: string = "",

@@ -1,6 +1,7 @@
-import { fetchMovies } from "./features/fetchMovies";
+import { fetchMoviesApi } from "./features/api/fetchMoviesApi";
 import MovieList from "./features/UI/MovieList";
 import { Header } from "./features/UI/Header";
+import { Movie } from "../types/types";
 
 let page: number = 1;
 
@@ -8,13 +9,18 @@ let page: number = 1;
 const moreButton = document.querySelector(".btn-more") as HTMLButtonElement;
 
 addEventListener("load", async () => {
-  const data = await fetchMovies("movie/popular", page);
+  const data: { results: Movie[]; total_pages: number } = await fetchMoviesApi(
+    "movie/popular",
+    page,
+  );
   Header.render(data.results[0]);
 
   // 검색
-  const btnSubmit = document.querySelector(".btn-submit") as HTMLButtonElement;
+  const submitButton = document.querySelector(
+    ".btn-submit",
+  ) as HTMLButtonElement;
 
-  btnSubmit.addEventListener("click", async (e) => {
+  submitButton.addEventListener("click", async (e: PointerEvent) => {
     e.preventDefault();
     page = 1;
     const searchInput = document.querySelector(
@@ -27,7 +33,8 @@ addEventListener("load", async () => {
       MovieListInstance.movieList!.innerHTML = "";
       MovieListInstance.movieContainer!.innerHTML = "";
       MovieListInstance.renderSkeleton();
-      const data = await fetchMovies("movie/popular", page);
+      const data: { results: Movie[]; total_pages: number } =
+        await fetchMoviesApi("movie/popular", page);
       MovieListInstance.renderMovieList(data);
 
       const mainTitle = document.querySelector(".main-title") as HTMLElement;
@@ -42,7 +49,8 @@ addEventListener("load", async () => {
     }
 
     const MovieListInstance = new MovieList();
-    const data = await fetchMovies("search/movie", page, searchMovie);
+    const data: { results: Movie[]; total_pages: number } =
+      await fetchMoviesApi("search/movie", page, searchMovie);
     MovieListInstance.movieList!.innerHTML = "";
     MovieListInstance.movieContainer!.innerHTML = "";
     MovieListInstance.renderMovieList(data);
@@ -77,7 +85,10 @@ async function fetchApi() {
     MovieListInstance.renderSkeleton();
   }
 
-  const data = await fetchMovies("movie/popular", page);
+  const data: { results: Movie[]; total_pages: number } = await fetchMoviesApi(
+    "movie/popular",
+    page,
+  );
 
   MovieListInstance.renderMovieList(data);
 
