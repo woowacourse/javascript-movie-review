@@ -61,11 +61,20 @@ const Component = {
 
   emptyResult() {
     return `
-      <div class="empty-result">
+      <div class="notice-box">
         <img src="src/images/screaming_planet.svg">
-        <p class="empty-result-text">검색 결과가 없습니다.</p>
+        <p class="notice-text">검색 결과가 없습니다.</p>
       </div>
       `;
+  },
+
+  error(message: string) {
+    return `
+      <div class="notice-box">
+        <img src="src/images/planet_and_star.png">
+        <span class="notice-text">${message}</span>
+      </div>
+    `;
   },
 };
 

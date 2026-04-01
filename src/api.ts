@@ -36,7 +36,7 @@ export async function getPopularMovies(arg: {
   const { pageNum, onSuccess, onError, onLoading } = arg;
   fetcher<MoviesResponse>({
     fn: async () => {
-      const url = `https://api.themoviedb.org/3/movie/popular?page=${pageNum}`;
+      const url = `https://api.themoviedb.org/3/moviezzzz/popular?page=${pageNum}`;
       const options = {
         method: "GET",
         headers: {
@@ -46,6 +46,8 @@ export async function getPopularMovies(arg: {
       };
 
       const response = await fetch(url, options);
+      if (!response.ok)
+        throw new Error(`HTTP error! status: ${response.status}`);
       const data = (await response.json()) as unknown as MoviesResponse;
       return data;
     },
@@ -75,6 +77,8 @@ export async function getSearchMovies(arg: {
       };
 
       const response = await fetch(url, options);
+      if (!response.ok)
+        throw new Error(`HTTP error! status: ${response.status}`);
       const data = (await response.json()) as unknown as MoviesResponse;
       return data;
     },

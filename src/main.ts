@@ -34,9 +34,9 @@ async function loadInitialMovie() {
         const ul = document.querySelector(".thumbnail-list");
         if (ul) renderSkeleton(ul, requestMovieCount);
       },
-      onError: (error) => {
-        // 에러 ui 보여주기
-        console.error(error);
+      onError: (_) => {
+        const main = document.querySelector("main");
+        if (main) renderError(main, "영화 정보를 불러오는 데 실패했습니다.");
       },
     });
   }
@@ -55,7 +55,7 @@ async function loadMoreMovies() {
         renderMovies(ul, movies);
       }
     },
-    onError: function (error: Error): void {
+    onError: function (_): void {
       throw new Error("Function not implemented.");
     },
     onLoading: function (): void {
@@ -78,8 +78,9 @@ async function loadMoreSearchMovies(query: string) {
         renderSearchMovies(movies);
       }
     },
-    onError: function (error: Error): void {
-      throw new Error("Function not implemented.");
+    onError: function (_): void {
+      const main = document.querySelector("main");
+      if (main) renderError(main, "영화 정보를 불러오는 데 실패했습니다.");
     },
     onLoading: function (): void {
       const ul = document.querySelector(".thumbnail-list");
@@ -110,8 +111,9 @@ async function loadSearchMovies(query: string) {
       if (movies.length === 0) renderEmptyResult();
       else renderSearchMovies(movies);
     },
-    onError: function (error: Error): void {
-      throw new Error("Function not implemented.");
+    onError: function (_): void {
+      const main = document.querySelector("main");
+      if (main) renderError(main, "영화 정보를 불러오는 데 실패했습니다.");
     },
     onLoading: function (): void {
       const ul = document.querySelector(".thumbnail-list");
@@ -234,4 +236,8 @@ function renderEmptyResult() {
   const node = document.createElement("div");
   node.innerHTML = Component.emptyResult();
   section?.appendChild(node);
+}
+
+function renderError(parent: Element, message: string) {
+  parent.innerHTML = Component.error(message);
 }
