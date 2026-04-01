@@ -15,11 +15,16 @@ describe("TMDB API에서 인기 영화 목록을 가져온다.", () => {
             vote_average: 7.5,
           },
         ],
+        total_pages: 11,
       }),
     })) as any;
 
-    const data: { results: Movie[] } = await fetchMovies(1);
+    const data: { results: Movie[]; total_pages: number } = await fetchMovies(
+      "movie/popular",
+      1,
+    );
 
     expect(data.results[0].title).toBe("Test Movie");
+    expect(data.total_pages).toBe(11);
   });
 });
