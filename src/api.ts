@@ -17,10 +17,11 @@ export interface resultData {
 export interface PreviewData {
   page: number;
   results: resultData[];
+  total_pages: number;
 }
 
-export const fetchPopularMovies = async (): Promise<PreviewData> => {
-  const response = await fetch('https://api.themoviedb.org/3/movie/popular?language=en-US&page=1', options);
+export const fetchPopularMovies = async (page: number = 1): Promise<PreviewData> => {
+  const response = await fetch(`https://api.themoviedb.org/3/movie/popular?language=en-US&page=${page}`, options);
 
   if (!response.ok) {
     throw new Error('영화 데이터를 불러오는 데 실패했습니다.');
@@ -30,14 +31,25 @@ export const fetchPopularMovies = async (): Promise<PreviewData> => {
   return data;
 };
 
-export async function renderFetchMovieItem($target: HTMLElement): Promise<void> {
+export async function renderFetchMovieItem($target: HTMLElement | Element, page: number): Promise<number> {
   try {
-    const data = await fetchPopularMovies();
+    const data = await fetchPopularMovies(page);
     data.results.forEach((result) => {
       $target.insertAdjacentHTML('beforeend', renderMovieItem(result));
     });
-  } catch (error) {}
+    toggleButton(data.total_pages, page); // 임시
+    return data.total_pages;
+  } catch (error) {
+    return 0; // 임시
+  }
 }
+
+export const toggleButton = (totalPage: number, currentPage: number) => {
+  const $button = document.querySelector('#more-page-button');
+  if (currentPage < totalPage) {
+    $button?.classList.remove('hidden');
+  }
+};
 
 function renderMovieItem(data: resultData): string {
   return /* html */ `
