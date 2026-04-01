@@ -32,3 +32,26 @@ export const addMovieList = (
     movieDisplay.appendChild(li);
   });
 };
+
+export const addMovieSkeletonUIList = (
+  movieDisplay: HTMLUListElement,
+  count: number = 20,
+) => {
+  Array.from({ length: count }, () => {
+    const li = document.createElement("li");
+    li.className = "skeleton-li";
+
+    li.innerHTML = /*html*/ ` 
+    <div class="skeleton-item">
+      <div class="square"></div>
+      <div class="first-line"></div>
+        <div class="second-line"></div>
+    </div>`;
+
+    movieDisplay.appendChild(li);
+  });
+};
+
+export const removeMovieSkeletonUIList = (movieDisplay: HTMLUListElement) => {
+  movieDisplay.querySelectorAll(".skeleton-li").forEach((it) => it.remove());
+};

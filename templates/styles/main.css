@@ -203,3 +203,61 @@ footer {
 footer p:not(:last-child) {
   margin-bottom: 8px;
 }
+
+.skeleton-item {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.square,
+.first-line,
+.second-line {
+  border: none;
+  background-color: #757575;
+  border-radius: 0.7rem;
+
+  -webkit-animation: skeleton-gradient 1.8s infinite ease-in-out;
+  animation: skeleton-gradient 1.8s infinite ease-in-out;
+}
+
+.square {
+  width: 10rem;
+  height: 14rem;
+}
+.first-line {
+  width: 5rem;
+  height: 1.5rem;
+}
+
+.second-line {
+  width: 9rem;
+  height: 1.5rem;
+}
+@-webkit-keyframes skeleton-gradient {
+  0% {
+    background-color: rgba(165, 165, 165, 0.1);
+  }
+
+  50% {
+    background-color: rgba(165, 165, 165, 0.3);
+  }
+
+  100% {
+    background-color: rgba(165, 165, 165, 0.1);
+  }
+}
+
+@keyframes skeleton-gradient {
+  0% {
+    background-color: rgba(165, 165, 165, 0.1);
+  }
+
+  50% {
+    background-color: rgba(165, 165, 165, 0.3);
+  }
+
+  100% {
+    background-color: rgba(165, 165, 165, 0.1);
+  }
+}
