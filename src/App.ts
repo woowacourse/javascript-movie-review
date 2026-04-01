@@ -3,6 +3,7 @@ import {
   renderMovies,
   renderBanner,
   renderSearchedMovies,
+  replaceBanner,
 } from "./movieRenderer.ts";
 
 class App {
@@ -29,7 +30,16 @@ class App {
       if (list) {
         list.replaceChildren();
       }
+      const header = document.querySelector("#header");
+      if (header) {
+        header.replaceChildren();
+        replaceBanner(header);
+      }
       renderSearchedMovies(searchKeyword, this.#searchPageCount);
+      const sectionTitle = document.querySelector("#section-title");
+      if (sectionTitle) {
+        sectionTitle.textContent = `"${searchKeyword}" 검색 결과`;
+      }
     });
 
     document
@@ -46,6 +56,15 @@ class App {
             list.replaceChildren();
           }
           renderSearchedMovies(searchKeyword, this.#searchPageCount);
+          const header = document.querySelector("#header");
+          if (header) {
+            header.replaceChildren();
+            replaceBanner(header);
+          }
+          const sectionTitle = document.querySelector("#section-title");
+          if (sectionTitle) {
+            sectionTitle.textContent = `"${searchKeyword}" 검색 결과`;
+          }
         }
       });
 
