@@ -3,6 +3,7 @@ import type { Movie } from "./api.ts";
 import Component from "./component.ts";
 
 let nextPageNum = 0;
+let nextSearchPageNum = 0;
 let requestMovieCount = 0;
 
 async function loadInitialMovie() {
@@ -22,7 +23,8 @@ async function loadInitialMovie() {
           clearSkeleton(ul);
           renderMovies(ul, movies);
         }
-        loadMoreButton?.addEventListener("click", loadMoreMovies);
+        if (loadMoreButton)
+          loadMoreButton.addEventListener("click", loadMoreMovies);
       },
       onLoading: () => {
         // 로딩 중일 때 ui 보여주기
@@ -58,14 +60,44 @@ async function loadMoreMovies() {
   });
 }
 
-async function loadSearchMovies(query: string) {
-  let pageNum = 1;
+async function loadMoreSearchMovies(query: string) {
   await getSearchMovies({
     query,
-    pageNum: pageNum,
+    pageNum: nextSearchPageNum,
     onSuccess: ({ page, results: movies }) => {
-      pageNum = page + 1;
+      const ul = document.querySelector(".thumbnail-list");
+      nextSearchPageNum = page + 1;
+      if (ul) {
+        clearSkeleton(ul);
+        renderSearchMovies(movies);
+      }
+    },
+    onError: function (error: Error): void {
+      throw new Error("Function not implemented.");
+    },
+    onLoading: function (): void {
+      const ul = document.querySelector(".thumbnail-list");
+      if (ul) renderSkeleton(ul, requestMovieCount);
+    },
+  });
+}
+
+async function loadSearchMovies(query: string) {
+  await getSearchMovies({
+    query,
+    pageNum: 1,
+    onSuccess: ({ page, results: movies }) => {
+      const loadMoreButton = document.querySelector(".load-more-button");
+      if (loadMoreButton) {
+        loadMoreButton?.removeEventListener("click", loadMoreMovies);
+        loadMoreButton.addEventListener("click", () =>
+          loadMoreSearchMovies(query),
+        );
+      }
+
+      nextSearchPageNum = page + 1;
       clearBanner();
+      clearMovies();
       renderSearchSectionHeading(query);
       renderSearchMovies(movies);
     },
@@ -137,9 +169,13 @@ function renderSearchSectionHeading(title: string) {
 function renderSearchMovies(movies: Movie[]) {
   const ul = document.querySelector(".thumbnail-list");
   if (ul) {
-    ul.innerHTML = "";
     renderMovies(ul, movies);
   }
+}
+
+function clearMovies() {
+  const ul = document.querySelector(".thumbnail-list");
+  if (ul) ul.innerHTML = "";
 }
 
 function clearBanner() {
