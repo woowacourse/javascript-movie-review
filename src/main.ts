@@ -17,12 +17,7 @@ const searchInput = document.getElementById(
 ) as HTMLInputElement | null;
 const searchButton = document.getElementById("search-button");
 const mainSeeMoreButton = document.getElementById("main-see-more-button");
-
-if (mainSeeMoreButton) {
-  mainSeeMoreButton.addEventListener("click", () => {
-    handleMainSeeMore();
-  });
-}
+const searchSeeMoreButton = document.getElementById("search-see-more-button");
 
 if (searchInput && searchButton) {
   searchButton.addEventListener("click", () =>
@@ -31,6 +26,18 @@ if (searchInput && searchButton) {
 
   searchInput.addEventListener("keydown", (e) => {
     if (e.key === "Enter") handleMovieSearch(searchInput.value);
+  });
+}
+
+if (mainSeeMoreButton) {
+  mainSeeMoreButton.addEventListener("click", () => {
+    handleMainSeeMore();
+  });
+}
+
+if (searchSeeMoreButton) {
+  searchSeeMoreButton.addEventListener("click", () => {
+    handleMainSeeMore();
   });
 }
 

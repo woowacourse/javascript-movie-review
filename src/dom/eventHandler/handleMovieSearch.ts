@@ -13,6 +13,13 @@ export const handleMovieSearch = async (keyword: string) => {
 
   if (!banner || !subTitle || searchInput?.value.trim() === "") return;
 
+  const url = new URL(window.location.href);
+  const params = url.searchParams;
+
+  params.set("page", String(1));
+  url.search = params.toString();
+  window.history.pushState({}, "", url.toString());
+
   const searchResult = await getSearchedMovies({
     query: keyword,
     language: "ko-KR",

@@ -18,17 +18,20 @@ export const renderResultSectionContent = ({
 }: RenderResultSectionContentProps) => {
   const skeletonList = document.getElementById("skeleton-list");
   const errorContainer = document.getElementById("error-container");
-  const mainThumbnailList = document.getElementById("main-thumbnail-list");
-  const searchThumbnailList = document.getElementById("search-thumbnail-list");
   const emptyContainer = document.getElementById("empty-container");
-  const seeMoreButton = document.getElementById("main-see-more-button");
+
+  const mainThumbnailList = document.getElementById("main-thumbnail-list");
+  const mainSeeMoreButton = document.getElementById("main-see-more-button");
+
+  const searchThumbnailList = document.getElementById("search-thumbnail-list");
+  const searchSeeMoreButton = document.getElementById("search-see-more-button");
 
   skeletonList?.classList.add("hidden");
   errorContainer?.classList.add("hidden");
   mainThumbnailList?.classList.add("hidden");
   searchThumbnailList?.classList.add("hidden");
   emptyContainer?.classList.add("hidden");
-  seeMoreButton?.classList.add("hidden");
+  mainSeeMoreButton?.classList.add("hidden");
 
   if (isLoading) {
     skeletonList?.classList.remove("hidden");
@@ -42,13 +45,13 @@ export const renderResultSectionContent = ({
 
   if (movies.length > 0 && type === "main") {
     mainThumbnailList?.classList.remove("hidden");
-    if (!isLastPage) seeMoreButton?.classList.remove("hidden");
+    if (!isLastPage) mainSeeMoreButton?.classList.remove("hidden");
     return;
   }
 
   if (movies.length > 0 && type === "search") {
     searchThumbnailList?.classList.remove("hidden");
-    if (!isLastPage) seeMoreButton?.classList.remove("hidden");
+    if (!isLastPage) searchSeeMoreButton?.classList.remove("hidden");
     return;
   }
 
