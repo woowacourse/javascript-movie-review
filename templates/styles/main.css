@@ -190,7 +190,7 @@ span.rate-value {
   font-weight: bold;
 }
 
-footer.footer {
+footer {
   min-height: 180px;
   background-color: var(--color-bluegray-80);
   display: flex;
@@ -200,6 +200,6 @@ footer.footer {
   font-size: 1.1rem;
 }
 
-footer.footer p:not(:last-child) {
+footer p:not(:last-child) {
   margin-bottom: 8px;
 }
