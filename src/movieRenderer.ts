@@ -8,11 +8,14 @@ export const renderMovies = async (moviePageCount: number) => {
   const posterBaseURL = "https://image.tmdb.org/t/p/original/";
 
   movies.forEach((movie: Movie) => {
+    const posterSrc = `${posterBaseURL}${movie.poster_path}`;
+
     const li = `<li>
               <div class="item">
                 <img class="thumbnail"
-                  src="${posterBaseURL}${movie.poster_path}"
-                  alt="영화 포스터 사진" />
+                  src="${posterSrc}" 
+                  alt="영화 포스터 사진"
+                  onerror="this.onerror=null; this.src='/images/no_image.png'" />
                 <div class="item-desc">
                   <p class="rate">
                     <img src="/images/star_empty.png" class="star" /><span>${movie.vote_average}</span>
@@ -51,6 +54,17 @@ export const renderBanner = async () => {
   banner?.insertAdjacentHTML("beforeend", mostPopularMovieBanner);
 };
 
+export const replaceBanner = (header: any) => {
+  const searchBar = `<div class="search-bar">
+                <input type="text" class="search-input" placeholder="검색어를 입력하세요" />
+              <button class="search-button">&#128269;</button>
+             </div>
+             <h1 class="logo">
+              <img src="/images/logo.png" alt="MovieList" />
+             </h1>`;
+  header.insertAdjacentHTML("beforeend", searchBar);
+};
+
 export const renderSearchedMovies = async (
   searchKeyword: string,
   searchPageCount: number,
@@ -60,11 +74,13 @@ export const renderSearchedMovies = async (
   const list = document.querySelector(".thumbnail-list");
   const posterBaseURL = "https://image.tmdb.org/t/p/original/";
   movies.forEach((movie: Movie) => {
+    const posterSrc = `${posterBaseURL}${movie.poster_path}`;
+
     const li = `<li>
               <div class="item">
                 <img class="thumbnail"
-                  src="${posterBaseURL}${movie.poster_path}"
-                  alt="영화 포스터 사진" />
+                  src="${posterSrc}"
+                  onerror="this.onerror=null; this.src='/images/no_image.png'" />
                 <div class="item-desc">
                   <p class="rate">
                     <img src="/images/star_empty.png" class="star" /><span>${movie.vote_average}</span>
