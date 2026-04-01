@@ -21,8 +21,14 @@ export const handleMovieSearch = async (keyword: string) => {
     banner.hidden = true;
     resultSection?.classList.add("result-section");
     subTitle.innerText = `"${keyword}" 검색 결과`;
+    const isLastPage = searchResult.page === searchResult.total_pages;
     const movies = searchResult.results;
-    renderResultSectionContent({ isLoading: false, isError: false, movies });
+    renderResultSectionContent({
+      isLoading: false,
+      isError: false,
+      isLastPage,
+      movies,
+    });
     renderThumbnailList({ movies });
   }
 };

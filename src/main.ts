@@ -24,21 +24,33 @@ if (searchInput && searchButton) {
 
 const render = async () => {
   let isError = false;
+  let isLastPage = false;
   let movies: Movie[] = [];
 
   try {
     const popularMovies = await getPopularMovies({ language: "ko-KR" });
+    isLastPage = popularMovies.page === popularMovies.total_pages;
     movies = popularMovies.results;
     renderBanner({ movie: movies[0] });
     renderThumbnailList({ movies });
   } catch (error) {
     isError = true;
   } finally {
-    renderResultSectionContent({ isLoading: false, isError, movies });
+    renderResultSectionContent({
+      isLoading: false,
+      isError,
+      isLastPage,
+      movies,
+    });
   }
 };
 
-renderResultSectionContent({ isLoading: true, isError: false, movies: [] });
+renderResultSectionContent({
+  isLoading: true,
+  isError: false,
+  isLastPage: false,
+  movies: [],
+});
 await render();
 
 // 진입 -> renderResultSectionContent 호출 -> api 호출
