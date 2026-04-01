@@ -1,6 +1,10 @@
 import { Movie } from "../../apis/movie/api";
 
-export const renderThumbnailList = (movies: Movie[]) => {
+interface RenderThumbnailListProps {
+  movies: Movie[];
+}
+
+export const renderThumbnailList = ({ movies }: RenderThumbnailListProps) => {
   const thumbnailList = document.getElementById("thumbnail-list");
   if (thumbnailList) {
     const lis = movies.map(

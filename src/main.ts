@@ -1,4 +1,4 @@
-import { getPopularMovies, Movie } from "./apis/movie/api";
+import { getPopularMovies } from "./apis/movie/api";
 import { getSearchedMovies } from "./apis/search/api";
 import { renderResultSectionContent } from "./dom/render/renderResultSectionContent";
 import { renderThumbnailList } from "./dom/render/renderThumbnailList";
@@ -25,7 +25,7 @@ const handleSearch = async (keyword: string) => {
     subTitle.innerText = `"${keyword}" 검색 결과`;
     const movies = searchResult.results;
     renderResultSectionContent({ isLoading: false, isError: false, movies });
-    renderThumbnailList(movies);
+    renderThumbnailList({ movies });
   }
 };
 
@@ -44,7 +44,7 @@ renderResultSectionContent({ isLoading: true, isError: false, movies: [] });
 const popularMovies = await getPopularMovies({ language: "ko-KR" });
 const movies = popularMovies.results;
 
-renderThumbnailList(movies);
+renderThumbnailList({ movies });
 
 renderResultSectionContent({ isLoading: false, isError: false, movies });
 
