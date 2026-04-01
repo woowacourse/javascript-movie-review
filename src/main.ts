@@ -32,7 +32,7 @@ async function loadInitialMovie() {
       onLoading: () => {
         // 로딩 중일 때 ui 보여주기
         const ul = document.querySelector(".thumbnail-list");
-        if (ul) renderSkeleton(ul, requestMovieCount);
+        if (ul) renderSkeleton(ul, requestMovieCount || 20);
       },
       onError: (_) => {
         const main = document.querySelector("main");
