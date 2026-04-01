@@ -26,6 +26,10 @@ main {
   margin: 64px 0;
 }
 
+main section {
+  margin-top: 8rem;
+}
+
 .page-title {
   font-size: 3rem;
   margin-bottom: 4rem;
@@ -74,7 +78,7 @@ button.primary {
 
 .search-container {
   position: absolute;
-  top: 3.78%;
+  top: 3.4%;
   left: 35%;
   width: 500px;
 
@@ -116,6 +120,15 @@ button.primary {
   width: 100%;
   height: 100%;
   z-index: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.overlay img {
+  width: 80%;
+  object-fit: cover;
 }
 
 .top-rated-container {
@@ -134,8 +147,8 @@ button.primary {
   margin-bottom: 8px;
 }
 
-h1.logo {
-  font-size: 2rem;
+.logo img {
+  width: 12rem;
 }
 
 .rate {

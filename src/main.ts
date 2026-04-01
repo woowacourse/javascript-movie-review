@@ -1,4 +1,3 @@
-import index from "../templates/index.html?raw";
 import "../templates/styles/index.css";
 
 import { Movie, addMovieList } from "./view/movieListView.ts";
@@ -18,18 +17,14 @@ import {
 } from "./events/bindMovieEvent.ts";
 
 addEventListener("load", async () => {
-  const app = document.querySelector("#app");
+  // const app = document.querySelector("#app");
 
-  if (app) {
-    app.innerHTML = index;
+  let pageNum = 1;
 
-    let pageNum = 1;
+  let movieList = await fetchDefaultMovieList(pageNum);
+  const movieDisplay = getUListElement(".thumbnail-list");
+  addMovieList(movieDisplay, movieList);
 
-    let movieList = await fetchDefaultMovieList(pageNum);
-    const movieDisplay = getUListElement(".thumbnail-list");
-    addMovieList(movieDisplay, movieList);
-
-    bindSearchEvents(pageNum);
-    bindMoreMovieEvents(pageNum);
-  }
+  bindSearchEvents(pageNum);
+  bindMoreMovieEvents(pageNum);
 });
