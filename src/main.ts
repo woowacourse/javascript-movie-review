@@ -5,6 +5,10 @@ import modal from "../templates/modal.html?raw";
 import "../templates/styles/index.css";
 
 import { Movie, addMovieList } from "./view/movieListView.ts";
+import {
+  fetchDefaultMovieList,
+  fetchSearchMovieList,
+} from "./service/movieApi.ts";
 
 addEventListener("load", async () => {
   const app = document.querySelector("#app");
@@ -16,11 +20,7 @@ addEventListener("load", async () => {
     app.innerHTML = modal;
     let pageNum = 1;
 
-    const URL = `https://api.themoviedb.org/3/movie/popular?api_key=${import.meta.env.VITE_API_KEY}&language=ko-KR&page=${pageNum}`;
-    const response = await fetch(URL);
-    const data = await response.json();
-
-    const movieList = data.results;
+    let movieList = await fetchDefaultMovieList(pageNum);
 
     const movieDisplay = document.querySelector(
       ".thumbnail-list",
@@ -43,29 +43,15 @@ addEventListener("load", async () => {
         ) as HTMLElement;
         background.hidden = true;
 
-        let URL;
-
-        let response;
-        let data;
-        let movieList;
-
         if (searchBarText === "") {
           background.hidden = false;
           pageNum = 1;
           movieDisplay.replaceChildren();
 
-          URL = `https://api.themoviedb.org/3/movie/popular?api_key=${import.meta.env.VITE_API_KEY}&language=ko-KR&page=${pageNum}`;
-          response = await fetch(URL);
-          data = await response.json();
-
-          movieList = data.results;
+          movieList = await fetchDefaultMovieList(pageNum);
         } else {
           movieDisplay.replaceChildren();
-          URL = `https://api.themoviedb.org/3/search/movie?api_key=${import.meta.env.VITE_API_KEY}&query=${encodeURIComponent(searchBarText)}&language=ko-KR`;
-          response = await fetch(URL);
-          data = await response.json();
-
-          movieList = data.results;
+          movieList = await fetchSearchMovieList(searchBarText);
 
           const description = document.querySelector("h2") as HTMLElement;
           description.textContent = `'${searchBarText}' 검색 결과`;
@@ -92,11 +78,7 @@ addEventListener("load", async () => {
     displayMoreBtn?.addEventListener("click", async () => {
       pageNum++;
 
-      const URL = `https://api.themoviedb.org/3/movie/popular?api_key=${import.meta.env.VITE_API_KEY}&language=ko-KR&page=${pageNum}`;
-      const response = await fetch(URL);
-      const data = await response.json();
-
-      const movieList = data.results;
+      movieList = await fetchDefaultMovieList(pageNum);
 
       const movieDisplay = document.querySelector(
         ".thumbnail-list",
@@ -119,12 +101,6 @@ addEventListener("load", async () => {
       ) as HTMLElement;
       background.hidden = true;
 
-      let URL;
-
-      let response;
-      let data;
-      let movieList;
-
       const description = document.querySelector("h2") as HTMLElement;
 
       if (searchBarText === "") {
@@ -132,20 +108,12 @@ addEventListener("load", async () => {
         pageNum = 1;
         movieDisplay.replaceChildren();
 
-        URL = `https://api.themoviedb.org/3/movie/popular?api_key=${import.meta.env.VITE_API_KEY}&language=ko-KR&page=${pageNum}`;
-        response = await fetch(URL);
-        data = await response.json();
-
-        movieList = data.results;
+        movieList = await fetchDefaultMovieList(pageNum);
 
         description.textContent = "지금 인기 있는 영화";
       } else {
         movieDisplay.replaceChildren();
-        URL = `https://api.themoviedb.org/3/search/movie?api_key=${import.meta.env.VITE_API_KEY}&query=${encodeURIComponent(searchBarText)}&language=ko-KR`;
-        response = await fetch(URL);
-        data = await response.json();
-
-        movieList = data.results;
+        movieList = await fetchSearchMovieList(searchBarText);
 
         description.textContent = `'${searchBarText}' 검색 결과`;
 
