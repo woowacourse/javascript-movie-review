@@ -58,6 +58,15 @@ const Component = {
       </div>
     `;
   },
+
+  emptyResult() {
+    return `
+      <div class="empty-result">
+        <img src="src/images/screaming_planet.svg">
+        <p class="empty-result-text">검색 결과가 없습니다.</p>
+      </div>
+      `;
+  },
 };
 
 export default Component;

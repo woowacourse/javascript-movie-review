@@ -44,7 +44,9 @@ async function loadMoreMovies() {
     pageNum: nextPageNum,
     onSuccess: ({ page, results: movies }) => {
       const ul = document.querySelector(".thumbnail-list");
+      const haveRestPage = movies.length === 20;
       nextPageNum = page + 1;
+      if (haveRestPage) showLoadMoreButton();
       if (ul) {
         clearSkeleton(ul);
         renderMovies(ul, movies);
@@ -56,6 +58,7 @@ async function loadMoreMovies() {
     onLoading: function (): void {
       const ul = document.querySelector(".thumbnail-list");
       if (ul) renderSkeleton(ul, requestMovieCount);
+      hideLoadMoreButton();
     },
   });
 }
@@ -88,18 +91,21 @@ async function loadSearchMovies(query: string) {
     pageNum: 1,
     onSuccess: ({ page, results: movies }) => {
       const loadMoreButton = document.querySelector(".load-more-button");
+      const haveRestPage = movies.length === 20;
       if (loadMoreButton) {
         loadMoreButton?.removeEventListener("click", loadMoreMovies);
         loadMoreButton.addEventListener("click", () =>
           loadMoreSearchMovies(query),
         );
       }
-
       nextSearchPageNum = page + 1;
       clearBanner();
       clearMovies();
+      clearEmptyResult();
       renderSearchSectionHeading(query);
-      renderSearchMovies(movies);
+      if (haveRestPage) showLoadMoreButton();
+      if (movies.length === 0) renderEmptyResult();
+      else renderSearchMovies(movies);
     },
     onError: function (error: Error): void {
       throw new Error("Function not implemented.");
@@ -107,6 +113,7 @@ async function loadSearchMovies(query: string) {
     onLoading: function (): void {
       const ul = document.querySelector(".thumbnail-list");
       if (ul) renderSkeleton(ul, requestMovieCount);
+      hideLoadMoreButton();
     },
   });
 }
@@ -183,6 +190,21 @@ function clearBanner() {
   if (banner) banner.innerHTML = "";
 }
 
+function clearEmptyResult() {
+  const emptyResult = document.querySelector(".empty-result");
+  emptyResult?.remove();
+}
+
+function showLoadMoreButton() {
+  const button = document.querySelector(".load-more-button");
+  if (button instanceof HTMLElement) button.style.display = "block";
+}
+
+function hideLoadMoreButton() {
+  const button = document.querySelector(".load-more-button");
+  if (button instanceof HTMLElement) button.style.display = "none";
+}
+
 function renderMovies(ul: Element, movies: Movie[]) {
   movies.forEach((movie) => addMovies(ul, movie));
 }
@@ -200,4 +222,11 @@ function renderBanner(
     vote_average,
     poster_path,
   });
+}
+
+function renderEmptyResult() {
+  const section = document.querySelector("section");
+  const node = document.createElement("div");
+  node.innerHTML = Component.emptyResult();
+  section?.appendChild(node);
 }
