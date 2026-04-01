@@ -2,7 +2,6 @@ import { fetcher } from "./fetcher";
 
 export interface TmdbPagination<T> {
   page: number;
-
   result: T;
   total_pages: number;
   total_results: number;
