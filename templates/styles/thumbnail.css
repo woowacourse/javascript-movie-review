@@ -7,6 +7,24 @@
   gap: 70px;
 }
 
+@media screen and (max-width: 1310px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media screen and (max-width: 1080px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 .thumbnail {
   width: 200px;
   height: 300px;
@@ -16,6 +34,20 @@
 .item {
   user-select: none;
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.item-desc {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-family: "Inter", sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 100%;
+  letter-spacing: 0%;
 }
 
 .item-desc > *:not(:last-child) {
