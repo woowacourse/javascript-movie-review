@@ -13,7 +13,7 @@ const Component = {
       />
         <div class="item-desc">
           <p class="rate">
-            <img src="src/images/star_empty.png" class="star" /><span>${vote_average}</span>
+            <img src="src/images/star_empty.png" class="star" /><span>${vote_average.toFixed(1)}</span>
             </p>
             <strong>${title}</strong>
         </div>
@@ -49,7 +49,7 @@ const Component = {
           <div class="container">
             <div class="rate">
               <img src="src/images/star_empty.png" class="star" />
-              <span class="rate-value">${vote_average}</span>
+              <span class="rate-value">${vote_average.toFixed(1)}</span>
             </div>
             <div class="title">${title}</div>
             <button class="primary detail">자세히 보기</button>
