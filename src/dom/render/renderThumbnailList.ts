@@ -2,11 +2,14 @@ import { Movie } from "../../apis/movie/api";
 
 interface RenderThumbnailListProps {
   movies: Movie[];
+  thumbnailListElement: HTMLElement | null;
 }
 
-export const renderThumbnailList = ({ movies }: RenderThumbnailListProps) => {
-  const thumbnailList = document.getElementById("thumbnail-list");
-  if (thumbnailList) {
+export const renderThumbnailList = ({
+  movies,
+  thumbnailListElement,
+}: RenderThumbnailListProps) => {
+  if (thumbnailListElement) {
     const lis = movies.map(
       (movie) => `<li id="movie-${movie.id}">
                     <div class="item">
@@ -26,6 +29,6 @@ export const renderThumbnailList = ({ movies }: RenderThumbnailListProps) => {
                     </div>
                   </li>`,
     );
-    thumbnailList.innerHTML = lis.join("");
+    thumbnailListElement.insertAdjacentHTML("beforeend", lis.join(""));
   }
 };

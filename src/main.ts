@@ -28,11 +28,12 @@ const render = async () => {
   let movies: Movie[] = [];
 
   try {
+    const thumbnailListElement = document.getElementById("main-thumbnail-list");
     const popularMovies = await getPopularMovies({ language: "ko-KR" });
     isLastPage = popularMovies.page === popularMovies.total_pages;
     movies = popularMovies.results;
     renderBanner({ movie: movies[0] });
-    renderThumbnailList({ movies });
+    renderThumbnailList({ movies, thumbnailListElement });
   } catch (error) {
     isError = true;
   } finally {

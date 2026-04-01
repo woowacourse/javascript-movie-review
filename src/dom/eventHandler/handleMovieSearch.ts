@@ -9,6 +9,7 @@ export const handleMovieSearch = async (keyword: string) => {
   const banner = document.getElementById("background-container");
   const resultSection = document.getElementById("result-section");
   const subTitle = document.getElementById("sub-title");
+  const thumbnailListElement = document.getElementById("search-thumbnail-list");
 
   if (!banner || !subTitle || searchInput?.value.trim() === "") return;
 
@@ -27,8 +28,9 @@ export const handleMovieSearch = async (keyword: string) => {
       isLoading: false,
       isError: false,
       isLastPage,
+      type: "search",
       movies,
     });
-    renderThumbnailList({ movies });
+    renderThumbnailList({ movies, thumbnailListElement });
   }
 };
