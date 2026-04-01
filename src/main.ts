@@ -1,5 +1,3 @@
-const html = String.raw;
-
 import modal from "../templates/modal.html?raw";
 import "../templates/styles/index.css";
 

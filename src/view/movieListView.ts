@@ -18,7 +18,7 @@ export const addMovieList = (
       <img
         class="thumbnail"
         src="https://image.tmdb.org/t/p/w500${movie.poster_path}"
-        alt="인사이드 아웃 2"
+        alt=${movie.title}
       />
       <div class="item-desc">
         <p class="rate">
