@@ -3,7 +3,8 @@ const html = String.raw;
 import image from "../templates/images/star_filled.png";
 import modal from "../templates/modal.html?raw";
 import "../templates/styles/index.css";
-import star_empty from "../templates/images/star_empty.png";
+
+import { Movie, addMovieList } from "./view/movieListView.ts";
 
 addEventListener("load", async () => {
   const app = document.querySelector("#app");
@@ -18,7 +19,6 @@ addEventListener("load", async () => {
     const URL = `https://api.themoviedb.org/3/movie/popular?api_key=${import.meta.env.VITE_API_KEY}&language=ko-KR&page=${pageNum}`;
     const response = await fetch(URL);
     const data = await response.json();
-    // console.log(data);
 
     const movieList = data.results;
 
@@ -27,26 +27,7 @@ addEventListener("load", async () => {
     ) as HTMLUListElement;
 
     // 영화 20개
-    movieList.forEach((movie: any) => {
-      const li = document.createElement("li");
-
-      li.innerHTML = html` <div class="item">
-        <img
-          class="thumbnail"
-          src="https://image.tmdb.org/t/p/w500${movie.poster_path}"
-          alt="인사이드 아웃 2"
-        />
-        <div class="item-desc">
-          <p class="rate">
-            <img class="star" src="${star_empty}" />
-            <span class="vote-average">${movie.vote_average.toFixed(1)}</span>
-          </p>
-          <strong>${movie.title}</strong>
-        </div>
-      </div>`;
-
-      movieDisplay.appendChild(li);
-    });
+    addMovieList(movieDisplay, movieList);
 
     // 엔터키 이벤트
     const input = document.querySelector(".search-bar") as HTMLInputElement;
@@ -102,28 +83,7 @@ addEventListener("load", async () => {
         }
 
         // 영화 20개
-        movieList.forEach((movie: any) => {
-          const li = document.createElement("li");
-
-          li.innerHTML = html` <div class="item">
-            <img
-              class="thumbnail"
-              src="https://image.tmdb.org/t/p/w500${movie.poster_path}"
-              alt="인사이드 아웃 2"
-            />
-            <div class="item-desc">
-              <p class="rate">
-                <img class="star" src="${star_empty}" />
-                <span class="vote-average"
-                  >${movie.vote_average.toFixed(1)}</span
-                >
-              </p>
-              <strong>${movie.title}</strong>
-            </div>
-          </div>`;
-
-          movieDisplay.appendChild(li);
-        });
+        addMovieList(movieDisplay, movieList);
       }
     });
 
@@ -143,26 +103,7 @@ addEventListener("load", async () => {
       ) as HTMLUListElement;
 
       // 영화 20개
-      movieList.forEach((movie: any) => {
-        const li = document.createElement("li");
-
-        li.innerHTML = html` <div class="item">
-          <img
-            class="thumbnail"
-            src="https://image.tmdb.org/t/p/w500${movie.poster_path}"
-            alt="인사이드 아웃 2"
-          />
-          <div class="item-desc">
-            <p class="rate">
-              <img class="star" src="${star_empty}" />
-              <span class="vote-average">${movie.vote_average.toFixed(1)}</span>
-            </p>
-            <strong>${movie.title}</strong>
-          </div>
-        </div>`;
-
-        movieDisplay.appendChild(li);
-      });
+      addMovieList(movieDisplay, movieList);
     });
 
     // 검색 버튼 '클릭'
@@ -221,26 +162,7 @@ addEventListener("load", async () => {
       }
 
       // 영화 20개
-      movieList.forEach((movie: any) => {
-        const li = document.createElement("li");
-
-        li.innerHTML = html` <div class="item">
-          <img
-            class="thumbnail"
-            src="https://image.tmdb.org/t/p/w500${movie.poster_path}"
-            alt="인사이드 아웃 2"
-          />
-          <div class="item-desc">
-            <p class="rate">
-              <img class="star" src="${star_empty}" />
-              <span class="vote-average">${movie.vote_average.toFixed(1)}</span>
-            </p>
-            <strong>${movie.title}</strong>
-          </div>
-        </div>`;
-
-        movieDisplay.appendChild(li);
-      });
+      addMovieList(movieDisplay, movieList);
     });
   }
 });
