@@ -1,8 +1,8 @@
-import starImg from "../../../templates/images/star_empty.png";
+import starImg from "../../images/star_empty.png";
+import logo from "../../images/logo.png";
+import searchIcon from "../../images/Search.png";
 import { Movie } from "../../../types/types";
-
-const BACKDROP_IMAGE_URL =
-  "https://image.tmdb.org/t/p/w1920_and_h800_multi_faces/";
+import { BACKDROP_IMAGE_URL } from "../../constants/constant";
 
 export const Header = {
   render(movie: Movie): void {
@@ -23,7 +23,7 @@ export const Header = {
             <div class="overlay" aria-hidden="true">
                 <div class="search-container">
                 <h1 class="logo">
-                    <img src="./templates/images/logo.png" alt="MovieList" />
+                    <img src="${logo}" alt="MovieList" />
                 </h1>
                 <form class="search-form">
                     <input
@@ -33,7 +33,7 @@ export const Header = {
                     />
                     <button type="submit" class="btn-submit">
                         <img
-                            src="./templates/images/Search.png"
+                            src="${searchIcon}"
                             alt="search"
                             class="img-search"
                         />

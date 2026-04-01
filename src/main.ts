@@ -1,5 +1,5 @@
 import { fetchMovies } from "./features/fetchMovies";
-import MovieList from "./features/UI/MovieCard";
+import MovieList from "./features/UI/MovieList";
 import { Header } from "./features/UI/Header";
 
 let page: number = 1;

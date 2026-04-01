@@ -1,4 +1,4 @@
-export class MovieSkeleton {
+export default class MovieSkeleton {
   render(): string {
     return `<div class="movie-skeleton">
       <div class="movie-skeleton__poster"></div>
