@@ -51,12 +51,11 @@ const showMoreButton = () => {
   moreButton.style.display = "block";
 };
 
-const removeThumbnailList = () => {
-  const thumbnailList =
-    document.querySelector<HTMLDivElement>(".thumbnail-list");
-  if (!thumbnailList) return;
+const removeMovieList = () => {
+  const movieList = document.querySelector<HTMLDivElement>("#movie-list");
+  if (!movieList) return;
 
-  thumbnailList.innerHTML = "";
+  movieList.innerHTML = "";
 };
 
 const renderMovies = (movies: Movies): void => {
@@ -80,7 +79,7 @@ const renderMovies = (movies: Movies): void => {
 const renderEmpty = () => {
   const thumbnailList = document.querySelector(".thumbnail-list");
   if (!thumbnailList) return;
-  const empty = "<p>검색 결과가 없습니다</p>";
+  const empty = '<p id="no-result">검색 결과가 없습니다.</p>';
   thumbnailList.innerHTML = empty;
 
   hideMoreButton();
@@ -137,12 +136,6 @@ const removeSkeleton = () => {
 
 const condition = {
   page: 1,
-};
-
-const wait = (time: number) => {
-  return new Promise((resolve) => {
-    setTimeout(resolve, time);
-  });
 };
 
 addEventListener("load", async () => {
@@ -202,7 +195,7 @@ addEventListener("load", async () => {
       if (!movieListTitle) return null;
       movieListTitle.textContent = `"${search}" 검색 결과`;
 
-      removeThumbnailList();
+      removeMovieList();
       if (movies.results.length) {
         renderMovies(movies);
       } else {

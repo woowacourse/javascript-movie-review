@@ -6,7 +6,7 @@ describe("template spec", () => {
       statusCode: 200,
       body: {
         page: 1,
-        results: [...moviesFixture.results],
+        results: [...moviesFixture],
         total_pages: 2,
         total_results: 40,
       },
@@ -16,7 +16,7 @@ describe("template spec", () => {
       statusCode: 200,
       body: {
         page: 2,
-        results: [...moviesFixture.results],
+        results: [...moviesFixture],
         total_pages: 2,
         total_results: 40,
       },
