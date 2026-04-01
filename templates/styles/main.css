@@ -26,6 +26,11 @@ main {
   margin: 64px 0;
 }
 
+.page-title {
+  font-size: 3rem;
+  margin-bottom: 4rem;
+  font-weight: 600;
+}
 .star {
   width: 24px;
 }
@@ -69,9 +74,38 @@ button.primary {
 
 .search-container {
   position: absolute;
-  top: 10%;
-  left: 45%;
+  top: 3.78%;
+  left: 35%;
+  width: 500px;
+
+  border: 2px solid white;
+  border-radius: 20px;
+  display: flex;
+  justify-content: space-between;
+
   z-index: 3;
+}
+
+.search-bar {
+  background: none;
+  border: none;
+
+  margin-left: 15px;
+  width: 100%;
+
+  color: white;
+  font-size: 1.2rem;
+}
+
+.search-bar:focus {
+  outline: none;
+}
+
+.search-btn {
+  background: none;
+  border: none;
+
+  font-size: 1.5rem;
 }
 
 .overlay {

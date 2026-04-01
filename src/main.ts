@@ -1,4 +1,4 @@
-import modal from "../templates/modal.html?raw";
+import index from "../templates/index.html?raw";
 import "../templates/styles/index.css";
 
 import { Movie, addMovieList } from "./view/movieListView.ts";
@@ -21,7 +21,7 @@ addEventListener("load", async () => {
   const app = document.querySelector("#app");
 
   if (app) {
-    app.innerHTML = modal;
+    app.innerHTML = index;
 
     let pageNum = 1;
 

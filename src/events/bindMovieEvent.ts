@@ -19,7 +19,7 @@ const displayMovieBySearch = async (
   const background = getElement(".background-container");
   background.hidden = true;
 
-  const description = getElement("h2");
+  const description = getElement(".page-title");
 
   let movieList;
 
