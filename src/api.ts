@@ -33,13 +33,18 @@ export const fetchPopularMovies = async (page: number = 1): Promise<PreviewData>
 
 export async function renderFetchMovieItem($target: HTMLElement | Element, page: number): Promise<number> {
   try {
+    // 스켈레톤 나오고
+    $target.insertAdjacentHTML('beforeend', renderSkellMovieItem());
     const data = await fetchPopularMovies(page);
+    // 다 지우기
+    removeSkeleton($target);
     data.results.forEach((result) => {
       $target.insertAdjacentHTML('beforeend', renderMovieItem(result));
     });
     toggleButton(data.total_pages, page); // 임시
     return data.total_pages;
   } catch (error) {
+    alert('영화 목록을 불러오지 못했습니다!');
     return 0; // 임시
   }
 }
@@ -67,3 +72,21 @@ function renderMovieItem(data: resultData): string {
       </li>
     `;
 }
+
+function renderSkellMovieItem(): string {
+  const skelHTML = /* html */ `
+      <li class= "skeleton-container">
+        <div class="item">
+          <div class="thumbnail skeleton"></div>
+        </div>
+      </li>
+    `;
+
+  return skelHTML.repeat(20);
+}
+
+export const removeSkeleton = ($target: Element) => {
+  $target.querySelectorAll('.skeleton-container').forEach((node) => {
+    node.remove();
+  });
+};

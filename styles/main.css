@@ -71,6 +71,10 @@ button.primary {
   padding: 48px;
 }
 
+.skeleton {
+  background-color: var(--color-bluegray-30);
+}
+
 .overlay {
   position: absolute;
   top: 0;
