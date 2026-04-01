@@ -11,30 +11,8 @@
   </head>
   <body>
     <div id="app">
-      <header>
-        <div class="background-container">
-          <div class="overlay" aria-hidden="true">
-            <div class="container">
-              <h1 class="logo">
-                <img src="./templates/images/logo.png" alt="MovieList" />
-              </h1>
-              <form class="search-form">
-                <input
-                  type="search"
-                  class="search-input"
-                  placeholder="검색어를 입력하세요"
-                />
-                <button type="submit" class="btn-submit">
-                  <img
-                    src="./templates/images/Search.png"
-                    alt="search"
-                    class="img-search"
-                  />
-                </button>
-              </form>
-            </div>
-          </div>
-        </div>
+      <header class="header">
+        <div class="background-container"></div>
       </header>
       <div class="container">
         <main>
@@ -46,8 +24,8 @@
         </main>
       </div>
       <footer class="footer">
-        <p>&copy; 우아한테크코스 All Rights Reserved.</p>
         <p><img src="./templates/images/woowacourse_logo.png" width="180" /></p>
+        <p>&copy; 우아한테크코스 All Rights Reserved.</p>
       </footer>
     </div>
     <script type="module" src="/src/main.ts"></script>

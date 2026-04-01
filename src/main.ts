@@ -1,6 +1,7 @@
 import image from "../templates/images/star_filled.png";
 import { fetchMovies } from "./features/fetchMovies";
 import MovieList from "./features/UI/MovieCard";
+import { Header } from "./features/UI/Header";
 
 let page: number = 1;
 
@@ -8,6 +9,9 @@ let page: number = 1;
 const moreButton = document.querySelector(".btn-more") as HTMLButtonElement;
 
 addEventListener("load", async () => {
+  const data = await fetchMovies("movie/popular", page);
+  Header.render(data.results[0]);
+
   const app = document.querySelector("#app");
   const buttonImage = document.createElement("img");
   buttonImage.src = image;
@@ -30,6 +34,7 @@ moreButton.addEventListener("click", async () => {
 async function fetchApi() {
   const MovieListInstance = new MovieList();
   const data = await fetchMovies("movie/popular", page);
+
   MovieListInstance.renderMovieList(data);
 
   if (data.total_pages === page) {
