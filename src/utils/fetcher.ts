@@ -1,4 +1,7 @@
-export const fetcher = async <T, U>(endpoint: string, options: RequestInit) => {
+export const fetcher = async <T, U>(
+  endpoint: string,
+  options: RequestInit = {},
+) => {
   const defaultOptions = {
     method: "GET",
     ...options,

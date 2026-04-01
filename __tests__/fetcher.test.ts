@@ -40,7 +40,6 @@ describe("fetcher", () => {
 
     const response = await fetcher<SuccessResponse, ErrorResponse>(
       "/어쩌구저쩌구",
-      {},
     );
 
     expect(response).toHaveProperty("result");
@@ -49,10 +48,7 @@ describe("fetcher", () => {
   it("400-599 사이 응답이 오면 에러 타입을 반환한다.", async () => {
     mockFetch(false);
 
-    const response = await fetcher<SuccessResponse, ErrorResponse>(
-      "/어쩌구",
-      {},
-    );
+    const response = await fetcher<SuccessResponse, ErrorResponse>("/어쩌구");
 
     expect(response).toHaveProperty("message");
   });
@@ -61,13 +57,13 @@ describe("fetcher", () => {
     mockFetchNetworkError("fetch 실패");
 
     await expect(
-      fetcher<SuccessResponse, ErrorResponse>("/", {}),
+      fetcher<SuccessResponse, ErrorResponse>("/"),
     ).rejects.toThrow();
   });
 
   it("기본 Header에 application/json과 전달한 endpoint가 전달된다.", async () => {
     mockFetch(true);
-    await fetcher("/어쩌구저쩌구", {});
+    await fetcher("/어쩌구저쩌구");
 
     expect(global.fetch).toHaveBeenCalledWith(
       "/어쩌구저쩌구",
