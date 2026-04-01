@@ -1,4 +1,5 @@
 import { getPopularMovies, Movie } from "./apis/movie/api";
+import { getSearchedMovies } from "./apis/search/api";
 
 const searchInput = document.getElementById(
   "search-input",
@@ -12,11 +13,23 @@ let movies: Movie[] = [];
 let isError: boolean = false;
 let isLoading: boolean = true;
 
-const handleSearch = (keyword: string) => {
+const handleSearch = async (keyword: string) => {
   if (!banner || !subTitle || searchInput?.value.trim() === "") return;
-  banner.hidden = true;
-  resultSection?.classList.add("result-section");
-  subTitle.innerText = `"${keyword}" 검색 결과`;
+
+  const searchResult = await getSearchedMovies({
+    query: keyword,
+    language: "ko-KR",
+    page: 1,
+  });
+  if (searchResult) {
+    banner.hidden = true;
+    resultSection?.classList.add("result-section");
+    subTitle.innerText = `"${keyword}" 검색 결과`;
+    movies = searchResult.results;
+    isLoading = false;
+    renderResultSectionContent(isLoading, isError, movies);
+    renderThumbnailList();
+  }
 };
 
 if (searchInput && searchButton) {
@@ -56,36 +69,42 @@ const renderResultSectionContent = (
   emptyContainer?.classList.remove("hidden");
 };
 
+// TODO: getPopularMovies try-catch 감싸 -> 에러 핸들링
+// TODO 이미지 없는 거 대체 이미지
 renderResultSectionContent(isLoading, isError, movies);
 const popularMovies = await getPopularMovies({ language: "ko-KR" });
 console.log(popularMovies);
 movies = popularMovies.results;
 
-const thumbnailList = document.getElementById("thumbnail-list");
-if (thumbnailList) {
-  console.log("hi");
-  const lis = movies.map(
-    (movie) => `<li id="movie-${movie.id}">
-                <div class="item">
-                  <img
-                    class="thumbnail"
-                    src="${import.meta.env.VITE_TMDB_IMAGE_BASE_URL}/w500${movie.poster_path}"
-                    alt="${movie.title} 포스터"
-                  />
-                  <div class="item-desc">
-                    <p class="rate">
-                      <img src="./images/star_empty.png" class="star" /><span
-                        >${movie.vote_average}</span
-                      >
-                    </p>
-                    <strong>${movie.title}</strong>
+const renderThumbnailList = () => {
+  const thumbnailList = document.getElementById("thumbnail-list");
+  if (thumbnailList) {
+    console.log("hi");
+    const lis = movies.map(
+      (movie) => `<li id="movie-${movie.id}">
+                  <div class="item">
+                    <img
+                      class="thumbnail"
+                      src="${import.meta.env.VITE_TMDB_IMAGE_BASE_URL}/w500${movie.poster_path}"
+                      alt="${movie.title} 포스터"
+                    />
+                    <div class="item-desc">
+                      <p class="rate">
+                        <img src="./images/star_empty.png" class="star" /><span
+                          >${movie.vote_average}</span
+                        >
+                      </p>
+                      <strong>${movie.title}</strong>
+                    </div>
                   </div>
-                </div>
-              </li>`,
-  );
-  thumbnailList.innerHTML = lis.join("");
-  isLoading = false;
-}
+                </li>`,
+    );
+    thumbnailList.innerHTML = lis.join("");
+    isLoading = false;
+  }
+};
+
+renderThumbnailList();
 
 const skeletonList = document.getElementById("skeleton-list");
 skeletonList?.classList.add("hidden");
