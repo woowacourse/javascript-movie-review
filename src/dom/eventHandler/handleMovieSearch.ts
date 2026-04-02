@@ -6,6 +6,9 @@ export const handleMovieSearch = async (keyword: string) => {
   ) as HTMLInputElement | null;
   const banner = document.getElementById("background-container");
   const subTitle = document.getElementById("sub-title");
+  const thumbnailListElement = document.getElementById(
+    "search-thumbnail-list",
+  ) as HTMLUListElement;
 
   if (!banner || !subTitle || searchInput?.value.trim() === "") return;
 
@@ -17,5 +20,6 @@ export const handleMovieSearch = async (keyword: string) => {
   url.search = params.toString();
   window.history.pushState({}, "", url.toString());
 
+  thumbnailListElement.innerHTML = "";
   await renderSearchUI(keyword);
 };
