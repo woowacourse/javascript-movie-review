@@ -5,7 +5,12 @@ import { moviesFixture } from "./fixtures";
 
 describe("api 함수 호출 테스트", () => {
   it("getMoviePopular 를 호출하면 20개의 영화 목록을 가지고 온다", async () => {
-    const mockData = { ...moviesFixture };
+    const mockData = {
+      page: 1,
+      results: [...moviesFixture],
+      total_pages: 2,
+      total_results: 40,
+    };
 
     const fetchMock = vi.fn().mockResolvedValue(
       Promise.resolve({
