@@ -31,7 +31,7 @@ export const getMoviePopular = async ({
 };
 
 export const getTopRatedMovie = async () => {
-  const url = `${apiUrl}/movie/top_rated?page=-1`;
+  const url = `${apiUrl}/movie/top_rated`;
   const res = await fetch(url, {
     method: "get",
     headers: {

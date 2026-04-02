@@ -51,10 +51,14 @@ export const renderMovieList = (movies: Movies): void => {
 };
 
 export const renderNoResult = () => {
-  const thumbnailList = document.querySelector(".thumbnail-list");
-  if (!thumbnailList) return;
-  const empty = '<p id="no-result">검색 결과가 없습니다.</p>';
-  thumbnailList.innerHTML = empty;
+  const noResult = document.querySelector("#no-result");
+  if (!noResult) return;
+  const empty = /* html */ `
+  <p class="message-box">
+    <img src="./public/images/mascot.png" alt="" />
+    <span>검색 결과가 없습니다.</span>
+  </p>`;
+  noResult.innerHTML = empty;
 
   removeMoreButton();
 };
@@ -63,5 +67,9 @@ export const removeMovieList = () => {
   const movieList = document.querySelector<HTMLDivElement>("#movie-list");
   if (!movieList) return;
 
+  const noResult = document.querySelector("#no-result");
+  if (!noResult) return;
+
   movieList.replaceChildren();
+  noResult.replaceChildren();
 };

@@ -9,21 +9,26 @@
     <link rel="stylesheet" href="./public/styles/tab.css" />
     <link rel="stylesheet" href="./public/styles/thumbnail.css" />
     <link rel="stylesheet" href="./public/styles/skeleton.css" />
+    <link rel="stylesheet" href="./public/styles/search.css" />
+    <link rel="stylesheet" href="./public/styles/message-box.css" />
     <title>영화 리뷰</title>
   </head>
   <body>
     <div id="app">
       <header>
         <div class="background-container">
-          <div class="overlay" aria-hidden="true"></div>
-          <div class="top-rated-container">
+          <div class="header-bar">
             <h1 class="logo">
-              <img src="./images/logo.png" alt="MovieList" />
+              <a href="/"><img src="./images/logo.png" alt="MovieList" /></a>
             </h1>
 
-            <input id="search-input" />
-            <button id="search-button">검색</button>
-
+            <div class="search-box">
+              <input id="search-input" placeholder="검색어를 입력하세요" />
+              <button id="search-button">검색</button>
+            </div>
+          </div>
+          <div class="overlay" aria-hidden="true"></div>
+          <div class="top-rated-container">
             <div class="top-rated-movie">
               <div class="rate">
                 <img src="./images/star_empty.png" class="star" />
@@ -39,6 +44,7 @@
         <main>
           <section>
             <h2 id="movie-list-title">지금 인기 있는 영화</h2>
+            <div id="no-result"></div>
             <template id="movie-template">
               <li data-movie-id="">
                 <div class="item">
