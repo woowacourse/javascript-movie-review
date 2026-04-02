@@ -1,6 +1,6 @@
 import { vi, expect, test, describe } from "vitest";
 import { Movie } from "../types/types";
-import { fetchMovies } from "../src/features/fetchMovies";
+import { fetchMoviesApi } from "../src/features/api/fetchMoviesApi";
 
 describe("TMDB API에서 인기 영화 목록을 가져온다.", () => {
   test("API 성공 시 데이터 반환", async () => {
@@ -19,10 +19,8 @@ describe("TMDB API에서 인기 영화 목록을 가져온다.", () => {
       }),
     })) as any;
 
-    const data: { results: Movie[]; total_pages: number } = await fetchMovies(
-      "movie/popular",
-      1,
-    );
+    const data: { results: Movie[]; total_pages: number } =
+      await fetchMoviesApi("movie/popular", 1);
 
     expect(data.results[0].title).toBe("Test Movie");
     expect(data.total_pages).toBe(11);
@@ -44,11 +42,8 @@ describe("TMDB API에서 인기 영화 목록을 가져온다.", () => {
       }),
     })) as any;
 
-    const data: { results: Movie[]; total_pages: number } = await fetchMovies(
-      "search/movie",
-      1,
-      "아바타",
-    );
+    const data: { results: Movie[]; total_pages: number } =
+      await fetchMoviesApi("search/movie", 1, "아바타");
 
     expect(data.results[0].title).toBe("Test Movie");
     expect(data.total_pages).toBe(11);
