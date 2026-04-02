@@ -1,0 +1,55 @@
+# .github/workflows/deploy.yml
+name: Deploy to GitHub Pages
+
+on:
+  # main 브랜치에 push 될 때마다 이 스크립트를 실행합니다.
+  push:
+    branches: ["main"]
+
+# GITHUB_TOKEN의 권한 설정
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 동시 배포 방지
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      # 💡 빌드할 때 우리가 등록한 Secret(API 키)을 주입해 줍니다!
+      - name: Build
+        env:
+          VITE_API_KEY: ${{ secrets.VITE_API_KEY }}
+        run: npm run build
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: "./dist"
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
