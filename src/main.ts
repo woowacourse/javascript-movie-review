@@ -1,6 +1,5 @@
 import { getPopularMovies, getSearchMovies } from "./api.ts";
-import type { Movie } from "./api.ts";
-import Component from "./component.ts";
+import Renderer from "./render.ts";
 
 let nextPageNum = 0;
 let nextSearchPageNum = 0;
@@ -19,12 +18,12 @@ async function loadInitialMovie() {
         const banner = document.querySelector(".banner-container");
 
         if (banner) {
-          renderBanner(banner, movies[0]);
+          Renderer.renderBanner(banner, movies[0]);
           observeHeaderScroll();
         }
         if (ul) {
-          clearSkeleton(ul);
-          renderMovies(ul, movies);
+          Renderer.clearSkeleton(ul);
+          Renderer.renderMovies(ul, movies);
         }
         if (loadMoreButton)
           loadMoreButton.addEventListener("click", loadMoreMovies);
@@ -32,11 +31,12 @@ async function loadInitialMovie() {
       onLoading: () => {
         // 로딩 중일 때 ui 보여주기
         const ul = document.querySelector(".thumbnail-list");
-        if (ul) renderSkeleton(ul, requestMovieCount || 20);
+        if (ul) Renderer.renderSkeleton(ul, requestMovieCount || 20);
       },
       onError: (_) => {
         const main = document.querySelector("main");
-        if (main) renderError(main, "영화 정보를 불러오는 데 실패했습니다.");
+        if (main)
+          Renderer.renderError(main, "영화 정보를 불러오는 데 실패했습니다.");
       },
     });
   }
@@ -51,8 +51,8 @@ async function loadMoreMovies() {
       nextPageNum = page + 1;
       if (haveRestPage) showLoadMoreButton();
       if (ul) {
-        clearSkeleton(ul);
-        renderMovies(ul, movies);
+        Renderer.clearSkeleton(ul);
+        Renderer.renderMovies(ul, movies);
       }
     },
     onError: function (_): void {
@@ -60,7 +60,7 @@ async function loadMoreMovies() {
     },
     onLoading: function (): void {
       const ul = document.querySelector(".thumbnail-list");
-      if (ul) renderSkeleton(ul, requestMovieCount);
+      if (ul) Renderer.renderSkeleton(ul, requestMovieCount);
       hideLoadMoreButton();
     },
   });
@@ -74,17 +74,18 @@ async function loadMoreSearchMovies(query: string) {
       const ul = document.querySelector(".thumbnail-list");
       nextSearchPageNum = page + 1;
       if (ul) {
-        clearSkeleton(ul);
-        renderSearchMovies(movies);
+        Renderer.clearSkeleton(ul);
+        Renderer.renderSearchMovies(movies);
       }
     },
     onError: function (_): void {
       const main = document.querySelector("main");
-      if (main) renderError(main, "영화 정보를 불러오는 데 실패했습니다.");
+      if (main)
+        Renderer.renderError(main, "영화 정보를 불러오는 데 실패했습니다.");
     },
     onLoading: function (): void {
       const ul = document.querySelector(".thumbnail-list");
-      if (ul) renderSkeleton(ul, requestMovieCount);
+      if (ul) Renderer.renderSkeleton(ul, requestMovieCount);
     },
   });
 }
@@ -103,21 +104,22 @@ async function loadSearchMovies(query: string) {
         );
       }
       nextSearchPageNum = page + 1;
-      clearBanner();
-      clearMovies();
-      clearEmptyResult();
-      renderSearchSectionHeading(query);
+      Renderer.clearBanner();
+      Renderer.clearMovies();
+      Renderer.clearEmptyResult();
+      Renderer.renderSearchSectionHeading(query);
       if (haveRestPage) showLoadMoreButton();
-      if (movies.length === 0) renderEmptyResult();
-      else renderSearchMovies(movies);
+      if (movies.length === 0) Renderer.renderEmptyResult();
+      else Renderer.renderSearchMovies(movies);
     },
     onError: function (_): void {
       const main = document.querySelector("main");
-      if (main) renderError(main, "영화 정보를 불러오는 데 실패했습니다.");
+      if (main)
+        Renderer.renderError(main, "영화 정보를 불러오는 데 실패했습니다.");
     },
     onLoading: function (): void {
       const ul = document.querySelector(".thumbnail-list");
-      if (ul) renderSkeleton(ul, requestMovieCount);
+      if (ul) Renderer.renderSkeleton(ul, requestMovieCount);
       hideLoadMoreButton();
     },
   });
@@ -150,61 +152,6 @@ function observeHeaderScroll() {
   }
 }
 
-function renderSkeleton(ul: Element, length: number) {
-  ul.innerHTML += Array.from({ length: length })
-    .map(() => addSkeletonMovies())
-    .join("");
-}
-
-function addSkeletonMovies() {
-  return Component.movieSkeleton();
-}
-
-function clearSkeleton(parent: Element) {
-  parent.innerHTML = [...parent.children]
-    .filter((child) => {
-      if (
-        child instanceof HTMLElement &&
-        child.classList.contains("skeleton")
-      ) {
-        return false;
-      }
-      return true;
-    })
-    .map((child) => child.outerHTML)
-    .join("");
-}
-
-function renderSearchSectionHeading(title: string) {
-  const heading = document.querySelector("section > h2");
-  if (heading instanceof HTMLElement) {
-    heading.innerHTML = `"${title}"검색 결과`;
-    heading.style.marginTop = "12rem";
-  }
-}
-
-function renderSearchMovies(movies: Movie[]) {
-  const ul = document.querySelector(".thumbnail-list");
-  if (ul) {
-    renderMovies(ul, movies);
-  }
-}
-
-function clearMovies() {
-  const ul = document.querySelector(".thumbnail-list");
-  if (ul) ul.innerHTML = "";
-}
-
-function clearBanner() {
-  const banner = document.querySelector(".banner-container");
-  if (banner) banner.innerHTML = "";
-}
-
-function clearEmptyResult() {
-  const emptyResult = document.querySelector(".empty-result");
-  emptyResult?.remove();
-}
-
 function showLoadMoreButton() {
   const button = document.querySelector(".load-more-button");
   if (button instanceof HTMLElement) button.style.display = "block";
@@ -213,34 +160,4 @@ function showLoadMoreButton() {
 function hideLoadMoreButton() {
   const button = document.querySelector(".load-more-button");
   if (button instanceof HTMLElement) button.style.display = "none";
-}
-
-function renderMovies(ul: Element, movies: Movie[]) {
-  movies.forEach((movie) => addMovies(ul, movie));
-}
-
-function addMovies(parent: Element, movie: Movie) {
-  parent.innerHTML += Component.movie(movie);
-}
-
-function renderBanner(
-  parent: Element,
-  { title, vote_average, poster_path }: Movie,
-) {
-  parent.innerHTML = Component.movieBanner({
-    title,
-    vote_average,
-    poster_path,
-  });
-}
-
-function renderEmptyResult() {
-  const section = document.querySelector("section");
-  const node = document.createElement("div");
-  node.innerHTML = Component.emptyResult();
-  section?.appendChild(node);
-}
-
-function renderError(parent: Element, message: string) {
-  parent.innerHTML = Component.error(message);
 }
