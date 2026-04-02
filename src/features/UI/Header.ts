@@ -5,6 +5,16 @@ import { Movie } from "../../../types/types";
 import { BACKDROP_IMAGE_URL } from "../../constants/constant";
 
 export const Header = {
+  renderEmpty(): void {
+    const backgroundContainer = document.querySelector(
+      ".background-container",
+    ) as HTMLElement;
+
+    backgroundContainer.innerHTML = "";
+    backgroundContainer.style.background = "none";
+    backgroundContainer.style.height = "100px";
+  },
+
   render(movie: Movie): void {
     const backgroundContainer = document.querySelector(
       ".background-container",
@@ -20,7 +30,23 @@ export const Header = {
                 <button class="primary detail">자세히 보기</button>
                 </div>
             </div>
-            <div class="overlay" aria-hidden="true">
+            ${this.renderImage()}
+      `;
+
+    backgroundContainer.style.background = `url(${BACKDROP_IMAGE_URL}${movie.backdrop_path}) no-repeat center center / cover`;
+    backgroundContainer.style.removeProperty("height");
+  },
+
+  renderSearch(): void {
+    const backgroundContainer = document.querySelector(
+      ".background-container",
+    ) as HTMLElement;
+
+    backgroundContainer.innerHTML = /*html*/ `${this.renderImage()}`;
+  },
+
+  renderImage(): string {
+    return /*html*/ `<div class="overlay" aria-hidden="true">
                 <div class="search-container">
                 <h1 class="logo">
                     <img src="${logo}" alt="MovieList" />
@@ -40,9 +66,6 @@ export const Header = {
                      </button>
                  </form>
                 </div>
-            </div>
-      `;
-
-    backgroundContainer.style.background = `url(${BACKDROP_IMAGE_URL}${movie.backdrop_path}) no-repeat center center / cover`;
+            </div>`;
   },
 };
