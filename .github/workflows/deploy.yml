@@ -2,9 +2,9 @@
 name: Deploy to GitHub Pages
 
 on:
-  # main 브랜치에 push 될 때마다 이 스크립트를 실행합니다.
+  # step1 브랜치에 push 될 때마다 이 스크립트를 실행합니다.
   push:
-    branches: ["main"]
+    branches: ["step1"]
 
 # GITHUB_TOKEN의 권한 설정
 permissions:
