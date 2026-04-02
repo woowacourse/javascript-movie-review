@@ -1,6 +1,6 @@
 import { moviesFixture } from "../../test/fixtures";
 
-describe("template spec", () => {
+describe("영화 목록 조회 기능 테스트", () => {
   beforeEach(() => {
     cy.intercept("GET", "**/movie/popular?page=1", {
       statusCode: 200,

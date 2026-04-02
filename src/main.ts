@@ -1,6 +1,7 @@
 import { navigate, getSearchParams, hasSearchParams } from "./utils/router";
 
 import {
+  ApiError,
   getMoviePopular,
   getTopRatedMovie,
   getSearchMovie,
@@ -61,18 +62,36 @@ const handleSearch = () => {
   runSearch();
 };
 
+const errorTryCatch = async (api: Function, errorCallback: Function) => {
+  try {
+    return await api();
+  } catch (e) {
+    errorCallback(e);
+  }
+};
+
 addEventListener("load", async () => {
   (async () => {
     const topRatedMovies = await getTopRatedMovie();
+
     renderTopRatedMovie(topRatedMovies);
   })();
 
   (async () => {
     renderSkeleton();
-
     const page = pageState.getPage();
-    const movies = await getMoviePopular({ page });
-    renderMovieList(movies);
+    const movies = await errorTryCatch(
+      async () => await getMoviePopular({ page }),
+      async (e: ApiError) => {
+        if (e.status_code == 22) {
+          alert("페이지 제대로 넣어라");
+          return;
+        }
+        alert("범용 에러 메시지");
+      },
+    );
+
+    if (movies) renderMovieList(movies);
     removeSkeleton();
   })();
 
@@ -87,8 +106,19 @@ addEventListener("load", async () => {
     }
     (async () => {
       const page = pageState.getPage();
-      const movies = await getMoviePopular({ page });
-      renderMovieList(movies);
+
+      const movies = await errorTryCatch(
+        async () => await getMoviePopular({ page }),
+        async (e: ApiError) => {
+          if (e.status_code == 22) {
+            alert("페이지 제대로 넣어라");
+            return;
+          }
+          alert("범용 에러 메시지");
+        },
+      );
+
+      if (movies) renderMovieList(movies);
     })();
   });
 

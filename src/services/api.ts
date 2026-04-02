@@ -1,6 +1,16 @@
 import { apiUrl, apiKey } from "../constants/env";
 import { Movies } from "./dto";
 
+export class ApiError extends Error {
+  status_code: number;
+
+  constructor(message: string, status_code: number) {
+    super(message);
+    this.name = "ApiError";
+    this.status_code = status_code;
+  }
+}
+
 export const getMoviePopular = async ({
   page,
 }: {
@@ -14,11 +24,14 @@ export const getMoviePopular = async ({
     },
   });
 
-  return await res.json();
+  if (res.ok) return await res.json();
+
+  const errorBody = await res.json();
+  throw new ApiError(errorBody.status_message, errorBody.status_code);
 };
 
 export const getTopRatedMovie = async () => {
-  const url = `${apiUrl}/movie/top_rated`;
+  const url = `${apiUrl}/movie/top_rated?page=-1`;
   const res = await fetch(url, {
     method: "get",
     headers: {

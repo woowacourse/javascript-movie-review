@@ -1,6 +1,6 @@
 import { searchFixture } from "../../test/fixtures";
 
-describe("template spec", () => {
+describe("영화 검색 기능 테스트", () => {
   beforeEach(() => {
     cy.intercept(
       "GET",

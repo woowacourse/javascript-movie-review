@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from "vitest";
 
-import { getMoviePopular } from "../src/service/api";
+import { getMoviePopular } from "../src/services/api";
 import { moviesFixture } from "./fixtures";
 
 describe("api 함수 호출 테스트", () => {
