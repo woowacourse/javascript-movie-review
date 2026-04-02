@@ -120,6 +120,8 @@ button.primary {
 
 .logo {
   font-size: 2rem;
+  background-color: transparent;
+  padding: 0;
 }
 
 .movie-search {

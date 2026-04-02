@@ -15,12 +15,20 @@ import { renderThumbnailList } from "./dom/render/renderThumbnailList";
 // 아지: 같은 돔요소가 여러 곳에 있다!!!
 // -> 돔 요소가 변경될 때 두 곳을 모두 수정해야 한다 + 'search' | 'main'처럼 우리가 제어할 수 있는 타입을 선언하자
 
+const logo = document.getElementById("logo");
 const searchInput = document.getElementById(
   "search-input",
 ) as HTMLInputElement | null;
 const searchButton = document.getElementById("search-button");
 const mainSeeMoreButton = document.getElementById("main-see-more-button");
 const searchSeeMoreButton = document.getElementById("search-see-more-button");
+
+// TODO 파라미터로 검색어 관리하고 logo 클릭했을 때 검색어만 지우는 방식으로 수정 고민
+if (logo) {
+  logo.addEventListener("click", () => {
+    location.reload();
+  });
+}
 
 if (searchInput && searchButton) {
   searchButton.addEventListener("click", () =>
