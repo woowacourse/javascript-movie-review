@@ -82,7 +82,7 @@ async function loadSearchMovies(query: string) {
       const loadMoreButton = document.querySelector(".load-more-button");
       const haveRestPage = movies.length === ONCE_MOVIE_LIMIT;
       if (loadMoreButton) {
-        loadMoreButton?.removeEventListener("click", loadMoreMovies);
+        loadMoreButton.removeEventListener("click", loadMoreMovies);
         loadMoreButton.addEventListener("click", () =>
           loadMoreSearchMovies(query),
         );
