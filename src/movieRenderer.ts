@@ -10,7 +10,7 @@ const createMovieItem = (movie: Movie): HTMLLIElement => {
 
   li.insertAdjacentHTML(
     "beforeend",
-    `
+    /*html*/ `
     <li>
       <div class="item skeleton">
         <div class="skeleton-poster"></div>
@@ -78,7 +78,7 @@ export const renderBanner = async (fristMovieData: Movie) => {
       `url("${bannerBaseURL + mostPopularMovie.backdrop_path}")`;
   }
 
-  const mostPopularMovieBanner = `
+  const mostPopularMovieBanner = /*html*/ `
     <div class="rate">
       <img src="/images/star_empty.png" class="star" />
       <span class="rate-value">${mostPopularMovie.vote_average}</span>
@@ -91,14 +91,23 @@ export const renderBanner = async (fristMovieData: Movie) => {
 };
 
 export const replaceBanner = (header: HTMLElement, searchKeyword: string) => {
-  const searchBar = `
-  <div class="search-bar">
-    <input type="text" class="search-input" placeholder="검색어를 입력하세요" />
-    <button class="search-button">&#128269;</button>
+  const searchBar = /*html*/ `
+  <div class="background-container search-header">
+    <div class="overlay" aria-hidden="true"></div>
+    <div class="top-rated-container">
+      <div class="header-top">
+        <h1 class="logo">
+          <a href="/"><img src="/images/logo.png" alt="MovieList" /></a>
+        </h1>
+        <div class="search-bar">
+          <input type="text" class="search-input" placeholder="검색어를 입력하세요" />
+          <button class="search-button">
+            <img src="/images/search_icon.png" alt="검색" class="search-icon" />
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
-  <h1 class="logo">
-    <img src="/images/logo.png" alt="MovieList" />
-  </h1>
   `;
 
   header.insertAdjacentHTML("beforeend", searchBar);
@@ -119,7 +128,11 @@ export const renderSearchedMovies = async (
   if (list && movies.length === 0 && searchPageCount === 1) {
     list.insertAdjacentHTML(
       "beforeend",
-      `<div id="no-result">검색 결과가 없습니다.</div>`,
+      /*html*/ `
+      <div id="no-result">
+        <img src="/images/planet_icon.png" alt="검색 결과 없음" class="no-result-icon" />
+        <p class="no-result-text">검색 결과가 없습니다.</p>
+      </div>`,
     );
   }
 
