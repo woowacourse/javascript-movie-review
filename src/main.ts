@@ -1,4 +1,4 @@
-import "../templates/styles/index.css";
+// import "../templates/styles/index.css";
 
 import {
   addMovieList,
