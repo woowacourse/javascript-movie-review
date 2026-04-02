@@ -16,6 +16,13 @@ body {
   background-color: var(--color-bluegray-100);
 }
 
+body #app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
 #wrap,
 section {
   display: flex;
@@ -56,7 +63,7 @@ button.primary {
 }
 
 .container {
-  max-width: 1280px;
+  width: 1280px;
   margin: 0 auto;
 }
 
@@ -93,7 +100,7 @@ button.primary {
   user-select: none;
   position: relative;
   z-index: 2;
-  max-width: 1280px;
+  width: 1280px;
   margin: 0 auto;
 }
 
@@ -114,7 +121,7 @@ button.primary {
   display: flex;
   align-items: center;
   padding: 40px 0 24px 0;
-  max-width: 1280px;
+  width: 1280px;
   margin: 0 auto;
 }
 
@@ -225,6 +232,7 @@ footer.footer {
   justify-content: center;
   text-align: center;
   font-size: 1.1rem;
+  margin-top: auto;
 }
 
 footer.footer p:not(:last-child) {
