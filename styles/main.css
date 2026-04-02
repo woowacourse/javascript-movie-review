@@ -47,6 +47,61 @@ button.primary {
   display: none;
 }
 
+.pretty-search-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100%;
+  max-width: 600px;
+  height: 50px;
+  padding: 0 20px;
+
+  border-radius: 50px;
+  border: 2px solid white;
+
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+
+  box-sizing: border-box;
+}
+
+.search-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  outline: none;
+
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 0;
+}
+
+.search-icon-btn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 10px;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.empty-result {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 0;
+  text-align: center;
+  color: #888;
+}
+
+.empty-image {
+  width: 120px; 
+  margin-bottom: 20px;
+}
+
 #wrap {
   min-width: 1440px;
   background-color: var(--color-bluegray-100);
