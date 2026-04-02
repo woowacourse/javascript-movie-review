@@ -1,20 +1,21 @@
-import { navigate, getSearchParams, hasSearchParams } from "./router";
+import { navigate, getSearchParams, hasSearchParams } from "./utils/router";
 
 import {
   getMoviePopular,
   getTopRatedMovie,
   getSearchMovie,
-} from "./service/api";
+} from "./services/api";
 
 import {
   renderTopRatedMovie,
+  removeTopRatedMovie,
+} from "./renders/topRatedMovie";
+import {
   renderMovieList,
   renderNoResult,
-  renderSkeleton,
-  removeTopRatedMovie,
   removeMovieList,
-  removeSkeleton,
-} from "./render";
+} from "./renders/movieList";
+import { renderSkeleton, removeSkeleton } from "./renders/skeleton";
 
 const condition = {
   page: 1,
