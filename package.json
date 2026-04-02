@@ -19,13 +19,14 @@
   "bugs": {
     "url": "https://github.com/woowacourse-projects/javascript-movie-review/issues"
   },
-  "homepage": "https://{username}.github.io/javascript-movie-review",
+  "homepage": "https://kojesung.github.io/javascript-movie-review",
   "devDependencies": {
     "@babel/core": "^7.29.0",
     "@babel/preset-env": "^7.29.0",
     "@babel/preset-typescript": "^7.28.5",
     "cypress": "^15.11.0",
     "eslint": "^10.0.2",
+    "gh-pages": "^6.3.0",
     "jsdom": "^29.0.1",
     "prettier": "^3.8.1",
     "typescript": "~5.9.3",
