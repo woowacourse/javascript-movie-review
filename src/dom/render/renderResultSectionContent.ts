@@ -4,6 +4,7 @@ interface RenderResultSectionContentProps {
   isLoading: boolean;
   isError: boolean;
   isLastPage?: boolean;
+  errorMessage?: string;
   type?: "search" | "main";
   movies: Movie[];
 }
@@ -14,12 +15,17 @@ interface RenderResultSectionContentProps {
 export const renderResultSectionContent = ({
   isLoading,
   isError,
+  errorMessage,
   isLastPage = true,
   movies,
 }: RenderResultSectionContentProps) => {
   const skeletonList = document.getElementById("skeleton-list");
   const errorContainer = document.getElementById("error-container");
   const emptyContainer = document.getElementById("empty-container");
+
+  const errorMessageContent = document.querySelector(
+    "#error-container p",
+  ) as HTMLParagraphElement;
 
   const mainThumbnailList = document.getElementById("main-thumbnail-list");
   const mainSeeMoreButton = document.getElementById("main-see-more-button");
@@ -44,8 +50,9 @@ export const renderResultSectionContent = ({
     return;
   }
 
-  if (isError) {
+  if (isError && errorMessage) {
     errorContainer?.classList.remove("hidden");
+    errorMessageContent.innerText = errorMessage;
     return;
   }
 

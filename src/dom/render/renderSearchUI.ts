@@ -1,5 +1,6 @@
 import { Movie } from "../../apis/movie/api";
 import { getSearchedMovies } from "../../apis/search/api";
+import TMDBError from "../../TMDBError";
 import { renderResultSectionContent } from "./renderResultSectionContent";
 import { renderThumbnailList } from "./renderThumbnailList";
 
@@ -16,6 +17,7 @@ export const renderSearchUI = async (keyword: string) => {
   let isError = false;
   let isLastPage = true;
   let movies: Movie[] = [];
+  let errorMessage = "";
 
   if (!banner || !subTitle || searchInput?.value.trim() === "") return;
 
@@ -35,10 +37,15 @@ export const renderSearchUI = async (keyword: string) => {
     renderThumbnailList({ movies, thumbnailListElement });
   } catch (error) {
     isError = true;
+    errorMessage = "🚨알 수 없는 에러가 발생했습니다.🚨";
+    if (error instanceof TMDBError) {
+      errorMessage = "🚨TMDB에서 데이터를 불러오는 중 에러가 발생했습니다🚨";
+    }
   } finally {
     renderResultSectionContent({
       isLoading: false,
       isError,
+      errorMessage,
       movies,
       type: "search",
       isLastPage,
