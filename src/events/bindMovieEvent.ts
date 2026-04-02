@@ -33,13 +33,9 @@ const displayMovieBySearch = async (
     state.pageNum = 1;
     movieDisplay.replaceChildren();
     addMovieSkeletonUIList(movieDisplay);
-    const delay = (ms: number) =>
-      new Promise((resolve) => setTimeout(resolve, ms));
 
-    [movieList] = await Promise.all([
-      fetchDefaultMovieList(state.pageNum),
-      delay(2000),
-    ]);
+    movieList = await fetchDefaultMovieList(state.pageNum);
+
     removeMovieSkeletonUIList(movieDisplay);
 
     description.textContent = "지금 인기 있는 영화";
@@ -47,15 +43,8 @@ const displayMovieBySearch = async (
     movieDisplay.replaceChildren();
     addMovieSkeletonUIList(movieDisplay);
 
-    const delay = (ms: number) =>
-      new Promise((resolve) => setTimeout(resolve, ms));
+    movieList = await fetchSearchMovieList(state.pageNum, state.searchBarText);
 
-    [movieList] = await Promise.all([
-      fetchSearchMovieList(state.pageNum, state.searchBarText),
-      delay(2000),
-    ]);
-
-    // movieList = await fetchSearchMovieList(searchBarText);
     removeMovieSkeletonUIList(movieDisplay);
 
     description.textContent = `'${state.searchBarText}' 검색 결과`;
@@ -104,15 +93,15 @@ export const bindMoreMovieEvents = (state: State) => {
 
     addMovieSkeletonUIList(movieDisplay);
 
-    const delay = (ms: number) =>
-      new Promise((resolve) => setTimeout(resolve, ms));
-
-    const [movieList] = await Promise.all([
-      state.searchBarText === ""
-        ? fetchDefaultMovieList(state.pageNum)
-        : fetchSearchMovieList(state.pageNum, state.searchBarText),
-      delay(2000),
-    ]);
+    let movieList;
+    if (state.searchBarText === "") {
+      movieList = await fetchDefaultMovieList(state.pageNum);
+    } else {
+      movieList = await fetchSearchMovieList(
+        state.pageNum,
+        state.searchBarText,
+      );
+    }
 
     // 영화 20개
     removeMovieSkeletonUIList(movieDisplay);

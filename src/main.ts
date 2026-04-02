@@ -23,17 +23,12 @@ addEventListener("load", async () => {
     pageNum: 1,
     searchBarText: "",
   };
+
   const movieDisplay = getUListElement(".thumbnail-list");
 
   addMovieSkeletonUIList(movieDisplay, 20);
 
-  const delay = (ms: number) =>
-    new Promise((resolve) => setTimeout(resolve, ms));
-
-  const [movieList] = await Promise.all([
-    fetchDefaultMovieList(state.pageNum),
-    delay(2000),
-  ]);
+  const movieList = await fetchDefaultMovieList(state.pageNum);
 
   removeMovieSkeletonUIList(movieDisplay);
 
