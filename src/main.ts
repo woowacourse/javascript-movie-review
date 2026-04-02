@@ -49,7 +49,7 @@ async function loadMoreMovies() {
       const ul = document.querySelector(".thumbnail-list");
       const haveRestPage = movies.length === 20;
       nextPageNum = page + 1;
-      if (haveRestPage) showLoadMoreButton();
+      if (haveRestPage) Renderer.showLoadMoreButton();
       if (ul) {
         Renderer.clearSkeleton(ul);
         Renderer.renderMovies(ul, movies);
@@ -61,7 +61,7 @@ async function loadMoreMovies() {
     onLoading: function (): void {
       const ul = document.querySelector(".thumbnail-list");
       if (ul) Renderer.renderSkeleton(ul, requestMovieCount);
-      hideLoadMoreButton();
+      Renderer.hideLoadMoreButton();
     },
   });
 }
@@ -108,7 +108,7 @@ async function loadSearchMovies(query: string) {
       Renderer.clearMovies();
       Renderer.clearEmptyResult();
       Renderer.renderSearchSectionHeading(query);
-      if (haveRestPage) showLoadMoreButton();
+      if (haveRestPage) Renderer.showLoadMoreButton();
       if (movies.length === 0) Renderer.renderEmptyResult();
       else Renderer.renderSearchMovies(movies);
     },
@@ -120,7 +120,7 @@ async function loadSearchMovies(query: string) {
     onLoading: function (): void {
       const ul = document.querySelector(".thumbnail-list");
       if (ul) Renderer.renderSkeleton(ul, requestMovieCount);
-      hideLoadMoreButton();
+      Renderer.hideLoadMoreButton();
     },
   });
 }
@@ -150,14 +150,4 @@ function observeHeaderScroll() {
     );
     observer.observe(topRatedMovie);
   }
-}
-
-function showLoadMoreButton() {
-  const button = document.querySelector(".load-more-button");
-  if (button instanceof HTMLElement) button.style.display = "block";
-}
-
-function hideLoadMoreButton() {
-  const button = document.querySelector(".load-more-button");
-  if (button instanceof HTMLElement) button.style.display = "none";
 }
