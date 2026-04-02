@@ -263,3 +263,12 @@ footer p:not(:last-child) {
     background-color: rgba(165, 165, 165, 0.1);
   }
 }
+
+div[class="title"] {
+  font-size: 4rem;
+}
+
+strong[class="title"] {
+  font-size: 1.2rem;
+  font-weight: 500;
+}
