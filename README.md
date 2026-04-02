@@ -57,6 +57,8 @@
 ### 검색
 
 - [x] 검색 버튼 클릭 or 엔터 입력 시 검색 api 호출
+- [ ] 검색 버튼 클릭 시 keyword 파라미터 추가
+  - [ ] 이전 검색 기록 남아있는 버그 수정
 
 ### 로고
 
@@ -71,3 +73,24 @@
 - [ ] 돔 요소 삭제 시 eventHandler 제거
 - [ ] 빈 keyword 검색 시 기본 UI로 변경
 - [ ] parameter로 관리하는 page가 1일 때도 보여지게 하는게 맞을까? 안 보이게 할까?
+- [ ] E2E 테스트
+
+## E2E 테스트 목록
+
+- [ ] 처음 앱에 도달했을 때 메인 구성 요소가 렌더링 되는지(= not hidden) 테스트
+  - given
+  - when: 페이지 진입
+  - then
+    - main-thumbnail-list
+    - banner
+    - logo
+    - search input
+- [ ] 더 보기 기능(main/search 각각)
+  - given: 더보기 버튼
+  - when: 클릭
+  - then: page parameter + 1 -> 영화 목록 추가
+- [ ] 검색 기능
+  - 엔터 입력 시 search-thumbnail-list 렌더링되는지
+  - 버튼 클릭 시 search-thumbnail-list 렌더링되는지
+  - keyword parameter 추가되는지
+  - subtitle이 `"${검색어} 검색 결과"`로 바뀌는지
