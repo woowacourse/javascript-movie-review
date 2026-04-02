@@ -17,7 +17,7 @@ const init = () => {
     currentPage = 1;
     // input form이 submit 되면 그때 renderFetchSearchMovieItem을 실행한다.
     if ($thumbnailList) {
-      const totalPage = renderFetchMovieItem($thumbnailList, currentPage, query);
+      renderFetchMovieItem($thumbnailList, currentPage, query);
     }
 
     const $button = document.querySelector('#more-page-button');

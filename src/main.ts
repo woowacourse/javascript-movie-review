@@ -14,7 +14,7 @@ function init() {
 
   // 영화 인기순 20개 렌더링
   if ($thumbnailList) {
-    const totalPage = renderFetchMovieItem($thumbnailList, currentPage);
+    renderFetchMovieItem($thumbnailList, currentPage);
   }
   
   const $button = document.querySelector('#more-page-button');

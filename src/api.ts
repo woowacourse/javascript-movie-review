@@ -37,9 +37,10 @@ const fetchAPI = async (req: Request): Promise<PreviewData> => {
 
   const { query, page } = req.params;
   const queryStr = query ? 'query=' + query : '';
-  const pageStr = '&' + 'page=' + page;
+  const pageStr = '&page=' + page;
   const regionStr = '&region=' + 'ko-kR';
   const languageStr = '&language=' + 'ko';
+
 
   const resultUrl = url + '?' + queryStr + pageStr + regionStr + languageStr;
 
