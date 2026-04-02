@@ -71,7 +71,7 @@ export const showBackgroundMovieInfo = (movie: Movie) => {
             <div class="top-rated-movie">
               <div class="rate">
                 <img src="../../templates/images/star_empty.png" class="star" />
-                <span class="rate-value">${movie.vote_average}</span>
+                <span class="rate-value">${movie.vote_average.toFixed(1)}</span>
               </div>
               <div class="title">${movie.title}</div>
             </div> 

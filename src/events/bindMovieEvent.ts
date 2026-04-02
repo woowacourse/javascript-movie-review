@@ -137,6 +137,6 @@ export const bindClickPosterEvent = (state: State) => {
     const backgroundMovie = movieList.filter(
       (movie: Movie) => movie.title === titleElement?.textContent,
     )[0];
-    await showBackgroundMovieInfo(backgroundMovie);
+    showBackgroundMovieInfo(backgroundMovie);
   });
 };
