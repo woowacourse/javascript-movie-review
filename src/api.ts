@@ -10,8 +10,10 @@ const options = {
 export interface resultData {
   title: string;
   poster_path: string;
+  backdrop_path: string;
   vote_average: number;
 }
+
 
 export interface PreviewData {
   page: number;
