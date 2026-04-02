@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { renderFetchMovieItem } from '../src/api.ts';
+import { renderFetchMovieItem } from '../src/render.ts';
 import MOCK_DATA from './mock/page_1.json';
 
 vi.stubGlobal('fetch', vi.fn());
@@ -13,7 +13,8 @@ describe('영화목록을 불러와서 렌더링하기', () => {
     } as Response);
 
     const $target = document.body;
-    await renderFetchMovieItem($target);
+    const page = 1;
+    await renderFetchMovieItem($target, page);
 
     const $listItems = $target.querySelectorAll('li');
     expect($listItems.length).toBe(20);
