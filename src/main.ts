@@ -1,10 +1,9 @@
 import { getPopularMovies, getSearchMovies } from "./api.ts";
 import Renderer from "./render.ts";
 import { observeHeaderScroll } from "./observer.ts";
+import State from "./state.ts";
 
-let nextPageNum = 0;
-let nextSearchPageNum = 0;
-let requestMovieCount = 0;
+const ONCE_MOVIE_LIMIT = 20;
 
 async function loadInitialMovie() {
   const app = document.querySelector("#app");
@@ -12,8 +11,8 @@ async function loadInitialMovie() {
     await getPopularMovies({
       pageNum: 1,
       onSuccess: ({ page, results: movies }) => {
-        nextPageNum = page + 1;
-        requestMovieCount = movies.length;
+        State.setNextPageNum(page + 1);
+        State.setRequestMovieCount(movies.length);
         const ul = document.querySelector(".thumbnail-list");
         const loadMoreButton = document.querySelector(".load-more-button");
         const banner = document.querySelector(".banner-container");
@@ -33,7 +32,11 @@ async function loadInitialMovie() {
       },
       onLoading: () => {
         const ul = document.querySelector(".thumbnail-list");
-        if (ul) Renderer.renderSkeleton(ul, requestMovieCount || 20);
+        if (ul)
+          Renderer.renderSkeleton(
+            ul,
+            State.getRequestMovieCount() || ONCE_MOVIE_LIMIT,
+          );
       },
       onError: (_) => {
         const main = document.querySelector("main");
@@ -46,11 +49,11 @@ async function loadInitialMovie() {
 
 async function loadMoreMovies() {
   await getPopularMovies({
-    pageNum: nextPageNum,
+    pageNum: State.getNextPageNum(),
     onSuccess: ({ page, results: movies }) => {
       const ul = document.querySelector(".thumbnail-list");
-      const haveRestPage = movies.length === 20;
-      nextPageNum = page + 1;
+      const haveRestPage = movies.length === ONCE_MOVIE_LIMIT;
+      State.setNextPageNum(page + 1);
       if (haveRestPage) Renderer.showLoadMoreButton();
       if (ul) {
         Renderer.clearSkeleton(ul);
@@ -65,7 +68,7 @@ async function loadMoreMovies() {
     },
     onLoading: function (): void {
       const ul = document.querySelector(".thumbnail-list");
-      if (ul) Renderer.renderSkeleton(ul, requestMovieCount);
+      if (ul) Renderer.renderSkeleton(ul, State.getRequestMovieCount());
       Renderer.hideLoadMoreButton();
     },
   });
@@ -77,14 +80,14 @@ async function loadSearchMovies(query: string) {
     pageNum: 1,
     onSuccess: ({ page, results: movies }) => {
       const loadMoreButton = document.querySelector(".load-more-button");
-      const haveRestPage = movies.length === 20;
+      const haveRestPage = movies.length === ONCE_MOVIE_LIMIT;
       if (loadMoreButton) {
         loadMoreButton?.removeEventListener("click", loadMoreMovies);
         loadMoreButton.addEventListener("click", () =>
           loadMoreSearchMovies(query),
         );
       }
-      nextSearchPageNum = page + 1;
+      State.setNextSearchPageNum(page + 1);
       Renderer.clearBanner();
       Renderer.clearMovies();
       Renderer.clearEmptyResult();
@@ -100,7 +103,7 @@ async function loadSearchMovies(query: string) {
     },
     onLoading: function (): void {
       const ul = document.querySelector(".thumbnail-list");
-      if (ul) Renderer.renderSkeleton(ul, requestMovieCount);
+      if (ul) Renderer.renderSkeleton(ul, State.getRequestMovieCount());
       Renderer.hideLoadMoreButton();
     },
   });
@@ -109,10 +112,10 @@ async function loadSearchMovies(query: string) {
 async function loadMoreSearchMovies(query: string) {
   await getSearchMovies({
     query,
-    pageNum: nextSearchPageNum,
+    pageNum: State.getNextSearchPageNum(),
     onSuccess: ({ page, results: movies }) => {
       const ul = document.querySelector(".thumbnail-list");
-      nextSearchPageNum = page + 1;
+      State.setNextSearchPageNum(page + 1);
       if (ul) {
         Renderer.clearSkeleton(ul);
         Renderer.renderSearchMovies(movies);
@@ -125,7 +128,7 @@ async function loadMoreSearchMovies(query: string) {
     },
     onLoading: function (): void {
       const ul = document.querySelector(".thumbnail-list");
-      if (ul) Renderer.renderSkeleton(ul, requestMovieCount);
+      if (ul) Renderer.renderSkeleton(ul, State.getRequestMovieCount());
     },
   });
 }
