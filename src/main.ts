@@ -17,7 +17,7 @@ const searchSeeMoreButton = document.getElementById("search-see-more-button");
 
 if (logo) {
   logo.addEventListener("click", () => {
-    window.location.href = "/";
+    window.location.href = import.meta.env.BASE_URL;
   });
 }
 
