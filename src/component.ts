@@ -3,12 +3,15 @@ import type { Movie } from "./api";
 const Component = {
   movie(movieData: Pick<Movie, "poster_path" | "title" | "vote_average">) {
     const { poster_path, title, vote_average } = movieData;
+    const src = poster_path
+      ? `https://image.tmdb.org/t/p/original/${poster_path}`
+      : "src/images/no_image_planet.png";
     return `
     <li>
       <div class="item">
       <img
       class="thumbnail"
-      src="https://image.tmdb.org/t/p/original/${poster_path}"
+      src="${src}"
       alt="${title}"
       />
         <div class="item-desc">
