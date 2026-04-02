@@ -4,7 +4,7 @@ export function emptyListRender() {
 
   const emptyList = /*html*/ `
         <li class="thumbnail-empty">
-            <img src="/images/empty_icon.png" alt="empty list" class="empty-icon" />
+            <img src="./src/images/empty_icon.png" alt="empty list" class="empty-icon" />
             <p class="empty-message">검색 결과가 없습니다.</p>
         </li>
     `;
