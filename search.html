@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>영화 리뷰</title>
+  <link rel="stylesheet" href="./styles/reset.css" />
+  <link rel="stylesheet" href="./styles/main.css" />
+  <link rel="stylesheet" href="./styles/tab.css" />
+  <link rel="stylesheet" href="./styles/thumbnail.css" />
+</head>
+
+<body>
+  <div id="app"></div>
+
+  <main>
+    <header>
+      <form action="./search.html" method="GET">
+        <input type="text" name="q" placeholder="검색어를 입력하세요" required>
+        <button type="submit">검색</button>
+      </form>
+    </header>
+
+    <section class="thumbnail-section">
+      <ul class="thumbnail-list">
+      </ul>
+      <button type="submit" id="more-page-button" class="primary hidden">더 보기</button>
+    </section>
+  </main>
+
+  <div id="resultTitle"></div>
+  <script type="module" src="./src/search.ts"></script>
+
+</body>
+
+</html>
