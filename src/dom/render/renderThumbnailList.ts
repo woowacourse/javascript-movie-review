@@ -1,17 +1,17 @@
-import { Movie } from "../../apis/movie/api";
+import {Movie} from '../../apis/movie/api';
 
 interface RenderThumbnailListProps {
-  movies: Movie[];
-  thumbnailListElement: HTMLElement | null;
+	movies: Movie[];
+	thumbnailListElement: HTMLElement | null;
 }
 
 export const renderThumbnailList = ({
-  movies,
-  thumbnailListElement,
+	movies,
+	thumbnailListElement,
 }: RenderThumbnailListProps) => {
-  if (thumbnailListElement) {
-    const lis = movies.map(
-      (movie) => `<li id="movie-${movie.id}">
+	if (thumbnailListElement) {
+		const lis = movies.map(
+			(movie) => `<li id="movie-${movie.id}">
                     <div class="item">
                       <img
                         class="thumbnail"
@@ -20,7 +20,7 @@ export const renderThumbnailList = ({
                       />
                       <div class="item-desc">
                         <p class="rate">
-                          <img src="./images/star_empty.png" class="star" /><span
+                          <img src="./images/star_empty.png" alt="" class="star" /><span
                             >${movie.vote_average}</span
                           >
                         </p>
@@ -28,7 +28,7 @@ export const renderThumbnailList = ({
                       </div>
                     </div>
                   </li>`,
-    );
-    thumbnailListElement.insertAdjacentHTML("beforeend", lis.join(""));
-  }
+		);
+		thumbnailListElement.insertAdjacentHTML('beforeend', lis.join(''));
+	}
 };
