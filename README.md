@@ -39,7 +39,7 @@ FE 레벨1 영화 리뷰 미션
 - [x] API에 사용되는 도메인 상수화
 - [x] main에 존재하는 Render 관련 로직 분리
 - [x] 첫 렌더링 시 헤딩요소가 헤더와 겹치는 문제
-- [ ] loadMoreMovies에 사용되는 onError가 하드코딩
+- [x] loadMoreMovies에 사용되는 onError가 하드코딩
 - [ ] 상태 로직 분리(page...)
 
 ### E2E 테스트 목록

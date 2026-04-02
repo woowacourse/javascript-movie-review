@@ -75,6 +75,22 @@ describe("영화 리뷰 앱", () => {
 
       cy.get(".thumbnail-list li").should("have.length", 40);
     });
+
+    it("더 보기 API 실패 시 에러 메시지가 렌더링된다", () => {
+      cy.wait("@getPopularMovies");
+
+      cy.intercept("GET", "**/movie/popular*", { statusCode: 500 }).as(
+        "getMoreMoviesError",
+      );
+
+      cy.get(".load-more-button").click();
+      cy.wait("@getMoreMoviesError");
+
+      cy.get(".notice-text").should(
+        "contain.text",
+        "영화 정보를 불러오는 데 실패했습니다.",
+      );
+    });
   });
 
   describe("검색", () => {

@@ -58,7 +58,10 @@ async function loadMoreMovies() {
       }
     },
     onError: function (_): void {
-      throw new Error("Function not implemented.");
+      const section = document.querySelector("section");
+      if (section)
+        Renderer.renderError(section, "영화 정보를 불러오는 데 실패했습니다.");
+      Renderer.clearBanner();
     },
     onLoading: function (): void {
       const ul = document.querySelector(".thumbnail-list");
