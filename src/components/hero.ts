@@ -1,15 +1,19 @@
 import { createDetailButton } from "./detail-button";
+import starIconSrc from "../../templates/images/star_empty.png";
 
 interface HeroOptions {
   backgroundImageUrl: string;
-  starIconSrc: string;
   rating: number;
   title: string;
   onDetailClick: () => void;
-  headerContent: HTMLElement;
 }
 
-export function createHero({ backgroundImageUrl, starIconSrc, rating, title, onDetailClick, headerContent }: HeroOptions): HTMLElement {
+export function createHero({
+  backgroundImageUrl,
+  rating,
+  title,
+  onDetailClick,
+}: HeroOptions): HTMLElement {
   const section = document.createElement("section");
   section.className = "hero";
 
@@ -48,7 +52,7 @@ export function createHero({ backgroundImageUrl, starIconSrc, rating, title, onD
 
   topRatedMovie.append(rateDiv, titleDiv, detailButton);
   topRatedContainer.appendChild(topRatedMovie);
-  backgroundContainer.append(overlay, headerContent, topRatedContainer);
+  backgroundContainer.append(overlay, topRatedContainer);
   section.appendChild(backgroundContainer);
 
   return section;

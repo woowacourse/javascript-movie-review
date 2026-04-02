@@ -9,10 +9,9 @@ interface Movie {
 interface MovieListOptions {
   sectionTitle: string;
   movies: Movie[];
-  starIconSrc: string;
 }
 
-export function createMovieList({ sectionTitle, movies, starIconSrc }: MovieListOptions): HTMLElement {
+export function createMovieList({ sectionTitle, movies }: MovieListOptions): HTMLElement {
   const section = document.createElement("section");
 
   const h2 = document.createElement("h2");
@@ -22,7 +21,7 @@ export function createMovieList({ sectionTitle, movies, starIconSrc }: MovieList
   ul.className = "thumbnail-list";
 
   movies.forEach((movie) => {
-    const card = createMovieCard({ ...movie, starIconSrc });
+    const card = createMovieCard({ ...movie });
     ul.appendChild(card);
   });
 

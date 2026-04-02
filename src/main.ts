@@ -1,5 +1,4 @@
 import logoSrc from "../templates/images/logo.png";
-import starIconSrc from "../templates/images/star_empty.png";
 import woowacourseLogoSrc from "../templates/images/woowacourse_logo.png";
 
 import { createLogo } from "./components/logo";
@@ -30,20 +29,17 @@ addEventListener("load", () => {
   const hero = createHero({
     backgroundImageUrl:
       "https://image.tmdb.org/t/p/w1920_and_h800_multi_faces/stKGOm8UyhuLPR9sZLjs5AkmncA.jpg",
-    starIconSrc,
     rating: 9.5,
     title: "인사이드 아웃2",
     onDetailClick: () => {
       console.log("자세히 보기 클릭");
     },
-    headerContent: header,
   });
 
   const main = document.createElement("main");
   const movieList = createMovieList({
     sectionTitle: "지금 인기 있는 영화",
     movies: dummyMovies,
-    starIconSrc,
   });
   const moreButton = createMoreButton(() => {
     console.log("더 보기 클릭");
@@ -52,5 +48,5 @@ addEventListener("load", () => {
 
   const footer = createFooter(woowacourseLogoSrc);
 
-  app.append(hero, main, footer);
+  app.append(header, hero, main, footer);
 });
