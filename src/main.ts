@@ -1,6 +1,9 @@
 import { getPopularMovies, Movie } from "./apis/movie/api";
 import { handleMovieSearch } from "./dom/eventHandler/handleMovieSearch";
-import { handleMainSeeMore } from "./dom/eventHandler/handleSeeMore";
+import {
+  handleMainSeeMore,
+  handleSearchSeeMore,
+} from "./dom/eventHandler/handleSeeMore";
 import { renderBanner } from "./dom/render/renderBanner";
 import { renderResultSectionContent } from "./dom/render/renderResultSectionContent";
 import { renderThumbnailList } from "./dom/render/renderThumbnailList";
@@ -35,9 +38,9 @@ if (mainSeeMoreButton) {
   });
 }
 
-if (searchSeeMoreButton) {
+if (searchSeeMoreButton && searchInput) {
   searchSeeMoreButton.addEventListener("click", () => {
-    handleMainSeeMore();
+    handleSearchSeeMore(searchInput.value); // TODO Search 핸들러로 변경
   });
 }
 
