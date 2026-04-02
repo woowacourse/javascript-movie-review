@@ -39,6 +39,12 @@ describe("영화 리뷰 앱", () => {
       cy.get(".banner-container .title").should("have.text", "어벤져스 1");
     });
 
+    it("첫 렌더링시 섹션 헤더가 렌더링된다", () => {
+      cy.wait("@getPopularMovies");
+      cy.get("section > h2").should("be.visible");
+      cy.get("section > h2").should("have.text", "지금 인기 있는 영화");
+    });
+
     it("초기 영화 데이터가 20개가 렌더링된다", () => {
       cy.wait("@getPopularMovies");
       cy.get(".thumbnail-list li").should("have.length", 20);

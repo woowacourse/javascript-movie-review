@@ -28,6 +28,8 @@ async function loadInitialMovie() {
         }
         if (loadMoreButton)
           loadMoreButton.addEventListener("click", loadMoreMovies);
+
+        Renderer.renderSectionHeading();
       },
       onLoading: () => {
         const ul = document.querySelector(".thumbnail-list");

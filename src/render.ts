@@ -2,6 +2,13 @@ import type { Movie } from "./api.ts";
 import Component from "./component.ts";
 
 const Renderer = {
+  renderSectionHeading() {
+    const heading = document.querySelector("section > h2");
+    if (heading instanceof HTMLElement) {
+      heading.innerHTML = `지금 인기 있는 영화`;
+    }
+  },
+
   renderSearchSectionHeading(title: string) {
     const heading = document.querySelector("section > h2");
     if (heading instanceof HTMLElement) {
