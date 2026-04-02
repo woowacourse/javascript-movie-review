@@ -20,10 +20,21 @@ section {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  width: 100%;
+  max-width: 1280px;
+}
+
+h2 {
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin-bottom: 32px;
 }
 
 main {
   margin: 64px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .star {
@@ -48,22 +59,19 @@ button.primary {
 }
 
 .pretty-search-bar {
-  display: flex;
+display: flex;
   align-items: center;
   justify-content: space-between;
 
-  width: 100%;
-  max-width: 600px;
-  height: 50px;
-  padding: 0 20px;
+  width: 480px; 
+  flex-shrink: 0;
 
-  border-radius: 50px;
-  border: 2px solid white;
+  height: 48px;
+  padding: 0 16px;
 
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-
-  box-sizing: border-box;
+  border-radius: 40px;
+  border: 1px solid var(--color-bluegray-30);
+  background: var(--color-bluegray-90);
 }
 
 .search-input {
@@ -88,13 +96,15 @@ button.primary {
 }
 
 .empty-result {
+  grid-column: 1 / -1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 60px 0;
-  text-align: center;
-  color: #888;
+  height: 400px;
+  color: var(--color-white);
+  font-size: 1.2rem;
+  font-weight: bold;
 }
 
 .empty-image {
@@ -128,6 +138,7 @@ button.primary {
 
 .skeleton {
   background-color: var(--color-bluegray-30);
+  border-radius: 8px;
 }
 
 .overlay {
@@ -146,6 +157,10 @@ button.primary {
   z-index: 2;
   max-width: 1280px;
   margin: 0 auto;
+}
+
+h1.logo {
+  font-size: 2rem;
 }
 
 .top-rated-movie {
