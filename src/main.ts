@@ -119,9 +119,9 @@ async function loadMoreSearchMovies(query: string) {
       }
     },
     onError: function (_): void {
-      const main = document.querySelector("main");
-      if (main)
-        Renderer.renderError(main, "영화 정보를 불러오는 데 실패했습니다.");
+      const section = document.querySelector("section");
+      if (section)
+        Renderer.renderError(section, "영화 정보를 불러오는 데 실패했습니다.");
     },
     onLoading: function (): void {
       const ul = document.querySelector(".thumbnail-list");
