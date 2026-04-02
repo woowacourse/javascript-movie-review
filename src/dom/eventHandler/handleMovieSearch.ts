@@ -1,8 +1,14 @@
 import { renderSearchUI } from "../render/renderSearchUI";
 
 export const handleMovieSearch = async (keyword: string) => {
-  if (keyword.trim() === "" && window.location.pathname !== "/") {
-    window.location.href = "/";
+  if (keyword.trim() === "") {
+    const hasKeyword = new URLSearchParams(window.location.search).has(
+      "keyword",
+    );
+    if (hasKeyword) {
+      window.location.href = "/";
+    }
+    return;
   }
 
   const searchInput = document.getElementById(
