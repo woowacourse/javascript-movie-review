@@ -30,7 +30,6 @@ async function loadInitialMovie() {
           loadMoreButton.addEventListener("click", loadMoreMovies);
       },
       onLoading: () => {
-        // 로딩 중일 때 ui 보여주기
         const ul = document.querySelector(".thumbnail-list");
         if (ul) Renderer.renderSkeleton(ul, requestMovieCount || 20);
       },
