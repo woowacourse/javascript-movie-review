@@ -69,18 +69,18 @@ const render = async () => {
   }
 };
 
-export const renderInitialUI = () => {
+const renderInitialUI = () => {
   renderResultSectionContent({
     isLoading: true,
     isError: false,
-    isLastPage: false,
+    isLastPage: true,
     movies: [],
   });
 };
 
 export const renderMainUI = async () => {
   let isError = false;
-  let isLastPage = false;
+  let isLastPage = true;
   let movies: Movie[] = [];
 
   try {
@@ -112,27 +112,36 @@ export const renderSearchUI = async (keyword: string) => {
   const thumbnailListElement = document.getElementById("search-thumbnail-list");
   searchInput.value = keyword;
 
+  let isError = false;
+  let isLastPage = true;
+  let movies: Movie[] = [];
+
   if (!banner || !subTitle || searchInput?.value.trim() === "") return;
 
-  const searchResult = await getSearchedMovies({
-    query: keyword,
-    language: "ko-KR",
-    page: 1,
-  });
-  if (searchResult) {
+  try {
+    const searchResult = await getSearchedMovies({
+      query: keyword,
+      language: "ko-KR",
+      page: 1,
+    });
+
     banner.hidden = true;
     resultSection?.classList.add("result-section");
     subTitle.innerText = `"${keyword}" 검색 결과`;
-    const isLastPage = searchResult.page === searchResult.total_pages;
-    const movies = searchResult.results;
+
+    isLastPage = searchResult.page === searchResult.total_pages;
+    movies = searchResult.results;
+    renderThumbnailList({ movies, thumbnailListElement });
+  } catch (error) {
+    isError = true;
+  } finally {
     renderResultSectionContent({
       isLoading: false,
-      isError: false,
-      isLastPage,
-      type: "search",
+      isError,
       movies,
+      type: "search",
+      isLastPage,
     });
-    renderThumbnailList({ movies, thumbnailListElement });
   }
 };
 

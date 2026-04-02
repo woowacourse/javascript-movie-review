@@ -3,7 +3,7 @@ import { Movie } from "../../apis/movie/api";
 interface RenderResultSectionContentProps {
   isLoading: boolean;
   isError: boolean;
-  isLastPage: boolean;
+  isLastPage?: boolean;
   type?: "search" | "main";
   movies: Movie[];
 }
@@ -14,7 +14,7 @@ interface RenderResultSectionContentProps {
 export const renderResultSectionContent = ({
   isLoading,
   isError,
-  isLastPage,
+  isLastPage = true,
   movies,
 }: RenderResultSectionContentProps) => {
   const skeletonList = document.getElementById("skeleton-list");
