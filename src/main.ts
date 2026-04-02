@@ -35,8 +35,7 @@ addEventListener("load", async () => {
   removeMovieSkeletonUIList(movieDisplay);
 
   addMovieList(movieDisplay, movieList);
-
-  showBackgroundMovieInfo(movieList[2]);
+  showBackgroundMovieInfo(movieList[0]);
 
   bindSearchEvents(state);
   bindMoreMovieEvents(state);
