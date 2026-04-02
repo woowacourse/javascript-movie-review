@@ -49,6 +49,11 @@ const handleSearch = () => {
   if (!searchInput) return;
 
   const search = searchInput.value || "";
+  if (!search.length) {
+    searchInput.focus();
+    return;
+  }
+
   pageState.resetPage();
   navigate(`/?search=${search}`);
 
