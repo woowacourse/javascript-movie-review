@@ -38,3 +38,46 @@ p.rate > span {
   width: 16px;
   top: 1px;
 }
+
+/* Skeleton UI */
+.item.skeleton .thumbnail {
+  display: none;
+}
+
+.skeleton-poster {
+  width: 200px;
+  height: 300px;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #2a2a2a 25%, #3a3a3a 50%, #2a2a2a 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+
+.skeleton-title {
+  height: 14px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #2a2a2a 25%, #3a3a3a 50%, #2a2a2a 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+  margin-top: 8px;
+  width: 80%;
+}
+
+.skeleton-rate {
+  height: 12px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #2a2a2a 25%, #3a3a3a 50%, #2a2a2a 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+  margin-bottom: 4px;
+  width: 40%;
+}
+
+.item.skeleton .item-desc > *:not(.skeleton-rate):not(.skeleton-title) {
+  display: none;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
