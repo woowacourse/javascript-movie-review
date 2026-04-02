@@ -1,13 +1,11 @@
-import { getPopularMovies, Movie } from "./apis/movie/api";
-import { getSearchedMovies } from "./apis/search/api";
 import { handleMovieSearch } from "./dom/eventHandler/handleMovieSearch";
 import {
   handleMainSeeMore,
   handleSearchSeeMore,
 } from "./dom/eventHandler/handleSeeMore";
-import { renderBanner } from "./dom/render/renderBanner";
-import { renderResultSectionContent } from "./dom/render/renderResultSectionContent";
-import { renderThumbnailList } from "./dom/render/renderThumbnailList";
+import { renderInitialUI } from "./dom/render/renderInitialUI";
+import { renderMainUI } from "./dom/render/renderMainUI";
+import { renderSearchUI } from "./dom/render/renderSearchUI";
 
 // 로직이 흩어진다...
 // 라바: 돔 선언을 하는 곳에서만 하자
@@ -66,82 +64,6 @@ const render = async () => {
     await renderSearchUI(keyword);
   } else {
     await renderMainUI();
-  }
-};
-
-const renderInitialUI = () => {
-  renderResultSectionContent({
-    isLoading: true,
-    isError: false,
-    isLastPage: true,
-    movies: [],
-  });
-};
-
-export const renderMainUI = async () => {
-  let isError = false;
-  let isLastPage = true;
-  let movies: Movie[] = [];
-
-  try {
-    const thumbnailListElement = document.getElementById("main-thumbnail-list");
-    const popularMovies = await getPopularMovies({ language: "ko-KR" });
-    isLastPage = popularMovies.page === popularMovies.total_pages;
-    movies = popularMovies.results;
-    renderBanner({ movie: movies[0] });
-    renderThumbnailList({ movies, thumbnailListElement });
-  } catch (error) {
-    isError = true;
-  } finally {
-    renderResultSectionContent({
-      isLoading: false,
-      isError,
-      isLastPage,
-      movies,
-    });
-  }
-};
-
-export const renderSearchUI = async (keyword: string) => {
-  const searchInput = document.getElementById(
-    "search-input",
-  ) as HTMLInputElement;
-  const banner = document.getElementById("background-container");
-  const resultSection = document.getElementById("result-section");
-  const subTitle = document.getElementById("sub-title");
-  const thumbnailListElement = document.getElementById("search-thumbnail-list");
-  searchInput.value = keyword;
-
-  let isError = false;
-  let isLastPage = true;
-  let movies: Movie[] = [];
-
-  if (!banner || !subTitle || searchInput?.value.trim() === "") return;
-
-  try {
-    const searchResult = await getSearchedMovies({
-      query: keyword,
-      language: "ko-KR",
-      page: 1,
-    });
-
-    banner.hidden = true;
-    resultSection?.classList.add("result-section");
-    subTitle.innerText = `"${keyword}" 검색 결과`;
-
-    isLastPage = searchResult.page === searchResult.total_pages;
-    movies = searchResult.results;
-    renderThumbnailList({ movies, thumbnailListElement });
-  } catch (error) {
-    isError = true;
-  } finally {
-    renderResultSectionContent({
-      isLoading: false,
-      isError,
-      movies,
-      type: "search",
-      isLastPage,
-    });
   }
 };
 

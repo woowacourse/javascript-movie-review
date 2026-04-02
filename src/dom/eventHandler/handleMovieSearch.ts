@@ -1,4 +1,4 @@
-import { renderSearchUI } from "../../main";
+import { renderSearchUI } from "../render/renderSearchUI";
 
 export const handleMovieSearch = async (keyword: string) => {
   const searchInput = document.getElementById(
