@@ -71,30 +71,6 @@ async function loadMoreMovies() {
   });
 }
 
-async function loadMoreSearchMovies(query: string) {
-  await getSearchMovies({
-    query,
-    pageNum: nextSearchPageNum,
-    onSuccess: ({ page, results: movies }) => {
-      const ul = document.querySelector(".thumbnail-list");
-      nextSearchPageNum = page + 1;
-      if (ul) {
-        Renderer.clearSkeleton(ul);
-        Renderer.renderSearchMovies(movies);
-      }
-    },
-    onError: function (_): void {
-      const main = document.querySelector("main");
-      if (main)
-        Renderer.renderError(main, "영화 정보를 불러오는 데 실패했습니다.");
-    },
-    onLoading: function (): void {
-      const ul = document.querySelector(".thumbnail-list");
-      if (ul) Renderer.renderSkeleton(ul, requestMovieCount);
-    },
-  });
-}
-
 async function loadSearchMovies(query: string) {
   await getSearchMovies({
     query,
@@ -126,6 +102,30 @@ async function loadSearchMovies(query: string) {
       const ul = document.querySelector(".thumbnail-list");
       if (ul) Renderer.renderSkeleton(ul, requestMovieCount);
       Renderer.hideLoadMoreButton();
+    },
+  });
+}
+
+async function loadMoreSearchMovies(query: string) {
+  await getSearchMovies({
+    query,
+    pageNum: nextSearchPageNum,
+    onSuccess: ({ page, results: movies }) => {
+      const ul = document.querySelector(".thumbnail-list");
+      nextSearchPageNum = page + 1;
+      if (ul) {
+        Renderer.clearSkeleton(ul);
+        Renderer.renderSearchMovies(movies);
+      }
+    },
+    onError: function (_): void {
+      const main = document.querySelector("main");
+      if (main)
+        Renderer.renderError(main, "영화 정보를 불러오는 데 실패했습니다.");
+    },
+    onLoading: function (): void {
+      const ul = document.querySelector(".thumbnail-list");
+      if (ul) Renderer.renderSkeleton(ul, requestMovieCount);
     },
   });
 }
