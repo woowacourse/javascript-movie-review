@@ -1,4 +1,5 @@
 import { fetcher } from "./fetcher";
+import TMDBError from "../TMDBError";
 
 export interface TmdbPagination<T> {
   page: number;
@@ -12,6 +13,15 @@ export interface TmdbError {
   status_message: string;
   success: false;
 }
+
+const isTmdbError = (error: unknown): error is TmdbError => {
+  return (
+    error instanceof Object &&
+    "status_code" in error &&
+    "status_message" in error &&
+    "success" in error
+  );
+};
 
 export const tmdbFetcher = async <T>(
   endpoint: string,
@@ -27,8 +37,16 @@ export const tmdbFetcher = async <T>(
     },
   };
 
-  return await fetcher<T, TmdbError>(
-    `${import.meta.env.VITE_TMDB_BASE_URL}${endpoint}`,
-    defaultOptions,
-  );
+  try {
+    const response = await fetcher<T, TmdbError>(
+      `${import.meta.env.VITE_TMDB_BASE_URL}${endpoint}`,
+      defaultOptions,
+    );
+    return response;
+  } catch (error) {
+    if (isTmdbError(error)) {
+      throw new TMDBError(error);
+    }
+    throw error;
+  }
 };
