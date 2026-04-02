@@ -18,15 +18,15 @@ const Renderer = {
   },
 
   renderSearchMovies(movies: Movie[]) {
-    const ul = document.querySelector(".thumbnail-list");
-    if (ul) {
-      this.renderMovies(ul, movies);
+    const movieList = document.querySelector(".thumbnail-list");
+    if (movieList) {
+      this.renderMovies(movieList, movies);
     }
   },
 
   clearMovies() {
-    const ul = document.querySelector(".thumbnail-list");
-    if (ul) ul.innerHTML = "";
+    const movieList = document.querySelector(".thumbnail-list");
+    if (movieList) movieList.innerHTML = "";
   },
 
   renderBanner(parent: Element, { title, vote_average, poster_path }: Movie) {
@@ -58,17 +58,17 @@ const Renderer = {
     parent.innerHTML = Component.error(message);
   },
 
-  renderSkeleton(ul: Element, length: number) {
-    ul.innerHTML += Array.from({ length: length })
+  renderSkeleton(parent: Element, length: number) {
+    parent.innerHTML += Array.from({ length: length })
       .map(() => Component.movieSkeleton())
       .join("");
   },
 
-  renderMovies(ul: Element, movies: Movie[]) {
+  renderMovies(parent: Element, movies: Movie[]) {
     const movieListComponent = movies
       .map((movie) => Component.movie(movie))
       .join("");
-    ul.innerHTML += movieListComponent;
+    parent.innerHTML += movieListComponent;
   },
 
   clearSkeleton(parent: Element) {

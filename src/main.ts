@@ -13,7 +13,7 @@ async function loadInitialMovie() {
       onSuccess: ({ page, results: movies }) => {
         State.setNextPageNum(page + 1);
         State.setRequestMovieCount(movies.length);
-        const ul = document.querySelector(".thumbnail-list");
+        const movieList = document.querySelector(".thumbnail-list");
         const loadMoreButton = document.querySelector(".load-more-button");
         const banner = document.querySelector(".banner-container");
 
@@ -21,9 +21,9 @@ async function loadInitialMovie() {
           Renderer.renderBanner(banner, movies[0]);
           observeHeaderScroll();
         }
-        if (ul) {
-          Renderer.clearSkeleton(ul);
-          Renderer.renderMovies(ul, movies);
+        if (movieList) {
+          Renderer.clearSkeleton(movieList);
+          Renderer.renderMovies(movieList, movies);
         }
         if (loadMoreButton)
           loadMoreButton.addEventListener("click", loadMoreMovies);
@@ -31,10 +31,10 @@ async function loadInitialMovie() {
         Renderer.renderSectionHeading();
       },
       onLoading: () => {
-        const ul = document.querySelector(".thumbnail-list");
-        if (ul)
+        const movieList = document.querySelector(".thumbnail-list");
+        if (movieList)
           Renderer.renderSkeleton(
-            ul,
+            movieList,
             State.getRequestMovieCount() || ONCE_MOVIE_LIMIT,
           );
       },
@@ -51,13 +51,13 @@ async function loadMoreMovies() {
   await getPopularMovies({
     pageNum: State.getNextPageNum(),
     onSuccess: ({ page, results: movies }) => {
-      const ul = document.querySelector(".thumbnail-list");
+      const movieList = document.querySelector(".thumbnail-list");
       const haveRestPage = movies.length === ONCE_MOVIE_LIMIT;
       State.setNextPageNum(page + 1);
       if (haveRestPage) Renderer.showLoadMoreButton();
-      if (ul) {
-        Renderer.clearSkeleton(ul);
-        Renderer.renderMovies(ul, movies);
+      if (movieList) {
+        Renderer.clearSkeleton(movieList);
+        Renderer.renderMovies(movieList, movies);
       }
     },
     onError: function (_): void {
@@ -102,8 +102,9 @@ async function loadSearchMovies(query: string) {
         Renderer.renderError(main, "영화 정보를 불러오는 데 실패했습니다.");
     },
     onLoading: function (): void {
-      const ul = document.querySelector(".thumbnail-list");
-      if (ul) Renderer.renderSkeleton(ul, State.getRequestMovieCount());
+      const movieList = document.querySelector(".thumbnail-list");
+      if (movieList)
+        Renderer.renderSkeleton(movieList, State.getRequestMovieCount());
       Renderer.hideLoadMoreButton();
     },
   });
@@ -114,10 +115,10 @@ async function loadMoreSearchMovies(query: string) {
     query,
     pageNum: State.getNextSearchPageNum(),
     onSuccess: ({ page, results: movies }) => {
-      const ul = document.querySelector(".thumbnail-list");
+      const movieList = document.querySelector(".thumbnail-list");
       State.setNextSearchPageNum(page + 1);
-      if (ul) {
-        Renderer.clearSkeleton(ul);
+      if (movieList) {
+        Renderer.clearSkeleton(movieList);
         Renderer.renderSearchMovies(movies);
       }
     },
@@ -127,8 +128,9 @@ async function loadMoreSearchMovies(query: string) {
         Renderer.renderError(section, "영화 정보를 불러오는 데 실패했습니다.");
     },
     onLoading: function (): void {
-      const ul = document.querySelector(".thumbnail-list");
-      if (ul) Renderer.renderSkeleton(ul, State.getRequestMovieCount());
+      const movieList = document.querySelector(".thumbnail-list");
+      if (movieList)
+        Renderer.renderSkeleton(movieList, State.getRequestMovieCount());
     },
   });
 }
