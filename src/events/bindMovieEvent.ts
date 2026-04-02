@@ -11,7 +11,9 @@ import {
 import {
   addMovieList,
   addMovieSkeletonUIList,
+  Movie,
   removeMovieSkeletonUIList,
+  showBackgroundMovieInfo,
 } from "../view/movieListView.ts";
 
 const displayMovieBySearch = async (
@@ -106,5 +108,35 @@ export const bindMoreMovieEvents = (state: State) => {
     // 영화 20개
     removeMovieSkeletonUIList(movieDisplay);
     addMovieList(movieDisplay, movieList);
+  });
+};
+
+// 포스터 클릭 이벤트
+export const bindClickPosterEvent = (state: State) => {
+  // 1. 모든 포스터 엘리먼트 가져오기
+  const thumbnailBox = getElement(".thumbnail-list");
+
+  thumbnailBox.addEventListener("click", async (event: MouseEvent) => {
+    const target = event.target as HTMLElement;
+    const item = target.closest(".item") as HTMLElement;
+
+    const titleElement = item.querySelector("strong");
+
+    // // 아이템이 속한 영화를 찾기
+    let movieList;
+
+    if (state.searchBarText === "") {
+      movieList = await fetchDefaultMovieList(state.pageNum);
+    } else {
+      movieList = await fetchSearchMovieList(
+        state.pageNum,
+        state.searchBarText,
+      );
+    }
+
+    const backgroundMovie = movieList.filter(
+      (movie: Movie) => movie.title === titleElement?.textContent,
+    )[0];
+    await showBackgroundMovieInfo(backgroundMovie);
   });
 };

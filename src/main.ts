@@ -4,11 +4,13 @@ import {
   addMovieList,
   addMovieSkeletonUIList,
   removeMovieSkeletonUIList,
+  showBackgroundMovieInfo,
 } from "./view/movieListView.ts";
 import { fetchDefaultMovieList } from "./service/movieApi.ts";
 import { getUListElement } from "./view/getElementView.ts";
 
 import {
+  bindClickPosterEvent,
   bindMoreMovieEvents,
   bindSearchEvents,
 } from "./events/bindMovieEvent.ts";
@@ -34,6 +36,10 @@ addEventListener("load", async () => {
 
   addMovieList(movieDisplay, movieList);
 
+  showBackgroundMovieInfo(movieList[2]);
+
   bindSearchEvents(state);
   bindMoreMovieEvents(state);
+
+  bindClickPosterEvent(state);
 });
