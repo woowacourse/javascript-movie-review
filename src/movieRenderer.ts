@@ -7,19 +7,25 @@ const createMovieItem = (movie: Movie): HTMLLIElement => {
   const posterSrc = `${posterBaseURL}${movie.poster_path}`;
 
   const li = document.createElement("li");
-  li.innerHTML = `
-    <div class="item skeleton">
-      <div class="skeleton-poster"></div>
-      <img class="thumbnail" src="${posterSrc}" alt="영화 포스터 사진" />
-      <div class="item-desc">
-        <div class="skeleton-rate"></div>
-        <div class="skeleton-title"></div>
-        <p class="rate">
-          <img src="/images/star_empty.png" class="star" /><span>${movie.vote_average}</span>
-        </p>
-        <strong>${movie.title}</strong>
+
+  li.insertAdjacentHTML(
+    "beforeend",
+    `
+    <li>
+      <div class="item skeleton">
+        <div class="skeleton-poster"></div>
+        <img class="thumbnail" src="${posterSrc}" alt="영화 포스터 사진" />
+        <div class="item-desc">
+          <div class="skeleton-rate"></div>
+          <div class="skeleton-title"></div>
+          <p class="rate">
+            <img src="/images/star_empty.png" class="star"/><span>${movie.vote_average}</span>
+          </p>
+          <strong>${movie.title}</strong>
+        </div>
       </div>
-    </div>`;
+    </li>`,
+  );
 
   const img = li.querySelector<HTMLImageElement>(".thumbnail")!;
   const removeSkeleton = () => {
@@ -38,6 +44,8 @@ const createMovieItem = (movie: Movie): HTMLLIElement => {
     },
     { once: true },
   );
+
+  img.src = posterSrc;
 
   return li;
 };
@@ -109,7 +117,10 @@ export const renderSearchedMovies = async (
   const list = document.querySelector(".thumbnail-list");
 
   if (list && movies.length === 0 && searchPageCount === 1) {
-    list.insertAdjacentHTML("beforeend", `<div>검색 결과가 없습니다.</div>`);
+    list.insertAdjacentHTML(
+      "beforeend",
+      `<div id="no-result">검색 결과가 없습니다.</div>`,
+    );
   }
 
   movies.forEach((movie: Movie) => {

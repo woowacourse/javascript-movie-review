@@ -1,18 +1,14 @@
 describe("인기영화 렌더링 테스트", () => {
   beforeEach(() => {
-    cy.intercept("GET", "**/movie/popular*").as("getMovies");
     cy.visit("localhost:5173");
   });
 
   it("웹에 접근을 하면 인기 영화 20개를 랜더링 한다", () => {
-    cy.wait("@getMovies");
     cy.get(".thumbnail-list li").should("have.length", 20);
   });
 
-  it("더보기 버튼을 누르면 20개를 추가로 렌더링 한다", () => {
-    cy.wait("@getMovies"); 
+  it("인기 영화 화면에서 더보기 버튼을 누르면 인기 영화 20개를 추가로 렌더링 한다", () => {
     cy.get("#load-movie-button").click();
-    cy.wait("@getMovies");
     cy.get(".thumbnail-list li").should("have.length", 40);
   });
 });
@@ -55,7 +51,7 @@ describe("검색영화 렌더링 테스트", () => {
 
   it("뷁뷁뷁을 검색 하면 검색 결과가 없어야 한다.", () => {
     cy.get(".search-input").type("뷁뷁뷁");
-    cy.get(".search-input").type("{enter}");
+    cy.press("Enter");
     cy.get(".thumbnail-list li").should("have.length", 0);
     cy.get("#no-result").contains("검색 결과가 없습니다.").should("exist");
   });
@@ -92,8 +88,11 @@ describe("Skeleton UI 테스트", () => {
       { fixture: "movies.json" },
     ).as("getMovies");
 
-    cy.intercept("GET", "https://image.tmdb.org/t/p/original/**", () => {
-    });
+    cy.intercept("GET", "https://image.tmdb.org/t/p/original/**", (req) => {
+      req.on("response", (res) => {
+        res.setDelay(10000);
+      });
+    }).as("getImage");
 
     cy.visit("http://localhost:5173");
     cy.wait("@getMovies");
