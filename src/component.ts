@@ -1,10 +1,12 @@
 import type { Movie } from "./api";
 
+const IMAGE_PATH = "https://image.tmdb.org/t/p/original";
+
 const Component = {
   movie(movieData: Pick<Movie, "poster_path" | "title" | "vote_average">) {
     const { poster_path, title, vote_average } = movieData;
     const src = poster_path
-      ? `https://image.tmdb.org/t/p/original/${poster_path}`
+      ? `${IMAGE_PATH}/${poster_path}`
       : "src/images/no_image_planet.png";
     return `
     <li>
@@ -47,7 +49,7 @@ const Component = {
     poster_path,
   }: Pick<Movie, "title" | "vote_average" | "poster_path">) {
     return `
-      <div class="top-rated-movie" style="background-image: url('https://image.tmdb.org/t/p/original/${poster_path}')">
+      <div class="top-rated-movie" style="background-image: url('${IMAGE_PATH}/${poster_path}')">
         <div class="overlay" aria-hidden="true"></div>
           <div class="container">
             <div class="rate">

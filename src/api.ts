@@ -26,7 +26,11 @@ export interface Movie {
   vote_count: number;
 }
 
-// TODO: add pageNum default value
+const API_PATH = {
+  POPULAR_MOVIE: "https://api.themoviedb.org/3/movie/popular",
+  SEARCH_MOVIE: "https://api.themoviedb.org/3/search/movie",
+};
+
 export async function getPopularMovies(arg: {
   pageNum: number;
   onSuccess: (data: MoviesResponse) => void;
@@ -36,7 +40,7 @@ export async function getPopularMovies(arg: {
   const { pageNum, onSuccess, onError, onLoading } = arg;
   fetcher<MoviesResponse>({
     fn: async () => {
-      const url = `https://api.themoviedb.org/3/movie/popular?page=${pageNum}&language=ko-KR`;
+      const url = `${API_PATH.POPULAR_MOVIE}?page=${pageNum}&language=ko-KR`;
       const options = {
         method: "GET",
         headers: {
@@ -67,7 +71,7 @@ export async function getSearchMovies(arg: {
   const { query, pageNum, onSuccess, onError, onLoading } = arg;
   fetcher<MoviesResponse>({
     fn: async () => {
-      const url = `https://api.themoviedb.org/3/search/movie?query=${query}&page=${pageNum}&language=ko-KR`;
+      const url = `${API_PATH.SEARCH_MOVIE}?query=${query}&page=${pageNum}&language=ko-KR`;
       const options = {
         method: "GET",
         headers: {
