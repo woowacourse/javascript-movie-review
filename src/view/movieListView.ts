@@ -1,4 +1,5 @@
 import star_empty from "../../templates/images/star_empty.png";
+import logo from "../../templates/images/logo.png";
 import { getElement } from "./getElementView";
 export interface Movie {
   id: number;
@@ -66,11 +67,11 @@ export const showBackgroundMovieInfo = (movie: Movie) => {
           </div>
           <div class="top-rated-container">
             <h1 class="logo">
-              <img src="../../templates/images/logo.png" alt="MovieList" />
+              <img src="${logo}" alt="MovieList" />
             </h1>
             <div class="top-rated-movie">
               <div class="rate">
-                <img src="../../templates/images/star_empty.png" class="star" />
+                <img src="${star_empty}" class="star" />
                 <span class="rate-value">${movie.vote_average.toFixed(1)}</span>
               </div>
               <div class="title">${movie.title}</div>
