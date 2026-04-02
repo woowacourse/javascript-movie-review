@@ -6,7 +6,7 @@ export const handleMovieSearch = async (keyword: string) => {
       "keyword",
     );
     if (hasKeyword) {
-      window.location.href = "/";
+      window.location.href = import.meta.env.BASE_URL;
     }
     return;
   }

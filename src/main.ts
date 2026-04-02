@@ -1,8 +1,5 @@
 import { handleMovieSearch } from "./dom/eventHandler/handleMovieSearch";
-import {
-  handleMainSeeMore,
-  handleSearchSeeMore,
-} from "./dom/eventHandler/handleSeeMore";
+import { handleMainSeeMore, handleSearchSeeMore } from "./dom/eventHandler/handleSeeMore";
 import { renderInitialUI } from "./dom/render/renderInitialUI";
 import { renderMainUI } from "./dom/render/renderMainUI";
 import { renderSearchUI } from "./dom/render/renderSearchUI";
@@ -17,7 +14,7 @@ const searchSeeMoreButton = document.getElementById("search-see-more-button");
 
 if (logo) {
   logo.addEventListener("click", () => {
-    window.location.href = "/";
+    window.location.href = import.meta.env.BASE_URL;
   });
 }
 
