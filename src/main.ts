@@ -16,17 +16,17 @@ import {
   removeMovieList,
 } from "./renders/movieList";
 import { renderSkeleton, removeSkeleton } from "./renders/skeleton";
+import PageState from "./states/PageState";
 
-const condition = {
-  page: 1,
-};
+const pageState = new PageState();
 
 const runSearch = () => {
   const search = getSearchParams("search") as string;
 
   (async () => {
+    const page = pageState.getPage();
     const movies = await getSearchMovie({
-      page: condition.page,
+      page,
       query: search || "",
     });
 
@@ -49,7 +49,7 @@ const handleSearch = () => {
   if (!searchInput) return;
 
   const search = searchInput.value || "";
-  condition.page = 1;
+  pageState.resetPage();
   navigate(`/?search=${search}`);
 
   removeMovieList();
@@ -65,14 +65,15 @@ addEventListener("load", async () => {
   (async () => {
     renderSkeleton();
 
-    const movies = await getMoviePopular({ page: condition.page });
+    const page = pageState.getPage();
+    const movies = await getMoviePopular({ page });
     renderMovieList(movies);
     removeSkeleton();
   })();
 
   const moreButton = document.querySelector("#more-button");
   moreButton?.addEventListener("click", () => {
-    condition.page += 1;
+    pageState.increamentPage();
     const isSearchParams = hasSearchParams("search");
 
     if (isSearchParams) {
@@ -80,7 +81,8 @@ addEventListener("load", async () => {
       return;
     }
     (async () => {
-      const movies = await getMoviePopular({ page: condition.page });
+      const page = pageState.getPage();
+      const movies = await getMoviePopular({ page });
       renderMovieList(movies);
     })();
   });
