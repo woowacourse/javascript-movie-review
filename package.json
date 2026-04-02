@@ -13,13 +13,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/woowacourse-projects/javascript-movie-review.git"
+    "url": "git+https://github.com/janghw0126/javascript-movie-review.git"
   },
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/woowacourse-projects/javascript-movie-review/issues"
+    "url": "https://github.com/janghw0126/javascript-movie-review/issues"
   },
-  "homepage": "https://{username}.github.io/javascript-movie-review",
+  "homepage": "https://janghw0126.github.io/javascript-movie-review",
   "devDependencies": {
     "@babel/core": "^7.29.0",
     "@babel/preset-env": "^7.29.0",
