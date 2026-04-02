@@ -21,12 +21,13 @@ export default class MovieList {
     `;
   }
 
-  renderEmpty() {
+  clearList() {
     this.movieList!.innerHTML = "";
+    this.movieContainer!.innerHTML = "";
   }
 
   renderSkeleton() {
-    this.renderEmpty();
+    this.clearList();
     for (let i = 0; i < 20; i++) {
       const li = document.createElement("li");
       const skeleton = new MovieSkeleton();

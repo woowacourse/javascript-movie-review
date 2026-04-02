@@ -5,7 +5,7 @@ import { Movie } from "../../../types/types";
 import { BACKDROP_IMAGE_URL } from "../../constants/constant";
 
 export const Header = {
-  renderEmpty(): void {
+  clearHeader(): void {
     const backgroundContainer = document.querySelector(
       ".background-container",
     ) as HTMLElement;
