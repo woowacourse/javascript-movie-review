@@ -21,8 +21,12 @@ export default class MovieList {
     `;
   }
 
-  renderSkeleton() {
+  renderEmpty() {
     this.movieList!.innerHTML = "";
+  }
+
+  renderSkeleton() {
+    this.renderEmpty();
     for (let i = 0; i < 20; i++) {
       const li = document.createElement("li");
       const skeleton = new MovieSkeleton();
@@ -32,7 +36,6 @@ export default class MovieList {
   }
 
   renderMovieList(movies: { results: Movie[] }) {
-    this.movieList!.innerHTML = "";
     movies.results.forEach((movie: Movie) => {
       const li: HTMLLIElement = document.createElement("li");
       const movieCard = new MovieCard(movie);

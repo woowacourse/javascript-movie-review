@@ -16,11 +16,11 @@ addEventListener("load", async () => {
   Header.render(data.results[0]);
 
   // 검색
-  const submitButton = document.querySelector(
-    ".btn-submit",
-  ) as HTMLButtonElement;
+  const submitContainer = document.querySelector(
+    ".background-container",
+  ) as HTMLFormElement;
 
-  submitButton.addEventListener("click", async (e: PointerEvent) => {
+  submitContainer.addEventListener("submit", async (e: SubmitEvent) => {
     e.preventDefault();
     page = 1;
     const searchInput = document.querySelector(
@@ -32,9 +32,13 @@ addEventListener("load", async () => {
       const MovieListInstance = new MovieList();
       MovieListInstance.movieList!.innerHTML = "";
       MovieListInstance.movieContainer!.innerHTML = "";
+
       MovieListInstance.renderSkeleton();
       const data: { results: Movie[]; total_pages: number } =
         await fetchMoviesApi("movie/popular", page);
+      Header.renderEmpty();
+      Header.render(data.results[0]);
+      MovieListInstance.renderEmpty();
       MovieListInstance.renderMovieList(data);
 
       const mainTitle = document.querySelector(".main-title") as HTMLElement;
@@ -53,6 +57,8 @@ addEventListener("load", async () => {
       await fetchMoviesApi("search/movie", page, searchMovie);
     MovieListInstance.movieList!.innerHTML = "";
     MovieListInstance.movieContainer!.innerHTML = "";
+    Header.renderEmpty();
+    Header.renderSearch();
     MovieListInstance.renderMovieList(data);
 
     const mainTitle = document.querySelector(".main-title") as HTMLElement;
@@ -80,11 +86,6 @@ moreButton.addEventListener("click", async () => {
 
 async function fetchApi() {
   const MovieListInstance = new MovieList();
-
-  if (page === 1) {
-    MovieListInstance.renderSkeleton();
-  }
-
   const data: { results: Movie[]; total_pages: number } = await fetchMoviesApi(
     "movie/popular",
     page,
