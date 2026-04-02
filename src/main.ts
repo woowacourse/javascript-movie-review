@@ -1,5 +1,8 @@
 import { handleMovieSearch } from "./dom/eventHandler/handleMovieSearch";
-import { handleMainSeeMore, handleSearchSeeMore } from "./dom/eventHandler/handleSeeMore";
+import {
+  handleMainSeeMore,
+  handleSearchSeeMore,
+} from "./dom/eventHandler/handleSeeMore";
 import { renderInitialUI } from "./dom/render/renderInitialUI";
 import { renderMainUI } from "./dom/render/renderMainUI";
 import { renderSearchUI } from "./dom/render/renderSearchUI";

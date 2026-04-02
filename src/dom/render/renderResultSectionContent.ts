@@ -36,10 +36,14 @@ export const renderResultSectionContent = ({
 
   skeletonList?.classList.add("hidden");
   errorContainer?.classList.add("hidden");
-  mainThumbnailList?.classList.add("hidden");
-  searchThumbnailList?.classList.add("hidden");
   emptyContainer?.classList.add("hidden");
+
+  errorMessageContent?.classList.add("hidden");
+
+  mainThumbnailList?.classList.add("hidden");
   mainSeeMoreButton?.classList.add("hidden");
+  searchThumbnailList?.classList.add("hidden");
+  searchSeeMoreButton?.classList.add("hidden");
 
   if (isLoading) {
     skeletonList?.classList.remove("hidden");
