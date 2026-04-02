@@ -69,7 +69,7 @@
 ## 미룬이
 
 - [ ] getElementById로 가져온 html 요소 타입 좁혀주는 유틸
-- [ ] TMDBError class 사용에 대해 논의
+- [x] TMDBError class 사용에 대해 논의
 - [x] 빈 keyword 검색 시 기본 UI로 변경
 - [ ] parameter로 관리하는 page가 1일 때도 보여지게 하는게 맞을까? 안 보이게 할까?
 - [x] E2E 테스트

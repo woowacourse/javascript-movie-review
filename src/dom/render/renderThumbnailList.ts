@@ -5,7 +5,6 @@ interface RenderThumbnailListProps {
   thumbnailListElement: HTMLElement | null;
 }
 
-// TODO 이전 검색 결과에 쌓이는 것 방지
 export const renderThumbnailList = ({
   movies,
   thumbnailListElement,

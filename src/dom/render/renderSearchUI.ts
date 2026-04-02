@@ -47,7 +47,6 @@ export const renderSearchUI = async (keyword: string) => {
       isError,
       errorMessage,
       movies,
-      type: "search",
       isLastPage,
     });
   }
