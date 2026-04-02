@@ -1,0 +1,10 @@
+{
+  "page": 1,
+  "results": [
+    { "id": 101, "title": "인터스텔라", "poster_path": "/interstellar.jpg", "backdrop_path": "/interstellar_back.jpg", "vote_average": 8.6, "overview": "우주 탐험 이야기", "release_date": "2014-11-06", "adult": false, "genre_ids": [18, 878], "original_language": "en", "original_title": "Interstellar", "popularity": 200, "video": false, "vote_count": 30000 },
+    { "id": 102, "title": "인터스텔라2", "poster_path": "/interstellar2.jpg", "backdrop_path": "/interstellar2_back.jpg", "vote_average": 7.0, "overview": "우주 탐험 이야기 2편", "release_date": "2020-01-01", "adult": false, "genre_ids": [18, 878], "original_language": "en", "original_title": "Interstellar2", "popularity": 150, "video": false, "vote_count": 10000 },
+    { "id": 103, "title": "인터스텔라3", "poster_path": "/interstellar3.jpg", "backdrop_path": "/interstellar3_back.jpg", "vote_average": 6.5, "overview": "우주 탐험 이야기 3편", "release_date": "2022-06-01", "adult": false, "genre_ids": [18], "original_language": "en", "original_title": "Interstellar3", "popularity": 100, "video": false, "vote_count": 5000 }
+  ],
+  "total_pages": 2,
+  "total_results": 23
+}
