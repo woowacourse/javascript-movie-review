@@ -177,7 +177,10 @@ function clearSkeleton(parent: Element) {
 
 function renderSearchSectionHeading(title: string) {
   const heading = document.querySelector("section > h2");
-  if (heading) heading.innerHTML = `"${title}"검색 결과`;
+  if (heading instanceof HTMLElement) {
+    heading.innerHTML = `"${title}"검색 결과`;
+    heading.style.marginTop = "12rem";
+  }
 }
 
 function renderSearchMovies(movies: Movie[]) {
