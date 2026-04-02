@@ -70,8 +70,7 @@
 
 - [ ] getElementById로 가져온 html 요소 타입 좁혀주는 유틸
 - [ ] TMDBError class 사용에 대해 논의
-- [ ] 돔 요소 삭제 시 eventHandler 제거
-- [ ] 빈 keyword 검색 시 기본 UI로 변경
+- [x] 빈 keyword 검색 시 기본 UI로 변경
 - [ ] parameter로 관리하는 page가 1일 때도 보여지게 하는게 맞을까? 안 보이게 할까?
 - [ ] E2E 테스트
 - [ ] 돔 접근을 어디서 할 것인지 기준 세우기 (인자로 받기 vs 함수 안에서 호출하기)
