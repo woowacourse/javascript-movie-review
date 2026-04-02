@@ -11,6 +11,9 @@
   width: 200px;
   height: 300px;
   border-radius: 8px;
+  display: block;
+  background-color: var(--color-gray-300);
+  color: black;
 }
 
 .item {

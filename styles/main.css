@@ -143,6 +143,7 @@ button.primary {
   border: none;
   width: 100%;
   color: var(--color-white);
+  outline: none;
 }
 
 .movie-search > input::placeholder {
