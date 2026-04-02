@@ -4,12 +4,13 @@ import { observeHeaderScroll } from "./observer.ts";
 import State from "./state.ts";
 
 const ONCE_MOVIE_LIMIT = 20;
+const INITIAL_PAGE_NUM = 1;
 
 async function loadInitialMovie() {
   const app = document.querySelector("#app");
   if (app) {
     await getPopularMovies({
-      pageNum: 1,
+      pageNum: INITIAL_PAGE_NUM,
       onSuccess: ({ page, results: movies }) => {
         State.setNextPageNum(page + 1);
         State.setRequestMovieCount(movies.length);
@@ -77,7 +78,7 @@ async function loadMoreMovies() {
 async function loadSearchMovies(query: string) {
   await getSearchMovies({
     query,
-    pageNum: 1,
+    pageNum: INITIAL_PAGE_NUM,
     onSuccess: ({ page, results: movies }) => {
       const loadMoreButton = document.querySelector(".load-more-button");
       const haveRestPage = movies.length === ONCE_MOVIE_LIMIT;
