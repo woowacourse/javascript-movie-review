@@ -74,23 +74,59 @@
 - [ ] parameter로 관리하는 page가 1일 때도 보여지게 하는게 맞을까? 안 보이게 할까?
 - [ ] E2E 테스트
 - [ ] 돔 접근을 어디서 할 것인지 기준 세우기 (인자로 받기 vs 함수 안에서 호출하기)
+- [ ] 동일 검색어 api 요청 막기
 
 ## E2E 테스트 목록
 
-- [ ] 처음 앱에 도달했을 때 메인 구성 요소가 렌더링 되는지(= not hidden) 테스트
-  - given
+- [ ] 처음 앱에 도달했을 때 메인 구성 요소가 렌더링 되는지 테스트
+  - given: 없음
   - when: 페이지 진입
   - then
-    - main-thumbnail-list
-    - banner
-    - logo
-    - search input
-- [ ] 더 보기 기능(main/search 각각)
-  - given: 더보기 버튼
-  - when: 클릭
-  - then: page parameter + 1 -> 영화 목록 추가
-- [ ] 검색 기능
-  - 엔터 입력 시 search-thumbnail-list 렌더링되는지
-  - 버튼 클릭 시 search-thumbnail-list 렌더링되는지
-  - keyword parameter 추가되는지
-  - subtitle이 `"${검색어} 검색 결과"`로 바뀌는지
+    - main-thumbnail-list 렌더링
+    - banner 렌더링
+    - logo 렌더링
+    - search input 렌더링
+
+- [ ] 더 보기 기능 (main)
+  - given: 페이지 진입, 더 보기 버튼
+  - when: 더 보기 버튼 클릭
+  - then: 기존 영화 목록에 추가 영화 목록이 append됨
+
+- [ ] 더 보기 기능 (search)
+  - given: 검색어 입력 후 검색, 더 보기 버튼
+  - when: 더 보기 버튼 클릭
+  - then: 기존 검색 결과 목록에 추가 결과가 append됨
+
+- [ ] 검색 기능 - 버튼 클릭
+  - given: 영화 검색 input에 검색어 입력
+  - when: 검색 버튼 클릭
+  - then
+    - search-thumbnail-list 렌더링
+    - URL에 keyword parameter 추가
+    - subtitle이 "${검색어} 검색 결과"로 변경
+
+- [ ] 검색 기능 - 엔터 입력
+  - given: 영화 검색 input에 검색어 입력
+  - when: 엔터 키 입력
+  - then
+    - search-thumbnail-list 렌더링
+    - URL에 keyword parameter 추가
+    - subtitle이 "${검색어} 검색 결과"로 변경
+
+- [ ] 검색 후 메인으로 복귀(logo 클릭)
+  - given: 검색 결과 화면
+  - when: 로고 클릭
+  - then
+    - main-thumbnail-list 렌더링
+    - banner 렌더링
+    - keyword parameter 제거
+
+  - [ ] 검색 후 메인으로 복귀(빈 문자열 검색)
+    - given: 검색 결과 화면
+    - when: 빈 문자열 검색
+    - then
+      - main-thumbnail-list 렌더링
+      - banner 렌더링
+      - keyword parameter 제거
+
+<!-- E2E에 자잘한 UI 테스트(렌더링 되는지 정도의 가벼운 수준?)까지 추가한 이유 -->
