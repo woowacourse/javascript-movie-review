@@ -1,4 +1,8 @@
 import type { Movie } from "./api";
+import starEmptyImg from "./images/star_empty.png";
+import noImagePlanetImg from "./images/no_image_planet.png";
+import screamingPlanetImg from "./images/screaming_planet.svg";
+import planetAndStarImg from "./images/planet_and_star.png";
 
 const IMAGE_PATH = "https://image.tmdb.org/t/p/original";
 
@@ -7,7 +11,7 @@ const Component = {
     const { poster_path, title, vote_average } = movieData;
     const src = poster_path
       ? `${IMAGE_PATH}/${poster_path}`
-      : "src/images/no_image_planet.png";
+      : noImagePlanetImg;
     return `
     <li>
       <div class="item">
@@ -18,7 +22,7 @@ const Component = {
       />
         <div class="item-desc">
           <p class="rate">
-            <img src="src/images/star_empty.png" class="star" /><span>${vote_average.toFixed(1)}</span>
+            <img src="${starEmptyImg}" class="star" /><span>${vote_average.toFixed(1)}</span>
             </p>
             <strong>${title}</strong>
         </div>
@@ -53,7 +57,7 @@ const Component = {
         <div class="overlay" aria-hidden="true"></div>
           <div class="container">
             <div class="rate">
-              <img src="src/images/star_empty.png" class="star" />
+              <img src="${starEmptyImg}" class="star" />
               <span class="rate-value">${vote_average.toFixed(1)}</span>
             </div>
             <div class="title">${title}</div>
@@ -67,7 +71,7 @@ const Component = {
   emptyResult() {
     return `
       <div class="notice-box">
-        <img src="src/images/screaming_planet.svg">
+        <img src="${screamingPlanetImg}">
         <p class="notice-text">검색 결과가 없습니다.</p>
       </div>
       `;
@@ -76,7 +80,7 @@ const Component = {
   error(message: string) {
     return `
       <div class="notice-box">
-        <img src="src/images/planet_and_star.png">
+        <img src="${planetAndStarImg}">
         <span class="notice-text">${message}</span>
       </div>
     `;
