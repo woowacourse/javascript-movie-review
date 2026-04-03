@@ -91,6 +91,33 @@ describe("영화 리뷰 앱", () => {
         "영화 정보를 불러오는 데 실패했습니다.",
       );
     });
+
+    it("마지막 페이지 도달 시 더 보기 버튼이 숨겨진다", () => {
+      cy.wait("@getPopularMovies");
+
+      cy.intercept("GET", "**/movie/popular*", createMoviesResponse(7, 2)).as(
+        "getLastPageMovies",
+      );
+
+      cy.get(".load-more-button").click();
+      cy.wait("@getLastPageMovies");
+
+      cy.get(".load-more-button").should("not.be.visible");
+    });
+
+    it("더 보기 로딩 중에는 더 보기 버튼이 숨겨진다", () => {
+      cy.wait("@getPopularMovies");
+
+      cy.intercept("GET", "**/movie/popular*", (req) => {
+        req.reply({ delay: 500, body: createMoviesResponse(20, 2) });
+      }).as("getMoreMoviesDelayed");
+
+      cy.get(".load-more-button").click();
+      cy.get(".load-more-button").should("not.be.visible");
+
+      cy.wait("@getMoreMoviesDelayed");
+      cy.get(".load-more-button").should("be.visible");
+    });
   });
 
   describe("검색", () => {
