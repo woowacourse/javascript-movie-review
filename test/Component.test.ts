@@ -30,14 +30,14 @@ describe("컴포넌트 테스트", () => {
       title: "겨울왕국2",
       vote_average: 8.5,
     };
-    const movideBannerComponent = Component.movieBanner(movieData);
+    const movieBannerComponent = Component.movieBanner(movieData);
 
-    expect(movideBannerComponent).contain(
+    expect(movieBannerComponent).contain(
       `<div class="top-rated-movie" style="background-image: url('https://image.tmdb.org/t/p/original/안나.png')">`,
     );
-    expect(movideBannerComponent).contain(
+    expect(movieBannerComponent).contain(
       '<span class="rate-value">8.5</span>',
     );
-    expect(movideBannerComponent).contain('<div class="title">겨울왕국2</div>');
+    expect(movieBannerComponent).contain('<div class="title">겨울왕국2</div>');
   });
 });
