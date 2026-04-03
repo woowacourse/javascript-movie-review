@@ -52,8 +52,11 @@ const Component = {
     vote_average,
     poster_path,
   }: Pick<Movie, "title" | "vote_average" | "poster_path">) {
+    const backgroundSrc = poster_path
+      ? `${IMAGE_PATH}/${poster_path}`
+      : noImagePlanetImg;
     return `
-      <div class="top-rated-movie" style="background-image: url('${IMAGE_PATH}/${poster_path}')">
+      <div class="top-rated-movie" style="background-image: url('${backgroundSrc}')">
         <div class="overlay" aria-hidden="true"></div>
           <div class="container">
             <div class="rate">
@@ -63,7 +66,6 @@ const Component = {
             <div class="title">${title}</div>
             <button class="primary detail">자세히 보기</button>
           </div>
-        </div>
       </div>
     `;
   },
