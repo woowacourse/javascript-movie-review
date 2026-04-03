@@ -1,12 +1,226 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./styles/reset.css" />
+    <link rel="stylesheet" href="./styles/main.css" />
+    <link rel="stylesheet" href="./styles/thumbnail.css" />
     <title>영화 리뷰</title>
   </head>
   <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.ts"></script>
+    <div id="app">
+      <header>
+        <div class="logo-input-wrapper">
+          <button class="logo" id="logo">
+            <img src="./public/images/logo.png" alt="MovieList" />
+          </button>
+          <div class="movie-search">
+            <input
+              type="text"
+              id="search-input"
+              placeholder="검색어를 입력하세요"
+              autocomplete="off"
+            />
+            <button id="search-button">
+              <img src="./public/images/search.png" alt="검색" />
+            </button>
+          </div>
+        </div>
+        <div class="background-container" id="background-container">
+          <div class="overlay" aria-hidden="true"></div>
+          <div class="top-rated-container">
+            <div class="top-rated-movie">
+              <div class="rate">
+                <img src="./public/images/star_empty.png" class="star" />
+                <span class="rate-value"></span>
+              </div>
+              <h3 class="title"></h3>
+              <button class="primary detail">자세히 보기</button>
+            </div>
+          </div>
+        </div>
+      </header>
+      <div class="container">
+        <main>
+          <section id="result-section">
+            <h2 class="sub-title" id="sub-title">지금 인기 있는 영화</h2>
+
+            <ul class="thumbnail-list hidden" id="main-thumbnail-list"></ul>
+            <ul class="thumbnail-list hidden" id="search-thumbnail-list"></ul>
+
+            <ul class="thumbnail-list hidden" id="skeleton-list">
+              <li class="skeleton">
+                <div class="item">
+                  <div class="thumbnail"></div>
+                  <div class="item-desc">
+                    <p class="rate"></p>
+                    <p class="title"></p>
+                  </div>
+                </div>
+              </li>
+              <li class="skeleton">
+                <div class="item">
+                  <div class="thumbnail"></div>
+                  <div class="item-desc">
+                    <p class="rate"></p>
+                    <p class="title"></p>
+                  </div>
+                </div>
+              </li>
+              <li class="skeleton">
+                <div class="item">
+                  <div class="thumbnail"></div>
+                  <div class="item-desc">
+                    <p class="rate"></p>
+                    <p class="title"></p>
+                  </div>
+                </div>
+              </li>
+              <li class="skeleton">
+                <div class="item">
+                  <div class="thumbnail"></div>
+                  <div class="item-desc">
+                    <p class="rate"></p>
+                    <p class="title"></p>
+                  </div>
+                </div>
+              </li>
+              <li class="skeleton">
+                <div class="item">
+                  <div class="thumbnail"></div>
+                  <div class="item-desc">
+                    <p class="rate"></p>
+                    <p class="title"></p>
+                  </div>
+                </div>
+              </li>
+              <li class="skeleton">
+                <div class="item">
+                  <div class="thumbnail"></div>
+                  <div class="item-desc">
+                    <p class="rate"></p>
+                    <p class="title"></p>
+                  </div>
+                </div>
+              </li>
+              <li class="skeleton">
+                <div class="item">
+                  <div class="thumbnail"></div>
+                  <div class="item-desc">
+                    <p class="rate"></p>
+                    <p class="title"></p>
+                  </div>
+                </div>
+              </li>
+              <li class="skeleton">
+                <div class="item">
+                  <div class="thumbnail"></div>
+                  <div class="item-desc">
+                    <p class="rate"></p>
+                    <p class="title"></p>
+                  </div>
+                </div>
+              </li>
+              <li class="skeleton">
+                <div class="item">
+                  <div class="thumbnail"></div>
+                  <div class="item-desc">
+                    <p class="rate"></p>
+                    <p class="title"></p>
+                  </div>
+                </div>
+              </li>
+              <li class="skeleton">
+                <div class="item">
+                  <div class="thumbnail"></div>
+                  <div class="item-desc">
+                    <p class="rate"></p>
+                    <p class="title"></p>
+                  </div>
+                </div>
+              </li>
+              <li class="skeleton">
+                <div class="item">
+                  <div class="thumbnail"></div>
+                  <div class="item-desc">
+                    <p class="rate"></p>
+                    <p class="title"></p>
+                  </div>
+                </div>
+              </li>
+              <li class="skeleton">
+                <div class="item">
+                  <div class="thumbnail"></div>
+                  <div class="item-desc">
+                    <p class="rate"></p>
+                    <p class="title"></p>
+                  </div>
+                </div>
+              </li>
+              <li class="skeleton">
+                <div class="item">
+                  <div class="thumbnail"></div>
+                  <div class="item-desc">
+                    <p class="rate"></p>
+                    <p class="title"></p>
+                  </div>
+                </div>
+              </li>
+              <li class="skeleton">
+                <div class="item">
+                  <div class="thumbnail"></div>
+                  <div class="item-desc">
+                    <p class="rate"></p>
+                    <p class="title"></p>
+                  </div>
+                </div>
+              </li>
+              <li class="skeleton">
+                <div class="item">
+                  <div class="thumbnail"></div>
+                  <div class="item-desc">
+                    <p class="rate"></p>
+                    <p class="title"></p>
+                  </div>
+                </div>
+              </li>
+            </ul>
+
+            <div class="unexpected-container hidden" id="empty-container">
+              <img src="./public/images/으아아행성이.png" alt="" />
+              <p>검색 결과가 없습니다.</p>
+            </div>
+
+            <div class="unexpected-container hidden" id="error-container">
+              <img src="./public/images/으아아행성이.png" alt="" />
+              <p>🚨 에러 발생 🚨</p>
+              <button>재시도</button>
+            </div>
+
+            <button class="see-more-button hidden" id="main-see-more-button">
+              더 보기
+            </button>
+            <button class="see-more-button hidden" id="search-see-more-button">
+              더 보기
+            </button>
+          </section>
+        </main>
+      </div>
+
+      <footer class="footer">
+        <p>&copy; 우아한테크코스 All Rights Reserved.</p>
+        <p>
+          <img src="./public/images/woowacourse_logo.png" width="180" />
+        </p>
+      </footer>
+    </div>
+    <script type="module" src="./src/main.ts"></script>
   </body>
 </html>
+
+<!--
+  포스터 원본: https://image.tmdb.org/t/p/original//pmemGuhr450DK8GiTT44mgwWCP7.jpg
+  포스터 썸네일: https://media.themoviedb.org/t/p/w440_and_h660_face/pmemGuhr450DK8GiTT44mgwWCP7.jpg
+  배너 원본: https://image.tmdb.org/t/p/w1920_and_h800_multi_faces/stKGOm8UyhuLPR9sZLjs5AkmncA.jpg
+-->
