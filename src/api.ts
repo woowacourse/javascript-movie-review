@@ -40,7 +40,9 @@ export async function getPopularMovies(arg: {
   const { pageNum, onSuccess, onError, onLoading } = arg;
   fetcher<MoviesResponse>({
     fn: async () => {
-      const url = `${API_PATH.POPULAR_MOVIE}?page=${pageNum}&language=ko-KR`;
+      const url = new URL(API_PATH.POPULAR_MOVIE);
+      url.searchParams.set("page", String(pageNum));
+      url.searchParams.set("language", "ko-KR");
       const options = {
         method: "GET",
         headers: {
@@ -71,7 +73,10 @@ export async function getSearchMovies(arg: {
   const { query, pageNum, onSuccess, onError, onLoading } = arg;
   fetcher<MoviesResponse>({
     fn: async () => {
-      const url = `${API_PATH.SEARCH_MOVIE}?query=${query}&page=${pageNum}&language=ko-KR`;
+      const url = new URL(API_PATH.SEARCH_MOVIE);
+      url.searchParams.set("query", query);
+      url.searchParams.set("page", String(pageNum));
+      url.searchParams.set("language", "ko-KR");
       const options = {
         method: "GET",
         headers: {
