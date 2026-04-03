@@ -29,16 +29,13 @@ addEventListener("load", async () => {
   const movieDisplay = getUListElement(".thumbnail-list");
 
   addMovieSkeletonUIList(movieDisplay, 20);
-
   const movieList = await fetchDefaultMovieList(state.pageNum);
-
   removeMovieSkeletonUIList(movieDisplay);
-
   addMovieList(movieDisplay, movieList);
+
   showBackgroundMovieInfo(movieList[0]);
 
   bindSearchEvents(state);
   bindMoreMovieEvents(state);
-
   bindClickPosterEvent(state);
 });
