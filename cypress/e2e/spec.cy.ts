@@ -153,6 +153,129 @@ describe("영화 리뷰 앱", () => {
       cy.get(".notice-text").should("contain.text", "검색 결과가 없습니다");
     });
 
+    it("재검색 시 새로운 결과가 렌더링되고 섹션 헤딩에 새 검색어가 렌더링된다", () => {
+      cy.wait("@getPopularMovies");
+
+      cy.intercept("GET", "**/search/movie*", createMoviesResponse(5)).as(
+        "searchMovies",
+      );
+
+      cy.get(".search-form input").type("액션");
+      cy.get(".search-form").submit();
+      cy.wait("@searchMovies");
+
+      cy.intercept("GET", "**/search/movie*", createMoviesResponse(3)).as(
+        "reSearchMovies",
+      );
+
+      cy.get(".search-form input").clear().type("공포");
+      cy.get(".search-form").submit();
+      cy.wait("@reSearchMovies");
+
+      cy.get(".thumbnail-list li").should("have.length", 3);
+      cy.get("section > h2").should("contain.text", "공포");
+    });
+
+    it("재검색 결과가 없을 때 안내 메시지가 렌더링된다", () => {
+      cy.wait("@getPopularMovies");
+
+      cy.intercept("GET", "**/search/movie*", createMoviesResponse(5)).as(
+        "searchMovies",
+      );
+
+      cy.get(".search-form input").type("액션");
+      cy.get(".search-form").submit();
+      cy.wait("@searchMovies");
+
+      cy.intercept("GET", "**/search/movie*", {
+        page: 1,
+        results: [],
+        total_pages: 0,
+        total_results: 0,
+      }).as("reSearchEmpty");
+
+      cy.get(".search-form input").clear().type("겨울왕국");
+      cy.get(".search-form").submit();
+      cy.wait("@reSearchEmpty");
+
+      cy.get(".notice-text").should("contain.text", "검색 결과가 없습니다");
+    });
+
+    it("검색 API 실패 시 에러 메시지가 렌더링된다", () => {
+      cy.wait("@getPopularMovies");
+
+      cy.intercept("GET", "**/search/movie*", { statusCode: 500 }).as(
+        "searchMoviesError",
+      );
+
+      cy.get(".search-form input").type("액션");
+      cy.get(".search-form").submit();
+      cy.wait("@searchMoviesError");
+
+      cy.get(".notice-text").should(
+        "contain.text",
+        "영화 정보를 불러오는 데 실패했습니다.",
+      );
+    });
+
+    it("검색 이후 더 보기 클릭 시 영화가 20개 추가 렌더링된다", () => {
+      cy.wait("@getPopularMovies");
+
+      cy.intercept("GET", "**/search/movie*", createMoviesResponse(20)).as(
+        "searchMovies",
+      );
+
+      cy.get(".search-form input").type("액션");
+      cy.get(".search-form").submit();
+      cy.wait("@searchMovies");
+
+      cy.intercept("GET", "**/search/movie*", createMoviesResponse(20, 2)).as(
+        "searchMoreMovies",
+      );
+
+      cy.get(".load-more-button").click();
+      cy.wait("@searchMoreMovies");
+
+      cy.get(".thumbnail-list li").should("have.length", 40);
+    });
+
+    it("검색 중 스켈레톤 UI가 표시된다", () => {
+      cy.wait("@getPopularMovies");
+
+      cy.intercept("GET", "**/search/movie*", (req) => {
+        req.reply({ delay: 500, body: createMoviesResponse(5) });
+      }).as("searchMoviesDelayed");
+
+      cy.get(".search-form input").type("액션");
+      cy.get(".search-form").submit();
+      cy.get(".thumbnail-list li.skeleton").should("exist");
+
+      cy.wait("@searchMoviesDelayed");
+      cy.get(".thumbnail-list li.skeleton").should("not.exist");
+    });
+
+    it("검색 후 로고 클릭 시 인기 영화 목록으로 돌아간다", () => {
+      cy.wait("@getPopularMovies");
+
+      cy.intercept("GET", "**/search/movie*", createMoviesResponse(5)).as(
+        "searchMovies",
+      );
+
+      cy.get(".search-form input").type("액션");
+      cy.get(".search-form").submit();
+      cy.wait("@searchMovies");
+
+      cy.intercept("GET", "**/movie/popular*", createMoviesResponse(20)).as(
+        "getPopularMoviesAgain",
+      );
+
+      cy.get(".logo a").click();
+      cy.wait("@getPopularMoviesAgain");
+
+      cy.get(".thumbnail-list li").should("have.length", 20);
+      cy.get("section > h2").should("have.text", "지금 인기 있는 영화");
+    });
+
     it("검색 이후 더 보기 API 실패 시 에러 메시지가 렌더링된다", () => {
       cy.wait("@getPopularMovies");
 
