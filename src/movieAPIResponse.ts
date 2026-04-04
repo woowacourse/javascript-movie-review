@@ -1,4 +1,8 @@
-export const fetchMovies = async (moviePageCount: number) => {
+import type { MovieResponse } from "../types/MovieResponse";
+
+export const fetchMovies = async (
+  moviePageCount: number,
+): Promise<MovieResponse> => {
   const response = await fetch(
     `https://api.themoviedb.org/3/movie/popular?language=en-US&page=${moviePageCount}`,
     {
@@ -20,7 +24,7 @@ export const fetchMovies = async (moviePageCount: number) => {
 export const fetchSearchedMovies = async (
   searchKeyword: string,
   searchPageCount: number,
-) => {
+): Promise<MovieResponse> => {
   const response = await fetch(
     `https://api.themoviedb.org/3/search/movie?query=${searchKeyword}&page=${searchPageCount}`,
     {
