@@ -27,7 +27,8 @@ const Rate = (data: MovieData) => {
 
   const $span = document.createElement('span');
   $span.className = 'rate-value';
-  $span.textContent = String(data.vote_average);
+  $span.textContent = data.vote_average.toFixed(1);
 
+  $rate.append($img, $span);
   return $rate;
 };
