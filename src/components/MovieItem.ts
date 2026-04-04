@@ -1,5 +1,4 @@
 import { MovieData } from '../api/type.ts';
-import { Rate } from './Rate.ts';
 
 const template = `
   <div class="item">
@@ -28,7 +27,6 @@ export const MovieItem = (data: MovieData) => {
   if (!$itemDesc) {
     throw new Error('itemDesc 없음');
   }
-  $itemDesc.append(Rate({ rateValue: vote_average }));
 
   return $li;
 };
