@@ -52,7 +52,17 @@ const createMovieItem = (movie: Movie): HTMLLIElement => {
 };
 
 export const renderMovies = async (moviePageCount: number) => {
-  const movieData = await fetchMovies(moviePageCount);
+  let movieData;
+  try {
+    movieData = await fetchMovies(moviePageCount);
+  } catch (error) {
+    alert(
+      error instanceof Error
+        ? error.message
+        : "알 수 없는 오류가 발생했습니다.",
+    );
+    return;
+  }
   if (moviePageCount === 1) {
     renderBanner(movieData.results[0]);
   }
@@ -121,7 +131,17 @@ export const renderSearchedMovies = async (
   searchKeyword: string,
   searchPageCount: number,
 ) => {
-  const movieData = await fetchSearchedMovies(searchKeyword, searchPageCount);
+  let movieData;
+  try {
+    movieData = await fetchSearchedMovies(searchKeyword, searchPageCount);
+  } catch (error) {
+    alert(
+      error instanceof Error
+        ? error.message
+        : "알 수 없는 오류가 발생했습니다.",
+    );
+    return;
+  }
   const movies = movieData.results;
 
   const list = document.querySelector(".thumbnail-list");
