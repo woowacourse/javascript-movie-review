@@ -1,0 +1,410 @@
+{
+  "page": 1,
+  "results": [
+    {
+      "adult": false,
+      "backdrop_path": "/1x9e0qWonw634NhIsRdvnneeqvN.jpg",
+      "genre_ids": [
+        10749,
+        18
+      ],
+      "id": 1523145,
+      "original_language": "ru",
+      "original_title": "Твоё сердце будет разбито",
+      "overview": "",
+      "popularity": 1265.9022,
+      "poster_path": "/iGpMm603GUKH2SiXB2S5m4sZ17t.jpg",
+      "release_date": "2026-03-26",
+      "title": "Твоё сердце будет разбито",
+      "video": false,
+      "vote_average": 7,
+      "vote_count": 33
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/iN41Ccw4DctL8npfmYg1j5Tr1eb.jpg",
+      "genre_ids": [
+        878,
+        12,
+        14
+      ],
+      "id": 83533,
+      "original_language": "en",
+      "original_title": "Avatar: Fire and Ash",
+      "overview": "인간들과의 전쟁으로 첫째 아들 ‘네테이얌’을 잃은 후, ‘제이크’와 ‘네이티리’는 깊은 슬픔에 빠진다. 상실에 빠진 이들 앞에 '바랑'이 이끄는 재의 부족이 등장하면서, 판도라는 더욱 큰 위험에 빠지게 되고, ‘설리’ 가족은 선택의 기로에 서게 되는데…",
+      "popularity": 544.8659,
+      "poster_path": "/l18o0AK18KS118tWeROOKYkF0ng.jpg",
+      "release_date": "2025-12-17",
+      "title": "아바타: 불과 재",
+      "video": false,
+      "vote_average": 7.342,
+      "vote_count": 2245
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/uNToXatdunyvWXyXMrTI1nLvh6r.jpg",
+      "genre_ids": [
+        35,
+        878,
+        80
+      ],
+      "id": 1115544,
+      "original_language": "en",
+      "original_title": "Mike & Nick & Nick & Alice",
+      "overview": "갱스터 둘과 그들이 사랑하는 여자가 위험천만한 하룻밤을 무사히 보내기 위해 고군분투하는 유쾌하고 개성 넘치는 청불 액션 코미디. 죽을 위기에 처한 것도 모자라 그들 앞에 타임머신이란 엄청난 변수가 등장한다.",
+      "popularity": 349.1562,
+      "poster_path": "/7F0jc75HrSkLVcvOXR2FXAIwuEv.jpg",
+      "release_date": "2026-03-14",
+      "title": "마이크 & 닉 & 닉 & 앨리스",
+      "video": false,
+      "vote_average": 6.75,
+      "vote_count": 144
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/kKF4gEiBDArhONlCcunHVgBp3bA.jpg",
+      "genre_ids": [
+        80,
+        53
+      ],
+      "id": 1171145,
+      "original_language": "en",
+      "original_title": "Crime 101",
+      "overview": "101번 국도를 따라 흔적도 없이 사라지는 보석들. 전설적인 절도범 ‘데이비스’는 자신만의 규칙 아래 완벽한 범죄를 설계한다. 모두가 혼란에 빠진 사이, 원칙과 집념의 형사 ‘루’만이 범인의 실체를 포착하며 포위망을 좁혀간다. 거대한 보험금을 노린 ‘데이비스’는 보험중개인 ‘샤론’에게 위험한 거래를 제안하고 완벽했던 계획과 정교한 수사는 예상치 못한 국면으로 치닫는데…",
+      "popularity": 366.4443,
+      "poster_path": "/77ggpowGO0ORQY9x33NeBIPajm1.jpg",
+      "release_date": "2026-02-11",
+      "title": "크라임 101",
+      "video": false,
+      "vote_average": 6.969,
+      "vote_count": 382
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/nHxWyy18SvAZ8jJeemtS8k1UNjM.jpg",
+      "genre_ids": [
+        28,
+        80,
+        53
+      ],
+      "id": 1290821,
+      "original_language": "en",
+      "original_title": "Shelter",
+      "overview": "등대에 홀로 숨어살던 한 남자. 그 앞에 홀로 나타난 한 소녀. 이제 소녀를 지키기 위해, 그 남자의 숨겨왔던 액션 본능이 깨어난다!",
+      "popularity": 333.2818,
+      "poster_path": "/tS3UZlVfESO4z8inIZXGiHNgDfE.jpg",
+      "release_date": "2026-01-28",
+      "title": "쉘터",
+      "video": false,
+      "vote_average": 6.762,
+      "vote_count": 467
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/u53UYu5XG2hNgWGvs3xGhAVzypl.jpg",
+      "genre_ids": [
+        16,
+        10751,
+        878,
+        35
+      ],
+      "id": 1327819,
+      "original_language": "en",
+      "original_title": "Hoppers",
+      "overview": "오랜 연구 끝에 개발한 ‘호핑’ 기술로 동물 세계에 가까이 갈 수 있음을 알게 된 주인공 ‘메이블’은 마치 ‘아바타’ 같다며 신기해하고, 직접 로봇 비버가 되어 동물들의 세계에 잠입한다. 그들의 말을 알아듣게 된 ‘메이블’은 진짜 동물이 된 것처럼 동물 세상을 경험하는 가운데, 연못에 있던 다른 비버에게 달려드는 곰을 막아서지만 그들에겐 그들만의 질서와 법칙이 있다는 사실을 알게 된다. ‘호핑‘ 기술을 개발한 박사는 이 기술을 자연계 질서를 어지럽히는 데 쓰면 안 된다고 경고하지만, ‘메이블’은 통신을 끊어버려 이후 예측불가의 모험이 펼쳐질 것을 예고한다.",
+      "popularity": 317.6156,
+      "poster_path": "/vJu9THzQ26Q5sWOVnhOkuRH5M1P.jpg",
+      "release_date": "2026-03-04",
+      "title": "호퍼스",
+      "video": false,
+      "vote_average": 7.575,
+      "vote_count": 375
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/kxQiIJ4gVcD3K6o14MJ72p5yRcE.jpg",
+      "genre_ids": [
+        12,
+        16,
+        35,
+        10751,
+        14
+      ],
+      "id": 1226863,
+      "original_language": "en",
+      "original_title": "The Super Mario Galaxy Movie",
+      "overview": "브루클린의 배관공에서 세계를 구한 히어로로 레벨업한 형제 ‘마리오’와 ‘루이지’는 모래 왕국에서 임무를 수행하던 중, 길을 잃은 ‘요시’를 구출하며 특별한 우정을 쌓게 된다. 한편, 무너진 ‘쿠파’ 가문의 명예를 되찾기 위해 악의 왕자 ‘쿠파주니어’는 은하계의 수호자이자 치코들의 엄마 ‘로젤리나’를 납치하고, 버섯 왕국에 잡힌 아빠 ‘쿠파’를 되찾기 위해 왕국을 습격한다. 다시 찾아온 위기 속에서 마리오와 루이지, 피치, 키노피오 그리고 새로 합류한 요시까지 로젤리나도 구하고, 쿠파주니어의 비범한 계획을 막기 위해 넓은 갤럭시로 뛰어들게 되는데…",
+      "popularity": 298.654,
+      "poster_path": "/knaXOBDBecVBWZVup3zXaOoy23v.jpg",
+      "release_date": "2026-04-01",
+      "title": "슈퍼 마리오 갤럭시",
+      "video": false,
+      "vote_average": 6.912,
+      "vote_count": 148
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/tq3h43fZy0H80vzf47MAY7R9Mxo.jpg",
+      "genre_ids": [
+        16,
+        35,
+        10751
+      ],
+      "id": 1297842,
+      "original_language": "en",
+      "original_title": "GOAT",
+      "overview": "큰 꿈을 품은 작은 염소 윌은 세계에서 가장 빠르고 사나운 동물들이 지배하는 고강도 혼성 풀컨택트 스포츠 ‘로어볼’의 프로 리그에 합류할 단 한 번의 기회를 얻게 된다. 새 팀의 동료들은 작은 염소가 팀 명단에 오른 것을 탐탁지 않게 여기지만, 윌은 ‘작아도 충분히 해낼 수 있다’는 것을 증명하고 스포츠의 판도를 바꾸겠다는 굳은 결의를 다진다. 이를 위해 그는 지금까지 한 번도 해본 적 없는 도전에 나서야 한다.",
+      "popularity": 291.6911,
+      "poster_path": "/rrInco3ciHcTtjdNBrbSeO9LfUS.jpg",
+      "release_date": "2026-02-11",
+      "title": "고트: 더 레전드",
+      "video": false,
+      "vote_average": 7.854,
+      "vote_count": 302
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/z3bzhmC0CPikWeerUkLO73YvGrC.jpg",
+      "genre_ids": [
+        28,
+        53,
+        10402,
+        27
+      ],
+      "id": 1084187,
+      "original_language": "en",
+      "original_title": "Pretty Lethal",
+      "overview": "액션으로 가득한 스릴러. 댄스 대회로 향하던 다섯 발레리나가 외딴 숲에서 길을 잃어 음산한 모텔에 머문다. 모텔 주인 데보라 카시메르와 맞서기 위해 그들은 발레를 무기로 삼아야 한다.",
+      "popularity": 265.0209,
+      "poster_path": "/wlV000ToWdP5jtBBswT98DUibIS.jpg",
+      "release_date": "2026-03-13",
+      "title": "치명적이고 아름다운",
+      "video": false,
+      "vote_average": 6.952,
+      "vote_count": 197
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/8Tfys3mDZVp4tNoH2ktm06a0Tau.jpg",
+      "genre_ids": [
+        878,
+        12
+      ],
+      "id": 687163,
+      "original_language": "en",
+      "original_title": "Project Hail Mary",
+      "overview": "눈을 떠보니 아득한 우주의 한가운데에서 깨어난 중학교 과학교사 그레이스는 희미한 기억 속에서 자신이 죽어가는 태양으로부터 지구와 인류를 살릴 마지막 희망으로 이곳에 왔다는 사실을 알게 된다. 잃어버린 기억으로 인해 모든 것이 혼란스러운 상황에서 그레이스는 우연히 우주 한복판에서 같은 목적으로 온 뜻밖의 존재 로키를 만나게 되고 그레이스와 로키는 각 두 행성의 운명을 건 마지막 미션을 수행하러 떠나게 되는데…",
+      "popularity": 237.9095,
+      "poster_path": "/qqGpVVZk2KD1lAvccgTU4Z6nh1H.jpg",
+      "release_date": "2026-03-15",
+      "title": "프로젝트 헤일메리",
+      "video": false,
+      "vote_average": 8.18,
+      "vote_count": 951
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/hz7TdCrpLLt2Dz7S3PS2HG9rpAO.jpg",
+      "genre_ids": [
+        27,
+        9648,
+        80
+      ],
+      "id": 1159559,
+      "original_language": "en",
+      "original_title": "Scream 7",
+      "overview": "시드니 프레스콧이 새롭게 정착한 조용한 마을에 새로운 고스트페이스가 등장한다. 그녀의 딸, 테이텀이 다음 표적이 되면서 우려했던 공포가 현실이 되고, 가족을 지키기 위해 시드니는 과거의 공포와 맞서 피의 학살을 영원히 끝내기로 결심하는데…",
+      "popularity": 230.4213,
+      "poster_path": "/gqgBqxyr8tGQGJCFrRWAzfA7Cml.jpg",
+      "release_date": "2026-02-25",
+      "title": "스크림 7",
+      "video": false,
+      "vote_average": 5.959,
+      "vote_count": 608
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/wns4x1GyxCudgOZRyhXKjXVJf3T.jpg",
+      "genre_ids": [
+        12,
+        53,
+        878
+      ],
+      "id": 840464,
+      "original_language": "en",
+      "original_title": "Greenland 2: Migration",
+      "overview": "생존한 개리티 가족은 안전한 그린란드 벙커를 떠나 폐허가 된 얼어붙은 유럽의 황무지를 가로질러 새로운 보금자리를 찾기 위한 위험한 여정을 시작한다.",
+      "popularity": 223.2198,
+      "poster_path": "/z2tqCJLsw6uEJ8nJV8BsQXGa3dr.jpg",
+      "release_date": "2026-01-07",
+      "title": "그린랜드 2",
+      "video": false,
+      "vote_average": 6.489,
+      "vote_count": 802
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/6yeVcxFR0j08vlv2OlL6zbewm4D.jpg",
+      "genre_ids": [
+        28,
+        878,
+        53
+      ],
+      "id": 1265609,
+      "original_language": "en",
+      "original_title": "War Machine",
+      "overview": "미 육군 레인저 훈련에서 마지막 혹독한 임무를 받은 전투 공병. 자신이 속한 부대를 이끌고 거대한 외계 살상 병기에 맞서 싸워야 한다.",
+      "popularity": 206.8106,
+      "poster_path": "/cfeIYPthWgq5XFZnx7cbpr7xFTp.jpg",
+      "release_date": "2026-02-12",
+      "title": "워 머신: 전쟁 기계",
+      "video": false,
+      "vote_average": 7.274,
+      "vote_count": 1296
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/5KFThZkdBEQkp9gPWWWNb5CI5yD.jpg",
+      "genre_ids": [
+        53,
+        28,
+        18
+      ],
+      "id": 1268127,
+      "original_language": "ko",
+      "original_title": "휴민트",
+      "overview": "러시아에서 마약 조직을 추적하던 남한 요원. 북한 요원과 정면충돌하면서, 두 사람은 거대한 위험과 거미줄처럼 얽힌 음모에 휘말린다.",
+      "popularity": 194.9911,
+      "poster_path": "/f7sCSLEPRfV2fWQ0RYOtHhnHXuG.jpg",
+      "release_date": "2026-02-11",
+      "title": "휴민트",
+      "video": false,
+      "vote_average": 7.2,
+      "vote_count": 33
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/gCmfeKmEAZBP5gcXpiqb0gii9rS.jpg",
+      "genre_ids": [
+        27,
+        53,
+        35
+      ],
+      "id": 1198994,
+      "original_language": "en",
+      "original_title": "Send Help",
+      "overview": "승진만을 꿈꾸는 7년차 직장인 린다(레이첼 맥아담스)는 자신을 무시하는 상사 브래들리(딜런 오브라이언)와  출장 도중 비행기 추락 사고로 무인도에 단둘이 고립된다. 하지만 와이파이도, 인사팀도, 직급도 없는 야생의 섬에서 두 사람의 권력관계는 완전히 뒤집히기 시작한다. 회사에서는 절대적인 권력자였던 브래들리가 부상으로 인해 생존 능력 제로로 전락한다. 반면 그동안  억눌려 있던 린다는 뛰어난 생존 능력으로 상황을 장악하기 시작한다. 그러던 어느 날, 누군가 섬을 찾아오면서  상황은 예측 불가능하게 흘러가는데….",
+      "popularity": 149.7339,
+      "poster_path": "/kpOHAiCiIBa0yPtOqSp99NxhwUF.jpg",
+      "release_date": "2026-01-22",
+      "title": "직장상사 길들이기",
+      "video": false,
+      "vote_average": 7.077,
+      "vote_count": 803
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/61RYedFgX1K07xgVIvdJzukSR4g.jpg",
+      "genre_ids": [
+        35,
+        18,
+        10751,
+        10749
+      ],
+      "id": 848116,
+      "original_language": "hi",
+      "original_title": "रॉकी और रानी की प्रेम कहानी",
+      "overview": "",
+      "popularity": 148.1461,
+      "poster_path": "/vTQIqlxUkOuyf2UKhlM2OUaFGKz.jpg",
+      "release_date": "2023-07-28",
+      "title": "발리우드 러브스토리",
+      "video": false,
+      "vote_average": 6.045,
+      "vote_count": 78
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/1fkuBPid72KGS6WmtkEXMftZtkE.jpg",
+      "genre_ids": [
+        80,
+        18
+      ],
+      "id": 875828,
+      "original_language": "en",
+      "original_title": "Peaky Blinders: The Immortal Man",
+      "overview": "멀어진 아들이 나치 음모에 휘말리자, 스스로 은둔을 택했던 갱스터 토마스 셸비는 가족과 조국을 구하기 위해 버밍엄으로 돌아온다.",
+      "popularity": 129.9931,
+      "poster_path": "/q1GPxUb7dfzfw4toS5TnRoSPVbn.jpg",
+      "release_date": "2026-03-05",
+      "title": "피키 블라인더스: 불멸의 남자",
+      "video": false,
+      "vote_average": 7.3,
+      "vote_count": 641
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/7uXzE0ZBkbAeKylOz7cUQF4Yw75.jpg",
+      "genre_ids": [
+        18
+      ],
+      "id": 879945,
+      "original_language": "nl",
+      "original_title": "L'homme inconnu",
+      "overview": "내리쬐는 여름 태양 아래, 거센 파도 속에서 돋아나는 사랑. 이 작품에는 여름의 뜨거움과 고요함이 담겨있다. 색감과 노래에서 묻어 나오는 감정들은 영화에 더욱 몰입하게 한다.",
+      "popularity": 127.7632,
+      "poster_path": "/4TpBhdaSl5ALHbgeaYOLF8Q3haz.jpg",
+      "release_date": "2021-10-16",
+      "title": "무명의 남자",
+      "video": false,
+      "vote_average": 8.5,
+      "vote_count": 2
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/lgotja3xMoJZbynwHfcQcJAEMWH.jpg",
+      "genre_ids": [
+        16,
+        35,
+        12,
+        10751,
+        9648
+      ],
+      "id": 1084242,
+      "original_language": "en",
+      "original_title": "Zootopia 2",
+      "overview": "미스터리한 뱀 게리가 나타난 순간, 주토피아가 다시 흔들리기 시작했다! 혼란에 빠진 도시를 구하기 위해 환상의 콤비 주디와 닉이 잠입 수사에 나서고 상상 그 이상의 진실과 위협을 마주하게 되는데...!",
+      "popularity": 136.9413,
+      "poster_path": "/ib6v6qUXzez1x2qIOLN7C0yJNPQ.jpg",
+      "release_date": "2025-11-26",
+      "title": "주토피아 2",
+      "video": false,
+      "vote_average": 7.6,
+      "vote_count": 2442
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/9n2tJBplPbgR2ca05hS5CKXwP2c.jpg",
+      "genre_ids": [
+        10751,
+        35,
+        12,
+        16,
+        14
+      ],
+      "id": 502356,
+      "original_language": "en",
+      "original_title": "The Super Mario Bros. Movie",
+      "overview": "따단-딴-따단-딴 ♫ 전 세계를 열광시킬 올 타임 슈퍼 어드벤처의 등장! 뉴욕의 평범한 배관공 형제 '마리오'와 ‘루이지’는 배수관 고장으로 위기에 빠진 도시를 구하려다 미스터리한 초록색 파이프 안으로 빨려 들어가게 된다. 파이프를 통해 새로운 세상으로 차원 이동하게 된 형제. 형 '마리오'는 뛰어난 리더십을 지닌 '피치'가 통치하는 버섯왕국에 도착하지만 동생 '루이지'는 빌런 '쿠파'가 있는 다크랜드로 떨어지며 납치를 당하고 ‘마리오’는 동생을 구하기 위해 ‘피치’와 ‘키노피오’의 도움을 받아 '쿠파'에 맞서기로 결심한다. 그러나 슈퍼스타로 세상을 지배하려는 그의 강력한 힘 앞에 이들은 예기치 못한 위험에 빠지게 되는데...!",
+      "popularity": 166.7073,
+      "poster_path": "/jt1GlLLvkWL2m83VX8I1qsDR187.jpg",
+      "release_date": "2023-04-05",
+      "title": "슈퍼 마리오 브라더스",
+      "video": false,
+      "vote_average": 7.587,
+      "vote_count": 10408
+    }
+  ],
+  "total_pages": 55977,
+  "total_results": 1119537
+}

@@ -1,0 +1,395 @@
+{
+  "page": 2,
+  "results": [
+    {
+      "adult": false,
+      "backdrop_path": "/vSQSYd2zZTqc0zmHImwWEGGluMI.jpg",
+      "genre_ids": [
+        10749,
+        18
+      ],
+      "id": 1316092,
+      "original_language": "en",
+      "original_title": "\"Wuthering Heights\"",
+      "overview": "자유를 꿈꾸는 캐서린과 상처 입은 영혼 히스클리프, 서로에게 완전히 빠져든 두 사람의 치명적인 사랑을 담은 이야기",
+      "popularity": 124.9672,
+      "poster_path": "/oDXVQRHTomnm9N569Pu2d38IubP.jpg",
+      "release_date": "2026-02-11",
+      "title": "\"폭풍의 언덕\"",
+      "video": false,
+      "vote_average": 6.498,
+      "vote_count": 663
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/tZiRd4IpoNiaoLXr2o2YfhTMjE2.jpg",
+      "genre_ids": [
+        12,
+        28
+      ],
+      "id": 662707,
+      "original_language": "en",
+      "original_title": "Starbright",
+      "overview": "어려운 현실을 살아가는 한 여성이 마법 같은 세계로 도피하면서 소원을 이루는 비밀을 발견하게 되는 판타지 어드벤처.",
+      "popularity": 157.3726,
+      "poster_path": "/m1Zl07DNYeSyNcz9hf8hDsS2oB5.jpg",
+      "release_date": "2026-02-27",
+      "title": "스타브라이트",
+      "video": false,
+      "vote_average": 7.375,
+      "vote_count": 8
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/1RgPyOhN4DRs225BGTlHJqCudII.jpg",
+      "genre_ids": [
+        16,
+        28,
+        14
+      ],
+      "id": 1311031,
+      "original_language": "ja",
+      "original_title": "劇場版「鬼滅の刃」無限城編 第一章 猗窩座再来",
+      "overview": "혈귀로 변해버린 여동생 네즈코를 인간으로 되돌리기 위해 혈귀를 사냥하는 조직인 《귀살대》에 입대한 카마도 탄지로. 입대 후 동료인 아가츠마 젠이츠, 하시비라 이노스케와 함께 많은 혈귀와 싸우고, 성장하면서 세 사람의 우정과 유대는 깊어진다. 탄지로는 《귀살대》 최고위 검사인 《주》와도 함께 싸웠다. 「무한열차」에서는 염주・렌고쿠 쿄쥬로, 「유곽」에서는 음주・우즈이 텐겐, 「도공 마을」에서는 하주・토키토 무이치로, 연주・칸로지 미츠리와 함께 혈귀를 상대로 격렬한 전투를 벌였다. 그 후 다가올 혈귀와의 결전에 대비해 귀살대원들과 함께 《주》가 주도하는 합동 강화 훈련에 참가해 훈련을 받던 도중 《귀살대》의 본부인 우부야시키 저택에 나타난 키부츠지 무잔. 어르신의 위기에 달려온 《주》들과 탄지로였지만, 무잔의 술수로 의문의 공간으로 떨어지고 말았는데. 탄지로 일행이 떨어진 곳, 그곳은 혈귀의 본거지 《무한성》─ “귀살대”와 “혈귀”의 최종 결전의 포문이 열린다.",
+      "popularity": 113.9372,
+      "poster_path": "/m6Dho6hDCcL5KI8mOQNemZAedFI.jpg",
+      "release_date": "2025-07-18",
+      "title": "극장판 귀멸의 칼날: 무한성편",
+      "video": false,
+      "vote_average": 7.666,
+      "vote_count": 777
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/8zyQbsmMlXfLkcctjNz5YZZwpkw.jpg",
+      "genre_ids": [
+        27
+      ],
+      "id": 999136,
+      "original_language": "en",
+      "original_title": "Do Not Enter",
+      "overview": "젊은 탐험가들이 버려진 오래된 호텔을 조사하다가 기이한 초자연적 존재와 전설적인 보물을 찾는 경쟁 집단을 만나게 된다. 데이비드 모렐의 도시탐험가들 (Creepers)이 원작.",
+      "popularity": 108.1413,
+      "poster_path": "/stM9N7eJmHKLmFR59JG4tLdN7Wk.jpg",
+      "release_date": "2026-03-19",
+      "title": "출입금지",
+      "video": false,
+      "vote_average": 5.32,
+      "vote_count": 50
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/yJi6g0CnsqANLNuVaRX28tZxeHX.jpg",
+      "genre_ids": [
+        27,
+        9648
+      ],
+      "id": 1193501,
+      "original_language": "en",
+      "original_title": "Whistle",
+      "overview": "\"죽음의 휘파람, 그 소리를 불어서는 안 됐다\"\r 전학생 크리스는 작은 공업 도시의 고등학교로 전학 온 첫날, 의문의 사고로 죽은 학생이 사용하던 사물함을 물려받게 된다. 그 안에서 발견한 것은 해골 모양의 기묘한 고대 휘파람. 호기심에 불어본 순간, 그것이 단순한 장난감이 아니라 끔찍한 저주가 깃든 유물이라는 사실을 알게 된다. 휘파람이 울리는 순간, 그 소리를 들은 이들에게는 피할 수 없는 운명이 따라붙기 시작한다. 눈에 보이지 않던 공포가 점점 현실로 다가오고, 친구들 사이에서는 설명할 수 없는 사건들이 이어진다. 저주의 근원을 찾아내기 전까지 죽음은 멈추지 않는다. 크리스와 친구들은 이 끔찍한 운명을 끊어내기 위해 진실을 추적하기 시작하게 되는데…",
+      "popularity": 104.9056,
+      "poster_path": "/eGxPyseSnEZBMJaopGfRUO9HSYx.jpg",
+      "release_date": "2026-01-20",
+      "title": "휘슬",
+      "video": false,
+      "vote_average": 6,
+      "vote_count": 212
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/zTnAnYIn0Iv3cn0ZHlzLhou3ybm.jpg",
+      "genre_ids": [
+        9648,
+        53
+      ],
+      "id": 1368166,
+      "original_language": "en",
+      "original_title": "The Housemaid",
+      "overview": "과거를 숨긴 채 완벽한 저택의 가정부로 들어간 밀리가 이상한 행동을 보이는 아내 니나와 그런 아내를 이해하는 모범적인 남편 앤드루와 얽히며 닫힌 문 뒤의 거짓과 마주하게 되는 월드 베스트셀러 원작의 고자극 미스터리 스릴러",
+      "popularity": 95.2251,
+      "poster_path": "/fUDX16A4fJXmAuUA5t0pnqzXS0b.jpg",
+      "release_date": "2025-12-18",
+      "title": "하우스메이드",
+      "video": false,
+      "vote_average": 7.193,
+      "vote_count": 1691
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/yzIjyPtwvyjHelxqIRXGpiaucPG.jpg",
+      "genre_ids": [
+        27
+      ],
+      "id": 1572073,
+      "original_language": "en",
+      "original_title": "The Deadly Little Mermaid",
+      "overview": "",
+      "popularity": 86.8257,
+      "poster_path": "/uye25uG7k8r3NNPLyPiKOiRnFRF.jpg",
+      "release_date": "2026-03-06",
+      "title": "The Deadly Little Mermaid",
+      "video": false,
+      "vote_average": 4.563,
+      "vote_count": 24
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/cz4vLJrmaV1zJlRYbxqtvLzeLWB.jpg",
+      "genre_ids": [
+        28,
+        35,
+        80,
+        9648
+      ],
+      "id": 1168190,
+      "original_language": "en",
+      "original_title": "The Wrecking Crew",
+      "overview": "'더 레킹 크루'는 사이가 멀어진 이복형제의 이야기를 다룬다. 조니와 제임스는 아버지의 의문스러운 죽음 이후 다시 뭉치게 된다. 진실을 쫓는 과정에서 묻혀 있던 비밀들이 밝혀지고, 가족을 갈라놓을 수 있는 거대한 음모가 드러난다.",
+      "popularity": 93.8433,
+      "poster_path": "/bG8BPNRoOvTC9wIos7DIH1YWOqN.jpg",
+      "release_date": "2026-01-28",
+      "title": "더 레킹 크루",
+      "video": false,
+      "vote_average": 6.903,
+      "vote_count": 857
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/v0NEB75SZjxY8GS3ho8WeEvjIT3.jpg",
+      "genre_ids": [
+        9648,
+        18,
+        27
+      ],
+      "id": 680493,
+      "original_language": "en",
+      "original_title": "Return to Silent Hill",
+      "overview": "침묵이 지배하는 안개 속 도시, 잃어버린 사랑을 찾기 위한 잔혹한 여정이 다시 시작된다.\r 기억 속에서 지워지지 않는 옛 연인 메리를 되찾기 위해 제임스는 정체 모를 편지에 이끌려 다시 사일런트 힐로 향한다. 하지만 그를 기다리고 있는 것은 낯익으면서도 낯선 공포, 그리고 기괴하게 뒤틀린 괴물들이 장악한 심연의 세계다. 안개 너머에 숨겨진 진실에 다가갈수록 제임스는 자신의 어두운 내면과 마주하게 되고, 현실과 악몽의 경계는 점점 무너지기 시작한다. 과연 그는 이 지옥 같은 도시에서 메리를 구해내고 무사히 탈출할 수 있을 것인가, 아니면 영원히 안개 속에 갇히게 될 것인가.",
+      "popularity": 93.4608,
+      "poster_path": "/lSzmchPGjy6gjLMCpousS3vQAjS.jpg",
+      "release_date": "2026-01-21",
+      "title": "리턴 투 사일런트 힐",
+      "video": false,
+      "vote_average": 4.987,
+      "vote_count": 310
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/zD5v1E4joAzFvmAEytt7fM3ivyT.jpg",
+      "genre_ids": [
+        28,
+        12,
+        878
+      ],
+      "id": 634649,
+      "original_language": "en",
+      "original_title": "Spider-Man: No Way Home",
+      "overview": "미스테리오의 계략으로 세상에 정체가 탄로난 스파이더맨 피터 파커는 하루 아침에 평범한 일상을 잃게 된다. 문제를 해결하기 위해 닥터 스트레인지를 찾아가 도움을 청하지만 뜻하지 않게 멀티버스가 열리면서 각기 다른 차원의 불청객들이 나타난다. 닥터 옥토퍼스를 비롯해 스파이더맨에게 깊은 원한을 가진 숙적들의 강력한 공격에 피터 파커는 사상 최악의 위기를 맞게 되는데…",
+      "popularity": 89.2918,
+      "poster_path": "/fvqoI9r1GU2EFkc0xjZ6dKCuDVR.jpg",
+      "release_date": "2021-12-15",
+      "title": "스파이더맨: 노 웨이 홈",
+      "video": false,
+      "vote_average": 7.934,
+      "vote_count": 21736
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/7HKpc11uQfxnw0Y8tRUYn1fsKqE.jpg",
+      "genre_ids": [
+        878,
+        28,
+        53
+      ],
+      "id": 1236153,
+      "original_language": "en",
+      "original_title": "Mercy",
+      "overview": "모든 진실을 데이터로만 판단하는 냉혹한 AI 재판 시스템 ‘MERCY’에 맞서 사형을 피하기 위해 90분 안에 자신의 무죄를 증명해야 하는 형사(크리스 프랫)의 숨 막히는 반격을 그린 타임리미트 스릴러",
+      "popularity": 89.1504,
+      "poster_path": "/fQ8Q3VAybCt6fHFJQD0kwd5azNL.jpg",
+      "release_date": "2026-01-20",
+      "title": "노 머시: 90분",
+      "video": false,
+      "vote_average": 7.003,
+      "vote_count": 980
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/1gLFGrxHqQebqLWpISmoFR6XWtJ.jpg",
+      "genre_ids": [
+        28,
+        53
+      ],
+      "id": 1088434,
+      "original_language": "en",
+      "original_title": "Hellfire",
+      "overview": "",
+      "popularity": 91.2227,
+      "poster_path": "/tQti9QTf13MfzNpXguijgNh7ojE.jpg",
+      "release_date": "2026-02-05",
+      "title": "Hellfire",
+      "video": false,
+      "vote_average": 6.866,
+      "vote_count": 67
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/pfcyWSaPKGagqdunfBXQYCqZHxx.jpg",
+      "genre_ids": [
+        28,
+        80,
+        53
+      ],
+      "id": 1339876,
+      "original_language": "hi",
+      "original_title": "मर्दानी 3",
+      "overview": "",
+      "popularity": 84.2886,
+      "poster_path": "/dHxLBtHw4InwsVumnthupZYz6NM.jpg",
+      "release_date": "2026-01-30",
+      "title": "मर्दानी 3",
+      "video": false,
+      "vote_average": 7.5,
+      "vote_count": 13
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/3Vq8otoGevbhcZAKY2devVbPs6L.jpg",
+      "genre_ids": [
+        27,
+        35,
+        12
+      ],
+      "id": 1381216,
+      "original_language": "en",
+      "original_title": "Lake Jesup: Bonecrusher's Revenge",
+      "overview": "",
+      "popularity": 83.3031,
+      "poster_path": "/1Z1TgGXS1MD4DDfIkBNloM43vvj.jpg",
+      "release_date": "2024-05-01",
+      "title": "Lake Jesup: Bonecrusher's Revenge",
+      "video": false,
+      "vote_average": 6.441,
+      "vote_count": 34
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/iZLqwEwUViJdSkGVjePGhxYzbDb.jpg",
+      "genre_ids": [
+        878,
+        53
+      ],
+      "id": 755898,
+      "original_language": "en",
+      "original_title": "War of the Worlds",
+      "overview": "전설적인 동명 소설을 새롭게 재해석한 이번 작품은 거대한 침공의 서막을 알린다. 에바 롱고리아와 전설적인 래퍼이자 배우 아이스 큐브, 그리고 마이클 오닐과 이만 벤슨이 합류해, 기술과 감시, 사생활이라는 현대적 주제를 아우르는 짜릿한 우주급 모험을 선보인다.",
+      "popularity": 81.9586,
+      "poster_path": "/yvirUYrva23IudARHn3mMGVxWqM.jpg",
+      "release_date": "2025-07-29",
+      "title": "우주전쟁",
+      "video": false,
+      "vote_average": 4.148,
+      "vote_count": 947
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/tn95fumbkVAgXjOuw9CQOg0aYQz.jpg",
+      "genre_ids": [
+        28,
+        80,
+        18,
+        53
+      ],
+      "id": 1419406,
+      "original_language": "zh",
+      "original_title": "捕风追影",
+      "overview": "첨단 감시 시스템과 삼엄한 보안망을 무력화하고, 수십억을 탈취한 정체불명의 범죄 조직. 통제 불능의 범죄에 마카오 경찰은 결국 은퇴한 전설의 범죄 추적 전문가 ‘황더중’에게 도움을 요청한다. 황더중은 신입 경찰 ‘허추궈’와 함께 최정예 감시반을 구성해, 범죄 조직의 수장 ‘푸룽성’을 추적하기 시작한다. 하지만 수사망이 조여올수록 상대의 덫과 함정은 더욱 교묘해지고, 예상치 못한 반격 속에 황더중 역시 추적당하기 시작하는데…",
+      "popularity": 84.3861,
+      "poster_path": "/uiIT7CsJ4V7rMnTqy7xYvj9IRhs.jpg",
+      "release_date": "2025-08-16",
+      "title": "포풍추영",
+      "video": false,
+      "vote_average": 7.2,
+      "vote_count": 530
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/owQeDouUZ6wI6f1aTOYEFd511zn.jpg",
+      "genre_ids": [
+        28,
+        80,
+        53
+      ],
+      "id": 1582770,
+      "original_language": "hi",
+      "original_title": "धुरंधर: द रिवेंज",
+      "overview": "",
+      "popularity": 71.3509,
+      "poster_path": "/ov8vrRLZGoXHpYjSY9Vpv1tHJX7.jpg",
+      "release_date": "2026-03-18",
+      "title": "धुरंधर: द रिवेंज",
+      "video": false,
+      "vote_average": 7.8,
+      "vote_count": 46
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/6bVzP9lyoSTevfblZuIUOOye895.jpg",
+      "genre_ids": [
+        878,
+        27
+      ],
+      "id": 1066313,
+      "original_language": "id",
+      "original_title": "Setan Alas!",
+      "overview": "",
+      "popularity": 69.5646,
+      "poster_path": "/iqr2HSY0NC3U0x5t9M5RRAnmr3i.jpg",
+      "release_date": "2026-03-05",
+      "title": "Setan Alas!",
+      "video": false,
+      "vote_average": 6.25,
+      "vote_count": 4
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/4SKnHRIHv9SpsR1v45T7Los719O.jpg",
+      "genre_ids": [
+        35,
+        53
+      ],
+      "id": 467905,
+      "original_language": "en",
+      "original_title": "How to Make a Killing",
+      "overview": "",
+      "popularity": 71.9581,
+      "poster_path": "/vxMeKC7o5Gi8IHMi6lUgsdprTqv.jpg",
+      "release_date": "2026-02-19",
+      "title": "하우 투 메이크 어 킬링",
+      "video": false,
+      "vote_average": 7.1,
+      "vote_count": 185
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/oLp558MB4gPia9ZZB4odB7C2Fo7.jpg",
+      "genre_ids": [
+        35
+      ],
+      "id": 58008,
+      "original_language": "it",
+      "original_title": "L'infermiera di notte",
+      "overview": "",
+      "popularity": 63.0175,
+      "poster_path": "/cjJuN9MUmYrSh3fzT7JHrN5fHOP.jpg",
+      "release_date": "1979-02-07",
+      "title": "L'infermiera di notte",
+      "video": false,
+      "vote_average": 5.1,
+      "vote_count": 51
+    }
+  ],
+  "total_pages": 55978,
+  "total_results": 1119550
+}
