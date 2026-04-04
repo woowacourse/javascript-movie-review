@@ -56,3 +56,8 @@ FE 레벨1 영화 리뷰 미션
 | poster_path가 null인 경우    | TMDB가 200으로 응답하지만 이미지 로드 실패로 처리하여 동일하게 대체 이미지 적용 |
 
 `alert()`을 선택한 이유는 API 호출 실패는 사용자가 즉시 인지해야 하는 상황이라고 판단했기 때문입니다.
+
+---
+
+## 모듈 관계도
+<img width="1261" height="696" alt="Image" src="https://github.com/user-attachments/assets/de6966be-0f1e-46de-a114-a4e4bd8a0ada" />
