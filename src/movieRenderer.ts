@@ -61,7 +61,7 @@ export const renderMovies = async (moviePageCount: number) => {
         ? error.message
         : "알 수 없는 오류가 발생했습니다.",
     );
-    return;
+    return 0;
   }
   if (moviePageCount === 1) {
     renderBanner(movieData.results[0]);
@@ -140,7 +140,7 @@ export const renderSearchedMovies = async (
         ? error.message
         : "알 수 없는 오류가 발생했습니다.",
     );
-    return;
+    return 0;
   }
   const movies = movieData.results;
 

@@ -21,28 +21,33 @@ class App {
   }
 
   addEventListeners() {
-    document.addEventListener("click", (e: MouseEvent) => {
-      if ((e.target as HTMLElement).closest(".search-button")) {
-        this.#handleSearchSubmit();
-      }
-    });
+    document.addEventListener("click", this.#handleSearchButtonClick);
 
-    document.addEventListener("keydown", (e: KeyboardEvent) => {
-      if (
-        e.key === "Enter" &&
-        (e.target as HTMLElement).closest(".search-input")
-      ) {
-        this.#handleSearchSubmit();
-      }
-    });
+    document.addEventListener("keydown", this.#handleSearchKeydown);
 
     // 더보기 흐름 이벤트 핸들러
     document
       .querySelector("#load-movie-button")!
-      .addEventListener("click", () => {
-        this.#handleSearch();
-      });
+      .addEventListener("click", this.#handleLoadMoreClick);
   }
+
+  // 이벤트 부착 함수
+  #handleSearchButtonClick = (e: MouseEvent) => {
+    if ((e.target as HTMLElement).closest(".search-button")) {
+      this.#handleSearchSubmit();
+    }
+  };
+  #handleSearchKeydown = (e: KeyboardEvent) => {
+    if (
+      e.key === "Enter" &&
+      (e.target as HTMLElement).closest(".search-input")
+    ) {
+      this.#handleSearchSubmit();
+    }
+  };
+  #handleLoadMoreClick = () => {
+    this.#handleSearch();
+  };
 
   // 검색 엔터 / 검색 버튼 시 렌더링 함수
   #handleSearchSubmit = async () => {
