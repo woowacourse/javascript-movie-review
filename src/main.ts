@@ -1,17 +1,12 @@
-import {
-  addMovieList,
-  addMovieSkeletonUIList,
-  controlSearchResultText,
-  hideSearchErrorText,
-  removeMovieSkeletonUIList,
-  showBackgroundMovieInfo,
-  showErrorText,
-  updateTitleText,
-} from "./view/movieListView.ts";
-import { fetchMovieList } from "./service/movieApi.ts";
-import { getUListElement } from "./view/getElementView.ts";
+import { showBackgroundMovieInfo } from "./view/movieListView.ts";
 import { bindMovieEvents } from "./events/bindMovieEvent.ts";
 import { State } from "./types.ts";
+import {
+  controlSearchResultText,
+  hideSearchErrorText,
+  updateTitleText,
+} from "./view/textView.ts";
+import { loadMovies } from "./service/loadMovies.ts";
 
 const state: State = {
   pageNum: 1,
@@ -19,42 +14,16 @@ const state: State = {
   movieList: [],
 };
 
-export const loadMovies = async ({
-  reset = false,
-}: { reset?: boolean } = {}) => {
-  const movieDisplay = getUListElement(".thumbnail-list");
-  if (reset) movieDisplay.replaceChildren();
-
-  addMovieSkeletonUIList(movieDisplay);
-
-  try {
-    const path =
-      state.searchBarText === "" ? "/movie/popular" : "/search/movie";
-    state.movieList = await fetchMovieList(
-      path,
-      state.pageNum,
-      state.searchBarText,
-    );
-
-    addMovieList(movieDisplay, state.movieList);
-  } catch (error) {
-    showErrorText("영화 목록을 불러오지 못했습니다.");
-    throw error;
-  } finally {
-    removeMovieSkeletonUIList(movieDisplay);
-  }
-};
-
 addEventListener("load", async () => {
   try {
-    await loadMovies({ reset: false });
+    await loadMovies({ state, reset: false });
     showBackgroundMovieInfo(state.movieList[0]);
 
     bindMovieEvents({
       onMore: async () => {
         try {
           state.pageNum++;
-          await loadMovies();
+          await loadMovies({ state });
         } catch (error) {
           state.pageNum -= 1;
         }
@@ -67,7 +36,7 @@ addEventListener("load", async () => {
           hideSearchErrorText();
           updateTitleText(state);
 
-          await loadMovies({ reset: true });
+          await loadMovies({ state, reset: true });
 
           controlSearchResultText(state);
         } catch (error) {
