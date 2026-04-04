@@ -1,17 +1,15 @@
 describe("홈 화면 테스트", () => {
   beforeEach(() => {
-    cy.intercept("GET", "**/movie/popular?language=ko-KR&page=1").as(
-      "getMovies",
-    );
-    cy.visit("http://localhost:5173");
+    cy.mockPopularMovies(1);
+    cy.visit("/");
   });
 
   it("API 호출 확인", () => {
-    cy.wait("@getMovies").its("response.body.results").should("be.an", "array");
+    cy.wait("@getPopularMoviesPage1").its("response.body.results").should("be.an", "array");
   });
 
   it("배너 안의 요소를 확인", () => {
-    cy.wait("@getMovies")
+    cy.wait("@getPopularMoviesPage1")
       .its("response.body.results")
       .then((results) => {
         cy.get(".title").should("contain", results[0].title);
@@ -23,7 +21,7 @@ describe("홈 화면 테스트", () => {
   });
 
   it("리스트 안의 요소를 확인", () => {
-    cy.wait("@getMovies")
+    cy.wait("@getPopularMoviesPage1")
       .its("response.body.results")
       .then((results) => {
         cy.get(".thumbnail").each(($el, index) => {
@@ -49,22 +47,22 @@ describe("홈 화면 테스트", () => {
 
 describe("더보기 버튼 테스트", () => {
   beforeEach(() => {
-    cy.intercept("GET", "**/movie/popular?language=ko-KR&page=1").as("page1");
-    cy.intercept("GET", "**/movie/popular?language=ko-KR&page=2").as("page2");
+    cy.mockPopularMovies(1);
+    cy.mockPopularMovies(2);
 
-    cy.visit("http://localhost:5173");
+    cy.visit("/");
   });
 
   it("버튼 클릭 시 API 호출 확인", () => {
     cy.get(".thumbnail-add-button").click();
 
-    cy.wait("@page2").its("response.body.results").should("be.an", "array");
+    cy.wait("@getPopularMoviesPage2").its("response.body.results").should("be.an", "array");
   });
 
   it("리스트 안의 요소를 확인", () => {
     let page1Results: Movies[];
 
-    cy.wait("@page1")
+    cy.wait("@getPopularMoviesPage1")
       .its("response.body.results")
       .then((results1) => {
         page1Results = results1;
@@ -72,7 +70,7 @@ describe("더보기 버튼 테스트", () => {
 
     cy.get(".thumbnail-add-button").click();
 
-    cy.wait("@page2")
+    cy.wait("@getPopularMoviesPage2")
       .its("response.body.results")
       .then((results2) => {
         const allResults = [...page1Results, ...results2];
