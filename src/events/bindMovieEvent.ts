@@ -1,8 +1,5 @@
 import { State } from "../main.ts";
-import {
-  fetchDefaultMovieList,
-  fetchSearchMovieList,
-} from "../service/movieApi.ts";
+import { fetchMovieList } from "../service/movieApi.ts";
 import {
   getElement,
   getInputElement,
@@ -20,48 +17,43 @@ const displayMovieBySearch = async (
   movieDisplay: HTMLUListElement,
   state: State,
 ) => {
+  // 검색어 입력 후 state에 갱신
   const searchBar = getInputElement(".search-bar");
-
   state.searchBarText = searchBar.value;
+
   const background = getElement(".background-container");
   background.hidden = true;
 
   const description = getElement(".page-title");
 
-  let movieList;
+  movieDisplay.replaceChildren();
+  state.pageNum = 1;
 
   if (state.searchBarText === "") {
     background.hidden = false;
-    state.pageNum = 1;
-    movieDisplay.replaceChildren();
-    addMovieSkeletonUIList(movieDisplay);
-
-    movieList = await fetchDefaultMovieList(state.pageNum);
-
-    removeMovieSkeletonUIList(movieDisplay);
-
     description.textContent = "지금 인기 있는 영화";
   } else {
-    movieDisplay.replaceChildren();
-    addMovieSkeletonUIList(movieDisplay);
-
-    movieList = await fetchSearchMovieList(state.pageNum, state.searchBarText);
-
-    removeMovieSkeletonUIList(movieDisplay);
-
     description.textContent = `'${state.searchBarText}' 검색 결과`;
-
-    // 검색 결과가 없을 때
-    const searchError = getElement(".search-error-container");
-
-    if (movieList.length === 0) {
-      searchError.hidden = false;
-    } else {
-      searchError.hidden = true;
-    }
   }
 
-  // 영화 20개
+  addMovieSkeletonUIList(movieDisplay);
+  const path = state.searchBarText === "" ? "/movie/popular" : "/search/movie";
+  const movieList = await fetchMovieList(
+    path,
+    state.pageNum,
+    state.searchBarText,
+  );
+
+  // 검색 결과가 없을 때
+  const searchError = getElement(".search-error-container");
+
+  if (movieList.length === 0) {
+    searchError.hidden = false;
+  } else {
+    searchError.hidden = true;
+  }
+
+  removeMovieSkeletonUIList(movieDisplay);
   addMovieList(movieDisplay, movieList);
 };
 
@@ -94,18 +86,13 @@ export const bindMoreMovieEvents = (state: State) => {
     state.pageNum++;
 
     addMovieSkeletonUIList(movieDisplay);
-
-    let movieList;
-    if (state.searchBarText === "") {
-      movieList = await fetchDefaultMovieList(state.pageNum);
-    } else {
-      movieList = await fetchSearchMovieList(
-        state.pageNum,
-        state.searchBarText,
-      );
-    }
-
-    // 영화 20개
+    const path =
+      state.searchBarText === "" ? "/movie/popular" : "/search/movie";
+    const movieList = await fetchMovieList(
+      path,
+      state.pageNum,
+      state.searchBarText,
+    );
     removeMovieSkeletonUIList(movieDisplay);
     addMovieList(movieDisplay, movieList);
   });
@@ -122,17 +109,13 @@ export const bindClickPosterEvent = (state: State) => {
 
     const titleElement = item.querySelector("strong");
 
-    // // 아이템이 속한 영화를 찾기
-    let movieList;
-
-    if (state.searchBarText === "") {
-      movieList = await fetchDefaultMovieList(state.pageNum);
-    } else {
-      movieList = await fetchSearchMovieList(
-        state.pageNum,
-        state.searchBarText,
-      );
-    }
+    const path =
+      state.searchBarText === "" ? "/movie/popular" : "/search/movie";
+    const movieList = await fetchMovieList(
+      path,
+      state.pageNum,
+      state.searchBarText,
+    );
 
     const backgroundMovie = movieList.filter(
       (movie: Movie) => movie.title === titleElement?.textContent,
