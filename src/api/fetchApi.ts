@@ -1,4 +1,4 @@
-import { BASE_URL, PATH } from './constant.ts';
+import { URL, PATH } from './constant.ts';
 import { ResponseMovie, Request } from './type.ts';
 const API_KEY = import.meta.env.VITE_API_KEY;
 const options = {
@@ -10,7 +10,7 @@ const options = {
 };
 
 const fetchAPI = async (req: Request): Promise<ResponseMovie> => {
-  const url = BASE_URL + req.path;
+  const url = URL.BASE + req.path;
 
   const { query, page } = req.params;
   const params = new URLSearchParams({ language: 'en-US', page: String(page) });
