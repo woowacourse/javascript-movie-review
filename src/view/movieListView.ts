@@ -1,13 +1,7 @@
 import logo from "../../templates/images/logo.png";
 import starEmpty from "../../templates/images/star_empty.png";
+import { Movie, State } from "../types";
 import { getElement } from "./getElementView";
-export interface Movie {
-  id: number;
-  backdrop_path: string;
-  poster_path: string;
-  title: string;
-  vote_average: number;
-}
 
 export const addMovieList = (
   movieDisplay: HTMLUListElement,
@@ -78,4 +72,26 @@ export const showBackgroundMovieInfo = (movie: Movie) => {
             </div> 
           </div>
   `;
+};
+
+export const controlTitleText = (state: State) => {
+  const background = getElement(".background-container");
+  background.hidden = true;
+
+  const description = getElement(".page-title");
+
+  if (state.searchBarText === "") {
+    background.hidden = false;
+    description.textContent = "지금 인기 있는 영화";
+  } else {
+    description.textContent = `'${state.searchBarText}' 검색 결과`;
+  }
+
+  const searchError = getElement(".search-error-container");
+
+  if (state.movieList.length === 0) {
+    searchError.hidden = false;
+  } else {
+    searchError.hidden = true;
+  }
 };
