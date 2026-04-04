@@ -6,6 +6,8 @@ import State from "./state.ts";
 const ONCE_MOVIE_LIMIT = 20;
 const INITIAL_PAGE_NUM = 1;
 
+let currentSearchHandler: (() => void) | null = null;
+
 async function loadInitialMovie() {
   const app = document.querySelector("#app");
   if (app) {
@@ -91,9 +93,11 @@ async function loadSearchMovies(query: string) {
       const haveRestPage = page !== total_pages;
       if (loadMoreButton) {
         loadMoreButton.removeEventListener("click", loadMoreMovies);
-        loadMoreButton.addEventListener("click", () =>
-          loadMoreSearchMovies(query),
-        );
+        if (currentSearchHandler) {
+          loadMoreButton.removeEventListener("click", currentSearchHandler);
+        }
+        currentSearchHandler = () => loadMoreSearchMovies(query);
+        loadMoreButton.addEventListener("click", currentSearchHandler);
       }
       State.setNextSearchPageNum(page + 1);
       Renderer.clearBanner();
