@@ -1,30 +1,16 @@
-import { renderFetchMovieItem } from './render.ts';
+import { fetchPopularMovies } from './api/fetchApi.ts';
+import { HomePage } from './pages/HomePage.ts';
 
 addEventListener('load', () => {
-
-  const app = document.querySelector('#app');
-
-  if (app) {
-    init();
+  const $app = document.querySelector('#app');
+  if ($app) {
+    init($app);
   }
 });
 
-function init() {
-
-  let currentPage: number = 1;
-  const $thumbnailList = document.querySelector('.thumbnail-list');
-
-  if ($thumbnailList) {
-    renderFetchMovieItem($thumbnailList, currentPage);
+const init = async ($app: Element) => {
+  const data = await fetchPopularMovies(1);
+  if (data) {
+    HomePage($app, data);
   }
-
-  const $button = document.querySelector('#more-page-button');
-  
-  $button?.addEventListener('click', () => {
-    currentPage++;
-    if ($thumbnailList) {
-      $button?.classList.add('hidden');
-      renderFetchMovieItem($thumbnailList, currentPage);
-    }
-  });
-}
+};
