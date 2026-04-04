@@ -1,61 +1,71 @@
-// import "../templates/styles/index.css";
-
 import {
   addMovieList,
   addMovieSkeletonUIList,
+  Movie,
   removeMovieSkeletonUIList,
   showBackgroundMovieInfo,
 } from "./view/movieListView.ts";
 import { fetchMovieList } from "./service/movieApi.ts";
 import { getUListElement } from "./view/getElementView.ts";
-
-import {
-  bindClickPosterEvent,
-  bindMoreMovieEvents,
-  bindSearchEvents,
-} from "./events/bindMovieEvent.ts";
+import { bindMovieEvents } from "./events/bindMovieEvent.ts";
 
 export type State = {
   pageNum: number;
   searchBarText: string;
+  movieList: Movie[];
 };
 
 const state: State = {
   pageNum: 1,
   searchBarText: "",
+  movieList: [],
 };
 
-export const loadMovies = async ({ reset = false }: { reset: boolean }) => {
+export const loadMovies = async ({
+  reset = false,
+}: { reset?: boolean } = {}) => {
   const movieDisplay = getUListElement(".thumbnail-list");
-
-  if (reset) {
-    movieDisplay.replaceChildren();
-  }
+  if (reset) movieDisplay.replaceChildren();
 
   addMovieSkeletonUIList(movieDisplay);
 
   try {
     const path =
       state.searchBarText === "" ? "/movie/popular" : "/search/movie";
-    const movieList = await fetchMovieList(
+    state.movieList = await fetchMovieList(
       path,
       state.pageNum,
       state.searchBarText,
     );
 
-    addMovieList(movieDisplay, movieList);
-  } catch (error) {
+    addMovieList(movieDisplay, state.movieList);
   } finally {
     removeMovieSkeletonUIList(movieDisplay);
   }
 };
 
 addEventListener("load", async () => {
-  loadMovies({ reset: false });
+  await loadMovies({ reset: false });
+  showBackgroundMovieInfo(state.movieList[0]);
 
-  // showBackgroundMovieInfo(movieList[0]);
+  bindMovieEvents({
+    onMore: async () => {
+      state.pageNum++;
+      await loadMovies();
+    },
+    onSearch: async (searchBarText) => {
+      state.pageNum = 1;
+      state.searchBarText = searchBarText;
 
-  bindSearchEvents(state);
-  bindMoreMovieEvents(state);
-  bindClickPosterEvent(state);
+      await loadMovies({ reset: true });
+    },
+    onClick: (title) => {
+      const selectedMovie = state.movieList.find(
+        (movie) => movie.title == title,
+      );
+
+      if (!selectedMovie) return;
+      showBackgroundMovieInfo(selectedMovie);
+    },
+  });
 });
