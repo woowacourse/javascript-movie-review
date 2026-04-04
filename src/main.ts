@@ -103,7 +103,6 @@ async function loadSearchMovies(query: string) {
       Renderer.clearBanner();
       Renderer.clearMovies();
       Renderer.clearEmptyResult();
-      Renderer.renderSearchSectionHeading(query);
       if (haveRestPage) Renderer.showLoadMoreButton();
       if (movies.length === 0) Renderer.renderEmptyResult();
       else Renderer.renderSearchMovies(movies);
@@ -118,6 +117,7 @@ async function loadSearchMovies(query: string) {
       if (movieList)
         Renderer.renderSkeleton(movieList, State.getRequestMovieCount());
       Renderer.hideLoadMoreButton();
+      Renderer.renderSearchSectionHeading(query);
     },
   });
 }
