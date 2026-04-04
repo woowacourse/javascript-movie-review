@@ -5,14 +5,14 @@ const Renderer = {
   renderSectionHeading() {
     const heading = document.querySelector("section > h2");
     if (heading instanceof HTMLElement) {
-      heading.innerHTML = `지금 인기 있는 영화`;
+      heading.textContent = `지금 인기 있는 영화`;
     }
   },
 
   renderSearchSectionHeading(title: string) {
     const heading = document.querySelector("section > h2");
     if (heading instanceof HTMLElement) {
-      heading.innerHTML = `"${title}"검색 결과`;
+      heading.textContent = `"${title}"검색 결과`;
       heading.style.marginTop = "12rem";
     }
   },
