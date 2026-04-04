@@ -1,9 +1,12 @@
-import { getThumbnailImageUrl } from '../../api/renderImage.ts';
 import { MovieData } from '../../api/type.ts';
+import { Star } from '../common/Star.ts';
 
 export const TopRate = (data: MovieData): HTMLElement => {
   const $container = document.createElement('div');
   $container.className = 'top-rated-movie';
+
+  const $rate = document.createElement('div');
+  $rate.className = 'rate';
 
   const $title = document.createElement('div');
   $title.textContent = data.title;
@@ -12,23 +15,11 @@ export const TopRate = (data: MovieData): HTMLElement => {
   $button.className = 'primary detail';
   $button.textContent = '자세히 보기';
 
-  $container.append(Rate(data), $title, $button);
-  return $container;
-};
-
-const Rate = (data: MovieData) => {
-  const $rate = document.createElement('div');
-  $rate.className = 'rate';
-
-  const $img = document.createElement('img');
-  $img.className = 'star';
-  $img.src = './images/star_empty.png';
-  $img.alt = 'star_empty';
-
   const $span = document.createElement('span');
-  $span.className = 'rate-value';
   $span.textContent = data.vote_average.toFixed(1);
+  $span.className = 'rate-value';
 
-  $rate.append($img, $span);
-  return $rate;
+  $rate.append(Star(), $span);
+  $container.append($title, $rate, $button);
+  return $container;
 };
