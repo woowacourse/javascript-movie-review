@@ -23,13 +23,17 @@ export const loadMovies = async ({
   try {
     const path =
       state.searchBarText === "" ? "/movie/popular" : "/search/movie";
-    state.movieList = await fetchMovieList(
+    const fetchedMovies = await fetchMovieList(
       path,
       state.pageNum,
       state.searchBarText,
     );
 
-    addMovieList(movieDisplay, state.movieList);
+    state.movieList = reset
+      ? fetchedMovies
+      : [...state.movieList, ...fetchedMovies];
+
+    addMovieList(movieDisplay, fetchedMovies);
   } catch (error) {
     showErrorText("영화 목록을 불러오지 못했습니다.");
     throw error;
