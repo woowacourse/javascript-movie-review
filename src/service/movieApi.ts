@@ -39,6 +39,9 @@ export const fetchMovieList = async (
   if (searchBarText !== "") url.searchParams.append("query", searchBarText);
 
   const response = await fetch(url);
+
+  if (!response.ok) throw new Error("영화 정보를 불러오지 못했습니다.");
+
   const data = await response.json();
   return data.results;
 };
