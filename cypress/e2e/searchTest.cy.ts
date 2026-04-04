@@ -4,7 +4,7 @@ describe("search test", () => {
 
     cy.get(".thumbnail-list li")
       .first()
-      .find("#title")
+      .find(".title")
       .invoke("text")
       .then((defaultTitle) => {
         cy.get(".search-bar").type("스파이더맨");
@@ -12,7 +12,7 @@ describe("search test", () => {
 
         cy.get(".thumbnail-list li")
           .first()
-          .find("#title")
+          .find(".title")
           .invoke("text")
           .should((searchTitle) => {
             expect(searchTitle.trim()).not.to.equal(defaultTitle.trim());
@@ -25,14 +25,14 @@ describe("search test", () => {
 
     cy.get(".thumbnail-list li")
       .first()
-      .find("#title")
+      .find(".title")
       .invoke("text")
       .then((defaultTitle) => {
         cy.get(".search-bar").type("스파이더맨{enter}");
 
         cy.get(".thumbnail-list li")
           .first()
-          .find("#title")
+          .find(".title")
           .invoke("text")
           .should((searchTitle) => {
             expect(searchTitle.trim()).not.to.equal(defaultTitle.trim());

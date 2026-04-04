@@ -3,7 +3,7 @@ describe("click poster test", () => {
     cy.visit("http://localhost:5173");
     cy.get(".thumbnail-list li")
       .eq(1)
-      .find("#title")
+      .find(".title")
       .invoke("text")
       .then((defaultTitle) => {
         cy.get(".thumbnail-list li").eq(1).click();
@@ -19,7 +19,7 @@ describe("click poster test", () => {
     cy.visit("http://localhost:5173");
     cy.get(".thumbnail-list li")
       .eq(6)
-      .find("#title")
+      .find(".title")
       .invoke("text")
       .then((defaultTitle) => {
         cy.get(".thumbnail-list li").eq(6).click();
@@ -35,7 +35,7 @@ describe("click poster test", () => {
     cy.visit("http://localhost:5173");
     cy.get(".thumbnail-list li")
       .eq(12)
-      .find("#title")
+      .find(".title")
       .invoke("text")
       .then((defaultTitle) => {
         cy.get(".thumbnail-list li").eq(12).click();
