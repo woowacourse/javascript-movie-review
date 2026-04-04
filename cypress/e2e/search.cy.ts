@@ -17,19 +17,7 @@ describe("검색 데이터 있을 때 테스트", () => {
     cy.wait("@searchMovies")
       .its("response.body.results")
       .then((results) => {
-        cy.get(".thumbnail").each(($el, index) => {
-          cy.wrap($el)
-            .should("have.attr", "src")
-            .and("include", results[index].poster_path);
-        });
-
-        cy.get(".item-rate").each(($el, index) => {
-          cy.wrap($el).should("contain", results[index].vote_average);
-        });
-
-        cy.get(".item-title").each(($el, index) => {
-          cy.wrap($el).should("contain", results[index].title);
-        });
+        cy.verifyMovieItems(results);
       });
   });
 });
@@ -46,6 +34,10 @@ describe("검색 데이터 없을 때 테스트", () => {
       .should("exist")
       .and("contain", "검색 결과가 없습니다.");
   });
+
+  it("검색 데이터가 마지막 데이터면 더보기 버튼이 사라진다.", () => {
+    cy.disappearMoreButton();
+  });
 });
 
 describe("검색 데이터가 전부 출력되었을 때 더보기 버튼 사라지는 테스트", () => {
@@ -56,11 +48,6 @@ describe("검색 데이터가 전부 출력되었을 때 더보기 버튼 사라
   });
 
   it("검색 데이터가 마지막 데이터면 더보기 버튼이 사라진다.", () => {
-    cy.wait("@searchMovies")
-      .its("response.body")
-      .then((data) => {
-        expect(data.page).to.equal(data.total_pages)
-        cy.get(".thumbnail-add-button").should("not.be.visible");
-      })
+    cy.disappearMoreButton();
   });
 });

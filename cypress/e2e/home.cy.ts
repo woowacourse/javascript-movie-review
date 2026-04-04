@@ -24,19 +24,7 @@ describe("홈 화면 테스트", () => {
     cy.wait("@getPopularMoviesPage1")
       .its("response.body.results")
       .then((results) => {
-        cy.get(".thumbnail").each(($el, index) => {
-          cy.wrap($el)
-            .should("have.attr", "src")
-            .and("include", results[index].poster_path);
-        });
-
-        cy.get(".item-rate").each(($el, index) => {
-          cy.wrap($el).should("contain", results[index].vote_average);
-        });
-
-        cy.get(".item-title").each(($el, index) => {
-          cy.wrap($el).should("contain", results[index].title);
-        });
+        cy.verifyMovieItems(results);
       });
   });
 
@@ -74,25 +62,7 @@ describe("더보기 버튼 테스트", () => {
       .its("response.body.results")
       .then((results2) => {
         const allResults = [...page1Results, ...results2];
-
-        cy.get(".thumbnail").should("have.length", allResults.length);
-
-        cy.get(".thumbnail").each(($el, index) => {
-          cy.wrap($el)
-            .should("have.attr", "src")
-            .and("include", allResults[index].poster_path);
-        });
-
-        cy.get(".item-title").each(($el, index) => {
-          cy.wrap($el).should("contain", allResults[index].title);
-        });
-
-        cy.get(".item-rate").each(($el, index) => {
-          cy.wrap($el).should(
-            "contain",
-            String(allResults[index].vote_average),
-          );
-        });
+        cy.verifyMovieItems(allResults);
       });
   });
 });
