@@ -104,9 +104,11 @@ export const bindClickPosterEvent = (state: State) => {
   const thumbnailBox = getElement(".thumbnail-list");
 
   thumbnailBox.addEventListener("click", async (event: MouseEvent) => {
+    // 검색 기능이 활성화된 상태에서는 return
+    if (state.searchBarText !== "") return;
+
     const target = event.target as HTMLElement;
     const item = target.closest(".item") as HTMLElement;
-
     const titleElement = item.querySelector("strong");
 
     const path =
