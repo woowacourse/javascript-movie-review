@@ -48,7 +48,6 @@ export const addMovieSkeletonUIList = (
     movieDisplay.appendChild(li);
   });
 };
-
 export const removeMovieSkeletonUIList = (movieDisplay: HTMLUListElement) => {
   movieDisplay.querySelectorAll(".skeleton-li").forEach((it) => it.remove());
 };
@@ -74,24 +73,29 @@ export const showBackgroundMovieInfo = (movie: Movie) => {
   `;
 };
 
-export const controlTitleText = (state: State) => {
-  const background = getElement(".background-container");
-  background.hidden = true;
-
+export const hideSearchErrorText = () => {
+  const searchError = getElement(".search-error-container");
+  searchError.hidden = true;
+};
+export const updateTitleText = (state: State) => {
   const description = getElement(".page-title");
+  const background = getElement(".background-container");
 
   if (state.searchBarText === "") {
     background.hidden = false;
     description.textContent = "지금 인기 있는 영화";
   } else {
+    background.hidden = true;
     description.textContent = `'${state.searchBarText}' 검색 결과`;
   }
-
+};
+export const controlSearchResultText = (state: State) => {
   const searchError = getElement(".search-error-container");
 
-  if (state.movieList.length === 0) {
+  if (state.searchBarText !== "" && state.movieList.length === 0) {
     searchError.hidden = false;
-  } else {
-    searchError.hidden = true;
+    return;
   }
+
+  searchError.hidden = true;
 };

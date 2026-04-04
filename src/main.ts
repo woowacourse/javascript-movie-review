@@ -1,9 +1,11 @@
 import {
   addMovieList,
   addMovieSkeletonUIList,
-  controlTitleText,
+  controlSearchResultText,
+  hideSearchErrorText,
   removeMovieSkeletonUIList,
   showBackgroundMovieInfo,
+  updateTitleText,
 } from "./view/movieListView.ts";
 import { fetchMovieList } from "./service/movieApi.ts";
 import { getUListElement } from "./view/getElementView.ts";
@@ -52,9 +54,12 @@ addEventListener("load", async () => {
       state.pageNum = 1;
       state.searchBarText = searchBarText;
 
+      hideSearchErrorText();
+      updateTitleText(state);
+
       await loadMovies({ reset: true });
 
-      controlTitleText(state);
+      controlSearchResultText(state);
     },
     onClick: (title) => {
       const selectedMovie = state.movieList.find(
