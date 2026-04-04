@@ -6,6 +6,7 @@ export const HeaderTop = (): HTMLElement => {
   $headerTop.className = 'header-top';
 
   const $layout = document.createElement('div');
+  $layout.className = 'header-top-layout';
 
   $headerTop.append(Logo(), SearchForm(), $layout);
   return $headerTop;

@@ -178,3 +178,7 @@ form {
   border: none;
   cursor: pointer;
 }
+
+.header-top-layout {
+  width: 123px;
+}

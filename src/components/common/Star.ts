@@ -1,5 +1,3 @@
-import { MovieData } from '../../api/type.ts';
-
 export const Star = () => {
   const $img = document.createElement('img');
   $img.className = 'star';
