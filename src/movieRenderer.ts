@@ -75,7 +75,7 @@ export const renderMovies = async (moviePageCount: number) => {
   return movieData.total_pages;
 };
 
-export const renderBanner = async (fristMovieData: Movie) => {
+const renderBanner = async (fristMovieData: Movie) => {
   const movies = fristMovieData;
 
   const banner = document.querySelector(".top-rated-movie");

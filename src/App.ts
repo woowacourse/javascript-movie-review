@@ -25,13 +25,13 @@ class App {
 
     document.addEventListener("keydown", this.#handleSearchKeydown);
 
-    // 더보기 흐름 이벤트 핸들러
+    // 더보기 흐름 이벤트 부착
     document
       .querySelector("#load-movie-button")!
       .addEventListener("click", this.#handleLoadMoreClick);
   }
 
-  // 이벤트 부착 함수
+  // 이벤트 핸들러
   #handleSearchButtonClick = (e: MouseEvent) => {
     if ((e.target as HTMLElement).closest(".search-button")) {
       this.#handleSearchSubmit();
