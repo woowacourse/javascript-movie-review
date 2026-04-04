@@ -11,9 +11,12 @@ async function loadInitialMovie() {
   if (app) {
     await getPopularMovies({
       pageNum: INITIAL_PAGE_NUM,
-      onSuccess: ({ page, results: movies }) => {
+      onSuccess: ({ page, results: movies, total_pages }) => {
         State.setNextPageNum(page + 1);
         State.setRequestMovieCount(movies.length);
+
+        const haveRestPage = page !== total_pages;
+
         const movieList = document.querySelector(".thumbnail-list");
         const loadMoreButton = document.querySelector(".load-more-button");
         const banner = document.querySelector(".banner-container");
@@ -30,6 +33,9 @@ async function loadInitialMovie() {
           loadMoreButton.addEventListener("click", loadMoreMovies);
 
         Renderer.renderSectionHeading();
+
+        if (haveRestPage) Renderer.showLoadMoreButton();
+        else Renderer.hideLoadMoreButton();
       },
       onLoading: () => {
         const movieList = document.querySelector(".thumbnail-list");
@@ -51,11 +57,12 @@ async function loadInitialMovie() {
 async function loadMoreMovies() {
   await getPopularMovies({
     pageNum: State.getNextPageNum(),
-    onSuccess: ({ page, results: movies }) => {
+    onSuccess: ({ page, results: movies, total_pages }) => {
       const movieList = document.querySelector(".thumbnail-list");
-      const haveRestPage = movies.length === ONCE_MOVIE_LIMIT;
+      const haveRestPage = page !== total_pages;
       State.setNextPageNum(page + 1);
       if (haveRestPage) Renderer.showLoadMoreButton();
+      else Renderer.hideLoadMoreButton();
       if (movieList) {
         Renderer.clearSkeleton(movieList);
         Renderer.renderMovies(movieList, movies);
@@ -79,9 +86,9 @@ async function loadSearchMovies(query: string) {
   await getSearchMovies({
     query,
     pageNum: INITIAL_PAGE_NUM,
-    onSuccess: ({ page, results: movies }) => {
+    onSuccess: ({ page, results: movies, total_pages }) => {
       const loadMoreButton = document.querySelector(".load-more-button");
-      const haveRestPage = movies.length === ONCE_MOVIE_LIMIT;
+      const haveRestPage = page !== total_pages;
       if (loadMoreButton) {
         loadMoreButton.removeEventListener("click", loadMoreMovies);
         loadMoreButton.addEventListener("click", () =>
@@ -115,9 +122,12 @@ async function loadMoreSearchMovies(query: string) {
   await getSearchMovies({
     query,
     pageNum: State.getNextSearchPageNum(),
-    onSuccess: ({ page, results: movies }) => {
+    onSuccess: ({ page, results: movies, total_pages }) => {
       const movieList = document.querySelector(".thumbnail-list");
+      const haveRestPage = page !== total_pages;
       State.setNextSearchPageNum(page + 1);
+      if (haveRestPage) Renderer.showLoadMoreButton();
+      else Renderer.hideLoadMoreButton();
       if (movieList) {
         Renderer.clearSkeleton(movieList);
         Renderer.renderSearchMovies(movies);
