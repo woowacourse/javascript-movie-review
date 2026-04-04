@@ -1,4 +1,4 @@
-describe("click poster test", () => {
+describe("인기순 영화 페이지에서 영화 포스터를 클릭하면 해당 영화 정보를 백그라운드에 보여준다.", () => {
   it("인기순 영화 페이지에서 두 번째 포스터를 클릭하면 백그라운드에 해당 영화 정보가 띄워진다.", () => {
     cy.visit("http://localhost:5173");
     cy.get(".thumbnail-list li")

@@ -1,4 +1,4 @@
-describe("search test", () => {
+describe("검색 기능을 사용해서 영화 목록을 필터링할 수 있다.", () => {
   it("검색어를 입력한 뒤 검색 버튼을 누르면 필터링된 영화 목록을 보여준다.", () => {
     cy.visit("http://localhost:5173");
 
