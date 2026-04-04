@@ -5,6 +5,7 @@ import {
   hideSearchErrorText,
   removeMovieSkeletonUIList,
   showBackgroundMovieInfo,
+  showErrorText,
   updateTitleText,
 } from "./view/movieListView.ts";
 import { fetchMovieList } from "./service/movieApi.ts";
@@ -36,38 +37,53 @@ export const loadMovies = async ({
     );
 
     addMovieList(movieDisplay, state.movieList);
+  } catch (error) {
+    showErrorText("영화 목록을 불러오지 못했습니다.");
+    throw error;
   } finally {
     removeMovieSkeletonUIList(movieDisplay);
   }
 };
 
 addEventListener("load", async () => {
-  await loadMovies({ reset: false });
-  showBackgroundMovieInfo(state.movieList[0]);
+  try {
+    await loadMovies({ reset: false });
+    showBackgroundMovieInfo(state.movieList[0]);
 
-  bindMovieEvents({
-    onMore: async () => {
-      state.pageNum++;
-      await loadMovies();
-    },
-    onSearch: async (searchBarText) => {
-      state.pageNum = 1;
-      state.searchBarText = searchBarText;
+    bindMovieEvents({
+      onMore: async () => {
+        try {
+          state.pageNum++;
+          await loadMovies();
+        } catch (error) {
+          state.pageNum -= 1;
+        }
+      },
+      onSearch: async (searchBarText) => {
+        state.pageNum = 1;
+        state.searchBarText = searchBarText;
 
-      hideSearchErrorText();
-      updateTitleText(state);
+        try {
+          hideSearchErrorText();
+          updateTitleText(state);
 
-      await loadMovies({ reset: true });
+          await loadMovies({ reset: true });
 
-      controlSearchResultText(state);
-    },
-    onClick: (title) => {
-      const selectedMovie = state.movieList.find(
-        (movie) => movie.title == title,
-      );
+          controlSearchResultText(state);
+        } catch (error) {
+          state.searchBarText = "";
+        }
+      },
+      onClick: (title) => {
+        const selectedMovie = state.movieList.find(
+          (movie) => movie.title == title,
+        );
 
-      if (!selectedMovie) return;
-      showBackgroundMovieInfo(selectedMovie);
-    },
-  });
+        if (!selectedMovie) return;
+        showBackgroundMovieInfo(selectedMovie);
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
 });

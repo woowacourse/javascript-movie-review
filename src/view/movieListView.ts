@@ -75,8 +75,15 @@ export const showBackgroundMovieInfo = (movie: Movie) => {
 
 export const hideSearchErrorText = () => {
   const searchError = getElement(".search-error-container");
+  searchError.textContent = "";
   searchError.hidden = true;
 };
+export const showErrorText = (string: string) => {
+  const searchError = getElement(".search-error-container");
+  searchError.textContent = string;
+  searchError.hidden = false;
+};
+
 export const updateTitleText = (state: State) => {
   const description = getElement(".page-title");
   const background = getElement(".background-container");
@@ -94,6 +101,7 @@ export const controlSearchResultText = (state: State) => {
 
   if (state.searchBarText !== "" && state.movieList.length === 0) {
     searchError.hidden = false;
+    searchError.textContent = "검색 결과가 없습니다.";
     return;
   }
 
