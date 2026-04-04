@@ -72,7 +72,7 @@ const Component = {
 
   emptyResult() {
     return `
-      <div class="notice-box">
+      <div class="notice-box empty-result">
         <img src="${screamingPlanetImg}">
         <p class="notice-text">검색 결과가 없습니다.</p>
       </div>
