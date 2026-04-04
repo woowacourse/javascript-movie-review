@@ -42,6 +42,7 @@ describe("검색 기능을 사용해서 영화 목록을 필터링할 수 있다
   it("검색란에 검색어를 입력해도 결과가 존재하지 않다면 '검색 결과가 없습니다' 텍스트를 띄운다", () => {
     cy.visit("http://localhost:5173");
     cy.get(".search-bar").type("ㄴㅇ러ㅏㅗㅁ라ㅗ어ㅏ로머ㅏJklhdskldh");
+    cy.get(".search-btn").click();
     cy.get(".search-error-text").should("have.text", "검색 결과가 없습니다.");
   });
 });
