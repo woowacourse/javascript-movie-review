@@ -6,11 +6,6 @@ describe("Api Requests", () => {
   it("영화를 20개 가져온다", async () => {
     const pageNumber = 1;
     const movies = await fetchMovies(pageNumber);
-    console.log(movies);
     expect(movies).toHaveLength(20);
   });
-});
-
-describe("Render Tests", () => {
-  (it("각 영화당 <li> 태그를 반환한다."), async () => {});
 });
