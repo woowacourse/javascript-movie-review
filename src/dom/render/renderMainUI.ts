@@ -1,5 +1,5 @@
 import { getPopularMovies, Movie } from "../../apis/movie/api";
-import TMDBError from "../../TMDBError";
+import { getErrorMessage } from "../../utils/getErrorMessage";
 import { renderBanner } from "./renderBanner";
 import { renderResultSectionContent } from "./renderResultSectionContent";
 import { renderThumbnailList } from "./renderThumbnailList";
@@ -19,10 +19,7 @@ export const renderMainUI = async () => {
     renderThumbnailList({ movies, thumbnailListElement });
   } catch (error) {
     isError = true;
-    errorMessage = "🚨알 수 없는 에러가 발생했습니다.🚨";
-    if (error instanceof TMDBError) {
-      errorMessage = "🚨TMDB에서 데이터를 불러오는 중 에러가 발생했습니다🚨";
-    }
+    errorMessage = getErrorMessage(error);
   } finally {
     renderResultSectionContent({
       isLoading: false,
