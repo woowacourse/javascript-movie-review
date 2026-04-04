@@ -2,12 +2,12 @@ import { State } from "../types";
 import { getElement } from "./getElementView";
 
 export const hideSearchErrorText = () => {
-  const searchError = getElement(".search-error-container");
+  const searchError = getElement(".search-error-text");
   searchError.textContent = "";
   searchError.hidden = true;
 };
 export const showErrorText = (string: string) => {
-  const searchError = getElement(".search-error-container");
+  const searchError = getElement(".search-error-text");
   searchError.textContent = string;
   searchError.hidden = false;
 };
@@ -25,7 +25,7 @@ export const updateTitleText = (state: State) => {
   }
 };
 export const controlSearchResultText = (state: State) => {
-  const searchError = getElement(".search-error-container");
+  const searchError = getElement(".search-error-text");
 
   if (state.searchBarText !== "" && state.movieList.length === 0) {
     searchError.hidden = false;
