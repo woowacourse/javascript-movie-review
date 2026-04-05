@@ -1,17 +1,17 @@
-import { FETCH_OPTION, FETCH_TIMEOUT_MS, SHOW_MORE_TROTTLE_MS } from "./constans";
+import { FETCH_OPTION, FETCH_TIMEOUT_MS, SHOW_MORE_THROTTLE_MS } from "./constants";
 import { Movie, MovieListResponse, TMDBAPIEndpoint } from "./type";
 
-export function getPramFromURL(name: string, defaultValue: string) {
+export function getParamFromURL(name: string, defaultValue: string) {
   const urlParams = new URLSearchParams(window.location.search);
   return urlParams.get(name) ?? defaultValue
 }
 
 export function getQuery() {
-  return getPramFromURL("query", "");
+  return getParamFromURL("query", "");
 }
 
 export function getPage() {
-  const pageStr = getPramFromURL("page", "1");
+  const pageStr = getParamFromURL("page", "1");
   const page = isNaN(Number(pageStr)) ? 1 : Number(pageStr);
   return Math.max(1, page);
 }
@@ -200,7 +200,7 @@ export function renderShowMoreButton(prevResponseList: MovieListResponse[], page
       const button = document.createElement("button");
       button.classList.add("show-more-button");
       button.textContent = "더보기";
-      button.addEventListener("click", throttle(callback, SHOW_MORE_TROTTLE_MS));
+      button.addEventListener("click", throttle(callback, SHOW_MORE_THROTTLE_MS));
       document
         .querySelector(".thumbnail-list")
         ?.insertAdjacentElement("afterend", button);
