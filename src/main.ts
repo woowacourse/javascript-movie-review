@@ -1,21 +1,21 @@
 import image from "../templates/images/star_filled.png";
 import { fetchPopularMovies } from "./api/fetchMovies";
 import { extractThumbnailInfo } from "./thumnailManager";
-import Logo from "./logo";
+import Logo from "./Logo";
 import {
   renderMoviesList,
   renderTopRatedMovie,
   renderSkeleton,
   removeSkeleton,
 } from "./render";
-import SearchForm from "./searchForm";
+import SearchView from "./View/SearchView";
 import PageStore from "./store";
-import MoreButton from "./moreButton";
+import MoreMovieView from "./View/MoreMovieView";
 
 // 이벤트 바인딩
-const moreButton = new MoreButton();
+const moreButton = new MoreMovieView();
 moreButton.bindEvent();
-const searchForm = new SearchForm();
+const searchForm = new SearchView();
 searchForm.bindEvent();
 const logo = new Logo();
 logo.bindEvent();
@@ -36,7 +36,6 @@ try {
 } catch (error) {
   alert(error);
 }
-
 
 addEventListener("load", () => {
   const app = document.querySelector("#app");

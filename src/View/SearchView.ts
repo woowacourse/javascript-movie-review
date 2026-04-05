@@ -1,21 +1,27 @@
-import { renderMoviesList, removeSkeleton, renderSkeleton } from "./render";
-import { fetchSearchedMovies } from "./api/fetchMovies";
-import { makeNotFoundContainer } from "./makeNotFoundContainer";
-import { extractThumbnailInfo } from "./thumnailManager";
+import { renderMoviesList, removeSkeleton, renderSkeleton } from "../render";
+import { fetchSearchedMovies } from "../api/fetchMovies";
+import { makeNotFoundContainer } from "../makeNotFoundContainer";
+import { extractThumbnailInfo } from "../thumnailManager";
 
-class SearchForm {
-  #searchForm: HTMLFormElement | null;
-  #searchInput: HTMLInputElement | null;
+interface SearchViewDomType {
+  form: HTMLFormElement | null;
+  input: HTMLInputElement | null;
+}
+
+class SearchView {
+  #dom: SearchViewDomType;
 
   constructor() {
-    this.#searchForm = document.querySelector(".search");
-    this.#searchInput = document.querySelector(".search-input");
+    this.#dom = {
+      form: document.querySelector(".search"),
+      input: document.querySelector(".search-input"),
+    };
   }
 
   bindEvent() {
     const moreButton: HTMLButtonElement | null =
       document.querySelector(".more-button");
-    this.#searchForm!.addEventListener("submit", async (e) => {
+    this.#dom.form!.addEventListener("submit", async (e) => {
       e.preventDefault();
 
       const backgroundConatiner: HTMLDivElement | null = document.querySelector(
@@ -31,7 +37,7 @@ class SearchForm {
         ".not-search-found-container",
       );
 
-      const searchValue = this.#searchInput?.value;
+      const searchValue = this.#dom.input!.value;
 
       sectionTitle!.textContent = `"${searchValue}"검색 결과`;
 
@@ -41,7 +47,7 @@ class SearchForm {
       }
 
       renderSkeleton();
-      const { movies } = await fetchSearchedMovies(1, this.#searchInput!.value);
+      const { movies } = await fetchSearchedMovies(1, this.#dom.input!.value);
       removeSkeleton();
 
       if (movies!.length === 0) {
@@ -55,4 +61,4 @@ class SearchForm {
   }
 }
 
-export default SearchForm;
+export default SearchView;

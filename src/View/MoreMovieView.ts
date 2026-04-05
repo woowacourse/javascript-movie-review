@@ -1,31 +1,37 @@
-import { removeSkeleton, renderSkeleton } from "./render";
-import { fetchSearchedMovies, fetchPopularMovies } from "./api/fetchMovies";
-import { makeMovieThumbnail } from "./thumnailManager";
-import PageStore from "./store";
+import { removeSkeleton, renderSkeleton } from "../render";
+import { fetchSearchedMovies, fetchPopularMovies } from "../api/fetchMovies";
+import { makeMovieThumbnail } from "../thumnailManager";
+import PageStore from "../store";
 
-class MoreButton {
-  #moreButton: HTMLButtonElement | null;
+interface MoreMovieViewDomType {
+  button: HTMLButtonElement | null;
+}
+
+class MoreMovieView {
+  #dom: MoreMovieViewDomType;
 
   constructor() {
-    this.#moreButton = document.querySelector(".more-button");
+    this.#dom = {
+      button: document.querySelector(".more-button"),
+    };
   }
 
   hide() {
-    this.#moreButton!.style.display = "none";
+    this.#dom.button!.style.display = "none";
   }
 
   disable() {
-    this.#moreButton!.disabled = true;
-    this.#moreButton!.style.cursor = "not-allowed";
+    this.#dom.button!.disabled = true;
+    this.#dom.button!.style.cursor = "not-allowed";
   }
 
   able() {
-    this.#moreButton!.disabled = false;
-    this.#moreButton!.style.cursor = "pointer";
+    this.#dom.button!.disabled = false;
+    this.#dom.button!.style.cursor = "pointer";
   }
 
   bindEvent() {
-    this.#moreButton!.addEventListener("click", async (e) => {
+    this.#dom.button!.addEventListener("click", async (e) => {
       this.disable();
       const thumbnailList = document.querySelector(".thumbnail-list");
       const searchInput: HTMLInputElement | null =
@@ -46,7 +52,7 @@ class MoreButton {
         });
 
         if (nowPage === totalPages) {
-          this.#moreButton!.style.display = "none";
+          this.#dom.button!.style.display = "none";
         }
       } else {
         renderSkeleton();
@@ -60,7 +66,7 @@ class MoreButton {
         });
 
         if (nowPage === totalPages) {
-          this.#moreButton!.style.display = "none";
+          this.#dom.button!.style.display = "none";
         }
       }
 
@@ -69,4 +75,4 @@ class MoreButton {
   }
 }
 
-export default MoreButton;
+export default MoreMovieView;
