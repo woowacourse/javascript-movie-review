@@ -10,7 +10,7 @@ export const fetchMovies = async (moviePageCount: number) => {
     },
   );
   if (!response.ok) {
-    alert("인기 영화 불러오기에 실패하였습니다.");
+    throw new Error("[ERROR]인기 영화 불러오기에 실패하였습니다.");
   }
 
   const data = await response.json();
@@ -32,7 +32,7 @@ export const fetchSearchedMovies = async (
     },
   );
   if (!response.ok) {
-    alert("검색 영화 불러오기에 실패하였습니다.");
+    throw new Error("[ERROR]검색 영화 불러오기에 실패하였습니다.");
   }
 
   const data = await response.json();
