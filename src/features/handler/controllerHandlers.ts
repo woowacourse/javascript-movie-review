@@ -1,23 +1,17 @@
 import MovieList from "../UI/MovieList";
-import { Movie } from "../../../types/types";
+import { MovieResponse, UpdateMoreButton } from "../../../types/types";
 import {
   handleHeader,
   handleHeaderSearch,
   handleMovieList,
 } from "./renderHandlers";
-import { handleMoreMovie, handleMovie, handleSearchMovie } from "./dataHandlers";
+import {
+  handleMoreMovie,
+  handleMovie,
+  handleSearchMovie,
+} from "./dataHandlers";
 
 const movieListInstance = new MovieList();
-
-type MovieResponse = {
-  results: Movie[];
-  total_pages: number;
-};
-
-type UpdateMoreButton = (
-  moreButton: HTMLButtonElement,
-  data: MovieResponse,
-) => void;
 
 export async function initialRender(
   page: number,

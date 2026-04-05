@@ -1,4 +1,4 @@
-import { Movie } from "../types/types";
+import { MovieResponse } from "../types/types";
 import {
   initialRender,
   moreRender,
@@ -62,7 +62,7 @@ moreButton.addEventListener("click", async () => {
 
 function updateMoreButton(
   moreButton: HTMLButtonElement,
-  data: { results: Movie[]; total_pages: number },
+  data: MovieResponse,
 ): void {
   if (data.total_pages === page) {
     moreButton.style.display = "none";
