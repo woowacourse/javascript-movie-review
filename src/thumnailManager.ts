@@ -1,4 +1,6 @@
 import { ThumbnailInfo, Movie } from "../types/movie";
+import EmptyStarIcon from "./assets/star_empty.png";
+import NotFoundPoster from "./assets/notFoundImage.png";
 
 export const extractThumbnailInfo = (movies: Movie[]) => {
   return movies!.map((movie) => {
@@ -22,6 +24,9 @@ export const makeMovieThumbnail = (movie: ThumbnailInfo) => {
   const thumbnail = document.createElement("img");
   thumbnail.className = "thumbnail";
   thumbnail.src = `${import.meta.env.VITE_TMDB_IMG_URL}${movie.poster_path}`;
+  thumbnail.onerror = () => {
+    thumbnail.src = NotFoundPoster;
+  };
   thumbnail.alt = movie.title;
 
   const itemDesc = document.createElement("div");
@@ -32,7 +37,7 @@ export const makeMovieThumbnail = (movie: ThumbnailInfo) => {
 
   const starImg = document.createElement("img");
   starImg.className = "star";
-  starImg.src = "./templates/images/star_empty.png";
+  starImg.src = EmptyStarIcon;
 
   const voteAverage = document.createElement("span");
   voteAverage.textContent = movie.vote_average.toString();
