@@ -31,6 +31,7 @@ FE 레벨1 영화 리뷰 미션
 5. 배포
 
 - [x] 실행 가능한 페이지에 접근할 수 있도록 github page 기능을 이용하고, 해당 링크를 PR과 README에 작성한다.
+  - https://dongeun02.github.io/javascript-movie-review/
 
 ## 기능 목록
 
