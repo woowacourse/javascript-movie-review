@@ -6,13 +6,14 @@
 }
 
 .skeleton-top-rated-movie-rate {
+  display: inline-block;
   width: 32px;
   height: 26.56px;
 }
 
 .skeleton-top-rated-movie-title {
   width: 480px;
-  height: 48px;
+  height: 46px;
 }
 
 .skeleton-list-title {
