@@ -85,22 +85,6 @@ button.primary {
   flex: 1;
 }
 
-.background-container {
-  position: relative;
-  background-position: center center;
-  background-size: cover;
-  height: 500px;
-  padding: 48px;
-}
-
-.background-container.search-header {
-  height: 100px;
-  background-color: #242A32;
-}
-
-.background-container.search-header .overlay {
-  display: none;
-}
 
 .overlay {
   position: absolute;
@@ -133,10 +117,19 @@ h1.logo {
   flex-shrink: 0;
 }
 
+#header {
+  display: grid;
+  background-color: #242A32;
+}
+
 .header-top {
+  grid-area: 1 / 1;
+  position: relative;
+  z-index: 3;
   display: flex;
   align-items: center;
-  position: relative;
+  padding: 48px;
+  align-self: start;
 }
 
 .header-top .search-bar {
@@ -145,6 +138,15 @@ h1.logo {
   transform: translateX(-50%);
   max-width: 700px;
   width: 50%;
+}
+
+.background-container {
+  grid-area: 1 / 1;
+  position: relative;
+  background-position: center center;
+  background-size: cover;
+  height: 500px;
+  padding: 48px;
 }
 
 .rate {

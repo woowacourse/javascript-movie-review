@@ -2,7 +2,6 @@ import template from "../templates/index.html?raw";
 import {
   renderMovies,
   renderSearchedMovies,
-  replaceBanner,
 } from "./movieRenderer.ts";
 import AppState from "../src/AppState.ts";
 
@@ -52,11 +51,8 @@ class App {
     const loadMovieButton = document.querySelector<HTMLElement>("#load-movie-button");
     if (loadMovieButton) loadMovieButton.style.display = "";
 
-    const header = document.querySelector<HTMLElement>("#header");
-    if (header) {
-      header.replaceChildren();
-      replaceBanner(header, this.#state.currentKeyword);
-    }
+    const backgroundContainer = document.querySelector<HTMLElement>(".background-container");
+    if (backgroundContainer) backgroundContainer.hidden = true;
 
     this.#state.totalSearchPages = await renderSearchedMovies(
       this.#state.currentKeyword,
