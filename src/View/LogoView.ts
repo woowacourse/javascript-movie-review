@@ -7,10 +7,8 @@ class LogoView {
     };
   }
 
-  bindEvent() {
-    this.#dom.logo!.addEventListener("click", () => {
-      location.reload();
-    });
+  bindEvent(handler: () => void) {
+    this.#dom.logo!.addEventListener("click", handler);
   }
 }
 
