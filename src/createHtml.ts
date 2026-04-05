@@ -1,6 +1,6 @@
 import type { Movie } from "../types/Movie.ts";
 
-const posterBaseURL = "https://image.tmdb.org/t/p/original";
+const posterBaseURL = "https://image.tmdb.org/t/p/original/";
 
 export const createMovieItemHTML = (movie: Movie): HTMLLIElement => {
   const posterSrc = `${posterBaseURL}${movie.poster_path}`;
@@ -43,6 +43,32 @@ export const createBannerHTML = (movie: Movie): HTMLDivElement => {
   return div;
 };
 
+export const createSearchHeaderHTML = (): HTMLDivElement => {
+  const div = document.createElement("div");
+  div.insertAdjacentHTML(
+    "beforeend",
+    /*html*/ `
+  <div class="background-container search-header">
+    <div class="overlay" aria-hidden="true"></div>
+    <div class="top-rated-container">
+      <div class="header-top">
+        <h1 class="logo">
+          <a href="/"><img src="./images/logo.png" alt="MovieList" /></a>
+        </h1>
+        <div class="search-bar">
+          <input type="text" class="search-input" placeholder="검색어를 입력하세요" />
+          <button class="search-button">
+            <img src="./images/search_icon.png" alt="검색" class="search-icon" />
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  `,
+  );
+
+  return div;
+};
 
 export const createNoResultHTML = (): HTMLDivElement => {
   const div = document.createElement("div");
