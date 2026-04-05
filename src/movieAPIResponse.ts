@@ -17,7 +17,7 @@ export const fetchMovies = async (
     throw new Error("인기 영화 불러오기에 실패하였습니다.");
   }
 
-  const data = await response.json();
+  const data: MovieResponse = await response.json();
   return data;
 };
 
@@ -39,6 +39,6 @@ export const fetchSearchedMovies = async (
     throw new Error("검색 영화 불러오기에 실패하였습니다.");
   }
 
-  const data = await response.json();
+  const data: MovieResponse = await response.json();
   return data;
 };

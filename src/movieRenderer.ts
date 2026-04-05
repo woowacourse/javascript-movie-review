@@ -1,5 +1,6 @@
 import { fetchMovies, fetchSearchedMovies } from "./movieAPIResponse.ts";
 import type { Movie } from "../types/Movie.ts";
+import type { MovieResponse } from "../types/MovieResponse";
 
 const posterBaseURL = "https://image.tmdb.org/t/p/original/";
 const base = import.meta.env.BASE_URL;
@@ -52,9 +53,19 @@ const createMovieItem = (movie: Movie): HTMLLIElement => {
 };
 
 export const renderMovies = async (moviePageCount: number) => {
-  let movieData;
   try {
-    movieData = await fetchMovies(moviePageCount);
+    const movieData: MovieResponse = await fetchMovies(moviePageCount);
+
+    if (moviePageCount === 1) {
+      renderBanner(movieData.results[0]);
+    }
+    const list = document.querySelector(".thumbnail-list");
+
+    movieData.results.forEach((movie: Movie) => {
+      list?.appendChild(createMovieItem(movie));
+    });
+
+    return movieData.total_pages;
   } catch (error) {
     alert(
       error instanceof Error
@@ -63,19 +74,9 @@ export const renderMovies = async (moviePageCount: number) => {
     );
     return 0;
   }
-  if (moviePageCount === 1) {
-    renderBanner(movieData.results[0]);
-  }
-  const list = document.querySelector(".thumbnail-list");
-
-  movieData.results.forEach((movie: Movie) => {
-    list?.appendChild(createMovieItem(movie));
-  });
-
-  return movieData.total_pages;
 };
 
-const renderBanner = async (fristMovieData: Movie) => {
+export const renderBanner = async (fristMovieData: Movie) => {
   const movies = fristMovieData;
 
   const banner = document.querySelector(".top-rated-movie");
@@ -131,9 +132,31 @@ export const renderSearchedMovies = async (
   searchKeyword: string,
   searchPageCount: number,
 ) => {
-  let movieData;
   try {
-    movieData = await fetchSearchedMovies(searchKeyword, searchPageCount);
+    const movieData: MovieResponse = await fetchSearchedMovies(
+      searchKeyword,
+      searchPageCount,
+    );
+    const movies = movieData.results;
+
+    const list = document.querySelector(".thumbnail-list");
+
+    if (list && movies.length === 0 && searchPageCount === 1) {
+      list.insertAdjacentHTML(
+        "beforeend",
+        /*html*/ `
+      <div id="no-result">
+        <img src="${base}images/planet_icon.png" alt="검색 결과 없음" class="no-result-icon" />
+        <p class="no-result-text">검색 결과가 없습니다.</p>
+      </div>`,
+      );
+    }
+
+    movies.forEach((movie: Movie) => {
+      list?.appendChild(createMovieItem(movie));
+    });
+
+    return movieData.total_pages;
   } catch (error) {
     alert(
       error instanceof Error
@@ -142,24 +165,4 @@ export const renderSearchedMovies = async (
     );
     return 0;
   }
-  const movies = movieData.results;
-
-  const list = document.querySelector(".thumbnail-list");
-
-  if (list && movies.length === 0 && searchPageCount === 1) {
-    list.insertAdjacentHTML(
-      "beforeend",
-      /*html*/ `
-      <div id="no-result">
-        <img src="${base}images/planet_icon.png" alt="검색 결과 없음" class="no-result-icon" />
-        <p class="no-result-text">검색 결과가 없습니다.</p>
-      </div>`,
-    );
-  }
-
-  movies.forEach((movie: Movie) => {
-    list?.appendChild(createMovieItem(movie));
-  });
-
-  return movieData.total_pages;
 };
