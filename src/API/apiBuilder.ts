@@ -1,6 +1,6 @@
 import { API_PATH, BASE_URL, DEFAULT_LANGUAGE } from "../constants/constant";
 
-import type { FetchMoviePageDataResponse, RequestOptions } from "./api.types";
+import type { FetchMoviePageDataResponse, RequestOptions } from "./apiTypes";
 
 import type { Movie } from "../../types/movie";
 
