@@ -23,12 +23,12 @@ export const movieListTemplate = {
             class="thumbnail"
             src=${THUMBNAIL_IMAGE + item.poster_path}
             alt=${item.title}
-            onerror="this.onerror=null; this.src='./src/images/no-image.png'"
+            onerror="this.onerror=null; this.src='./images/no-image.png'"
           />
           <div class="item-desc">
             <p class="rate">
               <img
-                src="./src/images/star_empty.png"
+                src="./images/star_empty.png"
                 class="star"
               />
               <span class="item-rate">${item.vote_average}</span>
@@ -41,13 +41,13 @@ export const movieListTemplate = {
   ,
   errorList: /*html*/ `
     <li class="thumbnail-empty">
-      <img src="./src/images/empty_icon.png" alt="empty list" class="empty-icon" />
+      <img src="./images/empty_icon.png" alt="empty list" class="empty-icon" />
       <p class="empty-message">영화 정보를 불러오지 못했습니다. 다시 시도해주세요.</p>
     </li>
   `,
   emptyList: /*html*/ `
     <li class="thumbnail-empty">
-      <img src="./src/images/empty_icon.png" alt="empty list" class="empty-icon" />
+      <img src="./images/empty_icon.png" alt="empty list" class="empty-icon" />
       <p class="empty-message">검색 결과가 없습니다.</p>
     </li>
   `,
