@@ -112,17 +112,17 @@ class App {
     this.#state.searchMoviePage = 1;
 
     // 1. 타이틀 변경
-
     this.#views.movieList.renderTitle(`"${searchValue}"검색 결과`);
 
     // 2. 영화 검색 데이터 반영
     try {
+      this.#views.movieList.remove(); // remove 위치 점검 필요
       this.#views.movieList.addSkeletons();
       const { movies, nowPage, totalPages } = await fetchSearchedMovies(
         this.#state.searchMoviePage,
         searchValue,
       );
-      this.#views.movieList.remove(); // 검색 성공 후 기존 리스트 제거
+
       this.#views.moreMovie.show();
       this.#views.movieList.addMovies(extractThumbnailInfo(movies!));
 
