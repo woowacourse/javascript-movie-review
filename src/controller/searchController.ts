@@ -1,41 +1,40 @@
 import { searchMovies } from "../api/searchMovies";
-import { movieListRender } from "../view/movieListRender";
-import { resetListRender } from "../view/resetListRender";
-import { emptyListRender } from "../view/emptyListRender";
-import { errorListRender } from "../view/errorListRender";
-import { controlMoreButton } from "../view/moreButtonView";
-import {
-  skeletonListRemover,
-  skeletonListRender,
-} from "../view/skeletonListRender";
 import { SKELETON_NUMBER } from "../constants/constant";
-import { movieModel } from "../model/MovieModel";
+import { movieModel } from "../model/movieModel";
 import { searchView } from "../view/searchView";
+import { movieListView } from "../view/movieListView";
+import { bannerView } from "../view/bannerView";
+import { addButtonView } from "../view/addButtonView";
 
 export async function searchController(keyword: string) {
   movieModel.startSearch(1, true, keyword);
   searchView.changeToSearchMode(movieModel.searchValue);
-  resetListRender();
-  skeletonListRender(SKELETON_NUMBER);
+  bannerView.hideBanner();
+  addButtonView.hideAddButton();
+  movieListView.resetMovieList();
+  movieListView.renderSkeletonList(SKELETON_NUMBER);
+
   const searchMoviesResult: movieResponse | undefined = await searchMovies(
     movieModel.page,
     movieModel.searchValue
   );
 
   if (searchMoviesResult === undefined) {
-    skeletonListRemover();
-    errorListRender();
+    movieListView.removeSkeletonList();
+    movieListView.renderErrorList();
     return;
-  }
-  if (searchMoviesResult.total_results === 0) {
-    skeletonListRemover();
-    emptyListRender();
-    return;
-  }
-  if (searchMoviesResult.page === searchMoviesResult.total_pages) {
-    controlMoreButton.hide();
-  }
+  };
 
-  skeletonListRemover();
-  movieListRender(searchMoviesResult.results);
+  if (searchMoviesResult.total_results === 0) {
+    movieListView.removeSkeletonList();
+    movieListView.renderEmptyList();
+    addButtonView.hideAddButton();
+    return;
+  };
+  if (searchMoviesResult.page === searchMoviesResult.total_pages) {
+    addButtonView.hideAddButton();
+  };
+
+  movieListView.removeSkeletonList();
+  movieListView.renderMovieList(searchMoviesResult.results);
 }

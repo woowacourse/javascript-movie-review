@@ -3,7 +3,7 @@ import { moreButtonController } from "./controller/moreButtonController";
 import { searchController } from "./controller/searchController";
 import { searchView } from "./view/searchView";
 import { addButtonView } from "./view/addButtonView";
-import { movieModel } from "./model/MovieModel";
+import { movieModel } from "./model/movieModel";
 
 function init() {
   addEventListener("load", () => {

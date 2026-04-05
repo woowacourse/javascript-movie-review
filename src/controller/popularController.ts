@@ -1,22 +1,22 @@
 import { getMovies } from "../api/getMovies";
-import { movieBanner } from "../view/movieBanner";
-import { movieListRender } from "../view/movieListRender";
-import { errorListRender } from "../view/errorListRender";
-import {
-  skeletonListRemover,
-  skeletonListRender,
-} from "../view/skeletonListRender";
 import { SKELETON_NUMBER } from "../constants/constant";
+import { movieListView } from "../view/movieListView";
+import { movieModel } from "../model/movieModel";
+import { addButtonView } from "../view/addButtonView";
+import { bannerView } from "../view/bannerView";
 
-export async function popularController(page: number) {
-  skeletonListRender(SKELETON_NUMBER);
-  const popularMovies: movieResponse | undefined = await getMovies(page);
-  if (popularMovies === undefined) {
-    errorListRender();
+export async function popularController() {
+  movieListView.renderSkeletonList(SKELETON_NUMBER);
+
+  const popularMovies: movieResponse | undefined = await getMovies(movieModel.page);
+
+  if (popularMovies === undefined || popularMovies.results.length === 0) {
+    movieListView.renderErrorList();
+    addButtonView.hideAddButton();
     return;
-  }
+  };
 
-  skeletonListRemover();
-  movieBanner(popularMovies.results[0]);
-  movieListRender(popularMovies.results);
+  movieListView.removeSkeletonList();
+  bannerView.renderBanner(popularMovies.results[0]);
+  movieListView.renderMovieList(popularMovies.results);
 }

@@ -1,12 +1,8 @@
 import { getMovies } from "../api/getMovies";
-import { movieListRender } from "../view/movieListRender";
 import { searchMovies } from "../api/searchMovies";
-import {
-  skeletonListRemover,
-  skeletonListRender,
-} from "../view/skeletonListRender";
 import { comparePage } from "../utils/comparePage";
 import { SKELETON_NUMBER } from "../constants/constant";
+import { movieListView } from "../view/movieListView";
 
 async function getNextData(
   stateObject: StateType,
@@ -29,21 +25,21 @@ export const moreButtonController = {
   },
 
   getMorePopular: async (page: number) => {
-    skeletonListRender(SKELETON_NUMBER);
+    movieListView.renderSkeletonList(SKELETON_NUMBER);
     const popularMoviesData: movieResponse | undefined = await getMovies(page);
     if (popularMoviesData === undefined) return;
-    skeletonListRemover();
-    movieListRender(popularMoviesData.results);
+    movieListView.removeSkeletonList();
+    movieListView.renderMovieList(popularMoviesData.results);
 
     return popularMoviesData;
   },
 
   getMoreSearch: async (page: number, searchValue: string) => {
-    skeletonListRender(SKELETON_NUMBER);
-    const searchMoviesData = await searchMovies(searchValue, page);
+    movieListView.renderSkeletonList(SKELETON_NUMBER);
+    const searchMoviesData = await searchMovies(page, searchValue);
     if (searchMoviesData === undefined) return;
-    skeletonListRemover();
-    movieListRender(searchMoviesData.results);
+    movieListView.removeSkeletonList();
+    movieListView.renderMovieList(searchMoviesData.results);
 
     return searchMoviesData;
   },
