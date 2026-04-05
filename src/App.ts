@@ -24,6 +24,7 @@ class App {
     this.#state = {
       popularMoviePage: 1,
       searchMoviePage: 1,
+      searchString: "",
     };
   }
 
@@ -101,14 +102,17 @@ class App {
   };
 
   #searchEventHandler = async () => {
+    const searchValue = this.#views.search.getInputValue();
+    if (searchValue === this.#state.searchString) {
+      return;
+    }
+
     this.#views.topRated.hide();
-    this.#views.movieList.remove(); // 새로 검색이 된 것이므로 기존 결과 초기화
     this.#views.movieList.hideNotFound(); // 올바른 검색결과에도 notFound가 표시되는 것 방지
-    this.#views.moreMovie.show();
     this.#state.searchMoviePage = 1;
 
     // 1. 타이틀 변경
-    const searchValue = this.#views.search.getInputValue();
+
     this.#views.movieList.renderTitle(`"${searchValue}"검색 결과`);
 
     // 2. 영화 검색 데이터 반영
@@ -118,6 +122,8 @@ class App {
         this.#state.searchMoviePage,
         searchValue,
       );
+      this.#views.movieList.remove(); // 검색 성공 후 기존 리스트 제거
+      this.#views.moreMovie.show();
       this.#views.movieList.addMovies(extractThumbnailInfo(movies!));
 
       if (nowPage === totalPages) {
@@ -129,6 +135,8 @@ class App {
         this.#views.movieList.showNotFound();
         this.#views.moreMovie.hide();
       }
+
+      this.#state.searchString = searchValue;
     } catch (error) {
       alert(ERROR_MESSAGE.MOVIE.FAILED_SEARCH);
     } finally {
