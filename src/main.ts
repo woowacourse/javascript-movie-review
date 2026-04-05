@@ -1,11 +1,11 @@
 import type { AppElements } from "../types/dom";
-import { fetchMoviePageData } from "./API/api";
-import type { FetchMoviePageDataResponse } from "./API/api.types";
+import type { FetchMoviePageDataResponse } from "./api/apiTypes";
 import { PAGE_TITLE } from "./constants/constant";
 import type { State } from "../types/state";
 import { getAppElements } from "./utils/AppElementUtil";
 import { notifyEmptyQuery, notifyError } from "./utils/NotifyUtil";
 import { makeSkeleton, renderHeroMovie, renderMovies } from "./utils/RenderUtil";
+import { TmdbClient } from "./api/TmdbClient";
 
 const state: State = {
   currentPage: 0,
@@ -14,9 +14,14 @@ const state: State = {
   query: "",
 };
 
+const tmdb = new TmdbClient(import.meta.env.VITE_TMDB_API_KEY);
+
 // 쿼리를 받아서 fetch 함
 const fetchMoviePages = async (query: string): Promise<FetchMoviePageDataResponse> => {
-  const response: FetchMoviePageDataResponse = await fetchMoviePageData(state.currentPage + 1, query);
+  const response: FetchMoviePageDataResponse =
+    query !== ""
+      ? await tmdb.searchMovies(query, state.currentPage + 1)
+      : await tmdb.fetchPopular(state.currentPage + 1);
 
   return response;
 };
