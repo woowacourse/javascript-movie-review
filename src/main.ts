@@ -1,62 +1,26 @@
 import { popularController } from "./controller/popularController";
 import { moreButtonController } from "./controller/moreButtonController";
 import { searchController } from "./controller/searchController";
-import { inputView } from "./view/inputView";
-import { PAGE_NUMBER } from "./constants/constant";
+import { searchView } from "./view/searchView";
+import { addButtonView } from "./view/addButtonView";
+import { movieModel } from "./model/MovieModel";
 
-const stateObject: StateType = {
-  page: PAGE_NUMBER,
-  isSearch: false,
-  searchValue: "",
-};
+function init() {
+  addEventListener("load", () => {
+    popularController();
+  });
 
-addEventListener("load", async () => {
-  const app = document.querySelector("#app");
+  addButtonView.bindAddButtonClick(async () => {
+    const result = await moreButtonController.handleLoadMore(movieModel);
 
-  if (app) {
-    popularController(stateObject.page);
-  }
-});
+    if (result) {
+      addButtonView.hideAddButton();
+    }
+  });
 
-const addBtn = document.querySelector<HTMLButtonElement>("#add-button");
+  searchView.bindSearchSubmit((keyword: string) => {
+    searchController(keyword);
+  });
+}
 
-addBtn?.addEventListener("click", async () => {
-  const result = await moreButtonController.handleLoadMore(stateObject);
-
-  if (result) {
-    addBtn.style.display = "none";
-  }
-});
-
-const form = document.querySelector("#search-form");
-
-form?.addEventListener("submit", async (event) => {
-  event.preventDefault();
-  stateObject.page = 1;
-
-  if (addBtn) {
-    addBtn.style.display = "block";
-  }
-
-  stateObject.searchValue = inputView();
-  searchController(stateObject.page, stateObject.searchValue);
-
-  stateObject.isSearch = true;
-
-  const bannerContainer = document.querySelector<HTMLElement>(
-    ".background-container",
-  );
-  if (bannerContainer) {
-    bannerContainer.style.display = "none";
-  }
-
-  const thumbnailTitle = document.querySelector("#thumbnail-title");
-  if (thumbnailTitle) {
-    thumbnailTitle.textContent = `"${stateObject.searchValue}" 검색 결과`;
-  }
-
-  const headerBar = document.querySelector<HTMLElement>("#header-bar");
-  if (headerBar) {
-    headerBar.style.position = "relative";
-  }
-});
+init();
