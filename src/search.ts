@@ -35,6 +35,8 @@ addEventListener("load", async () => {
           await renderSearchMoviePage(getPage() + 1, getQuery());
         } catch (error) {
           handleError(error);
+        } finally {
+          removeSkeletonItem();
         }
       })
     }
@@ -49,5 +51,7 @@ addEventListener("load", async () => {
     }
   } catch (error) {
     handleError(error);
+  } finally {
+    removeSkeletonItem();
   }
 });

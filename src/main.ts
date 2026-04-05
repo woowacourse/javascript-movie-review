@@ -30,6 +30,8 @@ addEventListener("load", async () => {
           await renderPopularMoviePage(getPage() + 1);
         } catch (error) {
           handleError(error);
+        } finally {
+          removeSkeletonItem();
         }
       })
     }
@@ -41,5 +43,7 @@ addEventListener("load", async () => {
     }
   } catch (error) {
     handleError(error);
+  } finally {
+    removeSkeletonItem();
   }
 });
