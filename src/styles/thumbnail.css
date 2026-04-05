@@ -78,3 +78,11 @@ p.rate > span {
   font-size: 36px;
   font-weight: 600;
 }
+
+.hidden {
+  display: none;
+}
+
+.relative {
+  position: relative;
+}
