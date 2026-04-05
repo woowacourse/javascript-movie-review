@@ -15,6 +15,10 @@ class MoreMovieView {
     this.#dom.button!.style.display = "none";
   }
 
+  show() {
+    this.#dom.button!.style.display = "";
+  }
+
   disable() {
     this.#dom.button!.disabled = true;
     this.#dom.button!.style.cursor = "not-allowed";

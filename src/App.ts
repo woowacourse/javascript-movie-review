@@ -39,16 +39,16 @@ class App {
       //   }
     });
 
-    await this.#renderPopularMovie();
+    await this.#renderPopularMovieAtFirst();
   }
 
   #bindAllEvents() {
     this.#views.moreMovie.bindEvent(this.#moreMovieEventHandler);
     this.#views.search.bindEvent(this.#searchEventHandler);
-    this.#views.logo.bindEvent();
+    this.#views.logo.bindEvent(this.#logoEventHandler);
   }
 
-  async #renderPopularMovie() {
+  async #renderPopularMovieAtFirst() {
     try {
       this.#views.movieList.addSkeletons();
       const { movies: popularMovies, totalPages: popularTotalPages } =
@@ -65,6 +65,10 @@ class App {
       alert(error);
     }
   }
+
+  #logoEventHandler = () => {
+    location.reload();
+  };
 
   #moreMovieEventHandler = async () => {
     this.#views.moreMovie.disable();
@@ -92,6 +96,7 @@ class App {
     this.#views.topRated.hide();
     this.#views.movieList.remove(); // 새로 검색이 된 것이므로 기존 결과 초기화
     this.#views.movieList.hideNotFound(); // 올바른 검색결과에도 notFound가 표시되는 것 방지
+    this.#views.moreMovie.show();
 
     // 1. 타이틀 변경
     const searchValue = this.#views.search.getInputValue();
@@ -99,9 +104,16 @@ class App {
 
     // 2. 영화 검색 데이터 반영
     this.#views.movieList.addSkeletons();
-    const { movies } = await fetchSearchedMovies(1, searchValue);
+    const { movies, nowPage, totalPages } = await fetchSearchedMovies(
+      1,
+      searchValue,
+    );
     this.#views.movieList.addMovies(extractThumbnailInfo(movies!));
     this.#views.movieList.removeAllSkeletons();
+
+    if (nowPage === totalPages) {
+      this.#views.moreMovie.hide();
+    }
 
     // 3. 검색 결과가 없으면 notFound 표시
     if (movies!.length === 0) {
