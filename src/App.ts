@@ -1,4 +1,4 @@
-import image from "../templates/images/star_filled.png";
+import FilledStarIcon from "./assets/star_filled.png";
 import { fetchPopularMovies, fetchSearchedMovies } from "./api/fetchMovies";
 import { ERROR_MESSAGE } from "./constants/errorMessage";
 import { extractThumbnailInfo } from "./thumnailManager";
@@ -33,7 +33,7 @@ class App {
     addEventListener("load", () => {
       //   const app = document.querySelector("#app");
       const buttonImage = document.createElement("img");
-      buttonImage.src = image;
+      buttonImage.src = FilledStarIcon;
 
       //   if (app) {
       //     app.appendChild(buttonImage);
