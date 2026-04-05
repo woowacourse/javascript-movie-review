@@ -66,12 +66,8 @@ export const renderMovies = async (moviePageCount: number) => {
     });
 
     return movieData.total_pages;
-  } catch (error) {
-    alert(
-      error instanceof Error
-        ? error.message
-        : "알 수 없는 오류가 발생했습니다.",
-    );
+  } catch {
+    alert("인기 영화를 불러오는 데 실패했습니다. 잠시 후 다시 시도해 주세요.");
     return 0;
   }
 };
@@ -157,12 +153,8 @@ export const renderSearchedMovies = async (
     });
 
     return movieData.total_pages;
-  } catch (error) {
-    alert(
-      error instanceof Error
-        ? error.message
-        : "알 수 없는 오류가 발생했습니다.",
-    );
+  } catch {
+    alert("영화 검색에 실패했습니다. 잠시 후 다시 시도해 주세요.");
     return 0;
   }
 };
