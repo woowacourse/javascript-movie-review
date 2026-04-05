@@ -1,4 +1,4 @@
-interface movieResponse {
+interface MovieResponse {
   page: number;
   results: Movies[];
   total_pages: number;
