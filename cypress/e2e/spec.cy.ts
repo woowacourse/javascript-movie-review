@@ -80,7 +80,7 @@ describe("Movie App", () => {
       cy.visit("localhost:5173");
       cy.wait("@failedPopularMovies");
       cy.get(".toast").should("be.visible");
-      cy.get(".toast-title").should("contain", "API 요청중 에러가 발생했습니다.");
+      cy.get(".toast-title").should("contain", "API 에러");
     });
   });
 
@@ -92,8 +92,8 @@ describe("Movie App", () => {
       cy.visit("localhost:5173");
       cy.tick(10001);
       cy.get(".toast").should("be.visible");
-      cy.get(".toast-title").should("contain", "API 요청중 에러가 발생했습니다.");
-      cy.get(".toast-message").should("contain", "요청 시간이");
+      cy.get(".toast-title").should("contain", "API 에러");
+      cy.get(".toast-message").should("contain", "응답 시간");
     });
   });
 });
