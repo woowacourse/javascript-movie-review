@@ -11,9 +11,8 @@ import {
   handleSearchMovie,
 } from "./dataHandlers";
 
-const movieListInstance = new MovieList();
-
 export async function initialRender(
+  movieList: MovieList,
   page: number,
   moreButton: HTMLButtonElement,
   updateMoreButton: UpdateMoreButton,
@@ -22,13 +21,14 @@ export async function initialRender(
 
   mainTitle.textContent = "지금 인기 있는 영화";
 
-  const data: MovieResponse = await handleMovie(page);
+  const data: MovieResponse = await handleMovie(page, movieList);
   handleHeader(data.results[0]);
-  handleMovieList(data);
+  handleMovieList(movieList, data);
   updateMoreButton(moreButton, data);
 }
 
 export async function searchRender(
+  movieList: MovieList,
   page: number,
   searchMovie: string,
   moreButton: HTMLButtonElement,
@@ -38,19 +38,24 @@ export async function searchRender(
 
   mainTitle.textContent = `"${searchMovie}" 검색 결과`;
 
-  const data: MovieResponse = await handleSearchMovie(page, searchMovie);
+  const data: MovieResponse = await handleSearchMovie(
+    page,
+    searchMovie,
+    movieList,
+  );
   handleHeaderSearch();
 
   if (data.results.length === 0) {
-    movieListInstance.showEmpty();
+    movieList.showEmpty();
   } else {
-    handleMovieList(data);
+    handleMovieList(movieList, data);
   }
 
   updateMoreButton(moreButton, data);
 }
 
 export async function moreRender(
+  movieList: MovieList,
   page: number,
   searchMovie: string,
   moreButton: HTMLButtonElement,
@@ -58,6 +63,6 @@ export async function moreRender(
 ): Promise<void> {
   const data: MovieResponse = await handleMoreMovie(page, searchMovie);
 
-  movieListInstance.renderMovieList(data);
+  movieList.renderMovieList(data);
   updateMoreButton(moreButton, data);
 }

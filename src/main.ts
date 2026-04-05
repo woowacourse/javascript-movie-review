@@ -1,4 +1,5 @@
 import { MovieResponse } from "../types/types";
+import MovieList from "./features/UI/MovieList";
 import {
   initialRender,
   moreRender,
@@ -7,13 +8,14 @@ import {
 
 let page: number = 1;
 let searchMovie: string = "";
+const movieList = new MovieList();
 
 // 렌더링 시 더보기 버튼
 const moreButton = document.querySelector(".btn-more") as HTMLButtonElement;
 
 addEventListener("load", async () => {
   // 초기 렌더링
-  await initialRender(page, moreButton, updateMoreButton);
+  await initialRender(movieList, page, moreButton, updateMoreButton);
 
   // 검색
   const submitContainer = document.querySelector(
@@ -31,12 +33,18 @@ addEventListener("load", async () => {
 
     // 검색어가 없는 경우 초기 렌더링
     if (searchMovie === "") {
-      await initialRender(page, moreButton, updateMoreButton);
+      await initialRender(movieList, page, moreButton, updateMoreButton);
       return;
     }
 
     // 검색어가 있는 경우 검색 결과 렌더링
-    await searchRender(page, searchMovie, moreButton, updateMoreButton);
+    await searchRender(
+      movieList,
+      page,
+      searchMovie,
+      moreButton,
+      updateMoreButton,
+    );
 
     attachLogoListener();
   });
@@ -49,15 +57,14 @@ function attachLogoListener() {
   logo.addEventListener("click", async () => {
     page = 1;
     searchMovie = "";
-    await initialRender(page, moreButton, updateMoreButton);
-    attachLogoListener();
+    await initialRender(movieList, page, moreButton, updateMoreButton);
   });
 }
 
 // 더보기 버튼
 moreButton.addEventListener("click", async () => {
   page += 1;
-  await moreRender(page, searchMovie, moreButton, updateMoreButton);
+  await moreRender(movieList, page, searchMovie, moreButton, updateMoreButton);
 });
 
 function updateMoreButton(
