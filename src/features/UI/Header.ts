@@ -28,7 +28,6 @@ export const Header = {
                 </div>
                 <div class="title">${movie.title}</div>
                 <button class="primary detail">자세히 보기</button>
-                </div>
             </div>
             ${this.renderImage()}
       `;
@@ -46,7 +45,7 @@ export const Header = {
   },
 
   renderImage(): string {
-    return /*html*/ `<div class="overlay" aria-hidden="true">
+    return /*html*/ `<div class="overlay">
                 <div class="search-container">
                 <h1 class="logo">
                     <img src="${logo}" alt="MovieList" />
@@ -55,12 +54,18 @@ export const Header = {
                     <input
                     type="search"
                     class="search-input"
+                    aria-label="영화 검색"
                     placeholder="검색어를 입력하세요"
                     />
-                    <button type="submit" class="btn-submit">
+                    <button
+                      type="submit"
+                      class="btn-submit"
+                      aria-label="영화 검색 실행"
+                    >
                         <img
                             src="${searchIcon}"
-                            alt="search"
+                            alt=""
+                            aria-hidden="true"
                             class="img-search"
                         />
                      </button>
