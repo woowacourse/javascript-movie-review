@@ -179,7 +179,7 @@ span.rate-value {
 }
 
 .not-search-found-container {
-  display: flex;
+  display: none;
   flex-direction: column;
   gap: 16px;
   justify-content: center;
