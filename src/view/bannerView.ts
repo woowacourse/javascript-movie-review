@@ -6,7 +6,6 @@ class BannerView {
   #banner = document.querySelector<HTMLImageElement>(
     ".background-container",
   );
-  #bannerContainer = document.querySelector<HTMLElement>(".background-container");
 
   renderBanner(bannerMovie: Movies) {
     if (!this.#rateValue || !this.#title || !this.#banner) return;
@@ -16,7 +15,7 @@ class BannerView {
   };
 
   hideBanner() {
-    if (this.#bannerContainer) this.#bannerContainer.style.display = "none";
+    if (this.#banner) this.#banner.classList.add('hidden');
   };
 }
 

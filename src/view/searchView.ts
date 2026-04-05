@@ -33,7 +33,7 @@ class SearchView {
   };
 
   headerBarPositionRelative() {
-    if (this.#headerBar) this.#headerBar.style.position = "relative";
+    if (this.#headerBar) this.#headerBar.classList.add('relative');
   };
 }
 

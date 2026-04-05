@@ -24,7 +24,7 @@ class MovieListView {
     const movieListHTML = popularMovies
       .map((item) => movieListTemplate.movieList(item))
       .join("");
-    this.#thumbnailList?.insertAdjacentHTML("beforeend", movieListHTML);
+    this.#thumbnailList.insertAdjacentHTML("beforeend", movieListHTML);
   };
 
   resetMovieList() {

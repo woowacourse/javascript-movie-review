@@ -1,8 +1,6 @@
 class AddButtonView {
-  #addButton: HTMLButtonElement | null;
-
-  constructor() {
-    this.#addButton = document.querySelector<HTMLButtonElement>("#add-button");
+  get #addButton() {
+    return document.querySelector<HTMLButtonElement>("#add-button");
   };
 
   bindAddButtonClick(handler: () => void) {
@@ -12,7 +10,11 @@ class AddButtonView {
   };
 
   hideAddButton() {
-    if (this.#addButton) this.#addButton.style.display = 'none';
+    if (this.#addButton) this.#addButton.classList.add("hidden");
+  };
+
+  showAddButton() {
+    if (this.#addButton) this.#addButton.classList.remove("hidden");
   };
 }
 
