@@ -1,32 +1,31 @@
 import { fetchMovies, fetchSearchedMovies } from "./movieAPIResponse.ts";
 import type { Movie } from "../types/Movie.ts";
+import {
+  createMovieItemHTML,
+  createBannerHTML,
+  createSearchHeaderHTML,
+  createNoResultHTML,
+} from "./createHtml.ts";
 
-const posterBaseURL = "https://image.tmdb.org/t/p/original/";
+const bannerBaseURL = "https://image.tmdb.org/t/p/w1920_and_h800_multi_faces";
 
-const createMovieItem = (movie: Movie): HTMLLIElement => {
-  const posterSrc = `${posterBaseURL}${movie.poster_path}`;
+export const renderMovies = async (moviePageCount: number) => {
+  const movieData = await fetchMovies(moviePageCount);
+  if (moviePageCount === 1) {
+    renderBanner(movieData.results[0]);
+  }
+  const list = document.querySelector(".thumbnail-list");
 
-  const li = document.createElement("li");
+  movieData.results.forEach((movie: Movie) => {
+    const li = createMovieItemHTML(movie);
+    attachSkeletonEvents(li);
+    list?.appendChild(li);
+  });
 
-  li.insertAdjacentHTML(
-    "beforeend",
-    /*html*/ `
-    <li>
-      <div class="item skeleton">
-        <div class="skeleton-poster"></div>
-        <img class="thumbnail" src="${posterSrc}" alt="영화 포스터 사진" />
-        <div class="item-desc">
-          <div class="skeleton-rate"></div>
-          <div class="skeleton-title"></div>
-          <p class="rate">
-            <img src="./images/star_empty.png" class="star"/><span>${movie.vote_average}</span>
-          </p>
-          <strong>${movie.title}</strong>
-        </div>
-      </div>
-    </li>`,
-  );
+  return movieData.total_pages;
+};
 
+const attachSkeletonEvents = (li: HTMLLIElement) => {
   const img = li.querySelector<HTMLImageElement>(".thumbnail")!;
   const removeSkeleton = () => {
     li.querySelector(".item")?.classList.remove("skeleton");
@@ -44,73 +43,23 @@ const createMovieItem = (movie: Movie): HTMLLIElement => {
     },
     { once: true },
   );
-
-  img.src = posterSrc;
-
-  return li;
-};
-
-export const renderMovies = async (moviePageCount: number) => {
-  const movieData = await fetchMovies(moviePageCount);
-  if (moviePageCount === 1) {
-    renderBanner(movieData.results[0]);
-  }
-  const list = document.querySelector(".thumbnail-list");
-
-  movieData.results.forEach((movie: Movie) => {
-    list?.appendChild(createMovieItem(movie));
-  });
-
-  return movieData.total_pages;
 };
 
 export const renderBanner = async (fristMovieData: Movie) => {
-  const movies = fristMovieData;
-
   const banner = document.querySelector(".top-rated-movie");
   const backgroundContainer = document.querySelector(".background-container");
-  const bannerBaseURL = "https://image.tmdb.org/t/p/w1920_and_h800_multi_faces";
-
-  const mostPopularMovie = movies;
 
   if (backgroundContainer) {
     (backgroundContainer as HTMLElement).style.backgroundImage =
-      `url("${bannerBaseURL + mostPopularMovie.backdrop_path}")`;
+      `url("${bannerBaseURL + fristMovieData.backdrop_path}")`;
   }
 
-  const mostPopularMovieBanner = /*html*/ `
-    <div class="rate">
-      <img src="./images/star_empty.png" class="star" />
-      <span class="rate-value">${mostPopularMovie.vote_average}</span>
-    </div>
-    <div class="title">${mostPopularMovie.title}</div>
-    <button class="primary detail">자세히 보기</button>
-    `;
-
-  banner?.insertAdjacentHTML("beforeend", mostPopularMovieBanner);
+  banner?.appendChild(createBannerHTML(fristMovieData));
 };
 
 export const replaceBanner = (header: HTMLElement, searchKeyword: string) => {
-  const searchBar = /*html*/ `
-  <div class="background-container search-header">
-    <div class="overlay" aria-hidden="true"></div>
-    <div class="top-rated-container">
-      <div class="header-top">
-        <h1 class="logo">
-          <a href="/"><img src="./images/logo.png" alt="MovieList" /></a>
-        </h1>
-        <div class="search-bar">
-          <input type="text" class="search-input" placeholder="검색어를 입력하세요" />
-          <button class="search-button">
-            <img src="./images/search_icon.png" alt="검색" class="search-icon" />
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-  `;
-
-  header.insertAdjacentHTML("beforeend", searchBar);
+  const searchHeader = createSearchHeaderHTML();
+  header.appendChild(searchHeader);
 
   const input = header.querySelector<HTMLInputElement>(".search-input");
   if (input) input.value = searchKeyword;
@@ -126,18 +75,13 @@ export const renderSearchedMovies = async (
   const list = document.querySelector(".thumbnail-list");
 
   if (list && movies.length === 0 && searchPageCount === 1) {
-    list.insertAdjacentHTML(
-      "beforeend",
-      /*html*/ `
-      <div id="no-result">
-        <img src="./images/planet_icon.png" alt="검색 결과 없음" class="no-result-icon" />
-        <p class="no-result-text">검색 결과가 없습니다.</p>
-      </div>`,
-    );
+    list.appendChild(createNoResultHTML());
   }
 
   movies.forEach((movie: Movie) => {
-    list?.appendChild(createMovieItem(movie));
+    const li = createMovieItemHTML(movie);
+    attachSkeletonEvents(li);
+    list?.appendChild(li);
   });
 
   return movieData.total_pages;
