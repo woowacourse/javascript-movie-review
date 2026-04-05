@@ -5,24 +5,67 @@ import {
 } from "../src/api/fetchMovies.ts";
 
 describe("영화 목록 테스트", () => {
-  it("인기 있는 영화 목록을 가져온다", async () => {
-    // given
-
-    // when
-    const movies = await fetchPopularMovies(1);
-
-    // then
-    expect(movies.movies.length).toBe(20);
+  beforeEach(() => {
+    vi.stubGlobal("fetch", vi.fn());
   });
 
-  it("검색어에 맞는 영화만 가져온다.", async () => {
+  it("인기 영화 목록을 가져온다.", async () => {
     // given
+    const mockData = {
+      results: [
+        {
+          title: "이현",
+          poster_path: "/path1.jpg",
+          vote_average: 7.5,
+        },
+        {
+          title: "이현2",
+          poster_path: "/path2.jpg",
+          vote_average: 8.0,
+        },
+      ],
+      total_pages: 100,
+    };
+
+    vi.mocked(fetch).mockResolvedValue({
+      ok: true,
+      json: async () => mockData,
+    } as Response);
 
     // when
-    const movies = await fetchSearchedMovies(1, "인사이드");
+    const result = await fetchPopularMovies(1);
 
     // then
-    expect(movies.movies.length).toBe(20);
+    expect(result.movies).toHaveLength(2);
+    expect(result.movies[0].title).toBe("이현");
+    expect(result.totalPages).toBe(100);
+  });
+
+  it("검색된 영화 목록을 가져온다.", async () => {
+    // given
+    const mockSearchData = {
+      results: [
+        {
+          title: "인사이드 아웃 2",
+          poster_path: "/inside.jpg",
+          vote_average: 9.0,
+        },
+      ],
+      total_pages: 5,
+    };
+
+    vi.mocked(fetch).mockResolvedValue({
+      ok: true,
+      json: async () => mockSearchData,
+    } as Response);
+
+    // when
+    const result = await fetchSearchedMovies(1, "인사이드");
+
+    // then
+    expect(result.movies).toHaveLength(1);
+    expect(result.movies[0].title).toBe("인사이드 아웃 2");
+    expect(result.totalPages).toBe(5);
   });
 });
 
