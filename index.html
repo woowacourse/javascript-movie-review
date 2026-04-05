@@ -1,12 +1,62 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="src/styles/reset.css" />
+    <link rel="stylesheet" href="src/styles/main.css" />
+    <link rel="stylesheet" href="src/styles/tab.css" />
+    <link rel="stylesheet" href="src/styles/thumbnail.css" />
     <title>영화 리뷰</title>
   </head>
+
   <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.ts"></script>
+    <div id="app">
+      <header>
+        <div class="background-container">
+          <div class="top-rated-container">
+            <div class="header-container">
+              <h1 class="logo">
+                <a href="/javascript-movie-review">
+                  <img src="src/images/logo.png" alt="MovieList" />
+                </a>
+              </h1>
+              <form class="search-form">
+                <input
+                  class="search"
+                  type="text"
+                  placeholder="검색어를 입력하세요"
+                />
+                <button type="submit">
+                  <img src="src/images/search.svg" alt="search" />
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </header>
+      <main>
+        <div class="banner-container"></div>
+        <div class="container">
+          <section>
+            <h2 class="home-section-heading"></h2>
+            <ul class="thumbnail-list"></ul>
+          </section>
+          <button class="primary load-more-button">더 보기</button>
+        </div>
+      </main>
+
+      <footer class="footer">
+        <p>&copy; 우아한테크코스 All Rights Reserved.</p>
+        <p><img src="src/images/woowacourse_logo.png" width="180" /></p>
+      </footer>
+    </div>
+    <script src="src/main.ts" type="module"></script>
   </body>
 </html>
+
+<!--
+  포스터 원본: https://image.tmdb.org/t/p/original//pmemGuhr450DK8GiTT44mgwWCP7.jpg
+  포스터 썸네일: https://media.themoviedb.org/t/p/w440_and_h660_face/pmemGuhr450DK8GiTT44mgwWCP7.jpg
+  배너 원본: https://image.tmdb.org/t/p/w1920_and_h800_multi_faces/stKGOm8UyhuLPR9sZLjs5AkmncA.jpg
+-->
