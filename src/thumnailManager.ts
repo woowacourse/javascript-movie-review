@@ -3,7 +3,7 @@ import EmptyStarIcon from "./assets/star_empty.png";
 import NotFoundPoster from "./assets/notFoundImage.png";
 
 export const extractThumbnailInfo = (movies: Movie[]) => {
-  return movies!.map((movie) => {
+  return movies.map((movie) => {
     const thumbnailInfo: ThumbnailInfo = {
       title: movie.title,
       poster_path: movie.poster_path,

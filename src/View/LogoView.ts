@@ -1,14 +1,20 @@
+import { getElementOrThrow } from "./utils";
+
+interface LogoViewDomType {
+  logo: HTMLHeadingElement;
+}
+
 class LogoView {
-  #dom;
+  #dom: LogoViewDomType;
 
   constructor() {
     this.#dom = {
-      logo: document.querySelector(".logo"),
+      logo: getElementOrThrow<HTMLHeadingElement>(".logo"),
     };
   }
 
   bindEvent(handler: () => void) {
-    this.#dom.logo!.addEventListener("click", handler);
+    this.#dom.logo.addEventListener("click", handler);
   }
 }
 

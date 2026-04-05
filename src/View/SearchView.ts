@@ -1,6 +1,8 @@
+import { getElementOrThrow } from "./utils";
+
 interface SearchViewDomType {
-  form: HTMLFormElement | null;
-  input: HTMLInputElement | null;
+  form: HTMLFormElement;
+  input: HTMLInputElement;
 }
 
 class SearchView {
@@ -8,8 +10,8 @@ class SearchView {
 
   constructor() {
     this.#dom = {
-      form: document.querySelector(".search"),
-      input: document.querySelector(".search-input"),
+      form: getElementOrThrow<HTMLFormElement>(".search"),
+      input: getElementOrThrow<HTMLInputElement>(".search-input"),
     };
   }
 

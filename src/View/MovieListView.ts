@@ -1,12 +1,13 @@
 import { ThumbnailInfo } from "../../types/movie";
 
 import { makeMovieThumbnail } from "../thumnailManager";
+import { getElementOrThrow } from "./utils";
 
 interface MovieListDomType {
-  title: HTMLHeadingElement | null;
-  container: HTMLElement | null;
-  list: HTMLUListElement | null;
-  notFound: HTMLDivElement | null;
+  title: HTMLHeadingElement;
+  container: HTMLElement;
+  list: HTMLUListElement;
+  notFound: HTMLDivElement;
 }
 
 class MovieListView {
@@ -14,10 +15,12 @@ class MovieListView {
 
   constructor() {
     this.#dom = {
-      title: document.querySelector(".section-title"),
-      container: document.querySelector(".section-container"),
-      list: document.querySelector(".thumbnail-list"),
-      notFound: document.querySelector(".not-search-found-container"),
+      title: getElementOrThrow<HTMLHeadingElement>(".section-title"),
+      container: getElementOrThrow<HTMLElement>(".section-container"),
+      list: getElementOrThrow<HTMLUListElement>(".thumbnail-list"),
+      notFound: getElementOrThrow<HTMLDivElement>(
+        ".not-search-found-container",
+      ),
     };
   }
 

@@ -1,5 +1,7 @@
+import { getElementOrThrow } from "./utils";
+
 interface MoreMovieViewDomType {
-  button: HTMLButtonElement | null;
+  button: HTMLButtonElement;
 }
 
 class MoreMovieView {
@@ -7,7 +9,7 @@ class MoreMovieView {
 
   constructor() {
     this.#dom = {
-      button: document.querySelector(".more-button"),
+      button: getElementOrThrow<HTMLButtonElement>(".more-button"),
     };
   }
 

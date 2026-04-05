@@ -1,10 +1,11 @@
 import { ThumbnailInfo } from "../../types/movie";
+import { getElementOrThrow } from "./utils";
 
 interface TopRatedViewDomType {
-  container: HTMLDivElement | null;
-  backgroundImg: HTMLImageElement | null;
-  title: HTMLDivElement | null;
-  rate: HTMLSpanElement | null;
+  container: HTMLDivElement;
+  backgroundImg: HTMLImageElement;
+  title: HTMLDivElement;
+  rate: HTMLSpanElement;
 }
 
 class TopRatedView {
@@ -12,10 +13,10 @@ class TopRatedView {
 
   constructor() {
     this.#dom = {
-      container: document.querySelector(".background-container"),
-      backgroundImg: document.querySelector(".background-img"),
-      title: document.querySelector(".title"),
-      rate: document.querySelector(".rate-value"),
+      container: getElementOrThrow<HTMLDivElement>(".background-container"),
+      backgroundImg: getElementOrThrow<HTMLImageElement>(".background-img"),
+      title: getElementOrThrow<HTMLDivElement>(".title"),
+      rate: getElementOrThrow<HTMLSpanElement>(".rate-value"),
     };
   }
 
