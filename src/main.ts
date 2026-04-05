@@ -1,17 +1,17 @@
-import { popularController } from "./controller/popularController";
-import { moreButtonController } from "./controller/moreButtonController";
-import { searchController } from "./controller/searchController";
+import { handleHome } from "./controller/handleHome";
+import { handleMoreButton } from "./controller/handleMoreButton";
+import { handleSearch } from "./controller/handleSearch";
 import { searchView } from "./view/searchView";
 import { addButtonView } from "./view/addButtonView";
 import { movieModel } from "./model/movieModel";
 
 function init() {
   addEventListener("load", () => {
-    popularController();
+    handleHome();
   });
 
   addButtonView.bindAddButtonClick(async () => {
-    const result = await moreButtonController.handleLoadMore(movieModel);
+    const result = await handleMoreButton.handleLoadMore(movieModel);
 
     if (result) {
       addButtonView.hideAddButton();
@@ -19,7 +19,7 @@ function init() {
   });
 
   searchView.bindSearchSubmit((keyword: string) => {
-    searchController(keyword);
+    handleSearch(keyword);
   });
 }
 

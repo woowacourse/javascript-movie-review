@@ -8,16 +8,16 @@ async function getNextData(
   stateObject: StateType,
 ): Promise<MovieResponse | undefined> {
   if (stateObject.isSearch) {
-    return await moreButtonController.getMoreSearch(
+    return await handleMoreButton.getMoreSearch(
       stateObject.page,
       stateObject.searchValue,
     );
   }
 
-  return await moreButtonController.getMorePopular(stateObject.page);
+  return await handleMoreButton.getMorePopular(stateObject.page);
 }
 
-export const moreButtonController = {
+export const handleMoreButton = {
   handleLoadMore: async (stateObject: StateType): Promise<boolean> => {
     stateObject.page += 1;
     const nextData = await getNextData(stateObject);

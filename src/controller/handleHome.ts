@@ -5,7 +5,7 @@ import { movieModel } from "../model/movieModel";
 import { addButtonView } from "../view/addButtonView";
 import { bannerView } from "../view/bannerView";
 
-export async function popularController() {
+export async function handleHome() {
   movieListView.renderSkeletonList(SKELETON_NUMBER);
 
   const popularMovies: ApiResult<MovieResponse> = await getMovies(movieModel.page);
