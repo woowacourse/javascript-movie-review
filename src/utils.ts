@@ -105,7 +105,7 @@ export function createMovieItemTemplate(movie: Movie): string {
         />
         <div class="item-desc">
           <p class="rate">
-            <img src="${import.meta.env.BASE_URL}images/star_empty.png" class="star" />
+            <img src="${import.meta.env.BASE_URL}images/star_empty.png" alt="empty star" class="star" />
             <span>${movie.vote_average.toFixed(1)}</span>
           </p>
           <p class="movie-title">${movie.title}</p>
