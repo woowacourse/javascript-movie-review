@@ -21,13 +21,13 @@ class TopRatedView {
   }
 
   render({ title, poster_path, vote_average }: ThumbnailInfo) {
-    this.#dom.title!.textContent = title;
-    this.#dom.rate!.textContent = vote_average.toString();
-    this.#dom.backgroundImg!.src = `${import.meta.env.VITE_TMDB_IMG_URL}${poster_path}`;
+    this.#dom.title.textContent = title;
+    this.#dom.rate.textContent = vote_average.toString();
+    this.#dom.backgroundImg.src = `${import.meta.env.VITE_TMDB_IMG_URL}${poster_path}`;
   }
 
   hide() {
-    this.#dom.container!.style.display = "none";
+    this.#dom.container.style.display = "none";
   }
 }
 

@@ -79,10 +79,9 @@ class App {
     const searchValue = this.#views.search.getInputValue();
 
     const requestMovies =
-      searchValue!.trim().length === 0
+      searchValue.trim().length === 0
         ? () => fetchPopularMovies(++this.#state.popularMoviePage)
-        : () =>
-            fetchSearchedMovies(++this.#state.searchMoviePage, searchValue!);
+        : () => fetchSearchedMovies(++this.#state.searchMoviePage, searchValue);
 
     try {
       this.#views.movieList.addSkeletons();
@@ -124,14 +123,14 @@ class App {
       );
 
       this.#views.moreMovie.show();
-      this.#views.movieList.addMovies(extractThumbnailInfo(movies!));
+      this.#views.movieList.addMovies(extractThumbnailInfo(movies));
 
       if (nowPage === totalPages) {
         this.#views.moreMovie.hide();
       }
 
       // 3. 검색 결과가 없으면 notFound 표시
-      if (movies!.length === 0) {
+      if (movies.length === 0) {
         this.#views.movieList.showNotFound();
         this.#views.moreMovie.hide();
       }

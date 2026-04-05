@@ -32,11 +32,11 @@ class MovieListView {
       fragment.appendChild(thumbnail);
     });
 
-    this.#dom.list!.appendChild(fragment);
+    this.#dom.list.appendChild(fragment);
   }
 
   remove() {
-    this.#dom.list!.replaceChildren();
+    this.#dom.list.replaceChildren();
   }
 
   addSkeletons() {
@@ -49,7 +49,7 @@ class MovieListView {
       fragment.appendChild(newNode);
     }
 
-    this.#dom.list!.appendChild(fragment);
+    this.#dom.list.appendChild(fragment);
   }
 
   removeAllSkeletons() {
@@ -59,15 +59,15 @@ class MovieListView {
   }
 
   renderTitle(title: string) {
-    this.#dom.title!.textContent = title;
+    this.#dom.title.textContent = title;
   }
 
   showNotFound() {
-    this.#dom.notFound!.style.display = "flex";
+    this.#dom.notFound.style.display = "flex";
   }
 
   hideNotFound() {
-    this.#dom.notFound!.style.display = "none";
+    this.#dom.notFound.style.display = "none";
   }
 }
 
