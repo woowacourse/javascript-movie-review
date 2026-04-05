@@ -54,7 +54,11 @@ export const getTopRatedMovie = async () => {
     },
   });
 
-  return await res.json();
+  const data =  await res.json();
+  return {
+      ...data,
+      results: data.results.map(fromMovieDto).filter((movie: Movie | null): movie is Movie => movie !== null)
+    }
 };
 
 export const getSearchMovie = async ({
@@ -72,5 +76,9 @@ export const getSearchMovie = async ({
     },
   });
 
-  return await res.json();
+  const data =  await res.json();
+  return {
+      ...data,
+      results: data.results.map(fromMovieDto).filter((movie: Movie | null): movie is Movie => movie !== null)
+    }
 };
