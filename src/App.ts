@@ -5,7 +5,7 @@ import { setupEventListeners } from "./eventListeners.ts";
 import PopularMovies from "./PopularMovies.ts";
 import SearchedMovies from "./SearchedMovies.ts";
 
-type AppMode = "popular" | "search";
+type AppMode = "popular" | "search" | "loading";
 
 class App {
   #popular = new PopularMovies();
@@ -22,6 +22,7 @@ class App {
   }
 
   #loadPopularMovies = async () => {
+    this.#mode = "loading";
     try {
       await this.#popular.fetch();
       renderBanner(this.#popular.movies[0]);
@@ -29,13 +30,15 @@ class App {
       if (this.#popular.isLastPage) this.#hideLoadButton();
     } catch (error) {
       alert(error instanceof Error ? error.message : "오류가 발생했습니다.");
+    } finally {
+      this.#mode = "popular";
     }
   };
 
   #handleSearchSubmit = async () => {
-    if (!DOM.searchInput) return;
+    if (!DOM.searchInput || this.#mode === "loading") return;
 
-    this.#mode = "search";
+    this.#mode = "loading";
     this.#searched.reset();
 
     if (DOM.thumbnailList) DOM.thumbnailList.replaceChildren();
@@ -51,32 +54,41 @@ class App {
       }
     } catch (error) {
       alert(error instanceof Error ? error.message : "오류가 발생했습니다.");
+    } finally {
+      this.#mode = "search";
     }
   };
 
   #handleLoadMore = () => {
+    if (this.#mode === "loading") return;
     if (this.#mode === "popular") this.#loadMorePopular();
     else if (this.#mode === "search") this.#loadMoreSearched();
   };
 
   #loadMorePopular = async () => {
+    this.#mode = "loading";
     try {
       await this.#popular.loadMore();
       renderMovies(this.#popular.movies);
       if (this.#popular.isLastPage) this.#hideLoadButton();
     } catch (error) {
       alert(error instanceof Error ? error.message : "오류가 발생했습니다.");
+    } finally {
+      this.#mode = "popular";
     }
   };
 
   #loadMoreSearched = async () => {
     if (!DOM.searchInput) return;
+    this.#mode = "loading";
     try {
       await this.#searched.loadMore(DOM.searchInput.value);
       renderSearchedMovies(this.#searched.movies);
       if (this.#searched.isLastPage) this.#hideLoadButton();
     } catch (error) {
       alert(error instanceof Error ? error.message : "오류가 발생했습니다.");
+    } finally {
+      this.#mode = "search";
     }
   };
 
