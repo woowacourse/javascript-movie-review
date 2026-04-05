@@ -1,16 +1,12 @@
 class SearchView {
   #form: HTMLElement | null;
   #input: HTMLInputElement | null;
-  #addButton: HTMLButtonElement | null;
-  #bannerContainer: HTMLElement | null;
   #thumbnailTitle: HTMLElement | null;
   #headerBar: HTMLElement | null;
 
   constructor() {
     this.#form = document.querySelector("#search-form");
     this.#input = document.querySelector("#search-input");
-    this.#addButton = document.querySelector("#add-button");
-    this.#bannerContainer = document.querySelector(".background-container");
     this.#thumbnailTitle = document.querySelector("#thumbnail-title");
     this.#headerBar = document.querySelector("#header-bar");
   }
@@ -28,34 +24,16 @@ class SearchView {
   };
 
   changeToSearchMode(keyword: string) {
-    this.showAddButton();
-    this.hideBanner();
     this.updateThumbnailTitle(keyword);
     this.headerBarPositionRelative();
-  }
-
-  showAddButton() {
-    if (this.#addButton) {
-      this.#addButton.style.display = "block";
-    }
-  };
-
-  hideBanner() {
-    if (this.#bannerContainer) {
-      this.#bannerContainer.style.display = "none";
-    }
   };
 
   updateThumbnailTitle(searchValue: string) {
-    if (this.#thumbnailTitle) {
-      this.#thumbnailTitle.textContent = `"${searchValue}" 검색 결과`;
-    }
+    if (this.#thumbnailTitle) this.#thumbnailTitle.textContent = `"${searchValue}" 검색 결과`;
   };
 
   headerBarPositionRelative() {
-    if (this.#headerBar) {
-      this.#headerBar.style.position = "relative";
-    }
+    if (this.#headerBar) this.#headerBar.style.position = "relative";
   };
 }
 
