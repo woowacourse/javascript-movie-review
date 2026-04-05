@@ -14,7 +14,7 @@ export async function searchController(keyword: string) {
   movieListView.resetMovieList();
   movieListView.renderSkeletonList(SKELETON_NUMBER);
 
-  const searchMoviesResult: movieResponse | undefined = await searchMovies(
+  const searchMoviesResult: MovieResponse | undefined = await searchMovies(
     movieModel.page,
     movieModel.searchValue
   );

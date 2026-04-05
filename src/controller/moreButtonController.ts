@@ -6,7 +6,7 @@ import { movieListView } from "../view/movieListView";
 
 async function getNextData(
   stateObject: StateType,
-): Promise<movieResponse | undefined> {
+): Promise<MovieResponse | undefined> {
   if (stateObject.isSearch) {
     return await moreButtonController.getMoreSearch(
       stateObject.page,
@@ -26,7 +26,7 @@ export const moreButtonController = {
 
   getMorePopular: async (page: number) => {
     movieListView.renderSkeletonList(SKELETON_NUMBER);
-    const popularMoviesData: movieResponse | undefined = await getMovies(page);
+    const popularMoviesData: MovieResponse | undefined = await getMovies(page);
     if (popularMoviesData === undefined) return;
     movieListView.removeSkeletonList();
     movieListView.renderMovieList(popularMoviesData.results);

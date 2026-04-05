@@ -8,7 +8,7 @@ import { bannerView } from "../view/bannerView";
 export async function popularController() {
   movieListView.renderSkeletonList(SKELETON_NUMBER);
 
-  const popularMovies: movieResponse | undefined = await getMovies(movieModel.page);
+  const popularMovies: MovieResponse | undefined = await getMovies(movieModel.page);
 
   if (popularMovies === undefined || popularMovies.results.length === 0) {
     movieListView.renderErrorList();
