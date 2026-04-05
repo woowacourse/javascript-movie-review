@@ -1,21 +1,27 @@
+import renderMovieItemsToList from "./render/renderMovieItemsToList";
+import removeSkeletonItems from "./render/removeSkeleton";
+import renderShowMoreButton from "./render/renderShowMoreButton";
+import renderSkeletonItemsToList from "./render/renderSkeletonItemsToList";
+import renderTopRatedMovie from "./render/renderTopRatedMovie";
 import { MovieListResponse, Movie } from "./type";
-import { fetchPopularMoviesByPageRange, getPage, handleError, removeSkeletonItem, renderMovies, renderShowMoreButton, renderSkeletonItems, renderTopRatedMovie, setPage } from "./utils";
+import { fetchMoviesByPageRange, getPage, handleError, setPage } from "./utils";
 
 addEventListener("load", async () => {
   let prevResponseList: MovieListResponse[] = [];
 
   try {
-    async function renderPopularMoviePage(page: number) {
-      setPage(page);
+    async function renderPopularMoviePage(initPage: number) {
+      renderSkeletonItemsToList(20);
 
-      renderSkeletonItems(20);
-
-      const responseList = await fetchPopularMoviesByPageRange(
+      const responseList = await fetchMoviesByPageRange(
+        "/movie/popular",
         prevResponseList.length,
-        page,
+        initPage,
       );
 
-      removeSkeletonItem();
+      setPage(initPage);
+
+      removeSkeletonItems();
 
       prevResponseList.push(...responseList);
 
@@ -23,15 +29,15 @@ addEventListener("load", async () => {
         return [...arr, ...response.results];
       }, []);
 
-      renderMovies(movieList);
+      renderMovieItemsToList(movieList);
 
-      renderShowMoreButton(prevResponseList, page, async () => {
+      renderShowMoreButton(prevResponseList, initPage, async () => {
         try {
           await renderPopularMoviePage(getPage() + 1);
         } catch (error) {
           handleError(error);
         } finally {
-          removeSkeletonItem();
+          removeSkeletonItems();
         }
       })
     }
@@ -44,6 +50,6 @@ addEventListener("load", async () => {
   } catch (error) {
     handleError(error);
   } finally {
-    removeSkeletonItem();
+    removeSkeletonItems();
   }
 });

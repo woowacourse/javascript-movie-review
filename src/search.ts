@@ -1,25 +1,33 @@
+import renderMovieItemsToList from "./render/renderMovieItemsToList";
+import removeSkeletonItems from "./render/removeSkeleton";
+import renderSearchInput from "./render/renderSearchInput";
+import renderSearchListrEmptyAlert from "./render/renderSearchListrEmptyAlert";
+import renderSearchListTitle from "./render/renderSearchListTitle";
+import renderShowMoreButton from "./render/renderShowMoreButton";
+import renderSkeletonItems from "./render/renderSkeletonItemsToList";
+import renderTopRatedMovie from "./render/renderTopRatedMovie";
 import { MovieListResponse, Movie } from "./type";
-import { fetchSearchMoviesByPageRange, getPage, getQuery, handleError, removeSkeletonItem, renderListTitle, renderMovies, renderShowMoreButton, renderSkeletonItems, renderTopRatedMovie, setPage, setQuery, updateEmptyListAlert } from "./utils";
+import { fetchMoviesByPageRange, getPage, getQuery, handleError, setPage, setQuery } from "./utils";
 
 addEventListener("load", async () => {
   let prevResponseList: MovieListResponse[] = [];
 
   try {
     async function renderSearchMoviePage(page: number, query: string) {
-      setPage(page);
-      setQuery(query);
-
-      renderListTitle(query);
-
+      renderSearchListTitle(query);
       renderSkeletonItems(20);
 
-      const responseList = await fetchSearchMoviesByPageRange(
+      const responseList = await fetchMoviesByPageRange(
+        "/search/movie",
         prevResponseList.length,
         page,
         query
       );
 
-      removeSkeletonItem();
+      setPage(page);
+      setQuery(query);
+
+      removeSkeletonItems();
 
       prevResponseList.push(...responseList);
 
@@ -27,8 +35,8 @@ addEventListener("load", async () => {
         return [...arr, ...response.results];
       }, []);
 
-      renderMovies(movieList);
-      updateEmptyListAlert();
+      renderMovieItemsToList(movieList);
+      renderSearchListrEmptyAlert();
 
       renderShowMoreButton(prevResponseList, page, async () => {
         try {
@@ -36,13 +44,12 @@ addEventListener("load", async () => {
         } catch (error) {
           handleError(error);
         } finally {
-          removeSkeletonItem();
+          removeSkeletonItems();
         }
       })
     }
 
-    const searchInput = document.querySelector<HTMLInputElement>(".search-input");
-    if (searchInput) searchInput.value = getQuery();
+    renderSearchInput(getQuery());
 
     await renderSearchMoviePage(getPage(), getQuery());
 
@@ -52,6 +59,6 @@ addEventListener("load", async () => {
   } catch (error) {
     handleError(error);
   } finally {
-    removeSkeletonItem();
+    removeSkeletonItems();
   }
 });
