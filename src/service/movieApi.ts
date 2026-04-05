@@ -1,20 +1,30 @@
-import { Movie } from "../view/movieListView";
+import { Movie } from '../view/movieListView'
 
-export const fetchDefaultMovieList = async (
-  pageNum: number,
-): Promise<Movie[]> => {
-  const URL = `https://api.themoviedb.org/3/movie/popular?api_key=${import.meta.env.VITE_API_KEY}&language=ko-KR&page=${pageNum}`;
-  const response = await fetch(URL);
-  const data = await response.json();
-  return data.results;
-};
+const baseURL = 'https://api.themoviedb.org/3'
 
-export const fetchSearchMovieList = async (
-  pageNum: number,
-  searchBarText: string,
-): Promise<Movie[]> => {
-  const URL = `https://api.themoviedb.org/3/search/movie?api_key=${import.meta.env.VITE_API_KEY}&query=${encodeURIComponent(searchBarText)}&language=ko-KR&page=${pageNum}`;
-  const response = await fetch(URL);
-  const data = await response.json();
-  return data.results;
-};
+export class HttpError extends Error {}
+export class NetWorkError extends Error {}
+
+export const fetchMovieList = async (URL: string) => {
+    try {
+        const response = await fetch(URL)
+        if (!response.ok) {
+            throw new HttpError('데이터를 불러오지 못했습니다.')
+        }
+        const data = await response.json()
+        return data.results
+    } catch (e) {
+        if (e instanceof HttpError) throw e
+        throw new NetWorkError('네트워크 오류가 발생했습니다.')
+    }
+}
+
+export const fetchDefaultMovieList = async (pageNum: number): Promise<Movie[]> => {
+    const URL = `${baseURL}/movie/popular?api_key=${import.meta.env.VITE_API_KEY}&language=ko-KR&page=${pageNum}`
+    return fetchMovieList(URL)
+}
+
+export const fetchSearchMovieList = async (pageNum: number, searchBarText: string): Promise<Movie[]> => {
+    const URL = `${baseURL}/search/movie?api_key=${import.meta.env.VITE_API_KEY}&query=${encodeURIComponent(searchBarText)}&language=ko-KR&page=${pageNum}`
+    return fetchMovieList(URL)
+}
