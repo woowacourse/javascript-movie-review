@@ -10,31 +10,32 @@ export async function searchController(keyword: string) {
   movieModel.startSearch(1, true, keyword);
   searchView.changeToSearchMode(movieModel.searchValue);
   bannerView.hideBanner();
-  addButtonView.hideAddButton();
+  addButtonView.showAddButton();
   movieListView.resetMovieList();
   movieListView.renderSkeletonList(SKELETON_NUMBER);
 
-  const searchMoviesResult: MovieResponse | undefined = await searchMovies(
+  const searchMoviesResult: ApiResult<MovieResponse> = await searchMovies(
     movieModel.page,
     movieModel.searchValue
   );
 
-  if (searchMoviesResult === undefined) {
+  if (!searchMoviesResult.success) {
+    console.log("에러 원인:", searchMoviesResult.error);
     movieListView.removeSkeletonList();
     movieListView.renderErrorList();
     return;
   };
 
-  if (searchMoviesResult.total_results === 0) {
+  if (searchMoviesResult.data.total_results === 0) {
     movieListView.removeSkeletonList();
     movieListView.renderEmptyList();
     addButtonView.hideAddButton();
     return;
   };
-  if (searchMoviesResult.page === searchMoviesResult.total_pages) {
+  if (searchMoviesResult.data.page === searchMoviesResult.data.total_pages) {
     addButtonView.hideAddButton();
   };
 
   movieListView.removeSkeletonList();
-  movieListView.renderMovieList(searchMoviesResult.results);
+  movieListView.renderMovieList(searchMoviesResult.data.results);
 }

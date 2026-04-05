@@ -26,21 +26,27 @@ export const moreButtonController = {
 
   getMorePopular: async (page: number) => {
     movieListView.renderSkeletonList(SKELETON_NUMBER);
-    const popularMoviesData: MovieResponse | undefined = await getMovies(page);
-    if (popularMoviesData === undefined) return;
+    const popularMoviesData: ApiResult<MovieResponse> = await getMovies(page);
+    if (!popularMoviesData.success) {
+      console.log("에러 원인:", popularMoviesData.error);
+      return;
+    }
     movieListView.removeSkeletonList();
-    movieListView.renderMovieList(popularMoviesData.results);
+    movieListView.renderMovieList(popularMoviesData.data.results);
 
-    return popularMoviesData;
+    return popularMoviesData.data;
   },
 
   getMoreSearch: async (page: number, searchValue: string) => {
     movieListView.renderSkeletonList(SKELETON_NUMBER);
-    const searchMoviesData = await searchMovies(page, searchValue);
-    if (searchMoviesData === undefined) return;
+    const searchMoviesData: ApiResult<MovieResponse> = await searchMovies(page, searchValue);
+    if (!searchMoviesData.success) {
+      console.log("에러 원인:", searchMoviesData.error);
+      return;
+    }
     movieListView.removeSkeletonList();
-    movieListView.renderMovieList(searchMoviesData.results);
+    movieListView.renderMovieList(searchMoviesData.data.results);
 
-    return searchMoviesData;
+    return searchMoviesData.data;
   },
 };

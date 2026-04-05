@@ -8,15 +8,22 @@ import { bannerView } from "../view/bannerView";
 export async function popularController() {
   movieListView.renderSkeletonList(SKELETON_NUMBER);
 
-  const popularMovies: MovieResponse | undefined = await getMovies(movieModel.page);
+  const popularMovies: ApiResult<MovieResponse> = await getMovies(movieModel.page);
 
-  if (popularMovies === undefined || popularMovies.results.length === 0) {
+  if (!popularMovies.success) {
+    console.log("에러 원인:", popularMovies.error);
     movieListView.renderErrorList();
+    addButtonView.hideAddButton();
+    return;
+  }
+
+  if (popularMovies.data.results.length === 0) {
+    movieListView.renderEmptyList();
     addButtonView.hideAddButton();
     return;
   };
 
   movieListView.removeSkeletonList();
-  bannerView.renderBanner(popularMovies.results[0]);
-  movieListView.renderMovieList(popularMovies.results);
+  bannerView.renderBanner(popularMovies.data.results[0]);
+  movieListView.renderMovieList(popularMovies.data.results);
 }

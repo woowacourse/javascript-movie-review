@@ -1,23 +1,6 @@
-import { OPTIONS } from "../constants/api";
+import { API_URL } from "../constants/api";
+import { fetchFromApi } from "./fetchFromApi";
 
-export async function getMovies(
-  page: number,
-): Promise<MovieResponse | undefined> {
-  try {
-    const response: Response = await fetch(
-      `https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=${page}`,
-      OPTIONS,
-    );
-
-    if (!response.ok) throw new Error("Error");
-
-    const data: MovieResponse = await response.json();
-    return data;
-  } catch (e) {
-    if (e instanceof Error) {
-      console.error(e.message);
-    } else {
-      console.error("Error", e);
-    }
-  }
+export async function getMovies(page: number): Promise<ApiResult<MovieResponse>> {
+  return await fetchFromApi<MovieResponse>(API_URL.popular(page));
 }
