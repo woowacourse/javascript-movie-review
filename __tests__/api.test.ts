@@ -1,22 +1,29 @@
-import { vi, expect, test, describe } from "vitest";
+import { vi, expect, test, describe, afterEach } from "vitest";
 import { Movie } from "../types/types";
 import { fetchMoviesApi } from "../src/features/api/fetchMoviesApi";
 
+const MOCK_MOVIE: Movie = {
+  id: 1,
+  title: "Test Movie",
+  poster_path: "/test.jpg",
+  vote_average: 7.5,
+  backdrop_path: "/backdrop.jpg",
+};
+
+const MOCK_RESPONSE = {
+  results: [MOCK_MOVIE],
+  total_pages: 11,
+};
+
 describe("TMDB API에서 인기 영화 목록을 가져온다.", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   test("API 성공 시 데이터 반환", async () => {
     global.fetch = vi.fn(async () => ({
       ok: true,
-      json: () => ({
-        results: [
-          {
-            id: 1,
-            title: "Test Movie",
-            poster_path: "/test.jpg",
-            vote_average: 7.5,
-          },
-        ],
-        total_pages: 11,
-      }),
+      json: () => MOCK_RESPONSE,
     })) as any;
 
     const data: { results: Movie[]; total_pages: number } =
@@ -29,17 +36,7 @@ describe("TMDB API에서 인기 영화 목록을 가져온다.", () => {
   test("검색 API 성공 시 데이터 반환", async () => {
     global.fetch = vi.fn(async () => ({
       ok: true,
-      json: () => ({
-        results: [
-          {
-            id: 1,
-            title: "Test Movie",
-            poster_path: "/test.jpg",
-            vote_average: 7.5,
-          },
-        ],
-        total_pages: 11,
-      }),
+      json: () => MOCK_RESPONSE,
     })) as any;
 
     const data: { results: Movie[]; total_pages: number } =
