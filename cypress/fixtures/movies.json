@@ -114,6 +114,12 @@
       "vote_average": 9.0,
       "poster_path": "/test18.jpg",
       "backdrop_path": "/backdrop18.jpg"
+    },
+    {
+      "title": "영화 20",
+      "vote_average": 9.0,
+      "poster_path": "/test18.jpg",
+      "backdrop_path": "/backdrop18.jpg"
     }
   ],
   "total_pages": 2

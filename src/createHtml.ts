@@ -1,6 +1,6 @@
 import type { Movie } from "../types/Movie.ts";
 
-const posterBaseURL = "https://image.tmdb.org/t/p/original/";
+const posterBaseURL = "https://image.tmdb.org/t/p/original";
 
 export const createMovieItemHTML = (movie: Movie): HTMLLIElement => {
   const posterSrc = `${posterBaseURL}${movie.poster_path}`;
