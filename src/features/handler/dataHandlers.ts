@@ -1,6 +1,6 @@
 import { fetchMoviesApi } from "../api/fetchMoviesApi";
 import MovieList from "../UI/MovieList";
-import { POPULAR_PATH, SEARCH_PATH } from "../../constants/constant";
+import { POPULAR_PATH, SEARCH_PATH } from "../../constants/path";
 import { Movie } from "../../../types/types";
 
 const movieListInstance = new MovieList();

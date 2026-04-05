@@ -2,7 +2,7 @@ import starImg from "../../images/star_empty.png";
 import logo from "../../images/logo.png";
 import searchIcon from "../../images/Search.png";
 import { Movie } from "../../../types/types";
-import { BACKDROP_IMAGE_URL } from "../../constants/constant";
+import { BACKDROP_IMAGE_URL } from "../../constants/image";
 
 export const Header = {
   clearHeader(): void {

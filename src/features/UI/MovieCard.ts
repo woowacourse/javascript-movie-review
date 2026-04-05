@@ -1,5 +1,5 @@
 import { Movie } from "../../../types/types";
-import { THUMB_NAIL_URL } from "../../constants/constant";
+import { THUMB_NAIL_URL } from "../../constants/image";
 import starImg from "../../images/star_empty.png";
 
 export default class MovieCard {
