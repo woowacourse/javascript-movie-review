@@ -1,5 +1,5 @@
 import { apiUrl, apiKey } from "../constants/env";
-import { Movies } from "./dto";
+import { Movie, Movies } from "./dto";
 
 export class ApiError extends Error {
   status_code: number;
@@ -8,6 +8,15 @@ export class ApiError extends Error {
     super(message);
     this.name = "ApiError";
     this.status_code = status_code;
+  }
+}
+
+const fromMovieDto = (movie: Movie) => {
+  if(!movie.title) return null;
+
+  return {
+    ...movie,
+    poster_path: typeof movie.poster_path === 'string' ? movie.poster_path: null
   }
 }
 
@@ -24,7 +33,13 @@ export const getMoviePopular = async ({
     },
   });
 
-  if (res.ok) return await res.json();
+  if (res.ok) {
+    const data =  await res.json();
+    return {
+      ...data,
+      results: data.results.map(fromMovieDto).filter((movie: Movie | null): movie is Movie => movie !== null)
+    }
+  }
 
   const errorBody = await res.json();
   throw new ApiError(errorBody.status_message, errorBody.status_code);
