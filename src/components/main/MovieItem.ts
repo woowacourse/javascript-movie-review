@@ -1,35 +1,29 @@
 import { getThumbnailImageUrl } from '../../api/renderImage.ts';
-import { MovieData } from '../../api/type.ts';
+import { $ } from '../../utils/dom.ts';
 import { Star } from '../common/Star.ts';
+import { MovieData } from '../../api/type.ts';
 
 export const MovieItem = (data: MovieData) => {
-  const { title, poster_path } = data;
+  const { title, poster_path, vote_average } = data;
 
   const $li = document.createElement('li');
 
-  const $item = document.createElement('div');
-  $item.className = 'item';
+  $li.innerHTML = `
+    <div class="item">
+      <img class="thumbnail" alt="" />
+      <div class="item-desc">
+        <p class="rate">
+          <span></span>
+        </p>
+        <strong></strong>
+      </div>
+    </div>
+  `;
 
-  const $img = document.createElement('img');
-  $img.className = 'thumbnail';
-  $img.src = getThumbnailImageUrl(poster_path);
-  $img.alt = title;
+  $<HTMLImageElement>($li, '.thumbnail').src = getThumbnailImageUrl(poster_path);
+  $($li, '.item-desc strong').textContent = title;
+  $($li, '.rate span').textContent = vote_average.toFixed(1);
+  $($li, '.rate').prepend(Star());
 
-  const $itemDesc = document.createElement('div');
-  $itemDesc.className = 'item-desc';
-
-  const $strong = document.createElement('strong');
-  $strong.textContent = title;
-
-  const $p = document.createElement('p');
-  $p.className = 'rate';
-
-  const $span = document.createElement('span');
-  $span.textContent = data.vote_average.toFixed(1);
-
-  $p.append(Star(), $span);
-  $itemDesc.append($p, $strong);
-  $item.append($img, $itemDesc);
-  $li.append($item);
   return $li;
 };
