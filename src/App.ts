@@ -1,5 +1,6 @@
 import image from "../templates/images/star_filled.png";
 import { fetchPopularMovies, fetchSearchedMovies } from "./api/fetchMovies";
+import { ERROR_MESSAGE } from "./constants/errorMessage";
 import { extractThumbnailInfo } from "./thumnailManager";
 import LogoView from "./View/LogoView";
 import MoreMovieView from "./View/MoreMovieView";
@@ -54,7 +55,6 @@ class App {
       const { movies: popularMovies, totalPages: popularTotalPages } =
         await fetchPopularMovies(this.#state.popularMoviePage);
       this.#views.movieList.addMovies(extractThumbnailInfo(popularMovies));
-      this.#views.movieList.removeAllSkeletons();
 
       if (this.#state.popularMoviePage === popularTotalPages) {
         this.#views.moreMovie.hide();
@@ -62,7 +62,9 @@ class App {
 
       this.#views.topRated.render(extractThumbnailInfo(popularMovies)[0]);
     } catch (error) {
-      alert(error);
+      alert(ERROR_MESSAGE.MOVIE.FAIELD_GET_POPULAR);
+    } finally {
+      this.#views.movieList.removeAllSkeletons();
     }
   }
 
@@ -80,16 +82,22 @@ class App {
         ? () => fetchPopularMovies(++this.#state.popularMoviePage)
         : () =>
             fetchSearchedMovies(++this.#state.searchMoviePage, searchValue!);
-    this.#views.movieList.addSkeletons();
-    const { movies, nowPage, totalPages } = await requestMovies();
-    this.#views.movieList.addMovies(extractThumbnailInfo(movies));
-    this.#views.movieList.removeAllSkeletons();
 
-    if (nowPage === totalPages) {
-      this.#views.moreMovie.hide();
+    try {
+      this.#views.movieList.addSkeletons();
+      const { movies, nowPage, totalPages } = await requestMovies();
+
+      if (nowPage === totalPages) {
+        this.#views.moreMovie.hide();
+      }
+
+      this.#views.movieList.addMovies(extractThumbnailInfo(movies));
+    } catch (error) {
+      alert(ERROR_MESSAGE.MOVIE.FAILED_GET_MORE);
+    } finally {
+      this.#views.movieList.removeAllSkeletons();
+      this.#views.moreMovie.able();
     }
-
-    this.#views.moreMovie.able();
   };
 
   #searchEventHandler = async () => {
@@ -97,28 +105,34 @@ class App {
     this.#views.movieList.remove(); // 새로 검색이 된 것이므로 기존 결과 초기화
     this.#views.movieList.hideNotFound(); // 올바른 검색결과에도 notFound가 표시되는 것 방지
     this.#views.moreMovie.show();
+    this.#state.searchMoviePage = 1;
 
     // 1. 타이틀 변경
     const searchValue = this.#views.search.getInputValue();
     this.#views.movieList.renderTitle(`"${searchValue}"검색 결과`);
 
     // 2. 영화 검색 데이터 반영
-    this.#views.movieList.addSkeletons();
-    const { movies, nowPage, totalPages } = await fetchSearchedMovies(
-      1,
-      searchValue,
-    );
-    this.#views.movieList.addMovies(extractThumbnailInfo(movies!));
-    this.#views.movieList.removeAllSkeletons();
+    try {
+      this.#views.movieList.addSkeletons();
+      const { movies, nowPage, totalPages } = await fetchSearchedMovies(
+        this.#state.searchMoviePage,
+        searchValue,
+      );
+      this.#views.movieList.addMovies(extractThumbnailInfo(movies!));
 
-    if (nowPage === totalPages) {
-      this.#views.moreMovie.hide();
-    }
+      if (nowPage === totalPages) {
+        this.#views.moreMovie.hide();
+      }
 
-    // 3. 검색 결과가 없으면 notFound 표시
-    if (movies!.length === 0) {
-      this.#views.movieList.showNotFound();
-      this.#views.moreMovie.hide();
+      // 3. 검색 결과가 없으면 notFound 표시
+      if (movies!.length === 0) {
+        this.#views.movieList.showNotFound();
+        this.#views.moreMovie.hide();
+      }
+    } catch (error) {
+      alert(ERROR_MESSAGE.MOVIE.FAILED_SEARCH);
+    } finally {
+      this.#views.movieList.removeAllSkeletons();
     }
   };
 }
