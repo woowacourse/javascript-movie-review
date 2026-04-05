@@ -3,6 +3,16 @@ import { movieListTemplate } from "./templates/movieListsTemplates";
 class MovieListView {
   #thumbnailList = document.querySelector<HTMLElement>(".thumbnail-list");
 
+  constructor() {
+    this.#thumbnailList?.addEventListener('error', (event) => {
+      const target = event.target;
+
+      if (target instanceof HTMLImageElement) {
+        target.src = './images/no-image.png';
+      }
+    }, true);
+  }
+
   renderSkeletonList(count: number) {
     if (!this.#thumbnailList) return;
 
@@ -18,10 +28,10 @@ class MovieListView {
     skeletonList.forEach((element) => element.remove());
   };
 
-  renderMovieList(popularMovies: Movies[]) {
+  renderMovieList(movies: Movies[]) {
     if (!this.#thumbnailList) return;
 
-    const movieListHTML = popularMovies
+    const movieListHTML = movies
       .map((item) => movieListTemplate.movieList(item))
       .join("");
     this.#thumbnailList.insertAdjacentHTML("beforeend", movieListHTML);
