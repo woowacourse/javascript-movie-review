@@ -3,7 +3,6 @@ import type { Movie } from "../types/Movie.ts";
 import {
   createMovieItemHTML,
   createBannerHTML,
-  createSearchHeaderHTML,
   createNoResultHTML,
 } from "./createHtml.ts";
 
@@ -57,13 +56,6 @@ export const renderBanner = async (fristMovieData: Movie) => {
   banner?.appendChild(createBannerHTML(fristMovieData));
 };
 
-export const replaceBanner = (header: HTMLElement, searchKeyword: string) => {
-  const searchHeader = createSearchHeaderHTML();
-  header.appendChild(searchHeader);
-
-  const input = header.querySelector<HTMLInputElement>(".search-input");
-  if (input) input.value = searchKeyword;
-};
 
 export const renderSearchedMovies = async (
   searchKeyword: string,
