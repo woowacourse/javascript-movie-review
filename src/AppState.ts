@@ -3,7 +3,6 @@ class AppState {
   searchPageCount = 1;
   isSearched = false;
   totalSearchPages = 0;
-  currentKeyword = "";
 }
 
 export default AppState;

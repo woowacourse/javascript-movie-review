@@ -4,6 +4,7 @@ import {
   renderSearchedMovies,
 } from "./movieRenderer.ts";
 import AppState from "../src/AppState.ts";
+import DOM from "./dom.ts";
 
 class App {
   #state = new AppState();
@@ -15,6 +16,9 @@ class App {
   }
 
   addEventListeners() {
+    const loadMovieButton = DOM.loadMovieButton;
+    if (!loadMovieButton) return;
+
     document.addEventListener("click", (e: MouseEvent) => {
       if ((e.target as HTMLElement).closest(".search-button")) {
         this.#handleSearchSubmit();
@@ -31,40 +35,33 @@ class App {
     });
 
     // 더보기 흐름 이벤트 핸들러
-    document
-      .querySelector("#load-movie-button")!
-      .addEventListener("click", () => {
-        this.#handleSearch();
-      });
+    loadMovieButton.addEventListener("click", () => {
+      this.#handleSearch();
+    });
   }
 
   // 검색 엔터 / 검색 버튼 시 렌더링 함수
   #handleSearchSubmit = async () => {
+    if (!DOM.searchInput) return;
+
     this.#state.isSearched = true;
     this.#state.searchPageCount = 1;
-    this.#state.currentKeyword =
-      document.querySelector<HTMLInputElement>(".search-input")!.value;
 
-    const list = document.querySelector(".thumbnail-list");
-    if (list) list.replaceChildren();
-
-    const loadMovieButton = document.querySelector<HTMLElement>("#load-movie-button");
-    if (loadMovieButton) loadMovieButton.style.display = "";
-
-    const backgroundContainer = document.querySelector<HTMLElement>(".background-container");
-    if (backgroundContainer) backgroundContainer.hidden = true;
+    if (DOM.thumbnailList) DOM.thumbnailList.replaceChildren();
+    if (DOM.loadMovieButton) DOM.loadMovieButton.style.display = "";
+    if (DOM.backgroundContainer) DOM.backgroundContainer.hidden = true;
 
     this.#state.totalSearchPages = await renderSearchedMovies(
-      this.#state.currentKeyword,
+      DOM.searchInput.value,
       this.#state.searchPageCount,
     );
+
     if (this.#state.totalSearchPages === this.#state.searchPageCount) {
       this.#hideLoadButton();
     }
 
-    const sectionTitle = document.querySelector("#section-title");
-    if (sectionTitle) {
-      sectionTitle.textContent = `"${this.#state.currentKeyword}" 검색 결과`;
+    if (DOM.sectionTitle) {
+      DOM.sectionTitle.textContent = `"${DOM.searchInput.value}" 검색 결과`;
     }
   };
 
@@ -78,9 +75,11 @@ class App {
       }
     }
     if (this.#state.isSearched) {
+      if (!DOM.searchInput) return;
+
       this.#state.searchPageCount += 1;
       const totalSearchPages = await renderSearchedMovies(
-        this.#state.currentKeyword,
+        DOM.searchInput.value,
         this.#state.searchPageCount,
       );
       if (totalSearchPages === this.#state.searchPageCount) {
@@ -91,9 +90,7 @@ class App {
 
   // 더보기 버튼 숨기는 헬퍼 함수
   #hideLoadButton() {
-    const loadMovieButton =
-      document.querySelector<HTMLElement>("#load-movie-button");
-    if (loadMovieButton) loadMovieButton.style.display = "none";
+    if (DOM.loadMovieButton) DOM.loadMovieButton.style.display = "none";
   }
 }
 

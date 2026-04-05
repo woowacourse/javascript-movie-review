@@ -5,6 +5,7 @@ import {
   createBannerHTML,
   createNoResultHTML,
 } from "./createHtml.ts";
+import DOM from "./dom.ts";
 
 const bannerBaseURL = "https://image.tmdb.org/t/p/w1920_and_h800_multi_faces";
 
@@ -13,12 +14,11 @@ export const renderMovies = async (moviePageCount: number) => {
   if (moviePageCount === 1) {
     renderBanner(movieData.results[0]);
   }
-  const list = document.querySelector(".thumbnail-list");
 
   movieData.results.forEach((movie: Movie) => {
     const li = createMovieItemHTML(movie);
     attachSkeletonEvents(li);
-    list?.appendChild(li);
+    DOM.thumbnailList?.appendChild(li);
   });
 
   return movieData.total_pages;
@@ -45,17 +45,13 @@ const attachSkeletonEvents = (li: HTMLLIElement) => {
 };
 
 export const renderBanner = async (fristMovieData: Movie) => {
-  const banner = document.querySelector(".top-rated-movie");
-  const backgroundContainer = document.querySelector(".background-container");
-
-  if (backgroundContainer) {
-    (backgroundContainer as HTMLElement).style.backgroundImage =
+  if (DOM.backgroundContainer) {
+    DOM.backgroundContainer.style.backgroundImage =
       `url("${bannerBaseURL + fristMovieData.backdrop_path}")`;
   }
 
-  banner?.appendChild(createBannerHTML(fristMovieData));
+  DOM.banner?.appendChild(createBannerHTML(fristMovieData));
 };
-
 
 export const renderSearchedMovies = async (
   searchKeyword: string,
@@ -64,16 +60,14 @@ export const renderSearchedMovies = async (
   const movieData = await fetchSearchedMovies(searchKeyword, searchPageCount);
   const movies = movieData.results;
 
-  const list = document.querySelector(".thumbnail-list");
-
-  if (list && movies.length === 0 && searchPageCount === 1) {
-    list.appendChild(createNoResultHTML());
+  if (DOM.thumbnailList && movies.length === 0 && searchPageCount === 1) {
+    DOM.thumbnailList.appendChild(createNoResultHTML());
   }
 
   movies.forEach((movie: Movie) => {
     const li = createMovieItemHTML(movie);
     attachSkeletonEvents(li);
-    list?.appendChild(li);
+    DOM.thumbnailList?.appendChild(li);
   });
 
   return movieData.total_pages;
