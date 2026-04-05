@@ -88,11 +88,8 @@ describe("Skeleton UI 테스트", () => {
       { fixture: "movies.json" },
     ).as("getMovies");
 
-    cy.intercept("GET", "https://image.tmdb.org/t/p/original/**", (req) => {
-      req.on("response", (res) => {
-        res.setDelay(10000);
-      });
-    }).as("getImage");
+    cy.intercept("GET", "https://image.tmdb.org/t/p/original/**", () => {
+    });
 
     cy.visit("http://localhost:5173");
     cy.wait("@getMovies");
