@@ -1,8 +1,8 @@
 import { OPTIONS } from "../constants/api";
 
 export async function searchMovies(
-  query: string,
   page: number,
+  query: string,
 ): Promise<movieResponse | undefined> {
   try {
     const response: Response = await fetch(

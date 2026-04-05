@@ -9,13 +9,17 @@ import {
   skeletonListRender,
 } from "../view/skeletonListRender";
 import { SKELETON_NUMBER } from "../constants/constant";
+import { movieModel } from "../model/MovieModel";
+import { searchView } from "../view/searchView";
 
-export async function searchController(page: number, searchValue: string) {
+export async function searchController(keyword: string) {
+  movieModel.startSearch(1, true, keyword);
+  searchView.changeToSearchMode(movieModel.searchValue);
   resetListRender();
   skeletonListRender(SKELETON_NUMBER);
   const searchMoviesResult: movieResponse | undefined = await searchMovies(
-    searchValue,
-    page,
+    movieModel.page,
+    movieModel.searchValue
   );
 
   if (searchMoviesResult === undefined) {

@@ -27,6 +27,13 @@ class SearchView {
     })
   };
 
+  changeToSearchMode(keyword: string) {
+    this.showAddButton();
+    this.hideBanner();
+    this.updateThumbnailTitle(keyword);
+    this.headerBarPositionRelative();
+  }
+
   showAddButton() {
     if (this.#addButton) {
       this.#addButton.style.display = "block";
