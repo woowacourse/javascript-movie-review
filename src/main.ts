@@ -10,19 +10,17 @@ let page: number = 1;
 let searchMovie: string = "";
 const movieList = new MovieList();
 
-// 렌더링 시 더보기 버튼
 const moreButton = document.querySelector(".btn-more") as HTMLButtonElement;
+const backgroundContainer = document.querySelector(
+  ".background-container",
+) as HTMLElement;
 
 addEventListener("load", async () => {
   // 초기 렌더링
   await initialRender(movieList, page, moreButton, updateMoreButton);
 
   // 검색
-  const submitContainer = document.querySelector(
-    ".background-container",
-  ) as HTMLFormElement;
-
-  submitContainer.addEventListener("submit", async (e: SubmitEvent) => {
+  backgroundContainer.addEventListener("submit", async (e: SubmitEvent) => {
     e.preventDefault();
     page = 1;
 
@@ -45,21 +43,21 @@ addEventListener("load", async () => {
       moreButton,
       updateMoreButton,
     );
-
-    attachLogoListener();
   });
 
-  attachLogoListener();
-});
+  backgroundContainer.addEventListener("click", async (e: MouseEvent) => {
+    const target = e.target as HTMLElement;
+    const logo = target.closest(".logo");
 
-function attachLogoListener() {
-  const logo = document.querySelector(".logo") as HTMLElement;
-  logo.addEventListener("click", async () => {
+    if (!logo) {
+      return;
+    }
+
     page = 1;
     searchMovie = "";
     await initialRender(movieList, page, moreButton, updateMoreButton);
   });
-}
+});
 
 // 더보기 버튼
 moreButton.addEventListener("click", async () => {
