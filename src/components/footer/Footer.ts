@@ -1,11 +1,16 @@
-export const Footer = () => {
-  const tempalte = `
-    <p>&copy; 우아한테크코스 All Rights Reserved.</p>
-    <p><img src="/images/woowacourse_logo.png" width="180" /></p>
-  `;
+export default class Footer {
+  #$element: HTMLElement;
 
-  const $footer = document.createElement('footer');
-  $footer.className = 'footer';
-  $footer.innerHTML = tempalte;
-  return $footer;
-};
+  constructor() {
+    this.#$element = document.createElement('footer');
+    this.#$element.className = 'footer';
+    this.#$element.innerHTML = `
+      <p>&copy; 우아한테크코스 All Rights Reserved.</p>
+      <p><img src="/images/woowacourse_logo.png" width="180" /></p>
+    `;
+  }
+
+  get $element() {
+    return this.#$element;
+  }
+}
