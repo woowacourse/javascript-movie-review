@@ -1,4 +1,5 @@
 import { THUMBNAIL_IMAGE } from "../../constants/api";
+import { escapeHTML } from "../../utils/escape";
 
 export const movieListTemplate = {
   skeletonList: /*html*/ `
@@ -17,13 +18,12 @@ export const movieListTemplate = {
   `,
   movieList: (item: Movies) => 
     /*html*/ `
-      <li id=${item.id}>
+      <li id="${escapeHTML(item.id)}">
         <div class="item">
           <img
             class="thumbnail"
-            src=${THUMBNAIL_IMAGE + item.poster_path}
-            alt=${item.title}
-            onerror="this.onerror=null; this.src='./images/no-image.png'"
+            src="${escapeHTML(THUMBNAIL_IMAGE + item.poster_path)}"
+            alt="${escapeHTML(item.title)}"
           />
           <div class="item-desc">
             <p class="rate">
@@ -31,9 +31,9 @@ export const movieListTemplate = {
                 src="./images/star_empty.png"
                 class="star"
               />
-              <span class="item-rate">${item.vote_average}</span>
+              <span class="item-rate">"${escapeHTML(item.vote_average)}"</span>
             </p>
-            <strong class="item-title">${item.title}</strong>
+            <strong class="item-title">"${escapeHTML(item.title)}"</strong>
           </div>
         </div>
       </li>
