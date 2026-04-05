@@ -1,7 +1,7 @@
 import image from "../templates/images/star_filled.png";
 import { fetchPopularMovies } from "./api/fetchMovies";
 import { extractThumbnailInfo } from "./thumnailManager";
-import Logo from "./Logo";
+import LogoView from "./View/LogoView";
 import {
   renderMoviesList,
   renderTopRatedMovie,
@@ -12,13 +12,15 @@ import SearchView from "./View/SearchView";
 import PageStore from "./store";
 import MoreMovieView from "./View/MoreMovieView";
 
+const views = {
+  moreMovie: new MoreMovieView(),
+  search: new SearchView(),
+  logo: new LogoView(),
+};
 // 이벤트 바인딩
-const moreButton = new MoreMovieView();
-moreButton.bindEvent();
-const searchForm = new SearchView();
-searchForm.bindEvent();
-const logo = new Logo();
-logo.bindEvent();
+views.moreMovie.bindEvent();
+views.search.bindEvent();
+views.logo.bindEvent();
 
 // 초기화면 렌더링
 try {
