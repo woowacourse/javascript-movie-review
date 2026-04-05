@@ -1,4 +1,3 @@
-import { fetchMovies, fetchSearchedMovies } from "./movieAPIResponse.ts";
 import type { Movie } from "../types/Movie.ts";
 import {
   createMovieItemHTML,
@@ -9,19 +8,12 @@ import DOM from "./dom.ts";
 
 const bannerBaseURL = "https://image.tmdb.org/t/p/w1920_and_h800_multi_faces";
 
-export const renderMovies = async (moviePageCount: number) => {
-  const movieData = await fetchMovies(moviePageCount);
-  if (moviePageCount === 1) {
-    renderBanner(movieData.results[0]);
-  }
-
-  movieData.results.forEach((movie: Movie) => {
+export const renderMovies = (movies: Movie[]) => {
+  movies.forEach((movie: Movie) => {
     const li = createMovieItemHTML(movie);
     attachSkeletonEvents(li);
     DOM.thumbnailList?.appendChild(li);
   });
-
-  return movieData.total_pages;
 };
 
 const attachSkeletonEvents = (li: HTMLLIElement) => {
@@ -44,23 +36,17 @@ const attachSkeletonEvents = (li: HTMLLIElement) => {
   );
 };
 
-export const renderBanner = async (fristMovieData: Movie) => {
+export const renderBanner = (movie: Movie) => {
   if (DOM.backgroundContainer) {
     DOM.backgroundContainer.style.backgroundImage =
-      `url("${bannerBaseURL + fristMovieData.backdrop_path}")`;
+      `url("${bannerBaseURL + movie.backdrop_path}")`;
   }
 
-  DOM.banner?.appendChild(createBannerHTML(fristMovieData));
+  DOM.banner?.appendChild(createBannerHTML(movie));
 };
 
-export const renderSearchedMovies = async (
-  searchKeyword: string,
-  searchPageCount: number,
-) => {
-  const movieData = await fetchSearchedMovies(searchKeyword, searchPageCount);
-  const movies = movieData.results;
-
-  if (DOM.thumbnailList && movies.length === 0 && searchPageCount === 1) {
+export const renderSearchedMovies = (movies: Movie[]) => {
+  if (DOM.thumbnailList && movies.length === 0) {
     DOM.thumbnailList.appendChild(createNoResultHTML());
   }
 
@@ -69,6 +55,4 @@ export const renderSearchedMovies = async (
     attachSkeletonEvents(li);
     DOM.thumbnailList?.appendChild(li);
   });
-
-  return movieData.total_pages;
 };
