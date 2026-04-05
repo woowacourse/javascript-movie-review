@@ -9,7 +9,7 @@ import {
     showBackgroundMovieInfo,
 } from '../view/movieListView.ts'
 
-const callMovieList = async (pageNum: number, searchBarText: string): Promise<Movie[]> => {
+export const callMovieList = async (pageNum: number, searchBarText: string): Promise<Movie[]> => {
     try {
         if (searchBarText === '') {
             return await fetchDefaultMovieList(pageNum)
