@@ -1,5 +1,5 @@
 import renderMovieItemsToList from "./render/renderMovieItemsToList";
-import removeSkeletonItems from "./render/removeSkeleton";
+import removeSkeletonItems from "./render/removeSkeletonItems";
 import renderSearchInput from "./render/renderSearchInput";
 import renderSearchListrEmptyAlert from "./render/renderSearchListrEmptyAlert";
 import renderSearchListTitle from "./render/renderSearchListTitle";

@@ -1,5 +1,5 @@
 import renderMovieItemsToList from "./render/renderMovieItemsToList";
-import removeSkeletonItems from "./render/removeSkeleton";
+import removeSkeletonItems from "./render/removeSkeletonItems";
 import renderShowMoreButton from "./render/renderShowMoreButton";
 import renderSkeletonItemsToList from "./render/renderSkeletonItemsToList";
 import renderTopRatedMovie from "./render/renderTopRatedMovie";
