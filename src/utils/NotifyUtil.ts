@@ -1,5 +1,6 @@
 import Notify from "simple-notify";
 import "simple-notify/dist/simple-notify.css";
+import { errorToUserMessage } from "../errors/errorToUserMessage";
 
 const notify = (status: "error" | "warning", title: string, text: string) => {
   new Notify({
@@ -17,9 +18,7 @@ const notify = (status: "error" | "warning", title: string, text: string) => {
 };
 
 export const notifyError = (error: unknown) => {
-  const errorMessage = error instanceof Error ? error.message : "알 수 없는 오류가 발생했습니다.";
-
-  notify("error", "오류가 발생했습니다", errorMessage);
+  notify("error", "오류가 발생했습니다", errorToUserMessage(error));
 };
 
 export const notifyEmptyQuery = () => {
