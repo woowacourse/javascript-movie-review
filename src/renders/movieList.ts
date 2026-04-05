@@ -16,8 +16,14 @@ const createMovieNode = (movie: Movie): DocumentFragment | null => {
 
   const thumbnail = movieFragment.querySelector<HTMLImageElement>(".thumbnail");
   if (!thumbnail) return null;
-  thumbnail.src =
-    `https://media.themoviedb.org/t/p/w220_and_h330_face` + movie.poster_path;
+
+  const BASE_URL = `https://media.themoviedb.org/t/p/w220_and_h330_face`
+  const FALLBACK = '/images/no_image.png';
+
+  thumbnail.src = movie.poster_path ? BASE_URL + movie.poster_path: FALLBACK;
+  thumbnail.onerror = () => {
+    thumbnail.src = FALLBACK;
+  }
   thumbnail.alt = movie.title;
 
   const itemDesc = movieFragment.querySelector(".item-desc");
