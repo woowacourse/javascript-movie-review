@@ -1,6 +1,5 @@
-import { showErrorToast } from "./toast";
 import { MovieListResponse, Movie } from "./type";
-import { fetchSearchMoviesByPageRange, getPage, getQuery, removeSkeletonItem, renderListTitle, renderMovies, renderShowMoreButton, renderSkeletonItems, renderTopRatedMovie, setPage, setQuery, updateEmptyListAlert } from "./utils";
+import { fetchSearchMoviesByPageRange, getPage, getQuery, handleError, removeSkeletonItem, renderListTitle, renderMovies, renderShowMoreButton, renderSkeletonItems, renderTopRatedMovie, setPage, setQuery, updateEmptyListAlert } from "./utils";
 
 addEventListener("load", async () => {
   let prevResponseList: MovieListResponse[] = [];
@@ -31,8 +30,12 @@ addEventListener("load", async () => {
       renderMovies(movieList);
       updateEmptyListAlert();
 
-      renderShowMoreButton(prevResponseList, page, () => {
-        renderSearchMoviePage(getPage() + 1, getQuery());
+      renderShowMoreButton(prevResponseList, page, async () => {
+        try {
+          await renderSearchMoviePage(getPage() + 1, getQuery());
+        } catch (error) {
+          handleError(error);
+        }
       })
     }
 
@@ -45,8 +48,6 @@ addEventListener("load", async () => {
       renderTopRatedMovie(prevResponseList[0].results[0])
     }
   } catch (error) {
-    if (error instanceof Error) {
-      showErrorToast({ title: error.name, message: error.message })
-    }
+    handleError(error);
   }
 });

@@ -1,4 +1,6 @@
-import { FETCH_OPTION, FETCH_TIMEOUT_MS, SHOW_MORE_THROTTLE_MS } from "./constants";
+import { ERROR, FETCH_OPTION, FETCH_TIMEOUT_MS, SHOW_MORE_THROTTLE_MS } from "./constants";
+import { APIError, UnknownError } from "./error";
+import { showErrorToast } from "./toast";
 import { Movie, MovieListResponse, TMDBAPIEndpoint } from "./type";
 
 export function getParamFromURL(name: string, defaultValue: string) {
@@ -42,18 +44,26 @@ export function throttle<T extends (...args: any[]) => void>(callback: T, ms: nu
   };
 };
 
+export function handleError(catchedError: unknown): void {
+  const error = catchedError instanceof Error ? catchedError : new UnknownError("에러 객체를 찾을 수 없습니다.");
+  const title = (error.name in ERROR) ? ERROR[error.name as keyof typeof ERROR] : error.name;
+  const message = error.message ?? "에러 메시지가 없습니다.";
+  showErrorToast({ title, message });
+}
+
 function delay(ms: number) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-function timeoutFn(ms: number) {
-  return new Promise((_, reject) => {
-    setTimeout(() => {
-      reject(new Error(`요청 시간이 ${ms}ms를 초과했습니다.`));
-    }, ms);
-  })
-}
+async function fetcher<T>(url: string, options: RequestInit) {
+  const response = await fetch(url, options);
 
+  if (!response.ok) {
+    throw new APIError('API 응답이 올바르지 않습니다.')
+  }
+
+  return response.json() as Promise<T>
+}
 
 export async function fetchMovies(endpoint: "/search/movie", params: { query: string, page: number }): Promise<MovieListResponse>
 export async function fetchMovies(endpoint: "/movie/popular", params: { page: number }): Promise<MovieListResponse>
@@ -64,13 +74,16 @@ export async function fetchMovies(endpoint: TMDBAPIEndpoint, params: Record<stri
   });
 
   try {
-    const fetchPromise = fetch(`${import.meta.env.VITE_API_BASE_URL}${endpoint}?${queryParams}`, FETCH_OPTION).then(res => res.json());
-    return await Promise.race([fetchPromise, timeoutFn(FETCH_TIMEOUT_MS)]);
+    const fetchPromise = fetcher<MovieListResponse>(`${import.meta.env.VITE_API_BASE_URL}${endpoint}?${queryParams}`, FETCH_OPTION);
+    const timeoutPromise = new Promise<never>((_, reject) => {
+      setTimeout(() => {
+        reject(new APIError(`API 응답 시간이 ${FETCH_TIMEOUT_MS}ms를 초과했습니다.`));
+      }, FETCH_TIMEOUT_MS);
+    })
+
+    return await Promise.race([fetchPromise, timeoutPromise]);
   } catch (error) {
-    const newError = new Error();
-    newError.name = "API 요청중 에러가 발생했습니다."
-    newError.message = `${error instanceof Error ? (error.message ?? "not found error message") : "not found error"} (${endpoint})`
-    throw newError
+    throw (error instanceof Error) ? error : new APIError('API 요청중 에러가 발생했습니다.')
   }
 }
 
@@ -87,7 +100,10 @@ export async function fetchPopularMoviesByPageRange(startPage: number, endPage: 
 
 export async function fetchSearchMoviesByPageRange(startPage: number, endPage: number, query: string) {
   const promises = Array.from({ length: endPage - startPage }).map(
-    (_, index) => fetchMovies('/search/movie', { query, page: startPage + index + 1 }),
+    async (_, index) => {
+      if (index !== 0) await delay(index * 200);
+      return fetchMovies('/search/movie', { query, page: startPage + index + 1 })
+    },
   );
 
   return Promise.all(promises);

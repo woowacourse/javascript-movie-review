@@ -1,6 +1,5 @@
 import { MovieListResponse, Movie } from "./type";
-import { fetchPopularMoviesByPageRange, getPage, removeSkeletonItem, renderMovies, renderShowMoreButton, renderSkeletonItems, renderTopRatedMovie, setPage } from "./utils";
-import { showErrorToast } from "./toast";
+import { fetchPopularMoviesByPageRange, getPage, handleError, removeSkeletonItem, renderMovies, renderShowMoreButton, renderSkeletonItems, renderTopRatedMovie, setPage } from "./utils";
 
 addEventListener("load", async () => {
   let prevResponseList: MovieListResponse[] = [];
@@ -26,8 +25,12 @@ addEventListener("load", async () => {
 
       renderMovies(movieList);
 
-      renderShowMoreButton(prevResponseList, page, () => {
-        renderPopularMoviePage(getPage() + 1);
+      renderShowMoreButton(prevResponseList, page, async () => {
+        try {
+          await renderPopularMoviePage(getPage() + 1);
+        } catch (error) {
+          handleError(error);
+        }
       })
     }
 
@@ -37,8 +40,6 @@ addEventListener("load", async () => {
       renderTopRatedMovie(prevResponseList[0].results[0])
     }
   } catch (error) {
-    if (error instanceof Error) {
-      showErrorToast({ title: error.name, message: error.message })
-    }
+    handleError(error);
   }
 });
