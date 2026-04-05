@@ -22,50 +22,57 @@ export const callMovieList = async (pageNum: number, searchBarText: string): Pro
         return []
     }
 }
+const renderMovieList = async (movieDisplay: HTMLUListElement, state: State): Promise<Movie[]> => {
+    let movieList
+    movieDisplay.replaceChildren()
+    addMovieSkeletonUIList(movieDisplay)
+
+    movieList = await callMovieList(state.pageNum, state.searchBarText)
+
+    removeMovieSkeletonUIList(movieDisplay)
+
+    return movieList
+}
+
+// 상태 변경
+const updateSearchState = (state: State, searchBarText: string) => {
+    state.searchBarText = searchBarText
+    if (searchBarText === '') {
+        state.pageNum = 1
+    }
+}
+
+// UI 업데이트
+const updateSearchUI = (background: HTMLElement, description: HTMLElement, searchBarText: string) => {
+    if (searchBarText === '') {
+        background.hidden = false
+        description.textContent = '지금 인기 있는 영화'
+    } else {
+        background.hidden = true
+        description.textContent = `'${searchBarText}' 검색 결과`
+    }
+}
+
+// 검색 결과 없을 때 처리
+const handleEmptyResult = (movieList: Movie[]) => {
+    const searchError = getElement('.search-error-container')
+    searchError.hidden = movieList.length !== 0
+}
 
 const displayMovieBySearch = async (movieDisplay: HTMLUListElement, state: State) => {
     const searchBar = getInputElement('.search-bar')
-
-    state.searchBarText = searchBar.value
     const background = getElement('.background-container')
-    background.hidden = true
-
     const description = getElement('.page-title')
 
-    let movieList
+    updateSearchState(state, searchBar.value)
+    updateSearchUI(background, description, state.searchBarText)
 
-    if (state.searchBarText === '') {
-        background.hidden = false
-        state.pageNum = 1
-        movieDisplay.replaceChildren()
-        addMovieSkeletonUIList(movieDisplay)
+    const movieList = await renderMovieList(movieDisplay, state)
 
-        movieList = await callMovieList(state.pageNum, state.searchBarText)
-
-        removeMovieSkeletonUIList(movieDisplay)
-
-        description.textContent = '지금 인기 있는 영화'
-    } else {
-        movieDisplay.replaceChildren()
-        addMovieSkeletonUIList(movieDisplay)
-
-        movieList = await callMovieList(state.pageNum, state.searchBarText)
-
-        removeMovieSkeletonUIList(movieDisplay)
-
-        description.textContent = `'${state.searchBarText}' 검색 결과`
-
-        // 검색 결과가 없을 때
-        const searchError = getElement('.search-error-container')
-
-        if (movieList.length === 0) {
-            searchError.hidden = false
-        } else {
-            searchError.hidden = true
-        }
+    if (state.searchBarText !== '') {
+        handleEmptyResult(movieList)
     }
 
-    // 영화 20개
     addMovieList(movieDisplay, movieList)
 }
 
