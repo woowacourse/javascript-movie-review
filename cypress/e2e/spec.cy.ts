@@ -26,6 +26,23 @@ describe("Movie App", () => {
       cy.wait("@popularMovies");
       cy.get(".item").should("have.length", 40);
     });
+
+    it("더보기 클릭 시 로딩 중 스켈레톤 UI 표시", () => {
+      cy.intercept("GET", TMDB_POPULAR_URL_PATTERN, (req) => {
+        req.reply({ fixture: "popular-movies-p2.json", delay: 1000 });
+      }).as("delayedPopularMovies");
+      cy.get(".show-more-button").click();
+      cy.get(".skeleton-item").should("exist");
+      cy.wait("@delayedPopularMovies");
+      cy.get(".skeleton-item").should("not.exist");
+    });
+
+    it("마지막 페이지 도달 시 더보기 버튼 제거", () => {
+      cy.get(".show-more-button").should("be.visible");
+      cy.get(".show-more-button").click();
+      cy.wait("@popularMovies");
+      cy.get(".show-more-button").should("not.exist");
+    });
   });
 
   context("검색 - 결과 있음", () => {
