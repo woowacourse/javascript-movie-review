@@ -11,6 +11,10 @@ class MovieModel implements StateType {
     this.searchValue = newSearchValue;
   }
 
+  increasePage() {
+    this.#page += 1;
+  };
+
   get page() {
     return this.#page;
   };

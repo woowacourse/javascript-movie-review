@@ -1,9 +1,8 @@
 import { handleHome } from "./controller/handleHome";
-import { handleMoreButton } from "./controller/handleMoreButton";
+import { handleLoadMore } from "./controller/handleLoadMore";
 import { handleSearch } from "./controller/handleSearch";
 import { searchView } from "./view/searchView";
 import { addButtonView } from "./view/addButtonView";
-import { movieModel } from "./model/movieModel";
 
 function init() {
   addEventListener("load", () => {
@@ -11,11 +10,7 @@ function init() {
   });
 
   addButtonView.bindAddButtonClick(async () => {
-    const result = await handleMoreButton.handleLoadMore(movieModel);
-
-    if (result) {
-      addButtonView.hideAddButton();
-    }
+    await handleLoadMore();
   });
 
   searchView.bindSearchSubmit((keyword: string) => {
