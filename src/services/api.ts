@@ -15,7 +15,7 @@ const requestAjax = async (
 ) => {
   const queryString = query
   ? '?' + Object.entries(query)
-      .map(([key, value]) => `${key}=${value}`)
+      .map(([key, value]) => `${key}=${encodeURIComponent(String(value))}`)
       .join('&')
   : '';
   const fullPathUrl = `${apiUrl}${url}${queryString}`;
