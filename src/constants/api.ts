@@ -12,5 +12,5 @@ export const API_COMMON_URL = "https://api.themoviedb.org/3";
 
 export const API_URL = {
   popular: (page: number) => `/movie/popular?language=ko-KR&page=${page}`,
-  search: (query: string, page: number) => `/search/movie?language=ko-KR&query=${query}&page=${page}`,
+  search: (query: string, page: number) => `/search/movie?language=ko-KR&query=${encodeURIComponent(query)}&page=${page}`,
 }
