@@ -11,8 +11,12 @@ export class ApiError extends Error {
   }
 }
 
+const isObject = (value: unknown): boolean => {
+  return value !== null && typeof value === 'object'
+}
+
 const fromMovieDto = (movie: unknown) => {
-  if (!(movie !== null && typeof movie === 'object')) return null;
+  if (!isObject(movie)) return null;
 
   if(!('title' in movie)) return null;
 
