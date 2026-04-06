@@ -1,5 +1,9 @@
 export const Logo = (): HTMLElement => {
-  const tempalte = `<img src="/images/logo.png" alt="MovieList" />`;
+  const tempalte = `
+    <a href="/">
+      <img src="/images/logo.png" alt="MovieList" />
+    </a>
+  `;
 
   const $h1 = document.createElement('h1');
   $h1.className = 'logo';
