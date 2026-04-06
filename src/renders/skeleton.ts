@@ -23,15 +23,10 @@ export const removeSkeleton = (start: number) => {
   const MIN_SKELETON_TIME = 600;
 
   const elapsed = Date.now() - start;
-  const remaining = MIN_SKELETON_TIME - elapsed;
+  const remaining = Math.max(MIN_SKELETON_TIME - elapsed, 0);
 
-  if(remaining > 0){
-    setTimeout(() => {
-      skeleton.classList.remove("animation");
-      skeleton.replaceChildren();
-    }, remaining);
-  } else {
+  setTimeout(() => {
     skeleton.classList.remove("animation");
     skeleton.replaceChildren();
-  }
+  }, remaining);
 };
