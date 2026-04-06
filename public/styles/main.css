@@ -1,0 +1,252 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap");
+@import "./colors.css";
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+body {
+  font-size: 16px;
+  color: var(--color-white);
+  background-color: #242A32;
+}
+
+#wrap,
+section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+main {
+  margin: 64px 0;
+}
+
+.star {
+  width: 24px;
+}
+
+button {
+  border: 0;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+button.primary {
+  color: var(--color-white);
+  font-weight: bold;
+  background-color: var(--color-lightblue-90);
+  border-radius: 4px;
+}
+
+#load-movie-button {
+  display: block;
+  width: 1280px;
+  height: 49px;
+  margin: 0 auto 4rem;
+  background-color: #0DA9FD;
+  color: white;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+#wrap {
+  min-width: 1440px;
+  min-height: 100vh;
+  background-color: #242A32;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+#wrap h2 {
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin-bottom: 32px;
+}
+
+#section-title {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 36px;
+  line-height: 1;
+  letter-spacing: 0;
+  margin-bottom: 3.5rem;
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  flex: 1;
+}
+
+.background-container {
+  position: relative;
+  background-position: center center;
+  background-size: cover;
+  height: 500px;
+  padding: 48px;
+}
+
+.background-container.search-header {
+  height: 100px;
+  background-color: #242A32;
+}
+
+.background-container.search-header .overlay {
+  display: none;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.top-rated-container {
+  user-select: none;
+  position: relative;
+  z-index: 2;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.top-rated-movie {
+  margin-top: 64px;
+}
+
+.top-rated-movie > *:not(:last-child) {
+  margin-bottom: 8px;
+}
+
+h1.logo {
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+
+.header-top {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.header-top .search-bar {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 700px;
+  width: 50%;
+}
+
+.rate {
+  display: flex;
+  align-items: baseline;
+  color: var(--color-yellow);
+}
+
+.rate > img {
+  position: relative;
+  top: 2px;
+}
+
+span.rate-value {
+  margin-left: 8px;
+  font-weight: bold;
+  font-size: 1.66rem;
+}
+
+.title {
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+footer.footer {
+  min-height: 180px;
+  background-color: #3C4653;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  font-size: 1.1rem;
+}
+
+footer.footer p:not(:last-child) {
+  margin-bottom: 8px;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 700px;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  border-radius: 50px;
+  overflow: hidden;
+  background: transparent;
+}
+
+.search-input {
+  flex: 1;
+  padding: 14px 20px;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: white;
+  font-size: 16px;
+}
+
+.search-input::placeholder {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.search-button {
+  padding: 10px 16px;
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.search-icon {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+}
+
+#no-result {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  grid-column: 1 / -1;
+  width: 100%;
+  min-height: 400px;
+  margin: 4rem auto;
+}
+
+.no-result-icon {
+  width: 72px;
+  height: 62px;
+}
+
+.no-result-text {
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 600 !important;
+  font-size: 36px !important;
+  line-height: 1 !important;
+  letter-spacing: 0 !important;
+  margin-top: 1rem;
+}

@@ -13,6 +13,32 @@
   border-radius: 8px;
 }
 
+.item {
+  user-select: none;
+  cursor: pointer;
+}
+
+.item-desc > *:not(:last-child) {
+  position: relative;
+  margin-bottom: 4px;
+  line-height: 1.2rem;
+}
+
+p.rate {
+  display: flex;
+  align-items: baseline;
+  color: var(--color-yellow);
+}
+
+p.rate > span {
+  margin-left: 4px;
+}
+
+.item .star {
+  width: 16px;
+  top: 1px;
+}
+
 /* Skeleton UI */
 .item.skeleton .thumbnail {
   display: none;
@@ -47,37 +73,11 @@
   width: 40%;
 }
 
-.item.skeleton .item-desc > * {
+.item.skeleton .item-desc > *:not(.skeleton-rate):not(.skeleton-title) {
   display: none;
 }
 
 @keyframes shimmer {
   0% { background-position: 200% 0; }
   100% { background-position: -200% 0; }
-}
-
-.item {
-  user-select: none;
-  cursor: pointer;
-}
-
-.item-desc > *:not(:last-child) {
-  position: relative;
-  margin-bottom: 4px;
-  line-height: 1.2rem;
-}
-
-p.rate {
-  display: flex;
-  align-items: baseline;
-  color: var(--color-yellow);
-}
-
-p.rate > span {
-  margin-left: 4px;
-}
-
-.item .star {
-  width: 16px;
-  top: 1px;
 }
