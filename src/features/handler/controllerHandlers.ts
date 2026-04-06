@@ -1,8 +1,9 @@
 import MovieList from "../UI/MovieList";
-import { MovieResponse, UpdateMoreButton } from "../../../types/types";
+import { MovieResponse } from "../../../types/types";
 import {
   handleHeader,
   handleHeaderSearch,
+  handleMoreButton,
   handleMovieList,
 } from "./renderHandlers";
 import {
@@ -15,7 +16,6 @@ export async function initialRender(
   movieList: MovieList,
   page: number,
   moreButton: HTMLButtonElement,
-  updateMoreButton: UpdateMoreButton,
 ): Promise<void> {
   const mainTitle = document.querySelector(".main-title") as HTMLElement;
 
@@ -24,7 +24,7 @@ export async function initialRender(
   const data: MovieResponse = await handleMovie(page, movieList);
   handleHeader(data.results[0]);
   handleMovieList(movieList, data);
-  updateMoreButton(moreButton, data);
+  handleMoreButton(moreButton, data.total_pages, page);
 }
 
 export async function searchRender(
@@ -32,7 +32,6 @@ export async function searchRender(
   page: number,
   searchMovie: string,
   moreButton: HTMLButtonElement,
-  updateMoreButton: UpdateMoreButton,
 ): Promise<void> {
   const mainTitle = document.querySelector(".main-title") as HTMLElement;
 
@@ -51,7 +50,7 @@ export async function searchRender(
     handleMovieList(movieList, data);
   }
 
-  updateMoreButton(moreButton, data);
+  handleMoreButton(moreButton, data.total_pages, page);
 }
 
 export async function moreRender(
@@ -59,10 +58,9 @@ export async function moreRender(
   page: number,
   searchMovie: string,
   moreButton: HTMLButtonElement,
-  updateMoreButton: UpdateMoreButton,
 ): Promise<void> {
   const data: MovieResponse = await handleMoreMovie(page, searchMovie);
 
   movieList.renderMovieList(data);
-  updateMoreButton(moreButton, data);
+  handleMoreButton(moreButton, data.total_pages, page);
 }

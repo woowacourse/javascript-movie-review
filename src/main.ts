@@ -1,4 +1,3 @@
-import { MovieResponse } from "../types/types";
 import MovieList from "./features/UI/MovieList";
 import {
   initialRender,
@@ -17,61 +16,45 @@ const backgroundContainer = document.querySelector(
 
 addEventListener("load", async () => {
   // 초기 렌더링
-  await initialRender(movieList, page, moreButton, updateMoreButton);
+  await initialRender(movieList, page, moreButton);
+});
 
-  // 검색
-  backgroundContainer.addEventListener("submit", async (e: SubmitEvent) => {
-    e.preventDefault();
-    page = 1;
+// 검색
+backgroundContainer.addEventListener("submit", async (e: SubmitEvent) => {
+  e.preventDefault();
+  page = 1;
 
-    const searchInput = document.querySelector(
-      ".search-input",
-    ) as HTMLInputElement;
-    searchMovie = searchInput.value.trim();
+  const searchInput = document.querySelector(
+    ".search-input",
+  ) as HTMLInputElement;
+  searchMovie = searchInput.value.trim();
 
-    // 검색어가 없는 경우 초기 렌더링
-    if (searchMovie === "") {
-      await initialRender(movieList, page, moreButton, updateMoreButton);
-      return;
-    }
+  // 검색어가 없는 경우 초기 렌더링
+  if (searchMovie === "") {
+    await initialRender(movieList, page, moreButton);
+    return;
+  }
 
-    // 검색어가 있는 경우 검색 결과 렌더링
-    await searchRender(
-      movieList,
-      page,
-      searchMovie,
-      moreButton,
-      updateMoreButton,
-    );
-  });
+  // 검색어가 있는 경우 검색 결과 렌더링
+  await searchRender(movieList, page, searchMovie, moreButton);
+});
 
-  backgroundContainer.addEventListener("click", async (e: MouseEvent) => {
-    const target = e.target as HTMLElement;
-    const logo = target.closest(".logo");
+// 로고 클릭
+backgroundContainer.addEventListener("click", async (e: MouseEvent) => {
+  const target = e.target as HTMLElement;
+  const logo = target.closest(".logo");
 
-    if (!logo) {
-      return;
-    }
+  if (!logo) {
+    return;
+  }
 
-    page = 1;
-    searchMovie = "";
-    await initialRender(movieList, page, moreButton, updateMoreButton);
-  });
+  page = 1;
+  searchMovie = "";
+  await initialRender(movieList, page, moreButton);
 });
 
 // 더보기 버튼
 moreButton.addEventListener("click", async () => {
   page += 1;
-  await moreRender(movieList, page, searchMovie, moreButton, updateMoreButton);
+  await moreRender(movieList, page, searchMovie, moreButton);
 });
-
-function updateMoreButton(
-  moreButton: HTMLButtonElement,
-  data: MovieResponse,
-): void {
-  if (data.total_pages === page) {
-    moreButton.style.display = "none";
-  } else {
-    moreButton.style.display = "block";
-  }
-}

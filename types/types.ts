@@ -10,8 +10,3 @@ export type MovieResponse = {
   results: Movie[];
   total_pages: number;
 };
-
-export type UpdateMoreButton = (
-  moreButton: HTMLButtonElement,
-  data: MovieResponse,
-) => void;

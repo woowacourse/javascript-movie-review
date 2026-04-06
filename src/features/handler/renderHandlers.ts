@@ -19,3 +19,11 @@ export function handleMovieList(
   movieList.clearList();
   movieList.renderMovieList(data);
 }
+
+export function handleMoreButton(
+  moreButton: HTMLButtonElement,
+  totalPages: number,
+  page: number,
+): void {
+  moreButton.style.display = totalPages === page ? "none" : "block";
+}
