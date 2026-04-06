@@ -4,6 +4,25 @@ import { parseMovies } from "./mapper";
 
 import { Movies } from "./dto";
 
+const requestAjax = async (
+  url: string,
+) => {
+  const fullPathUrl = `${apiUrl}${url}`;
+  const res = await fetch(fullPathUrl, {
+    method: "get",
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+    },
+  });
+
+  if (res.ok) {
+    return await res.json();
+  }
+
+  const errorBody = await res.json();
+  throw new ApiError(errorBody.status_message, errorBody.status_code);
+}
+
 export class ApiError extends Error {
   status_code: number;
 
@@ -19,45 +38,23 @@ export const getMoviePopular = async ({
 }: {
   page: number;
 }): Promise<Movies> => {
-  const url = `${apiUrl}/movie/popular?page=${page}`;
-  const res = await fetch(url, {
-    method: "get",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-    },
-  });
+  const url = `/movie/popular?page=${page}`;
+  const data = await requestAjax(url);
 
-  if (res.ok) {
-    const data =  await res.json();
-    return {
-      ...data,
-      results: parseMovies(data.results),
-    }
+  return {
+    ...data,
+    results: parseMovies(data.results),
   }
-
-  const errorBody = await res.json();
-  throw new ApiError(errorBody.status_message, errorBody.status_code);
 };
 
 export const getTopRatedMovie = async () => {
-  const url = `${apiUrl}/movie/top_rated`;
-  const res = await fetch(url, {
-    method: "get",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-    },
-  });
+  const url = `/movie/top_rated`;
+  const data = await requestAjax(url);
 
-  if (res.ok) {
-    const data =  await res.json();
-    return {
-      ...data,
-      results: parseMovies(data.results),
-    }
+  return {
+    ...data,
+    results: parseMovies(data.results),
   }
-
-  const errorBody = await res.json();
-  throw new ApiError(errorBody.status_message, errorBody.status_code);
 };
 
 export const getSearchMovie = async ({
@@ -67,23 +64,11 @@ export const getSearchMovie = async ({
   page: number;
   query: string;
 }): Promise<Movies> => {
-  const url = `${apiUrl}/search/movie?page=${page}&query=${query}`;
-  const res = await fetch(url, {
-    method: "get",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-    },
-  });
+  const url = `/search/movie?page=${page}&query=${query}`;
+  const data = await requestAjax(url);
 
-  if (res.ok) {
-    const data =  await res.json();
-
-    return {
-      ...data,
-      results: parseMovies(data.results),
-    }
+  return {
+    ...data,
+    results: parseMovies(data.results),
   }
-
-  const errorBody = await res.json();
-  throw new ApiError(errorBody.status_message, errorBody.status_code);
 };
