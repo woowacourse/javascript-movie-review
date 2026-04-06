@@ -11,7 +11,7 @@ export type ResponseMovie = {
   total_pages: number;
 };
 
-export type Params = {
+type Params = {
   page: number;
   query?: string | undefined;
   language?: string;
