@@ -1,13 +1,32 @@
-import { Movies } from "../services/dto";
+import { Movie } from "../services/dto";
 
-export const renderTopRatedMovie = (movies: Movies) => {
-  const topRatedMovie = movies.results[0];
+export const renderTopRatedMovie = (topRatedMovie: Movie) => {
+  if(!topRatedMovie) return;
+
+  const background = document.querySelector<HTMLDivElement>(
+    ".background-container",
+  );
+  if (!background) return null;
+  background.style.height = "";
+
   const topRatedContainer = document.querySelector(".top-rated-container");
   if (!topRatedContainer) return null;
 
   const overlay = document.querySelector<HTMLDivElement>(".overlay");
   if (!overlay) return null;
-  overlay.style.background = `url(${`https://media.themoviedb.org/t/p/w1920_and_h800_multi_faces` + topRatedMovie.backdrop_path}) center center no-repeat`;
+
+  overlay.style.display = "block";
+
+  const BASE_URL = `https://media.themoviedb.org/t/p/w1920_and_h800_multi_faces`;
+  const FALLBACK = '/images/no_image_large.png';
+
+  const backgroundImage = topRatedMovie.backdrop_path ? BASE_URL + topRatedMovie.backdrop_path: FALLBACK;
+  overlay.style.backgroundImage = `url(${backgroundImage}), url(${FALLBACK}) `;
+
+  const topRatedMovieElement =
+    document.querySelector<HTMLDivElement>(".top-rated-movie");
+  if (!topRatedMovieElement) return null;
+  topRatedMovieElement.style.display = "block";
 
   const rateValue = topRatedContainer.querySelector(".rate-value");
   if (!rateValue) return null;

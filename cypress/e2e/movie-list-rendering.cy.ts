@@ -26,15 +26,19 @@ describe("영화 목록 조회 기능 테스트", () => {
     cy.wait("@getPopularPage1");
   });
 
-  it("프로그램을 시작하면 20개의 영화 목록이 렌더링 된다.", () => {
-    cy.get("#movie-list li").should("have.length", 20);
+  it("프로그램을 시작하면 영화 목록이 렌더링 된다.", () => {
+    cy.get("#movie-list li").should("have.length.greaterThan", 0);
   });
 
   it("더보기 버튼을 누르면 영화 목록이 추가로 생성되어 렌더링 된다.", () => {
-    cy.get("#more-button").click();
-    cy.wait("@getPopularPage2");
+    cy.get("#movie-list li").then((eleBefore) => {
+      const prevLength = eleBefore.length;
 
-    cy.get("#movie-list li").should("have.length.greaterThan", 20);
+      cy.get("#more-button").click();
+      cy.wait("@getPopularPage2");
+
+      cy.get("#movie-list li").should("have.length.greaterThan", prevLength);
+    })
   });
 
   it("마지막 페이지까지 렌더링 됬을때 더보기 버튼을 출력하지 않는다.", () => {

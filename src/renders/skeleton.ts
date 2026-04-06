@@ -12,18 +12,21 @@ export const renderSkeleton = () => {
     ) as DocumentFragment;
     if (!skeletonCloneNode) return null;
 
+    skeleton.classList.add("animation");
     skeleton.appendChild(skeletonCloneNode);
   }
 };
 
-export const removeSkeleton = () => {
+export const removeSkeleton = (start: number) => {
   const skeleton = document.querySelector<HTMLDivElement>("#skeleton");
   if (!skeleton) return;
+  const MIN_SKELETON_TIME = 600;
 
-  skeleton.classList.add("animation");
+  const elapsed = Date.now() - start;
+  const remaining = Math.max(MIN_SKELETON_TIME - elapsed, 0);
 
   setTimeout(() => {
     skeleton.classList.remove("animation");
     skeleton.replaceChildren();
-  }, 3000);
+  }, remaining);
 };
