@@ -2,9 +2,9 @@ import { navigate, getSearchParams, hasSearchParams } from "./utils/router";
 
 import {
   ApiError,
-  getPopularMovie,
-  getTopRatedMovie,
-  getSearchMovie,
+  getPopularMovies,
+  getTopRatedMovies,
+  getSearchMovies,
 } from "./services/api";
 
 import {
@@ -22,16 +22,16 @@ import PageState from "./states/PageState";
 const pageState = new PageState();
 
 const loadTopRatedMovie = async () => {
-  const topRatedMovies = await getTopRatedMovie();
+  const topRatedMovies = await getTopRatedMovies();
 
   renderTopRatedMovie(topRatedMovies);
 };
 
-const loadPopularMovie = async () => {
+const loadPopularMovies = async () => {
   renderSkeleton();
   const page = pageState.getPage();
   const movies = await errorTryCatch(
-    async () => await getPopularMovie({ page }),
+    async () => await getPopularMovies({ page }),
     async (e: ApiError) => {
       if (e.status_code == 22) {
         alert("잘못된 페이지 요청입니다.");
@@ -45,28 +45,51 @@ const loadPopularMovie = async () => {
   removeSkeleton();
 };
 
-const runSearch = () => {
+const loadSearchMovies = async () => {
   const search = getSearchParams("search") as string;
 
-  (async () => {
-    const page = pageState.getPage();
-    const movies = await getSearchMovie({
-      page,
-      query: search || "",
-    });
+  const page = pageState.getPage();
+  const movies = await getSearchMovies({
+    page,
+    query: search || "",
+  });
 
-    removeTopRatedMovie();
+  removeTopRatedMovie();
 
-    const movieListTitle = document.querySelector("#movie-list-title");
-    if (!movieListTitle) return null;
-    movieListTitle.textContent = `"${search}" 검색 결과`;
+  const movieListTitle = document.querySelector("#movie-list-title");
+  if (!movieListTitle) return null;
+  movieListTitle.textContent = `"${search}" 검색 결과`;
 
-    if (movies.results.length) {
-      renderMovieList(movies);
-    } else {
-      renderNoResult();
-    }
-  })();
+  if (movies.results.length) {
+    renderMovieList(movies);
+  } else {
+    renderNoResult();
+  }
+};
+
+const loadMoreMovies = async () => {
+  pageState.incrementPage();
+  const isSearchParams = hasSearchParams("search");
+
+  if (isSearchParams) {
+    loadSearchMovies();
+    return;
+  }
+
+  const page = pageState.getPage();
+
+  const movies = await errorTryCatch(
+    async () => await getPopularMovies({ page }),
+    async (e: ApiError) => {
+      if (e.status_code == 22) {
+        alert("잘못된 페이지 요청입니다.");
+        return;
+      }
+      alert("영화 정보를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.");
+    },
+  );
+
+  if (movies) renderMovieList(movies);
 };
 
 const handleSearch = () => {
@@ -83,7 +106,7 @@ const handleSearch = () => {
   navigate(`/?search=${search}`);
 
   removeMovieList();
-  runSearch();
+  loadSearchMovies();
 };
 
 const errorTryCatch = async (api: Function, errorCallback: Function) => {
@@ -94,32 +117,10 @@ const errorTryCatch = async (api: Function, errorCallback: Function) => {
   }
 };
 
-addEventListener("load", async () => {
+addEventListener("load", () => {
   const moreButton = document.querySelector("#more-button");
   moreButton?.addEventListener("click", () => {
-    pageState.incrementPage();
-    const isSearchParams = hasSearchParams("search");
-
-    if (isSearchParams) {
-      runSearch();
-      return;
-    }
-    (async () => {
-      const page = pageState.getPage();
-
-      const movies = await errorTryCatch(
-        async () => await getPopularMovie({ page }),
-        async (e: ApiError) => {
-          if (e.status_code == 22) {
-            alert("잘못된 페이지 요청입니다.");
-            return;
-          }
-          alert("영화 정보를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.");
-        },
-      );
-
-      if (movies) renderMovieList(movies);
-    })();
+    loadMoreMovies();
   });
 
   const searchButton = document.querySelector("#search-button");
@@ -128,12 +129,12 @@ addEventListener("load", async () => {
   });
 
   const searchInput = document.querySelector<HTMLInputElement>("#search-input");
-  if (!searchInput) return;
   searchInput?.addEventListener("keyup", (e: KeyboardEvent) => {
     if (e.key === "Enter") {
       handleSearch();
     }
   });
 
-  await Promise.all([loadTopRatedMovie(), loadPopularMovie()]);
+  loadTopRatedMovie();
+  loadPopularMovies();
 });

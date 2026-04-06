@@ -11,7 +11,7 @@ export class ApiError extends Error {
   }
 }
 
-export const getPopularMovie = async ({
+export const getPopularMovies = async ({
   page,
 }: {
   page: number;
@@ -30,7 +30,7 @@ export const getPopularMovie = async ({
   throw new ApiError(errorBody.status_message, errorBody.status_code);
 };
 
-export const getTopRatedMovie = async () => {
+export const getTopRatedMovies = async () => {
   const url = `${apiUrl}/movie/top_rated`;
   const res = await fetch(url, {
     method: "get",
@@ -42,7 +42,7 @@ export const getTopRatedMovie = async () => {
   return await res.json();
 };
 
-export const getSearchMovie = async ({
+export const getSearchMovies = async ({
   page,
   query,
 }: {
