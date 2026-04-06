@@ -1,37 +1,60 @@
-/// <reference types="cypress" />
-// ***********************************************
-// This example commands.ts shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
-//
-// declare global {
-//   namespace Cypress {
-//     interface Chainable {
-//       login(email: string, password: string): Chainable<void>
-//       drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       dismiss(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       visit(originalFn: CommandOriginalFn, url: string, options: Partial<VisitOptions>): Chainable<Element>
-//     }
-//   }
-// }
+Cypress.Commands.add('mockPopularMovies', (page: number) => {
+  cy.intercept(
+    { 
+      method: "GET", 
+      url: "**/movie/popular*", 
+      query: {
+        language: 'ko-KR', 
+        page: String(page) 
+      } 
+    },
+    { fixture: `popularMoviePage${page}.json` }
+  ).as(`getPopularMoviesPage${page}`);
+});
+
+Cypress.Commands.add("mockSearchMovies", (searchQuery: string, jsonFile: string) => {
+  cy.intercept(
+    {
+      method: "GET", 
+      url: "**/search/movie*",
+      query: {
+        query: searchQuery,
+        page: String(1)
+      }
+    }, {
+    fixture: jsonFile
+  }).as("searchMovies");
+});
+
+Cypress.Commands.add("performSearch", (searchQuery: string) => {
+  cy.get(".search-input").clear().type(searchQuery);
+  cy.get(".search-button").click();
+});
+
+Cypress.Commands.add("verifyMovieItems", (allResults: Movies[]) => {
+  cy.get(".skeleton-card").should("not.exist")
+  cy.get(".thumbnail").should("have.length", allResults.length);
+  cy.get(".thumbnail").each(($el, index) => {
+    cy.wrap($el)
+      .should("have.attr", "src")
+      .and("include", allResults[index].poster_path);
+  });
+  cy.get(".item-title").each(($el, index) => {
+    cy.wrap($el).should("contain", allResults[index].title);
+  });
+  cy.get(".item-rate").each(($el, index) => {
+    cy.wrap($el).should(
+      "contain",
+      String(allResults[index].vote_average),
+    );
+  });
+})
+
+Cypress.Commands.add("disappearMoreButton", () => {
+  cy.wait("@searchMovies")
+    .its("response.body")
+    .then((data) => {
+      expect(data.page).to.equal(data.total_pages)
+      cy.get(".thumbnail-add-button").should("not.be.visible");
+  })
+})

@@ -1,11 +1,21 @@
-import image from "../templates/images/star_filled.png";
+import { handleHome } from "./controller/handleHome";
+import { handleLoadMore } from "./controller/handleLoadMore";
+import { handleSearch } from "./controller/handleSearch";
+import { searchView } from "./view/searchView";
+import { addButtonView } from "./view/addButtonView";
 
-addEventListener("load", () => {
-  const app = document.querySelector("#app");
-  const buttonImage = document.createElement("img");
-  buttonImage.src = image;
+function init() {
+  addEventListener("load", () => {
+    handleHome();
+  });
 
-  if (app) {
-    app.appendChild(buttonImage);
-  }
-});
+  addButtonView.bindAddButtonClick(async () => {
+    await handleLoadMore();
+  });
+
+  searchView.bindSearchSubmit((keyword: string) => {
+    handleSearch(keyword);
+  });
+}
+
+init();

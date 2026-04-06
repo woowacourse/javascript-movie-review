@@ -1,12 +1,65 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>영화 리뷰</title>
+    <link rel="stylesheet" href="./src/styles/index.css" />
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app">
+      <header>
+        <div id="header-bar" class="header-bar">
+          <h1 class="logo">
+            <img src="./images/logo.png" alt="MovieList" />
+          </h1>
+
+          <form action="submit" class="header-search" id="search-form">
+            <div class="search-box">
+              <input
+                type="text"
+                class="search-input"
+                id="search-input"
+                placeholder="검색어를 입력하세요"
+              />
+              <button class="search-button">
+                <img src="./images/search.png" alt="search" />
+              </button>
+            </div>
+          </form>
+
+          <div class="header-spacer"></div>
+        </div>
+
+        <div class="background-container">
+          <div class="overlay" aria-hidden="true"></div>
+          <div class="top-rated-container">
+            <div class="top-rated-movie">
+              <div class="rate">
+                <span class="rate-value"></span>
+              </div>
+              <div class="title"></div>
+              <button class="primary detail">자세히 보기</button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <section class="thumbnail-container">
+          <h2 class="thumbnail-title" id="thumbnail-title">
+            지금 인기 있는 영화
+          </h2>
+          <ul class="thumbnail-list"></ul>
+          <button class="thumbnail-add-button" id="add-button">더 보기</button>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <p>&copy; 우아한테크코스 All Rights Reserved.</p>
+        <p><img src="./images/woowacourse_logo.png" width="180" /></p>
+      </footer>
+    </div>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
