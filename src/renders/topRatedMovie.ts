@@ -1,6 +1,8 @@
 import { Movie } from "../services/dto";
 
 export const renderTopRatedMovie = (topRatedMovie: Movie) => {
+  if(!topRatedMovie) return;
+
   const topRatedContainer = document.querySelector(".top-rated-container");
   if (!topRatedContainer) return null;
 
