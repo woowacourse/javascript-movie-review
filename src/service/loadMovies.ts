@@ -6,7 +6,7 @@ import {
   removeMovieSkeletonUIList,
 } from "../view/movieListView";
 import { showErrorText } from "../view/textView";
-import { fetchMovieList } from "./movieApi";
+import { fetchDefaultMovieList, fetchSearchMovieList } from "./movieApi";
 
 export const loadMovies = async ({
   state,
@@ -21,13 +21,10 @@ export const loadMovies = async ({
   addMovieSkeletonUIList(movieDisplay);
 
   try {
-    const path =
-      state.searchBarText === "" ? "/movie/popular" : "/search/movie";
-    const fetchedMovies = await fetchMovieList(
-      path,
-      state.pageNum,
-      state.searchBarText,
-    );
+    const fetchedMovies =
+      state.searchBarText === ""
+        ? await fetchDefaultMovieList(state.pageNum)
+        : await fetchSearchMovieList(state.pageNum, state.searchBarText);
 
     state.movieList = reset
       ? fetchedMovies
