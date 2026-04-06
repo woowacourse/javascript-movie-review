@@ -1,10 +1,10 @@
-import { Movie } from "../types/types";
 import {
   initialRender,
   moreRender,
   searchRender,
 } from "./features/handler/controllerHandlers";
-import { movieState } from "./features/states/movieState.ts";
+import { movieState } from "./features/states/movieState";
+import { updateMoreButton } from "./features/handler/renderHandlers";
 
 // 렌더링 시 더보기 버튼
 const moreButton = document.querySelector(".btn-more") as HTMLButtonElement;
@@ -67,14 +67,3 @@ moreButton.addEventListener("click", async () => {
     updateMoreButton,
   );
 });
-
-function updateMoreButton(
-  moreButton: HTMLButtonElement,
-  data: { results: Movie[]; total_pages: number },
-): void {
-  if (data.total_pages === movieState.page) {
-    moreButton.style.display = "none";
-  } else {
-    moreButton.style.display = "block";
-  }
-}

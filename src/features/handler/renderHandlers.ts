@@ -1,6 +1,7 @@
 import { Header } from "../UI/Header";
 import MovieList from "../UI/MovieList";
 import { Movie } from "../../../types/types";
+import { movieState } from "../states/movieState";
 
 const movieListInstance = new MovieList();
 
@@ -20,4 +21,15 @@ export function handleMovieList(data: {
 }): void {
   movieListInstance.clearList();
   movieListInstance.renderMovieList(data);
+}
+
+export function updateMoreButton(
+  moreButton: HTMLButtonElement,
+  data: { results: Movie[]; total_pages: number },
+): void {
+  if (data.total_pages === movieState.page) {
+    moreButton.style.display = "none";
+  } else {
+    moreButton.style.display = "block";
+  }
 }
