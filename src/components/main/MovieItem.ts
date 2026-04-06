@@ -20,7 +20,13 @@ export const MovieItem = (data: MovieData) => {
     </div>
   `;
 
-  $<HTMLImageElement>($li, '.thumbnail').src = getThumbnailImageUrl(poster_path);
+  const $img = $<HTMLImageElement>($li, '.thumbnail');
+  $img.src = getThumbnailImageUrl(poster_path);
+
+  $img.onerror = () => {
+    $img.src = '/images/empty.png';
+  };
+
   $($li, '.item-desc strong').textContent = title;
   $($li, '.rate span').textContent = vote_average.toFixed(1);
   $($li, '.rate').prepend(Star());
