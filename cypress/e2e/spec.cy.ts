@@ -76,6 +76,19 @@ describe("영화 리뷰 앱", () => {
       cy.get(".thumbnail-list li").should("have.length", 40);
     });
 
+    it("마지막 페이지일 때 더 보기 버튼이 숨겨진다", () => {
+      cy.wait("@getPopularMovies");
+
+      cy.intercept("GET", "**/movie/popular*", createMoviesResponse(5, 2)).as(
+        "getLastPageMovies",
+      );
+
+      cy.get(".load-more-button").click();
+      cy.wait("@getLastPageMovies");
+
+      cy.get(".load-more-button").should("not.be.visible");
+    });
+
     it("더 보기 API 실패 시 에러 메시지가 렌더링된다", () => {
       cy.wait("@getPopularMovies");
 
@@ -107,6 +120,41 @@ describe("영화 리뷰 앱", () => {
 
       cy.get(".thumbnail-list li").should("have.length", 5);
       cy.get("section > h2").should("contain.text", "액션");
+    });
+
+    it("검색 결과가 마지막 페이지일 때 더 보기 버튼이 숨겨진다", () => {
+      cy.wait("@getPopularMovies");
+
+      cy.intercept("GET", "**/search/movie*", createMoviesResponse(5)).as(
+        "searchLastPage",
+      );
+
+      cy.get(".search-form input").type("액션");
+      cy.get(".search-form").submit();
+      cy.wait("@searchLastPage");
+
+      cy.get(".load-more-button").should("not.be.visible");
+    });
+
+    it("검색 더 보기에서 마지막 페이지일때 더 보기 버튼이 숨겨진다", () => {
+      cy.wait("@getPopularMovies");
+
+      cy.intercept("GET", "**/search/movie*", createMoviesResponse(20)).as(
+        "searchMovies",
+      );
+
+      cy.get(".search-form input").type("액션");
+      cy.get(".search-form").submit();
+      cy.wait("@searchMovies");
+
+      cy.intercept("GET", "**/search/movie*", createMoviesResponse(3, 2)).as(
+        "searchLastPage",
+      );
+
+      cy.get(".load-more-button").click();
+      cy.wait("@searchLastPage");
+
+      cy.get(".load-more-button").should("not.be.visible");
     });
 
     it("검색 결과가 없을 때 안내 메시지가 렌더링된다", () => {

@@ -38,6 +38,8 @@ export const MovieRenderer = {
   },
   renderLoadMoreSearchMovies(movies: Movie[]) {
     const movieList = document.querySelector(".thumbnail-list");
+    const haveRestPage = movies.length === ONCE_MOVIE_LIMIT;
+    if (haveRestPage) Renderer.showLoadMoreButton();
     if (movieList) {
       Renderer.clearSkeleton(movieList);
       Renderer.renderSearchMovies(movies);

@@ -70,6 +70,7 @@ async function loadSearchMovies(query: string) {
 
 async function loadMoreSearchMovies(query: string) {
   Renderer.renderSkeleton(".thumbnail-list", State.getRequestMovieCount());
+  Renderer.hideLoadMoreButton();
   try {
     const { results: movies, page } = await getSearchMovies(
       query,
