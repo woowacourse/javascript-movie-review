@@ -1,8 +1,13 @@
 import { OPTIONS } from "../constants/api";
 import { API_COMMON_URL } from "../constants/api";
 
+function validateToken() {
+  if (OPTIONS.headers.Authorization === "Bearer undefined") throw new Error("토큰 인증 오류가 발생했습니다. 토큰을 확인해주세요.");
+}
+
 export async function fetchFromApi<T>(url: string): Promise<ApiResult<T>> {
   try {
+    validateToken();
     const response: Response = await fetch(
       `${API_COMMON_URL}${url}`,
       OPTIONS,
