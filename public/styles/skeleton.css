@@ -7,6 +7,7 @@
   min-height: 800px;
 }
 .container section .skeleton-list {
+  pointer-events: none;
   position: absolute;
   top: 54.4px;
   left: 0;
