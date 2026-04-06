@@ -1,15 +1,17 @@
-import { Header } from "../UI/Header";
+import Header from "../UI/Header";
 import MovieList from "../UI/MovieList";
 import { Movie, MovieResponse } from "../../../types/types";
 
+const header = new Header();
+
 export function handleHeaderSearch(): void {
-  Header.clearHeader();
-  Header.renderSearch();
+  header.clearHeader();
+  header.renderSearch();
 }
 
 export function handleHeader(movie: Movie): void {
-  Header.clearHeader();
-  Header.render(movie);
+  header.clearHeader();
+  header.render(movie);
 }
 
 export function handleMovieList(

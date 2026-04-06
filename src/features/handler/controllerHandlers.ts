@@ -12,7 +12,7 @@ import {
   handleSearchMovie,
 } from "./dataHandlers";
 
-export async function initialRender(
+export async function loadInitialMovies(
   movieList: MovieList,
   page: number,
   moreButton: HTMLButtonElement,
@@ -27,7 +27,7 @@ export async function initialRender(
   handleMoreButton(moreButton, data.total_pages, page);
 }
 
-export async function searchRender(
+export async function loadSearchMovies(
   movieList: MovieList,
   page: number,
   searchMovie: string,
@@ -53,7 +53,7 @@ export async function searchRender(
   handleMoreButton(moreButton, data.total_pages, page);
 }
 
-export async function moreRender(
+export async function loadMoreMovies(
   movieList: MovieList,
   page: number,
   searchMovie: string,
