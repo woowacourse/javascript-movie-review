@@ -74,7 +74,11 @@ addEventListener("load", async () => {
   (async () => {
     const topRatedMovies = await getTopRatedMovie();
 
-    renderTopRatedMovie(topRatedMovies);
+    const topRatedMovie = topRatedMovies.results[0];
+
+    if(!topRatedMovie) return null;
+
+    renderTopRatedMovie(topRatedMovie);
   })();
 
   (async () => {
