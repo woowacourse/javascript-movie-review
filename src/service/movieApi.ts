@@ -1,5 +1,4 @@
-import { State } from "../main";
-import { Movie } from "../view/movieListView";
+import { Movie } from "../types";
 
 export const fetchDefaultMovieList = async (
   pageNum: number,
