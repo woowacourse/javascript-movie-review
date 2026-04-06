@@ -1,4 +1,4 @@
-import { createDetailButton } from "./detail-button";
+import { createButton } from "./button";
 import starIconSrc from "../images/star_empty.png";
 
 interface HeroOptions {
@@ -14,8 +14,8 @@ export function createHero({
   title,
   onDetailClick,
 }: HeroOptions): HTMLElement {
-  const section = document.createElement("section");
-  section.className = "hero";
+  const hero = document.createElement("div");
+  hero.className = "hero";
 
   const backgroundContainer = document.createElement("div");
   backgroundContainer.className = "background-container";
@@ -48,12 +48,12 @@ export function createHero({
   titleDiv.className = "title";
   titleDiv.textContent = title;
 
-  const detailButton = createDetailButton(onDetailClick);
+  const detailButton = createButton("detail", "자세히 보기", onDetailClick);
 
   topRatedMovie.append(rateDiv, titleDiv, detailButton);
   topRatedContainer.appendChild(topRatedMovie);
   backgroundContainer.append(overlay, topRatedContainer);
-  section.appendChild(backgroundContainer);
+  hero.appendChild(backgroundContainer);
 
-  return section;
+  return hero;
 }

@@ -6,16 +6,8 @@ interface Movie {
   rating: number;
 }
 
-interface MovieListOptions {
-  sectionTitle: string;
-  movies: Movie[];
-}
-
-export function createMovieList({ sectionTitle, movies }: MovieListOptions): HTMLElement {
+export function createMovieList(movies: Movie[]): HTMLElement {
   const section = document.createElement("section");
-
-  const h2 = document.createElement("h2");
-  h2.textContent = sectionTitle;
 
   const ul = document.createElement("ul");
   ul.className = "thumbnail-list";
@@ -25,6 +17,6 @@ export function createMovieList({ sectionTitle, movies }: MovieListOptions): HTM
     ul.appendChild(card);
   });
 
-  section.append(h2, ul);
+  section.append(ul);
   return section;
 }

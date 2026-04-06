@@ -1,7 +1,7 @@
 import { createSearchForm } from "./components/search-form";
 import { createHero } from "./components/hero";
 import { createMovieList } from "./components/movie-list";
-import { createMoreButton } from "./components/more-button";
+import { createButton } from "./components/button";
 
 const dummyMovies = Array.from({ length: 20 }, (_, i) => ({
   title: `영화 ${i + 1}`,
@@ -11,14 +11,14 @@ const dummyMovies = Array.from({ length: 20 }, (_, i) => ({
 }));
 
 addEventListener("load", () => {
-  const app = document.querySelector("#app");
-  if (!app) return;
+  const headerEl = document.querySelector("header");
+  const heroEl = document.querySelector("#hero");
+  const mainEl = document.querySelector("#main");
 
-  app.innerHTML = "";
+  if (!headerEl || !heroEl || !mainEl) return;
 
-  const header = document.createElement("header");
   const searchForm = createSearchForm();
-  header.append(searchForm);
+  headerEl.appendChild(searchForm);
 
   const hero = createHero({
     backgroundImageUrl:
@@ -29,16 +29,9 @@ addEventListener("load", () => {
       console.log("자세히 보기 클릭");
     },
   });
+  heroEl.appendChild(hero);
 
-  const main = document.createElement("main");
-  const movieList = createMovieList({
-    sectionTitle: "지금 인기 있는 영화",
-    movies: dummyMovies,
-  });
-  const moreButton = createMoreButton(() => {
-    console.log("더 보기 클릭");
-  });
-  main.append(movieList, moreButton);
-
-  app.append(header, hero, main);
+  const movieList = createMovieList(dummyMovies);
+  const moreButton = createButton("more", "더 보기", () => {});
+  mainEl.append(movieList, moreButton);
 });
