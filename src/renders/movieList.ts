@@ -61,7 +61,7 @@ export const renderNoResult = () => {
   if (!noResult) return;
   const empty = /* html */ `
   <p class="message-box">
-    <img src="./public/images/mascot.png" alt="" />
+    <img src="/images/mascot.png" alt="" />
     <span>검색 결과가 없습니다.</span>
   </p>`;
   noResult.innerHTML = empty;
