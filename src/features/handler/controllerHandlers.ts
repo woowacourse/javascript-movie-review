@@ -1,5 +1,7 @@
 import MovieList from "../UI/MovieList";
 import { MovieResponse } from "../../../types/types";
+import { fetchMoviesApi } from "../api/fetchMoviesApi";
+import { POPULAR_PATH, SEARCH_PATH } from "../../constants/constant";
 import {
   handleHeader,
   handleHeaderSearch,
@@ -7,23 +9,23 @@ import {
   handleMoreButton,
   handleMovieList,
 } from "./renderHandlers";
-import {
-  handleMoreMovie,
-  handleMovie,
-  handleSearchMovie,
-} from "./dataHandlers";
 
 export async function loadInitialMovies(
   movieList: MovieList,
   page: number,
   moreButton: HTMLButtonElement,
 ): Promise<void> {
-  handleMainTitle("지금 인기 있는 영화");
+  try {
+    handleMainTitle("지금 인기 있는 영화");
+    movieList.renderSkeleton();
 
-  const data: MovieResponse = await handleMovie(page, movieList);
-  handleHeader(data.results[0]);
-  handleMovieList(movieList, data);
-  handleMoreButton(moreButton, data.total_pages, page);
+    const data: MovieResponse = await fetchMoviesApi(POPULAR_PATH, page);
+    handleHeader(data.results[0]);
+    handleMovieList(movieList, data);
+    handleMoreButton(moreButton, data.total_pages, page);
+  } catch (error) {
+    alert(error instanceof Error ? error.message : "알 수 없는 오류가 발생했습니다.");
+  }
 }
 
 export async function loadSearchMovies(
@@ -32,22 +34,27 @@ export async function loadSearchMovies(
   searchMovie: string,
   moreButton: HTMLButtonElement,
 ): Promise<void> {
-  handleMainTitle(`"${searchMovie}" 검색 결과`);
+  try {
+    handleMainTitle(`"${searchMovie}" 검색 결과`);
+    movieList.renderSkeleton();
 
-  const data: MovieResponse = await handleSearchMovie(
-    page,
-    searchMovie,
-    movieList,
-  );
-  handleHeaderSearch();
+    const data: MovieResponse = await fetchMoviesApi(
+      SEARCH_PATH,
+      page,
+      searchMovie,
+    );
+    handleHeaderSearch();
 
-  if (data.results.length === 0) {
-    movieList.showEmpty();
-  } else {
-    handleMovieList(movieList, data);
+    if (data.results.length === 0) {
+      movieList.showEmpty();
+    } else {
+      handleMovieList(movieList, data);
+    }
+
+    handleMoreButton(moreButton, data.total_pages, page);
+  } catch (error) {
+    alert(error instanceof Error ? error.message : "알 수 없는 오류가 발생했습니다.");
   }
-
-  handleMoreButton(moreButton, data.total_pages, page);
 }
 
 export async function loadMoreMovies(
@@ -56,8 +63,15 @@ export async function loadMoreMovies(
   searchMovie: string,
   moreButton: HTMLButtonElement,
 ): Promise<void> {
-  const data: MovieResponse = await handleMoreMovie(page, searchMovie);
+  try {
+    const data: MovieResponse =
+      searchMovie === ""
+        ? await fetchMoviesApi(POPULAR_PATH, page)
+        : await fetchMoviesApi(SEARCH_PATH, page, searchMovie);
 
-  movieList.renderMovieList(data);
-  handleMoreButton(moreButton, data.total_pages, page);
+    movieList.renderMovieList(data);
+    handleMoreButton(moreButton, data.total_pages, page);
+  } catch (error) {
+    alert(error instanceof Error ? error.message : "알 수 없는 오류가 발생했습니다.");
+  }
 }

@@ -1,4 +1,3 @@
-import { Movie } from "../../../types/types";
 import { API_KEY, BASE_URL } from "../../constants/constant";
 
 export async function fetchMoviesApi(
@@ -9,13 +8,22 @@ export async function fetchMoviesApi(
   const queryUrl: string =
     params === "" ? "" : `&query=${encodeURIComponent(params)}`;
 
-  const response = await fetch(
-    `${BASE_URL}/${path}?api_key=${API_KEY}${queryUrl}&language=ko-KR&page=${page}`,
-  );
-  if (!response.ok) {
-    throw new Error(`API 요청 실패: ${response.status}`);
-  }
-  const data: { results: Movie[]; total_pages: number } = await response.json();
+  try {
+    const response = await fetch(
+      `${BASE_URL}/${path}?api_key=${API_KEY}${queryUrl}&language=ko-KR&page=${page}`,
+    );
+    if (!response.ok) {
+      throw new Error(`${response.status} 영화 정보를 불러오지 못했습니다.`);
+    }
+    return await response.json();
+  } catch (error) {
+    if (error instanceof TypeError) {
+      throw new Error("네트워크 연결을 확인해주세요.");
+    }
+    if (error instanceof Error) {
+      throw error;
+    }
 
-  return data;
+    throw new Error("알 수 없는 오류가 발생했습니다.");
+  }
 }
