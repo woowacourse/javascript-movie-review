@@ -9,7 +9,7 @@ class PageState {
     return this.#page;
   }
 
-  increamentPage() {
+  incrementPage() {
     this.#page += 1;
   }
 

@@ -32,7 +32,7 @@ describe("오류 대응 테스트", () => {
     cy.focused().should("have.id", "search-input");
   });
 
-  it("정상적인 페이지 범위를 벗어난 페이지를 요청했을 때 alter 경고 메시지가 뜬다.", () => {
+  it("정상적인 페이지 범위를 벗어난 페이지를 요청했을 때 alert 경고 메시지가 뜬다.", () => {
     const alertSpy = cy.stub();
     cy.on("window:alert", alertSpy);
 

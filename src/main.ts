@@ -97,7 +97,7 @@ addEventListener("load", async () => {
 
   const moreButton = document.querySelector("#more-button");
   moreButton?.addEventListener("click", () => {
-    pageState.increamentPage();
+    pageState.incrementPage();
     const isSearchParams = hasSearchParams("search");
 
     if (isSearchParams) {
