@@ -3,6 +3,7 @@ import { bindMovieEvents } from "./events/bindMovieEvent.ts";
 import { State } from "./types.ts";
 import { loadMovies } from "./service/loadMovies.ts";
 import { createMovieController } from "./controller/movieController.ts";
+import { showErrorText } from "./view/textView.ts";
 
 const state: State = {
   pageNum: 1,
@@ -14,15 +15,12 @@ addEventListener("load", async () => {
   const movieController = createMovieController(state);
 
   try {
-    await loadMovies({ state, reset: false });
-    showBackgroundMovieInfo(state.movieList[0]);
-
+    movieController.initPage();
+  } finally {
     bindMovieEvents({
       onMore: movieController.loadMoreMovies,
       onSearch: movieController.searchMovies,
       onClick: movieController.clickMovie,
     });
-  } catch (error) {
-    console.log(error);
   }
 });
