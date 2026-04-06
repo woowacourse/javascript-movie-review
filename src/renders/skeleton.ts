@@ -17,14 +17,21 @@ export const renderSkeleton = () => {
   }
 };
 
-export const removeSkeleton = () => {
+export const removeSkeleton = (start: number) => {
   const skeleton = document.querySelector<HTMLDivElement>("#skeleton");
   if (!skeleton) return;
+  const MIN_SKELETON_TIME = 600;
 
-  const TIME = 600;
+  const elapsed = Date.now() - start;
+  const remaining = MIN_SKELETON_TIME - elapsed;
 
-  setTimeout(() => {
+  if(remaining > 0){
+    setTimeout(() => {
+      skeleton.classList.remove("animation");
+      skeleton.replaceChildren();
+    }, remaining);
+  } else {
     skeleton.classList.remove("animation");
     skeleton.replaceChildren();
-  }, TIME);
+  }
 };

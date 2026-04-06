@@ -94,7 +94,7 @@ addEventListener("load", async () => {
     );
 
     if (movies) renderMovieList(movies);
-    removeSkeleton();
+    removeSkeleton(Date.now());
   })();
 
   const moreButton = document.querySelector("#more-button");
