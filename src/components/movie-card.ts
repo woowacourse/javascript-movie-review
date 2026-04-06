@@ -1,5 +1,6 @@
 import starIconSrc from "../images/star_empty.png";
 import { PopularMovie } from "../types/api";
+import { IMAGE_BASE_URL } from "../utils/constants";
 
 export function createMovieCard({
   title,
@@ -13,7 +14,7 @@ export function createMovieCard({
 
   const thumbnail = document.createElement("img");
   thumbnail.className = "thumbnail";
-  thumbnail.src = `https://image.tmdb.org/t/p/w500${posterImg}`;
+  thumbnail.src = `${IMAGE_BASE_URL}/w500${posterImg}`;
   thumbnail.alt = title;
 
   const itemDesc = document.createElement("div");
