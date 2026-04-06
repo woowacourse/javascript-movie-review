@@ -6,30 +6,40 @@ import { fetchSearchMovies } from '../api/fetchApi.ts';
 import { ResponseMovie } from '../api/types.ts';
 import TMDBError from '../api/TMDBError.ts';
 import { dispatchRouteChange } from '../utils/event.ts';
+
 export default class SearchPage {
-  #$target: Element;
+  #$fragment: DocumentFragment;
   #page: number = 1;
   #main: Main;
 
-  constructor($target: Element) {
-    this.#$target = $target;
-    this.#main = new Main('');
-  }
-
-  getQuery(): string {
-    const [, queryString = ''] = window.location.hash.split('?');
-    const urlParams = new URLSearchParams(queryString);
-    const query = urlParams.get('query');
-    return query ?? '';
-  }
-
-  async init() {
+  constructor() {
+    this.#$fragment = document.createDocumentFragment();
+    const query = this.#getQuery();
     const header = new Header(this.#onSubmit);
-    this.#main = new Main(`"${this.getQuery()}" 검색 결과`);
+    this.#main = new Main(`"${query}" 검색 결과`);
     const footer = new Footer();
 
-    this.#$target.append(header.$element, this.#main.$element, footer.$element);
-    await this.#appendMovies();
+    this.#$fragment.append(header.$element, this.#main.$element, footer.$element);
+
+    this.#initialFetch();
+  }
+
+  get $element() {
+    return this.#$fragment;
+  }
+
+  #getQuery(): string {
+    const [, queryString = ''] = window.location.hash.split('?');
+    const urlParams = new URLSearchParams(queryString);
+    return urlParams.get('query') ?? '';
+  }
+
+  async #initialFetch() {
+    try {
+      await this.#appendMovies();
+    } catch (error) {
+      console.error('Search fetch failed:', error);
+    }
   }
 
   async #loadMore() {
@@ -42,28 +52,40 @@ export default class SearchPage {
     this.#main.renderSkeletons();
 
     try {
-      const response = await fetchSearchMovies(this.getQuery(), this.#page);
+      const response = await fetchSearchMovies(this.#getQuery(), this.#page);
+
       if (response.results.length === 0) {
         this.#main.renderNothing();
         return response;
       }
 
       this.#main.renderMovies(response.results);
+
       if (this.#page < response.total_pages) {
         this.#main.renderMoreButton(() => this.#loadMore());
       }
 
       return response;
     } catch (error) {
-      if (error instanceof TMDBError) {
-        this.#main.renderError('TMDB에러입니다\n' + error.message);
-        throw error;
-      }
-      this.#main.renderError(('알수없는 에러입니다\n' + (error as Error).message) as string);
+      this.#handleError(error);
       throw error;
     } finally {
       this.#main.removeSkeletons();
     }
+  }
+
+  #handleError(error: unknown) {
+    if (error instanceof TMDBError) {
+      this.#main.renderError(`TMDB 에러: ${error.message}`);
+      return;
+    }
+
+    if (error instanceof Error) {
+      this.#main.renderError(`시스템 에러: ${error.message}`);
+      return;
+    }
+
+    this.#main.renderError('알 수 없는 에러가 발생했습니다.');
   }
 
   #onSubmit = (query: string): void => {

@@ -8,24 +8,35 @@ import TMDBError from '../api/TMDBError.ts';
 import { dispatchRouteChange } from '../utils/event.ts';
 
 export default class HomePage {
-  #$target: Element;
+  #$fragment: DocumentFragment;
   #page: number = 1;
+  #header: Header;
   #main: Main;
+  #footer: Footer;
 
-  constructor($target: Element) {
-    this.#$target = $target;
-    this.#main = new Main('');
+  constructor() {
+    this.#$fragment = document.createDocumentFragment();
+
+    this.#header = new Header(this.#onSubmit);
+    this.#main = new Main('지금 인기있는 영화');
+    this.#footer = new Footer();
+
+    this.#$fragment.append(this.#header.$element, this.#main.$element, this.#footer.$element);
+
+    this.#initialFetch();
   }
 
-  async init() {
-    const header = new Header(this.#onSubmit);
-    this.#main = new Main('지금 인기있는 영화');
-    const footer = new Footer();
+  get $element() {
+    return this.#$fragment;
+  }
 
-    this.#$target.append(header.$element, this.#main.$element, footer.$element);
-
-    const response = await this.#appendMovies();
-    header.render(response.results[0]);
+  async #initialFetch() {
+    try {
+      const response = await this.#appendMovies();
+      this.#header.render(response.results[0]);
+    } catch (error) {
+      this.#handleError(error);
+    }
   }
 
   async #loadMore() {
@@ -45,15 +56,25 @@ export default class HomePage {
       }
       return response;
     } catch (error) {
-      if (error instanceof TMDBError) {
-        this.#main.renderError('TMDB에러입니다 ' + error.message);
-        throw error;
-      }
-      this.#main.renderError(('알수없는 에러입니다\n' + (error as Error).message) as string);
+      this.#handleError(error);
       throw error;
     } finally {
       this.#main.removeSkeletons();
     }
+  }
+
+  #handleError(error: unknown) {
+    if (error instanceof TMDBError) {
+      this.#main.renderError(`TMDB 에러: ${error.message}`);
+      return;
+    }
+
+    if (error instanceof Error) {
+      this.#main.renderError(`시스템 에러: ${error.message}`);
+      return;
+    }
+
+    this.#main.renderError('알 수 없는 에러가 발생했습니다.');
   }
 
   #onSubmit = (query: string): void => {

@@ -85,7 +85,7 @@ describe('영화 리뷰 앱 E2E 테스트', () => {
       cy.visit('http://localhost:5175/');
       cy.wait('@getApiError');
       cy.get('.nothing').should('be.visible');
-      cy.get('.nothing p').should('contain', 'TMDB에러입니다');
+      cy.get('.nothing p').should('contain', 'TMDB');
     });
   });
 });

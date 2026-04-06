@@ -18,7 +18,8 @@ const router = () => {
   const match = routes.find((route) => route.path === path);
 
   const View = match ? match.view : HomePage;
-  new View($app).init();
+  const page = new View();
+  $app.replaceChildren(page.$element);
 };
 
 const navigateTo = (url: string) => {
