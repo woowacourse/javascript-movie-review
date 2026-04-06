@@ -35,3 +35,15 @@ export function handleMoreButton(
 ): void {
   moreButton.style.display = totalPages === page ? "none" : "block";
 }
+
+export function handleSkeleton(movieList: MovieList) {
+  movieList.renderSkeleton();
+}
+
+export function handleEmptyMovie(movieList: MovieList) {
+  movieList.showEmpty();
+}
+
+export function handleMoreMovie(movieList: MovieList, data: MovieResponse) {
+  movieList.renderMovieList(data);
+}

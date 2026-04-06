@@ -8,6 +8,9 @@ import {
   handleMainTitle,
   handleMoreButton,
   handleMovieList,
+  handleSkeleton,
+  handleEmptyMovie,
+  handleMoreMovie,
 } from "./renderHandlers";
 
 export async function loadInitialMovies(
@@ -17,14 +20,18 @@ export async function loadInitialMovies(
 ): Promise<void> {
   try {
     handleMainTitle("지금 인기 있는 영화");
-    movieList.renderSkeleton();
+    handleSkeleton(movieList);
 
     const data: MovieResponse = await fetchMoviesApi(POPULAR_PATH, page);
     handleHeader(data.results[0]);
     handleMovieList(movieList, data);
     handleMoreButton(moreButton, data.total_pages, page);
   } catch (error) {
-    alert(error instanceof Error ? error.message : "알 수 없는 오류가 발생했습니다.");
+    alert(
+      error instanceof Error
+        ? error.message
+        : "알 수 없는 오류가 발생했습니다.",
+    );
   }
 }
 
@@ -36,7 +43,7 @@ export async function loadSearchMovies(
 ): Promise<void> {
   try {
     handleMainTitle(`"${searchMovie}" 검색 결과`);
-    movieList.renderSkeleton();
+    handleSkeleton(movieList);
 
     const data: MovieResponse = await fetchMoviesApi(
       SEARCH_PATH,
@@ -46,14 +53,18 @@ export async function loadSearchMovies(
     handleHeaderSearch();
 
     if (data.results.length === 0) {
-      movieList.showEmpty();
+      handleEmptyMovie(movieList);
     } else {
       handleMovieList(movieList, data);
     }
 
     handleMoreButton(moreButton, data.total_pages, page);
   } catch (error) {
-    alert(error instanceof Error ? error.message : "알 수 없는 오류가 발생했습니다.");
+    alert(
+      error instanceof Error
+        ? error.message
+        : "알 수 없는 오류가 발생했습니다.",
+    );
   }
 }
 
@@ -68,10 +79,13 @@ export async function loadMoreMovies(
       searchMovie === ""
         ? await fetchMoviesApi(POPULAR_PATH, page)
         : await fetchMoviesApi(SEARCH_PATH, page, searchMovie);
-
-    movieList.renderMovieList(data);
+    handleMoreMovie(movieList, data);
     handleMoreButton(moreButton, data.total_pages, page);
   } catch (error) {
-    alert(error instanceof Error ? error.message : "알 수 없는 오류가 발생했습니다.");
+    alert(
+      error instanceof Error
+        ? error.message
+        : "알 수 없는 오류가 발생했습니다.",
+    );
   }
 }
