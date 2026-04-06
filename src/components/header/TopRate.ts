@@ -1,4 +1,4 @@
-import { MovieData } from '../../api/type.ts';
+import { MovieData } from '../../api/types.ts';
 import { $ } from '../../utils/dom.ts';
 import { Star } from '../common/Star.ts';
 

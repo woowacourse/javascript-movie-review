@@ -3,9 +3,9 @@ import Main from '../components/main/Main.ts';
 import Footer from '../components/footer/Footer.ts';
 
 import { fetchSearchMovies } from '../api/fetchApi.ts';
-import { ResponseMovie } from '../api/type.ts';
+import { ResponseMovie } from '../api/types.ts';
+import TMDBError from '../api/TMDBError.ts';
 import { navigateTo } from '../main.ts';
-
 export default class SearchPage {
   #$target: Element;
   #page: number = 1;
@@ -55,7 +55,11 @@ export default class SearchPage {
 
       return response;
     } catch (error) {
-      this.#main.renderError();
+      if (error instanceof TMDBError) {
+        this.#main.renderError(error.message);
+        throw error;
+      }
+      this.#main.renderError((error as Error).message as string);
       throw error;
     } finally {
       this.#main.removeSkeletons();

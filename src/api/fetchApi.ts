@@ -1,5 +1,7 @@
 import { URL, PATH } from './constant.ts';
-import { ResponseMovie, Request } from './type.ts';
+import TMDBError from './TMDBError.ts';
+import { ResponseMovie, Request, TmdbErrorType } from './types.ts';
+
 const API_KEY = import.meta.env.VITE_API_KEY;
 const options = {
   method: 'GET',
@@ -13,18 +15,18 @@ const fetchAPI = async (req: Request): Promise<ResponseMovie> => {
   const url = URL.BASE + req.path;
 
   const { query, page } = req.params;
-  const params = new URLSearchParams({ language: 'en-US', page: String(page) });
+  const params = new URLSearchParams({ language: 'ko-KR', page: String(page), region: 'kr' });
   if (query) params.set('query', query);
 
   const resultUrl = url + '?' + params.toString();
 
   const response = await fetch(resultUrl, options);
+  const data = await response.json();
 
   if (!response.ok) {
-    throw new Error('영화 데이터를 불러오는 데 실패했습니다.');
+    throw new TMDBError(data as TmdbErrorType);
   }
 
-  const data = (await response.json()) as ResponseMovie;
   return data;
 };
 

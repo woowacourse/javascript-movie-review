@@ -22,3 +22,9 @@ export type Request = {
   path: string;
   params: Params;
 };
+
+export interface TmdbErrorType {
+  status_code: number;
+  status_message: string;
+  success: false;
+}

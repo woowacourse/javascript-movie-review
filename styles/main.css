@@ -138,6 +138,7 @@ span.rate-value {
 }
 
 .footer {
+  bottom: 0;
   min-height: 180px;
   background-color: var(--color-bluegray-80);
   display: flex;

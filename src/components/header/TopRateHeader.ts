@@ -1,5 +1,5 @@
 import { getOriginalImageUrl } from '../../api/renderImage.ts';
-import { MovieData } from '../../api/type.ts';
+import { MovieData } from '../../api/types.ts';
 import { $ } from '../../utils/dom.ts';
 import { Logo } from './Logo.ts';
 import { Overlay } from './Overlay.ts';

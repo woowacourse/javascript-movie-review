@@ -1,7 +1,7 @@
 import { getThumbnailImageUrl } from '../../api/renderImage.ts';
 import { $ } from '../../utils/dom.ts';
 import { Star } from '../common/Star.ts';
-import { MovieData } from '../../api/type.ts';
+import { MovieData } from '../../api/types.ts';
 
 export const MovieItem = (data: MovieData) => {
   const { title, poster_path, vote_average } = data;

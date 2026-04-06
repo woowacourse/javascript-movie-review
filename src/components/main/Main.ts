@@ -1,4 +1,4 @@
-import { MovieData } from '../../api/type.ts';
+import { MovieData } from '../../api/types.ts';
 import { $ } from '../../utils/dom.ts';
 import { Error } from './Error.ts';
 import { MoreButton } from './MoreButton.ts';
@@ -58,10 +58,10 @@ export default class Main {
     this.#$moreButton = null;
   }
 
-  renderError() {
+  renderError(messsage: string) {
     const $element = $<HTMLElement>(this.#$element, 'section');
     $element.innerHTML = '';
-    $element.append(Error());
+    $element.append(Error(messsage));
   }
 
   renderNothing() {

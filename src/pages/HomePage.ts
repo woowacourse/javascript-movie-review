@@ -3,8 +3,9 @@ import Main from '../components/main/Main.ts';
 import Footer from '../components/footer/Footer.ts';
 
 import { fetchPopularMovies } from '../api/fetchApi.ts';
-import { ResponseMovie } from '../api/type.ts';
+import { ResponseMovie } from '../api/types.ts';
 import { navigateTo } from '../main.ts';
+import TMDBError from '../api/TMDBError.ts';
 
 export default class HomePage {
   #$target: Element;
@@ -44,7 +45,11 @@ export default class HomePage {
       }
       return response;
     } catch (error) {
-      this.#main.renderError();
+      if (error instanceof TMDBError) {
+        this.#main.renderError(error.message);
+        throw error;
+      }
+      this.#main.renderError((error as Error).message as string);
       throw error;
     } finally {
       this.#main.removeSkeletons();
