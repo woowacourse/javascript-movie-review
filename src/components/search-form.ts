@@ -1,4 +1,4 @@
-import searchIconSrc from "../../templates/images/search.png";
+import searchIconSrc from "../images/search.png";
 
 export function createSearchForm(): HTMLDivElement {
   const wrapper = document.createElement("div");

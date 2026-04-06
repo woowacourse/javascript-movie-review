@@ -1,5 +1,5 @@
 import { createDetailButton } from "./detail-button";
-import starIconSrc from "../../templates/images/star_empty.png";
+import starIconSrc from "../images/star_empty.png";
 
 interface HeroOptions {
   backgroundImageUrl: string;

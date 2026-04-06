@@ -1,12 +1,7 @@
-import logoSrc from "../templates/images/logo.png";
-import woowacourseLogoSrc from "../templates/images/woowacourse_logo.png";
-
-import { createLogo } from "./components/logo";
 import { createSearchForm } from "./components/search-form";
 import { createHero } from "./components/hero";
 import { createMovieList } from "./components/movie-list";
 import { createMoreButton } from "./components/more-button";
-import { createFooter } from "./components/footer";
 
 const dummyMovies = Array.from({ length: 20 }, (_, i) => ({
   title: `영화 ${i + 1}`,
@@ -22,9 +17,8 @@ addEventListener("load", () => {
   app.innerHTML = "";
 
   const header = document.createElement("header");
-  const logo = createLogo(logoSrc);
   const searchForm = createSearchForm();
-  header.append(logo, searchForm);
+  header.append(searchForm);
 
   const hero = createHero({
     backgroundImageUrl:
@@ -46,7 +40,5 @@ addEventListener("load", () => {
   });
   main.append(movieList, moreButton);
 
-  const footer = createFooter(woowacourseLogoSrc);
-
-  app.append(header, hero, main, footer);
+  app.append(header, hero, main);
 });

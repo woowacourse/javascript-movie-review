@@ -1,4 +1,4 @@
-import starIconSrc from "../../templates/images/star_empty.png";
+import starIconSrc from "../images/star_empty.png";
 
 interface MovieCardOptions {
   title: string;
@@ -6,7 +6,11 @@ interface MovieCardOptions {
   rating: number;
 }
 
-export function createMovieCard({ title, imageSrc, rating }: MovieCardOptions): HTMLLIElement {
+export function createMovieCard({
+  title,
+  imageSrc,
+  rating,
+}: MovieCardOptions): HTMLLIElement {
   const li = document.createElement("li");
 
   const item = document.createElement("div");
