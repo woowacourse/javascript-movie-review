@@ -1,5 +1,6 @@
 import HomePage from './pages/HomePage.ts';
 import SearchPage from './pages/SearchPage.ts';
+import { ROUTE_CHANGE_EVENT } from './utils/event.ts';
 
 const routes = [
   { path: '/', view: HomePage },
@@ -17,10 +18,16 @@ const router = () => {
   new View($app).init();
 };
 
-export const navigateTo = (url: string) => {
+const navigateTo = (url: string) => {
   history.pushState(null, '', url);
   router();
 };
+
+window.addEventListener(ROUTE_CHANGE_EVENT, (e: Event) => {
+  const customEvent = e as CustomEvent<{ url: string }>;
+  const { url } = customEvent.detail;
+  navigateTo(url);
+});
 
 addEventListener('load', () => {
   window.addEventListener('popstate', router);

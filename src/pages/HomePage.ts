@@ -4,8 +4,8 @@ import Footer from '../components/footer/Footer.ts';
 
 import { fetchPopularMovies } from '../api/fetchApi.ts';
 import { ResponseMovie } from '../api/types.ts';
-import { navigateTo } from '../main.ts';
 import TMDBError from '../api/TMDBError.ts';
+import { dispatchRouteChange } from '../utils/event.ts';
 
 export default class HomePage {
   #$target: Element;
@@ -56,7 +56,9 @@ export default class HomePage {
     }
   }
 
-  #onSubmit(query: string): void {
-    navigateTo(`/search?query=${encodeURIComponent(query)}`);
-  }
+  #onSubmit = (query: string): void => {
+    if (query.trim()) {
+      dispatchRouteChange(`/search?query=${encodeURIComponent(query)}`);
+    }
+  };
 }
