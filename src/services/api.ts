@@ -45,8 +45,8 @@ export const getMoviePopular = async ({
 }: {
   page: number;
 }): Promise<Movies> => {
-  const url = `/movie/popular?page=${page}`;
-  const data = await requestAjax(url);
+  const url = `/movie/popular`;
+  const data = await requestAjax(url, { query : { page } });
 
   return {
     ...data,
@@ -71,8 +71,8 @@ export const getSearchMovie = async ({
   page: number;
   query: string;
 }): Promise<Movies> => {
-  const url = `/search/movie?page=${page}&query=${query}`;
-  const data = await requestAjax(url);
+  const url = `/search/movie`;
+  const data = await requestAjax(url, { query: { page, query } });
 
   return {
     ...data,
