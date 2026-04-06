@@ -1,16 +1,11 @@
 import starIconSrc from "../images/star_empty.png";
-
-interface MovieCardOptions {
-  title: string;
-  imageSrc: string;
-  rating: number;
-}
+import { PopularMovie } from "../types/api";
 
 export function createMovieCard({
   title,
-  imageSrc,
-  rating,
-}: MovieCardOptions): HTMLLIElement {
+  poster_path: posterImg,
+  vote_average: rating,
+}: PopularMovie): HTMLLIElement {
   const li = document.createElement("li");
 
   const item = document.createElement("div");
@@ -18,7 +13,7 @@ export function createMovieCard({
 
   const thumbnail = document.createElement("img");
   thumbnail.className = "thumbnail";
-  thumbnail.src = imageSrc;
+  thumbnail.src = `https://image.tmdb.org/t/p/w500${posterImg}`;
   thumbnail.alt = title;
 
   const itemDesc = document.createElement("div");
@@ -32,7 +27,7 @@ export function createMovieCard({
   starImg.className = "star";
 
   const rateSpan = document.createElement("span");
-  rateSpan.textContent = String(rating);
+  rateSpan.textContent = String(rating.toFixed(1));
 
   rateP.append(starImg, rateSpan);
 

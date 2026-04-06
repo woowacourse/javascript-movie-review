@@ -2,6 +2,8 @@ import { createSearchForm } from "./components/search-form";
 import { createHero } from "./components/hero";
 import { createMovieList } from "./components/movie-list";
 import { createButton } from "./components/button";
+import { apiRequest } from "./utils/api";
+import { PopularMovieResponse } from "./types/api";
 
 const dummyMovies = Array.from({ length: 20 }, (_, i) => ({
   title: `영화 ${i + 1}`,
@@ -10,7 +12,7 @@ const dummyMovies = Array.from({ length: 20 }, (_, i) => ({
   rating: 7.7,
 }));
 
-addEventListener("load", () => {
+addEventListener("load", async () => {
   const headerEl = document.querySelector("header");
   const heroEl = document.querySelector("#hero");
   const mainEl = document.querySelector("#main");
@@ -31,7 +33,14 @@ addEventListener("load", () => {
   });
   heroEl.appendChild(hero);
 
-  const movieList = createMovieList(dummyMovies);
+  const data = await apiRequest<PopularMovieResponse>({
+    url: "/movie/popular?language=en-US&page=1",
+    method: "GET",
+  });
+
+  console.log("data", data);
+
+  const movieList = createMovieList(data.results);
   const moreButton = createButton("more", "더 보기", () => {});
   mainEl.append(movieList, moreButton);
 });
