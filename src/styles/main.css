@@ -213,10 +213,12 @@ footer.footer p:not(:last-child) {
 .notice-box {
   display: flex;
   flex-direction: column;
-  gap: 40px;
-  padding-block: 120px;
   align-items: center;
+  gap: 50px;
   justify-content: center;
+  width: 100%;
+  padding-block: 120px;
+  grid-column: 1 / -1;
 }
 
 .notice-text {

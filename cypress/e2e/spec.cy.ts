@@ -213,5 +213,26 @@ describe("영화 리뷰 앱", () => {
         "영화 정보를 불러오는 데 실패했습니다.",
       );
     });
+
+    it("API 실패 이후 검색 시 검색 결과가 렌더링된다", () => {
+      cy.intercept("GET", "**/movie/popular*", {
+        statusCode: 500,
+      }).as("getPopularMoviesError");
+
+      cy.visit("/");
+      cy.wait("@getPopularMoviesError");
+      cy.get(".notice-text").should("exist");
+
+      cy.intercept("GET", "**/search/movie*", createMoviesResponse(5)).as(
+        "searchMovies",
+      );
+
+      cy.get(".search-form input").type("액션");
+      cy.get(".search-form").submit();
+      cy.wait("@searchMovies");
+
+      cy.get(".thumbnail-list li").should("have.length", 5);
+      cy.get("section > h2").should("contain.text", "액션");
+    });
   });
 });

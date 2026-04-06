@@ -20,9 +20,9 @@ async function loadInitialMovie() {
       if (loadMoreButton)
         loadMoreButton.addEventListener("click", loadMoreMovies);
     } catch (err) {
-      const main = document.querySelector("main");
-      if (main)
-        Renderer.renderError(main, "영화 정보를 불러오는 데 실패했습니다.");
+      const content = document.querySelector(".thumbnail-list");
+      if (content)
+        Renderer.renderError(content, "영화 정보를 불러오는 데 실패했습니다.");
     }
   }
 }
@@ -37,9 +37,9 @@ async function loadMoreMovies() {
     State.setNextPageNum(page + 1);
     MovieRenderer.renderLoadMoreMovies(movies);
   } catch (err) {
-    const section = document.querySelector("section");
-    if (section)
-      Renderer.renderError(section, "영화 정보를 불러오는 데 실패했습니다.");
+    const content = document.querySelector(".thumbnail-list");
+    if (content)
+      Renderer.renderError(content, "영화 정보를 불러오는 데 실패했습니다.");
     Renderer.clearBanner();
   }
 }
@@ -62,9 +62,9 @@ async function loadSearchMovies(query: string) {
       );
     }
   } catch (err) {
-    const main = document.querySelector("main");
-    if (main)
-      Renderer.renderError(main, "영화 정보를 불러오는 데 실패했습니다.");
+    const content = document.querySelector(".thumbnail-list");
+    if (content)
+      Renderer.renderError(content, "영화 정보를 불러오는 데 실패했습니다.");
   }
 }
 
@@ -79,9 +79,9 @@ async function loadMoreSearchMovies(query: string) {
     State.setNextSearchPageNum(page + 1);
     MovieRenderer.renderLoadMoreSearchMovies(movies);
   } catch (err) {
-    const section = document.querySelector("section");
-    if (section)
-      Renderer.renderError(section, "영화 정보를 불러오는 데 실패했습니다.");
+    const content = document.querySelector(".thumbnail-list");
+    if (content)
+      Renderer.renderError(content, "영화 정보를 불러오는 데 실패했습니다.");
   }
 }
 
