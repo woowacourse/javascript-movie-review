@@ -17,7 +17,6 @@ export async function handleLoadMore() {
   const nextPage = movieModel.page + 1;
 
   try {
-    movieModel.increasePage();
     movieListView.renderSkeletonList(SKELETON_NUMBER);
 
     const response: ApiResult<MovieResponse> = await fetchCurrentModeData(nextPage);
@@ -26,6 +25,7 @@ export async function handleLoadMore() {
       console.log("에러 원인:", response.error);
       return;
     };
+
     movieModel.increasePage();
     if(isLastPage(response.data)) addButtonView.hideAddButton();
     movieListView.renderMovieList(response.data.results);
