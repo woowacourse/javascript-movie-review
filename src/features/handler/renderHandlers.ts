@@ -5,6 +5,7 @@ import { Movie, MovieResponse } from "../../../types/types";
 
 const header = new Header();
 const mainTitle = new MainTitle();
+const movieList = new MovieList();
 
 export function handleHeaderSearch(searchMovie: string): void {
   header.clearHeader();
@@ -20,10 +21,7 @@ export function handleMainTitle(title: string): void {
   mainTitle.render(title);
 }
 
-export function handleMovieList(
-  movieList: MovieList,
-  data: MovieResponse,
-): void {
+export function handleMovieList(data: MovieResponse): void {
   movieList.clearList();
   movieList.renderMovieList(data);
 }
@@ -36,14 +34,14 @@ export function handleMoreButton(
   moreButton.style.display = totalPages === page ? "none" : "block";
 }
 
-export function handleSkeleton(movieList: MovieList) {
+export function handleSkeleton(): void {
   movieList.renderSkeleton();
 }
 
-export function handleEmptyMovie(movieList: MovieList) {
+export function handleEmptyMovie(): void {
   movieList.showEmpty();
 }
 
-export function handleMoreMovie(movieList: MovieList, data: MovieResponse) {
+export function handleMoreMovie(data: MovieResponse): void {
   movieList.renderMovieList(data);
 }

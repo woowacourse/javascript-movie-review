@@ -1,4 +1,3 @@
-import MovieList from "./features/UI/MovieList";
 import {
   loadInitialMovies,
   loadMoreMovies,
@@ -7,7 +6,6 @@ import {
 
 let page: number = 1;
 let searchMovie: string = "";
-const movieList = new MovieList();
 
 const moreButton = document.querySelector(".btn-more") as HTMLButtonElement;
 const backgroundContainer = document.querySelector(
@@ -16,7 +14,7 @@ const backgroundContainer = document.querySelector(
 
 addEventListener("load", async () => {
   // 초기 렌더링
-  await loadInitialMovies(movieList, page, moreButton);
+  await loadInitialMovies(page, moreButton);
 });
 
 // 검색
@@ -31,12 +29,12 @@ backgroundContainer.addEventListener("submit", async (e: SubmitEvent) => {
 
   // 검색어가 없는 경우 초기 렌더링
   if (searchMovie === "") {
-    await loadInitialMovies(movieList, page, moreButton);
+    await loadInitialMovies(page, moreButton);
     return;
   }
 
   // 검색어가 있는 경우 검색 결과 렌더링
-  await loadSearchMovies(movieList, page, searchMovie, moreButton);
+  await loadSearchMovies(page, searchMovie, moreButton);
 });
 
 // 로고 클릭
@@ -50,11 +48,11 @@ backgroundContainer.addEventListener("click", async (e: MouseEvent) => {
 
   page = 1;
   searchMovie = "";
-  await loadInitialMovies(movieList, page, moreButton);
+  await loadInitialMovies(page, moreButton);
 });
 
 // 더보기 버튼
 moreButton.addEventListener("click", async () => {
   page += 1;
-  await loadMoreMovies(movieList, page, searchMovie, moreButton);
+  await loadMoreMovies(page, searchMovie, moreButton);
 });

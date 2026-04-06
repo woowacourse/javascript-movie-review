@@ -1,4 +1,3 @@
-import MovieList from "../UI/MovieList";
 import { MovieResponse } from "../../../types/types";
 import { fetchMoviesApi } from "../api/fetchMoviesApi";
 import { POPULAR_PATH, SEARCH_PATH } from "../../constants/constant";
@@ -14,17 +13,16 @@ import {
 } from "./renderHandlers";
 
 export async function loadInitialMovies(
-  movieList: MovieList,
   page: number,
   moreButton: HTMLButtonElement,
 ): Promise<void> {
   try {
     handleMainTitle("지금 인기 있는 영화");
-    handleSkeleton(movieList);
+    handleSkeleton();
 
     const data: MovieResponse = await fetchMoviesApi(POPULAR_PATH, page);
     handleHeader(data.results[0]);
-    handleMovieList(movieList, data);
+    handleMovieList(data);
     handleMoreButton(moreButton, data.total_pages, page);
   } catch (error) {
     alert(
@@ -36,14 +34,13 @@ export async function loadInitialMovies(
 }
 
 export async function loadSearchMovies(
-  movieList: MovieList,
   page: number,
   searchMovie: string,
   moreButton: HTMLButtonElement,
 ): Promise<void> {
   try {
     handleMainTitle(`"${searchMovie}" 검색 결과`);
-    handleSkeleton(movieList);
+    handleSkeleton();
 
     const data: MovieResponse = await fetchMoviesApi(
       SEARCH_PATH,
@@ -53,9 +50,9 @@ export async function loadSearchMovies(
     handleHeaderSearch(searchMovie);
 
     if (data.results.length === 0) {
-      handleEmptyMovie(movieList);
+      handleEmptyMovie();
     } else {
-      handleMovieList(movieList, data);
+      handleMovieList(data);
     }
 
     handleMoreButton(moreButton, data.total_pages, page);
@@ -69,7 +66,6 @@ export async function loadSearchMovies(
 }
 
 export async function loadMoreMovies(
-  movieList: MovieList,
   page: number,
   searchMovie: string,
   moreButton: HTMLButtonElement,
@@ -79,7 +75,7 @@ export async function loadMoreMovies(
       searchMovie === ""
         ? await fetchMoviesApi(POPULAR_PATH, page)
         : await fetchMoviesApi(SEARCH_PATH, page, searchMovie);
-    handleMoreMovie(movieList, data);
+    handleMoreMovie(data);
     handleMoreButton(moreButton, data.total_pages, page);
   } catch (error) {
     alert(
