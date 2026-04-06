@@ -12,14 +12,15 @@ export const renderSearchUI = async (keyword: string) => {
   const resultSection = document.getElementById("result-section");
   const subTitle = document.getElementById("sub-title");
   const thumbnailListElement = document.getElementById("search-thumbnail-list");
+  if (!searchInput || !banner || !subTitle || searchInput?.value.trim() === "")
+    return;
+
   searchInput.value = keyword;
 
   let isError = false;
   let isLastPage = true;
   let movies: Movie[] = [];
   let errorMessage = "";
-
-  if (!banner || !subTitle || searchInput?.value.trim() === "") return;
 
   try {
     const searchResult = await getSearchedMovies({
