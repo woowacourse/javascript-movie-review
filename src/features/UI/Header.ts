@@ -36,11 +36,13 @@ export default class Header {
     this.backgroundContainer.style.removeProperty("height");
   }
 
-  renderSearch(): void {
-    this.backgroundContainer.innerHTML = /*html*/ `${this.renderImage()}`;
+  renderSearch(searchMovie: string = ""): void {
+    this.backgroundContainer.innerHTML = /*html*/ `${this.renderImage(
+      searchMovie,
+    )}`;
   }
 
-  renderImage(): string {
+  renderImage(searchMovie: string = ""): string {
     return /*html*/ `<div class="overlay">
                 <div class="search-container">
                 <h1 class="logo">
@@ -52,6 +54,7 @@ export default class Header {
                     class="search-input"
                     aria-label="영화 검색"
                     placeholder="검색어를 입력하세요"
+                    value="${searchMovie}"
                     />
                     <button
                       type="submit"

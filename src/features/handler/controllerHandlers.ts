@@ -50,7 +50,7 @@ export async function loadSearchMovies(
       page,
       searchMovie,
     );
-    handleHeaderSearch();
+    handleHeaderSearch(searchMovie);
 
     if (data.results.length === 0) {
       handleEmptyMovie(movieList);

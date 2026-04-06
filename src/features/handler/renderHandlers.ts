@@ -6,9 +6,9 @@ import { Movie, MovieResponse } from "../../../types/types";
 const header = new Header();
 const mainTitle = new MainTitle();
 
-export function handleHeaderSearch(): void {
+export function handleHeaderSearch(searchMovie: string): void {
   header.clearHeader();
-  header.renderSearch();
+  header.renderSearch(searchMovie);
 }
 
 export function handleHeader(movie: Movie): void {
