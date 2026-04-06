@@ -1,7 +1,6 @@
-import { renderFetchMovieItem } from './render.ts';
+import { hideMoreButton, renderFetchMovieItem } from './render.ts';
 
 addEventListener('load', () => {
-
   const app = document.querySelector('#app');
 
   if (app) {
@@ -10,7 +9,6 @@ addEventListener('load', () => {
 });
 
 function init() {
-
   let currentPage: number = 1;
   const $thumbnailList = document.querySelector('.thumbnail-list');
 
@@ -19,12 +17,20 @@ function init() {
   }
 
   const $button = document.querySelector('#more-page-button');
-  
-  $button?.addEventListener('click', () => {
-    currentPage++;
+
+  $button?.addEventListener('click', async () => {
+    const nextPage = currentPage + 1;
     if ($thumbnailList) {
-      $button?.classList.add('hidden');
-      renderFetchMovieItem($thumbnailList, currentPage);
+      hideMoreButton();
+
+      try {
+        await renderFetchMovieItem($thumbnailList, nextPage);
+        currentPage++;
+      } catch (e) {
+        if (e instanceof Error) {
+          alert(e.message);
+        }
+      }
     }
   });
 }

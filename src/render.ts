@@ -17,8 +17,13 @@ export const renderFetchMovieItem = async (
 
     return data.total_pages;
   } catch (error) {
-    alert('영화 목록을 불러오지 못했습니다!');
-    return new Error('영화 목록을 불러오지 못했습니다!');
+    // error가 뜨면 스켈레톤 제거
+    removeSkeleton($target);
+    // error가 떴으므로 제거되었던 더보기 버튼 다시 렌더링
+    showMoreButton();
+    // error를 던져서 main에서 받음으로써 currentPage가 잘못 증가하는 것을 방지
+    // 문구 상세화로 사용자 상호작용 유도
+    throw new Error('영화 목록을 불러오지 못했습니다! 새로고침을 누르거나 더보기 버튼을 한번 더 눌러주세요!');
   }
 };
 
@@ -70,10 +75,19 @@ const renderEmptyPage = (query: string) => {
 };
 
 export const toggleButton = (totalPage: number, currentPage: number) => {
-  const $button = document.querySelector('#more-page-button');
   if (currentPage < totalPage) {
-    $button?.classList.remove('hidden');
+    showMoreButton();
+  } else {
+    hideMoreButton();
   }
+};
+
+export const showMoreButton = () => {
+  document.querySelector('#more-page-button')?.classList.remove('hidden');
+};
+
+export const hideMoreButton = () => {
+  document.querySelector('#more-page-button')?.classList.add('hidden');
 };
 
 export function renderMovieItem(data: resultData): string {
