@@ -13,11 +13,7 @@ const requestAjax = async (
   url: string,
   { method, query }: Configs = { method: 'get' }
 ) => {
-  const queryString = query
-  ? '?' + Object.entries(query)
-      .map(([key, value]) => `${key}=${encodeURIComponent(String(value))}`)
-      .join('&')
-  : '';
+  const queryString = query ? '?' + new URLSearchParams(query as any).toString() : '';
   const fullPathUrl = `${apiUrl}${url}${queryString}`;
   const res = await fetch(fullPathUrl, {
     method,
