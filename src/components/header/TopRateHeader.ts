@@ -19,7 +19,7 @@ export default class TopRateHeader {
 
     const $justLayout = document.createElement('div');
     $<HTMLElement>(this.#$element, '.top-rated-container').append(Logo(), SearchForm(onSubmit), $justLayout);
-    $<HTMLElement>(this.#$element, '.background-container').append(Overlay());
+    $<HTMLElement>(this.#$element, '.background-container').prepend(Overlay());
   }
 
   get $element() {

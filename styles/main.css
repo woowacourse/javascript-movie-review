@@ -10,10 +10,14 @@ a {
   text-decoration: none;
 }
 
+#app {
+  background-color: var(--color-bluegray-100);
+}
+
 body {
   font-size: 16px;
   color: var(--color-white);
-  background-color: var(--color-bluegray-100);
+  background-color: var(--color-bluegray-80);
 }
 
 #wrap,

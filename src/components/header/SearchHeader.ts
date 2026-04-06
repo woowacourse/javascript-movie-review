@@ -2,7 +2,7 @@ import { $ } from '../../utils/dom.ts';
 import { Logo } from './Logo.ts';
 import { SearchForm } from './SearchForm.ts';
 
-export default class TopRateHeader {
+export default class SearchHeader {
   #$element: HTMLElement;
 
   constructor(onSubmit: (query: string) => void) {

@@ -46,10 +46,10 @@ export default class HomePage {
       return response;
     } catch (error) {
       if (error instanceof TMDBError) {
-        this.#main.renderError(error.message);
+        this.#main.renderError('TMDB에러입니다 ' + error.message);
         throw error;
       }
-      this.#main.renderError((error as Error).message as string);
+      this.#main.renderError(('알수없는 에러입니다\n' + (error as Error).message) as string);
       throw error;
     } finally {
       this.#main.removeSkeletons();
