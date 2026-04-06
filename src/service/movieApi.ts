@@ -1,9 +1,13 @@
 import { Movie } from '../view/movieListView'
 
-const baseURL = 'https://api.themoviedb.org/3'
-
 export class HttpError extends Error {}
 export class NetWorkError extends Error {}
+
+const BASE_API = {
+    baseURL: 'https://api.themoviedb.org/3',
+    api_key: import.meta.env.VITE_API_KEY,
+    language: 'ko-KR',
+}
 
 export const fetchMovieList = async (URL: string) => {
     try {
@@ -20,11 +24,11 @@ export const fetchMovieList = async (URL: string) => {
 }
 
 export const fetchDefaultMovieList = async (pageNum: number): Promise<Movie[]> => {
-    const URL = `${baseURL}/movie/popular?api_key=${import.meta.env.VITE_API_KEY}&language=ko-KR&page=${pageNum}`
+    const URL = `${BASE_API.baseURL}/movie/popular?api_key=${BASE_API.api_key}&language=${BASE_API.language}&page=${pageNum}`
     return fetchMovieList(URL)
 }
 
 export const fetchSearchMovieList = async (pageNum: number, searchBarText: string): Promise<Movie[]> => {
-    const URL = `${baseURL}/search/movie?api_key=${import.meta.env.VITE_API_KEY}&query=${encodeURIComponent(searchBarText)}&language=ko-KR&page=${pageNum}`
+    const URL = `${BASE_API.baseURL}/search/movie?api_key=${BASE_API.api_key}&query=${encodeURIComponent(searchBarText)}&language=${BASE_API.language}=${pageNum}`
     return fetchMovieList(URL)
 }
