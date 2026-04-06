@@ -17,7 +17,7 @@ export default class SearchPage {
   }
 
   getQuery(): string {
-    const queryString = window.location.search;
+    const [, queryString = ''] = window.location.hash.split('?');
     const urlParams = new URLSearchParams(queryString);
     const query = urlParams.get('query');
     return query ?? '';
