@@ -11,12 +11,16 @@ export class ApiError extends Error {
   }
 }
 
-const fromMovieDto = (movie: Movie) => {
-  if(!movie.title) return null;
+const fromMovieDto = (movie: unknown) => {
+  if (!(movie !== null && typeof movie === 'object')) return null;
+
+  if(!('title' in movie)) return null;
+
+  const obj = movie as Record<string, unknown>;
 
   return {
-    ...movie,
-    poster_path: typeof movie.poster_path === 'string' ? movie.poster_path: null
+    ...obj,
+    poster_path: obj.poster_path === 'string' ? obj.poster_path: null,
   }
 }
 
