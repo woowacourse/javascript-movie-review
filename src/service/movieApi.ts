@@ -3,18 +3,20 @@ import { Movie } from '../view/movieListView'
 export class HttpError extends Error {}
 export class NetWorkError extends Error {}
 
-const BASE_API = {
-    baseURL: 'https://api.themoviedb.org/3',
-    api_key: import.meta.env.VITE_API_KEY,
-    language: 'ko-KR',
-}
+const BASE_URL = 'https://api.themoviedb.org/3'
+const POPULAR_PATH = '/movie/popular'
+const SEARCH_PATH = '/search/movie'
 
-export const fetchMovieList = async (URL: string) => {
+const request = async (path: string, params: Record<string, string>): Promise<Movie[]> => {
+    const searchParams = new URLSearchParams({
+        api_key: import.meta.env.VITE_API_KEY,
+        language: 'ko-KR',
+        ...params,
+    })
+
     try {
-        const response = await fetch(URL)
-        if (!response.ok) {
-            throw new HttpError('데이터를 불러오지 못했습니다.')
-        }
+        const response = await fetch(`${BASE_URL}${path}?${searchParams}`)
+        if (!response.ok) throw new HttpError('데이터를 불러오지 못했습니다.')
         const data = await response.json()
         return data.results
     } catch (e) {
@@ -23,12 +25,8 @@ export const fetchMovieList = async (URL: string) => {
     }
 }
 
-export const fetchDefaultMovieList = async (pageNum: number): Promise<Movie[]> => {
-    const URL = `${BASE_API.baseURL}/movie/popular?api_key=${BASE_API.api_key}&language=${BASE_API.language}&page=${pageNum}`
-    return fetchMovieList(URL)
-}
+export const fetchDefaultMovieList = (pageNum: number): Promise<Movie[]> =>
+    request(POPULAR_PATH, { page: String(pageNum) })
 
-export const fetchSearchMovieList = async (pageNum: number, searchBarText: string): Promise<Movie[]> => {
-    const URL = `${BASE_API.baseURL}/search/movie?api_key=${BASE_API.api_key}&query=${encodeURIComponent(searchBarText)}&language=${BASE_API.language}&page=${pageNum}`
-    return fetchMovieList(URL)
-}
+export const fetchSearchMovieList = (pageNum: number, searchBarText: string): Promise<Movie[]> =>
+    request(SEARCH_PATH, { page: String(pageNum), query: encodeURIComponent(searchBarText) })
