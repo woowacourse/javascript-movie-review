@@ -26,6 +26,9 @@ export const renderResultSectionContent = ({
   const mainThumbnailList = document.getElementById("main-thumbnail-list");
   const mainSeeMoreButton = document.getElementById("main-see-more-button");
 
+  const banner = document.getElementById("background-container");
+  const resultSection = document.getElementById("result-section");
+  const subTitle = document.getElementById("sub-title");
   const searchThumbnailList = document.getElementById("search-thumbnail-list");
   const searchSeeMoreButton = document.getElementById("search-see-more-button");
 
@@ -45,7 +48,15 @@ export const renderResultSectionContent = ({
   searchThumbnailList?.classList.add("hidden");
   searchSeeMoreButton?.classList.add("hidden");
 
-  if (isLoading) {
+  if (isLoading && type === "main") {
+    skeletonList?.classList.remove("hidden");
+    return;
+  }
+
+  if (isLoading && type === "search" && subTitle) {
+    banner?.classList.add("hidden");
+    resultSection?.classList.add("result-section");
+    subTitle.innerText = `"${keyword}" 검색 결과`;
     skeletonList?.classList.remove("hidden");
     return;
   }

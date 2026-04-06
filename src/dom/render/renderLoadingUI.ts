@@ -1,6 +1,6 @@
 import { renderResultSectionContent } from "./renderResultSectionContent";
 
-export const renderInitialUI = () => {
+export const renderLoadingUI = () => {
   renderResultSectionContent({
     isLoading: true,
     isError: false,

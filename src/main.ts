@@ -3,7 +3,7 @@ import {
   handleMainSeeMore,
   handleSearchSeeMore,
 } from "./dom/eventHandler/handleSeeMore";
-import { renderInitialUI } from "./dom/render/renderInitialUI";
+import { renderLoadingUI } from "./dom/render/renderLoadingUI.ts";
 import { renderMainUI } from "./dom/render/renderMainUI";
 import { renderSearchUI } from "./dom/render/renderSearchUI";
 
@@ -44,7 +44,7 @@ if (searchSeeMoreButton && searchInput) {
 }
 
 const render = async () => {
-  renderInitialUI();
+  renderLoadingUI();
 
   const url = new URL(window.location.href);
   const params = url.searchParams;

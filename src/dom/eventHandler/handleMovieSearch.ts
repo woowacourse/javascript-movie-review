@@ -11,16 +11,9 @@ export const handleMovieSearch = async (keyword: string) => {
     return;
   }
 
-  const searchInput = document.getElementById(
-    "search-input",
-  ) as HTMLInputElement | null;
-  const banner = document.getElementById("background-container");
-  const subTitle = document.getElementById("sub-title");
   const thumbnailListElement = document.getElementById(
     "search-thumbnail-list",
   ) as HTMLUListElement;
-
-  if (!banner || !subTitle || searchInput?.value.trim() === "") return;
 
   const url = new URL(window.location.href);
   const params = url.searchParams;
