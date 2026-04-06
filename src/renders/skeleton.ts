@@ -21,8 +21,10 @@ export const removeSkeleton = () => {
   const skeleton = document.querySelector<HTMLDivElement>("#skeleton");
   if (!skeleton) return;
 
+  const TIME = 600;
+
   setTimeout(() => {
     skeleton.classList.remove("animation");
     skeleton.replaceChildren();
-  }, 3000);
+  }, TIME);
 };
