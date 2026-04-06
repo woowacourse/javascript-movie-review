@@ -1,10 +1,10 @@
 import {
   initialRender,
-  moreRender,
   searchRender,
 } from "./features/handler/controllerHandlers";
 import { movieState } from "./features/states/movieState";
 import { updateMoreButton } from "./features/handler/renderHandlers";
+import { initEvents } from "./features/handler/eventHandlers";
 
 // 렌더링 시 더보기 버튼
 const moreButton = document.querySelector(".btn-more") as HTMLButtonElement;
@@ -40,30 +40,7 @@ addEventListener("load", async () => {
       moreButton,
       updateMoreButton,
     );
-
-    attachLogoListener();
   });
 
-  attachLogoListener();
-});
-
-function attachLogoListener() {
-  const logo = document.querySelector(".logo") as HTMLElement;
-  logo.addEventListener("click", async () => {
-    movieState.page = 1;
-    movieState.searchMovie = "";
-    await initialRender(movieState.page, moreButton, updateMoreButton);
-    attachLogoListener();
-  });
-}
-
-// 더보기 버튼
-moreButton.addEventListener("click", async () => {
-  movieState.page += 1;
-  await moreRender(
-    movieState.page,
-    movieState.searchMovie,
-    moreButton,
-    updateMoreButton,
-  );
+  initEvents();
 });
