@@ -4,12 +4,23 @@ import { parseMovies } from "./mapper";
 
 import { Movies } from "./dto";
 
+interface Configs {
+  method?: 'get' | 'post' | 'put' | 'delete';
+  query?: Record<string, unknown>;
+}
+
 const requestAjax = async (
   url: string,
+  { method, query }: Configs = { method: 'get' }
 ) => {
-  const fullPathUrl = `${apiUrl}${url}`;
+  const queryString = query
+  ? '?' + Object.entries(query)
+      .map(([key, value]) => `${key}=${value}`)
+      .join('&')
+  : '';
+  const fullPathUrl = `${apiUrl}${url}${queryString}`;
   const res = await fetch(fullPathUrl, {
-    method: "get",
+    method,
     headers: {
       Authorization: `Bearer ${apiKey}`,
     },
