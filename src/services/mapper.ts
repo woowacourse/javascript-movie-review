@@ -10,6 +10,7 @@ export const fromMovieDto = (movie: unknown) => {
   return {
     ...movie,
     poster_path: typeof movie.poster_path === 'string' ? movie.poster_path: null,
+    backdrop_path: typeof movie.backdrop_path === 'string' ? movie.backdrop_path: null,
   }
 }
 
