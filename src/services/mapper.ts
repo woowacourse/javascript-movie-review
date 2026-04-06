@@ -1,8 +1,6 @@
 import { Movie } from "./dto";
 
-const isObject = (value: unknown): value is Record<string, unknown> => {
-  return value !== null && typeof value === 'object'
-}
+import { isObject } from "../utils/type-guards/isObject";
 
 export const fromMovieDto = (movie: unknown) => {
   if (!isObject(movie)) return null;
