@@ -4,8 +4,9 @@ import { PAGE_TITLE } from "./constants/constant";
 import type { State } from "../types/state";
 import { getAppElements } from "./utils/AppElementUtil";
 import { notifyEmptyQuery, notifyError } from "./utils/NotifyUtil";
-import { makeSkeleton, renderHeroMovie, renderMovies } from "./utils/RenderUtil";
+import { renderHeroMovie } from "./utils/RenderUtil";
 import { TmdbClient } from "./api/TmdbClient";
+import { makeSkeleton, renderMovies } from './movie-list/movieListRender';
 
 const state: State = {
   currentPage: 0,
