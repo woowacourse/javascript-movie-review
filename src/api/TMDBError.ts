@@ -1,4 +1,4 @@
-import { TmdbError as ServerError } from './types.ts';
+import { TmdbErrorType as ServerError } from './types.ts';
 
 class TMDBError extends Error {
   code: number;
