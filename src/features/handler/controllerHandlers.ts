@@ -3,6 +3,7 @@ import { MovieResponse } from "../../../types/types";
 import {
   handleHeader,
   handleHeaderSearch,
+  handleMainTitle,
   handleMoreButton,
   handleMovieList,
 } from "./renderHandlers";
@@ -17,9 +18,7 @@ export async function loadInitialMovies(
   page: number,
   moreButton: HTMLButtonElement,
 ): Promise<void> {
-  const mainTitle = document.querySelector(".main-title") as HTMLElement;
-
-  mainTitle.textContent = "지금 인기 있는 영화";
+  handleMainTitle("지금 인기 있는 영화");
 
   const data: MovieResponse = await handleMovie(page, movieList);
   handleHeader(data.results[0]);
@@ -33,9 +32,7 @@ export async function loadSearchMovies(
   searchMovie: string,
   moreButton: HTMLButtonElement,
 ): Promise<void> {
-  const mainTitle = document.querySelector(".main-title") as HTMLElement;
-
-  mainTitle.textContent = `"${searchMovie}" 검색 결과`;
+  handleMainTitle(`"${searchMovie}" 검색 결과`);
 
   const data: MovieResponse = await handleSearchMovie(
     page,
