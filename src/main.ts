@@ -26,10 +26,18 @@ const runSearch = () => {
 
   (async () => {
     const page = pageState.getPage();
-    const movies = await getSearchMovie({
-      page,
-      query: search || "",
-    });
+    const movies = await errorTryCatch(
+      async () => await getSearchMovie({
+        page,
+        query: search || "",
+      }), (e: ApiError) => {
+        if(e.status_code === 22){
+          alert("잘못된 검색 요청입니다.");
+            return;
+        }
+        alert("영화 정보를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.");
+      }
+    );
 
     removeTopRatedMovie();
 
@@ -72,7 +80,16 @@ const errorTryCatch = async (api: Function, errorCallback: Function) => {
 
 addEventListener("load", async () => {
   (async () => {
-    const topRatedMovies = await getTopRatedMovie();
+    const topRatedMovies = await errorTryCatch(
+      async () => await getTopRatedMovie(),
+      (e: ApiError) => {
+        if (e.status_code == 22) {
+          alert("잘못된 요청입니다.");
+          return;
+        }
+        alert("영화 정보를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.");
+      }
+    );
 
     const topRatedMovie = topRatedMovies.results[0];
 
