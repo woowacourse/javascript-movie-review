@@ -6,27 +6,28 @@ import { movieListView } from "../view/movieListView";
 import { movieModel } from "../model/movieModel";
 import { addButtonView } from "../view/addButtonView";
 
-async function fetchCurrentModeData() {
+async function fetchCurrentModeData(nextPage: number) {
   if (movieModel.isSearch) {
-    return await searchMovies(movieModel.page, movieModel.searchValue);
+    return await searchMovies(nextPage, movieModel.searchValue);
   }
-  return await getMovies(movieModel.page);
+  return await getMovies(nextPage);
 }
 
 export async function handleLoadMore() {
+  const nextPage = movieModel.page + 1;
+
   try {
     movieModel.increasePage();
     movieListView.renderSkeletonList(SKELETON_NUMBER);
 
-    const response: ApiResult<MovieResponse> = await fetchCurrentModeData();
+    const response: ApiResult<MovieResponse> = await fetchCurrentModeData(nextPage);
 
     if (!response.success) {
       console.log("에러 원인:", response.error);
       return;
     };
-
+    movieModel.increasePage();
     if(isLastPage(response.data)) addButtonView.hideAddButton();
-
     movieListView.renderMovieList(response.data.results);
     return;
   } finally {
