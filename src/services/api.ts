@@ -26,6 +26,14 @@ const fromMovieDto = (movie: unknown) => {
   }
 }
 
+const parseMovies = (rawList: unknown): Movie[] => {
+  if(!Array.isArray(rawList)) throw new Error("Invalid data");
+
+   return rawList
+    .map(fromMovieDto)
+    .filter((movie): movie is Movie => movie !== null);
+}
+
 export const getMoviePopular = async ({
   page,
 }: {
@@ -43,7 +51,7 @@ export const getMoviePopular = async ({
     const data =  await res.json();
     return {
       ...data,
-      results: data.results.map(fromMovieDto).filter((movie: Movie | null): movie is Movie => movie !== null)
+      results: parseMovies(data.results),
     }
   }
 
@@ -63,7 +71,7 @@ export const getTopRatedMovie = async () => {
   const data =  await res.json();
   return {
       ...data,
-      results: data.results.map(fromMovieDto).filter((movie: Movie | null): movie is Movie => movie !== null)
+      results: parseMovies(data.results),
     }
 };
 
@@ -85,6 +93,6 @@ export const getSearchMovie = async ({
   const data =  await res.json();
   return {
       ...data,
-      results: data.results.map(fromMovieDto).filter((movie: Movie | null): movie is Movie => movie !== null)
+      results: parseMovies(data.results),
     }
 };
