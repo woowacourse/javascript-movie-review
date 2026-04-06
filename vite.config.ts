@@ -1,5 +1,5 @@
-import { defineConfig } from "vite";
+// import { defineConfig } from "vite";
 
-export default defineConfig({
-  base: "/javascript-movie-review/",
-});
+// export default defineConfig({
+//   base: "/javascript-movie-review/",
+// });
