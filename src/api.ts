@@ -1,5 +1,3 @@
-import { fetcher } from "./utils";
-
 const API_KEY = import.meta.env.VITE_API_KEY;
 
 interface MoviesResponse {
@@ -31,63 +29,35 @@ const API_PATH = {
   SEARCH_MOVIE: "https://api.themoviedb.org/3/search/movie",
 };
 
-export async function getPopularMovies(arg: {
-  pageNum: number;
-  onSuccess: (data: MoviesResponse) => void;
-  onError: (error: Error) => void;
-  onLoading: () => void;
-}) {
-  const { pageNum, onSuccess, onError, onLoading } = arg;
-  fetcher<MoviesResponse>({
-    fn: async () => {
-      const url = `${API_PATH.POPULAR_MOVIE}?page=${pageNum}&language=ko-KR`;
-      const options = {
-        method: "GET",
-        headers: {
-          accept: "application/json",
-          Authorization: `Bearer ${API_KEY}`,
-        },
-      };
-
-      const response = await fetch(url, options);
-      if (!response.ok)
-        throw new Error(`HTTP error! status: ${response.status}`);
-      const data = (await response.json()) as unknown as MoviesResponse;
-      return data;
+export async function getPopularMovies(
+  pageNum: number,
+): Promise<MoviesResponse> {
+  const url = `${API_PATH.POPULAR_MOVIE}?page=${pageNum}&language=ko-KR`;
+  const options = {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization: `Bearer ${API_KEY}`,
     },
-    onSuccess,
-    onError,
-    onLoading,
-  });
+  };
+  const response = await fetch(url, options);
+  if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+  return response.json();
 }
 
-export async function getSearchMovies(arg: {
-  query: string;
-  pageNum: number;
-  onSuccess: (data: MoviesResponse) => void;
-  onError: (error: Error) => void;
-  onLoading: () => void;
-}) {
-  const { query, pageNum, onSuccess, onError, onLoading } = arg;
-  fetcher<MoviesResponse>({
-    fn: async () => {
-      const url = `${API_PATH.SEARCH_MOVIE}?query=${query}&page=${pageNum}&language=ko-KR`;
-      const options = {
-        method: "GET",
-        headers: {
-          accept: "application/json",
-          Authorization: `Bearer ${API_KEY}`,
-        },
-      };
-
-      const response = await fetch(url, options);
-      if (!response.ok)
-        throw new Error(`HTTP error! status: ${response.status}`);
-      const data = (await response.json()) as unknown as MoviesResponse;
-      return data;
+export async function getSearchMovies(
+  query: string,
+  pageNum: number,
+): Promise<MoviesResponse> {
+  const url = `${API_PATH.SEARCH_MOVIE}?query=${query}&page=${pageNum}&language=ko-KR`;
+  const options = {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization: `Bearer ${API_KEY}`,
     },
-    onSuccess,
-    onError,
-    onLoading,
-  });
+  };
+  const response = await fetch(url, options);
+  if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+  return response.json();
 }
