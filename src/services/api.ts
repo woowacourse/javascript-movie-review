@@ -11,7 +11,7 @@ export class ApiError extends Error {
   }
 }
 
-const isObject = (value: unknown): boolean => {
+const isObject = (value: unknown): value is Record<string, unknown> => {
   return value !== null && typeof value === 'object'
 }
 
@@ -20,11 +20,9 @@ const fromMovieDto = (movie: unknown) => {
 
   if(!('title' in movie)) return null;
 
-  const obj = movie as Record<string, unknown>;
-
   return {
-    ...obj,
-    poster_path: obj.poster_path === 'string' ? obj.poster_path: null,
+    ...movie,
+    poster_path: movie.poster_path === 'string' ? movie.poster_path: null,
   }
 }
 
