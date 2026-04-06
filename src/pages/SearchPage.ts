@@ -1,12 +1,12 @@
-import Header from '../components/header/TopRateHeader.ts';
+import Header from '../components/header/SearchHeader.ts';
 import Main from '../components/main/Main.ts';
 import Footer from '../components/footer/Footer.ts';
 
-import { fetchPopularMovies } from '../api/fetchApi.ts';
+import { fetchSearchMovies } from '../api/fetchApi.ts';
 import { ResponseMovie } from '../api/type.ts';
 import { navigateTo } from '../main.ts';
 
-export default class HomePage {
+export default class SearchPage {
   #$target: Element;
   #page: number = 1;
   #main: Main;
@@ -16,15 +16,20 @@ export default class HomePage {
     this.#main = new Main('');
   }
 
+  getQuery(): string {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const query = urlParams.get('query');
+    return query ?? '';
+  }
+
   async init() {
     const header = new Header(this.#onSubmit);
-    this.#main = new Main('지금 인기있는 영화');
+    this.#main = new Main(`"${this.getQuery()}" 검색 결과`);
     const footer = new Footer();
 
     this.#$target.append(header.$element, this.#main.$element, footer.$element);
-
-    const response = await this.#appendMovies();
-    header.render(response.results[0]);
+    await this.#appendMovies();
   }
 
   async #loadMore() {
@@ -35,13 +40,19 @@ export default class HomePage {
 
   async #appendMovies(): Promise<ResponseMovie> {
     this.#main.renderSkeletons();
-    try {
-      const response = await fetchPopularMovies(this.#page);
-      this.#main.renderMovies(response.results);
 
+    try {
+      const response = await fetchSearchMovies(this.getQuery(), this.#page);
+      if (response.results.length === 0) {
+        this.#main.renderNothing();
+        return response;
+      }
+
+      this.#main.renderMovies(response.results);
       if (this.#page < response.total_pages) {
         this.#main.renderMoreButton(() => this.#loadMore());
       }
+
       return response;
     } catch (error) {
       this.#main.renderError();

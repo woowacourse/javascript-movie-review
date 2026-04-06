@@ -1,29 +1,26 @@
-export const SearchForm = () => {
+import { $ } from '../../utils/dom';
+
+export const SearchForm = (onSubmit: (query: string) => void) => {
   const $form = document.createElement('form');
   $form.className = 'search-form';
 
-  const $wrap = document.createElement('div');
-  $wrap.className = 'search-wrap';
+  $form.innerHTML = `
+    <div class="search-wrap">
+      <label for="search-input"></label>
+      <input id="search-input" name="q" placeholder="검색어를 입력하세요" />
+      <button class="search-button" type="submit">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+          <circle cx="11" cy="11" r="8" stroke="#aaa" stroke-width="2" fill="none"/>
+          <line x1="21" y1="21" x2="16.65" y2="16.65" stroke="#aaa" stroke-width="2"/>
+        </svg>
+      </button>
+    </div>
+  `;
 
-  const $label = document.createElement('label');
-  $label.htmlFor = 'search-input';
-
-  const $input = document.createElement('input');
-  $input.id = 'search-input';
-  $input.placeholder = '검색어를 입력하세요';
-
-  const $button = document.createElement('button');
-  $button.className = 'search-button';
-  $button.type = 'submit';
-  $button.innerHTML = `
-  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
-    <circle cx="11" cy="11" r="8" stroke="#aaa" stroke-width="2" fill="none"/>
-    <line x1="21" y1="21" x2="16.65" y2="16.65" stroke="#aaa" stroke-width="2"/>
-  </svg>
-`;
-
-  $wrap.append($input, $button);
-  $form.append($label, $wrap);
-
+  $form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const query = $<HTMLInputElement>($form, '#search-input').value;
+    onSubmit(query);
+  });
   return $form;
 };

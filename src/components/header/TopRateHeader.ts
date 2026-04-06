@@ -9,16 +9,16 @@ import { TopRate } from './TopRate.ts';
 export default class TopRateHeader {
   #$element: HTMLElement;
 
-  constructor() {
+  constructor(onSubmit: (query: string) => void) {
     this.#$element = document.createElement('header');
     this.#$element.innerHTML = `
-      <div class="background-container">
+      <div class="background-container top-header-container">
         <div class="top-rated-container"></div>
       </div>
     `;
 
     const $justLayout = document.createElement('div');
-    $<HTMLElement>(this.#$element, '.top-rated-container').append(Logo(), SearchForm(), $justLayout);
+    $<HTMLElement>(this.#$element, '.top-rated-container').append(Logo(), SearchForm(onSubmit), $justLayout);
     $<HTMLElement>(this.#$element, '.background-container').append(Overlay());
   }
 
