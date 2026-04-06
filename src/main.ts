@@ -79,40 +79,47 @@ const errorTryCatch = async (api: Function, errorCallback: Function) => {
 };
 
 addEventListener("load", async () => {
-  (async () => {
-    const topRatedMovies = await errorTryCatch(
-      async () => await getTopRatedMovie(),
-      (e: ApiError) => {
-        if (e.status_code == 22) {
-          alert("잘못된 요청입니다.");
-          return;
+
+  const search = getSearchParams("search") as string;
+
+  if(search === null){
+    (async () => {
+      const topRatedMovies = await errorTryCatch(
+        async () => await getTopRatedMovie(),
+        (e: ApiError) => {
+          if (e.status_code == 22) {
+            alert("잘못된 요청입니다.");
+            return;
+          }
+          alert("영화 정보를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.");
         }
-        alert("영화 정보를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.");
-      }
-    );
+      );
 
-    const topRatedMovie = topRatedMovies.results[0];
+      const topRatedMovie = topRatedMovies.results[0];
 
-    renderTopRatedMovie(topRatedMovie);
-  })();
+      renderTopRatedMovie(topRatedMovie);
+    })();
 
-  (async () => {
-    renderSkeleton();
-    const page = pageState.getPage();
-    const movies = await errorTryCatch(
-      async () => await getMoviePopular({ page }),
-      async (e: ApiError) => {
-        if (e.status_code == 22) {
-          alert("잘못된 페이지 요청입니다.");
-          return;
-        }
-        alert("영화 정보를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.");
-      },
-    );
+    (async () => {
+      renderSkeleton();
+      const page = pageState.getPage();
+      const movies = await errorTryCatch(
+        async () => await getMoviePopular({ page }),
+        async (e: ApiError) => {
+          if (e.status_code == 22) {
+            alert("잘못된 페이지 요청입니다.");
+            return;
+          }
+          alert("영화 정보를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.");
+        },
+      );
 
-    if (movies) renderMovieList(movies);
-    removeSkeleton(Date.now());
-  })();
+      if (movies) renderMovieList(movies);
+      removeSkeleton(Date.now());
+    })();
+  } else {
+    runSearch();
+  }
 
   const moreButton = document.querySelector("#more-button");
   moreButton?.addEventListener("click", () => {
