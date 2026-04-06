@@ -45,6 +45,12 @@ export const MovieRenderer = {
       Renderer.renderSearchMovies(movies);
     }
   },
+
+  renderError() {
+    const content = document.querySelector(".thumbnail-list");
+    if (content)
+      Renderer.renderError(content, "영화 정보를 불러오는 데 실패했습니다.");
+  },
 };
 
 export const Renderer = {
