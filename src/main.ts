@@ -23,7 +23,6 @@ async function loadInitialMovie() {
       const main = document.querySelector("main");
       if (main)
         Renderer.renderError(main, "영화 정보를 불러오는 데 실패했습니다.");
-    } finally {
     }
   }
 }
