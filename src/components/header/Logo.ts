@@ -1,7 +1,7 @@
 export const Logo = (): HTMLElement => {
   const tempalte = `
-    <a href="/">
-      <img src="/images/logo.png" alt="MovieList" />
+    <a href="/javascript-movie-review">
+      <img src="./images/logo.png" alt="MovieList" />
     </a>
   `;
 

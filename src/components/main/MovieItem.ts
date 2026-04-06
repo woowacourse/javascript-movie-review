@@ -24,7 +24,7 @@ export const MovieItem = (data: MovieData) => {
   $img.src = getThumbnailImageUrl(poster_path);
 
   $img.onerror = () => {
-    $img.src = '/images/empty.png';
+    $img.src = './images/empty.png';
   };
 
   $($li, '.item-desc strong').textContent = title;

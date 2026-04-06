@@ -7,20 +7,23 @@ const routes = [
   { path: '/search', view: SearchPage },
 ];
 
+// 1. match 로직 수정 (location.pathname 대신 location.hash 사용)
 const router = () => {
   const $app = document.querySelector('#app');
   if (!$app) return;
 
   $app.innerHTML = '';
-  const match = routes.find((route) => route.path === location.pathname);
+
+  // hash가 없으면 '/', 있으면 '#'을 제거한 값을 사용
+  const hashPath = location.hash.replace('#', '') || '/';
+  const match = routes.find((route) => route.path === hashPath);
 
   const View = match ? match.view : HomePage;
   new View($app).init();
 };
 
 const navigateTo = (url: string) => {
-  history.pushState(null, '', url);
-  router();
+  location.hash = url;
 };
 
 window.addEventListener(ROUTE_CHANGE_EVENT, (e: Event) => {
@@ -30,6 +33,6 @@ window.addEventListener(ROUTE_CHANGE_EVENT, (e: Event) => {
 });
 
 addEventListener('load', () => {
-  window.addEventListener('popstate', router);
+  window.addEventListener('hashchange', router);
   router();
 });
