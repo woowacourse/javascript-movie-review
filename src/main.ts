@@ -6,12 +6,12 @@ import { apiRequest } from "./utils/api";
 import { PopularMovieResponse } from "./types/api";
 import { IMAGE_BASE_URL } from "./utils/constants";
 
-addEventListener("load", async () => {
-  const headerEl = document.querySelector("header");
-  const heroEl = document.querySelector("#hero");
-  const mainEl = document.querySelector("#main");
+let page = 1;
 
-  if (!headerEl || !heroEl || !mainEl) return;
+addEventListener("load", async () => {
+  const headerEl = document.querySelector("header")!;
+  const heroEl = document.querySelector("#hero")!;
+  const mainEl = document.querySelector("#main")!;
 
   const searchForm = createSearchForm();
   headerEl.appendChild(searchForm);
@@ -27,13 +27,20 @@ addEventListener("load", async () => {
   heroEl.appendChild(hero);
 
   const data = await apiRequest<PopularMovieResponse>({
-    url: "/movie/popular?language=en-US&page=1",
+    url: `/movie/popular?language=ko-KR&page=${page}`,
     method: "GET",
   });
 
-  console.log("data", data);
-
   const movieList = createMovieList(data.results);
-  const moreButton = createButton("more", "더 보기", () => {});
+  const moreButton = createButton("more", "더 보기", async () => {
+    page++;
+    const data = await apiRequest<PopularMovieResponse>({
+      url: `/movie/popular?language=ko-KR&page=${page}`,
+      method: "GET",
+    });
+
+    const newMovieList = createMovieList(data.results);
+    mainEl.append(newMovieList, moreButton);
+  });
   mainEl.append(movieList, moreButton);
 });
