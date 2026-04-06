@@ -23,8 +23,11 @@ const pageState = new PageState();
 
 const loadTopRatedMovie = async () => {
   const topRatedMovies = await getTopRatedMovies();
+  const topRatedMovie = topRatedMovies.results[0];
 
-  renderTopRatedMovie(topRatedMovies);
+  if (!topRatedMovie) return;
+
+  renderTopRatedMovie(topRatedMovie);
 };
 
 const loadPopularMovies = async () => {
