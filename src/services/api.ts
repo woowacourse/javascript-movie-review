@@ -11,7 +11,7 @@ export class ApiError extends Error {
   }
 }
 
-export const getMoviePopular = async ({
+export const getPopularMovie = async ({
   page,
 }: {
   page: number;

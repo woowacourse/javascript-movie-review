@@ -2,7 +2,7 @@ import { navigate, getSearchParams, hasSearchParams } from "./utils/router";
 
 import {
   ApiError,
-  getMoviePopular,
+  getPopularMovie,
   getTopRatedMovie,
   getSearchMovie,
 } from "./services/api";
@@ -20,6 +20,30 @@ import { renderSkeleton, removeSkeleton } from "./renders/skeleton";
 import PageState from "./states/PageState";
 
 const pageState = new PageState();
+
+const loadTopRatedMovie = async () => {
+  const topRatedMovies = await getTopRatedMovie();
+
+  renderTopRatedMovie(topRatedMovies);
+};
+
+const loadPopularMovie = async () => {
+  renderSkeleton();
+  const page = pageState.getPage();
+  const movies = await errorTryCatch(
+    async () => await getPopularMovie({ page }),
+    async (e: ApiError) => {
+      if (e.status_code == 22) {
+        alert("잘못된 페이지 요청입니다.");
+        return;
+      }
+      alert("영화 정보를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.");
+    },
+  );
+
+  if (movies) renderMovieList(movies);
+  removeSkeleton();
+};
 
 const runSearch = () => {
   const search = getSearchParams("search") as string;
@@ -71,30 +95,6 @@ const errorTryCatch = async (api: Function, errorCallback: Function) => {
 };
 
 addEventListener("load", async () => {
-  (async () => {
-    const topRatedMovies = await getTopRatedMovie();
-
-    renderTopRatedMovie(topRatedMovies);
-  })();
-
-  (async () => {
-    renderSkeleton();
-    const page = pageState.getPage();
-    const movies = await errorTryCatch(
-      async () => await getMoviePopular({ page }),
-      async (e: ApiError) => {
-        if (e.status_code == 22) {
-          alert("잘못된 페이지 요청입니다.");
-          return;
-        }
-        alert("영화 정보를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.");
-      },
-    );
-
-    if (movies) renderMovieList(movies);
-    removeSkeleton();
-  })();
-
   const moreButton = document.querySelector("#more-button");
   moreButton?.addEventListener("click", () => {
     pageState.incrementPage();
@@ -108,7 +108,7 @@ addEventListener("load", async () => {
       const page = pageState.getPage();
 
       const movies = await errorTryCatch(
-        async () => await getMoviePopular({ page }),
+        async () => await getPopularMovie({ page }),
         async (e: ApiError) => {
           if (e.status_code == 22) {
             alert("잘못된 페이지 요청입니다.");
@@ -134,4 +134,6 @@ addEventListener("load", async () => {
       handleSearch();
     }
   });
+
+  await Promise.all([loadTopRatedMovie(), loadPopularMovie()]);
 });
