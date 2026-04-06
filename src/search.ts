@@ -1,25 +1,31 @@
 import renderMovieItemsToList from "./render/renderMovieItemsToList";
 import removeSkeletonItems from "./render/removeSkeletonItems";
+import renderSearchInput from "./render/renderSearchInput";
+import renderSearchListrEmptyAlert from "./render/renderSearchListrEmptyAlert";
+import renderSearchListTitle from "./render/renderSearchListTitle";
 import renderShowMoreButton from "./render/renderShowMoreButton";
-import renderSkeletonItemsToList from "./render/renderSkeletonItemsToList";
+import renderSkeletonItems from "./render/renderSkeletonItemsToList";
 import renderTopRatedMovie from "./render/renderTopRatedMovie";
 import { MovieListResponse, Movie } from "./type";
-import { fetchMoviesByPageRange, getPage, handleError, setPage } from "./utils";
+import { fetchMoviesByPageRange, getPage, getQuery, handleError, setPage, setQuery } from "./utils";
 
 addEventListener("load", async () => {
   let prevResponseList: MovieListResponse[] = [];
 
   try {
-    async function renderPopularMoviePage(initPage: number) {
-      renderSkeletonItemsToList(20);
+    async function renderSearchMoviePage(page: number, query: string) {
+      renderSearchListTitle(query);
+      renderSkeletonItems(20);
 
       const responseList = await fetchMoviesByPageRange(
-        "/movie/popular",
+        "/search/movie",
         prevResponseList.length,
-        initPage,
+        page,
+        query
       );
 
-      setPage(initPage);
+      setPage(page);
+      setQuery(query);
 
       removeSkeletonItems();
 
@@ -30,10 +36,11 @@ addEventListener("load", async () => {
       }, []);
 
       renderMovieItemsToList(movieList);
+      renderSearchListrEmptyAlert();
 
-      renderShowMoreButton(prevResponseList, initPage, async () => {
+      renderShowMoreButton(prevResponseList, page, async () => {
         try {
-          await renderPopularMoviePage(getPage() + 1);
+          await renderSearchMoviePage(getPage() + 1, getQuery());
         } catch (error) {
           handleError(error);
         } finally {
@@ -42,7 +49,9 @@ addEventListener("load", async () => {
       })
     }
 
-    await renderPopularMoviePage(getPage());
+    renderSearchInput(getQuery());
+
+    await renderSearchMoviePage(getPage(), getQuery());
 
     if (prevResponseList.length && prevResponseList[0].results.length) {
       renderTopRatedMovie(prevResponseList[0].results[0])

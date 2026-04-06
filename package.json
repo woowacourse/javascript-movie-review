@@ -19,7 +19,7 @@
   "bugs": {
     "url": "https://github.com/woowacourse-projects/javascript-movie-review/issues"
   },
-  "homepage": "https://{username}.github.io/javascript-movie-review",
+  "homepage": "https://bel1c10ud.github.io/javascript-movie-review",
   "devDependencies": {
     "@babel/core": "^7.29.0",
     "@babel/preset-env": "^7.29.0",

@@ -1,0 +1,46 @@
+.skeleton {
+  background: linear-gradient(90deg, #2a2a2a 25%, #3a3a3a 50%, #2a2a2a 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 8px;
+}
+
+.skeleton-top-rated-movie-rate {
+  display: inline-block;
+  width: 32px;
+  height: 26.56px;
+}
+
+.skeleton-top-rated-movie-title {
+  width: 480px;
+  height: 46px;
+}
+
+.skeleton-list-title {
+  width: 240px;
+  height: 36px;
+}
+
+.skeleton-item .thumbnail {
+  display: block;
+}
+
+.skeleton-rate {
+  width: 60px;
+  height: 14px;
+}
+
+.skeleton-title {
+  width: 120px;
+  height: 16px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
+}
