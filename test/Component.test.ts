@@ -18,6 +18,16 @@ describe("컴포넌트 테스트", () => {
     expect(movieComponent).contain('alt="겨울왕국"');
   });
 
+  test("영화 포스터 경로가 존재하지 않을때 기본 이미지를 사용한다", () => {
+    const movieData = {
+      poster_path: null,
+      title: "신세계",
+      vote_average: 9.5,
+    };
+    const movieComponent = Component.movie(movieData);
+    expect(movieComponent).contain('src="/src/images/no_image_planet.png"');
+  });
+
   test("movie 스캘레톤", () => {
     const movieSkeletonComponent = Component.movieSkeleton();
 
