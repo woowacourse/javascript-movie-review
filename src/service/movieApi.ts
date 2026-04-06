@@ -29,6 +29,6 @@ export const fetchDefaultMovieList = async (pageNum: number): Promise<Movie[]> =
 }
 
 export const fetchSearchMovieList = async (pageNum: number, searchBarText: string): Promise<Movie[]> => {
-    const URL = `${BASE_API.baseURL}/search/movie?api_key=${BASE_API.api_key}&query=${encodeURIComponent(searchBarText)}&language=${BASE_API.language}=${pageNum}`
+    const URL = `${BASE_API.baseURL}/search/movie?api_key=${BASE_API.api_key}&query=${encodeURIComponent(searchBarText)}&language=${BASE_API.language}&page=${pageNum}`
     return fetchMovieList(URL)
 }
