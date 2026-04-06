@@ -1,5 +1,8 @@
 import { apiUrl, apiKey } from "../constants/env";
-import { Movie, Movies } from "./dto";
+
+import { parseMovies } from "./mapper";
+
+import { Movies } from "./dto";
 
 export class ApiError extends Error {
   status_code: number;
@@ -9,29 +12,6 @@ export class ApiError extends Error {
     this.name = "ApiError";
     this.status_code = status_code;
   }
-}
-
-const isObject = (value: unknown): value is Record<string, unknown> => {
-  return value !== null && typeof value === 'object'
-}
-
-const fromMovieDto = (movie: unknown) => {
-  if (!isObject(movie)) return null;
-
-  if(!('title' in movie)) return null;
-
-  return {
-    ...movie,
-    poster_path: movie.poster_path === 'string' ? movie.poster_path: null,
-  }
-}
-
-const parseMovies = (rawList: unknown): Movie[] => {
-  if(!Array.isArray(rawList)) throw new Error("Invalid data");
-
-   return rawList
-    .map(fromMovieDto)
-    .filter((movie): movie is Movie => movie !== null);
 }
 
 export const getMoviePopular = async ({
