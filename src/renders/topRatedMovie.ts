@@ -7,7 +7,12 @@ export const renderTopRatedMovie = (movies: Movies) => {
 
   const overlay = document.querySelector<HTMLDivElement>(".overlay");
   if (!overlay) return null;
-  overlay.style.background = `url(${`https://media.themoviedb.org/t/p/w1920_and_h800_multi_faces` + topRatedMovie.backdrop_path}) center center no-repeat`;
+
+  const BASE_URL = `https://media.themoviedb.org/t/p/w1920_and_h800_multi_faces`;
+  const FALLBACK = '/images/no_image_large.png';
+
+  const backgroundImage = topRatedMovie.backdrop_path ? BASE_URL + topRatedMovie.backdrop_path: FALLBACK;
+  overlay.style.backgroundImage = `url(${backgroundImage}), url(${FALLBACK}) `;
 
   const rateValue = topRatedContainer.querySelector(".rate-value");
   if (!rateValue) return null;
