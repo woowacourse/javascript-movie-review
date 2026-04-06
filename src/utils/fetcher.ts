@@ -21,15 +21,11 @@ export const fetcher = async <T, U>(
     },
   };
 
-  try {
-    const response = await fetch(endpoint, defaultOptions);
-    if (response.ok) {
-      const data: T = await parseJSON(response);
-      return data;
-    }
-    const error: U = await parseJSON(response);
-    throw error;
-  } catch (error) {
-    throw error;
+  const response = await fetch(endpoint, defaultOptions);
+  if (response.ok) {
+    const data: T = await parseJSON(response);
+    return data;
   }
+  const error: U = await parseJSON(response);
+  throw error;
 };
