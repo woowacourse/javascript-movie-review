@@ -26,7 +26,16 @@ describe("오류 대응 테스트", () => {
     cy.wait("@getPopularPage1");
   });
 
-  it("검색어가 입력되지 않을 경우 검색버튼을 눌러도 검색 기능을 수행하지 않고 입력 부분을 다시 포커싱한다.", () => {
+  it("검색어가 입력되지 않을 경우 검색버튼을 눌러도 검색 기능을 수행하지 않는다.", () => {
+    cy.get("#search-button").click();
+
+    cy.get("#movie-list li").then((eleBefore) => {
+      const prevLength = eleBefore.length;
+      cy.get("#movie-list li").should("have.length", prevLength);
+    })
+  });
+
+  it("검색어가 입력되지 않을 경우 검색버튼을 누르면 부분을 다시 포커싱한다.", () => {
     cy.get("#search-button").click();
 
     cy.focused().should("have.id", "search-input");
