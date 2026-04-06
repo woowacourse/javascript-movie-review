@@ -3,19 +3,19 @@ import { Movie } from "../types";
 export const fetchDefaultMovieList = async (
   pageNum: number,
 ): Promise<Movie[]> => {
-  const data = await request("/movie/popular/", { params: pageNum });
-  return data.results();
+  const data = await request("/movie/popular", { page: pageNum });
+  return data.results;
 };
 
 export const fetchSearchMovieList = async (
   pageNum: number,
   searchBarText: string,
 ): Promise<Movie[]> => {
-  const data = await request("/search/movie/", {
-    params: pageNum,
-    searchBarText,
+  const data = await request("/search/movie", {
+    page: pageNum,
+    query: searchBarText,
   });
-  return data.results();
+  return data.results;
 };
 
 const BASE_URL = "https://api.themoviedb.org/3";
