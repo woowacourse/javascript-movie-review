@@ -12,6 +12,7 @@ export const renderSkeleton = () => {
     ) as DocumentFragment;
     if (!skeletonCloneNode) return null;
 
+    skeleton.classList.add("animation");
     skeleton.appendChild(skeletonCloneNode);
   }
 };
@@ -19,8 +20,6 @@ export const renderSkeleton = () => {
 export const removeSkeleton = () => {
   const skeleton = document.querySelector<HTMLDivElement>("#skeleton");
   if (!skeleton) return;
-
-  skeleton.classList.add("animation");
 
   setTimeout(() => {
     skeleton.classList.remove("animation");
