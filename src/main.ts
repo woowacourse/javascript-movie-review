@@ -1,6 +1,6 @@
 import { createSearchForm } from "./components/search-form";
 import { createHero } from "./components/hero";
-import { createMovieList } from "./components/movie-list";
+import { createMovieList } from "./components/movie";
 import { createButton } from "./components/button";
 import { apiRequest } from "./utils/api";
 import { PopularMovieResponse } from "./types/api";
