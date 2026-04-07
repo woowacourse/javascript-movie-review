@@ -15,7 +15,6 @@ body {
   background-color: var(--color-bluegray-80);
 }
 
-#wrap,
 section {
   display: flex;
   flex-direction: column;
@@ -113,22 +112,6 @@ display: flex;
   margin-bottom: 20px;
 }
 
-#wrap {
-  min-width: 1440px;
-  background-color: var(--color-bluegray-100);
-}
-
-#wrap h2 {
-  font-size: 1.4rem;
-  font-weight: bold;
-  margin-bottom: 32px;
-}
-
-.container {
-  max-width: 1280px;
-  margin: 0 auto;
-}
-
 .background-container {
   position: relative;
   background-position: center center;
@@ -170,10 +153,6 @@ h1.logo {
 
 .top-rated-movie > *:not(:last-child) {
   margin-bottom: 8px;
-}
-
-h1.logo {
-  font-size: 2rem;
 }
 
 .rate {
