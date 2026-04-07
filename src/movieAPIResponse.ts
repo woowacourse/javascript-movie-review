@@ -42,3 +42,5 @@ export const fetchSearchedMovies = async (
   const data: MovieResponse = await response.json();
   return data;
 };
+
+// export const fetchMovieDetail = async (movieId: number): Promise<>
