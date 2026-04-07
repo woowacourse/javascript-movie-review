@@ -21,7 +21,8 @@ import PageState from "./states/PageState";
 import { updateMoreButton } from "./renders/moreButton";
 import { baseUrl } from "./constants/env";
 
-const pageState = new PageState();
+const popularPageState = new PageState();
+const searchPageState = new PageState();
 
 const showErrorAlert = (error: unknown) => {
   if (error instanceof ApiError && error.status_code === 22) {
@@ -48,7 +49,7 @@ const loadTopRatedMovie = async () => {
 const loadPopularMovies = async () => {
   try {
     renderSkeleton();
-    const page = pageState.getPage();
+    const page = popularPageState.getPage();
     const movies = await getPopularMovies({ page });
 
     if (movies) {
@@ -66,7 +67,7 @@ const loadSearchMovies = async () => {
   try {
     const search = getSearchParams("search") as string;
 
-    const page = pageState.getPage();
+    const page = searchPageState.getPage();
     const movies = await getSearchMovies({
       page,
       query: search || "",
@@ -90,14 +91,15 @@ const loadSearchMovies = async () => {
 };
 
 const loadMoreMovies = async () => {
-  pageState.incrementPage();
   const isSearchParams = hasSearchParams("search");
 
   if (isSearchParams) {
+    searchPageState.incrementPage();
     loadSearchMovies();
     return;
   }
 
+  popularPageState.incrementPage();
   loadPopularMovies();
 };
 
@@ -111,7 +113,7 @@ const handleSearch = () => {
     return;
   }
 
-  pageState.resetPage();
+  searchPageState.resetPage();
 
   const searchUrl = new URL(baseUrl, window.location.origin);
   searchUrl.searchParams.set("search", search);
