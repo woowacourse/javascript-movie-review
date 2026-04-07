@@ -49,4 +49,13 @@ export default class MovieList {
       this.movieList?.append(new MovieCard(movie).render());
     });
   }
+
+  renderError(message: string) {
+    this.clearList();
+    this.movieContainer!.innerHTML = `
+      <div class="result-none">
+        <p class="result-none-text">${message}</p>
+      </div>
+    `;
+  }
 }

@@ -17,8 +17,7 @@ export async function initialRender(page: number): Promise<void> {
     movieList.renderMovieList(data);
     movieList.updateMoreButton(data.total_pages, page);
   } catch (error) {
-    movieList.clearList();
-    if (error instanceof Error) alert(error.message);
+    if (error instanceof Error) movieList.renderError(error.message);
   }
 }
 
@@ -43,7 +42,7 @@ export async function renderSearchResults(
 
     movieList.updateMoreButton(data.total_pages, page);
   } catch (error) {
-    if (error instanceof Error) alert(error.message);
+    if (error instanceof Error) movieList.renderError(error.message);
   }
 }
 
@@ -56,6 +55,6 @@ export async function renderMoreMovies(
     movieList.renderMovieList(data);
     movieList.updateMoreButton(data.total_pages, page);
   } catch (error) {
-    if (error instanceof Error) alert(error.message);
+    if (error instanceof Error) movieList.renderError(error.message);
   }
 }

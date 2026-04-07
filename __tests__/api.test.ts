@@ -1,9 +1,6 @@
 import { vi, expect, test, describe } from "vitest";
 import { Movie } from "../types/types";
-import {
-  getPopularMovies,
-  getSearchMovies,
-} from "../src/features/movieModel.ts";
+import { getPopularMovies, getSearchMovies } from "../src/features/movieModel";
 
 describe("TMDB API에서 영화 목록을 가져온다.", () => {
   test("인기 영화 API 성공 시 데이터 반환", async () => {
@@ -35,7 +32,9 @@ describe("TMDB API에서 영화 목록을 가져온다.", () => {
       status: 404,
     })) as any;
 
-    await expect(getPopularMovies(1)).rejects.toThrow("영화 데이터를 불러오는 중 오류가 발생했습니다.");
+    await expect(getPopularMovies(1)).rejects.toThrow(
+      "영화 데이터를 불러오는 중 오류가 발생했습니다.",
+    );
   });
 
   test("검색 API 성공 시 데이터 반환", async () => {
