@@ -1,9 +1,6 @@
-import { showBackgroundMovieInfo } from "./view/movieListView.ts";
 import { bindMovieEvents } from "./events/bindMovieEvent.ts";
 import { State } from "./types.ts";
-import { loadMovies } from "./service/loadMovies.ts";
 import { createMovieController } from "./controller/movieController.ts";
-import { showErrorText } from "./view/textView.ts";
 
 const state: State = {
   pageNum: 1,
