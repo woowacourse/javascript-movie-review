@@ -1,16 +1,19 @@
 import { State } from "../types";
 import { getElement } from "./getElementView";
 
-export const hideSearchErrorText = () => {
-  const errorContainer = getElement(".search-error-container");
+export const hideErrorText = () => {
+  const errorContainer = getElement(".error-container");
   errorContainer.hidden = true;
 
-  const searchError = getElement(".error-text");
-  searchError.textContent = "";
+  const errorText = getElement(".error-text");
+  errorText.textContent = "";
 };
 export const showErrorText = (string: string) => {
-  const searchError = getElement(".error-text");
-  searchError.textContent = string;
+  const errorContainer = getElement(".error-container");
+  errorContainer.hidden = false;
+
+  const errorText = getElement(".error-text");
+  errorText.textContent = string;
 };
 
 export const updateTitleText = (state: State) => {
@@ -24,11 +27,4 @@ export const updateTitleText = (state: State) => {
     background.hidden = true;
     description.textContent = `'${state.searchBarText}' 검색 결과`;
   }
-};
-export const controlSearchResultText = () => {
-  const errorContainer = getElement(".search-error-container");
-  errorContainer.hidden = false;
-
-  const searchError = getElement(".search-error-text");
-  searchError.textContent = "검색 결과가 없습니다.";
 };

@@ -2,8 +2,7 @@ import { loadMovies } from "../service/loadMovies";
 import { State } from "../types";
 import { showBackgroundMovieInfo } from "../view/movieListView";
 import {
-  controlSearchResultText,
-  hideSearchErrorText,
+  hideErrorText,
   showErrorText,
   updateTitleText,
 } from "../view/textView";
@@ -32,13 +31,13 @@ export const createMovieController = (state: State) => ({
     state.searchBarText = searchBarText;
 
     try {
-      hideSearchErrorText();
+      hideErrorText();
       updateTitleText(state);
 
       await loadMovies({ state, reset: true });
 
       if (state.searchBarText !== "" && state.movieList.length === 0)
-        controlSearchResultText();
+        showErrorText("검색 결과가 없습니다.");
     } catch (error) {
       showErrorText("검색 결과를 불러오지 못했습니다.");
     }
