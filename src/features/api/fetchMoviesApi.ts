@@ -1,10 +1,11 @@
 import { API_KEY, BASE_URL } from "../../constants/constant";
+import { MovieResponse } from "../../../types/types";
 
 export async function fetchMoviesApi(
   path: string,
   page: number,
   params: string = "",
-) {
+): Promise<MovieResponse> {
   const queryUrl: string =
     params === "" ? "" : `&query=${encodeURIComponent(params)}`;
 
