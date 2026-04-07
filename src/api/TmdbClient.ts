@@ -1,6 +1,10 @@
+import { API_PATH, BASE_URL, DEFAULT_LANGUAGE } from "../constants/constant";
 import { ApiError, ApiParseError, ConfigError, NetworkError } from "../errors/DomainErrors";
-import { createMovieApiUrl, createRequestOptions, mapFetchMoviePageDataResponse } from "./apiBuilder";
-import { FetchMoviePageDataResponse } from "./apiTypes";
+import { mapFetchMoviePageDataResponse } from "./movieResponseMapper";
+import type { FetchMoviePageDataResponse } from "./apiTypes";
+
+type QueryValue = string | number | boolean;
+type QueryParams = Record<string, QueryValue | undefined>;
 
 export class TmdbClient {
   constructor(private readonly apiKey: string) {
@@ -10,32 +14,54 @@ export class TmdbClient {
   }
 
   fetchPopular(page: number): Promise<FetchMoviePageDataResponse> {
-    return this.request(page, "");
+    return this.requestJson<unknown>(API_PATH.POPULAR_MOVIE, {page})
+      .then(mapFetchMoviePageDataResponse);
   }
 
   searchMovies(query: string, page: number): Promise<FetchMoviePageDataResponse> {
-    return this.request(page, query);
+    return this.requestJson<unknown>(API_PATH.SEARCH_MOVIE, {query, page})
+      .then(mapFetchMoviePageDataResponse);
   }
 
-  private async request(page: number, query: string): Promise<FetchMoviePageDataResponse> {
+  private async requestJson<T>(path: string, params: QueryParams): Promise<T> {
+    const url = this.buildUrl(path, params);
+
     let response: Response;
+
     try {
-      response = await fetch(createMovieApiUrl(page, query), createRequestOptions());
+      response = await fetch(url, {
+        method: "GET",
+        headers: {
+          accept: "application/json",
+          Authorization: `Bearer ${this.apiKey}`,
+        },
+      });
     } catch (cause) {
-      throw new NetworkError("네트워크 요청 실패", cause);
+        throw new NetworkError("네트워크 요청 실패", cause);
     }
 
     if (!response.ok) {
-      throw new ApiError(response.status, `TMDB API ${response.status}`);
+        throw new ApiError(response.status, `TMDB API ${response.status}`);
     }
 
-    let json: unknown;
     try {
-      json = await response.json();
+        return (await response.json() as T);
     } catch (cause) {
-      throw new ApiParseError("응답 JSON 파싱 실패", cause);
+        throw new ApiParseError("응답 JSON 파싱 실패", cause);
+    }
+  }
+
+  private buildUrl(path: string, params: QueryParams): URL {
+    const url = new URL(`${BASE_URL.TMDB_BASE_URL}${path}`);
+
+    url.searchParams.set("language", DEFAULT_LANGUAGE);
+    for (const [key, value] of Object.entries(params)) {
+      if (value === undefined || value === "") {
+        continue;
+      }
+      url.searchParams.set(key, String(value));
     }
 
-    return mapFetchMoviePageDataResponse(json);
+    return url;
   }
 }

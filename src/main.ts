@@ -1,33 +1,16 @@
 import type { AppElements } from "../types/dom";
-import type { FetchMoviePageDataResponse } from "./api/apiTypes";
-import { PAGE_TITLE } from "./constants/constant";
-import type { State } from "../types/state";
 import { getAppElements } from "./utils/AppElementUtil";
 import { notifyEmptyQuery, notifyError } from "./utils/NotifyUtil";
-import { makeSkeleton, renderHeroMovie, renderMovies } from "./utils/RenderUtil";
+import { renderHeroMovie } from "./utils/RenderUtil";
 import { TmdbClient } from "./api/TmdbClient";
-
-const state: State = {
-  currentPage: 0,
-  totalPage: 0,
-  movieList: [],
-  query: "",
-};
+import { makeSkeleton, renderMovies } from "./movie-list/movieListRender";
+import { MovieListStore } from "./movie-list/MovieListStore";
 
 const tmdb = new TmdbClient(import.meta.env.VITE_TMDB_API_KEY);
-
-// 쿼리를 받아서 fetch 함
-const fetchMoviePages = async (query: string): Promise<FetchMoviePageDataResponse> => {
-  const response: FetchMoviePageDataResponse =
-    query !== ""
-      ? await tmdb.searchMovies(query, state.currentPage + 1)
-      : await tmdb.fetchPopular(state.currentPage + 1);
-
-  return response;
-};
+const movieListStore = new MovieListStore(tmdb);
 
 const syncHeroSection = (elements: AppElements) => {
-  const shouldShowHero = state.query === "" && state.movieList.length > 0;
+  const shouldShowHero = movieListStore.query === "" && movieListStore.movies.length > 0;
 
   elements.heroSection.hidden = !shouldShowHero;
   elements.siteHeader.classList.toggle("site-header--overlay", shouldShowHero);
@@ -36,52 +19,37 @@ const syncHeroSection = (elements: AppElements) => {
     return;
   }
 
-  renderHeroMovie(state.movieList[0], elements);
+  renderHeroMovie(movieListStore.movies[0], elements);
 };
 
 const syncSeeMoreButton = (elements: AppElements) => {
-  const shouldHideSeeMoreButton = state.currentPage >= state.totalPage;
-
-  elements.seeMoreBtn.hidden = shouldHideSeeMoreButton;
+  elements.seeMoreBtn.hidden = !movieListStore.hasMore;
 };
 
 const syncNoResultSection = (elements: AppElements) => {
-  const shouldHideNoResultSection = !(state.query !== "" && state.movieList.length === 0);
-
-  elements.noResult.hidden = shouldHideNoResultSection;
+  elements.noResult.hidden = !(movieListStore.query !== "" && movieListStore.movies.length === 0);
 };
 
-const updateMovieState = (newState: State) => {
-  state.query = newState.query;
-  state.currentPage = newState.currentPage;
-  state.totalPage = newState.totalPage;
-  state.movieList = newState.movieList;
-};
-
-const loadMovies = async (elements: AppElements) => {
+const loadAndRenderMovies = async (elements: AppElements, kind: "popular" | "search" | "more", query?: string) => {
   makeSkeleton(elements.skeletonCard);
 
-  const response = await fetchMoviePages(state.query);
+  try {
+    if (kind === "popular") await movieListStore.loadPopular();
+    else if (kind === "search") await movieListStore.search(query!);
+    else await movieListStore.loadNextPage();
 
-  updateMovieState({
-    currentPage: response.currentPage,
-    totalPage: response.totalPages,
-    movieList: [...state.movieList, ...response.results],
-    query: state.query,
-  });
-
-  if (state.currentPage === 1) {
-    elements.movieSectionTitle.innerHTML = state.query ? PAGE_TITLE.SEARCH(state.query) : PAGE_TITLE.POPULAR;
+    renderMovies([...movieListStore.movies], elements.movieList);
+    syncSeeMoreButton(elements);
+    syncNoResultSection(elements);
+  } catch (error) {
+    notifyError(error);
+  } finally {
+    elements.skeletonCard.innerHTML = "";
   }
-  elements.skeletonCard.innerHTML = "";
-
-  renderMovies(state.movieList, elements.movieList);
-  syncSeeMoreButton(elements);
-  syncNoResultSection(elements);
 };
 
 const initializeMoviePage = async (elements: AppElements) => {
-  await loadMovies(elements);
+  await loadAndRenderMovies(elements, "popular");
   syncHeroSection(elements);
 };
 
@@ -100,7 +68,7 @@ window.addEventListener("load", () => {
 const bindEvents = (elements: AppElements) => {
   elements.seeMoreBtn.addEventListener("click", async (event) => {
     event.preventDefault();
-    await loadMovies(elements);
+    await loadAndRenderMovies(elements, "more");
   });
 
   elements.searchForm.addEventListener("submit", async (event) => {
@@ -114,14 +82,7 @@ const bindEvents = (elements: AppElements) => {
       return;
     }
 
-    updateMovieState({
-      currentPage: 0,
-      totalPage: 0,
-      movieList: [],
-      query,
-    });
-
-    await loadMovies(elements);
+    await loadAndRenderMovies(elements, "search", query);
     syncHeroSection(elements);
   });
 };

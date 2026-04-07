@@ -1,44 +1,8 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 
-import { createMovieApiUrl, createRequestOptions, mapFetchMoviePageDataResponse } from "../../src/API/apiBuilder";
+import { mapFetchMoviePageDataResponse } from "../../src/api/movieResponseMapper";
 
-describe("apiBuilder", () => {
-  beforeEach(() => {
-    vi.stubEnv("VITE_TMDB_API_KEY", "test-api-key");
-  });
-
-  afterEach(() => {
-    vi.unstubAllEnvs();
-  });
-
-  it("인기 영화 조회 URL을 생성한다", () => {
-    const url = createMovieApiUrl(1, "");
-
-    expect(url.pathname).toBe("/3/movie/popular");
-    expect(url.searchParams.get("language")).toBe("ko-KR");
-    expect(url.searchParams.get("page")).toBe("1");
-    expect(url.searchParams.has("query")).toBe(false);
-  });
-
-  it("검색어가 있으면 검색 URL을 생성한다", () => {
-    const url = createMovieApiUrl(2, "해리");
-
-    expect(url.pathname).toBe("/3/search/movie");
-    expect(url.searchParams.get("language")).toBe("ko-KR");
-    expect(url.searchParams.get("page")).toBe("2");
-    expect(url.searchParams.get("query")).toBe("해리");
-  });
-
-  it("TMDB 요청 옵션을 생성한다", () => {
-    expect(createRequestOptions()).toEqual({
-      method: "GET",
-      headers: {
-        accept: "application/json",
-        Authorization: "Bearer test-api-key",
-      },
-    });
-  });
-
+describe("mapFetchMoviePageDataResponse", () => {
   it("TMDB 응답을 Movie 페이지 데이터로 변환한다", () => {
     const response = mapFetchMoviePageDataResponse({
       page: 3,
