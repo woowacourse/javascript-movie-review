@@ -2,7 +2,6 @@ import MovieCard from "./MovieCard.ts";
 import MovieSkeleton from "./MovieSkeleton.ts";
 import { Movie } from "../../../types/types";
 import noSearchImg from "../../images/Nosearch.png";
-import { eventBus, APP_EVENTS } from "../../pubsub/EventBus";
 
 export default class MovieList {
   movieList: Element | null;
@@ -11,32 +10,6 @@ export default class MovieList {
   constructor() {
     this.movieList = document.querySelector(".thumbnail-list");
     this.movieContainer = document.querySelector(".main-result");
-    this.subscribeEvents();
-  }
-
-  private subscribeEvents() {
-    eventBus.subscribe(APP_EVENTS.LOAD_START, () => {
-      this.renderSkeleton();
-    });
-
-    eventBus.subscribe(APP_EVENTS.MOVIES_LOADED, (data) => {
-      this.clearList();
-      this.renderMovieList(data);
-    });
-
-    eventBus.subscribe(APP_EVENTS.SEARCH_LOADED, (data) => {
-      if (data.results.length === 0) {
-        this.clearList();
-        this.showEmpty();
-      } else {
-        this.clearList();
-        this.renderMovieList(data);
-      }
-    });
-
-    eventBus.subscribe(APP_EVENTS.MORE_LOADED, (data) => {
-      this.renderMovieList(data);
-    });
   }
 
   showEmpty() {

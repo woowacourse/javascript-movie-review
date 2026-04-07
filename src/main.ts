@@ -4,22 +4,11 @@ import {
   searchRender,
 } from "./features/handler/controllerHandlers";
 import { state } from "./state";
-import { eventBus, APP_EVENTS } from "./pubsub/EventBus";
-import { updateMoreButton } from "./utils/dom";
+import { setupSubscriptions } from "./setup";
 
 const moreButton = document.querySelector(".btn-more") as HTMLButtonElement;
 
-eventBus.subscribe(APP_EVENTS.MOVIES_LOADED, (data) => {
-  updateMoreButton(moreButton, data.total_pages, state.page);
-});
-
-eventBus.subscribe(APP_EVENTS.SEARCH_LOADED, (data) => {
-  updateMoreButton(moreButton, data.total_pages, state.page);
-});
-
-eventBus.subscribe(APP_EVENTS.MORE_LOADED, (data) => {
-  updateMoreButton(moreButton, data.total_pages, state.page);
-});
+setupSubscriptions(moreButton);
 
 addEventListener("load", async () => {
   await initialRender(state.page);

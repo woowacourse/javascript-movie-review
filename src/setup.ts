@@ -1,0 +1,37 @@
+import { eventBus, APP_EVENTS } from "./pubsub/EventBus";
+import { Header } from "./features/UI/Header";
+import { movieListInstance } from "./features/UI/MovieList";
+import { updateMoreButton } from "./utils/dom";
+import { state } from "./state";
+
+export function setupSubscriptions(moreButton: HTMLButtonElement): void {
+  eventBus.subscribe(APP_EVENTS.LOAD_START, () => {
+    movieListInstance.renderSkeleton();
+  });
+
+  eventBus.subscribe(APP_EVENTS.MOVIES_LOADED, (data) => {
+    Header.clearHeader();
+    Header.render(data.results[0] ?? null);
+    movieListInstance.clearList();
+    movieListInstance.renderMovieList(data);
+    updateMoreButton(moreButton, data.total_pages, state.page);
+  });
+
+  eventBus.subscribe(APP_EVENTS.SEARCH_LOADED, (data) => {
+    Header.clearHeader();
+    Header.renderSearch();
+    if (data.results.length === 0) {
+      movieListInstance.clearList();
+      movieListInstance.showEmpty();
+    } else {
+      movieListInstance.clearList();
+      movieListInstance.renderMovieList(data);
+    }
+    updateMoreButton(moreButton, data.total_pages, state.page);
+  });
+
+  eventBus.subscribe(APP_EVENTS.MORE_LOADED, (data) => {
+    movieListInstance.renderMovieList(data);
+    updateMoreButton(moreButton, data.total_pages, state.page);
+  });
+}
