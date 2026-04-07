@@ -1,17 +1,17 @@
-import type { Movie } from "./api";
-import starEmptyImg from "./images/star_empty.png";
-import noImagePlanetImg from "./images/no_image_planet.png";
-import screamingPlanetImg from "./images/screaming_planet.svg";
-import planetAndStarImg from "./images/planet_and_star.png";
+import starEmptyImg from "../../images/star_empty.png";
+import noImagePlanetImg from "../../images/no_image_planet.png";
+import screamingPlanetImg from "../../images/screaming_planet.svg";
+import planetAndStarImg from "../../images/planet_and_star.png";
+
+//TODO: 타입 따로 분리하기
+import { Movie } from "../../api";
 
 const IMAGE_PATH = "https://image.tmdb.org/t/p/original";
 
 const Component = {
   movie(movieData: Pick<Movie, "poster_path" | "title" | "vote_average">) {
     const { poster_path, title, vote_average } = movieData;
-    const src = poster_path
-      ? `${IMAGE_PATH}/${poster_path}`
-      : noImagePlanetImg;
+    const src = poster_path ? `${IMAGE_PATH}/${poster_path}` : noImagePlanetImg;
     return `
     <li>
       <div class="item">
