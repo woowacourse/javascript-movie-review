@@ -4,6 +4,7 @@ import { Header } from "./features/ui/Header";
 import { movieListInstance } from "./features/ui/MovieList";
 import { updateMoreButton } from "./utils/dom";
 import { state } from "./state";
+import { initialRender } from "./features/handler/controllerHandlers";
 
 function attachLogoListener() {
   const logo = document.querySelector(".logo") as HTMLElement | null;
@@ -17,6 +18,11 @@ export function setupSubscriptions(
   moreButton: HTMLButtonElement,
   mainTitle: HTMLElement,
 ): void {
+  eventBus.subscribe(APP_EVENTS.LOGO_CLICK, async () => {
+    state.page = 1;
+    state.searchQuery = "";
+    await initialRender(state.page);
+  });
   eventBus.subscribe(APP_EVENTS.TITLE_CHANGED, (title) => {
     mainTitle.textContent = title;
   });

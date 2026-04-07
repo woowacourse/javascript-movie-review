@@ -5,19 +5,11 @@ import {
 } from "./features/handler/controllerHandlers";
 import { state } from "./state";
 import { setupSubscriptions } from "./init";
-import { eventBus } from "./pubsub/EventBus";
-import { APP_EVENTS } from "./pubsub/AppEvents";
 
 const moreButton = document.querySelector(".btn-more") as HTMLButtonElement;
 const mainTitle = document.querySelector(".main-title") as HTMLElement;
 
 setupSubscriptions(moreButton, mainTitle);
-
-eventBus.subscribe(APP_EVENTS.LOGO_CLICK, async () => {
-  state.page = 1;
-  state.searchQuery = "";
-  await initialRender(state.page);
-});
 
 addEventListener("load", async () => {
   await initialRender(state.page);
