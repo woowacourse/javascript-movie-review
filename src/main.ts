@@ -1,6 +1,6 @@
 import {
-  initialRender,
-  moreRender,
+  loadPopular,
+  loadMore,
   handleSearch,
 } from "./features/handler/controllerHandlers";
 import { state } from "./state";
@@ -12,7 +12,7 @@ const mainTitle = document.querySelector(".main-title") as HTMLElement;
 setupSubscriptions(moreButton, mainTitle);
 
 addEventListener("load", async () => {
-  await initialRender(state.page);
+  await loadPopular(state.page);
 });
 
 const submitContainer = document.querySelector(
@@ -27,5 +27,5 @@ submitContainer.addEventListener("submit", async (e: SubmitEvent) => {
 
 moreButton.addEventListener("click", async () => {
   state.page += 1;
-  await moreRender(state.page, state.searchQuery);
+  await loadMore(state.page, state.searchQuery);
 });

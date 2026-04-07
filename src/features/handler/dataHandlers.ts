@@ -12,7 +12,7 @@ async function fetchApi(
   return await fetchMoviesApi(POPULAR_PATH, page, searchMovie);
 }
 
-export async function handleMoreMovie(
+export async function readMoreMovies(
   page: number,
   searchMovie: string,
 ): Promise<MovieResponse> {
@@ -23,7 +23,7 @@ export async function handleMoreMovie(
   }
 }
 
-export async function handleMovie(page: number): Promise<MovieResponse> {
+export async function readPopularMovies(page: number): Promise<MovieResponse> {
   try {
     return await fetchApi(page);
   } catch (error) {
@@ -31,7 +31,7 @@ export async function handleMovie(page: number): Promise<MovieResponse> {
   }
 }
 
-export async function handleSearchMovie(
+export async function readSearchMovies(
   page: number,
   searchMovie: string,
 ): Promise<MovieResponse> {

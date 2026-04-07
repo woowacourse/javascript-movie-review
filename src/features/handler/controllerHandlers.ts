@@ -1,31 +1,31 @@
 import { MovieResponse } from "../../../types/types";
-import { handleMoreMovie, handleMovie, handleSearchMovie } from "./dataHandlers";
+import { readMoreMovies, readPopularMovies, readSearchMovies } from "./dataHandlers";
 import { eventBus } from "../../pubsub/EventBus";
 import { APP_EVENTS } from "../../pubsub/AppEvents";
 import { state } from "../../state";
 
-export async function initialRender(page: number): Promise<void> {
+export async function loadPopular(page: number): Promise<void> {
   eventBus.publish(APP_EVENTS.TITLE_CHANGED, "지금 인기 있는 영화");
   eventBus.publish(APP_EVENTS.LOAD_START, undefined);
-  const data: MovieResponse = await handleMovie(page);
+  const data: MovieResponse = await readPopularMovies(page);
   eventBus.publish(APP_EVENTS.MOVIES_LOADED, data);
 }
 
-export async function searchRender(
+export async function loadSearch(
   page: number,
   searchMovie: string,
 ): Promise<void> {
   eventBus.publish(APP_EVENTS.TITLE_CHANGED, `"${searchMovie}" 검색 결과`);
   eventBus.publish(APP_EVENTS.LOAD_START, undefined);
-  const data: MovieResponse = await handleSearchMovie(page, searchMovie);
+  const data: MovieResponse = await readSearchMovies(page, searchMovie);
   eventBus.publish(APP_EVENTS.SEARCH_LOADED, data);
 }
 
-export async function moreRender(
+export async function loadMore(
   page: number,
   searchMovie: string,
 ): Promise<void> {
-  const data: MovieResponse = await handleMoreMovie(page, searchMovie);
+  const data: MovieResponse = await readMoreMovies(page, searchMovie);
   eventBus.publish(APP_EVENTS.MORE_LOADED, data);
 }
 
@@ -33,8 +33,8 @@ export async function handleSearch(query: string): Promise<void> {
   state.page = 1;
   state.searchQuery = query;
   if (query === "") {
-    await initialRender(state.page);
+    await loadPopular(state.page);
     return;
   }
-  await searchRender(state.page, query);
+  await loadSearch(state.page, query);
 }
