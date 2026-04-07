@@ -21,6 +21,15 @@ import PageState from "./states/PageState";
 
 const pageState = new PageState();
 
+const showErrorAlert = (error: unknown) => {
+  if (error instanceof ApiError && error.status_code === 22) {
+    alert("잘못된 페이지 요청입니다.");
+    return;
+  }
+
+  alert("영화 정보를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.");
+};
+
 const loadTopRatedMovie = async () => {
   const topRatedMovies = await getTopRatedMovies();
   const topRatedMovie = topRatedMovies.results[0];
@@ -31,21 +40,16 @@ const loadTopRatedMovie = async () => {
 };
 
 const loadPopularMovies = async () => {
-  renderSkeleton();
-  const page = pageState.getPage();
-  const movies = await errorTryCatch(
-    async () => await getPopularMovies({ page }),
-    async (e: ApiError) => {
-      if (e.status_code == 22) {
-        alert("잘못된 페이지 요청입니다.");
-        return;
-      }
-      alert("영화 정보를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.");
-    },
-  );
+  try {
+    renderSkeleton();
+    const page = pageState.getPage();
+    const movies = await getPopularMovies({ page });
 
-  if (movies) renderMovieList(movies);
-  removeSkeleton();
+    if (movies) renderMovieList(movies);
+    removeSkeleton();
+  } catch (e) {
+    showErrorAlert(e);
+  }
 };
 
 const loadSearchMovies = async () => {
@@ -79,20 +83,7 @@ const loadMoreMovies = async () => {
     return;
   }
 
-  const page = pageState.getPage();
-
-  const movies = await errorTryCatch(
-    async () => await getPopularMovies({ page }),
-    async (e: ApiError) => {
-      if (e.status_code == 22) {
-        alert("잘못된 페이지 요청입니다.");
-        return;
-      }
-      alert("영화 정보를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.");
-    },
-  );
-
-  if (movies) renderMovieList(movies);
+  loadPopularMovies();
 };
 
 const handleSearch = () => {
@@ -110,14 +101,6 @@ const handleSearch = () => {
 
   removeMovieList();
   loadSearchMovies();
-};
-
-const errorTryCatch = async (api: Function, errorCallback: Function) => {
-  try {
-    return await api();
-  } catch (e) {
-    errorCallback(e);
-  }
 };
 
 addEventListener("load", () => {
