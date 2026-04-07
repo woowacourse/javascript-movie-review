@@ -1,4 +1,9 @@
 const API_KEY = import.meta.env.VITE_API_KEY;
+
+if (!API_KEY) {
+  throw new Error('API_KEY가 인증되지 않았습니다! 환경변수를 확인해주세요!');
+}
+
 const options = {
   method: 'GET',
   headers: {
