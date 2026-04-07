@@ -60,4 +60,4 @@ FE 레벨1 영화 리뷰 미션
 ---
 
 ## 모듈 관계도
-<img width="1261" height="696" alt="Image" src="https://github.com/user-attachments/assets/de6966be-0f1e-46de-a114-a4e4bd8a0ada" />
+<img width="1261" height="696" alt="573825628-de6966be-0f1e-46de-a114-a4e4bd8a0ada" src="https://github.com/user-attachments/assets/9a80d735-b365-4bc5-ab36-ced2ed260901" />
