@@ -4,7 +4,7 @@ import { Header } from "./features/ui/Header";
 import { movieListView } from "./features/ui/MovieList";
 import { updateMoreButton } from "./utils/dom";
 import { state } from "./state";
-import { loadPopular } from "./features/handler/controllerHandlers";
+import { handleLogo } from "./features/handler/controllerHandlers";
 
 function attachLogoListener() {
   const logo = document.querySelector(".logo") as HTMLElement | null;
@@ -18,11 +18,8 @@ export function setupSubscriptions(
   moreButton: HTMLButtonElement,
   mainTitle: HTMLElement,
 ): void {
-  eventBus.subscribe(APP_EVENTS.LOGO_CLICK, async () => {
-    state.page = 1;
-    state.searchQuery = "";
-    await loadPopular(state.page);
-  });
+  eventBus.subscribe(APP_EVENTS.LOGO_CLICK, handleLogo);
+  
   eventBus.subscribe(APP_EVENTS.TITLE_CHANGED, (title : string) => {
     mainTitle.textContent = title;
   });

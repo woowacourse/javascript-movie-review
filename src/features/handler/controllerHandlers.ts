@@ -4,6 +4,16 @@ import { eventBus } from "../../pubsub/EventBus";
 import { APP_EVENTS } from "../../pubsub/AppEvents";
 import { state } from "../../state";
 
+export async function handleInitial(): Promise<void> {
+  await loadPopular(state.page);
+}
+
+export async function handleLogo(): Promise<void> {
+  state.page = 1;
+  state.searchQuery = "";
+  await loadPopular(state.page);
+}
+
 export async function loadPopular(page: number): Promise<void> {
   eventBus.publish(APP_EVENTS.TITLE_CHANGED, "지금 인기 있는 영화");
   eventBus.publish(APP_EVENTS.LOAD_START, undefined);
@@ -37,4 +47,9 @@ export async function handleSearch(query: string): Promise<void> {
     return;
   }
   await loadSearch(state.page, query);
+}
+
+export async function handleMore(): Promise<void> {
+  state.page += 1;
+  await loadMore(state.page, state.searchQuery);
 }
