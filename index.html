@@ -1,12 +1,102 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>영화 리뷰</title>
-  </head>
+    <link rel="stylesheet" href="./src/styles/reset.css" />
+    <link rel="stylesheet" href="./src/styles/main.css" />
+    <link rel="stylesheet" href="./src/styles/tab.css" />
+    <link rel="stylesheet" href="./src/styles/thumbnail.css" />
   <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.ts"></script>
+    <div id="app">
+      <header>
+        <div class="top-header-conatiner">
+          <h1 class="logo">
+            <img src="./src/assets/logo.png" alt="MovieList" />
+          </h1>
+          <form class="search">
+            <input
+              class="search-input"
+              type="text"
+              aria-label="검색"
+              placeholder="검색어를 입력하세요"
+            />
+            <button class="search-button">
+              <img src="./src/assets/serchIcon.png" alt="검색버튼" />
+            </button>
+          </form>
+        </div>
+
+        <div class="background-container">
+          <div class="overlay" aria-hidden="true">
+            <img class="background-img" />
+          </div>
+          <div class="top-rated-container">
+            <div class="top-rated-movie">
+              <div class="rate">
+                <img src="./src/assets/star_empty.png" class="star" />
+                <span class="rate-value">-</span>
+              </div>
+              <div class="title">&nbsp;</div>
+              <button class="primary detail">자세히 보기</button>
+            </div>
+          </div>
+        </div>
+      </header>
+      <div class="container">
+        <!-- <ul class="tab">
+          <li>
+            <a href="#">
+              <div class="tab-item selected"><h3>상영 중</h3></div>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <div class="tab-item"><h3>인기순</h3></div>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <div class="tab-item"><h3>평점순</h3></div>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <div class="tab-item"><h3>상영 예정</h3></div>
+            </a>
+          </li>
+        </ul> -->
+        <main>
+          <section class="section-container">
+            <h2 class="section-title">지금 인기 있는 영화</h2>
+            <ul class="thumbnail-list">
+              <li class="movie-skeleton"></li>
+              <li class="movie-skeleton"></li>
+              <li class="movie-skeleton"></li>
+              <li class="movie-skeleton"></li>
+              <li class="movie-skeleton"></li>
+              <li class="movie-skeleton"></li>
+              <li class="movie-skeleton"></li>
+              <li class="movie-skeleton"></li>
+              <li class="movie-skeleton"></li>
+              <li class="movie-skeleton"></li>
+            </ul>
+            <div class="not-search-found-container">
+              <img class="not-search-found-img" src="./src/assets/searchNotFoundIcon.png" alt="검색 결과가 없어서 머리가 지끈한 행성이 이미지"/>
+              <h2 class="not-search-found-text">검색 결과가 없습니다.</h2>
+            </div>
+          </section>
+          <button type="button" class="more-button">더 보기</button>
+        </main>
+      </div>
+
+      <footer class="footer">
+        <p><img src="./src/assets/woowacourse_logo.png" width="180" /></p>
+        <p>&copy; 우아한테크코스 All Rights Reserved.</p>
+      </footer>
+    </div>
   </body>
 </html>
+
+<script type="module" src="./src/main.ts"></script>
