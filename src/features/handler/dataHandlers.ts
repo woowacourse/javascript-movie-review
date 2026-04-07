@@ -9,7 +9,6 @@ async function fetchApi(
   if (searchMovie) {
     return await fetchMoviesApi(SEARCH_PATH, page, searchMovie);
   }
-
   return await fetchMoviesApi(POPULAR_PATH, page, searchMovie);
 }
 

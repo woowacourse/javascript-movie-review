@@ -4,7 +4,7 @@ import {
   searchRender,
 } from "./features/handler/controllerHandlers";
 import { state } from "./state";
-import { setupSubscriptions } from "./setup";
+import { setupSubscriptions } from "./init";
 import { eventBus, APP_EVENTS } from "./pubsub/EventBus";
 
 const moreButton = document.querySelector(".btn-more") as HTMLButtonElement;
