@@ -3,8 +3,8 @@ import { getAppElements } from "./utils/AppElementUtil";
 import { notifyEmptyQuery, notifyError } from "./utils/NotifyUtil";
 import { renderHeroMovie } from "./utils/RenderUtil";
 import { TmdbClient } from "./api/TmdbClient";
-import { makeSkeleton, renderMovies } from "./movie-list/movieListRender";
 import { MovieListStore } from "./movie-list/MovieListStore";
+import { MovieListView } from "./movie-list/MovieListView";
 
 const tmdb = new TmdbClient(import.meta.env.VITE_TMDB_API_KEY);
 const movieListStore = new MovieListStore(tmdb);
@@ -22,53 +22,57 @@ const syncHeroSection = (elements: AppElements) => {
   renderHeroMovie(movieListStore.movies[0], elements);
 };
 
-const syncSeeMoreButton = (elements: AppElements) => {
-  elements.seeMoreBtn.hidden = !movieListStore.hasMore;
-};
-
-const syncNoResultSection = (elements: AppElements) => {
-  elements.noResult.hidden = !(movieListStore.query !== "" && movieListStore.movies.length === 0);
-};
-
-const loadAndRenderMovies = async (elements: AppElements, kind: "popular" | "search" | "more", query?: string) => {
-  makeSkeleton(elements.skeletonCard);
+const loadAndRenderMovies = async (
+  movieListView: MovieListView,
+  kind: "popular" | "search" | "more",
+  query?: string,
+) => {
+  movieListView.showSkeleton();
 
   try {
     if (kind === "popular") await movieListStore.loadPopular();
     else if (kind === "search") await movieListStore.search(query!);
     else await movieListStore.loadNextPage();
 
-    renderMovies([...movieListStore.movies], elements.movieList);
-    syncSeeMoreButton(elements);
-    syncNoResultSection(elements);
+    movieListView.renderMovies(movieListStore.movies);
+    movieListView.toggleSeeMore(movieListStore.hasMore);
+    movieListView.toggleNoResult(movieListStore.query !== "" && movieListStore.movies.length === 0);
   } catch (error) {
     notifyError(error);
   } finally {
-    elements.skeletonCard.innerHTML = "";
+    movieListView.hideSkeleton();
   }
 };
 
-const initializeMoviePage = async (elements: AppElements) => {
-  await loadAndRenderMovies(elements, "popular");
+const initializeMoviePage = async (elements: AppElements, movieListView: MovieListView) => {
+  await loadAndRenderMovies(movieListView, "popular");
   syncHeroSection(elements);
 };
 
 const main = async () => {
   const elements = getAppElements();
 
-  bindEvents(elements);
+  const movieListView = new MovieListView({
+    listElement: elements.movieList,
+    skeletonElement: elements.skeletonCard,
+    seeMoreButton: elements.seeMoreBtn,
+    sectionTitle: elements.movieSectionTitle,
+    noResult: elements.noResult,
+  });
 
-  await initializeMoviePage(elements);
+  bindEvents(elements, movieListView);
+
+  await initializeMoviePage(elements, movieListView);
 };
 
 window.addEventListener("load", () => {
   void main().catch((error) => notifyError(error));
 });
 
-const bindEvents = (elements: AppElements) => {
+const bindEvents = (elements: AppElements, movieListView: MovieListView) => {
   elements.seeMoreBtn.addEventListener("click", async (event) => {
     event.preventDefault();
-    await loadAndRenderMovies(elements, "more");
+    await loadAndRenderMovies(movieListView, "more");
   });
 
   elements.searchForm.addEventListener("submit", async (event) => {
@@ -82,7 +86,7 @@ const bindEvents = (elements: AppElements) => {
       return;
     }
 
-    await loadAndRenderMovies(elements, "search", query);
+    await loadAndRenderMovies(movieListView, "search", query);
     syncHeroSection(elements);
   });
 };
