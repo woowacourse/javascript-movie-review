@@ -37,6 +37,7 @@ class MovieListComponent {
     this.hideSkeleton();
 
     if (page === 1 && movies.length === 0) {
+      this.grid.className = "movie-list-empty";
       this.grid.appendChild(createEmpty());
     } else if (movies.length > 0) {
       this.grid.appendChild(this.createMovieUl(movies));
