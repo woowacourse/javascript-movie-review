@@ -1,6 +1,6 @@
 import MovieCard from "./MovieCard.ts";
 import MovieSkeleton from "./MovieSkeleton.ts";
-import { Movie } from "../../../types/types";
+import { Movie } from "../../../types/types.ts";
 import noSearchImg from "../../images/Nosearch.png";
 
 export default class MovieList {
