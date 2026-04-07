@@ -7,6 +7,7 @@ export type AppEventPayloads = {
   moreLoaded: MovieResponse;
   titleChanged: string;
   logoClick: void;
+  error: string;
 };
 
 export const APP_EVENTS = {
@@ -16,4 +17,5 @@ export const APP_EVENTS = {
   MORE_LOADED: "moreLoaded",
   TITLE_CHANGED: "titleChanged",
   LOGO_CLICK: "logoClick",
+  ERROR: "error",
 } as const satisfies Record<string, keyof AppEventPayloads>;
