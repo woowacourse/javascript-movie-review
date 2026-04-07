@@ -112,7 +112,7 @@ const handleSearch = () => {
   }
 
   pageState.resetPage();
-  navigate(`/?search=${search}`);
+  navigate(`${baseUrl}?search=${search}`);
 
   removeMovieList();
   loadSearchMovies();
