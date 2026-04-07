@@ -29,8 +29,8 @@ export class SearchPage {
   private createMoreButton(): HTMLButtonElement {
     const moreButton = createMoreButton(() => this.movieList.loadMore());
 
-    this.movieList.subscribe(({ isPending }) => {
-      moreButton.hidden = this.movieList.isLastPage();
+    this.movieList.subscribe(({ isPending, error }) => {
+      moreButton.hidden = this.movieList.isLastPage() || error;
       moreButton.disabled = isPending;
     });
 
