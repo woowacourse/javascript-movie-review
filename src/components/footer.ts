@@ -1,4 +1,6 @@
-export function createFooter(logoSrc: string): HTMLElement {
+import woowacourseLogoSrc from "../../templates/images/woowacourse_logo.png";
+
+export function createFooter(): HTMLElement {
   const footer = document.createElement("footer");
   footer.className = "footer";
 
@@ -7,8 +9,7 @@ export function createFooter(logoSrc: string): HTMLElement {
 
   const logoP = document.createElement("p");
   const logoImg = document.createElement("img");
-  logoImg.src = logoSrc;
-  logoImg.width = 180;
+  logoImg.src = woowacourseLogoSrc;
 
   logoP.appendChild(logoImg);
   footer.append(copyright, logoP);
