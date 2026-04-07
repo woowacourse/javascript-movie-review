@@ -1,3 +1,4 @@
+import { SearchForm } from "./search/SearchForm";
 import type { AppElements } from "../types/dom";
 import { getAppElements } from "./utils/AppElementUtil";
 import { notifyEmptyQuery, notifyError } from "./utils/NotifyUtil";
@@ -36,25 +37,21 @@ const main = async () => {
 
   const controller = new MovieListController(movieListStore, movieListView, { error: notifyError });
 
+  const searchForm = new SearchForm(
+    elements.searchForm,
+    elements.searchInput,
+    async (query) => {
+      await controller.search(query);
+      syncHeroSection(elements);
+    },
+    () => {
+      notifyEmptyQuery();
+    },
+  );
+
   elements.seeMoreBtn.addEventListener("click", async (event) => {
     event.preventDefault();
     await controller.loadMore();
-  });
-
-  elements.searchForm.addEventListener("submit", async (event) => {
-    event.preventDefault();
-
-    const query = elements.searchInput.value.trim();
-
-    if (!query) {
-      notifyEmptyQuery();
-      elements.searchInput.focus();
-      return;
-    }
-
-    await controller.search(query);
-
-    syncHeroSection(elements);
   });
 
   // 초기 로드
