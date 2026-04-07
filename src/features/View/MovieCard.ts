@@ -9,8 +9,9 @@ export default class MovieCard {
     this.movie = movie;
   }
 
-  render(): string {
-    return `<div class="item">
+  render(): HTMLLIElement {
+    const li = document.createElement("li");
+    li.innerHTML = `<div class="item">
       <img
          class="thumbnail"
          src="${THUMB_NAIL_URL}${this.movie.poster_path}"
@@ -25,5 +26,6 @@ export default class MovieCard {
         </div>
       </div>
     `;
+    return li;
   }
 }
