@@ -61,9 +61,9 @@ export const renderResultSectionContent = ({
     return;
   }
 
-  if (isError && errorMessage) {
+  if (isError) {
     errorContainer?.classList.remove("hidden");
-    errorMessageContent.innerText = errorMessage;
+    errorMessageContent.innerText = errorMessage || "🚨문제가 발생했습니다.🚨";
     return;
   }
 
