@@ -1,9 +1,12 @@
 import { vi, expect, test, describe } from "vitest";
 import { Movie } from "../types/types";
-import { fetchMoviesApi } from "../src/features/api/fetchMoviesApi";
+import {
+  fetchPopularMovies,
+  fetchSearchMovies,
+} from "../src/features/api/fetchMoviesApi";
 
-describe("TMDB API에서 인기 영화 목록을 가져온다.", () => {
-  test("API 성공 시 데이터 반환", async () => {
+describe("TMDB API에서 영화 목록을 가져온다.", () => {
+  test("인기 영화 API 성공 시 데이터 반환", async () => {
     global.fetch = vi.fn(async () => ({
       ok: true,
       json: () => ({
@@ -20,10 +23,19 @@ describe("TMDB API에서 인기 영화 목록을 가져온다.", () => {
     })) as any;
 
     const data: { results: Movie[]; total_pages: number } =
-      await fetchMoviesApi("movie/popular", 1);
+      await fetchPopularMovies(1);
 
     expect(data.results[0].title).toBe("Test Movie");
     expect(data.total_pages).toBe(11);
+  });
+
+  test("인기 영화 API 요청 실패 시 에러 발생", async () => {
+    global.fetch = vi.fn(async () => ({
+      ok: false,
+      status: 404,
+    })) as any;
+
+    await expect(fetchPopularMovies(1)).rejects.toThrow("API 요청 실패: 404");
   });
 
   test("검색 API 성공 시 데이터 반환", async () => {
@@ -33,19 +45,30 @@ describe("TMDB API에서 인기 영화 목록을 가져온다.", () => {
         results: [
           {
             id: 1,
-            title: "Test Movie",
-            poster_path: "/test.jpg",
-            vote_average: 7.5,
+            title: "Search Movie",
+            poster_path: "/search.jpg",
+            vote_average: 8.0,
           },
         ],
-        total_pages: 11,
+        total_pages: 5,
       }),
     })) as any;
 
     const data: { results: Movie[]; total_pages: number } =
-      await fetchMoviesApi("search/movie", 1, "아바타");
+      await fetchSearchMovies(1, "아바타");
 
-    expect(data.results[0].title).toBe("Test Movie");
-    expect(data.total_pages).toBe(11);
+    expect(data.results[0].title).toBe("Search Movie");
+    expect(data.total_pages).toBe(5);
+  });
+
+  test("검색 API 요청 실패 시 에러 발생", async () => {
+    global.fetch = vi.fn(async () => ({
+      ok: false,
+      status: 500,
+    })) as any;
+
+    await expect(fetchSearchMovies(1, "아바타")).rejects.toThrow(
+      "API 요청 실패: 500",
+    );
   });
 });

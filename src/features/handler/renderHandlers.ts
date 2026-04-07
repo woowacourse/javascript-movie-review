@@ -31,20 +31,25 @@ export function renderMainTitle(title: string): void {
 }
 
 export function clearSearchInput(): void {
-  const searchInput = document.querySelector(".search-input") as HTMLInputElement;
+  const searchInput = document.querySelector(
+    ".search-input",
+  ) as HTMLInputElement;
   if (searchInput) {
     searchInput.value = "";
   }
 }
 
 export function getSearchInputValue(): string {
-  const searchInput = document.querySelector(".search-input") as HTMLInputElement;
+  const searchInput = document.querySelector(
+    ".search-input",
+  ) as HTMLInputElement;
   return searchInput ? searchInput.value.trim() : "";
 }
 
-export function updateMoreButton(
-  data: { results: Movie[]; total_pages: number },
-): void {
+export function updateMoreButton(data: {
+  results: Movie[];
+  total_pages: number;
+}): void {
   const moreButton = document.querySelector(".btn-more") as HTMLButtonElement;
   if (!moreButton) return;
 
