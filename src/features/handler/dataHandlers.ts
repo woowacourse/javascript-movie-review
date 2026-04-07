@@ -16,28 +16,16 @@ export async function readMoreMovies(
   page: number,
   searchMovie: string,
 ): Promise<MovieResponse> {
-  try {
-    return await fetchApi(page, searchMovie);
-  } catch (error) {
-    throw new Error("영화 데이터를 불러오는 중 오류가 발생했습니다.");
-  }
+  return await fetchApi(page, searchMovie);
 }
 
 export async function readPopularMovies(page: number): Promise<MovieResponse> {
-  try {
-    return await fetchApi(page);
-  } catch (error) {
-    throw new Error("영화 데이터를 불러오는 중 오류가 발생했습니다.");
-  }
+  return await fetchApi(page);
 }
 
 export async function readSearchMovies(
   page: number,
   searchMovie: string,
 ): Promise<MovieResponse> {
-  try {
-    return await fetchApi(page, searchMovie);
-  } catch (error) {
-    throw new Error("영화 데이터를 불러오는 중 오류가 발생했습니다.");
-  }
+  return await fetchApi(page, searchMovie);
 }
