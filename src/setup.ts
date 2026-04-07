@@ -4,6 +4,14 @@ import { movieListInstance } from "./features/UI/MovieList";
 import { updateMoreButton } from "./utils/dom";
 import { state } from "./state";
 
+function attachLogoListener() {
+  const logo = document.querySelector(".logo") as HTMLElement | null;
+  if (!logo) return;
+  logo.addEventListener("click", () => {
+    eventBus.publish(APP_EVENTS.LOGO_CLICK, undefined);
+  }, { once: true });
+}
+
 export function setupSubscriptions(
   moreButton: HTMLButtonElement,
   mainTitle: HTMLElement,
@@ -19,6 +27,7 @@ export function setupSubscriptions(
   eventBus.subscribe(APP_EVENTS.MOVIES_LOADED, (data) => {
     Header.clearHeader();
     Header.render(data.results[0] ?? null);
+    attachLogoListener();
     movieListInstance.clearList();
     movieListInstance.renderMovieList(data);
     updateMoreButton(moreButton, data.total_pages, state.page);
@@ -27,6 +36,7 @@ export function setupSubscriptions(
   eventBus.subscribe(APP_EVENTS.SEARCH_LOADED, (data) => {
     Header.clearHeader();
     Header.renderSearch();
+    attachLogoListener();
     if (data.results.length === 0) {
       movieListInstance.clearList();
       movieListInstance.showEmpty();

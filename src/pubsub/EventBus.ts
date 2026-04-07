@@ -6,6 +6,7 @@ export type AppEventPayloads = {
   searchLoaded: MovieResponse;
   moreLoaded: MovieResponse;
   titleChanged: string;
+  logoClick: void;
 };
 
 type Handler<T> = (payload: T) => void;
@@ -39,4 +40,5 @@ export const APP_EVENTS = {
   SEARCH_LOADED: "searchLoaded",
   MORE_LOADED: "moreLoaded",
   TITLE_CHANGED: "titleChanged",
+  LOGO_CLICK: "logoClick",
 } as const satisfies Record<string, keyof AppEventPayloads>;
