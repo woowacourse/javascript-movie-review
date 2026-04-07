@@ -1,32 +1,77 @@
 import { createDetailButton } from "./detail-button";
+import { MovieList } from "../domains/movie";
 import starIconSrc from "../../templates/images/star_empty.png";
 
 interface HeroOptions {
-  backgroundImageUrl: string;
-  rating: number;
-  title: string;
+  movieList: MovieList;
   onDetailClick: () => void;
 }
 
 export function createHero({
-  backgroundImageUrl,
-  rating,
-  title,
+  movieList,
   onDetailClick,
 }: HeroOptions): HTMLElement {
-  const section = document.createElement("section");
-  section.className = "hero";
+  const bgImage = createBgImage();
+  const topRatedContainer = createTopRatedContainer(onDetailClick);
+  const backgroundContainer = createBackgroundContainer(
+    bgImage,
+    topRatedContainer,
+  );
 
-  const backgroundContainer = document.createElement("div");
-  backgroundContainer.className = "background-container";
-  backgroundContainer.style.backgroundImage = `url(${backgroundImageUrl})`;
+  bindMovieList(movieList, bgImage, topRatedContainer);
+
+  return backgroundContainer;
+}
+
+function createBackgroundContainer(
+  bgImage: HTMLImageElement,
+  topRatedContainer: HTMLElement,
+): HTMLElement {
+  const container = document.createElement("div");
+  container.className = "background-container";
 
   const overlay = document.createElement("div");
   overlay.className = "overlay";
   overlay.setAttribute("aria-hidden", "true");
 
-  const topRatedContainer = document.createElement("div");
-  topRatedContainer.className = "top-rated-container";
+  container.append(bgImage, overlay, topRatedContainer);
+  return container;
+}
+
+function bindMovieList(
+  movieList: MovieList,
+  bgImage: HTMLImageElement,
+  topRatedContainer: HTMLElement,
+): void {
+  movieList.subscribe(({ movies, isPending, page }) => {
+    if (isPending || movies.length === 0 || page !== 1) return;
+    updateHero(bgImage, topRatedContainer, movies[0]);
+  });
+}
+
+function updateHero(
+  bgImage: HTMLImageElement,
+  topRatedContainer: HTMLElement,
+  movie: { posterSrc: string; title: string; rating: number },
+): void {
+  bgImage.src = movie.posterSrc;
+  bgImage.alt = `${movie.title}의 포스터`;
+  topRatedContainer.querySelector<HTMLElement>(".title")!.textContent =
+    movie.title;
+  topRatedContainer.querySelector<HTMLElement>(".rate-value")!.textContent =
+    String(movie.rating);
+}
+
+function createBgImage(): HTMLImageElement {
+  const img = document.createElement("img");
+  img.className = "background-image";
+  img.alt = "";
+  return img;
+}
+
+function createTopRatedContainer(onDetailClick: () => void): HTMLElement {
+  const container = document.createElement("div");
+  container.className = "top-rated-container";
 
   const topRatedMovie = document.createElement("div");
   topRatedMovie.className = "top-rated-movie";
@@ -40,20 +85,15 @@ export function createHero({
 
   const rateValue = document.createElement("span");
   rateValue.className = "rate-value";
-  rateValue.textContent = String(rating);
 
   rateDiv.append(starImg, rateValue);
 
   const titleDiv = document.createElement("div");
   titleDiv.className = "title";
-  titleDiv.textContent = title;
 
   const detailButton = createDetailButton(onDetailClick);
 
   topRatedMovie.append(rateDiv, titleDiv, detailButton);
-  topRatedContainer.appendChild(topRatedMovie);
-  backgroundContainer.append(overlay, topRatedContainer);
-  section.appendChild(backgroundContainer);
-
-  return section;
+  container.appendChild(topRatedMovie);
+  return container;
 }
