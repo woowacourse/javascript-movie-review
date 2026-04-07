@@ -1,4 +1,5 @@
 import { PAGE_TITLE } from "../constants/constant";
+import { HeroSection } from "../hero/HeroSection";
 import { MovieListStore } from "./MovieListStore";
 import { MovieListView } from "./MovieListView";
 
@@ -9,19 +10,23 @@ export interface Notifier {
 export class MovieListController {
   constructor(
     private readonly store: MovieListStore,
-
     private readonly view: MovieListView,
-
+    private readonly hero: HeroSection,
     private readonly notifier: Notifier,
   ) {}
 
   async showPopular(): Promise<void> {
     this.view.renderSectionTitle(PAGE_TITLE.POPULAR);
-
     await this.runWithUi(() => this.store.loadPopular());
+
+    if (this.store.movies[0]) {
+      this.hero.update(this.store.movies[0]);
+      this.hero.show();
+    }
   }
 
   async search(query: string): Promise<void> {
+    this.hero.hide();
     this.view.renderSectionTitle(PAGE_TITLE.SEARCH(query));
 
     await this.runWithUi(() => this.store.search(query));
@@ -32,7 +37,6 @@ export class MovieListController {
     await this.runWithUi(() => this.store.loadNextPage());
   }
 
-
   private async runWithUi(action: () => Promise<void>): Promise<void> {
     this.view.showSkeleton();
 
@@ -40,9 +44,7 @@ export class MovieListController {
       await action();
 
       this.view.renderMovies(this.store.movies);
-
       this.view.toggleSeeMore(this.store.hasMore);
-
       this.view.toggleNoResult(this.store.query !== "" && this.store.movies.length === 0);
     } catch (error) {
       this.notifier.error(error);
