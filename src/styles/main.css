@@ -33,12 +33,17 @@ main#main {
   flex-direction: column;
   gap: 56px;
   margin: 64px auto;
+  overflow: auto;
 
   .popular-movie-title {
     font-size: 2.25rem;
     font-weight: 600;
     color: var(--white);
   }
+}
+
+.hidden {
+  display: none;
 }
 
 .star {
@@ -230,4 +235,25 @@ footer.footer {
     font-weight: 400;
     color: var(--white);
   }
+}
+
+@keyframes skeleton-gradient {
+  0% {
+    background-position: 200% 200%;
+  }
+  100% {
+    background-position: -100% -100%;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(
+    15deg,
+    var(--color-bluegray-90) 35%,
+    var(--color-bluegray-60) 50%,
+    var(--color-bluegray-90) 65%
+  );
+  background-size: 300% 300%;
+  animation: skeleton-gradient 4s linear infinite;
+  border-radius: 4px;
 }
