@@ -45,3 +45,16 @@ export const mockSearchMovies = (movies: MockMovie[]) => {
     },
   }).as("searchMovies");
 };
+
+export const mockSearchMoviePages = (pages: Record<number, MockMovie[]>) => {
+  cy.intercept("GET", "**/search/movie**", (req) => {
+    const page = Number(req.query.page ?? 1);
+
+    req.reply({
+      statusCode: 200,
+      body: {
+        results: pages[page] ?? [],
+      },
+    });
+  }).as("searchMovies");
+};
