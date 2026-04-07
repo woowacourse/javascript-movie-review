@@ -1,6 +1,6 @@
 import { eventBus, APP_EVENTS } from "./pubsub/EventBus";
-import { Header } from "./features/UI/Header";
-import { movieListInstance } from "./features/UI/MovieList";
+import { Header } from "./features/ui/Header";
+import { movieListInstance } from "./features/ui/MovieList";
 import { updateMoreButton } from "./utils/dom";
 import { state } from "./state";
 
