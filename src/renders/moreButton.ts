@@ -11,3 +11,12 @@ export const removeMoreButton = () => {
 
   moreButton.style.display = "none";
 };
+
+export const updateMoreButton = (currentPage: number, totalPages: number) => {
+  if (currentPage === totalPages) {
+    removeMoreButton();
+    return;
+  }
+
+  renderMoreButton();
+};

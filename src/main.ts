@@ -18,6 +18,7 @@ import {
 } from "./renders/movieList";
 import { renderSkeleton, removeSkeleton } from "./renders/skeleton";
 import PageState from "./states/PageState";
+import { updateMoreButton } from "./renders/moreButton";
 
 const pageState = new PageState();
 
@@ -49,7 +50,10 @@ const loadPopularMovies = async () => {
     const page = pageState.getPage();
     const movies = await getPopularMovies({ page });
 
-    if (movies) renderMovieList(movies);
+    if (movies) {
+      renderMovieList(movies);
+      updateMoreButton(movies.page, movies.total_pages);
+    }
     removeSkeleton();
   } catch (e) {
     showErrorAlert(e);
@@ -74,6 +78,7 @@ const loadSearchMovies = async () => {
 
     if (movies.results.length) {
       renderMovieList(movies);
+      updateMoreButton(movies.page, movies.total_pages);
     } else {
       renderNoResult();
     }

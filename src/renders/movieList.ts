@@ -1,5 +1,5 @@
 import { Movie, Movies } from "../services/dto";
-import { removeMoreButton, renderMoreButton } from "./moreButton";
+import { removeMoreButton } from "./moreButton";
 
 const createMovieNode = (movie: Movie): DocumentFragment | null => {
   const movieTemplate =
@@ -42,12 +42,6 @@ export const renderMovieList = (movies: Movies): void => {
       movieList?.appendChild(movieNode);
     }
   });
-
-  if (movies.page === movies.total_pages) {
-    removeMoreButton();
-  } else {
-    renderMoreButton();
-  }
 };
 
 export const renderNoResult = () => {
