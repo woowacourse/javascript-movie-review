@@ -1,8 +1,5 @@
 import { fetchPopularMovies, fetchSearchMovies } from "../api/fetchMoviesApi";
-import MovieList from "../UI/MovieList";
 import { Movie } from "../../../types/types";
-
-const movieListInstance = new MovieList();
 
 export async function handleMoreMovie(page: number, searchMovie: string) {
   try {
@@ -20,7 +17,6 @@ export async function handleMovie(page: number): Promise<{
   total_pages: number;
 }> {
   try {
-    movieListInstance.renderSkeleton();
     const data: { results: Movie[]; total_pages: number } =
       await fetchPopularMovies(page);
     return data;
@@ -37,7 +33,6 @@ export async function handleSearchMovie(
   total_pages: number;
 }> {
   try {
-    movieListInstance.renderSkeleton();
     const data: { results: Movie[]; total_pages: number } =
       await fetchSearchMovies(page, searchMovie);
     return data;

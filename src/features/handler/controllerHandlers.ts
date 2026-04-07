@@ -37,6 +37,7 @@ export async function initialRender(
 
   mainTitle.textContent = "지금 인기 있는 영화";
 
+  movieListInstance.renderSkeleton();
   const data: MovieResponse = await handleMovie(page);
   handleHeader(data.results[0]);
   handleMovieList(data);
@@ -49,6 +50,7 @@ export async function searchRender(
   moreButton: HTMLButtonElement,
   updateMoreButton: UpdateMoreButton,
 ): Promise<void> {
+  movieListInstance.renderSkeleton();
   const mainTitle = document.querySelector(".main-title") as HTMLElement;
 
   mainTitle.textContent = `"${searchMovie}" 검색 결과`;
