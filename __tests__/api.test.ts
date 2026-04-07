@@ -56,7 +56,7 @@ describe("TMDB API에서 영화 목록을 가져온다.", () => {
     })) as any;
 
     await expect(fetchMoviesApi("movie/popular", 1)).rejects.toThrow(
-      "500 영화 정보를 불러오지 못했습니다.",
+      "HTTP ERROR: 500",
     );
   });
 
@@ -66,7 +66,7 @@ describe("TMDB API에서 영화 목록을 가져온다.", () => {
     }) as any;
 
     await expect(fetchMoviesApi("movie/popular", 1)).rejects.toThrow(
-      "네트워크 연결을 확인해주세요.",
+      "REQUEST ERROR",
     );
   });
 });
