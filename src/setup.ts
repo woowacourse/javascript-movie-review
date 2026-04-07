@@ -4,7 +4,14 @@ import { movieListInstance } from "./features/UI/MovieList";
 import { updateMoreButton } from "./utils/dom";
 import { state } from "./state";
 
-export function setupSubscriptions(moreButton: HTMLButtonElement): void {
+export function setupSubscriptions(
+  moreButton: HTMLButtonElement,
+  mainTitle: HTMLElement,
+): void {
+  eventBus.subscribe(APP_EVENTS.TITLE_CHANGED, (title) => {
+    mainTitle.textContent = title;
+  });
+
   eventBus.subscribe(APP_EVENTS.LOAD_START, () => {
     movieListInstance.renderSkeleton();
   });

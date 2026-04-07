@@ -7,8 +7,9 @@ import { state } from "./state";
 import { setupSubscriptions } from "./setup";
 
 const moreButton = document.querySelector(".btn-more") as HTMLButtonElement;
+const mainTitle = document.querySelector(".main-title") as HTMLElement;
 
-setupSubscriptions(moreButton);
+setupSubscriptions(moreButton, mainTitle);
 
 addEventListener("load", async () => {
   await initialRender(state.page);
