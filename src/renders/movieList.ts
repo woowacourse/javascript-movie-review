@@ -59,11 +59,8 @@ export const renderNoResult = () => {
 
 export const removeMovieList = () => {
   const movieList = document.querySelector<HTMLDivElement>("#movie-list");
-  if (!movieList) return;
+  movieList?.replaceChildren();
 
   const noResult = document.querySelector("#no-result");
-  if (!noResult) return;
-
-  movieList.replaceChildren();
-  noResult.replaceChildren();
+  noResult?.replaceChildren();
 };
