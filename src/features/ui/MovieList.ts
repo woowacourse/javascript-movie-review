@@ -1,6 +1,6 @@
 import MovieCard from "./MovieCard.ts";
 import MovieSkeleton from "./MovieSkeleton.ts";
-import { Movie } from "../../../types/types";
+import { Movie, MovieResponse } from "../../../types/types";
 import noSearchImg from "../../images/Nosearch.png";
 
 export default class MovieList {
@@ -28,15 +28,15 @@ export default class MovieList {
 
   renderSkeleton() {
     this.clearList();
+    const skeletonHTML = new MovieSkeleton().render();
     for (let i = 0; i < 20; i++) {
       const li = document.createElement("li");
-      const skeleton = new MovieSkeleton();
-      li.innerHTML = skeleton.render();
+      li.innerHTML = skeletonHTML;
       this.movieList?.append(li);
     }
   }
 
-  renderMovieList(movies: { results: Movie[] }) {
+  renderMovieList(movies: MovieResponse) {
     movies.results.forEach((movie: Movie) => {
       const li: HTMLLIElement = document.createElement("li");
       const movieCard = new MovieCard(movie);
