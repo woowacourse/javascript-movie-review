@@ -72,6 +72,7 @@ SearchPage
 | MovieCard     | title, posterSrc, rating / 이미지 로드 실패 시 fallback div 표시       |
 | SkeletonCard  | 로딩 중 shimmer 애니메이션 placeholder                                 |
 | Empty         | 검색 결과 없을 때 행성 이미지 + 안내 텍스트                            |
+| Error         | API 실패 시 행성 이미지 + 에러 안내 텍스트                             |
 
 ---
 
@@ -97,6 +98,7 @@ subscribers: Set<Subscriber>
   - movies: MovieItem[]  ← 해당 페이지 결과만 전달 (누적 없음)
   - isPending: boolean
   - page: number
+  - error: boolean
 ```
 
 > 영화 목록 누적은 DOM(`movie-list` 컴포넌트)이 담당
@@ -162,6 +164,7 @@ src/
     movie-card.ts     ← 카드 UI, 이미지 fallback
     skeleton-card.ts  ← shimmer 스켈레톤
     empty.ts          ← 검색 결과 없음
+    error.ts          ← API 에러 상태
     more-button.ts
     detail-button.ts
     modal.ts          ← step2 구현 예정
