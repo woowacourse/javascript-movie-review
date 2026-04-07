@@ -49,12 +49,13 @@ const loadTopRatedMovie = async () => {
 const loadPopularMovies = async () => {
   try {
     renderSkeleton();
-    const page = popularPageState.getPage();
+    const page = popularPageState.getPage() + 1;
     const movies = await getPopularMovies({ page });
 
     if (movies) {
       renderMovieList(movies);
       updateMoreButton(movies.page, movies.total_pages);
+      popularPageState.incrementPage();
     }
   } catch (e) {
     showErrorAlert(e);
@@ -67,7 +68,7 @@ const loadSearchMovies = async () => {
   try {
     const search = getSearchParams("search") as string;
 
-    const page = searchPageState.getPage();
+    const page = searchPageState.getPage() + 1;
     const movies = await getSearchMovies({
       page,
       query: search || "",
@@ -82,6 +83,7 @@ const loadSearchMovies = async () => {
     if (movies.results.length) {
       renderMovieList(movies);
       updateMoreButton(movies.page, movies.total_pages);
+      searchPageState.incrementPage();
     } else {
       renderNoResult();
     }
@@ -94,12 +96,10 @@ const loadMoreMovies = async () => {
   const isSearchParams = hasSearchParams("search");
 
   if (isSearchParams) {
-    searchPageState.incrementPage();
     loadSearchMovies();
     return;
   }
 
-  popularPageState.incrementPage();
   loadPopularMovies();
 };
 

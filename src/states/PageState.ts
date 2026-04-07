@@ -2,7 +2,7 @@ class PageState {
   #page: number;
 
   constructor() {
-    this.#page = 1;
+    this.#page = 0;
   }
 
   getPage() {
@@ -14,7 +14,7 @@ class PageState {
   }
 
   resetPage() {
-    this.#page = 1;
+    this.#page = 0;
   }
 }
 
