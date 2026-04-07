@@ -39,7 +39,10 @@ export const getTopRatedMovies = async () => {
     },
   });
 
-  return await res.json();
+  if (res.ok) return await res.json();
+
+  const errorBody = await res.json();
+  throw new ApiError(errorBody.status_message, errorBody.status_code);
 };
 
 export const getSearchMovies = async ({
@@ -57,5 +60,8 @@ export const getSearchMovies = async ({
     },
   });
 
-  return await res.json();
+  if (res.ok) return await res.json();
+
+  const errorBody = await res.json();
+  throw new ApiError(errorBody.status_message, errorBody.status_code);
 };

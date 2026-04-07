@@ -31,12 +31,16 @@ const showErrorAlert = (error: unknown) => {
 };
 
 const loadTopRatedMovie = async () => {
-  const topRatedMovies = await getTopRatedMovies();
-  const topRatedMovie = topRatedMovies.results[0];
+  try {
+    const topRatedMovies = await getTopRatedMovies();
+    const topRatedMovie = topRatedMovies.results[0];
 
-  if (!topRatedMovie) return;
+    if (!topRatedMovie) return;
 
-  renderTopRatedMovie(topRatedMovie);
+    renderTopRatedMovie(topRatedMovie);
+  } catch (e) {
+    showErrorAlert(e);
+  }
 };
 
 const loadPopularMovies = async () => {
@@ -53,24 +57,28 @@ const loadPopularMovies = async () => {
 };
 
 const loadSearchMovies = async () => {
-  const search = getSearchParams("search") as string;
+  try {
+    const search = getSearchParams("search") as string;
 
-  const page = pageState.getPage();
-  const movies = await getSearchMovies({
-    page,
-    query: search || "",
-  });
+    const page = pageState.getPage();
+    const movies = await getSearchMovies({
+      page,
+      query: search || "",
+    });
 
-  removeTopRatedMovie();
+    removeTopRatedMovie();
 
-  const movieListTitle = document.querySelector("#movie-list-title");
-  if (!movieListTitle) return null;
-  movieListTitle.textContent = `"${search}" 검색 결과`;
+    const movieListTitle = document.querySelector("#movie-list-title");
+    if (!movieListTitle) return null;
+    movieListTitle.textContent = `"${search}" 검색 결과`;
 
-  if (movies.results.length) {
-    renderMovieList(movies);
-  } else {
-    renderNoResult();
+    if (movies.results.length) {
+      renderMovieList(movies);
+    } else {
+      renderNoResult();
+    }
+  } catch (e) {
+    showErrorAlert(e);
   }
 };
 
