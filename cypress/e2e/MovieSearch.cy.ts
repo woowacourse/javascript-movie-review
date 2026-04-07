@@ -1,4 +1,8 @@
-import { interceptPopularPage1, interceptSearchPage1 } from "./spec";
+import {
+  interceptPopularPage1,
+  interceptSearchPage1,
+  interceptSearchError,
+} from "./spec";
 
 describe("검색 버튼 클릭했을 때 동작 테스트", () => {
   beforeEach(() => {
@@ -23,6 +27,23 @@ describe("검색 버튼 클릭했을 때 동작 테스트", () => {
 
   it("search-thumbnail-list가 렌더링된다", () => {
     cy.get("#search-thumbnail-list").should("be.visible");
+  });
+});
+
+describe("검색 버튼 클릭했을 때 에러가 발생하는 경우 테스트", () => {
+  beforeEach(() => {
+    interceptPopularPage1();
+    cy.visit("/");
+    cy.wait("@getPopularPage1");
+
+    interceptSearchError();
+    cy.get("#search-input").type("the");
+    cy.get("#search-button").click();
+    cy.wait("@getSearchError");
+  });
+
+  it("에러 컨테이너가 렌더링된다", () => {
+    cy.get("#error-container").should("be.visible");
   });
 });
 

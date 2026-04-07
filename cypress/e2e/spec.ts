@@ -24,3 +24,11 @@ export const interceptSearchPage2 = () => {
     "getSearchPage2",
   );
 };
+
+export const interceptPopularError = () => {
+  cy.intercept("GET", POPULAR_API, { statusCode: 500 }).as("getPopularError");
+};
+
+export const interceptSearchError = () => {
+  cy.intercept("GET", SEARCH_API, { statusCode: 500 }).as("getSearchError");
+};
