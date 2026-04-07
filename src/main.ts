@@ -1,11 +1,38 @@
-import image from "../templates/images/star_filled.png";
+import {
+    addMovieList,
+    addMovieSkeletonUIList,
+    removeMovieSkeletonUIList,
+    showBackgroundMovieInfo,
+} from './view/movieListView.ts'
+import { callMovieList } from './events/bindMovieEvent.ts'
+import { getUListElement } from './view/getElementView.ts'
 
-addEventListener("load", () => {
-  const app = document.querySelector("#app");
-  const buttonImage = document.createElement("img");
-  buttonImage.src = image;
+import { bindClickPosterEvent, bindMoreMovieEvents, bindSearchEvents } from './events/bindMovieEvent.ts'
 
-  if (app) {
-    app.appendChild(buttonImage);
-  }
-});
+export type State = {
+    pageNum: number
+    searchBarText: string
+}
+
+addEventListener('load', async () => {
+    const state: State = {
+        pageNum: 1,
+        searchBarText: '',
+    }
+
+    const movieDisplay = getUListElement('.thumbnail-list')
+
+    addMovieSkeletonUIList(movieDisplay, 20)
+
+    const movieList = await callMovieList(state.pageNum, state.searchBarText)
+
+    removeMovieSkeletonUIList(movieDisplay)
+
+    addMovieList(movieDisplay, movieList)
+    showBackgroundMovieInfo(movieList[0])
+
+    bindSearchEvents(state)
+    bindMoreMovieEvents(state)
+
+    bindClickPosterEvent(state)
+})
