@@ -7,19 +7,25 @@ export const initMovieList = (query?: string) => {
 
   if (!$thumbnailList) return;
 
-  renderFetchMovieItem($thumbnailList, currentPage, query);
-
-  $button?.addEventListener('click', async () => {
-    const nextPage = currentPage + 1;
-    hideMoreButton();
-
+  const loadMovies = async () => {
     try {
-      await renderFetchMovieItem($thumbnailList, nextPage);
-      currentPage++;
-    } catch (e) {
-      if (e instanceof Error) {
-        alert(e.message);
+      await renderFetchMovieItem($thumbnailList, currentPage, query);
+      
+      // 에러 없이 렌더링 성공시에만 페이지 번호 증가
+      currentPage++; 
+    } catch (error) {
+      if (error instanceof Error) {
+        alert(error.message);
       }
     }
+  };
+
+  // 초기 렌더링
+  loadMovies();
+
+  // 더보기 버튼 클릭 시 렌더링
+  $button?.addEventListener('click', async () => {
+    hideMoreButton();
+    loadMovies();
   });
 };
