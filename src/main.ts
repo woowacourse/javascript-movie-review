@@ -34,5 +34,5 @@ addEventListener('load', async () => {
     bindSearchEvents(state)
     bindMoreMovieEvents(state)
 
-    bindClickPosterEvent(state)
+    bindClickPosterEvent()
 })

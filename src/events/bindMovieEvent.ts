@@ -2,6 +2,8 @@ import { State } from '../main.ts'
 import { HttpError, fetchDefaultMovieList, fetchSearchMovieList, fetchMovieDetail } from '../service/movieApi.ts'
 import { getElement, getInputElement, getUListElement } from '../view/getElementView.ts'
 import { addMovieList, addMovieSkeletonUIList, Movie, removeMovieSkeletonUIList } from '../view/movieListView.ts'
+import star_empty from '../../templates/images/star_empty.png'
+import star_filled from '../../templates/images/star_filled.png'
 
 export const callMovieList = async (pageNum: number, searchBarText: string): Promise<Movie[]> => {
     try {
@@ -109,10 +111,42 @@ export const bindMoreMovieEvents = (state: State) => {
     })
 }
 
+const updateMyStarRate = (value: string) => {
+    const emptyStars = document.querySelectorAll<HTMLImageElement>('.star-icon')
+    emptyStars.forEach((star) => {
+        if (Number(star.dataset.value) <= Number(value)) {
+            star.src = star_filled
+        } else {
+            star.src = star_empty
+        }
+    })
+    const rateText: Record<number, string> = {
+        2: '최악이에요',
+        4: '별로예요',
+        6: '보통이에요',
+        8: '재미있어요',
+        10: '명작이에요',
+    }
+
+    const text = rateText[Number(value)]
+    getElement('.my-rate-text').textContent = text ? `${text} (${value}/10)` : ''
+}
+
 // 포스터 클릭 이벤트
 export const bindClickPosterEvent = () => {
     const thumbnailBox = getElement('.thumbnail-list')
     const modalBackground = getElement('#modalBackground')
+    let currentMovieId = 0
+
+    // 별점 클릭 - 한 번만 등록
+    const emptyStars = document.querySelectorAll<HTMLElement>('.star-icon')
+    emptyStars.forEach((star: HTMLElement) => {
+        star.addEventListener('click', () => {
+            const starValue = star.dataset.value
+            localStorage.setItem(`rating_${currentMovieId}`, starValue ?? '')
+            updateMyStarRate(starValue ?? '')
+        })
+    })
 
     // 모달 열기
     thumbnailBox.addEventListener('click', async (event: MouseEvent) => {
@@ -121,13 +155,18 @@ export const bindClickPosterEvent = () => {
         if (!item?.dataset.id) return
 
         const movie = await fetchMovieDetail(Number(item.dataset.id))
+        currentMovieId = movie.id
 
         const modalPoster = getElement('#modalPoster') as HTMLImageElement
         modalPoster.src = `https://image.tmdb.org/t/p/w500${movie.poster_path}`
         getElement('#modalTitle').textContent = movie.title
-        getElement('#modalCategory').textContent = `${movie.release_date.slice(0, 4)} · ${movie.genres.map((g) => g.name).join(', ')}`
+        getElement('#modalCategory').textContent =
+            `${movie.release_date.slice(0, 4)} · ${movie.genres.map((g) => g.name).join(', ')}`
         getElement('#modalRate').textContent = String(movie.vote_average.toFixed(1))
         getElement('#modalDetail').textContent = movie.overview
+
+        const savedRate = localStorage.getItem(`rating_${movie.id}`)
+        updateMyStarRate(savedRate ?? '0')
 
         modalBackground.classList.add('active')
         document.body.classList.add('modal-open')
