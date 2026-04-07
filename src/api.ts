@@ -40,18 +40,16 @@ export interface Request {
 const BASE_URL = 'https://api.themoviedb.org/3';
 
 const fetchAPI = async (req: Request): Promise<PreviewData> => {
-  const url = BASE_URL + req.path;
+  const url = new URL(BASE_URL + req.path);
 
-  const { query, page } = req.params;
-  const queryStr = query ? 'query=' + query : '';
-  const pageStr = '&page=' + page;
-  const regionStr = '&region=' + 'ko-kR';
-  const languageStr = '&language=' + 'ko';
+  if (req.params.query) {
+    url.searchParams.append('query', req.params.query);
+  }
+  url.searchParams.append('page', String(req.params.page));
+  url.searchParams.append('region', 'ko-KR');
+  url.searchParams.append('language', 'ko');
 
-
-  const resultUrl = url + '?' + queryStr + pageStr + regionStr + languageStr;
-
-  const response = await fetch(resultUrl, options);
+  const response = await fetch(url.toString(), options);
 
   if (!response.ok) {
     throw new Error('영화 데이터를 불러오는 데 실패했습니다.');
