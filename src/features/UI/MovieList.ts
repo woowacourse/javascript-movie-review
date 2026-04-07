@@ -46,4 +46,4 @@ export default class MovieList {
   }
 }
 
-export const movieListInstance = new MovieList();
+export const movieListView = new MovieList();

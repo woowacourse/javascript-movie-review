@@ -1,7 +1,7 @@
 import { eventBus } from "./pubsub/EventBus";
 import { APP_EVENTS } from "./pubsub/AppEvents";
 import { Header } from "./features/ui/Header";
-import { movieListInstance } from "./features/ui/MovieList";
+import { movieListView } from "./features/ui/MovieList";
 import { updateMoreButton } from "./utils/dom";
 import { state } from "./state";
 import { loadPopular } from "./features/handler/controllerHandlers";
@@ -28,15 +28,15 @@ export function setupSubscriptions(
   });
 
   eventBus.subscribe(APP_EVENTS.LOAD_START, () => {
-    movieListInstance.renderSkeleton();
+    movieListView.renderSkeleton();
   });
 
   eventBus.subscribe(APP_EVENTS.MOVIES_LOADED, (data) => {
     Header.clearHeader();
     Header.render(data.results[0] ?? null);
     attachLogoListener();
-    movieListInstance.clearList();
-    movieListInstance.renderMovieList(data);
+    movieListView.clearList();
+    movieListView.renderMovieList(data);
     updateMoreButton(moreButton, data.total_pages, state.page);
   });
 
@@ -45,17 +45,17 @@ export function setupSubscriptions(
     Header.renderSearch();
     attachLogoListener();
     if (data.results.length === 0) {
-      movieListInstance.clearList();
-      movieListInstance.showEmpty();
+      movieListView.clearList();
+      movieListView.showEmpty();
     } else {
-      movieListInstance.clearList();
-      movieListInstance.renderMovieList(data);
+      movieListView.clearList();
+      movieListView.renderMovieList(data);
     }
     updateMoreButton(moreButton, data.total_pages, state.page);
   });
 
   eventBus.subscribe(APP_EVENTS.MORE_LOADED, (data) => {
-    movieListInstance.renderMovieList(data);
+    movieListView.renderMovieList(data);
     updateMoreButton(moreButton, data.total_pages, state.page);
   });
 }
