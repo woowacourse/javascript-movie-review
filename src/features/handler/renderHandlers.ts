@@ -5,12 +5,12 @@ import { movieState } from "../states/movieState";
 
 const movieListInstance = new MovieList();
 
-export function handleHeaderSearch(): void {
+export function renderSearchHeader(): void {
   Header.clearHeader();
   Header.renderSearch();
 }
 
-export function handleHeader(movie: Movie): void {
+export function renderHeader(movie: Movie): void {
   Header.clearHeader();
   Header.render(movie);
 }
@@ -72,7 +72,7 @@ export function showEmpty() {
   return movieListInstance.showEmpty();
 }
 
-export function appendMovielist(data: {
+export function appendMovieList(data: {
   results: Movie[];
   total_pages: number;
 }) {

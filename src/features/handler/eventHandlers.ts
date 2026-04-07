@@ -1,5 +1,5 @@
 import { movieState } from "../states/movieState";
-import { initialRender, moreRender } from "./controllerHandlers";
+import { initialRender, renderMoreMovies } from "./controllerHandlers";
 
 export function initEvents() {
   const header = document.querySelector(".header") as HTMLElement;
@@ -17,7 +17,7 @@ export function initEvents() {
   if (moreButton) {
     moreButton.addEventListener("click", async () => {
       movieState.page += 1;
-      await moreRender(movieState.page, movieState.searchMovie);
+      await renderMoreMovies(movieState.page, movieState.searchQuery);
     });
   }
 }

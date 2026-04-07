@@ -1,8 +1,8 @@
 export const movieState = {
   page: 1,
-  searchMovie: "",
+  searchQuery: "",
   reset() {
     this.page = 1;
-    this.searchMovie = "";
+    this.searchQuery = "";
   },
 };

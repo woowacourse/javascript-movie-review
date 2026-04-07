@@ -1,20 +1,20 @@
 import { Movie } from "../../../types/types";
 import {
-  handleHeader,
-  handleHeaderSearch,
+  renderHeader,
+  renderSearchHeader,
   renderInitialMovieList,
   renderSkeleton,
   clearList,
   showEmpty,
-  appendMovielist,
+  appendMovieList,
   renderMainTitle,
   clearSearchInput,
   updateMoreButton,
 } from "./renderHandlers";
 import {
-  handleMoreMovie,
-  handleMovie,
-  handleSearchMovie,
+  getMoreMovies,
+  getPopularMovies,
+  getSearchMovies,
 } from "./dataHandlers";
 
 type MovieResponse = {
@@ -28,8 +28,8 @@ export async function initialRender(page: number): Promise<void> {
     renderMainTitle("지금 인기 있는 영화");
 
     renderSkeleton();
-    const data: MovieResponse = await handleMovie(page);
-    handleHeader(data.results[0]);
+    const data: MovieResponse = await getPopularMovies(page);
+    renderHeader(data.results[0]);
     renderInitialMovieList(data);
     updateMoreButton(data);
   } catch (error) {
@@ -38,16 +38,16 @@ export async function initialRender(page: number): Promise<void> {
   }
 }
 
-export async function searchRender(
+export async function renderSearchResults(
   page: number,
-  searchMovie: string,
+  searchQuery: string,
 ): Promise<void> {
   try {
     renderSkeleton();
-    renderMainTitle(`"${searchMovie}" 검색 결과`);
+    renderMainTitle(`"${searchQuery}" 검색 결과`);
 
-    const data: MovieResponse = await handleSearchMovie(page, searchMovie);
-    handleHeaderSearch();
+    const data: MovieResponse = await getSearchMovies(page, searchQuery);
+    renderSearchHeader();
 
     if (data.results.length === 0) {
       showEmpty();
@@ -61,14 +61,14 @@ export async function searchRender(
   }
 }
 
-export async function moreRender(
+export async function renderMoreMovies(
   page: number,
-  searchMovie: string,
+  searchQuery: string,
 ): Promise<void> {
   try {
-    const data: MovieResponse = await handleMoreMovie(page, searchMovie);
+    const data: MovieResponse = await getMoreMovies(page, searchQuery);
 
-    appendMovielist(data);
+    appendMovieList(data);
     updateMoreButton(data);
   } catch (error) {
     if (error instanceof Error) alert(error.message);
