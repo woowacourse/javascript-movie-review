@@ -1,6 +1,7 @@
 import { createMovieCard } from "./movie-card";
 import { createSkeletonList } from "./skeleton-card";
 import { createEmpty } from "./empty";
+import { createError } from "./error";
 import { MovieList } from "../domains/movie";
 import { MovieItem } from "../domains/movie/MovieList";
 
@@ -23,12 +24,17 @@ class MovieListComponent {
   }
 
   private bindMovieList(movieList: MovieList): void {
-    movieList.subscribe(({ movies, isPending, page }) =>
-      this.update(movies, isPending, page),
+    movieList.subscribe(({ movies, isPending, page, error }) =>
+      this.update(movies, isPending, page, error),
     );
   }
 
-  private update(movies: MovieItem[], isPending: boolean, page: number): void {
+  private update(
+    movies: MovieItem[],
+    isPending: boolean,
+    page: number,
+    error: boolean,
+  ): void {
     if (isPending) {
       this.showSkeleton();
       return;
@@ -36,12 +42,12 @@ class MovieListComponent {
 
     this.hideSkeleton();
 
-    if (page === 1 && movies.length === 0) {
-      this.grid.className = "movie-list-empty";
-      this.grid.appendChild(createEmpty());
-    } else if (movies.length > 0) {
-      this.grid.appendChild(this.createMovieUl(movies));
-    }
+    const isFirstPageEmpty = page === 1 && movies.length === 0;
+    const hasMovies = movies.length > 0;
+
+      if (error) return this.showError();
+      if (isFirstPageEmpty) return this.showEmpty();
+      if (hasMovies) this.grid.appendChild(this.createMovieUl(movies));
   }
 
   private createMovieUl(movies: MovieItem[]): HTMLUListElement {
@@ -53,6 +59,16 @@ class MovieListComponent {
     ul.appendChild(fragment);
 
     return ul;
+  }
+
+  private showEmpty(): void {
+    this.grid.className = "movie-list-empty";
+    this.grid.appendChild(createEmpty());
+  }
+
+  private showError(): void {
+    this.grid.className = "movie-list-empty";
+    this.grid.appendChild(createError());
   }
 
   private showSkeleton(): void {
