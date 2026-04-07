@@ -1,5 +1,7 @@
 import logo from "../../templates/images/logo.png";
 import starEmpty from "../../templates/images/star_empty.png";
+import posterError from "../../templates/images/poster_error.png";
+
 import { Movie } from "../types";
 import { getElement } from "./getElementView";
 
@@ -14,7 +16,7 @@ export const addMovieList = (
     <div class="item" >
       <img
         class="thumbnail"
-        src="https://image.tmdb.org/t/p/w500${movie.poster_path}"
+        src=${movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : posterError}
         alt=${movie.title}
       />
       <div class="item-desc">

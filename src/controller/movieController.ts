@@ -37,7 +37,8 @@ export const createMovieController = (state: State) => ({
 
       await loadMovies({ state, reset: true });
 
-      controlSearchResultText(state);
+      if (state.searchBarText !== "" && state.movieList.length === 0)
+        controlSearchResultText();
     } catch (error) {
       showErrorText("검색 결과를 불러오지 못했습니다.");
     }

@@ -2,14 +2,15 @@ import { State } from "../types";
 import { getElement } from "./getElementView";
 
 export const hideSearchErrorText = () => {
-  const searchError = getElement(".search-error-text");
+  const errorContainer = getElement(".search-error-container");
+  errorContainer.hidden = true;
+
+  const searchError = getElement(".error-text");
   searchError.textContent = "";
-  searchError.hidden = true;
 };
 export const showErrorText = (string: string) => {
-  const searchError = getElement(".search-error-text");
+  const searchError = getElement(".error-text");
   searchError.textContent = string;
-  searchError.hidden = false;
 };
 
 export const updateTitleText = (state: State) => {
@@ -24,14 +25,10 @@ export const updateTitleText = (state: State) => {
     description.textContent = `'${state.searchBarText}' 검색 결과`;
   }
 };
-export const controlSearchResultText = (state: State) => {
+export const controlSearchResultText = () => {
+  const errorContainer = getElement(".search-error-container");
+  errorContainer.hidden = false;
+
   const searchError = getElement(".search-error-text");
-
-  if (state.searchBarText !== "" && state.movieList.length === 0) {
-    searchError.hidden = false;
-    searchError.textContent = "검색 결과가 없습니다.";
-    return;
-  }
-
-  searchError.hidden = true;
+  searchError.textContent = "검색 결과가 없습니다.";
 };
