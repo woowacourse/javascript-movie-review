@@ -1,4 +1,5 @@
-import { eventBus, APP_EVENTS } from "./pubsub/EventBus";
+import { eventBus } from "./pubsub/EventBus";
+import { APP_EVENTS } from "./pubsub/AppEvents";
 import { Header } from "./features/ui/Header";
 import { movieListInstance } from "./features/ui/MovieList";
 import { updateMoreButton } from "./utils/dom";

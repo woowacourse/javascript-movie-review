@@ -5,7 +5,8 @@ import {
 } from "./features/handler/controllerHandlers";
 import { state } from "./state";
 import { setupSubscriptions } from "./init";
-import { eventBus, APP_EVENTS } from "./pubsub/EventBus";
+import { eventBus } from "./pubsub/EventBus";
+import { APP_EVENTS } from "./pubsub/AppEvents";
 
 const moreButton = document.querySelector(".btn-more") as HTMLButtonElement;
 const mainTitle = document.querySelector(".main-title") as HTMLElement;

@@ -1,6 +1,7 @@
 import { MovieResponse } from "../../../types/types";
 import { handleMoreMovie, handleMovie, handleSearchMovie } from "./dataHandlers";
-import { eventBus, APP_EVENTS } from "../../pubsub/EventBus";
+import { eventBus } from "../../pubsub/EventBus";
+import { APP_EVENTS } from "../../pubsub/AppEvents";
 
 export async function initialRender(page: number): Promise<void> {
   eventBus.publish(APP_EVENTS.TITLE_CHANGED, "지금 인기 있는 영화");
