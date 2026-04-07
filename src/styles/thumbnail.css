@@ -1,10 +1,10 @@
 @import "./colors.css";
 
 .thumbnail-list {
-  margin: 0 auto 56px;
+  margin: 0 auto 3.5rem;
   display: grid;
   grid-template-columns: repeat(5, 200px);
-  gap: 70px;
+  gap: 4.375rem;
 }
 
 @media screen and (max-width: 1310px) {
@@ -36,23 +36,23 @@
   cursor: pointer;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 0.625rem;
 }
 
 .item-desc {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 0.625rem;
   font-family: "Inter", sans-serif;
   font-weight: 700;
-  font-size: 20px;
+  font-size: 1.25rem;
   line-height: 100%;
   letter-spacing: 0%;
 }
 
 .item-desc > *:not(:last-child) {
   position: relative;
-  margin-bottom: 4px;
+  margin-bottom: 0.25rem;
   line-height: 1.2rem;
 }
 
@@ -63,7 +63,7 @@ p.rate {
 }
 
 p.rate > span {
-  margin-left: 4px;
+  margin-left: 0.25rem;
 }
 
 .item .star {

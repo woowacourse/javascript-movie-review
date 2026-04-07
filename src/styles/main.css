@@ -10,7 +10,7 @@ a {
 }
 
 body {
-  font-size: 16px;
+  font-size: 1rem;
   color: var(--color-white);
   background-color: var(--color-bluegray-100);
 }
@@ -23,22 +23,22 @@ section {
 }
 
 main {
-  margin: 64px 0;
+  margin: 4rem 0;
   min-height: 65vh;
 }
 
 .main-title {
   font-family: Poppins;
   font-weight: 600;
-  font-size: 36px;
+  font-size: 2.25rem;
   line-height: 100%;
   letter-spacing: 0%;
-  margin-bottom: 50px;
+  margin-bottom: 3.125rem;
 }
 
 @media screen and (max-width: 1297px) {
   .main-title {
-    padding: 48px;
+    padding: 3rem;
   }
 }
 
@@ -48,7 +48,7 @@ main {
 
 button {
   border: 0;
-  padding: 8px 16px;
+  padding: 0.5rem 1rem;
   cursor: pointer;
 }
 
@@ -78,7 +78,7 @@ button.primary {
 .search-container {
   display: flex;
   justify-content: center;
-  margin-top: 48px;
+  margin-top: 3rem;
 }
 
 .search-form {
@@ -97,8 +97,8 @@ button.primary {
 @media screen and (max-width: 800px) {
   .search-container {
     flex-direction: column;
-    margin-top: 90px;
-    margin-left: 75px;
+    margin-top: 5.625rem;
+    margin-left: 4.6875rem;
   }
 }
 
@@ -109,8 +109,8 @@ button.primary {
   background: transparent;
   font-family: "DM Sans", sans-serif;
   font-weight: 400;
-  font-size: 16px;
-  line-height: 24px;
+  font-size: 1rem;
+  line-height: 1.5rem;
   letter-spacing: 0;
   color: var(--color-white);
 }
@@ -136,7 +136,7 @@ button.primary {
   background: transparent;
   border: none;
   cursor: pointer;
-  padding-right: 4px;
+  padding-right: 0.25rem;
 }
 
 .background-container {
@@ -144,11 +144,11 @@ button.primary {
   background-position: center center;
   background-size: cover;
   height: 500px;
-  padding-left: 84px;
+  padding-left: 5.25rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 4px;
+  gap: 0.25rem;
 }
 
 .overlay {
@@ -169,14 +169,14 @@ button.primary {
 }
 
 .top-rated-movie > *:not(:last-child) {
-  margin-bottom: 8px;
+  margin-bottom: 0.5rem;
 }
 
 h1.logo {
   font-size: 2rem;
   position: absolute;
-  top: 48px;
-  left: 84px;
+  top: 3rem;
+  left: 5.25rem;
   cursor: pointer;
 }
 
@@ -192,7 +192,7 @@ h1.logo {
 }
 
 span.rate-value {
-  margin-left: 8px;
+  margin-left: 0.5rem;
   font-weight: bold;
   font-size: 1.66rem;
 }
@@ -213,24 +213,23 @@ footer.footer {
 }
 
 footer.footer p:not(:last-child) {
-  margin-bottom: 8px;
+  margin-bottom: 0.5rem;
 }
 
 .btn-more {
   background-color: #0da9fd;
   max-width: 1280px;
   height: 49px;
-  gap: 10px;
+  gap: 0.625rem;
   opacity: 1;
   border-radius: 8px;
-  padding: 10px;
+  padding: 0.625rem;
   color: #ffffff;
-  font-size: 24px;
+  font-size: 1.5rem;
   font-family: Montserrat;
   font-weight: 600;
   font-style: SemiBold;
-  font-size: 24px;
   line-height: 100%;
-  letter-spacing: 0.24px;
+  letter-spacing: 0.015rem;
   text-align: center;
 }
