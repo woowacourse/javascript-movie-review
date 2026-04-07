@@ -1,7 +1,7 @@
 import {
   initialRender,
   moreRender,
-  searchRender,
+  handleSearch,
 } from "./features/handler/controllerHandlers";
 import { state } from "./state";
 import { setupSubscriptions } from "./init";
@@ -21,19 +21,8 @@ const submitContainer = document.querySelector(
 
 submitContainer.addEventListener("submit", async (e: SubmitEvent) => {
   e.preventDefault();
-  state.page = 1;
-
-  const searchInput = document.querySelector(
-    ".search-input",
-  ) as HTMLInputElement;
-  state.searchQuery = searchInput.value.trim();
-
-  if (state.searchQuery === "") {
-    await initialRender(state.page);
-    return;
-  }
-
-  await searchRender(state.page, state.searchQuery);
+  const searchInput = document.querySelector(".search-input") as HTMLInputElement;
+  await handleSearch(searchInput.value.trim());
 });
 
 moreButton.addEventListener("click", async () => {

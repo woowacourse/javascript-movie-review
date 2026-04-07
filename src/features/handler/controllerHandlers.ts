@@ -2,6 +2,7 @@ import { MovieResponse } from "../../../types/types";
 import { handleMoreMovie, handleMovie, handleSearchMovie } from "./dataHandlers";
 import { eventBus } from "../../pubsub/EventBus";
 import { APP_EVENTS } from "../../pubsub/AppEvents";
+import { state } from "../../state";
 
 export async function initialRender(page: number): Promise<void> {
   eventBus.publish(APP_EVENTS.TITLE_CHANGED, "지금 인기 있는 영화");
@@ -26,4 +27,14 @@ export async function moreRender(
 ): Promise<void> {
   const data: MovieResponse = await handleMoreMovie(page, searchMovie);
   eventBus.publish(APP_EVENTS.MORE_LOADED, data);
+}
+
+export async function handleSearch(query: string): Promise<void> {
+  state.page = 1;
+  state.searchQuery = query;
+  if (query === "") {
+    await initialRender(state.page);
+    return;
+  }
+  await searchRender(state.page, query);
 }
