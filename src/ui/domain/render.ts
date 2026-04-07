@@ -1,8 +1,9 @@
-import type { Movie } from "./api.ts";
-import Component from "./component.ts";
+import type { Movie } from "../../api.ts";
+import Component from "../utils/component.ts";
 
 const Renderer = {
   renderSectionHeading() {
+    //TODO: 계층 분리하기
     const heading = document.querySelector("section > h2");
     if (heading instanceof HTMLElement) {
       heading.textContent = `지금 인기 있는 영화`;
