@@ -55,4 +55,9 @@ export function setupSubscriptions(
     movieListView.renderMovieList(data);
     updateMoreButton(moreButton, data.total_pages, state.page);
   });
+
+  eventBus.subscribe(APP_EVENTS.ERROR, (message) => {
+    movieListView.clearList();
+    movieListView.showError(message);
+  });
 }

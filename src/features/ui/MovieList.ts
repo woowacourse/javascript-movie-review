@@ -21,6 +21,14 @@ export default class MovieList {
     `;
   }
 
+  showError(message: string) {
+    this.movieContainer!.innerHTML = `
+      <div class="result-none">
+        <p class="result-none-text">${message}</p>
+      </div>
+    `;
+  }
+
   clearList() {
     this.movieList!.innerHTML = "";
     this.movieContainer!.innerHTML = "";
