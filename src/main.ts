@@ -13,27 +13,27 @@ setupSubscriptions(moreButton, mainTitle);
 
 addEventListener("load", async () => {
   await initialRender(state.page);
+});
 
-  const submitContainer = document.querySelector(
-    ".background-container",
-  ) as HTMLFormElement;
+const submitContainer = document.querySelector(
+  ".background-container",
+) as HTMLFormElement;
 
-  submitContainer.addEventListener("submit", async (e: SubmitEvent) => {
-    e.preventDefault();
-    state.page = 1;
+submitContainer.addEventListener("submit", async (e: SubmitEvent) => {
+  e.preventDefault();
+  state.page = 1;
 
-    const searchInput = document.querySelector(
-      ".search-input",
-    ) as HTMLInputElement;
-    state.searchQuery = searchInput.value.trim();
+  const searchInput = document.querySelector(
+    ".search-input",
+  ) as HTMLInputElement;
+  state.searchQuery = searchInput.value.trim();
 
-    if (state.searchQuery === "") {
-      await initialRender(state.page);
-      return;
-    }
+  if (state.searchQuery === "") {
+    await initialRender(state.page);
+    return;
+  }
 
-    await searchRender(state.page, state.searchQuery);
-  });
+  await searchRender(state.page, state.searchQuery);
 });
 
 moreButton.addEventListener("click", async () => {
