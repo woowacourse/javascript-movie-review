@@ -1,8 +1,5 @@
-export function createMoreButton(onClick: () => void): HTMLButtonElement {
-  const button = document.createElement("button");
-  button.className = "btn primary full-width";
-  button.textContent = "더 보기";
+import { createButton } from "./button";
 
-  button.addEventListener("click", onClick);
-  return button;
+export function createMoreButton(onClick: () => void): HTMLButtonElement {
+  return createButton({ text: "더 보기", width: "full", size: "m", onClick });
 }

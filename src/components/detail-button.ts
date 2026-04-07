@@ -1,8 +1,10 @@
-export function createDetailButton(onClick: () => void): HTMLButtonElement {
-  const button = document.createElement("button");
-  button.className = "primary detail";
-  button.textContent = "자세히 보기";
+import { createButton } from "./button";
 
-  button.addEventListener("click", onClick);
-  return button;
+export function createDetailButton(onClick: () => void): HTMLButtonElement {
+  return createButton({
+    text: "자세히 보기",
+    width: "fit",
+    size: "s",
+    onClick,
+  });
 }
