@@ -42,7 +42,7 @@
 }
 
 .result-none-text {
-  font-family: "Poppins";
+  font-family: Poppins, sans-serif;
   font-weight: 600;
   font-size: 2.25rem;
   line-height: 100%;

@@ -1,7 +1,7 @@
 import { eventBus } from "./pubsub/EventBus";
 import { APP_EVENTS } from "./pubsub/AppEvents";
-import { Header } from "./features/ui/Header";
-import { movieListView } from "./features/ui/MovieList";
+import { Header } from "./features/UI/Header";
+import { movieListView } from "./features/UI/MovieList";
 import { updateMoreButton } from "./utils/dom";
 import { state } from "./state";
 import { loadPopular } from "./features/handler/controllerHandlers";
@@ -23,7 +23,7 @@ export function setupSubscriptions(
     state.searchQuery = "";
     await loadPopular(state.page);
   });
-  eventBus.subscribe(APP_EVENTS.TITLE_CHANGED, (title) => {
+  eventBus.subscribe(APP_EVENTS.TITLE_CHANGED, (title : string) => {
     mainTitle.textContent = title;
   });
 
@@ -31,7 +31,7 @@ export function setupSubscriptions(
     movieListView.renderSkeleton();
   });
 
-  eventBus.subscribe(APP_EVENTS.MOVIES_LOADED, (data) => {
+  eventBus.subscribe(APP_EVENTS.MOVIES_LOADED, (data ) => {
     Header.clearHeader();
     Header.render(data.results[0] ?? null);
     attachLogoListener();
