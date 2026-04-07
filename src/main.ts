@@ -5,6 +5,7 @@ import { renderHeroMovie } from "./utils/RenderUtil";
 import { TmdbClient } from "./api/TmdbClient";
 import { MovieListStore } from "./movie-list/MovieListStore";
 import { MovieListView } from "./movie-list/MovieListView";
+import { MovieListController } from "./movie-list/MovieListController";
 
 const tmdb = new TmdbClient(import.meta.env.VITE_TMDB_API_KEY);
 const movieListStore = new MovieListStore(tmdb);
@@ -22,33 +23,6 @@ const syncHeroSection = (elements: AppElements) => {
   renderHeroMovie(movieListStore.movies[0], elements);
 };
 
-const loadAndRenderMovies = async (
-  movieListView: MovieListView,
-  kind: "popular" | "search" | "more",
-  query?: string,
-) => {
-  movieListView.showSkeleton();
-
-  try {
-    if (kind === "popular") await movieListStore.loadPopular();
-    else if (kind === "search") await movieListStore.search(query!);
-    else await movieListStore.loadNextPage();
-
-    movieListView.renderMovies(movieListStore.movies);
-    movieListView.toggleSeeMore(movieListStore.hasMore);
-    movieListView.toggleNoResult(movieListStore.query !== "" && movieListStore.movies.length === 0);
-  } catch (error) {
-    notifyError(error);
-  } finally {
-    movieListView.hideSkeleton();
-  }
-};
-
-const initializeMoviePage = async (elements: AppElements, movieListView: MovieListView) => {
-  await loadAndRenderMovies(movieListView, "popular");
-  syncHeroSection(elements);
-};
-
 const main = async () => {
   const elements = getAppElements();
 
@@ -60,19 +34,11 @@ const main = async () => {
     noResult: elements.noResult,
   });
 
-  bindEvents(elements, movieListView);
+  const controller = new MovieListController(movieListStore, movieListView, { error: notifyError });
 
-  await initializeMoviePage(elements, movieListView);
-};
-
-window.addEventListener("load", () => {
-  void main().catch((error) => notifyError(error));
-});
-
-const bindEvents = (elements: AppElements, movieListView: MovieListView) => {
   elements.seeMoreBtn.addEventListener("click", async (event) => {
     event.preventDefault();
-    await loadAndRenderMovies(movieListView, "more");
+    await controller.loadMore();
   });
 
   elements.searchForm.addEventListener("submit", async (event) => {
@@ -86,7 +52,16 @@ const bindEvents = (elements: AppElements, movieListView: MovieListView) => {
       return;
     }
 
-    await loadAndRenderMovies(movieListView, "search", query);
+    await controller.search(query);
+
     syncHeroSection(elements);
   });
+
+  // 초기 로드
+  await controller.showPopular();
+  syncHeroSection(elements);
 };
+
+window.addEventListener("load", () => {
+  void main().catch((error) => notifyError(error));
+});
