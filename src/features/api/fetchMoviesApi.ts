@@ -19,7 +19,7 @@ export async function fetchMoviesApi(
     return await response.json();
   } catch (error) {
     if (error instanceof TypeError) {
-      throw new Error("NETWORK ERROR");
+      throw new Error("REQUEST ERROR");
     }
     if (error instanceof Error) {
       throw error;

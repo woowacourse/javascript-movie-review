@@ -1,6 +1,6 @@
 export function userErrorMessage(error: unknown): string {
   if (error instanceof TypeError) {
-    return "네트워크 연결을 확인해주세요.";
+    return "요청에 실패했습니다. 잠시 후 다시 시도해주세요.";
   }
 
   if (error instanceof Error) {
