@@ -63,6 +63,39 @@ FE 레벨1 영화 리뷰 미션
 ### 2. 이벤트 처리
 
 - TMDB API에서 인기 영화 목록을 가져온다.
-- 검색어 입력하면 디바운스(300ms) 적용 후 TMDB 검색 API를 호출한다.
 - 엔터키와 검색 버튼을 이용하여 검색할 수 있다.
 - 검색어를 지우면 인기 영화 목록으로 복귀한다.
+
+---
+
+## 아키텍처
+
+![아키텍처](src/images/flow.png)
+
+### 레이어 구조
+
+```
+main.ts                    DOM 이벤트 바인딩만
+  ├─ init.ts               EventBus 구독 등록 + UI 업데이트
+  └─ controllerHandlers    state 조작 + 이벤트 publish
+       └─ dataHandlers     API 호출 (read*)
+            └─ fetchMoviesApi   fetch + status 검증 + 커스텀 에러 throw
+                 └─ errors.ts   ApiError / UnauthorizedError / NotFoundError
+
+pubsub/
+  ├─ EventBus.ts           subscribe / publish 메커니즘
+  └─ AppEvents.ts          이벤트 상수 + payload 타입 매핑
+
+features/ui/               컴포넌트 (Header, MovieList, MovieCard, MovieSkeleton)
+state.ts                   매 호출마다 바뀌는 값 (page, searchQuery)
+```
+
+### 전체 플로우
+
+진입점은 가장 먼저 EventBus 구독 설정 함수를 호출해 모든 구독자를 등록한다. 이 단계를 거쳐야 이후 발행되는 이벤트가 구독자에게 전달될 수 있다. 이후 진입점은 DOM 이벤트(load / submit / click)만 바인딩하고, 각 이벤트는 컨트롤러의 핸들러를 호출한다.
+
+컨트롤러는 상태를 조작하고 로드 함수를 호출한다. 로드 함수는 항상 같은 순서로 동작한다 — 타이틀 변경 이벤트를 발행하고, 로딩 시작 이벤트를 발행한 뒤, 데이터 레이어를 통해 API를 호출하고, 응답이 오면 데이터 로드 완료 이벤트를 발행한다. 더보기 흐름만 예외적으로 화면을 새로 그리지 않으므로 타이틀 변경과 로딩 시작 이벤트를 생략한다.
+
+구독 레이어는 각 이벤트를 받아 헤더와 영화 목록을 렌더링하고, 더보기 버튼의 표시 여부를 결정합니다. 검색 결과가 비어 있으면 "검색 결과 없음" UI를, API 에러가 발생하면 에러 메시지를 화면에 표시한다.
+
+API 레이어는 `response.ok`가 false일 때 status에 따라 적절한 커스텀 에러를 던진다. 데이터 레이어는 에러를 가로채지 않고 그대로 위로 전파하며, 컨트롤러가 비로소 try/catch로 잡아 에러 이벤트를 발행한다. 에러의 원본 타입이 컨트롤러까지 살아 있어 향후 `instanceof`로 분기 확장이 가능하다.
