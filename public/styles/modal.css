@@ -80,9 +80,67 @@ body.modal-open {
 .modal-description h2 {
   font-size: 2rem;
   margin: 0 0 8px;
+  font-weight: 700;
 }
 
 .detail {
   max-height: 430px;
   overflow-y: auto;
+
+  font-size: 1.5rem;
+  font-weight: 300;
+  margin-top: 16px;
+}
+
+/*** */
+.modal-description h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+
+  margin-top: 24px;
+}
+
+.modal-description hr {
+  border-color: #67788E
+}
+
+.modal-description .rate-star {
+  display: flex;  
+  align-items: center;
+  justify-content: start;
+
+  margin-bottom: 24px;
+}
+
+.modal-description .rate-star .star-box {
+  display: inline-block;
+}
+
+.modal-description .rate-star .star-box .star {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  background: url('../images/star_empty.png') center center no-repeat;
+  background-size: 32px;
+}
+
+.modal-description .rate-star .star-box .star.on {
+  background: url('../images/star_filled.png') center center no-repeat;
+  background-size: 32px;
+}
+
+.modal-description .star-message-box {
+  display: inline-block;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-left: 16px;
+  align-self: center;
+}
+
+.modal-description .star-message-box .star-message {
+
+}
+
+.modal-description .star-message-box .star-number {
+  color: #95A1B2;
 }
