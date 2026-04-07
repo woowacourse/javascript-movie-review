@@ -5,7 +5,11 @@ import {
   handleHeaderSearch,
   handleMovieList,
 } from "./renderHandlers";
-import { handleMoreMovie, handleMovie, handleSearchMovie } from "./dataHandlers";
+import {
+  handleMoreMovie,
+  handleMovie,
+  handleSearchMovie,
+} from "./dataHandlers";
 
 const movieListInstance = new MovieList();
 
@@ -24,6 +28,11 @@ export async function initialRender(
   moreButton: HTMLButtonElement,
   updateMoreButton: UpdateMoreButton,
 ): Promise<void> {
+  const searchInput = document.querySelector(
+    ".search-input",
+  ) as HTMLInputElement;
+  if (searchInput) searchInput.value = "";
+
   const mainTitle = document.querySelector(".main-title") as HTMLElement;
 
   mainTitle.textContent = "지금 인기 있는 영화";
