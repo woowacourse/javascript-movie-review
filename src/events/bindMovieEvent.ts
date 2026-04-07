@@ -1,13 +1,7 @@
 import { State } from '../main.ts'
-import { HttpError, fetchDefaultMovieList, fetchSearchMovieList } from '../service/movieApi.ts'
+import { HttpError, fetchDefaultMovieList, fetchSearchMovieList, fetchMovieDetail } from '../service/movieApi.ts'
 import { getElement, getInputElement, getUListElement } from '../view/getElementView.ts'
-import {
-    addMovieList,
-    addMovieSkeletonUIList,
-    Movie,
-    removeMovieSkeletonUIList,
-    showBackgroundMovieInfo,
-} from '../view/movieListView.ts'
+import { addMovieList, addMovieSkeletonUIList, Movie, removeMovieSkeletonUIList } from '../view/movieListView.ts'
 
 export const callMovieList = async (pageNum: number, searchBarText: string): Promise<Movie[]> => {
     try {
@@ -116,22 +110,40 @@ export const bindMoreMovieEvents = (state: State) => {
 }
 
 // 포스터 클릭 이벤트
-export const bindClickPosterEvent = (state: State) => {
-    // 1. 모든 포스터 엘리먼트 가져오기
+export const bindClickPosterEvent = () => {
     const thumbnailBox = getElement('.thumbnail-list')
+    const modalBackground = getElement('#modalBackground')
 
+    // 모달 열기
     thumbnailBox.addEventListener('click', async (event: MouseEvent) => {
         const target = event.target as HTMLElement
-        const item = target.closest('.item') as HTMLElement
+        const item = target.closest('li') as HTMLElement
+        if (!item?.dataset.id) return
 
-        const titleElement = item.querySelector('strong')
+        const movie = await fetchMovieDetail(Number(item.dataset.id))
 
-        // // 아이템이 속한 영화를 찾기
-        let movieList
+        const modalPoster = getElement('#modalPoster') as HTMLImageElement
+        modalPoster.src = `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+        getElement('#modalTitle').textContent = movie.title
+        getElement('#modalCategory').textContent = `${movie.release_date.slice(0, 4)} · ${movie.genres.map((g) => g.name).join(', ')}`
+        getElement('#modalRate').textContent = String(movie.vote_average.toFixed(1))
+        getElement('#modalDetail').textContent = movie.overview
 
-        movieList = await callMovieList(state.pageNum, state.searchBarText)
+        modalBackground.classList.add('active')
+        document.body.classList.add('modal-open')
+    })
 
-        const backgroundMovie = movieList.filter((movie: Movie) => movie.title === titleElement?.textContent)[0]
-        showBackgroundMovieInfo(backgroundMovie)
+    // 모달 닫기 - X 버튼
+    getElement('#closeModal').addEventListener('click', () => {
+        modalBackground.classList.remove('active')
+        document.body.classList.remove('modal-open')
+    })
+
+    // 모달 닫기 - 배경 클릭
+    modalBackground.addEventListener('click', (event: MouseEvent) => {
+        if (event.target === modalBackground) {
+            modalBackground.classList.remove('active')
+            document.body.classList.remove('modal-open')
+        }
     })
 }

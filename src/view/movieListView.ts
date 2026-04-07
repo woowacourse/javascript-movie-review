@@ -7,11 +7,15 @@ export interface Movie {
     poster_path: string
     title: string
     vote_average: number
+    overview: string
+    genres: { id: number; name: string }[]
+    release_date: string
 }
 
 export const addMovieList = (movieDisplay: HTMLUListElement, movieList: Movie[]) => {
     movieList.forEach((movie: Movie) => {
         const li = document.createElement('li')
+        li.dataset.id = String(movie.id)
 
         li.innerHTML = /*html*/ ` 
     <div class="item" >
