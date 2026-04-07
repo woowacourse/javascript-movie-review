@@ -1,4 +1,3 @@
-import { MovieResponse } from "../../../types/types";
 import { fetchMoviesApi } from "../api/fetchMoviesApi";
 import { POPULAR_PATH, SEARCH_PATH } from "../../constants/constant";
 import {
@@ -20,7 +19,7 @@ export async function controlInitialMovies(
     handleMainTitle("지금 인기 있는 영화");
     handleSkeleton();
 
-    const data: MovieResponse = await fetchMoviesApi(POPULAR_PATH, page);
+    const data = await fetchMoviesApi(POPULAR_PATH, page);
     handleHeader(data.results[0]);
     handleMovieList(data);
     handleMoreButton(moreButton, data.total_pages, page);
@@ -42,11 +41,7 @@ export async function controlSearchMovies(
     handleMainTitle(`"${searchMovie}" 검색 결과`);
     handleSkeleton();
 
-    const data: MovieResponse = await fetchMoviesApi(
-      SEARCH_PATH,
-      page,
-      searchMovie,
-    );
+    const data = await fetchMoviesApi(SEARCH_PATH, page, searchMovie);
     handleHeaderSearch(searchMovie);
 
     if (data.results.length === 0) {
@@ -71,7 +66,7 @@ export async function controlMoreMovies(
   moreButton: HTMLButtonElement,
 ): Promise<void> {
   try {
-    const data: MovieResponse =
+    const data =
       searchMovie === ""
         ? await fetchMoviesApi(POPULAR_PATH, page)
         : await fetchMoviesApi(SEARCH_PATH, page, searchMovie);
