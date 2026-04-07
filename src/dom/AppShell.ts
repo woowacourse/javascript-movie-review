@@ -1,7 +1,24 @@
-import type { AppElements } from "../../types/dom";
-import { $ } from "./util";
+import { $ } from "./selector";
 
-export const getAppElements = (): AppElements => ({
+export interface AppShellElements {
+  movieList: HTMLUListElement;
+  siteHeader: HTMLElement;
+  searchForm: HTMLFormElement;
+  searchInput: HTMLInputElement;
+  noResult: HTMLDivElement;
+  movieSectionTitle: HTMLHeadingElement;
+
+  heroSection: HTMLElement;
+  heroBackdrop: HTMLDivElement;
+  heroRate: HTMLDivElement;
+  heroRateValue: HTMLSpanElement;
+  heroTitle: HTMLHeadingElement;
+
+  skeletonCard: HTMLUListElement;
+  seeMoreBtn: HTMLButtonElement;
+}
+
+export const queryAppShell = (): AppShellElements => ({
   movieList: $<HTMLUListElement>(".thumbnail-list"),
   siteHeader: $<HTMLElement>(".site-header"),
   searchForm: $<HTMLFormElement>("#search-form"),
