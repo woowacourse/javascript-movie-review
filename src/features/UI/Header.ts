@@ -3,6 +3,17 @@ import logo from "../../images/logo.png";
 import searchIcon from "../../images/Search.png";
 import { Movie } from "../../../types/types";
 import { BACKDROP_IMAGE_URL } from "../../constants/image";
+import { eventBus, APP_EVENTS } from "../../pubsub/EventBus";
+
+eventBus.subscribe(APP_EVENTS.MOVIES_LOADED, (data) => {
+  Header.clearHeader();
+  Header.render(data.results[0] ?? null);
+});
+
+eventBus.subscribe(APP_EVENTS.SEARCH_LOADED, () => {
+  Header.clearHeader();
+  Header.renderSearch();
+});
 
 export const Header = {
   clearHeader(): void {
