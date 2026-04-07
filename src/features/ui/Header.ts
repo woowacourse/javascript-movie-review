@@ -28,7 +28,6 @@ export const Header = {
                 </div>
                 <div class="title">${movie.title}</div>
                 <button class="primary detail">자세히 보기</button>
-                </div>
             </div>
             ${this.renderImage()}
       `;

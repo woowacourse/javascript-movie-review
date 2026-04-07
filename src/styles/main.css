@@ -28,7 +28,7 @@ main {
 }
 
 .main-title {
-  font-family: Poppins;
+  font-family: Poppins, sans-serif;
   font-weight: 600;
   font-size: 2.25rem;
   line-height: 100%;
@@ -225,10 +225,8 @@ footer.footer p:not(:last-child) {
   border-radius: 8px;
   padding: 0.625rem;
   color: #ffffff;
-  font-size: 1.5rem;
-  font-family: Montserrat;
+  font-family: Montserrat, sans-serif;
   font-weight: 600;
-  font-style: SemiBold;
   line-height: 100%;
   letter-spacing: 0.015rem;
   text-align: center;

@@ -1,7 +1,7 @@
 import { eventBus } from "./pubsub/EventBus";
 import { APP_EVENTS } from "./pubsub/AppEvents";
-import { Header } from "./features/UI/Header";
-import { movieListView } from "./features/UI/MovieList";
+import { Header } from "./features/ui/Header";
+import { movieListView } from "./features/ui/MovieList";
 import { updateMoreButton } from "./utils/dom";
 import { state } from "./state";
 import { loadPopular } from "./features/handler/controllerHandlers";
