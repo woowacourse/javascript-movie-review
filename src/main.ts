@@ -1,10 +1,7 @@
-import {
-  initialRender,
-  renderSearchResults,
-} from "./features/handler/controllerHandlers";
-import { movieState } from "./features/states/movieState";
-import { getSearchInputValue } from "./features/handler/renderHandlers";
-import { initEvents } from "./features/handler/eventHandlers";
+import { initialRender, renderSearchResults } from "./features/movieController";
+import { movieState } from "./features/movieState";
+import { Header } from "./features/View/Header";
+import { initEvents } from "./features/handler";
 
 addEventListener("load", async () => {
   // 초기 렌더링
@@ -19,7 +16,7 @@ addEventListener("load", async () => {
     e.preventDefault();
     movieState.page = 1;
 
-    movieState.searchQuery = getSearchInputValue();
+    movieState.searchQuery = Header.getSearchInputValue();
 
     // 검색어가 없는 경우 초기 렌더링
     if (movieState.searchQuery === "") {
