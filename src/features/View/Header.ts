@@ -45,6 +45,20 @@ export const Header = {
     backgroundContainer.innerHTML = /*html*/ `${this.renderImage()}`;
   },
 
+  clearSearchInput(): void {
+    const searchInput = document.querySelector(
+      ".search-input",
+    ) as HTMLInputElement;
+    if (searchInput) searchInput.value = "";
+  },
+
+  getSearchInputValue(): string {
+    const searchInput = document.querySelector(
+      ".search-input",
+    ) as HTMLInputElement;
+    return searchInput ? searchInput.value.trim() : "";
+  },
+
   renderImage(): string {
     return /*html*/ `<div class="overlay" aria-hidden="true">
                 <div class="search-container">

@@ -12,6 +12,17 @@ export default class MovieList {
     this.movieContainer = document.querySelector(".main-result");
   }
 
+  renderMainTitle(title: string): void {
+    const mainTitle = document.querySelector(".main-title") as HTMLElement;
+    if (mainTitle) mainTitle.textContent = title;
+  }
+
+  updateMoreButton(totalPages: number, currentPage: number): void {
+    const moreButton = document.querySelector(".btn-more") as HTMLButtonElement;
+    if (!moreButton) return;
+    moreButton.style.display = totalPages === currentPage ? "none" : "block";
+  }
+
   showEmpty() {
     this.movieContainer!.innerHTML = `
       <div class="result-none">
