@@ -22,7 +22,7 @@ class TopRatedView {
 
   render({ title, poster_path, vote_average }: ThumbnailInfo) {
     this.#dom.title.textContent = title;
-    this.#dom.rate.textContent = vote_average.toString();
+    this.#dom.rate.textContent = vote_average.toFixed(1).toString();
     this.#dom.backgroundImg.src = `${import.meta.env.VITE_TMDB_IMG_URL}${poster_path}`;
   }
 

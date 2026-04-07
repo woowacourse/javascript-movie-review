@@ -7,6 +7,8 @@ import MoreMovieView from "./View/MoreMovieView";
 import MovieListView from "./View/MovieListView";
 import SearchView from "./View/SearchView";
 import TopRatedView from "./View/TopRatedView";
+import MovieDetailView from "./View/MovieDetailView";
+import { fetchMovieDetail } from "./api/fetchMovieDetail";
 
 class App {
   #views;
@@ -19,6 +21,7 @@ class App {
       search: new SearchView(),
       movieList: new MovieListView(),
       moreMovie: new MoreMovieView(),
+      movieDetail: new MovieDetailView(),
     };
 
     this.#state = {
@@ -48,6 +51,8 @@ class App {
     this.#views.moreMovie.bindEvent(this.#moreMovieEventHandler);
     this.#views.search.bindEvent(this.#searchEventHandler);
     this.#views.logo.bindEvent(this.#logoEventHandler);
+    this.#views.movieList.bindEvent(this.#movieDetailEventHandler);
+    this.#views.movieDetail.bindCloseEvent();
   }
 
   async #renderPopularMovieAtFirst() {
@@ -142,6 +147,14 @@ class App {
     } finally {
       this.#views.movieList.removeAllSkeletons();
     }
+  };
+
+  #movieDetailEventHandler = async (movieId: number) => {
+    const movieDetail = { ...(await fetchMovieDetail(movieId)) };
+
+    this.#views.movieDetail.show();
+
+    this.#views.movieDetail.renderData(movieDetail);
   };
 }
 

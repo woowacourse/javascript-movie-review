@@ -21,7 +21,20 @@ export interface MovieResponse {
   totalPages: number;
 }
 
+export interface MovieDetail {
+  id: number;
+  poster_path: string;
+  title: string;
+  release_date: string;
+  genres: {
+    id: number;
+    name: string;
+  }[];
+  vote_average: number;
+  overview: string;
+}
+
 export type ThumbnailInfo = Pick<
   Movie,
-  "title" | "poster_path" | "vote_average"
+  "id" | "title" | "poster_path" | "vote_average"
 >;
