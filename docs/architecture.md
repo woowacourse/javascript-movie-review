@@ -1,13 +1,16 @@
 # Architecture
 
-## 진입점 흐름 (load vs. DOMContentLoaded)
+## 진입점 흐름
 
 ```
-eventListener: DOMContentLoaded
+DOMContentLoaded
         ↓
-location.pathname === '/'?
-  ├── YES → Fetch '인기영화'
-  └── NO  → pathname === '/search', URLSearchParams → Fetch '영화 검색'
+Router.init()
+        ↓
+location.pathname
+  ├── '/'       → MainPage.render()
+  ├── '/search' → SearchPage.render()
+  └── 그 외     → navigate('/')
 ```
 
 ---
@@ -16,76 +19,99 @@ location.pathname === '/'?
 
 ### Router
 
-- form submit의 기본 동작(페이지 이동+새로고침)을 preventDefault()로 막고, pushState()로 URL 업데이트
-- 전체 DOM 초기화
-- 페이지 로드
+- `navigate(path)`: `pushState()`로 URL 업데이트 후 `init()` 호출
+- `init()`: `pathname` 기준으로 페이지 렌더 함수 호출 (switch 분기)
+- 알 수 없는 경로는 `/`로 리다이렉트
 
 ### Network
 
-- fetch 유틸 함수
-- GET
+- `src/utils/fetch.ts`: Bearer 토큰 인증, `accept: application/json` 헤더 포함
+- GET 요청만 사용
 
-### transform layer
+### Transform Layer
 
-- title
-- posterSrc
-- star
-- …
+- `src/utils/transform.ts`: `TMDBMovie` → `MovieItem` 변환
+- 필드: `title`, `posterSrc`, `rating`
 
 ---
 
-## 컴포넌트 트리 (MainPage)
+## 컴포넌트 트리
+
+### MainPage
 
 ```
 MainPage
-├── openModal() / closeModal()
 ├── Header
-│   ├── 로고
-│   └── 검색폼 (actions/search)
-├── Hero
-├── MovieList
-├── MoreButton
-├── Modal (step2 구현 예정, 메서드만 선언)
+│   ├── Logo (클릭 시 ROUTES.MAIN으로 navigate)
+│   └── SearchForm (submit 시 ROUTES.SEARCH?query=...로 navigate)
+├── Hero (MovieList 구독 → 첫 번째 영화 표시, page === 1만 반응)
+├── main
+│   ├── MovieList (MovieList 구독 → 페이지별 ul 추가, display:contents 그리드)
+│   └── MoreButton (MovieList 구독 → isPending/isLastPage 반응)
+└── Footer
+```
+
+### SearchPage
+
+```
+SearchPage
+├── Header
+├── main
+│   ├── MovieList (검색 결과, URL query 파라미터 사용)
+│   └── MoreButton
 └── Footer
 ```
 
 ### 사이드 컴포넌트
 
-| 컴포넌트      | 설명                                                                      |
-| ------------- | ------------------------------------------------------------------------- |
-| DetailButton  | modal open                                                                |
-| MovieCard     | title, star, posterSrc                                                    |
-| Button (공통) | width: full, fit / disabled: boolean / text: string / onClick: () => void |
+| 컴포넌트      | 설명                                                                   |
+| ------------- | ---------------------------------------------------------------------- |
+| DetailButton  | size: s, width: fit                                                    |
+| MoreButton    | size: m, width: full, 콜백 수신                                        |
+| Button (공통) | width: full \| fit / size: s \| m / text: string / onClick: () => void |
+| MovieCard     | title, posterSrc, rating / 이미지 로드 실패 시 fallback div 표시       |
+| SkeletonCard  | 로딩 중 shimmer 애니메이션 placeholder                                 |
+| Empty         | 검색 결과 없을 때 행성 이미지 + 안내 텍스트                            |
 
 ---
 
-## 클래스 설계
+## 도메인 설계
 
-### MovieList
-
-```
-Movie[] movies
-boolean isPending
-Set subscribers
-
-Network 모듈 사용:
-  - getter()
-  - setter()
-  - load()
-  - loadMore()
-```
-
-### Movie
+### MovieList (이벤트 버스 패턴)
 
 ```
-Movie movie
-boolean isPending
-Set subscribers
+isPending: boolean
+currentPage: number
+totalPages: number
+currentQuery: string | null
+subscribers: Set<Subscriber>
 
-Network 모듈 사용:
-  - getter()
-  - setter()
-  - load()
+공개 메서드:
+  - load(query?)   ← 첫 페이지 로드 (popular or search)
+  - loadMore()     ← 다음 페이지 로드
+  - isLastPage()   ← currentPage >= totalPages
+  - subscribe()
+  - unsubscribe()
+
+구독 이벤트 (MoviePageEvent):
+  - movies: MovieItem[]  ← 해당 페이지 결과만 전달 (누적 없음)
+  - isPending: boolean
+  - page: number
+```
+
+> 영화 목록 누적은 DOM(`movie-list` 컴포넌트)이 담당
+
+### Movie (step2 구현 예정)
+
+```
+movie: TMDBMovie | null
+isPending: boolean
+subscribers: Set<Subscriber>
+
+공개 메서드:
+  - load(id)
+  - subscribe()
+  - unsubscribe()
 ```
 
 ---
@@ -95,7 +121,7 @@ Network 모듈 사용:
 ### Popular API
 
 ```
-https://api.themoviedb.org/3/movie/popular?language=ko-kr&page=1
+GET https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=1
 ```
 
 | 파라미터 | 타입   | 기본값  | 설명        |
@@ -106,7 +132,7 @@ https://api.themoviedb.org/3/movie/popular?language=ko-kr&page=1
 ### Search API
 
 ```
-https://api.themoviedb.org/3/search/movie?query=:query%20&include_adult=false&language=ko-KR&page=1
+GET https://api.themoviedb.org/3/search/movie?query=:query&include_adult=false&language=ko-KR&page=1
 ```
 
 | 파라미터      | 타입    | 기본값  | 설명                  |
@@ -116,7 +142,7 @@ https://api.themoviedb.org/3/search/movie?query=:query%20&include_adult=false&la
 | language      | string  | `ko-KR` | 응답 언어             |
 | page          | number  | `1`     | 페이지 번호           |
 
-> Response Type은 `src/api/types.ts`의 `TMDBMovieListResponse` 참고
+> Response Type: `src/api/types.ts`의 `TMDBMovieListResponse` 참고
 
 ---
 
@@ -125,26 +151,36 @@ https://api.themoviedb.org/3/search/movie?query=:query%20&include_adult=false&la
 ```
 src/
   api/
-    types.ts          ← PopularMoviesParams, SearchMoviesParams, TMDBMovie, TMDBMovieListResponse
-    constants.ts      ← API base URL, endpoint 경로 상수
-    movies.ts         ← 영화 관련 API 호출 함수 (popular, search)
+    types.ts          ← TMDBMovie, TMDBMovieListResponse, Params 타입
+    constants.ts      ← API base URL, 이미지 base URL, 엔드포인트 상수
+    movies.ts         ← fetchPopularMovies, fetchSearchMovies
   components/
-    button.ts
+    button.ts         ← 공통 버튼 (width, size 옵션)
+    header.ts
+    hero.ts
+    movie-list.ts     ← MovieList 구독, 페이지별 ul, display:contents 그리드
+    movie-card.ts     ← 카드 UI, 이미지 fallback
+    skeleton-card.ts  ← shimmer 스켈레톤
+    empty.ts          ← 검색 결과 없음
+    more-button.ts
+    detail-button.ts
     modal.ts          ← step2 구현 예정
-    …
+    logo.ts
+    footer.ts
+    search-form.ts
   pages/
     mainPage.ts
     searchPage.ts
   domains/
     movie/
-      MovieList.ts    ← 목록 (Movie[] movies, load, loadMore)
-      Movie.ts        ← 단건 상세 (Movie movie, load)
-      index.ts        ← re-export
+      MovieList.ts    ← 이벤트 버스 패턴, load/loadMore/subscribe
+      Movie.ts        ← step2 구현 예정
+      index.ts
   utils/
-    fetch.ts
-    transform.ts      ← title, posterSrc, star 변환
-    …
+    fetch.ts          ← Bearer 인증 fetch 유틸
+    transform.ts      ← TMDBMovie → MovieItem 변환
   route/
-    router.ts
+    router.ts         ← pushState 기반 SPA 라우터
+    constants.ts      ← ROUTES 상수
   main.ts
 ```
