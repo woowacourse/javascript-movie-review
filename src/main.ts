@@ -4,11 +4,25 @@ import {
   searchRender,
 } from "./features/handler/controllerHandlers";
 import { state } from "./state";
+import { eventBus, APP_EVENTS } from "./pubsub/EventBus";
+import { updateMoreButton } from "./utils/dom";
 
 const moreButton = document.querySelector(".btn-more") as HTMLButtonElement;
 
+eventBus.subscribe(APP_EVENTS.MOVIES_LOADED, (data) => {
+  updateMoreButton(moreButton, data.total_pages, state.page);
+});
+
+eventBus.subscribe(APP_EVENTS.SEARCH_LOADED, (data) => {
+  updateMoreButton(moreButton, data.total_pages, state.page);
+});
+
+eventBus.subscribe(APP_EVENTS.MORE_LOADED, (data) => {
+  updateMoreButton(moreButton, data.total_pages, state.page);
+});
+
 addEventListener("load", async () => {
-  await initialRender(state.page, moreButton, updateMoreButton);
+  await initialRender(state.page);
 
   const submitContainer = document.querySelector(
     ".background-container",
@@ -24,33 +38,22 @@ addEventListener("load", async () => {
     state.searchQuery = searchInput.value.trim();
 
     if (state.searchQuery === "") {
-      await initialRender(state.page, moreButton, updateMoreButton);
+      await initialRender(state.page);
       return;
     }
 
-    await searchRender(state.page, state.searchQuery, moreButton, updateMoreButton);
+    await searchRender(state.page, state.searchQuery);
   });
 
   const logo = document.querySelector(".logo") as HTMLElement;
   logo.addEventListener("click", async () => {
     state.page = 1;
     state.searchQuery = "";
-    await initialRender(state.page, moreButton, updateMoreButton);
+    await initialRender(state.page);
   });
 });
 
 moreButton.addEventListener("click", async () => {
   state.page += 1;
-  await moreRender(state.page, state.searchQuery, moreButton, updateMoreButton);
+  await moreRender(state.page, state.searchQuery);
 });
-
-function updateMoreButton(
-  moreButton: HTMLButtonElement,
-  data: { results: unknown[]; total_pages: number },
-): void {
-  if (data.total_pages === state.page) {
-    moreButton.style.display = "none";
-  } else {
-    moreButton.style.display = "block";
-  }
-}
