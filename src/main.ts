@@ -1,7 +1,7 @@
 import {
-  loadInitialMovies,
-  loadMoreMovies,
-  loadSearchMovies,
+  controlInitialMovies,
+  controlMoreMovies,
+  controlSearchMovies,
 } from "./features/handler/controllerHandlers";
 
 let page: number = 1;
@@ -14,7 +14,7 @@ const backgroundContainer = document.querySelector(
 
 addEventListener("load", async () => {
   // 초기 렌더링
-  await loadInitialMovies(page, moreButton);
+  await controlInitialMovies(page, moreButton);
 });
 
 // 검색
@@ -29,12 +29,12 @@ backgroundContainer.addEventListener("submit", async (e: SubmitEvent) => {
 
   // 검색어가 없는 경우 초기 렌더링
   if (searchMovie === "") {
-    await loadInitialMovies(page, moreButton);
+    await controlInitialMovies(page, moreButton);
     return;
   }
 
   // 검색어가 있는 경우 검색 결과 렌더링
-  await loadSearchMovies(page, searchMovie, moreButton);
+  await controlSearchMovies(page, searchMovie, moreButton);
 });
 
 // 로고 클릭
@@ -48,11 +48,11 @@ backgroundContainer.addEventListener("click", async (e: MouseEvent) => {
 
   page = 1;
   searchMovie = "";
-  await loadInitialMovies(page, moreButton);
+  await controlInitialMovies(page, moreButton);
 });
 
 // 더보기 버튼
 moreButton.addEventListener("click", async () => {
   page += 1;
-  await loadMoreMovies(page, searchMovie, moreButton);
+  await controlMoreMovies(page, searchMovie, moreButton);
 });

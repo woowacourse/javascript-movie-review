@@ -12,7 +12,7 @@ import {
   handleMoreMovie,
 } from "./renderHandlers";
 
-export async function loadInitialMovies(
+export async function controlInitialMovies(
   page: number,
   moreButton: HTMLButtonElement,
 ): Promise<void> {
@@ -33,7 +33,7 @@ export async function loadInitialMovies(
   }
 }
 
-export async function loadSearchMovies(
+export async function controlSearchMovies(
   page: number,
   searchMovie: string,
   moreButton: HTMLButtonElement,
@@ -65,7 +65,7 @@ export async function loadSearchMovies(
   }
 }
 
-export async function loadMoreMovies(
+export async function controlMoreMovies(
   page: number,
   searchMovie: string,
   moreButton: HTMLButtonElement,
