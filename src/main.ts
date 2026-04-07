@@ -144,6 +144,11 @@ addEventListener("load", () => {
     loadMoreMovies();
   });
 
+  if (hasSearchParams("search")) {
+    loadSearchMovies();
+    return;
+  }
+
   loadTopRatedMovie();
   loadPopularMovies();
 });
