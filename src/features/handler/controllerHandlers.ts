@@ -10,6 +10,7 @@ import {
   handleEmptyMovie,
   handleMoreMovie,
 } from "./renderHandlers";
+import { userErrorMessage } from "../../utils/userErrorMessage";
 
 export async function controlInitialMovies(
   page: number,
@@ -24,11 +25,7 @@ export async function controlInitialMovies(
     handleMovieList(data);
     handleMoreButton(moreButton, data.total_pages, page);
   } catch (error) {
-    alert(
-      error instanceof Error
-        ? error.message
-        : "알 수 없는 오류가 발생했습니다.",
-    );
+    alert(userErrorMessage(error));
   }
 }
 
@@ -52,11 +49,7 @@ export async function controlSearchMovies(
 
     handleMoreButton(moreButton, data.total_pages, page);
   } catch (error) {
-    alert(
-      error instanceof Error
-        ? error.message
-        : "알 수 없는 오류가 발생했습니다.",
-    );
+    alert(userErrorMessage(error));
   }
 }
 
@@ -73,10 +66,6 @@ export async function controlMoreMovies(
     handleMoreMovie(data);
     handleMoreButton(moreButton, data.total_pages, page);
   } catch (error) {
-    alert(
-      error instanceof Error
-        ? error.message
-        : "알 수 없는 오류가 발생했습니다.",
-    );
+    alert(userErrorMessage(error));
   }
 }
