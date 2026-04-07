@@ -3,15 +3,12 @@ import {
   searchRender,
 } from "./features/handler/controllerHandlers";
 import { movieState } from "./features/states/movieState";
-import { updateMoreButton } from "./features/handler/renderHandlers";
+import { getSearchInputValue } from "./features/handler/renderHandlers";
 import { initEvents } from "./features/handler/eventHandlers";
-
-// 렌더링 시 더보기 버튼
-const moreButton = document.querySelector(".btn-more") as HTMLButtonElement;
 
 addEventListener("load", async () => {
   // 초기 렌더링
-  await initialRender(movieState.page, moreButton, updateMoreButton);
+  await initialRender(movieState.page);
 
   // 검색
   const submitContainer = document.querySelector(
@@ -22,24 +19,16 @@ addEventListener("load", async () => {
     e.preventDefault();
     movieState.page = 1;
 
-    const searchInput = document.querySelector(
-      ".search-input",
-    ) as HTMLInputElement;
-    movieState.searchMovie = searchInput.value.trim();
+    movieState.searchMovie = getSearchInputValue();
 
     // 검색어가 없는 경우 초기 렌더링
     if (movieState.searchMovie === "") {
-      await initialRender(movieState.page, moreButton, updateMoreButton);
+      await initialRender(movieState.page);
       return;
     }
 
     // 검색어가 있는 경우 검색 결과 렌더링
-    await searchRender(
-      movieState.page,
-      movieState.searchMovie,
-      moreButton,
-      updateMoreButton,
-    );
+    await searchRender(movieState.page, movieState.searchMovie);
   });
 
   initEvents();
