@@ -28,20 +28,25 @@ export async function initialRender(
   moreButton: HTMLButtonElement,
   updateMoreButton: UpdateMoreButton,
 ): Promise<void> {
-  const searchInput = document.querySelector(
-    ".search-input",
-  ) as HTMLInputElement;
-  if (searchInput) searchInput.value = "";
+  try {
+    const searchInput = document.querySelector(
+      ".search-input",
+    ) as HTMLInputElement;
+    if (searchInput) searchInput.value = "";
 
-  const mainTitle = document.querySelector(".main-title") as HTMLElement;
+    const mainTitle = document.querySelector(".main-title") as HTMLElement;
 
-  mainTitle.textContent = "지금 인기 있는 영화";
+    mainTitle.textContent = "지금 인기 있는 영화";
 
-  movieListInstance.renderSkeleton();
-  const data: MovieResponse = await handleMovie(page);
-  handleHeader(data.results[0]);
-  handleMovieList(data);
-  updateMoreButton(moreButton, data);
+    movieListInstance.renderSkeleton();
+    const data: MovieResponse = await handleMovie(page);
+    handleHeader(data.results[0]);
+    handleMovieList(data);
+    updateMoreButton(moreButton, data);
+  } catch (error) {
+    movieListInstance.clearList();
+    if (error instanceof Error) alert(error.message);
+  }
 }
 
 export async function searchRender(
@@ -50,21 +55,26 @@ export async function searchRender(
   moreButton: HTMLButtonElement,
   updateMoreButton: UpdateMoreButton,
 ): Promise<void> {
-  movieListInstance.renderSkeleton();
-  const mainTitle = document.querySelector(".main-title") as HTMLElement;
+  try {
+    movieListInstance.renderSkeleton();
+    const mainTitle = document.querySelector(".main-title") as HTMLElement;
 
-  mainTitle.textContent = `"${searchMovie}" 검색 결과`;
+    mainTitle.textContent = `"${searchMovie}" 검색 결과`;
 
-  const data: MovieResponse = await handleSearchMovie(page, searchMovie);
-  handleHeaderSearch();
+    const data: MovieResponse = await handleSearchMovie(page, searchMovie);
+    handleHeaderSearch();
 
-  if (data.results.length === 0) {
-    movieListInstance.showEmpty();
-  } else {
-    handleMovieList(data);
+    if (data.results.length === 0) {
+      movieListInstance.showEmpty();
+    } else {
+      handleMovieList(data);
+    }
+
+    updateMoreButton(moreButton, data);
+  } catch (error) {
+    movieListInstance.clearList();
+    if (error instanceof Error) alert(error.message);
   }
-
-  updateMoreButton(moreButton, data);
 }
 
 export async function moreRender(
@@ -73,8 +83,13 @@ export async function moreRender(
   moreButton: HTMLButtonElement,
   updateMoreButton: UpdateMoreButton,
 ): Promise<void> {
-  const data: MovieResponse = await handleMoreMovie(page, searchMovie);
+  try {
+    const data: MovieResponse = await handleMoreMovie(page, searchMovie);
 
-  movieListInstance.renderMovieList(data);
-  updateMoreButton(moreButton, data);
+    movieListInstance.renderMovieList(data);
+    updateMoreButton(moreButton, data);
+  } catch (error) {
+    movieListInstance.clearList();
+    if (error instanceof Error) alert(error.message);
+  }
 }
