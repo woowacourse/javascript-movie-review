@@ -19,6 +19,7 @@ import {
 import { renderSkeleton, removeSkeleton } from "./renders/skeleton";
 import PageState from "./states/PageState";
 import { updateMoreButton } from "./renders/moreButton";
+import { baseUrl } from "./constants/env";
 
 const pageState = new PageState();
 
@@ -54,9 +55,10 @@ const loadPopularMovies = async () => {
       renderMovieList(movies);
       updateMoreButton(movies.page, movies.total_pages);
     }
-    removeSkeleton();
   } catch (e) {
     showErrorAlert(e);
+  } finally {
+    removeSkeleton();
   }
 };
 
@@ -117,9 +119,9 @@ const handleSearch = () => {
 };
 
 addEventListener("load", () => {
-  const moreButton = document.querySelector("#more-button");
-  moreButton?.addEventListener("click", () => {
-    loadMoreMovies();
+  const logo = document.querySelector<HTMLButtonElement>(".logo");
+  logo?.addEventListener("click", () => {
+    window.location.href = baseUrl;
   });
 
   const searchButton = document.querySelector("#search-button");
@@ -132,6 +134,11 @@ addEventListener("load", () => {
     if (e.key === "Enter") {
       handleSearch();
     }
+  });
+
+  const moreButton = document.querySelector("#more-button");
+  moreButton?.addEventListener("click", () => {
+    loadMoreMovies();
   });
 
   loadTopRatedMovie();

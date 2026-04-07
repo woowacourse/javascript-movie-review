@@ -10,6 +10,7 @@
   position: absolute;
   top: 0;
   left: 0;
+  background: transparent;
 }
 
 #search-input {
@@ -22,8 +23,14 @@
   color: #ffffff;
   background-color: transparent;
 }
+
 #search-input::placeholder {
   color: #ffffff;
+}
+
+#search-input:focus {
+  outline: none;
+  background-color: transparent;
 }
 
 .search-box {
