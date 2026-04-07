@@ -76,7 +76,7 @@ class App {
   #moreMovieEventHandler = async () => {
     this.#views.moreMovie.disable();
 
-    const searchValue = this.#views.search.getInputValue();
+    const searchValue = this.#state.searchString;
 
     const requestMovies =
       searchValue.trim().length === 0
@@ -110,6 +110,7 @@ class App {
     this.#views.movieList.hideNotFound(); // 올바른 검색결과에도 notFound가 표시되는 것 방지
     this.#state.searchMoviePage = 1;
 
+    window.scrollTo({ top: 0, behavior: "instant" });
     // 1. 타이틀 변경
     this.#views.movieList.renderTitle(`"${searchValue}"검색 결과`);
 
