@@ -15,7 +15,8 @@ export const Header = {
     backgroundContainer.style.height = "100px";
   },
 
-  render(movie: Movie): void {
+  render(movie: Movie | null): void {
+    if (!movie) return;
     const backgroundContainer = document.querySelector(
       ".background-container",
     ) as HTMLElement;

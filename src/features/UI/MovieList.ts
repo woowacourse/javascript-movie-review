@@ -45,3 +45,5 @@ export default class MovieList {
     });
   }
 }
+
+export const movieListInstance = new MovieList();

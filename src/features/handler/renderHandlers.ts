@@ -1,8 +1,6 @@
 import { Header } from "../UI/Header";
-import MovieList from "../UI/MovieList";
-import { Movie } from "../../../types/types";
-
-const movieListInstance = new MovieList();
+import { movieListInstance } from "../UI/MovieList";
+import { Movie, MovieResponse } from "../../../types/types";
 
 export function handleHeaderSearch(): void {
   Header.clearHeader();
@@ -14,10 +12,7 @@ export function handleHeader(movie: Movie): void {
   Header.render(movie);
 }
 
-export function handleMovieList(data: {
-  results: Movie[];
-  total_pages: number;
-}): void {
+export function handleMovieList(data: MovieResponse): void {
   movieListInstance.clearList();
   movieListInstance.renderMovieList(data);
 }

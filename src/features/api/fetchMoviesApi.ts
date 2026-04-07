@@ -1,4 +1,4 @@
-import { Movie } from "../../../types/types";
+import { MovieResponse } from "../../../types/types";
 import { API_KEY, BASE_URL } from "../../constants/api";
 
 export async function fetchMoviesApi(
@@ -17,7 +17,7 @@ export async function fetchMoviesApi(
   if (!response.ok) {
     throw new Error(`API 요청 실패: ${response.status}`);
   }
-  const data: { results: Movie[]; total_pages: number } = await response.json();
+  const data: MovieResponse = await response.json();
 
   return data;
 }
