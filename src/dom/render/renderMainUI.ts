@@ -1,7 +1,11 @@
 import { getPopularMovies, Movie } from "../../apis/movie/api";
 import TMDBError from "../../TMDBError";
 import { renderBanner } from "./renderBanner";
-import { renderResultSectionContent } from "./renderResultSectionContent";
+import {
+  renderMain,
+  renderMainEmpty,
+  renderMainError,
+} from "./renderResultSectionContent";
 import { renderThumbnailList } from "./renderThumbnailList";
 
 export const renderMainUI = async () => {
@@ -24,12 +28,12 @@ export const renderMainUI = async () => {
       errorMessage = "🚨TMDB에서 데이터를 불러오는 중 에러가 발생했습니다🚨";
     }
   } finally {
-    renderResultSectionContent({
-      isLoading: false,
-      isError,
-      isLastPage,
-      errorMessage,
-      movies,
-    });
+    if (isError) {
+      renderMainError(errorMessage);
+    } else if (movies.length === 0) {
+      renderMainEmpty();
+    } else {
+      renderMain(isLastPage);
+    }
   }
 };

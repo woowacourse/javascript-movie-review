@@ -1,7 +1,7 @@
 import { getPopularMovies } from "../../apis/movie/api";
 import { getSearchedMovies } from "../../apis/search/api";
 import TMDBError from "../../TMDBError";
-import { renderResultSectionContent } from "../render/renderResultSectionContent";
+import { renderMain, renderSearch } from "../render/renderResultSectionContent";
 import { renderThumbnailList } from "../render/renderThumbnailList";
 
 export const handleMainSeeMore = async () => {
@@ -27,12 +27,7 @@ export const handleMainSeeMore = async () => {
       thumbnailListElement: mainThumbnailList,
     });
 
-    renderResultSectionContent({
-      isLoading: false,
-      isError: false,
-      isLastPage,
-      movies,
-    });
+    renderMain(isLastPage);
   } catch (error) {
     let errorMessage = "알 수 없는 에러가 발생했습니다.";
     if (error instanceof TMDBError) {
@@ -66,12 +61,7 @@ export const handleSearchSeeMore = async (keyword: string) => {
       thumbnailListElement: mainThumbnailList,
     });
 
-    renderResultSectionContent({
-      isLoading: false,
-      isError: false,
-      isLastPage,
-      movies,
-    });
+    renderSearch(isLastPage);
   } catch (error) {
     let errorMessage = "알 수 없는 에러가 발생했습니다.";
     if (error instanceof TMDBError) {

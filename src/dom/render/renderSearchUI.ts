@@ -1,7 +1,11 @@
 import { Movie } from "../../apis/movie/api";
 import { getSearchedMovies } from "../../apis/search/api";
 import TMDBError from "../../TMDBError";
-import { renderResultSectionContent } from "./renderResultSectionContent";
+import {
+  renderSearch,
+  renderSearchEmpty,
+  renderSearchError,
+} from "./renderResultSectionContent";
 import { renderThumbnailList } from "./renderThumbnailList";
 import { renderLoadingUI } from "./renderLoadingUI.ts";
 
@@ -38,12 +42,12 @@ export const renderSearchUI = async (keyword: string) => {
       errorMessage = "🚨TMDB에서 데이터를 불러오는 중 에러가 발생했습니다🚨";
     }
   } finally {
-    renderResultSectionContent({
-      isLoading: false,
-      isError,
-      errorMessage,
-      movies,
-      isLastPage,
-    });
+    if (isError) {
+      renderSearchError(errorMessage);
+    } else if (movies.length === 0) {
+      renderSearchEmpty();
+    } else {
+      renderSearch(isLastPage);
+    }
   }
 };
