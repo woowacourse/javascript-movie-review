@@ -43,7 +43,7 @@ export const makeMovieThumbnail = (movie: ThumbnailInfo) => {
   starImg.src = EmptyStarIcon;
 
   const voteAverage = document.createElement("span");
-  voteAverage.textContent = movie.vote_average.toString();
+  voteAverage.textContent = movie.vote_average.toFixed(1).toString();
 
   const title = document.createElement("strong");
   title.textContent = movie.title;
