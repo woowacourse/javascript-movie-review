@@ -13,4 +13,5 @@ export type State = {
   pageNum: number;
   searchBarText: string;
   movieList: Movie[];
+  userRating: Record<number, number>;
 };

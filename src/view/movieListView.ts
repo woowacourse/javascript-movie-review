@@ -1,9 +1,11 @@
 import logo from "../../templates/images/logo.png";
-import starEmpty from "../../templates/images/star_empty.png";
 import posterError from "../../templates/images/poster_error.png";
 
 import { Movie } from "../types";
 import { getElement } from "./getElementView";
+
+import star_filled from "../../templates/images/star_filled.png";
+import star_empty from "../../templates/images/star_empty.png";
 
 export const addMovieList = (
   movieDisplay: HTMLUListElement,
@@ -21,7 +23,7 @@ export const addMovieList = (
       />
       <div class="item-desc">
         <p class="rate">
-          <img class="star" src="${starEmpty}" />
+          <img class="star" src="${star_empty}" />
           <span class="vote-average">${movie.vote_average ? movie.vote_average.toFixed(1) : 0}</span>
         </p>
         <strong class="title">${movie.title}</strong>
@@ -54,7 +56,7 @@ export const removeMovieSkeletonUIList = (movieDisplay: HTMLUListElement) => {
   movieDisplay.querySelectorAll(".skeleton-li").forEach((it) => it.remove());
 };
 
-export const showDetailModal = async (movieDetail: Movie) => {
+export const showDetailModal = (movieDetail: Movie) => {
   const modalBackground = getElement(".modal-background", HTMLElement);
   modalBackground.classList.add("active");
 
@@ -75,6 +77,9 @@ export const showDetailModal = async (movieDetail: Movie) => {
   const rate = getElement(".rate_average", HTMLElement);
   rate.textContent = `${movieDetail.vote_average.toFixed(1) ?? 0}`;
 
+  const starContainer = getElement(".star-container", HTMLElement);
+  starContainer.setAttribute("data-movie-id", String(movieDetail.id));
+
   const detail = getElement(".detail", HTMLElement);
   detail.textContent = movieDetail.overview ?? "상세 설명 없음";
 
@@ -90,7 +95,6 @@ export const showDetailModal = async (movieDetail: Movie) => {
   // 스크롤 금지
   document.body.classList.add("stop-scrolling");
 };
-
 export const hideDetailModal = () => {
   const modalBackground = getElement(".modal-background", HTMLElement);
   modalBackground.classList.remove("active");
@@ -99,8 +103,23 @@ export const hideDetailModal = () => {
   document.body.classList.remove("stop-scrolling");
 };
 
-export const renderUserRate = () => {
-  // const
+export const renderUserRate = (movieId: number, userRate: number) => {
+  const ratingContainer = getElement(
+    `.star-container[data-movie-id="${movieId}"]`,
+    HTMLElement,
+  );
+
+  const stars = ratingContainer.querySelectorAll(".star");
+
+  stars.forEach((star) => {
+    if (!(star instanceof HTMLImageElement)) return;
+
+    const value = Number(star.getAttribute("value"));
+    const isActive = value <= userRate;
+
+    // star.classList.toggle("is-active", isActive);
+    star.src = isActive ? star_filled : star_empty;
+  });
 };
 
 export const showBackgroundMovieInfo = (movie: Movie) => {
@@ -115,7 +134,7 @@ export const showBackgroundMovieInfo = (movie: Movie) => {
             </h1>
             <div class="top-rated-movie">
               <div class="rate">
-                <img src="${starEmpty}" class="star" />
+                <img src="${star_empty}" class="star" />
                 <span class="rate-value">${movie.vote_average ? movie.vote_average.toFixed(1) : 0}</span>
               </div>
               <div class="title">${movie.title}</div>

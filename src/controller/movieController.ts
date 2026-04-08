@@ -2,6 +2,7 @@ import { loadMovies } from "../service/loadMovies";
 import { fetchMovieDetail } from "../service/movieApi";
 import { State } from "../types";
 import {
+  renderUserRate,
   showBackgroundMovieInfo,
   showDetailModal,
 } from "../view/movieListView";
@@ -58,6 +59,7 @@ export const createMovieController = (state: State) => ({
     try {
       const movieDetail = await fetchMovieDetail(selectedMovie.id);
       showDetailModal(movieDetail);
+      renderUserRate(movieDetail.id, state.userRating[movieDetail.id] ?? 0);
     } catch (error) {
       showErrorText("영화 상세 정보를 불러오지 못했습니다.");
     }
