@@ -1,5 +1,4 @@
-import { Movie } from "../../api";
-import { observeHeaderScroll } from "../../observer";
+import type { Movie } from "../../types";
 import {
   getBannerElement,
   getMovieListElement,
@@ -27,7 +26,6 @@ export const paintMovieBanner = (movie: Movie) => {
   const banner = getBannerElement();
   if (banner) {
     Renderer.renderBanner(banner, movie);
-    observeHeaderScroll();
   }
 };
 
@@ -62,4 +60,15 @@ export const paintClearEmptyResult = () => {
 export const paintLoadMoreButtonStatus = (hasNextPage: boolean) => {
   if (hasNextPage) Renderer.showLoadMoreButton();
   else Renderer.hideLoadMoreButton();
+};
+
+export const paintResetList = () => {
+  Renderer.clearBanner();
+  Renderer.clearMovies();
+  Renderer.clearEmptyResult();
+};
+
+export const paintPrepareSearch = (query: string, skeletonCount: number) => {
+  paintInitialLoading(skeletonCount);
+  paintSearchSectionHeading(query);
 };

@@ -1,25 +1,32 @@
-import type { Movie } from "../../api.ts";
+import type { Movie } from "../../types";
+import {
+  getBannerElement,
+  getEmptyResultElement,
+  getLoadMoreButtonElement,
+  getMovieListElement,
+  getSectionElement,
+  getSectionHeadingElement,
+} from "./movieElement";
 import Component from "../utils/component.ts";
 
 const Renderer = {
   renderSectionHeading() {
-    //TODO: 계층 분리하기
-    const heading = document.querySelector("section > h2");
-    if (heading instanceof HTMLElement) {
+    const heading = getSectionHeadingElement();
+    if (heading) {
       heading.textContent = `지금 인기 있는 영화`;
     }
   },
 
   renderSearchSectionHeading(title: string) {
-    const heading = document.querySelector("section > h2");
-    if (heading instanceof HTMLElement) {
+    const heading = getSectionHeadingElement();
+    if (heading) {
       heading.textContent = `"${title}"검색 결과`;
       heading.style.marginTop = "12rem";
     }
   },
 
   clearMovies() {
-    const movieList = document.querySelector(".thumbnail-list");
+    const movieList = getMovieListElement();
     if (movieList) movieList.innerHTML = "";
   },
 
@@ -32,19 +39,19 @@ const Renderer = {
   },
 
   clearBanner() {
-    const banner = document.querySelector(".banner-container");
+    const banner = getBannerElement();
     if (banner) banner.innerHTML = "";
   },
 
   renderEmptyResult() {
-    const section = document.querySelector("section");
+    const section = getSectionElement();
     const node = document.createElement("div");
     node.innerHTML = Component.emptyResult();
     section?.appendChild(node);
   },
 
   clearEmptyResult() {
-    const emptyResult = document.querySelector(".empty-result");
+    const emptyResult = getEmptyResultElement();
     emptyResult?.remove();
   },
 
@@ -81,13 +88,13 @@ const Renderer = {
   },
 
   showLoadMoreButton() {
-    const button = document.querySelector(".load-more-button");
-    if (button instanceof HTMLElement) button.style.display = "block";
+    const button = getLoadMoreButtonElement();
+    if (button) button.style.display = "block";
   },
 
   hideLoadMoreButton() {
-    const button = document.querySelector(".load-more-button");
-    if (button instanceof HTMLElement) button.style.display = "none";
+    const button = getLoadMoreButtonElement();
+    if (button) button.style.display = "none";
   },
 };
 

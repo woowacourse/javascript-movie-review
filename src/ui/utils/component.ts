@@ -3,8 +3,7 @@ import noImagePlanetImg from "../../images/no_image_planet.png";
 import screamingPlanetImg from "../../images/screaming_planet.svg";
 import planetAndStarImg from "../../images/planet_and_star.png";
 
-//TODO: 타입 따로 분리하기
-import { Movie } from "../../api";
+//TODO: 타입을 따로 클래스(DTO)로 분리하기
 
 const IMAGE_PATH = "https://image.tmdb.org/t/p/original";
 

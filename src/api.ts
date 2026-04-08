@@ -33,12 +33,12 @@ const API_PATH = {
 
 export async function getPopularMovies(arg: {
   pageNum: number;
-  onSuccess: (data: MoviesResponse) => void;
+  onSuccess?: (data: MoviesResponse) => void;
   onError: (error: Error) => void;
   onLoading: () => void;
 }) {
   const { pageNum, onSuccess, onError, onLoading } = arg;
-  fetcher<MoviesResponse>({
+  return fetcher<MoviesResponse>({
     fn: async () => {
       const url = new URL(API_PATH.POPULAR_MOVIE);
       url.searchParams.set("page", String(pageNum));
