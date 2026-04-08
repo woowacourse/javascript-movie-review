@@ -86,11 +86,17 @@ export const showDetailModal = async (movieDetail: Movie) => {
   addEventListener("keydown", (event) => {
     if (event.key === "Escape") hideDetailModal();
   });
+
+  // 스크롤 금지
+  document.body.classList.add("stop-scrolling");
 };
 
 export const hideDetailModal = () => {
   const modalBackground = getElement(".modal-background");
   modalBackground.classList.remove("active");
+
+  // 스크롤 허용
+  document.body.classList.remove("stop-scrolling");
 };
 
 export const showBackgroundMovieInfo = (movie: Movie) => {

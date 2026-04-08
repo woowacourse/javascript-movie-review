@@ -291,3 +291,8 @@ strong[class="title"] {
 .error-container[hidden] {
   display: none;
 }
+
+.stop-scrolling {
+  height: 100%;
+  overflow: hidden;
+}
