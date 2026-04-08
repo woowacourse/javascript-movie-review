@@ -1,0 +1,60 @@
+.background-container {
+  position: relative;
+  height: 500px;
+  margin-top: -96px;
+  display: flex;
+  align-items: center;
+}
+
+.background-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.top-rated-container {
+  user-select: none;
+  position: relative;
+  z-index: 2;
+  margin-left: 84px;
+}
+
+.top-rated-movie > *:not(:last-child) {
+  margin-bottom: 8px;
+}
+
+.rate {
+  display: flex;
+  align-items: baseline;
+  color: var(--color-yellow);
+}
+
+.rate > img {
+  position: relative;
+  top: 2px;
+}
+
+span.rate-value {
+  margin-left: 8px;
+  font-weight: bold;
+  font-size: 32px;
+}
+
+.title {
+  font-size: 64px;
+  font-weight: bold;
+}

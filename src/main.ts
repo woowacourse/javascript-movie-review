@@ -1,11 +1,15 @@
-import image from "../templates/images/star_filled.png";
+import { Router } from "./route/router";
+import { MainPage } from "./pages/mainPage";
+import { SearchPage } from "./pages/searchPage";
 
-addEventListener("load", () => {
-  const app = document.querySelector("#app");
-  const buttonImage = document.createElement("img");
-  buttonImage.src = image;
+document.addEventListener("DOMContentLoaded", () => {
+  const app = document.querySelector<HTMLElement>("#app");
+  if (!app) return;
 
-  if (app) {
-    app.appendChild(buttonImage);
-  }
+  const router = new Router({
+    main: () => new MainPage(app, router).render(),
+    search: () => new SearchPage(app, router).render(),
+  });
+
+  router.init();
 });

@@ -1,0 +1,36 @@
+:root {
+  --button-s-border-radius: 4px;
+  --button-s-font-size: 16px;
+  --button-m-border-radius: 8px;
+  --button-m-font-size: 24px;
+}
+
+button {
+  border: 0;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+button.primary {
+  color: var(--color-white);
+  font-weight: semi-bold;
+  background-color: var(--color-lightblue-90);
+}
+
+button.s {
+  border-radius: var(--button-s-border-radius);
+  font-size: var(--button-s-font-size);
+}
+
+button.m {
+  border-radius: var(--button-m-border-radius);
+  font-size: var(--button-m-font-size);
+}
+
+button.full-width {
+  width: 100%;
+}
+
+button.fit {
+  width: fit-content;
+}
