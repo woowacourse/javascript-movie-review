@@ -1,11 +1,23 @@
-import image from "../templates/images/star_filled.png";
+import { bindMovieEvents } from "./events/bindMovieEvent.ts";
+import { State } from "./types.ts";
+import { createMovieController } from "./controller/movieController.ts";
 
-addEventListener("load", () => {
-  const app = document.querySelector("#app");
-  const buttonImage = document.createElement("img");
-  buttonImage.src = image;
+const state: State = {
+  pageNum: 1,
+  searchBarText: "",
+  movieList: [],
+};
 
-  if (app) {
-    app.appendChild(buttonImage);
+addEventListener("load", async () => {
+  const movieController = createMovieController(state);
+
+  try {
+    movieController.initPage();
+  } finally {
+    bindMovieEvents({
+      onMore: movieController.loadMoreMovies,
+      onSearch: movieController.searchMovies,
+      onClick: movieController.clickMovie,
+    });
   }
 });
