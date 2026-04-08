@@ -7,4 +7,5 @@ export const URL = {
 export const PATH = {
   MOVIE_POPULAR: '/movie/popular',
   SEARCH_MOVIE: '/search/movie',
+  MOVIE_DETAIL: (movie_id: number) => `/movie/${movie_id}`,
 } as const;

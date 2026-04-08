@@ -14,7 +14,7 @@ const router = () => {
   $app.innerHTML = '';
 
   const fullHash = location.hash.replace('#', '') || '/';
-  const [path, queryString] = fullHash.split('?');
+  const [path, _] = fullHash.split('?');
   const match = routes.find((route) => route.path === path);
 
   const View = match ? match.view : HomePage;

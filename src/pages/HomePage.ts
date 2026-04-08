@@ -2,7 +2,7 @@ import Header from '../components/header/TopRateHeader.ts';
 import Main from '../components/main/Main.ts';
 import Footer from '../components/footer/Footer.ts';
 
-import { fetchPopularMovies } from '../api/fetchApi.ts';
+import { fetchMovieDetails, fetchPopularMovies } from '../api/fetchApi.ts';
 import { ResponseMovie } from '../api/types.ts';
 import TMDBError from '../api/TMDBError.ts';
 import { dispatchRouteChange } from '../utils/event.ts';
@@ -49,7 +49,7 @@ export default class HomePage {
     this.#main.renderSkeletons();
     try {
       const response = await fetchPopularMovies(this.#page);
-      this.#main.renderMovies(response.results);
+      this.#main.renderMovies(response.results, this.#onDetail);
 
       if (this.#page < response.total_pages) {
         this.#main.renderMoreButton(() => this.#loadMore());
@@ -82,4 +82,12 @@ export default class HomePage {
       dispatchRouteChange(`/search?query=${encodeURIComponent(query)}`);
     }
   };
+
+  async #onDetail(movie_id: number) {
+    try {
+      console.log(movie_id);
+      const response = await fetchMovieDetails(movie_id);
+      console.log(response);
+    } catch {}
+  }
 }

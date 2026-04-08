@@ -31,10 +31,10 @@ export default class Main {
     return this.#$element;
   }
 
-  renderMovies(movies: MovieData[]) {
+  renderMovies(movies: MovieData[], onDetail: (movie_id: number) => void) {
     this.removeSkeletons();
     const $fragment = new DocumentFragment();
-    movies.forEach((movie) => $fragment.append(MovieItem(movie)));
+    movies.forEach((movie) => $fragment.append(MovieItem(movie, onDetail)));
     this.#$list.append($fragment);
   }
 

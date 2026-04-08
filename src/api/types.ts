@@ -1,8 +1,21 @@
 export type MovieData = {
+  id: number;
   title: string;
   poster_path: string;
   backdrop_path: string;
   vote_average: number;
+};
+
+type Genres = {
+  name: string;
+};
+export type MovieDetail = {
+  id: number;
+  title: string;
+  overview: string;
+  poster_path: string;
+  genres: Genres[];
+  vote_average: string;
 };
 
 export type ResponseMovie = {
@@ -12,7 +25,7 @@ export type ResponseMovie = {
 };
 
 type Params = {
-  page: number;
+  page?: number;
   query?: string | undefined;
   language?: string;
   region?: string;

@@ -3,10 +3,14 @@ import { $ } from '../../utils/dom.ts';
 import { Star } from '../common/Star.ts';
 import { MovieData } from '../../api/types.ts';
 
-export const MovieItem = (data: MovieData) => {
-  const { title, poster_path, vote_average } = data;
+export const MovieItem = (data: MovieData, onDetail: (movie_id: number) => void) => {
+  const { id, title, poster_path, vote_average } = data;
 
   const $li = document.createElement('li');
+  $li.addEventListener('click', (e) => {
+    e.preventDefault();
+    onDetail(id);
+  });
 
   $li.innerHTML = `
     <div class="item">
