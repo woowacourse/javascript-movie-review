@@ -53,10 +53,13 @@ export const createMovieController = (state: State) => ({
 
     if (!selectedMovie) return;
 
-    if (state.searchBarText !== "") showBackgroundMovieInfo(selectedMovie);
-    else {
+    if (state.searchBarText === "") showBackgroundMovieInfo(selectedMovie);
+
+    try {
       const movieDetail = await fetchMovieDetail(selectedMovie.id);
       showDetailModal(movieDetail);
+    } catch (error) {
+      showErrorText("영화 상세 정보를 불러오지 못했습니다.");
     }
   },
 });
