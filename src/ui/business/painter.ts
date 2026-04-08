@@ -43,6 +43,22 @@ export const paintHomeSectionHeading = () => {
   Renderer.renderSectionHeading();
 };
 
+export const paintSearchSectionHeading = (query: string) => {
+  Renderer.renderSearchSectionHeading(query);
+};
+
+export const paintClearMovies = () => {
+  Renderer.clearMovies();
+};
+
+export const paintEmptyResult = () => {
+  Renderer.renderEmptyResult();
+};
+
+export const paintClearEmptyResult = () => {
+  Renderer.clearEmptyResult();
+};
+
 export const paintLoadMoreButtonStatus = (hasNextPage: boolean) => {
   if (hasNextPage) Renderer.showLoadMoreButton();
   else Renderer.hideLoadMoreButton();

@@ -18,13 +18,6 @@ const Renderer = {
     }
   },
 
-  renderSearchMovies(movies: Movie[]) {
-    const movieList = document.querySelector(".thumbnail-list");
-    if (movieList) {
-      this.renderMovies(movieList, movies);
-    }
-  },
-
   clearMovies() {
     const movieList = document.querySelector(".thumbnail-list");
     if (movieList) movieList.innerHTML = "";
