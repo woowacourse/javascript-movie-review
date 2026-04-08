@@ -5,6 +5,7 @@ import { movieModel } from "../model/movieModel";
 import { addButtonView } from "../view/addButtonView";
 import { emptyMovieList } from "../services/emptyMovieList";
 import { fetchCurrentModeData } from "../services/fetchCurrentModeData";
+import { errorMovieList } from "../services/errorMovieList";
 
 export async function handleLoadMore() {
   try {
@@ -13,7 +14,7 @@ export async function handleLoadMore() {
     const response: ApiResult<MovieResponse> = await fetchCurrentModeData();
 
     if (!response.success) {
-      console.log("에러 원인:", response.error);
+      errorMovieList(response.error);
       return;
     };
 
