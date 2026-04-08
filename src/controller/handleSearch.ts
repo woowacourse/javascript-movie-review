@@ -5,6 +5,8 @@ import { searchView } from "../view/searchView";
 import { movieListView } from "../view/movieListView";
 import { bannerView } from "../view/bannerView";
 import { addButtonView } from "../view/addButtonView";
+import { isLastPage } from "../api/isLastPage";
+import { errorMovieList } from "../services/errorMovieList";
 
 export async function handleSearch(keyword: string) {
   try {
@@ -21,8 +23,7 @@ export async function handleSearch(keyword: string) {
     );
 
     if (!searchMoviesResult.success) {
-      console.log("에러 원인:", searchMoviesResult.error);
-      movieListView.renderErrorList();
+      errorMovieList(searchMoviesResult.error);
       return;
     };
 
@@ -31,9 +32,8 @@ export async function handleSearch(keyword: string) {
       addButtonView.hideAddButton();
       return;
     };
-    if (searchMoviesResult.data.page === searchMoviesResult.data.total_pages) {
-      addButtonView.hideAddButton();
-    };
+
+    if (isLastPage(searchMoviesResult.data)) addButtonView.hideAddButton();
 
     movieListView.renderMovieList(searchMoviesResult.data.results);
     return;

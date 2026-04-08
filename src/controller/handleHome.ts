@@ -4,6 +4,7 @@ import { movieListView } from "../view/movieListView";
 import { movieModel } from "../model/movieModel";
 import { addButtonView } from "../view/addButtonView";
 import { bannerView } from "../view/bannerView";
+import { errorMovieList } from "../services/errorMovieList";
 
 export async function handleHome() {
   movieListView.renderSkeletonList(SKELETON_NUMBER);
@@ -11,11 +12,9 @@ export async function handleHome() {
   const popularMovies: ApiResult<MovieResponse> = await getMovies(movieModel.page);
 
   if (!popularMovies.success) {
-    console.log("에러 원인:", popularMovies.error);
-    movieListView.renderErrorList();
-    addButtonView.hideAddButton();
+    errorMovieList(popularMovies.error);
     return;
-  }
+  };
 
   if (popularMovies.data.results.length === 0) {
     movieListView.renderEmptyList();
