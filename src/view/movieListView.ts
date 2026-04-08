@@ -4,7 +4,6 @@ import posterError from "../../templates/images/poster_error.png";
 
 import { Movie } from "../types";
 import { getElement, getElementType } from "./getElementView";
-import { fetchMovieDetail } from "../service/movieApi";
 
 export const addMovieList = (
   movieDisplay: HTMLUListElement,
@@ -66,24 +65,27 @@ export const showDetailModal = async (movieDetail: Movie) => {
     : posterError;
 
   const title = getElement(".modal-description h2");
-  title.textContent = movieDetail.title;
+  title.textContent = movieDetail.title ?? "제목 없음";
 
   const category = getElement(".modal-description .category");
-  category.textContent = `${movieDetail.release_date.slice(0, 4)} · ${movieDetail.genres
-    .map((genre) => genre.name)
-    .join(", ")}`;
+  category.textContent = `${movieDetail.release_date.slice(0, 4) ?? "개봉 년도 없음"} · ${
+    movieDetail.genres.map((genre) => genre.name).join(", ") ?? "장르 없음"
+  }`;
 
   const rate = getElement(".rate_average");
-  rate.textContent = `${movieDetail.vote_average.toFixed(1)}`;
+  rate.textContent = `${movieDetail.vote_average.toFixed(1) ?? 0}`;
 
   const detail = getElement(".detail");
-  detail.textContent = movieDetail.overview;
+  detail.textContent = movieDetail.overview ?? "상세 설명 없음";
 
   modalBackground
     .querySelector(".close-modal")
     ?.addEventListener("click", () => {
       hideDetailModal();
     });
+  addEventListener("keydown", (event) => {
+    if (event.key === "Escape") hideDetailModal();
+  });
 };
 
 export const hideDetailModal = () => {
