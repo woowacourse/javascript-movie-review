@@ -1,26 +1,16 @@
-import { getMovies } from "../api/getMovies";
-import { searchMovies } from "../api/searchMovies";
 import { isLastPage } from "../api/isLastPage";
 import { SKELETON_NUMBER } from "../constants/constant";
 import { movieListView } from "../view/movieListView";
 import { movieModel } from "../model/movieModel";
 import { addButtonView } from "../view/addButtonView";
 import { emptyMovieList } from "../services/emptyMovieList";
-
-async function fetchCurrentModeData(nextPage: number) {
-  if (movieModel.isSearch) {
-    return await searchMovies(nextPage, movieModel.searchValue);
-  }
-  return await getMovies(nextPage);
-}
+import { fetchCurrentModeData } from "../services/fetchCurrentModeData";
 
 export async function handleLoadMore() {
-  const nextPage = movieModel.page + 1;
-
   try {
     movieListView.renderSkeletonList(SKELETON_NUMBER);
 
-    const response: ApiResult<MovieResponse> = await fetchCurrentModeData(nextPage);
+    const response: ApiResult<MovieResponse> = await fetchCurrentModeData();
 
     if (!response.success) {
       console.log("에러 원인:", response.error);
