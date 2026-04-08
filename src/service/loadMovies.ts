@@ -1,5 +1,5 @@
 import { State } from "../types";
-import { getUListElement } from "../view/getElementView";
+import { getElement } from "../view/getElementView";
 import {
   addMovieList,
   addMovieSkeletonUIList,
@@ -14,7 +14,7 @@ export const loadMovies = async ({
   state: State;
   reset?: boolean;
 }) => {
-  const movieDisplay = getUListElement(".thumbnail-list");
+  const movieDisplay = getElement(".thumbnail-list", HTMLUListElement);
   if (reset) movieDisplay.replaceChildren();
 
   addMovieSkeletonUIList(movieDisplay);

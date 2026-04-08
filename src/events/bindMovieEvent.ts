@@ -1,4 +1,4 @@
-import { getElement, getInputElement } from "../view/getElementView.ts";
+import { getElement } from "../view/getElementView.ts";
 
 type handler = {
   onMore: () => void;
@@ -20,18 +20,18 @@ export const bindMovieEvents = ({ onMore, onSearch, onClick }: handler) => {
   });
 
   // 2. 검색 기능
-  const searchBar = getInputElement(".search-bar");
+  const searchBar = getElement(".search-bar", HTMLInputElement);
   searchBar.addEventListener("keydown", (event) => {
     if (event.isComposing) return;
     if (event.key === "Enter") onSearch(searchBar.value);
   });
-  const searchBtn = getElement(".search-btn");
+  const searchBtn = getElement(".search-btn", HTMLButtonElement);
   searchBtn.addEventListener("click", () => {
     onSearch(searchBar.value);
   });
 
   // 3. 클릭 기능
-  const thumbnailList = getElement(".thumbnail-list");
+  const thumbnailList = getElement(".thumbnail-list", HTMLElement);
   thumbnailList.addEventListener("click", (event) => {
     const target = event.target as HTMLElement;
     const item = target.closest(".item");
