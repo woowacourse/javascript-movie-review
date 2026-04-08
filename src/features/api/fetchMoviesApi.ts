@@ -11,7 +11,7 @@ export async function fetchMoviesApi(
 
   try {
     const response = await fetch(
-      `${BASE_URL}/${path}?api_key=${API_KEY}${queryUrl}&language=ko-KR&page=${page}`,
+      `${BASE_URL}/${path}?api_key=${API_KEY}${queryUrl}&language=ko-KR&region=ko-KR&page=${page}`,
     );
     if (!response.ok) {
       throw new Error(`HTTP ERROR: ${response.status}`);

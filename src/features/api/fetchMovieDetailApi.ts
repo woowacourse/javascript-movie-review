@@ -6,7 +6,7 @@ export async function fetchMovieDetailApi(
 ): Promise<MovieDetailResponse> {
   try {
     const response = await fetch(
-      `${BASE_URL}/movie/${id}?api_key=${API_KEY}&language=ko-KR`,
+      `${BASE_URL}/movie/${id}?api_key=${API_KEY}&language=ko-KR&region=ko-KR`,
     );
     if (!response.ok) {
       throw new Error(`HTTP ERROR: ${response.status}`);
