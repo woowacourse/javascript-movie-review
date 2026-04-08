@@ -13,7 +13,7 @@ const createMovieItem = (movie: Movie): HTMLLIElement => {
   li.insertAdjacentHTML(
     "beforeend",
     /*html*/ `
-    <li>
+    <div id="movie-item" data-id = "${movie.id}">
       <div class="item skeleton">
         <div class="skeleton-poster"></div>
         <img class="thumbnail" src="${posterSrc}" alt="영화 포스터 사진" />
@@ -26,7 +26,7 @@ const createMovieItem = (movie: Movie): HTMLLIElement => {
           <strong>${movie.title}</strong>
         </div>
       </div>
-    </li>`,
+    </div>`,
   );
 
   const img = li.querySelector<HTMLImageElement>(".thumbnail")!;

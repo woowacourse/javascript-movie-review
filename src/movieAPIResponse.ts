@@ -1,4 +1,5 @@
 import type { MovieResponse } from "../types/MovieResponse";
+import type { MovieDetail } from "../types/MovieDetail";
 
 export const fetchMovies = async (
   moviePageCount: number,
@@ -43,4 +44,23 @@ export const fetchSearchedMovies = async (
   return data;
 };
 
-// export const fetchMovieDetail = async (movieId: number): Promise<>
+export const fetchMovieDetail = async (
+  movieId: number,
+): Promise<MovieDetail> => {
+  const response = await fetch(
+    `https://api.themoviedb.org/3/movie/${movieId}?language=en-US`,
+    {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${import.meta.env.VITE_TMDB_API_TOKEN}`,
+      },
+    },
+  );
+  if (!response.ok) {
+    throw new Error("FAILED TO FETCH MOVIE DETAIL");
+  }
+
+  const data: MovieDetail = await response.json();
+  return data;
+};
