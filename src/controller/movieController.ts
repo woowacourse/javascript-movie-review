@@ -47,7 +47,7 @@ export const createMovieController = (state: State) => ({
   clickMovie: (title: string) => {
     const selectedMovie = state.movieList.find((movie) => movie.title == title);
 
-    if (!selectedMovie) return;
+    if (!selectedMovie || state.searchBarText !== "") return;
     showBackgroundMovieInfo(selectedMovie);
   },
 });
