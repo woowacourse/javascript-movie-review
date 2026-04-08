@@ -1,5 +1,6 @@
 import { MovieDetail } from "../../types/movie";
 import { getElementOrThrow, getYearFromDate } from "./utils";
+import NotFoundPoster from "../assets/notFoundImage.png";
 
 interface MovieDetailViewDomType {
   background: HTMLDivElement;
@@ -43,6 +44,14 @@ class MovieDetailView {
     this.#dom.background.classList.remove("active");
   }
 
+  getMovieId() {
+    const movieId = this.#dom.title.getAttribute("data-movie-id");
+    if (!movieId) {
+      return undefined;
+    }
+    return movieId.toString();
+  }
+
   renderData({
     id,
     poster_path,
@@ -53,12 +62,17 @@ class MovieDetailView {
     overview,
   }: MovieDetail) {
     this.#dom.posterImage.src = `${import.meta.env.VITE_TMDB_IMG_URL}${poster_path}`;
+    this.#dom.posterImage.onerror = () => {
+      this.#dom.posterImage.src = NotFoundPoster;
+    };
     this.#dom.title.textContent = title;
+    this.#dom.title.dataset.movieId = id.toString();
     const year = getYearFromDate(release_date);
     this.#dom.category.textContent = `${year} · ${genres.map((genre) => genre.name).join(", ")}`;
 
     this.#dom.rateValue.textContent = vote_average.toFixed(1).toString();
-    this.#dom.overview.textContent = overview;
+    this.#dom.overview.textContent =
+      overview.trim().length === 0 ? "줄거리가 존재하지 않습니다." : overview;
   }
 }
 

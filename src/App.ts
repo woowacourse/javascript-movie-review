@@ -9,6 +9,7 @@ import SearchView from "./View/SearchView";
 import TopRatedView from "./View/TopRatedView";
 import MovieDetailView from "./View/MovieDetailView";
 import { fetchMovieDetail } from "./api/fetchMovieDetail";
+import RatingView from "./View/RatingView";
 
 class App {
   #views;
@@ -22,6 +23,7 @@ class App {
       movieList: new MovieListView(),
       moreMovie: new MoreMovieView(),
       movieDetail: new MovieDetailView(),
+      rating: new RatingView(),
     };
 
     this.#state = {
@@ -54,6 +56,7 @@ class App {
     this.#views.movieList.bindEvent(this.#movieDetailEventHandler);
     this.#views.movieDetail.bindCloseEvent();
     this.#views.topRated.bindEvent(this.#movieDetailEventHandler);
+    this.#views.rating.bindEvent(this.#ratingEventHandler);
   }
 
   async #renderPopularMovieAtFirst() {
@@ -154,8 +157,20 @@ class App {
     const movieDetail = { ...(await fetchMovieDetail(movieId)) };
 
     this.#views.movieDetail.show();
+    const savedRatingValue = Number(localStorage.getItem(`rating-${movieId}`));
+    this.#views.rating.renderByRatingValue(savedRatingValue); // 누를
 
     this.#views.movieDetail.renderData(movieDetail);
+  };
+
+  #ratingEventHandler = (ratingValue: string) => {
+    // 일단 눌린 애가 몇 번째 별인지 확인해야함
+    this.#views.rating.setRating(ratingValue);
+    // 자기보다 아래에 있는 별들을 다 렌더링 함
+    const movieId = this.#views.movieDetail.getMovieId();
+    localStorage.setItem(`rating-${movieId}`, ratingValue);
+    this.#views.rating.renderByRatingValue(Number(ratingValue));
+    // localStorage에 데이터를 저장함
   };
 }
 
