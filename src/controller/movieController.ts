@@ -1,6 +1,10 @@
 import { loadMovies } from "../service/loadMovies";
+import { fetchMovieDetail } from "../service/movieApi";
 import { State } from "../types";
-import { showBackgroundMovieInfo } from "../view/movieListView";
+import {
+  showBackgroundMovieInfo,
+  showDetailModal,
+} from "../view/movieListView";
 import {
   hideErrorText,
   showErrorText,
@@ -44,10 +48,15 @@ export const createMovieController = (state: State) => ({
       showErrorText("검색 결과를 불러오지 못했습니다.");
     }
   },
-  clickMovie: (title: string) => {
+  clickMovie: async (title: string) => {
     const selectedMovie = state.movieList.find((movie) => movie.title == title);
 
-    if (!selectedMovie || state.searchBarText !== "") return;
-    showBackgroundMovieInfo(selectedMovie);
+    if (!selectedMovie) return;
+
+    if (state.searchBarText !== "") showBackgroundMovieInfo(selectedMovie);
+    else {
+      const movieDetail = await fetchMovieDetail(selectedMovie.id);
+      showDetailModal(movieDetail);
+    }
   },
 });

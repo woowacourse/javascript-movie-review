@@ -72,6 +72,9 @@ body.modal-open {
   position: relative;
   top: 5px;
 }
+.modal-description .rate > span {
+  color: white;
+}
 
 .modal-description > *:not(:last-child) {
   margin-bottom: 8px;
@@ -79,7 +82,18 @@ body.modal-open {
 
 .modal-description h2 {
   font-size: 2rem;
+  font-weight: 600;
   margin: 0 0 8px;
+}
+
+.modal-description hr {
+  opacity: 0.4;
+}
+
+.rate-title,
+.detail-title {
+  font-size: 1.3rem;
+  font-weight: 600;
 }
 
 .detail {

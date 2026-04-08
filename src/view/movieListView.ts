@@ -3,7 +3,8 @@ import starEmpty from "../../templates/images/star_empty.png";
 import posterError from "../../templates/images/poster_error.png";
 
 import { Movie } from "../types";
-import { getElement } from "./getElementView";
+import { getElement, getElementType } from "./getElementView";
+import { fetchMovieDetail } from "../service/movieApi";
 
 export const addMovieList = (
   movieDisplay: HTMLUListElement,
@@ -52,6 +53,42 @@ export const addMovieSkeletonUIList = (
 };
 export const removeMovieSkeletonUIList = (movieDisplay: HTMLUListElement) => {
   movieDisplay.querySelectorAll(".skeleton-li").forEach((it) => it.remove());
+};
+
+export const showDetailModal = async (movieDetail: Movie) => {
+  const modalBackground = getElement(".modal-background");
+  modalBackground.classList.add("active");
+
+  // 속성 값 변경
+  const poster = getElementType(".modal-image > img", HTMLImageElement);
+  poster.src = movieDetail.poster_path
+    ? `https://image.tmdb.org/t/p/w500${movieDetail.poster_path}`
+    : posterError;
+
+  const title = getElement(".modal-description h2");
+  title.textContent = movieDetail.title;
+
+  const category = getElement(".modal-description .category");
+  category.textContent = `${movieDetail.release_date.slice(0, 4)} · ${movieDetail.genres
+    .map((genre) => genre.name)
+    .join(", ")}`;
+
+  const rate = getElement(".rate_average");
+  rate.textContent = `${movieDetail.vote_average.toFixed(1)}`;
+
+  const detail = getElement(".detail");
+  detail.textContent = movieDetail.overview;
+
+  modalBackground
+    .querySelector(".close-modal")
+    ?.addEventListener("click", () => {
+      hideDetailModal();
+    });
+};
+
+export const hideDetailModal = () => {
+  const modalBackground = getElement(".modal-background");
+  modalBackground.classList.remove("active");
 };
 
 export const showBackgroundMovieInfo = (movie: Movie) => {

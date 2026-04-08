@@ -4,6 +4,9 @@ export interface Movie {
   poster_path: string;
   title: string;
   vote_average: number;
+  overview: string;
+  release_date: string;
+  genres: [{ name: string }];
 }
 
 export type State = {

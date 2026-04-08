@@ -18,6 +18,11 @@ export const fetchSearchMovieList = async (
   return data.results;
 };
 
+export const fetchMovieDetail = async (movieId: number) => {
+  const data = await request(`/movie/${movieId}`, {});
+  return data;
+};
+
 const BASE_URL = "https://api.themoviedb.org/3";
 const API_KEY = import.meta.env.VITE_API_KEY;
 const LANGUAGE = "ko-KR";
