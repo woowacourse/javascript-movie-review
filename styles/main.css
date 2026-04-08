@@ -15,15 +15,25 @@ body {
   background-color: var(--color-bluegray-80);
 }
 
-#wrap,
 section {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  width: 100%;
+  max-width: 1280px;
+}
+
+h2 {
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin-bottom: 32px;
 }
 
 main {
   margin: 64px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .star {
@@ -41,22 +51,65 @@ button.primary {
   font-weight: bold;
   background-color: var(--color-lightblue-90);
   border-radius: 4px;
+  margin-top: 16px;
 }
 
-#wrap {
-  min-width: 1440px;
-  background-color: var(--color-bluegray-100);
+.hidden {
+  display: none;
 }
 
-#wrap h2 {
-  font-size: 1.4rem;
+.pretty-search-bar {
+display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 480px; 
+  flex-shrink: 0;
+
+  height: 48px;
+  padding: 0 16px;
+
+  border-radius: 40px;
+  border: 1px solid var(--color-bluegray-30);
+  background: var(--color-bluegray-90);
+}
+
+.search-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  outline: none;
+
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 0;
+}
+
+.search-icon-btn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 10px;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.empty-result {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 400px;
+  color: var(--color-white);
+  font-size: 1.2rem;
   font-weight: bold;
-  margin-bottom: 32px;
 }
 
-.container {
-  max-width: 1280px;
-  margin: 0 auto;
+.empty-image {
+  width: 120px; 
+  margin-bottom: 20px;
 }
 
 .background-container {
@@ -65,6 +118,11 @@ button.primary {
   background-size: cover;
   height: 500px;
   padding: 48px;
+}
+
+.skeleton {
+  background-color: var(--color-bluegray-30);
+  border-radius: 8px;
 }
 
 .overlay {
@@ -85,16 +143,16 @@ button.primary {
   margin: 0 auto;
 }
 
+h1.logo {
+  font-size: 2rem;
+}
+
 .top-rated-movie {
   margin-top: 64px;
 }
 
 .top-rated-movie > *:not(:last-child) {
   margin-bottom: 8px;
-}
-
-h1.logo {
-  font-size: 2rem;
 }
 
 .rate {

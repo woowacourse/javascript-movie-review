@@ -1,10 +1,11 @@
 @import "./colors.css";
 
 .thumbnail-list {
-  margin: 0 auto 56px;
   display: grid;
-  grid-template-columns: repeat(5, 200px);
-  gap: 70px;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 40px 30px;
+  padding: 0 30px;
+  width: 100%;
 }
 
 .thumbnail {

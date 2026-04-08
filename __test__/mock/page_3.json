@@ -1,0 +1,406 @@
+{
+  "page": 3,
+  "results": [
+    {
+      "adult": false,
+      "backdrop_path": "/ptcyGmBonW6mDQmrPhXbt6Rjrlp.jpg",
+      "genre_ids": [
+        18,
+        53
+      ],
+      "id": 1314786,
+      "original_language": "es",
+      "original_title": "Zeta",
+      "overview": "전 세계 각지에서 전직 스페인 정보요원 4명이 동시에 암살된다. 이들이 수십 년 전 콜롬비아에서 수행된 비밀 작전 '시에나가'의 참여자들이었다는 사실을 알아낸 CNI는 CNI 최고의 요원 세타에게 유일한 생존자를 찾아 보호하라는 생애 가장 위험한 임무를 맡긴다. 여기에 '시에나가'의 비밀을 세타보다 더 잘 알고 있는 듯한 콜롬비아 최고의 요원 알파가 합류하며 사건은 예상치 못한 방향으로 흘러간다.",
+      "popularity": 61.7293,
+      "poster_path": "/7x7yFQKrz5kZN0LOUe5ZuwbZSdm.jpg",
+      "release_date": "2026-03-20",
+      "title": "세타 요원",
+      "video": false,
+      "vote_average": 6.61,
+      "vote_count": 86
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/lZ3vcm5HtPX8BeHs4axZABJrYJa.jpg",
+      "genre_ids": [
+        27
+      ],
+      "id": 1426297,
+      "original_language": "es",
+      "original_title": "Hazte la muerta",
+      "overview": "",
+      "popularity": 57.4185,
+      "poster_path": "/5THjBLt4vE9lAnLODqXFf5qEwxa.jpg",
+      "release_date": "2025-03-29",
+      "title": "Hazte la muerta",
+      "video": false,
+      "vote_average": 6,
+      "vote_count": 31
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/9n2tJBplPbgR2ca05hS5CKXwP2c.jpg",
+      "genre_ids": [
+        10751,
+        35,
+        12,
+        16,
+        14
+      ],
+      "id": 502356,
+      "original_language": "en",
+      "original_title": "The Super Mario Bros. Movie",
+      "overview": "따단-딴-따단-딴 ♫ 전 세계를 열광시킬 올 타임 슈퍼 어드벤처의 등장! 뉴욕의 평범한 배관공 형제 '마리오'와 ‘루이지’는 배수관 고장으로 위기에 빠진 도시를 구하려다 미스터리한 초록색 파이프 안으로 빨려 들어가게 된다. 파이프를 통해 새로운 세상으로 차원 이동하게 된 형제. 형 '마리오'는 뛰어난 리더십을 지닌 '피치'가 통치하는 버섯왕국에 도착하지만 동생 '루이지'는 빌런 '쿠파'가 있는 다크랜드로 떨어지며 납치를 당하고 ‘마리오’는 동생을 구하기 위해 ‘피치’와 ‘키노피오’의 도움을 받아 '쿠파'에 맞서기로 결심한다. 그러나 슈퍼스타로 세상을 지배하려는 그의 강력한 힘 앞에 이들은 예기치 못한 위험에 빠지게 되는데...!",
+      "popularity": 70.7403,
+      "poster_path": "/jt1GlLLvkWL2m83VX8I1qsDR187.jpg",
+      "release_date": "2023-04-26",
+      "title": "슈퍼 마리오 브라더스",
+      "video": false,
+      "vote_average": 7.587,
+      "vote_count": 10384
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/82lM4GJ9uuNvNDOEpxFy77uv4Ak.jpg",
+      "genre_ids": [
+        28,
+        878,
+        12
+      ],
+      "id": 1242898,
+      "original_language": "en",
+      "original_title": "Predator: Badlands",
+      "overview": "프레데터로서 존재를 증명하기 위해 우주에서 가장 위험한 행성으로 첫 사냥에 나선 덱. 죽음의 땅에 도사린 모든 것으로부터 공격을 받던 순간, 휴머노이드 티아를 만난다. 최상위 포식자 칼리스크에 맞서게 된 둘은 생존과 각자의 목적을 위해 극한의 사투를 벌이게 되는데…",
+      "popularity": 60.1112,
+      "poster_path": "/8lpCbwbYh9SSzCFsHDndZHKrcD4.jpg",
+      "release_date": "2025-11-05",
+      "title": "프레데터: 죽음의 땅",
+      "video": false,
+      "vote_average": 7.702,
+      "vote_count": 2519
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/vCL2IjPSVpM2AaDhAk7TCeY2IJg.jpg",
+      "genre_ids": [
+        27
+      ],
+      "id": 1646142,
+      "original_language": "en",
+      "original_title": "Terrestrial",
+      "overview": "",
+      "popularity": 59.0848,
+      "poster_path": "/g4PBZlyVm2cWgL4jAy7WKEblB4t.jpg",
+      "release_date": "2024-10-13",
+      "title": "Terrestrial",
+      "video": false,
+      "vote_average": 6.5,
+      "vote_count": 2
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/zYm62AouAahA71AoOWHE5Qb0FYH.jpg",
+      "genre_ids": [
+        18
+      ],
+      "id": 1646787,
+      "original_language": "tl",
+      "original_title": "Sundutan",
+      "overview": "",
+      "popularity": 69.7816,
+      "poster_path": "/2neZgVuY7prWIak5hhNKT53Hk0N.jpg",
+      "release_date": "2026-03-06",
+      "title": "Sundutan",
+      "video": false,
+      "vote_average": 4,
+      "vote_count": 1
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/9Z2uDYXqJrlmePznQQJhL6d92Rq.jpg",
+      "genre_ids": [
+        10751,
+        14,
+        35,
+        12,
+        16
+      ],
+      "id": 1226863,
+      "original_language": "en",
+      "original_title": "The Super Mario Galaxy Movie",
+      "overview": "브루클린의 배관공에서 세계를 구한 히어로로 레벨업한 형제 ‘마리오’와 ‘루이지’는 모래 왕국에서 임무를 수행하던 중, 길을 잃은 ‘요시’를 구출하며 특별한 우정을 쌓게 된다. 한편, 무너진 ‘쿠파’ 가문의 명예를 되찾기 위해 악의 왕자 ‘쿠파주니어’는 은하계의 수호자이자 치코들의 엄마 ‘로젤리나’를 납치하고, 버섯 왕국에 잡힌 아빠 ‘쿠파’를 되찾기 위해 왕국을 습격한다. 다시 찾아온 위기 속에서 마리오와 루이지, 피치, 키노피오 그리고 새로 합류한 요시까지 로젤리나도 구하고, 쿠파주니어의 비범한 계획을 막기 위해 넓은 갤럭시로 뛰어들게 되는데…",
+      "popularity": 55.5483,
+      "poster_path": "/knaXOBDBecVBWZVup3zXaOoy23v.jpg",
+      "release_date": "2026-04-29",
+      "title": "슈퍼 마리오 갤럭시",
+      "video": false,
+      "vote_average": 7.5,
+      "vote_count": 16
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/9BBTo63ANSmhC4e6r62OJFuK2GL.jpg",
+      "genre_ids": [
+        878,
+        28,
+        12
+      ],
+      "id": 24428,
+      "original_language": "en",
+      "original_title": "The Avengers",
+      "overview": "에너지원 큐브를 이용한 적의 등장으로 인류가 위험에 처하자 국제평화유지기구인 쉴드의 국장 닉 퓨리는 어벤져스 작전을 위해 전 세계에 흩어져 있던 슈퍼히어로들을 찾아나선다. 아이언맨부터 토르, 헐크, 캡틴 아메리카는 물론, 쉴드의 요원인 블랙 위도우, 호크 아이까지, 최고의 슈퍼히어로들이 어벤져스의 멤버로 모이게 되지만, 각기 개성이 강한 이들의 만남은 예상치 못한 방향으로 흘러가는데...",
+      "popularity": 60.409,
+      "poster_path": "/krgjV3rJtBcEpQehODKXNCt6uFL.jpg",
+      "release_date": "2012-04-26",
+      "title": "어벤져스",
+      "video": false,
+      "vote_average": 7.983,
+      "vote_count": 36853
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/hHDNOlATHhre4eZ7aYz5cdyJLik.jpg",
+      "genre_ids": [
+        27,
+        53,
+        878
+      ],
+      "id": 1272837,
+      "original_language": "en",
+      "original_title": "28 Years Later: The Bone Temple",
+      "overview": "분노 바이러스로부터 격리된 섬 홀리아일랜드로 돌아가지 않고 본토에 남기로 한 스파이크, 감염자와 공존하며 살아가는 켈슨 박사, 정체불명 인간 집단의 리더 지미가 얽히고 설키며 벌어지는 이야기",
+      "popularity": 56.6705,
+      "poster_path": "/ubgOSHAEhv1ds8BNHodhCcI13oH.jpg",
+      "release_date": "2026-02-27",
+      "title": "28년 후: 뼈의 사원",
+      "video": false,
+      "vote_average": 7.174,
+      "vote_count": 920
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/waUDWpsm3oCrzU9P4XnsBAh2cso.jpg",
+      "genre_ids": [
+        27,
+        35,
+        28
+      ],
+      "id": 1266127,
+      "original_language": "en",
+      "original_title": "Ready or Not: Here I Come",
+      "overview": "",
+      "popularity": 58.1628,
+      "poster_path": "/jRf89HVEtBZiSnOXXWDhZOfuTwW.jpg",
+      "release_date": "2026-03-19",
+      "title": "레디 오어 낫 2",
+      "video": false,
+      "vote_average": 7.392,
+      "vote_count": 74
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/eJ0HooOOD1uzI39CfOQNWIiWKlJ.jpg",
+      "genre_ids": [
+        28,
+        18,
+        53
+      ],
+      "id": 1387382,
+      "original_language": "en",
+      "original_title": "Hunting Season",
+      "overview": "은둔하며 살아가던 생존 전문가와 그의 딸은 강가에서 상처 입은 정체불명의 여자를 구조하게 된다. 그러나 이로 인해 그들은 폭력과 복수의 잔혹한 소용돌이에 휘말리게 되고 살아남기 위해 잔혹한 범죄자와 맞서야만 한다.",
+      "popularity": 53.263,
+      "poster_path": "/7OPedgbyapZ8LjIQIMIh72ZEfW6.jpg",
+      "release_date": "2026-01-23",
+      "title": "헌팅시즌",
+      "video": false,
+      "vote_average": 6.973,
+      "vote_count": 165
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/snYOXem8pUGOffnLbbGq4aB1pg4.jpg",
+      "genre_ids": [
+        28,
+        80,
+        53
+      ],
+      "id": 1291608,
+      "original_language": "hi",
+      "original_title": "धुरंधर",
+      "overview": "1999년 12월 30일, 인도 외무부 장관 데바브라트 카푸르와 정보국의 국장인 아제이 산얄(M. 마다반)은 인도 항공기를 납치한 테러범인 자후르 미스트리와 협상을 벌여 세 명의 테러범들을 석방하고 칸다하르에 억류된 승객들의 목숨을 대가로 1천만 달러의 몸값을 지불한다.\r R&AW의 특별 비서관 K.S. 불라르는 파키스탄의 테러 조직에 침투하자는 산얄의 제안을 거부하지만, 장관인 데바브라트는 2001년 인도 의회의 공격 이후 산얄의 비밀 작전인 \"두란다르 작전\"을 승인하게 되는데...",
+      "popularity": 51.6519,
+      "poster_path": "/8FHOtUpNIk5ZPEay2N2EY5lrxkv.jpg",
+      "release_date": "2025-12-05",
+      "title": "두란다르",
+      "video": false,
+      "vote_average": 7,
+      "vote_count": 228
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/q05WV8DwEiyLbCgSVtg55RbUzou.jpg",
+      "genre_ids": [
+        28,
+        35,
+        27
+      ],
+      "id": 1292695,
+      "original_language": "en",
+      "original_title": "They Will Kill You",
+      "overview": "",
+      "popularity": 52.8811,
+      "poster_path": "/6oI4oQKTWMVUlr8Ivqydp28Ruu6.jpg",
+      "release_date": "2026-03-25",
+      "title": "데이 윌 킬 유",
+      "video": false,
+      "vote_average": 6.608,
+      "vote_count": 74
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/zpEWFNqoN8Qg1SzMMHmaGyOBTdW.jpg",
+      "genre_ids": [
+        53,
+        80,
+        35
+      ],
+      "id": 1054867,
+      "original_language": "en",
+      "original_title": "One Battle After Another",
+      "overview": "자유를 외치는 혁명가 밥 퍼거슨. 16년이 흐른 뒤, 후유증으로 모든 걸 내려놓고 무너진 삶을 살고 있다. 그에게 남은 유일한 희망은 세상 누구보다 소중한 딸 윌라뿐. 자신의 몸도, 딸과의 관계도 엉망진창인 삶을 살아가던 중 과거의 숙적이었던 스티븐 J. 록조가 딸을 납치한다. 딸을 찾기 위해서 옛 동료들의 도움이 절실하지만, 오래된 동료들은 만나기조차 쉽지 않은데…",
+      "popularity": 53.0397,
+      "poster_path": "/bCg9iDSXPjVTUs1RyYH8AhmJ11d.jpg",
+      "release_date": "2025-10-01",
+      "title": "원 배틀 애프터 어나더",
+      "video": false,
+      "vote_average": 7.383,
+      "vote_count": 3345
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/gtKglOSEq3d4MgQE4VsrT1sRkd0.jpg",
+      "genre_ids": [
+        16,
+        28,
+        14
+      ],
+      "id": 1539104,
+      "original_language": "ja",
+      "original_title": "劇場版 呪術廻戦「渋谷事変 特別編集版」×「死滅回游 先行上映」",
+      "overview": "2018년 10월 31일 시부야 역 주변에 갑자기 ‘장막’이 내려지고, 다수의 일반인이 갇히게 된다. 그곳에 홀로 뛰어든 현대 최강의 주술사, 고죠 사토루. 그러나 그곳에는 고죠의 봉인을 꾀하는 주저사·주령들이 기다리고 있었다. 시부야에 집결하는 이타도리 유지를 비롯한 수많은 주술사들. 전례 없는 대규모 주술전 「시부야사변」이 시작된다—. 그리고 싸움은, 최악의 주술사 카모 노리토시가 꾸민 데스 게임 「사멸회유」로 이어진다. 「시부야사변」을 거쳐, 마굴로 변한 전국 10개의 결계(콜로니). 대혼란의 한가운데, 이타도리의 사형 집행인으로 특급 주술사 옷코츠 유타가 나타난다. 절망 속에서도 싸움을 계속하는 이타도리. 무정하게도 칼날을 겨누는 옷코츠. 가속해가는 저주의 혼돈. 같은 스승을 둔 이타도리와 옷코츠, 두 사람의 사투가 시작된다——.",
+      "popularity": 51.3046,
+      "poster_path": "/ifK2v7oQQrgqrmDu7sr1TgoAPT9.jpg",
+      "release_date": "2025-12-03",
+      "title": "극장판 주술회전: 시부야사변 X 사멸회유",
+      "video": false,
+      "vote_average": 5.9,
+      "vote_count": 89
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/nAxGnGHOsfzufThz20zgmRwKur3.jpg",
+      "genre_ids": [
+        27,
+        28,
+        53
+      ],
+      "id": 1233413,
+      "original_language": "en",
+      "original_title": "Sinners",
+      "overview": "1932년, 시카고 갱단의 생활을 정리하고 고향 미시시피로 돌아온 쌍둥이 형제 스모크와 스택은 큰돈을 벌기 위해 술집 주크 조인트를 운영하기로 한다. 화려한 오프닝 파티가 열리는 밤, 천부적인 재능을 지닌 새미의 노래로 파티의 열기는 점점 뜨거워지고 초대하지 않은 불청객 일행이 찾아오는데…",
+      "popularity": 47.3595,
+      "poster_path": "/qEipksU5SzHxbeZbE0cZQzEt6bD.jpg",
+      "release_date": "2025-05-28",
+      "title": "씨너스: 죄인들",
+      "video": false,
+      "vote_average": 7.469,
+      "vote_count": 4218
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/2ssWTSVklAEc98frZUQhgtGHx7s.jpg",
+      "genre_ids": [
+        12,
+        18,
+        878
+      ],
+      "id": 157336,
+      "original_language": "en",
+      "original_title": "Interstellar",
+      "overview": "세계 각국의 정부와 경제가 완전히 붕괴된 미래가 다가온다. 지난 20세기에 범한 잘못이 전 세계적인 식량 부족을 불러왔고, NASA도 해체되었다. 나사 소속 우주비행사였던 쿠퍼는 지구에 몰아친 식량난으로 옥수수나 키우며 살고 있다. 거센 황사가 몰아친 어느 날 알 수 없는 힘에 이끌려 딸과 함께 도착한 곳은 인류가 이주할 행성을 찾는 나사의 비밀본부. 이 때 시공간에 불가사의한 틈이 열리고, 이 곳을 탐험해 인류를 구해야 하는 임무를 위해 쿠퍼는 만류하는 딸을 뒤로한 채 우주선에 탑승하는데...",
+      "popularity": 57.5567,
+      "poster_path": "/gDN2NWtHbs8ZWEBQM8Dh5OVXdb4.jpg",
+      "release_date": "2014-11-06",
+      "title": "인터스텔라",
+      "video": false,
+      "vote_average": 8.5,
+      "vote_count": 39235
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/oN4TQ1TxchynXlFiXFBL3NHLT54.jpg",
+      "genre_ids": [
+        16,
+        10751,
+        18,
+        10402
+      ],
+      "id": 1167307,
+      "original_language": "en",
+      "original_title": "David",
+      "overview": "어머니의 노래에서 시작해 세상이 두려워한 거인 골리앗과의 대결에 이르기까지, 평범한 목동 다윗이 왕의 운명을 마주하게 되는 이야기",
+      "popularity": 47.1237,
+      "poster_path": "/7lFG1WrCwAxBfyGK8ahlBVzXno7.jpg",
+      "release_date": "2025-12-14",
+      "title": "다윗",
+      "video": false,
+      "vote_average": 8.1,
+      "vote_count": 118
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/2OHa6ukEq3Hce7Pc2kvu8wkmMFY.jpg",
+      "genre_ids": [
+        28,
+        12,
+        53,
+        80,
+        18
+      ],
+      "id": 7451,
+      "original_language": "en",
+      "original_title": "xXx",
+      "overview": "싸이렌이 온 거리를 울려 퍼지며 요란한 추격씬이 벌어지는 도중 한 녀석이 콜벳를 몰고 다리를 돌진, 200미터 높이에서 자동차 번지를 시도한다. 짜릿한 곡예를 선보인 후 낙하산을 펴고 유유히 사라지는 녀석의 이름은 '젠더 케이지'. 인터넷에 생방송된 이 장면은 전세계 네티즌들에게 열렬한 환호를 받는다. 또 한 번의 멋진 프로젝트로 영웅 대접을 받는 젠더 케이지. 그러나 파티가 무르익을 무렵, 갑자기 들이닥친 특수부대는 그에게 신경 안정제를 쏜 후 잠들게 한다. 깨어난 곳은 알 수 없는 레스토랑. 어리둥절한 그 곳은 갑자기 강도들의 침입장으로 돌변하고, 단숨에 상황을 정리해버린 그에게 기븐스가 축하 인사를 전한다. 미국 비밀첩보국 NSA의 1차 테스트를 통과한 것. 이후 또 다시 잠에서 깨어난 곳은 비행기 안. 2번째 테스트로 콜럼비아 마약 밀매상의 아지트에 던져진 젠더 케이지. 때마침 콜럼비아 정부와 마약상들의 충돌로 아수라장이 된 그곳에서 살아남기 위한 치열한 전쟁이 펼쳐지는데...  상황종료 후 유유히 나타난 기븐스는 NSA의 테스트를 유일하게 통과한 그에게 비밀요원이 되어줄 것을 부탁한다. 단 그렇지 않을 경우는 감옥행뿐이라는 단서를 둔다. 젠더 케이지의 코드명은 트리플 X. 첫번째 임무지는 비밀요원의 무덤이라는 별칭을 가지고 있는 도시 프라하. 이제 얼떨결에 비밀요원이 되어버린 트리플 X의 위험한 여정이 시작되는데.",
+      "popularity": 57.17,
+      "poster_path": "/ysmsesGYF83VZXSvkG8ZdNNCKAz.jpg",
+      "release_date": "2002-10-01",
+      "title": "트리플 엑스",
+      "video": false,
+      "vote_average": 5.982,
+      "vote_count": 4834
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/dHSz0tSFuO2CsXJ1CApSauP9Ncl.jpg",
+      "genre_ids": [
+        53,
+        80
+      ],
+      "id": 425274,
+      "original_language": "en",
+      "original_title": "Now You See Me: Now You Don't",
+      "overview": "한때 더러운 방식으로 돈을 모으는 재벌들을 시원하게 혼내주던 마술사기단 ‘포 호스맨’. 은퇴 후 평범한 삶을 살고 있던 그들에게 새로운 임무를 알리는 의미심장한 카드가 배달된다. 그렇게 다시 모이게 된 오리지널 ‘포 호스맨’은 자신들을 흉내 내던 신예 마술사들까지 영입하며 미션을 준비한다. 그들의 목표는 무기 밀매, 자금 세탁 등 더러운 돈에 물든 ‘하트 다이아몬드’를 훔치는 것. 하지만 다이아몬드를 훔치고, 통쾌한 쇼를 선보이려는 이들 앞에는 수많은 함정이 펼쳐지는데…",
+      "popularity": 48.821,
+      "poster_path": "/dECA069mRikkghzgSBsM0cvic4F.jpg",
+      "release_date": "2025-11-12",
+      "title": "나우 유 씨 미 3",
+      "video": false,
+      "vote_average": 6.522,
+      "vote_count": 1297
+    }
+  ],
+  "total_pages": 55943,
+  "total_results": 1118856
+}

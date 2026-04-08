@@ -4,6 +4,9 @@ addEventListener('load', () => {
   const app = document.querySelector('#app');
 
   if (app) {
-    initMovieList();
+    const query = new URLSearchParams(window.location.search).get('q');
+    if (query) {
+      initMovieList(query);
+    }
   }
 });
