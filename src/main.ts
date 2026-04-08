@@ -8,7 +8,6 @@ import {
 let page: number = 1;
 let searchMovie: string = "";
 
-const moreButton = document.querySelector(".btn-more") as HTMLButtonElement;
 const backgroundContainer = document.querySelector(
   ".background-container",
 ) as HTMLElement;
@@ -19,7 +18,7 @@ const modalContainer = document.querySelector(
 
 addEventListener("load", async () => {
   // 초기 렌더링
-  await controlInitialMovies(page, moreButton);
+  await controlInitialMovies(page);
 });
 
 // 검색
@@ -34,12 +33,12 @@ backgroundContainer.addEventListener("submit", async (e: SubmitEvent) => {
 
   // 검색어가 없는 경우 초기 렌더링
   if (searchMovie === "") {
-    await controlInitialMovies(page, moreButton);
+    await controlInitialMovies(page);
     return;
   }
 
   // 검색어가 있는 경우 검색 결과 렌더링
-  await controlSearchMovies(page, searchMovie, moreButton);
+  await controlSearchMovies(page, searchMovie);
 });
 
 // 로고 클릭
@@ -53,13 +52,15 @@ backgroundContainer.addEventListener("click", async (e: MouseEvent) => {
 
   page = 1;
   searchMovie = "";
-  await controlInitialMovies(page, moreButton);
+  await controlInitialMovies(page);
 });
 
-// 더보기 버튼
-moreButton.addEventListener("click", async () => {
-  page += 1;
-  await controlMoreMovies(page, searchMovie, moreButton);
+// 무한 스크롤
+window.addEventListener("scroll", async () => {
+  if (window.innerHeight + window.scrollY >= document.body.scrollHeight) {
+    page += 1;
+    await controlMoreMovies(page, searchMovie);
+  }
 });
 
 // 영화 클릭

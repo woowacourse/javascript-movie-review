@@ -31,14 +31,6 @@ export function handleMovieList(data: MovieResponse): void {
   movieList.renderMovieList(data);
 }
 
-export function handleMoreButton(
-  moreButton: HTMLButtonElement,
-  totalPages: number,
-  page: number,
-): void {
-  moreButton.style.display = totalPages === page ? "none" : "block";
-}
-
 export function handleSkeleton(): void {
   movieList.renderSkeleton();
 }

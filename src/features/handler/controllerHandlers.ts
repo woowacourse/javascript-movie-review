@@ -5,7 +5,6 @@ import {
   handleHeader,
   handleHeaderSearch,
   handleMainTitle,
-  handleMoreButton,
   handleMovieList,
   handleSkeleton,
   handleEmptyMovie,
@@ -14,10 +13,7 @@ import {
 } from "./renderHandlers";
 import { userErrorMessage } from "../../utils/userErrorMessage";
 
-export async function controlInitialMovies(
-  page: number,
-  moreButton: HTMLButtonElement,
-): Promise<void> {
+export async function controlInitialMovies(page: number): Promise<void> {
   try {
     handleMainTitle("지금 인기 있는 영화");
     handleSkeleton();
@@ -25,7 +21,6 @@ export async function controlInitialMovies(
     const data = await fetchMoviesApi(POPULAR_PATH, page);
     handleHeader(data.results[0]);
     handleMovieList(data);
-    handleMoreButton(moreButton, data.total_pages, page);
   } catch (error) {
     alert(userErrorMessage(error));
   }
@@ -34,7 +29,6 @@ export async function controlInitialMovies(
 export async function controlSearchMovies(
   page: number,
   searchMovie: string,
-  moreButton: HTMLButtonElement,
 ): Promise<void> {
   try {
     handleMainTitle(`"${searchMovie}" 검색 결과`);
@@ -48,8 +42,6 @@ export async function controlSearchMovies(
     } else {
       handleMovieList(data);
     }
-
-    handleMoreButton(moreButton, data.total_pages, page);
   } catch (error) {
     alert(userErrorMessage(error));
   }
@@ -58,7 +50,6 @@ export async function controlSearchMovies(
 export async function controlMoreMovies(
   page: number,
   searchMovie: string,
-  moreButton: HTMLButtonElement,
 ): Promise<void> {
   try {
     const data =
@@ -66,7 +57,6 @@ export async function controlMoreMovies(
         ? await fetchMoviesApi(POPULAR_PATH, page)
         : await fetchMoviesApi(SEARCH_PATH, page, searchMovie);
     handleMoreMovie(data);
-    handleMoreButton(moreButton, data.total_pages, page);
   } catch (error) {
     alert(userErrorMessage(error));
   }
