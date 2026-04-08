@@ -22,7 +22,7 @@ export const addMovieList = (
       <div class="item-desc">
         <p class="rate">
           <img class="star" src="${starEmpty}" />
-          <span class="vote-average">${movie.vote_average.toFixed(1)}</span>
+          <span class="vote-average">${movie.vote_average ? movie.vote_average.toFixed(1) : 0}</span>
         </p>
         <strong class="title">${movie.title}</strong>
       </div>
@@ -67,7 +67,7 @@ export const showBackgroundMovieInfo = (movie: Movie) => {
             <div class="top-rated-movie">
               <div class="rate">
                 <img src="${starEmpty}" class="star" />
-                <span class="rate-value">${movie.vote_average.toFixed(1)}</span>
+                <span class="rate-value">${movie.vote_average ? movie.vote_average.toFixed(1) : 0}</span>
               </div>
               <div class="title">${movie.title}</div>
             </div> 

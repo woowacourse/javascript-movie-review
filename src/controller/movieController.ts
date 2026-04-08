@@ -11,7 +11,9 @@ export const createMovieController = (state: State) => ({
   initPage: async () => {
     try {
       await loadMovies({ state, reset: false });
-      if (state.movieList[0]) showBackgroundMovieInfo(state.movieList[0]);
+      if (state.movieList[0]) {
+        showBackgroundMovieInfo(state.movieList[0]);
+      }
     } catch (error) {
       showErrorText("초기 화면을 불러오지 못했습니다.");
     }

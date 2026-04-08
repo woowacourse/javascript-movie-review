@@ -12,7 +12,7 @@ addEventListener("load", async () => {
   const movieController = createMovieController(state);
 
   try {
-    movieController.initPage();
+    await movieController.initPage();
   } finally {
     bindMovieEvents({
       onMore: movieController.loadMoreMovies,
