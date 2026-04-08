@@ -53,6 +53,7 @@ class App {
     this.#views.logo.bindEvent(this.#logoEventHandler);
     this.#views.movieList.bindEvent(this.#movieDetailEventHandler);
     this.#views.movieDetail.bindCloseEvent();
+    this.#views.topRated.bindEvent(this.#movieDetailEventHandler);
   }
 
   async #renderPopularMovieAtFirst() {
