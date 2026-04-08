@@ -683,3 +683,76 @@ export const searchFixture = [
     vote_count: 79,
   },
 ];
+
+export const movieFixture = {
+  "adult": false,
+  "backdrop_path": "/m8JTwHFwX7I7JY5fPe4SjqejWag.jpg",
+  "belongs_to_collection": {
+    "id": 422834,
+    "name": "Ant-Man Collection",
+    "poster_path": "/9llE4J9sVv8qsvfVGkpugiPTxUV.jpg",
+    "backdrop_path": "/2KjtWUBiksmN8LsUouaZnxocu5N.jpg"
+  },
+  "budget": 200000000,
+  "genres": [
+    {
+      "id": 28,
+      "name": "Action"
+    },
+    {
+      "id": 12,
+      "name": "Adventure"
+    },
+    {
+      "id": 878,
+      "name": "Science Fiction"
+    }
+  ],
+  "homepage": "https://www.marvel.com/movies/ant-man-and-the-wasp-quantumania",
+  "id": 640146,
+  "imdb_id": "tt10954600",
+  "origin_country": [
+    "US"
+  ],
+  "original_language": "en",
+  "original_title": "Ant-Man and the Wasp: Quantumania",
+  "overview": "Super-Hero partners Scott Lang and Hope van Dyne, along with with Hope's parents Janet van Dyne and Hank Pym, and Scott's daughter Cassie Lang, find themselves exploring the Quantum Realm, interacting with strange new creatures and embarking on an adventure that will push them beyond the limits of what they thought possible.",
+  "popularity": 9.5162,
+  "poster_path": "/qnqGbB22YJ7dSs4o6M7exTpNxPz.jpg",
+  "production_companies": [
+    {
+      "id": 420,
+      "logo_path": "/hUzeosd33nzE5MCNsZxCGEKTXaQ.png",
+      "name": "Marvel Studios",
+      "origin_country": "US"
+    },
+    {
+      "id": 176762,
+      "logo_path": null,
+      "name": "Kevin Feige Productions",
+      "origin_country": "US"
+    }
+  ],
+  "production_countries": [
+    {
+      "iso_3166_1": "US",
+      "name": "United States of America"
+    }
+  ],
+  "release_date": "2023-02-15",
+  "revenue": 476071180,
+  "runtime": 125,
+  "spoken_languages": [
+    {
+      "english_name": "English",
+      "iso_639_1": "en",
+      "name": "English"
+    }
+  ],
+  "status": "Released",
+  "tagline": "Witness the beginning of a new dynasty.",
+  "title": "Ant-Man and the Wasp: Quantumania",
+  "video": false,
+  "vote_average": 6.233,
+  "vote_count": 5732
+};
