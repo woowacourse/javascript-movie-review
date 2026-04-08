@@ -7,6 +7,7 @@ import { bannerView } from "../view/bannerView";
 import { addButtonView } from "../view/addButtonView";
 import { isLastPage } from "../api/isLastPage";
 import { errorMovieList } from "../services/errorMovieList";
+import { emptyMovieList } from "../services/emptyMovieList";
 
 export async function handleSearch(keyword: string) {
   try {
@@ -28,8 +29,7 @@ export async function handleSearch(keyword: string) {
     };
 
     if (searchMoviesResult.data.total_results === 0) {
-      movieListView.renderEmptyList();
-      addButtonView.hideAddButton();
+      emptyMovieList();
       return;
     };
 

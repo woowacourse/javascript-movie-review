@@ -5,6 +5,7 @@ import { SKELETON_NUMBER } from "../constants/constant";
 import { movieListView } from "../view/movieListView";
 import { movieModel } from "../model/movieModel";
 import { addButtonView } from "../view/addButtonView";
+import { emptyMovieList } from "../services/emptyMovieList";
 
 async function fetchCurrentModeData(nextPage: number) {
   if (movieModel.isSearch) {
@@ -26,6 +27,11 @@ export async function handleLoadMore() {
       return;
     };
 
+    if (response.data.results.length === 0) {
+      emptyMovieList();
+      return;
+    };
+    
     movieModel.increasePage();
     if(isLastPage(response.data)) addButtonView.hideAddButton();
     movieListView.renderMovieList(response.data.results);

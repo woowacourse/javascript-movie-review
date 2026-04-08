@@ -5,24 +5,30 @@ import { movieModel } from "../model/movieModel";
 import { addButtonView } from "../view/addButtonView";
 import { bannerView } from "../view/bannerView";
 import { errorMovieList } from "../services/errorMovieList";
+import { emptyMovieList } from "../services/emptyMovieList";
+import { isLastPage } from "../api/isLastPage";
 
 export async function handleHome() {
-  movieListView.renderSkeletonList(SKELETON_NUMBER);
+  try {
+    movieListView.renderSkeletonList(SKELETON_NUMBER);
 
-  const popularMovies: ApiResult<MovieResponse> = await getMovies(movieModel.page);
+    const popularMovies: ApiResult<MovieResponse> = await getMovies(movieModel.page);
 
-  if (!popularMovies.success) {
-    errorMovieList(popularMovies.error);
-    return;
-  };
+    if (!popularMovies.success) {
+      errorMovieList(popularMovies.error);
+      return;
+    };
 
-  if (popularMovies.data.results.length === 0) {
-    movieListView.renderEmptyList();
-    addButtonView.hideAddButton();
-    return;
-  };
+    if (popularMovies.data.results.length === 0) {
+      emptyMovieList();
+      return;
+    };
 
-  movieListView.removeSkeletonList();
-  bannerView.renderBanner(popularMovies.data.results[0]);
-  movieListView.renderMovieList(popularMovies.data.results);
+    if (isLastPage(popularMovies.data)) addButtonView.hideAddButton();
+    
+    bannerView.renderBanner(popularMovies.data.results[0]);
+    movieListView.renderMovieList(popularMovies.data.results);
+  } finally {
+    movieListView.removeSkeletonList();
+  }
 }
