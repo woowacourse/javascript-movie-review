@@ -10,3 +10,13 @@ export type MovieResponse = {
   results: Movie[];
   total_pages: number;
 };
+
+export type MovieDetailResponse = {
+  id: number;
+  title: string;
+  poster_path: string;
+  vote_average: number;
+  overview: string;
+  genres: [{ name: string }];
+  release_date: string;
+};
