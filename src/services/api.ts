@@ -2,7 +2,7 @@ import { apiUrl, apiKey } from "../constants/env";
 
 import { parseMovies } from "./mapper";
 
-import { Movies } from "./dto";
+import { MovieInfo, Movies } from "./dto";
 
 interface Configs {
   method?: 'get' | 'post' | 'put' | 'delete';
@@ -78,4 +78,11 @@ export const getSearchMovie = async ({
     ...data,
     results: parseMovies(data.results),
   }
+};
+
+export const getMovieMovieId = async ({ id, }: { id: number }): Promise<MovieInfo> => {
+  const url = `/movie/${id}`;
+  const data = await requestAjax(url);
+
+  return data;
 };
