@@ -1,7 +1,12 @@
 import Header from "../UI/Header";
 import MainTitle from "../UI/MainTitle";
 import MovieList from "../UI/MovieList";
-import { Movie, MovieResponse } from "../../../types/types";
+import Modal from "../UI/Modal";
+import {
+  Movie,
+  MovieResponse,
+  MovieDetailResponse,
+} from "../../../types/types";
 
 const header = new Header();
 const mainTitle = new MainTitle();
@@ -44,4 +49,9 @@ export function handleEmptyMovie(): void {
 
 export function handleMoreMovie(data: MovieResponse): void {
   movieList.renderMovieList(data);
+}
+
+export function handleModal(data: MovieDetailResponse) {
+  const modal = new Modal(data);
+  modal.renderModal();
 }

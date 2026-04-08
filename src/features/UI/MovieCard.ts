@@ -10,7 +10,7 @@ export default class MovieCard {
   }
 
   render(): string {
-    return `<div class="item">
+    return /*html*/ `<div class="item" data-id=${this.movie.id}>
       <img
          class="thumbnail"
          src="${THUMB_NAIL_URL}${this.movie.poster_path}"

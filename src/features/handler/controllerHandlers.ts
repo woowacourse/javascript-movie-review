@@ -1,4 +1,5 @@
 import { fetchMoviesApi } from "../api/fetchMoviesApi";
+import { fetchMovieDetailApi } from "../api/fetchMovieDetailApi";
 import { POPULAR_PATH, SEARCH_PATH } from "../../constants/constant";
 import {
   handleHeader,
@@ -9,6 +10,7 @@ import {
   handleSkeleton,
   handleEmptyMovie,
   handleMoreMovie,
+  handleModal,
 } from "./renderHandlers";
 import { userErrorMessage } from "../../utils/userErrorMessage";
 
@@ -65,6 +67,15 @@ export async function controlMoreMovies(
         : await fetchMoviesApi(SEARCH_PATH, page, searchMovie);
     handleMoreMovie(data);
     handleMoreButton(moreButton, data.total_pages, page);
+  } catch (error) {
+    alert(userErrorMessage(error));
+  }
+}
+
+export async function controlModal(id: number): Promise<void> {
+  try {
+    const data = await fetchMovieDetailApi(id);
+    handleModal(data);
   } catch (error) {
     alert(userErrorMessage(error));
   }

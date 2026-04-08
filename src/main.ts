@@ -2,6 +2,7 @@ import {
   controlInitialMovies,
   controlMoreMovies,
   controlSearchMovies,
+  controlModal,
 } from "./features/handler/controllerHandlers";
 
 let page: number = 1;
@@ -11,6 +12,7 @@ const moreButton = document.querySelector(".btn-more") as HTMLButtonElement;
 const backgroundContainer = document.querySelector(
   ".background-container",
 ) as HTMLElement;
+const movieCard = document.querySelector(".thumbnail-list") as HTMLUListElement;
 
 addEventListener("load", async () => {
   // 초기 렌더링
@@ -55,4 +57,22 @@ backgroundContainer.addEventListener("click", async (e: MouseEvent) => {
 moreButton.addEventListener("click", async () => {
   page += 1;
   await controlMoreMovies(page, searchMovie, moreButton);
+});
+
+// 영화 클릭
+movieCard.addEventListener("click", async (e: MouseEvent) => {
+  const target = e.target as HTMLElement;
+  const card = target.closest(".item") as HTMLElement;
+
+  if (!card) {
+    return;
+  }
+
+  const movieId = Number(card.dataset.id);
+
+  if (!movieId) {
+    return;
+  }
+
+  await controlModal(movieId);
 });
