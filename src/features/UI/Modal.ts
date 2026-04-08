@@ -10,7 +10,9 @@ export default class Modal {
   }
 
   renderModal() {
-    this.modalContainer.innerHTML = /*html*/ `
+    this.modalContainer.insertAdjacentHTML(
+      "beforeend",
+      /*html*/ `
     <div class="modal-background active" id="modalBackground">
       <div class="modal">
         <button class="close-modal" id="closeModal">
@@ -39,6 +41,7 @@ export default class Modal {
           </div>
         </div>
       </div>
-    </div>`;
+    </div>`,
+    );
   }
 }
