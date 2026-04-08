@@ -2,7 +2,7 @@ export interface Movie {
   id: number;
   poster_path: string | null;
   title: string;
-  vote_average: number;
+  vote_average: number | null;
   backdrop_path: string | null;
 }
 

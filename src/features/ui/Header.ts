@@ -24,7 +24,7 @@ export const Header = {
             <div class="top-rated-movie">
                 <div class="rate">
                   <img src="${starImg}" class="star" />
-                  <span class="rate-value">${movie.vote_average.toFixed(1)}</span>
+                  <span class="rate-value">${(movie.vote_average ?? 0).toFixed(1)}</span>
                 </div>
                 <div class="title">${movie.title}</div>
                 <button class="primary detail">자세히 보기</button>
