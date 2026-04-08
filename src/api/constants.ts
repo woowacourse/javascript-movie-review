@@ -4,6 +4,7 @@ export const TMDB_IMAGE_BASE_URL = "https://image.tmdb.org/t/p";
 export const ENDPOINTS = {
   POPULAR: `${TMDB_BASE_URL}/movie/popular`,
   SEARCH: `${TMDB_BASE_URL}/search/movie`,
+  MOVIE_DETAIL: (id: number) => `${TMDB_BASE_URL}/movie/${id}`,
 } as const;
 
 export const DEFAULT_PARAMS = {

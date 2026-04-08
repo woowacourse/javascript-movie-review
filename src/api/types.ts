@@ -33,3 +33,20 @@ export interface TMDBMovieListResponse {
   total_pages: number;
   total_results: number;
 }
+
+export interface TMDBGenre {
+  id: number;
+  name: string;
+}
+
+export interface TMDBMovieDetail {
+  id: number;
+  title: string;
+  overview: string;
+  poster_path: string;
+  release_date: string;
+  vote_average: number;
+  genres: TMDBGenre[];
+  runtime: number;
+  tagline: string;
+}

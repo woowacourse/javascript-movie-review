@@ -1,5 +1,5 @@
 import { ENDPOINTS, DEFAULT_PARAMS } from "./constants";
-import { TMDBMovieListResponse } from "./types";
+import { TMDBMovieListResponse, TMDBMovieDetail } from "./types";
 import { getData } from "../utils/fetch";
 
 export const fetchPopularMovies = (
@@ -25,4 +25,9 @@ export const fetchSearchMovies = (
   });
 
   return getData<TMDBMovieListResponse>(`${ENDPOINTS.SEARCH}?${params}`);
+};
+
+export const fetchMovieDetail = (id: number): Promise<TMDBMovieDetail> => {
+  const params = new URLSearchParams({ language: DEFAULT_PARAMS.language });
+  return getData<TMDBMovieDetail>(`${ENDPOINTS.MOVIE_DETAIL(id)}?${params}`);
 };
