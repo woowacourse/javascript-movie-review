@@ -1,11 +1,8 @@
-import image from "../templates/images/star_filled.png";
+import { initialRender } from "./features/movieController";
+import { movieState } from "./features/movieState";
+import { initEvents } from "./features/eventHandler";
 
-addEventListener("load", () => {
-  const app = document.querySelector("#app");
-  const buttonImage = document.createElement("img");
-  buttonImage.src = image;
-
-  if (app) {
-    app.appendChild(buttonImage);
-  }
+addEventListener("load", async () => {
+  await initialRender(movieState.page);
+  initEvents();
 });
