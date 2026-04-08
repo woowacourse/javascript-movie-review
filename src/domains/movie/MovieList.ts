@@ -3,6 +3,7 @@ import { fetchPopularMovies, fetchSearchMovies } from "../../api/movies";
 import { toMovieItem } from "../../utils/transform";
 
 export interface MovieItem {
+  id: number;
   title: string;
   posterSrc: string;
   rating: number;
