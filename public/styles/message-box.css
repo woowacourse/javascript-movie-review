@@ -1,0 +1,17 @@
+.message-box {
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding-top: 56px;
+}
+
+.message-box span {
+  margin-top: 16px;
+  display: block;
+  font-family: Poppins;
+  font-weight: 600;
+  font-style: SemiBold;
+  font-size: 36px;
+  line-height: 100%;
+  letter-spacing: 0%;
+}

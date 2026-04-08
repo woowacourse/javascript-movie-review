@@ -1,12 +1,265 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="./styles/reset.css" />
+    <link rel="stylesheet" href="./styles/main.css" />
+    <link rel="stylesheet" href="./styles/tab.css" />
+    <link rel="stylesheet" href="./styles/thumbnail.css" />
+    <link rel="stylesheet" href="./styles/skeleton.css" />
+    <link rel="stylesheet" href="./styles/search.css" />
+    <link rel="stylesheet" href="./styles/message-box.css" />
     <title>영화 리뷰</title>
   </head>
   <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.ts"></script>
+    <div id="app">
+      <header>
+        <div class="background-container">
+          <div class="header-bar">
+            <button class="logo">
+              <img src="./images/logo.png" alt="MovieList" />
+            </button>
+
+            <div class="search-box">
+              <input id="search-input" placeholder="검색어를 입력하세요" />
+              <button id="search-button">검색</button>
+            </div>
+          </div>
+          <div class="overlay" aria-hidden="true"></div>
+          <div class="top-rated-container">
+            <div class="top-rated-movie">
+              <div class="rate">
+                <img src="./images/star_empty.png" class="star" />
+                <span class="rate-value"></span>
+              </div>
+              <div class="title">&nbsp;</div>
+              <button class="primary detail">자세히 보기</button>
+            </div>
+          </div>
+        </div>
+      </header>
+      <div class="container" id="wrap">
+        <main>
+          <section>
+            <h2 id="movie-list-title">지금 인기 있는 영화</h2>
+            <div id="no-result"></div>
+            <template id="movie-template">
+              <li data-movie-id="">
+                <div class="item">
+                  <img class="thumbnail" src="" alt="" />
+                  <div class="item-desc">
+                    <p class="rate">
+                      <img src="./images/star_empty.png" class="star" /><span
+                        >&nbsp;</span
+                      >
+                    </p>
+                    <strong>&nbsp;</strong>
+                  </div>
+                </div>
+              </li>
+            </template>
+            <ul class="thumbnail-list" id="movie-list" hidden></ul>
+            <ul class="thumbnail-list skeleton-list" id="skeleton" hidden>
+              <li>
+                <div class="item">
+                  <div class="dummy-img"></div>
+                  <div class="item-desc">
+                    <div class="skeleton-line rate"></div>
+                    <div class="skeleton-line"></div>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="item">
+                  <div class="dummy-img"></div>
+                  <div class="item-desc">
+                    <div class="skeleton-line rate"></div>
+                    <div class="skeleton-line"></div>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="item">
+                  <div class="dummy-img"></div>
+                  <div class="item-desc">
+                    <div class="skeleton-line rate"></div>
+                    <div class="skeleton-line"></div>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="item">
+                  <div class="dummy-img"></div>
+                  <div class="item-desc">
+                    <div class="skeleton-line rate"></div>
+                    <div class="skeleton-line"></div>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="item">
+                  <div class="dummy-img"></div>
+                  <div class="item-desc">
+                    <div class="skeleton-line rate"></div>
+                    <div class="skeleton-line"></div>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="item">
+                  <div class="dummy-img"></div>
+                  <div class="item-desc">
+                    <div class="skeleton-line rate"></div>
+                    <div class="skeleton-line"></div>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="item">
+                  <div class="dummy-img"></div>
+                  <div class="item-desc">
+                    <div class="skeleton-line rate"></div>
+                    <div class="skeleton-line"></div>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="item">
+                  <div class="dummy-img"></div>
+                  <div class="item-desc">
+                    <div class="skeleton-line rate"></div>
+                    <div class="skeleton-line"></div>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="item">
+                  <div class="dummy-img"></div>
+                  <div class="item-desc">
+                    <div class="skeleton-line rate"></div>
+                    <div class="skeleton-line"></div>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="item">
+                  <div class="dummy-img"></div>
+                  <div class="item-desc">
+                    <div class="skeleton-line rate"></div>
+                    <div class="skeleton-line"></div>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="item">
+                  <div class="dummy-img"></div>
+                  <div class="item-desc">
+                    <div class="skeleton-line rate"></div>
+                    <div class="skeleton-line"></div>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="item">
+                  <div class="dummy-img"></div>
+                  <div class="item-desc">
+                    <div class="skeleton-line rate"></div>
+                    <div class="skeleton-line"></div>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="item">
+                  <div class="dummy-img"></div>
+                  <div class="item-desc">
+                    <div class="skeleton-line rate"></div>
+                    <div class="skeleton-line"></div>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="item">
+                  <div class="dummy-img"></div>
+                  <div class="item-desc">
+                    <div class="skeleton-line rate"></div>
+                    <div class="skeleton-line"></div>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="item">
+                  <div class="dummy-img"></div>
+                  <div class="item-desc">
+                    <div class="skeleton-line rate"></div>
+                    <div class="skeleton-line"></div>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="item">
+                  <div class="dummy-img"></div>
+                  <div class="item-desc">
+                    <div class="skeleton-line rate"></div>
+                    <div class="skeleton-line"></div>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="item">
+                  <div class="dummy-img"></div>
+                  <div class="item-desc">
+                    <div class="skeleton-line rate"></div>
+                    <div class="skeleton-line"></div>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="item">
+                  <div class="dummy-img"></div>
+                  <div class="item-desc">
+                    <div class="skeleton-line rate"></div>
+                    <div class="skeleton-line"></div>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="item">
+                  <div class="dummy-img"></div>
+                  <div class="item-desc">
+                    <div class="skeleton-line rate"></div>
+                    <div class="skeleton-line"></div>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="item">
+                  <div class="dummy-img"></div>
+                  <div class="item-desc">
+                    <div class="skeleton-line rate"></div>
+                    <div class="skeleton-line"></div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+
+            <button class="primary" id="more-button">더보기</button>
+          </section>
+        </main>
+      </div>
+
+      <footer class="footer">
+        <p>&copy; 우아한테크코스 All Rights Reserved.</p>
+        <p><img src="./images/woowacourse_logo.png" width="180" /></p>
+      </footer>
+    </div>
+    <script type="module" src="./src/main.ts"></script>
   </body>
 </html>
+
+<!--
+  포스터 원본: https://image.tmdb.org/t/p/original//pmemGuhr450DK8GiTT44mgwWCP7.jpg
+  포스터 썸네일: https://media.themoviedb.org/t/p/w440_and_h660_face/pmemGuhr450DK8GiTT44mgwWCP7.jpg
+  배너 원본: https://image.tmdb.org/t/p/w1920_and_h800_multi_faces/stKGOm8UyhuLPR9sZLjs5AkmncA.jpg
+-->
