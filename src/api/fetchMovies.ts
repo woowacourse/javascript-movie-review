@@ -7,7 +7,7 @@ export const fetchPopularMovies = async (
   page: number,
 ): Promise<MovieResponse> => {
   const response = await fetch(
-    `${apiUrl}/movie/popular?language=ko-KR&page=${page}`,
+    `${apiUrl}/movie/popular?language=ko-KR&page=${page}&region=ko-KR`,
     {
       method: "GET",
       headers: {
