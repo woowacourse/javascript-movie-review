@@ -1,12 +1,40 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./src/styles/reset.css" />
+    <link rel="stylesheet" href="./src/styles/main.css" />
+    <link rel="stylesheet" href="./src/styles/tab.css" />
+    <link rel="stylesheet" href="./src/styles/thumbnail.css" />
     <title>영화 리뷰</title>
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app">
+      <header class="header">
+        <div class="background-container"></div>
+      </header>
+      <div class="container">
+        <main>
+          <section>
+            <h2 class="main-title">지금 인기 있는 영화</h2>
+            <div class="main-result"></div>
+            <ul class="thumbnail-list"></ul>
+            <button class="btn-more" style="display: none">더 보기</button>
+          </section>
+        </main>
+      </div>
+      <footer class="footer">
+        <p>
+          <img
+            src="./src/images/woowacourse_logo.png"
+            width="180"
+            alt="우아한테크코스 로고"
+          />
+        </p>
+        <p>&copy; 우아한테크코스 All Rights Reserved.</p>
+      </footer>
+    </div>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
