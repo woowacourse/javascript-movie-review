@@ -1,5 +1,4 @@
 import star_empty from '../../templates/images/star_empty.png'
-import logo from '../../templates/images/logo.png'
 import { getElement } from './getElementView'
 export interface Movie {
     id: number
@@ -61,12 +60,9 @@ export const showBackgroundMovieInfo = (movie: Movie) => {
     const background = getElement('.background-container')
     background.innerHTML = /*html*/ `
           <div class="overlay" aria-hidden="true">
-           <img src="https://image.tmdb.org/t/p/w500${movie.backdrop_path}" alt="영화 이미지" />
+           <img src="https://image.tmdb.org/t/p/original${movie.backdrop_path}" alt="영화 이미지" />
           </div>
           <div class="top-rated-container">
-            <h1 class="logo">
-              <img src="${logo}" alt="MovieList" />
-            </h1>
             <div class="top-rated-movie">
               <div class="rate">
                 <img src="${star_empty}" class="star" />

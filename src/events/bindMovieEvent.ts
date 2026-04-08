@@ -1,7 +1,13 @@
 import { State } from '../main.ts'
 import { HttpError, fetchDefaultMovieList, fetchSearchMovieList, fetchMovieDetail } from '../service/movieApi.ts'
 import { getElement, getInputElement, getUListElement } from '../view/getElementView.ts'
-import { addMovieList, addMovieSkeletonUIList, Movie, removeMovieSkeletonUIList } from '../view/movieListView.ts'
+import {
+    addMovieList,
+    addMovieSkeletonUIList,
+    Movie,
+    removeMovieSkeletonUIList,
+    showBackgroundMovieInfo,
+} from '../view/movieListView.ts'
 import star_empty from '../../templates/images/star_empty.png'
 import star_filled from '../../templates/images/star_filled.png'
 
@@ -180,7 +186,7 @@ export const bindClickPosterEvent = () => {
 
         const movie = await fetchMovieDetail(Number(item.dataset.id))
         currentMovieId = movie.id
-
+        showBackgroundMovieInfo(movie)
         const modalPoster = getElement('#modalPoster') as HTMLImageElement
         modalPoster.src = `https://image.tmdb.org/t/p/w500${movie.poster_path}`
         getElement('#modalTitle').textContent = movie.title

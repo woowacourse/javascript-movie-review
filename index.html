@@ -10,10 +10,16 @@
     <body>
         <div id="app">
             <header>
-                <div class="search-container">
-                    <input class="search-bar" placeholder="검색어를 입력하세요" />
-                    <button class="search-btn">🔍</button>
-                </div>
+                <nav>
+                    <h1 class="logo">
+                        <img src="../../templates/images/logo.png" alt="MovieList" />
+                    </h1>
+                    <div class="search-container">
+                        <input class="search-bar" placeholder="검색어를 입력하세요" />
+                        <button class="search-btn">🔍</button>
+                    </div>
+                </nav>
+
                 <div class="background-container"></div>
             </header>
             <div class="container">
@@ -50,11 +56,13 @@
                     <div class="modal-description">
                         <h2 id="modalTitle"></h2>
                         <p class="category" id="modalCategory"></p>
-                        <p class="rate">
+                        <div class="average-star-rate">
                             <span>평균</span>
-                            <img src="./templates/images/star_filled.png" class="star" />
-                            <span id="modalRate"></span>
-                        </p>
+                            <p class="rate">
+                                <img src="./templates/images/star_filled.png" class="star" />
+                                <span id="modalRate"></span>
+                            </p>
+                        </div>
                         <hr />
                         <div class="my-rate">
                             <p>내 별점</p>

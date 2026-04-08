@@ -70,7 +70,7 @@ body.modal-open {
 
 .modal-description .rate > img {
     position: relative;
-    top: 5px;
+    top: 2px;
 }
 
 .modal-description > *:not(:last-child) {
@@ -92,6 +92,12 @@ body.modal-open {
 .star-icon {
     cursor: pointer;
 }
+.average-star-rate {
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem;
+    gap: 1rem;
+}
 
 .stars-rate-container {
     display: flex;
@@ -101,4 +107,73 @@ body.modal-open {
 
 .my-rate-text {
     font-size: 2rem;
+}
+
+@media only screen and (max-width: 480px) {
+    .modal {
+        width: 100%;
+        height: 50vh;
+        overflow-y: auto;
+        font-size: 14px;
+    }
+
+    .modal-image img {
+        display: none;
+    }
+    .modal-background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경을 위해 설정 */
+        backdrop-filter: blur(10px); /* 블러 효과 적용 */
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        z-index: 10;
+        visibility: hidden; /* 모달이 기본적으로 보이지 않도록 설정 */
+        opacity: 0;
+        transition:
+            opacity 0.3s ease,
+            visibility 0.3s ease;
+    }
+    .average-star-rate {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 1rem;
+        font-size: large;
+    }
+    .stars-rate-container {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .modal-description .rate {
+        display: flex;
+        align-items: center;
+    }
+
+    .modal-description .rate > img {
+        position: relative;
+        top: -3px;
+    }
+
+    .my-rate {
+        font-size: 1.5rem;
+    }
+
+    .star-icon {
+        width: 2rem;
+    }
+    .my-rate-text {
+        font-size: 1rem;
+    }
+
+    .page-title {
+        margin-top: 3rem;
+    }
 }
