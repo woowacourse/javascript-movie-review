@@ -1,0 +1,285 @@
+@import './colors.css';
+
+* {
+  box-sizing: border-box;
+  box-shadow: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+#app {
+  background-color: var(--color-bluegray-100);
+}
+
+body {
+  font-size: 16px;
+  color: var(--color-white);
+  background-color: var(--color-bluegray-80);
+}
+
+#wrap,
+section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+main {
+  margin: 64px 0;
+}
+
+section h2 {
+  flex: 1;
+  font-family: 'Poppins';
+  font-weight: 600;
+  font-size: 36px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  margin: 30px 0;
+}
+
+.star {
+  width: 24px;
+}
+
+button {
+  border: 0;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+button.primary {
+  color: var(--color-white);
+  font-weight: bold;
+  background-color: var(--color-lightblue-90);
+  border-radius: 4px;
+}
+
+#wrap {
+  min-width: 1440px;
+  background-color: var(--color-bluegray-100);
+}
+
+#wrap h2 {
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin-bottom: 32px;
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.background-container {
+  position: relative;
+  background-position: center center;
+  background-size: cover;
+  padding: 48px;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 100%;
+  max-height: 500px;
+  z-index: 1;
+}
+
+.top-rated-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+
+  user-select: none;
+  position: relative;
+  z-index: 2;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.top-rated-container .search-form {
+  justify-self: center;
+}
+
+.top-rated-movie {
+  margin-top: 64px;
+}
+
+.top-rated-movie > *:not(:last-child) {
+  margin-bottom: 8px;
+}
+
+h1.logo {
+  font-size: 2rem;
+}
+
+.rate {
+  display: flex;
+  align-items: baseline;
+  color: var(--color-yellow);
+}
+
+.rate > img {
+  position: relative;
+  top: 2px;
+}
+
+span.rate-value {
+  margin-left: 8px;
+  font-weight: bold;
+  font-size: 1.66rem;
+}
+
+.title {
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+.footer {
+  bottom: 0;
+  min-height: 180px;
+  background-color: var(--color-bluegray-80);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  font-size: 1.1rem;
+}
+
+.footer p:not(:last-child) {
+  margin-bottom: 8px;
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+}
+
+.search-wrap {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 525px;
+  height: 36px;
+
+  border: 2px solid var(--color-ffffff);
+  border-radius: 32px;
+  outline: none;
+}
+
+form {
+  border: none;
+}
+
+.search-wrap input {
+  background-color: transparent;
+  padding: 6px 16px;
+  color: var(--color-ffffff);
+  font-size: 14px;
+  width: 100%;
+  border: none;
+  outline: none;
+}
+
+.search-wrap input::placeholder {
+  color: var(--color-ffffff);
+}
+
+.search-button {
+  position: relative;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.header-top-layout {
+  width: 123px;
+}
+
+/* skeleton.css */
+
+/* 1. 기본 배경 및 애니메이션 정의 */
+.skeleton {
+  background: #eee;
+  background: linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s linear infinite;
+  border-radius: 4px;
+}
+
+@keyframes shimmer {
+  to {
+    background-position-x: -200%;
+  }
+}
+
+.skeleton-item {
+  list-style: none;
+}
+
+.skeleton-item .thumbnail {
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  margin-bottom: 12px;
+}
+
+.skeleton-item .title {
+  width: 80%;
+  height: 1.2rem;
+  margin-bottom: 8px;
+}
+
+.skeleton-item .rate {
+  width: 40%;
+  height: 1rem;
+}
+
+.more-button {
+  color: white;
+  font-family: Montserrat;
+  font-weight: 600;
+  font-style: SemiBold;
+  font-size: 24px;
+  line-height: 100%;
+  letter-spacing: 0.24px;
+
+  width: 100%;
+  height: 49px;
+  gap: 10px;
+  opacity: 1;
+  border-radius: 8px;
+  padding: 10px;
+  background-color: var(--color-lightblue-90);
+}
+
+.nothing {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.nothing img {
+  width: 72px;
+  height: 62px;
+}
+.nothing p {
+  font-family: 'Poppins';
+  font-weight: 600;
+  font-size: 36px;
+  line-height: 100%;
+  letter-spacing: 0%;
+
+  margin: 20px;
+}
+
+.top-header-container {
+  min-height: 500px;
+}

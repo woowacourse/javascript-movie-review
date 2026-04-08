@@ -1,11 +1,38 @@
-import image from "../templates/images/star_filled.png";
+import HomePage from './pages/HomePage.ts';
+import SearchPage from './pages/SearchPage.ts';
+import { ROUTE_CHANGE_EVENT } from './utils/event.ts';
 
-addEventListener("load", () => {
-  const app = document.querySelector("#app");
-  const buttonImage = document.createElement("img");
-  buttonImage.src = image;
+const routes = [
+  { path: '/', view: HomePage },
+  { path: '/search', view: SearchPage },
+];
 
-  if (app) {
-    app.appendChild(buttonImage);
-  }
+const router = () => {
+  const $app = document.querySelector('#app');
+  if (!$app) return;
+
+  $app.innerHTML = '';
+
+  const fullHash = location.hash.replace('#', '') || '/';
+  const [path, queryString] = fullHash.split('?');
+  const match = routes.find((route) => route.path === path);
+
+  const View = match ? match.view : HomePage;
+  const page = new View();
+  $app.replaceChildren(page.$element);
+};
+
+const navigateTo = (url: string) => {
+  location.hash = url;
+};
+
+window.addEventListener(ROUTE_CHANGE_EVENT, (e: Event) => {
+  const customEvent = e as CustomEvent<{ url: string }>;
+  const { url } = customEvent.detail;
+  navigateTo(url);
+});
+
+addEventListener('load', () => {
+  window.addEventListener('hashchange', router);
+  router();
 });
