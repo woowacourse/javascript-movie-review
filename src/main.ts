@@ -83,6 +83,23 @@ movieCard.addEventListener("click", async (e: MouseEvent) => {
 modalContainer.addEventListener("click", async (e: MouseEvent) => {
   const target = e.target as HTMLElement;
   const modalBackground = target.closest(".modal-background") as HTMLElement;
+  const modalClose = target.closest(".close-modal") as HTMLElement;
+
+  if (!modalClose) {
+    return;
+  }
+
+  modalBackground.classList.remove("active");
+});
+
+document.addEventListener("keydown", async (e: KeyboardEvent) => {
+  if (e.key !== "Escape") {
+    return;
+  }
+
+  const modalBackground = document.querySelector(
+    ".modal-background.active",
+  ) as HTMLElement;
 
   if (!modalBackground) {
     return;
