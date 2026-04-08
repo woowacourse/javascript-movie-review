@@ -92,7 +92,7 @@ export const renderBanner = async (fristMovieData: Movie) => {
       <span class="rate-value">${mostPopularMovie.vote_average}</span>
     </div>
     <div class="title">${mostPopularMovie.title}</div>
-    <button class="primary detail">자세히 보기</button>
+    <button class="primary detail" data-id = "${fristMovieData.id}">자세히 보기</button>
     `;
 
   banner?.insertAdjacentHTML("beforeend", mostPopularMovieBanner);

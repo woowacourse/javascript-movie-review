@@ -34,6 +34,15 @@ class ModalHandler {
       await renderMovieDetail(movieId);
       this.showModal();
     }
+
+    if ((e.target as HTMLElement).closest(".primary.detail")) {
+      const movieId: number = Number(
+        (e.target as HTMLElement).closest("[data-id]")?.getAttribute("data-id"),
+      );
+      document.querySelector(".modal-container")?.remove();
+      await renderMovieDetail(movieId);
+      this.showModal();
+    }
   };
 
   private showModal() {

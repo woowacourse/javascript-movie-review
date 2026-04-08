@@ -17,13 +17,13 @@ describe("인기 영화 더보기 버튼이 숨겨지는지 테스트", () => {
   beforeEach(() => {
     cy.intercept(
       "GET",
-      "https://api.themoviedb.org/3/movie/popular?language=en-US&page=1",
+      "https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=1",
       { fixture: "movies.json" },
     ).as("getMovies");
 
     cy.intercept(
       "GET",
-      "https://api.themoviedb.org/3/movie/popular?language=en-US&page=2",
+      "https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=2",
       { fixture: "movies2.json" },
     ).as("getMoviesPage2");
 
@@ -84,7 +84,7 @@ describe("Skeleton UI 테스트", () => {
   it("이미지 로드 전 스켈레톤 UI가 표시된다", () => {
     cy.intercept(
       "GET",
-      "https://api.themoviedb.org/3/movie/popular?language=en-US&page=1",
+      "https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=1",
       { fixture: "movies.json" },
     ).as("getMovies");
 
@@ -110,7 +110,7 @@ describe("Skeleton UI 테스트", () => {
   it("이미지 로드 실패 시 스켈레톤 UI가 제거되고 대체 이미지가 표시된다", () => {
     cy.intercept(
       "GET",
-      "https://api.themoviedb.org/3/movie/popular?language=en-US&page=1",
+      "https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=1",
       { fixture: "movies.json" },
     ).as("getMovies");
 

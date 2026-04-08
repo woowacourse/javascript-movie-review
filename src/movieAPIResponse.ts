@@ -5,7 +5,7 @@ export const fetchMovies = async (
   moviePageCount: number,
 ): Promise<MovieResponse> => {
   const response = await fetch(
-    `https://api.themoviedb.org/3/movie/popular?language=en-US&page=${moviePageCount}`,
+    `https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=${moviePageCount}`,
     {
       method: "GET",
       headers: {
@@ -27,7 +27,7 @@ export const fetchSearchedMovies = async (
   searchPageCount: number,
 ): Promise<MovieResponse> => {
   const response = await fetch(
-    `https://api.themoviedb.org/3/search/movie?query=${searchKeyword}&page=${searchPageCount}`,
+    `https://api.themoviedb.org/3/search/movie?language=ko-KR&query=${searchKeyword}&page=${searchPageCount}`,
     {
       method: "GET",
       headers: {
@@ -48,7 +48,7 @@ export const fetchMovieDetail = async (
   movieId: number,
 ): Promise<MovieDetail> => {
   const response = await fetch(
-    `https://api.themoviedb.org/3/movie/${movieId}?language=en-US`,
+    `https://api.themoviedb.org/3/movie/${movieId}?language=ko-KR`,
     {
       method: "GET",
       headers: {
