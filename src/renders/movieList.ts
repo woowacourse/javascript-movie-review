@@ -34,7 +34,9 @@ const createMovieNode = (movie: Movie): DocumentFragment | null => {
 };
 
 export const renderMovieList = (movies: Movies): void => {
-  const movieList = document.querySelector("#movie-list");
+  const movieList = document.querySelector<HTMLUListElement>("#movie-list");
+  if (!movieList) return;
+  movieList.hidden = false;
 
   movies.results.forEach((movie: Movie) => {
     const movieNode = createMovieNode(movie);
@@ -58,9 +60,12 @@ export const renderNoResult = () => {
 };
 
 export const removeMovieList = () => {
-  const movieList = document.querySelector<HTMLDivElement>("#movie-list");
-  movieList?.replaceChildren();
-
   const noResult = document.querySelector("#no-result");
   noResult?.replaceChildren();
+
+  const movieList = document.querySelector<HTMLUListElement>("#movie-list");
+  movieList?.replaceChildren();
+  if (movieList) {
+    movieList.hidden = true;
+  }
 };

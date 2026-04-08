@@ -66,6 +66,7 @@ const loadPopularMovies = async () => {
 
 const loadSearchMovies = async () => {
   try {
+    renderSkeleton();
     const search = getSearchParams("search") as string;
 
     const page = searchPageState.getPage() + 1;
@@ -89,10 +90,12 @@ const loadSearchMovies = async () => {
     }
   } catch (e) {
     showErrorAlert(e);
+  } finally {
+    removeSkeleton();
   }
 };
 
-const loadMoreMovies = async () => {
+const loadMoreMovies = () => {
   const isSearchParams = hasSearchParams("search");
 
   if (isSearchParams) {
