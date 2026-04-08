@@ -92,23 +92,47 @@ export const bindSearchEvents = (state: State) => {
     })
 }
 
-// 더 보기 버튼
+// 구 더 보기 버튼 / 현 무한 스크롤
 export const bindMoreMovieEvents = (state: State) => {
+    const firstTarget = document.querySelector('.thumbnail-list > li:last-child')
     const movieDisplay = getUListElement('.thumbnail-list')
-
-    const displayMoreBtn = document.querySelector('.display-more-btn')
-    displayMoreBtn?.addEventListener('click', async () => {
-        state.pageNum++
-
-        addMovieSkeletonUIList(movieDisplay)
-
-        let movieList
-        movieList = await callMovieList(state.pageNum, state.searchBarText)
-
-        // 영화 20개
-        removeMovieSkeletonUIList(movieDisplay)
-        addMovieList(movieDisplay, movieList)
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(async (entry) => {
+            if (entry.isIntersecting) {
+                await movieViewFlow(state, movieDisplay)
+                const target = document.querySelector('.thumbnail-list > li:last-child')
+                observer.observe(target as HTMLElement)
+                observer.unobserve(entry.target)
+            }
+        })
     })
+    observer.observe(firstTarget as HTMLElement)
+
+    // const displayMoreBtn = document.querySelector('.display-more-btn')
+    // displayMoreBtn?.addEventListener('click', async () => {
+    //     state.pageNum++
+
+    //     addMovieSkeletonUIList(movieDisplay)
+
+    //     let movieList
+    //     movieList = await callMovieList(state.pageNum, state.searchBarText)
+
+    //     // 영화 20개
+    //     removeMovieSkeletonUIList(movieDisplay)
+    //     addMovieList(movieDisplay, movieList)
+    // })
+}
+
+export const movieViewFlow = async (state: State, movieDisplay: HTMLUListElement) => {
+    state.pageNum++
+
+    addMovieSkeletonUIList(movieDisplay)
+
+    let movieList
+    movieList = await callMovieList(state.pageNum, state.searchBarText)
+
+    removeMovieSkeletonUIList(movieDisplay)
+    addMovieList(movieDisplay, movieList)
 }
 
 const updateMyStarRate = (value: string) => {
