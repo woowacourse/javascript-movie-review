@@ -20,7 +20,7 @@ export default class MovieCard {
         <div class="item-desc">
           <p class="rate">
             <img src="${starImg}" class="star" />
-            <span>${this.movie.vote_average.toFixed(1)}</span>
+            <span>${(this.movie.vote_average ?? 0).toFixed(1)}</span>
           </p>
           <strong>${this.movie.title}</strong>
         </div>
