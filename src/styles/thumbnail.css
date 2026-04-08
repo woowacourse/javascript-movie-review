@@ -1,0 +1,72 @@
+@import "./colors.css";
+
+.thumbnail-list {
+  margin: 0 auto 3.5rem;
+  display: grid;
+  grid-template-columns: repeat(5, 200px);
+  gap: 4.375rem;
+}
+
+@media screen and (max-width: 1310px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media screen and (max-width: 1080px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.thumbnail {
+  width: 200px;
+  height: 300px;
+  border-radius: 8px;
+}
+
+.item {
+  user-select: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+.item-desc {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  font-family: Inter, sans-serif;
+  font-weight: 700;
+  font-size: 1.25rem;
+  line-height: 100%;
+  letter-spacing: 0%;
+}
+
+.item-desc > *:not(:last-child) {
+  position: relative;
+  margin-bottom: 0.25rem;
+  line-height: 1.2rem;
+}
+
+p.rate {
+  display: flex;
+  align-items: baseline;
+  color: var(--color-yellow);
+}
+
+p.rate > span {
+  margin-left: 0.25rem;
+}
+
+.item .star {
+  width: 16px;
+  top: 1px;
+}
