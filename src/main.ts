@@ -22,6 +22,8 @@ function init() {
   modalView.bindMovieClick((clickedMovieId: string) => {
     handleModal(clickedMovieId);
   });
+
+  modalView.bindCloseModalClick();
 }
 
 init();
