@@ -13,6 +13,9 @@ const backgroundContainer = document.querySelector(
   ".background-container",
 ) as HTMLElement;
 const movieCard = document.querySelector(".thumbnail-list") as HTMLUListElement;
+const modalContainer = document.querySelector(
+  ".container",
+) as HTMLButtonElement;
 
 addEventListener("load", async () => {
   // 초기 렌더링
@@ -75,4 +78,15 @@ movieCard.addEventListener("click", async (e: MouseEvent) => {
   }
 
   await controlModal(movieId);
+});
+
+modalContainer.addEventListener("click", async (e: MouseEvent) => {
+  const target = e.target as HTMLElement;
+  const modalBackground = target.closest(".modal-background") as HTMLElement;
+
+  if (!modalBackground) {
+    return;
+  }
+
+  modalBackground.classList.remove("active");
 });
