@@ -5,6 +5,7 @@ import {
   getMoviePopular,
   getTopRatedMovie,
   getSearchMovie,
+  getMovieMovieId,
 } from "./services/api";
 
 import {
@@ -17,6 +18,9 @@ import {
   removeMovieList,
 } from "./renders/movieList";
 import { renderSkeleton, removeSkeleton } from "./renders/skeleton";
+
+import { renderDetailModal } from "./renders/detailModal";
+
 import PageState from "./states/PageState";
 
 const pageState = new PageState();
@@ -112,6 +116,13 @@ const handleSearch = () => {
   removeMovieList();
   runSearch();
 };
+
+export const handleDetail = (id: number) => {
+  (async () => {
+    const movieInfo = await getMovieMovieId({id});
+    renderDetailModal(movieInfo);
+  })();
+}
 
 const errorTryCatch = async (api: Function, errorCallback: Function) => {
   try {
