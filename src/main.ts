@@ -3,6 +3,8 @@ import { handleLoadMore } from "./controller/handleLoadMore";
 import { handleSearch } from "./controller/handleSearch";
 import { searchView } from "./view/searchView";
 import { addButtonView } from "./view/addButtonView";
+import { modalView } from "./view/modalView";
+import { handleModal } from "./controller/handleModal";
 
 function init() {
   addEventListener("load", () => {
@@ -15,6 +17,10 @@ function init() {
 
   searchView.bindSearchSubmit((keyword: string) => {
     handleSearch(keyword);
+  });
+
+  modalView.bindMovieClick((clickedMovieId: string) => {
+    handleModal(clickedMovieId);
   });
 }
 
