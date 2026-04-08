@@ -18,7 +18,7 @@ export const movieListTemplate = {
   `,
   movieList: (item: Movies) => 
     /*html*/ `
-      <li id="${escapeHTML(item.id)}">
+      <li class="movie" id="${escapeHTML(item.id)}">
         <div class="item">
           <img
             class="thumbnail"
