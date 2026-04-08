@@ -27,7 +27,7 @@ export const addMovieList = (movieDisplay: HTMLUListElement, movieList: Movie[])
       <div class="item-desc">
         <p class="rate">
           <img class="star" src="${star_empty}" />
-          <span class="vote-average">${movie.vote_average.toFixed(1)}</span>
+          <span class="vote-average">${(movie.vote_average ?? 0).toFixed(1)}</span>
         </p>
         <strong id="title">${movie.title}</strong>
       </div>
@@ -70,7 +70,7 @@ export const showBackgroundMovieInfo = (movie: Movie) => {
             <div class="top-rated-movie">
               <div class="rate">
                 <img src="${star_empty}" class="star" />
-                <span class="rate-value">${movie.vote_average.toFixed(1)}</span>
+                <span class="rate-value">${(movie.vote_average ?? 0).toFixed(1)}</span>
               </div>
               <div class="title">${movie.title}</div>
             </div> 
