@@ -1,6 +1,6 @@
 import { API_PATH, BASE_URL, DEFAULT_LANGUAGE } from "../constants/constant";
 
-import type { FetchMoviePageDataResponse, RequestOptions } from "./apiTypes";
+import type { MovieListResponse } from "./apiTypes";
 
 import type { Movie } from "../../types/movie";
 
@@ -19,15 +19,7 @@ export const createMovieApiUrl = (page: number, query: string): URL => {
   return url;
 };
 
-export const createRequestOptions = (): RequestOptions => ({
-  method: "GET",
-  headers: {
-    accept: "application/json",
-    Authorization: `Bearer ${import.meta.env.VITE_TMDB_API_KEY}`,
-  },
-});
-
-export const mapFetchMoviePageDataResponse = (data: any): FetchMoviePageDataResponse => {
+export const mapMovieListResponse = (data: any): MovieListResponse => {
   const movies: Movie[] = data.results.map((movie: any): Movie => {
     return {
       id: movie.id,
