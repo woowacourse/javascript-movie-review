@@ -4,7 +4,7 @@ describe("영화 검색 기능 테스트", () => {
   beforeEach(() => {
     cy.intercept(
       "GET",
-      "**/search/movie?page=1&query=%EC%8A%A4%ED%8C%8C%EC%9D%B4",
+      "**/search/movie?page=1&query=%EC%8A%A4%ED%8C%8C%EC%9D%B4&language=ko-KR",
       {
         statusCode: 200,
         body: {
@@ -18,7 +18,7 @@ describe("영화 검색 기능 테스트", () => {
 
     cy.intercept(
       "GET",
-      "**/search/movie?page=2&query=%EC%8A%A4%ED%8C%8C%EC%9D%B4",
+      "**/search/movie?page=2&query=%EC%8A%A4%ED%8C%8C%EC%9D%B4&language=ko-KR",
       {
         statusCode: 200,
         body: {
@@ -30,15 +30,19 @@ describe("영화 검색 기능 테스트", () => {
       },
     ).as("getSearchPage2");
 
-    cy.intercept("GET", "**/search/movie?page=1&query=%EB%B7%80", {
-      statusCode: 200,
-      body: {
-        page: 1,
-        results: [],
-        total_pages: 1,
-        total_results: 0,
+    cy.intercept(
+      "GET",
+      "**/search/movie?page=1&query=%EB%B7%80&language=ko-KR",
+      {
+        statusCode: 200,
+        body: {
+          page: 1,
+          results: [],
+          total_pages: 1,
+          total_results: 0,
+        },
       },
-    }).as("getSearchNoResult");
+    ).as("getSearchNoResult");
 
     cy.visit("localhost:5173");
   });

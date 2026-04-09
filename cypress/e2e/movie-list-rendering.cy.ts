@@ -2,7 +2,7 @@ import { moviesFixture } from "../../test/fixtures";
 
 describe("영화 목록 조회 기능 테스트", () => {
   beforeEach(() => {
-    cy.intercept("GET", "**/movie/popular?page=1", {
+    cy.intercept("GET", "**/movie/popular?page=1&language=ko-KR", {
       statusCode: 200,
       body: {
         page: 1,
@@ -12,7 +12,7 @@ describe("영화 목록 조회 기능 테스트", () => {
       },
     }).as("getPopularPage1");
 
-    cy.intercept("GET", "**/movie/popular?page=2", {
+    cy.intercept("GET", "**/movie/popular?page=2&language=ko-KR", {
       statusCode: 200,
       body: {
         page: 2,
