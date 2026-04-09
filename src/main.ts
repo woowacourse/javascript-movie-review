@@ -165,6 +165,25 @@ addEventListener("load", async () => {
   const moreButton = document.querySelector("#more-button");
   moreButton?.addEventListener("click", handleMoreMovie);
 
+  document.addEventListener('scroll', () => {
+    const movieList = document.querySelector<HTMLUListElement>("#movie-list");
+    if(!movieList) return;
+
+    const { scrollY } = window;
+
+    const { top, height } = movieList.getBoundingClientRect();
+    const { pageYOffset } = window;
+    const offsetBottom = pageYOffset + top +  height;
+
+    const windowInnerHeight = window.innerHeight;
+
+    const isBottom = scrollY + windowInnerHeight >= offsetBottom;
+
+    if(isBottom){
+      handleMoreMovie();
+    }
+  });
+
   const searchButton = document.querySelector("#search-button");
   searchButton?.addEventListener("click", () => {
     handleSearch();
