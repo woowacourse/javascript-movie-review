@@ -4,7 +4,7 @@ describe('infinite scroll test', () => {
     })
 
     it('스크롤을 내리면 추가 영화 목록을 불러온다.', () => {
-        cy.visit('https://javascript-movie-review-dvlk.vercel.app/')
+        cy.visit('https://javascript-movie-review-dvlk-a6xn5spuo-yun-cics-projects.vercel.app/')
 
         cy.get('.thumbnail-list li').should('have.length', 20)
 
