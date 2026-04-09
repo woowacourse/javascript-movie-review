@@ -23,7 +23,13 @@ import { renderDetailModal, removeDetailModal, } from "./renders/detailModal";
 
 import PageState from "./states/PageState";
 
+import MovieListState from "./states/MovieListState";
+
+// 사용자 상태값
 const pageState = new PageState();
+
+// 서버 응답값
+const movieListState = new MovieListState();
 
 const loadInit = () => {
   const search = getSearchParams("search") as string;
@@ -60,7 +66,11 @@ const loadInit = () => {
         },
       );
 
-      if (movies) renderMovieList(movies);
+      if (movies) {
+        movieListState.setTotalPages(movies.total_pages);
+
+        renderMovieList(movies);
+      }
       removeSkeleton(Date.now());
     })();
   } else {
@@ -85,6 +95,8 @@ const runSearch = () => {
         alert("영화 정보를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.");
       }
     );
+
+    movieListState.setTotalPages(movies.total_pages);
 
     removeTopRatedMovie();
 
@@ -146,7 +158,11 @@ const handleMoreMovie = () => {
       },
     );
 
-    if (movies) renderMovieList(movies);
+    if (movies) {
+      movieListState.setTotalPages(movies.total_pages);
+
+      renderMovieList(movies);
+    }
   })(); 
 }
 
