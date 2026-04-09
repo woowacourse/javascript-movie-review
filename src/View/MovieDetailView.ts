@@ -38,6 +38,18 @@ class MovieDetailView {
     this.#dom.modal.addEventListener("close", () => {
       document.body.classList.remove("modal-open");
     });
+
+    this.#dom.modal.addEventListener("click", (e) => {
+      const dialogDimensions = this.#dom.modal.getBoundingClientRect();
+      if (
+        e.clientX < dialogDimensions.left ||
+        e.clientX > dialogDimensions.right ||
+        e.clientY < dialogDimensions.top ||
+        e.clientY > dialogDimensions.bottom
+      ) {
+        this.hide();
+      }
+    });
   }
 
   show() {
