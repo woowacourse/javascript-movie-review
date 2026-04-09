@@ -2,6 +2,7 @@ import { Movie } from "../../apis/movie/api";
 import { getSearchedMovies } from "../../apis/search/api";
 import { getErrorMessage } from "../../utils/getErrorMessage";
 import { getKeywordFromURL } from "../../utils/getKeywordFromURL";
+import { getPageParam, incrementPageParam } from "../../utils/pageParams";
 import { renderThumbnailList } from "./renderThumbnailList";
 
 type SearchState =
@@ -56,6 +57,17 @@ class SearchUI {
     } catch (error) {
       this.setSearchState({ type: "error", message: getErrorMessage(error) });
     }
+  }
+
+  async seeMore() {
+    const searchedMovies = await getSearchedMovies({
+      page: getPageParam() + 1,
+    });
+    incrementPageParam();
+    renderThumbnailList({
+      movies: searchedMovies.results,
+      thumbnailListElement: this.searchThumbnailList,
+    });
   }
 
   #render() {

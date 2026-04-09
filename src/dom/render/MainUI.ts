@@ -1,5 +1,6 @@
 import { getPopularMovies, Movie } from "../../apis/movie/api";
 import { getErrorMessage } from "../../utils/getErrorMessage";
+import { getPageParam, incrementPageParam } from "../../utils/pageParams";
 import { renderBanner } from "./renderBanner";
 import { renderThumbnailList } from "./renderThumbnailList";
 
@@ -53,6 +54,15 @@ class MainUI {
     } catch (error) {
       this.setMainState({ type: "error", message: getErrorMessage(error) });
     }
+  }
+
+  async seeMore() {
+    const popularMovies = await getPopularMovies({ page: getPageParam() + 1 });
+    incrementPageParam();
+    renderThumbnailList({
+      movies: popularMovies.results,
+      thumbnailListElement: this.mainThumbnailList,
+    });
   }
 
   #render() {
