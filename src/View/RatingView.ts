@@ -1,6 +1,7 @@
 import { getElementOrThrow } from "./utils";
 import FilledStarIcon from "../assets/star_filled.png";
 import EmptyStarIcon from "../assets/star_empty.png";
+import { RATING } from "../constants/raintg";
 
 class RatingView {
   #dom;
@@ -14,6 +15,7 @@ class RatingView {
       fourthStar: getElementOrThrow<HTMLImageElement>(".star-fourth"),
       fifthStar: getElementOrThrow<HTMLImageElement>(".star-fifth"),
       text: getElementOrThrow<HTMLSpanElement>(".review-text"),
+      score: getElementOrThrow<HTMLSpanElement>(".review-score"),
     };
   }
 
@@ -60,23 +62,33 @@ class RatingView {
     } else {
       this.#dom.fifthStar.src = EmptyStarIcon;
     }
-    if (savedRatingValue <= 0) {
-      this.#dom.text.textContent = "별점을 남겨보세요";
+    this.#renderText(savedRatingValue);
+  }
+
+  #renderText(savedRatingValue: number) {
+    if (savedRatingValue <= RATING.INITIAL.SCORE) {
+      this.#dom.text.textContent = RATING.INITIAL.MESSAGE;
+      this.#dom.score.textContent = `(${RATING.MIN_SCORE}/${RATING.MAX_SCORE})`;
     }
-    if (savedRatingValue === 2) {
-      this.#dom.text.textContent = "최악이에요 (2/10)";
+    if (savedRatingValue === RATING.TERRIBLE.SCORE) {
+      this.#dom.text.textContent = RATING.TERRIBLE.MESSAGE;
+      this.#dom.score.textContent = `(${RATING.TERRIBLE.SCORE}/${RATING.MAX_SCORE})`;
     }
-    if (savedRatingValue === 4) {
-      this.#dom.text.textContent = "별로예요 (4/10)";
+    if (savedRatingValue === RATING.POOR.SCORE) {
+      this.#dom.text.textContent = RATING.POOR.MESSAGE;
+      this.#dom.score.textContent = `(${RATING.POOR.SCORE}/${RATING.MAX_SCORE})`;
     }
-    if (savedRatingValue === 6) {
-      this.#dom.text.textContent = "보통이에요 (6/10)";
+    if (savedRatingValue === RATING.AVERAGE.SCORE) {
+      this.#dom.text.textContent = RATING.AVERAGE.MESSAGE;
+      this.#dom.score.textContent = `(${RATING.AVERAGE.SCORE}/${RATING.MAX_SCORE})`;
     }
-    if (savedRatingValue === 8) {
-      this.#dom.text.textContent = "재미있어요 (8/10)";
+    if (savedRatingValue === RATING.GOOD.SCORE) {
+      this.#dom.text.textContent = RATING.GOOD.MESSAGE;
+      this.#dom.score.textContent = `(${RATING.GOOD.SCORE}/${RATING.MAX_SCORE})`;
     }
-    if (savedRatingValue === 10) {
-      this.#dom.text.textContent = "명작이에요 (10/10)";
+    if (savedRatingValue === RATING.EXCELLENT.SCORE) {
+      this.#dom.text.textContent = RATING.EXCELLENT.MESSAGE;
+      this.#dom.score.textContent = `(${RATING.EXCELLENT.SCORE}/${RATING.MAX_SCORE})`;
     }
   }
 

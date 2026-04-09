@@ -99,6 +99,12 @@ body.modal-open {
   font-weight: 600;
 }
 
+.review-score {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--color-bluegray-10);
+}
+
 .review-star {
   width: 32px;
   height: 32px;
