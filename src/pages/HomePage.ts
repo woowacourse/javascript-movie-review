@@ -5,7 +5,7 @@ import Footer from '../components/footer/Footer.ts';
 import { fetchMovieDetails, fetchPopularMovies } from '../api/fetchApi.ts';
 import { ResponseMovie } from '../api/types.ts';
 import TMDBError from '../api/TMDBError.ts';
-import { dispatchRouteChange } from '../utils/event.ts';
+import { CUSTOM_EVENT, dispatchRouteChange } from '../utils/event.ts';
 import Modal from '../components/modal/Modal.ts';
 
 export default class HomePage {
@@ -25,6 +25,8 @@ export default class HomePage {
 
     this.#$fragment.append(this.#header.$element, this.#main.$element, this.#footer.$element);
 
+    window.addEventListener(CUSTOM_EVENT.SCROOL_END, () => this.#loadMore());
+
     this.#initialFetch();
   }
 
@@ -42,26 +44,22 @@ export default class HomePage {
   }
 
   async #loadMore() {
-    this.#main.removeMoreButton();
     this.#page += 1;
     await this.#appendMovies();
   }
 
   async #appendMovies(): Promise<ResponseMovie> {
-    this.#main.renderSkeletons();
+    this.#main.renderSkeletons(this.#page);
     try {
       const response = await fetchPopularMovies(this.#page);
-      this.#main.renderMovies(response.results);
+      this.#main.renderMovies(response.results, this.#page);
 
-      if (this.#page < response.total_pages) {
-        this.#main.renderMoreButton(() => this.#loadMore());
-      }
       return response;
     } catch (error) {
       this.#handleError(error);
       throw error;
     } finally {
-      this.#main.removeSkeletons();
+      this.#main.removeSkeletons(this.#page);
     }
   }
 

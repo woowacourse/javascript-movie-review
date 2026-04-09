@@ -2,7 +2,6 @@ import { getOriginalImageUrl } from '../../api/renderImage';
 import { MovieDetail } from '../../api/types';
 import LocalStorage from '../../storage/LocalStorage';
 import { $ } from '../../utils/dom';
-import { Rate } from '../common/Rate';
 import { Star } from '../common/Star';
 import SubmitRate from './SubmitRate';
 

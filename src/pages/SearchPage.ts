@@ -5,16 +5,19 @@ import Footer from '../components/footer/Footer.ts';
 import { fetchMovieDetails, fetchSearchMovies } from '../api/fetchApi.ts';
 import { ResponseMovie } from '../api/types.ts';
 import TMDBError from '../api/TMDBError.ts';
-import { dispatchRouteChange } from '../utils/event.ts';
+import { CUSTOM_EVENT, dispatchRouteChange } from '../utils/event.ts';
 import Modal from '../components/modal/Modal.ts';
 
 export default class SearchPage {
   #$fragment: DocumentFragment;
-  #page: number = 1;
+  #page: number;
+  #totalPage: number;
   #main: Main;
   #$modal: Modal;
 
   constructor(modal: Modal) {
+    this.#page = 1;
+    this.#totalPage = 1;
     this.#$modal = modal;
 
     this.#$fragment = document.createDocumentFragment();
@@ -24,7 +27,7 @@ export default class SearchPage {
     const footer = new Footer();
 
     this.#$fragment.append(header.$element, this.#main.$element, footer.$element);
-
+    window.addEventListener(CUSTOM_EVENT.SCROOL_END, () => this.#loadMore());
     this.#initialFetch();
   }
 
@@ -47,34 +50,31 @@ export default class SearchPage {
   }
 
   async #loadMore() {
-    this.#main.removeMoreButton();
     this.#page += 1;
     await this.#appendMovies();
   }
 
-  async #appendMovies(): Promise<ResponseMovie> {
-    this.#main.renderSkeletons();
+  async #appendMovies(): Promise<ResponseMovie | void> {
+    this.#main.renderSkeletons(this.#page);
 
     try {
+      if (this.#page > this.#totalPage) return;
       const response = await fetchSearchMovies(this.#getQuery(), this.#page);
-
+      this.#totalPage = response.total_pages;
       if (response.results.length === 0) {
         this.#main.renderNothing();
         return response;
       }
 
-      this.#main.renderMovies(response.results);
-
-      if (this.#page < response.total_pages) {
-        this.#main.renderMoreButton(() => this.#loadMore());
-      }
+      console.log(response);
+      this.#main.renderMovies(response.results, this.#page);
 
       return response;
     } catch (error) {
       this.#handleError(error);
       throw error;
     } finally {
-      this.#main.removeSkeletons();
+      this.#main.removeSkeletons(this.#page);
     }
   }
 

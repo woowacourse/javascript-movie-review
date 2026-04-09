@@ -1,7 +1,6 @@
 import { MovieData } from '../../api/types.ts';
 import { $ } from '../../utils/dom.ts';
 import { Error } from './Error.ts';
-import { MoreButton } from './MoreButton.ts';
 import { MovieItem } from './MovieItem.ts';
 import { MovieItemSkeleton } from './MovieItemSkeleton.ts';
 import { NothingResult } from './NothingResult.ts';
@@ -9,10 +8,11 @@ import { NothingResult } from './NothingResult.ts';
 export default class Main {
   #$element: HTMLElement;
   #$list: HTMLElement;
-  #$skeletons: HTMLElement[] = [];
-  #$moreButton: HTMLElement | null;
+  #$skeletons: Map<string, HTMLElement[]>;
 
   constructor(title: string, onDetail: (movie_id: number) => void) {
+    this.#$skeletons = new Map<string, HTMLElement[]>();
+
     this.#$element = document.createElement('div');
     this.#$element.className = 'container';
     this.#$element.innerHTML = `
@@ -24,7 +24,6 @@ export default class Main {
       </main>
     `;
     this.#$list = $<HTMLElement>(this.#$element, '.thumbnail-list');
-    this.#$moreButton = null;
 
     const $ul = $(this.#$element, 'ul');
     $ul.addEventListener('click', (e) => {
@@ -38,31 +37,28 @@ export default class Main {
     return this.#$element;
   }
 
-  renderMovies(movies: MovieData[]) {
-    this.removeSkeletons();
+  renderMovies(movies: MovieData[], page: number) {
+    this.removeSkeletons(page);
     const $fragment = new DocumentFragment();
     movies.forEach((movie) => $fragment.append(MovieItem(movie)));
     this.#$list.append($fragment);
   }
 
-  renderSkeletons(length: number = 20) {
-    this.#$skeletons = Array.from({ length }, () => MovieItemSkeleton());
-    this.#$skeletons.forEach(($skeleton) => this.#$list.append($skeleton));
+  renderSkeletons(page: number, length: number = 20) {
+    if (this.#$skeletons.has(String(page))) {
+      this.removeSkeletons(page);
+    }
+    const $newSkeletons = Array.from({ length }, () => MovieItemSkeleton());
+    $newSkeletons.forEach(($skeleton) => this.#$list.append($skeleton));
+    this.#$skeletons.set(String(page), $newSkeletons);
   }
 
-  removeSkeletons() {
-    this.#$skeletons.forEach(($skeleton) => $skeleton.remove());
-    this.#$skeletons = [];
-  }
-
-  renderMoreButton(onClick: () => void) {
-    this.#$moreButton = MoreButton(onClick);
-    $<HTMLElement>(this.#$element, 'section').append(this.#$moreButton);
-  }
-
-  removeMoreButton() {
-    this.#$moreButton?.remove();
-    this.#$moreButton = null;
+  removeSkeletons(page: number) {
+    if (!this.#$skeletons.has(String(page))) {
+      return;
+    }
+    const $skeletonList = this.#$skeletons.get(String(page));
+    $skeletonList?.forEach(($skeleton) => $skeleton.remove());
   }
 
   renderError(messsage: string) {

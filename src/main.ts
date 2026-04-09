@@ -1,7 +1,7 @@
 import Modal from './components/modal/Modal.ts';
 import HomePage from './pages/HomePage.ts';
 import SearchPage from './pages/SearchPage.ts';
-import { ROUTE_CHANGE_EVENT } from './utils/event.ts';
+import { CUSTOM_EVENT, scrollEvent } from './utils/event.ts';
 
 const routes = [
   { path: '/', view: HomePage },
@@ -27,10 +27,17 @@ const navigateTo = (url: string) => {
   location.hash = url;
 };
 
-window.addEventListener(ROUTE_CHANGE_EVENT, (e: Event) => {
+window.addEventListener(CUSTOM_EVENT.ROUTE_CHANGE, (e: Event) => {
   const customEvent = e as CustomEvent<{ url: string }>;
   const { url } = customEvent.detail;
   navigateTo(url);
+});
+
+window.addEventListener('scroll', () => {
+  const isScrollEnded = window.innerHeight + window.scrollY + 400 >= document.body.offsetHeight;
+  if (isScrollEnded) {
+    scrollEvent();
+  }
 });
 
 addEventListener('load', () => {
@@ -41,5 +48,6 @@ addEventListener('load', () => {
   $body.append(modal.$element);
 
   window.addEventListener('hashchange', () => router(modal));
+
   router(modal);
 });
