@@ -131,9 +131,10 @@ button.primary {
   margin-bottom: 8px;
 }
 
-h1.logo {
+button.logo {
   font-size: 2rem;
   cursor: pointer;
+  background: none;
 }
 
 .search {

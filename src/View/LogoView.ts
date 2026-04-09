@@ -1,7 +1,7 @@
 import { getElementOrThrow } from "./utils";
 
 interface LogoViewDomType {
-  logo: HTMLHeadingElement;
+  logo: HTMLButtonElement;
 }
 
 class LogoView {
@@ -9,7 +9,7 @@ class LogoView {
 
   constructor() {
     this.#dom = {
-      logo: getElementOrThrow<HTMLHeadingElement>(".logo"),
+      logo: getElementOrThrow<HTMLButtonElement>(".logo"),
     };
   }
 
