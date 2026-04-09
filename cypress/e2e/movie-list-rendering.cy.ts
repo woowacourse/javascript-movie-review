@@ -50,7 +50,7 @@ describe("영화 목록 조회 기능 테스트", () => {
 
       cy.scrollTo('bottom', { duration: 500 });
 
-      cy.get("#movie-list li").should("have.length.greaterThan", prevLength);
+      cy.get("#movie-list li").should("have.length", prevLength);
     });
   });
 });
