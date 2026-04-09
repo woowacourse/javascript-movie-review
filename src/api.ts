@@ -66,12 +66,12 @@ export async function getPopularMovies(arg: {
 export async function getSearchMovies(arg: {
   query: string;
   pageNum: number;
-  onSuccess: (data: MoviesResponse) => void;
+  onSuccess?: (data: MoviesResponse) => void;
   onError: (error: Error) => void;
   onLoading: () => void;
 }) {
   const { query, pageNum, onSuccess, onError, onLoading } = arg;
-  fetcher<MoviesResponse>({
+  return fetcher<MoviesResponse>({
     fn: async () => {
       const url = new URL(API_PATH.SEARCH_MOVIE);
       url.searchParams.set("query", query);

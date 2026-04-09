@@ -1,7 +1,10 @@
 import { getPopularMovies, getSearchMovies } from "./api.ts";
 import { observeHeaderScroll } from "./observer.ts";
 import MovieState from "./state/business/movieState.ts";
-import { setupLoadMoreInteraction } from "./ui/business/interactor.ts";
+import {
+  setupLoadMoreInteraction,
+  setupSearchInteraction,
+} from "./ui/business/interactor.ts";
 import {
   paintClearBanner,
   paintEmptyResult,
@@ -14,8 +17,6 @@ import {
   paintPrepareSearch,
   paintResetList,
 } from "./ui/business/painter.ts";
-import { getSearchFormElement } from "./ui/domain/movieElement.ts";
-
 const ONCE_MOVIE_LIMIT = 20;
 const INITIAL_PAGE_NUM = 1;
 
@@ -44,6 +45,7 @@ export async function loadInitialMovie() {
   }
 
   setupLoadMoreInteraction(loadMoreMovies);
+  setupSearchInteraction(loadSearchMovies);
   paintLoadMoreButtonStatus(page !== total_pages);
 }
 
@@ -110,13 +112,3 @@ export async function loadMoreSearchMovies(query: string) {
   paintLoadMoreButtonStatus(page !== total_pages);
   paintMovieList(movies);
 }
-
-const searchForm = getSearchFormElement();
-searchForm?.addEventListener("submit", (event) => {
-  event.preventDefault();
-  const input = searchForm.querySelector("input");
-  if (input) {
-    const searchValue = input.value;
-    loadSearchMovies(searchValue);
-  }
-});
