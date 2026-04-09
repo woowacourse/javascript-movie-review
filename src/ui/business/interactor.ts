@@ -10,7 +10,7 @@ export const setupSearchInteraction = (onSearch: (query: string) => void) => {
     handler: (event) => {
       event.preventDefault();
       const form = event.target as HTMLFormElement;
-      const input = form.querySelector<HTMLInputElement>("input");
+      const input = form.querySelector<HTMLInputElement>("input"); //TODO: 계층화 필요
       if (input) {
         onSearch(input.value);
       }

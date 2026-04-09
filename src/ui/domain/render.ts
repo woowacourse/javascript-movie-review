@@ -1,13 +1,12 @@
+import { Movie } from "../../apis/dtos.ts";
+import Component from "../utils/component.ts";
 import {
   getBannerElement,
   getEmptyResultElement,
-  getLoadMoreButtonElement,
   getMovieListElement,
   getSectionElement,
   getSectionHeadingElement,
 } from "./movieElement";
-import Component from "../utils/component.ts";
-import { Movie } from "../../apis/dtos.ts";
 
 const Renderer = {
   renderSectionHeading() {
@@ -85,6 +84,10 @@ const Renderer = {
       })
       .map((child) => child.outerHTML)
       .join("");
+  },
+
+  renderInView(parent: Element) {
+    parent.innerHTML += Component.inView();
   },
 };
 

@@ -1,5 +1,7 @@
 import { getElementBySelector } from "../utils/elementGetter";
 
+export const getHeaderElement = () => getElementBySelector("header");
+
 export const getMainElement = () => getElementBySelector("main");
 
 export const getMovieListElement = () =>
@@ -19,3 +21,9 @@ export const getSectionHeadingElement = () =>
 
 export const getEmptyResultElement = () =>
   getElementBySelector(".empty-result");
+
+export const getTopRatedMovieElement = () =>
+  getElementBySelector(".top-rated-movie");
+
+export const getBackgroundContainerElement = () =>
+  getElementBySelector(".background-container");

@@ -66,3 +66,8 @@ export const paintPrepareSearch = (query: string, skeletonCount: number) => {
   paintInitialLoading(skeletonCount);
   paintSearchSectionHeading(query);
 };
+
+export const paintInView = () => {
+  const section = getSectionElement();
+  if (section) Renderer.renderInView(section);
+};

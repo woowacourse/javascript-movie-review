@@ -78,6 +78,12 @@ const Component = {
       </div>
     `;
   },
+
+  inView() {
+    return `
+    <div class="load-more-inView"></div>
+    `;
+  },
 };
 
 export default Component;
