@@ -21,7 +21,7 @@ export const makeMovieThumbnail = (movie: ThumbnailInfo) => {
   list.className = "thumbnail-container";
   list.dataset.movieId = movie.id.toString();
 
-  const item = document.createElement("div");
+  const item = document.createElement("button");
   item.className = "item";
 
   const thumbnail = document.createElement("img");
