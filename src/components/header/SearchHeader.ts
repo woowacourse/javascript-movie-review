@@ -13,7 +13,8 @@ export default class SearchHeader {
       </div>
     `;
 
-    $<HTMLElement>(this.#$element, '.search-container').append(Logo(), SearchForm(onSubmit));
+    const $justLayout = document.createElement('div');
+    $<HTMLElement>(this.#$element, '.search-container').append(Logo(), SearchForm(onSubmit), $justLayout);
   }
 
   get $element() {

@@ -126,6 +126,7 @@ button.primary {
 
 h1.logo {
   font-size: 2rem;
+  width: 175px;
 }
 
 .rate {
@@ -295,6 +296,11 @@ form {
     height: 36px;
   }
 
+  h1.logo {
+    width: 100%;
+    text-align: center;
+  }
+
   section h2 {
     text-align: center;
   }
@@ -303,10 +309,17 @@ form {
     min-height: 300px;
     width: 100%;
   }
-  .top-rated-container {
+  .top-rated-container,
+  .search-container {
     display: flex;
     flex-direction: column;
     justify-items: center;
     align-items: center;
+  }
+}
+
+@media (max-width: 390px) {
+  .search-wrap {
+    width: 200px;
   }
 }
