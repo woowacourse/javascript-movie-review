@@ -17,6 +17,9 @@ class MainUI {
   emptyContainer = document.getElementById("empty-container");
   errorContainer = document.getElementById("error-container");
   bannerContainer = document.getElementById("background-container");
+  errorMessageContent = document.querySelector(
+    "#error-container p",
+  ) as HTMLParagraphElement;
 
   constructor() {
     this.#render();
@@ -34,6 +37,7 @@ class MainUI {
     this.emptyContainer?.classList.add("hidden");
     this.errorContainer?.classList.add("hidden");
     this.bannerContainer?.classList.add("hidden");
+    this.errorMessageContent?.classList.add("hidden");
   }
 
   async load() {
@@ -76,6 +80,7 @@ class MainUI {
 
     if (this.mainState.type === "error") {
       this.errorContainer?.classList.remove("hidden");
+      this.errorMessageContent.innerText = this.mainState.message;
     }
 
     if (this.mainState.type === "loading") {
