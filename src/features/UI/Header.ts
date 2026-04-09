@@ -27,7 +27,7 @@ export default class Header {
                   <span class="rate-value">${movie.vote_average.toFixed(1)}</span>
                 </div>
                 <div class="title">${movie.title}</div>
-                <button class="primary detail">자세히 보기</button>
+                <button class="primary detail" data-id="${movie.id}">자세히 보기</button>
             </div>
             ${this.renderImage()}
       `;

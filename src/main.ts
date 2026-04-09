@@ -136,3 +136,17 @@ modalContainer.addEventListener("click", async (e: MouseEvent) => {
   closeModal(modalBackground);
   await controlModal(id);
 });
+
+// 자세히 보기
+backgroundContainer.addEventListener("click", async (e: MouseEvent) => {
+  const target = e.target as HTMLElement;
+  const detailButton = target.closest(".primary") as HTMLElement;
+
+  if (!detailButton) {
+    return;
+  }
+
+  const movieId = Number(detailButton.dataset.id);
+
+  await controlModal(movieId);
+});
