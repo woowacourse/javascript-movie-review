@@ -124,14 +124,6 @@ export const handleDetail = (id: number) => {
   })();
 }
 
-const errorTryCatch = async (api: Function, errorCallback: Function) => {
-  try {
-    return await api();
-  } catch (e) {
-    errorCallback(e);
-  }
-};
-
 const handleMoreMovie = () => {
   pageState.increamentPage();
   const isSearchParams = hasSearchParams("search");
@@ -157,6 +149,14 @@ const handleMoreMovie = () => {
     if (movies) renderMovieList(movies);
   })(); 
 }
+
+const errorTryCatch = async (api: Function, errorCallback: Function) => {
+  try {
+    return await api();
+  } catch (e) {
+    errorCallback(e);
+  }
+};
 
 addEventListener("load", async () => {
 
