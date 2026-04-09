@@ -57,7 +57,7 @@ backgroundContainer.addEventListener("click", async (e: MouseEvent) => {
 
 // 무한 스크롤
 window.addEventListener("scroll", async () => {
-  if (window.innerHeight + window.scrollY >= document.body.scrollHeight) {
+  if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 1) {
     page += 1;
     await controlMoreMovies(page, searchMovie);
   }
