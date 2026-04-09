@@ -313,6 +313,10 @@ strong[class="title"] {
   font-size: 3rem;
   font-weight: 500;
 }
+
+.error-container {
+  margin-bottom: 5rem;
+}
 .error-container[hidden] {
   display: none;
 }

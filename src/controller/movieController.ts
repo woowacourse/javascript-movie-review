@@ -28,6 +28,7 @@ export const createMovieController = (state: State) => ({
       await loadMovies({ state });
     } catch (error) {
       state.pageNum -= 1;
+      window.scrollTo({ top: 0 });
       showErrorText("영화를 추가로 불러오지 못했습니다.");
     }
   },

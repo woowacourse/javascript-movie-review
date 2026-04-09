@@ -62,12 +62,35 @@ describe("에러 메시지 흐름", () => {
     cy.visit("http://localhost:5173");
     cy.wait("@getPopularMovies");
 
-    cy.get(".display-more-btn").click();
+    cy.scrollTo("bottom");
     cy.wait("@getPopularMovies");
 
     cy.get(".error-text").should(
       "contain.text",
       "영화를 추가로 불러오지 못했습니다.",
     );
+  });
+  it("모달을 띄울 시 영화 상세 정보 요청이 실패하면 상세 정보 에러 메시지를 보여준다.", () => {
+    mockPopularMovies({
+      1: createMoviePage("인기 영화", 1),
+    });
+
+    cy.intercept("GET", /\/movie\/\d+\?/, {
+      statusCode: 500,
+      body: {},
+    }).as("getMovieDetail");
+
+    cy.visit("http://localhost:5173");
+    cy.wait("@getPopularMovies");
+
+    cy.get(".thumbnail-list li").first().find(".thumbnail").click();
+    cy.wait("@getMovieDetail");
+
+    cy.get(".error-text").should(
+      "contain.text",
+      "영화 상세 정보를 불러오지 못했습니다.",
+    );
+
+    cy.get(".modal-background").should("not.have.class", "active");
   });
 });
