@@ -137,6 +137,11 @@ export const handleDetail = (id: number) => {
 }
 
 const handleMoreMovie = () => {
+  const totalPages = movieListState.getTotalPages();
+  const page = pageState.getPage();
+
+  if(totalPages === page) return;
+
   pageState.increamentPage();
   const isSearchParams = hasSearchParams("search");
 
