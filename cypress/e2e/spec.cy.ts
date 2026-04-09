@@ -23,11 +23,11 @@ describe('영화 리뷰 앱 E2E 테스트', () => {
       cy.get('.thumbnail-list > li').should('have.length', 20);
     });
 
-    it('더보기 버튼을 누르면 다음 페이지의 영화 20개를 추가로 렌더링한다.', () => {
+    it('스크롤을 내리면 다음 페이지의 영화 20개를 추가로 렌더링한다.', () => {
       cy.visit('http://localhost:5175/');
       cy.wait('@getPopularMovies');
 
-      cy.get('.more-button').click();
+      cy.scrollTo('bottom');
       cy.wait('@getNextPopularMovies');
 
       cy.get('.thumbnail-list > li').should('have.length', 40);
