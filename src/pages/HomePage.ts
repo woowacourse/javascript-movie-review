@@ -6,6 +6,7 @@ import { fetchMovieDetails, fetchPopularMovies } from '../api/fetchApi.ts';
 import { ResponseMovie } from '../api/types.ts';
 import TMDBError from '../api/TMDBError.ts';
 import { dispatchRouteChange } from '../utils/event.ts';
+import Modal from '../components/modal/Modal.ts';
 
 export default class HomePage {
   #$fragment: DocumentFragment;
@@ -13,10 +14,11 @@ export default class HomePage {
   #header: Header;
   #main: Main;
   #footer: Footer;
+  #$modal: Modal;
 
-  constructor() {
+  constructor(modal: Modal) {
+    this.#$modal = modal;
     this.#$fragment = document.createDocumentFragment();
-
     this.#header = new Header(this.#onSubmit);
     this.#main = new Main('지금 인기있는 영화');
     this.#footer = new Footer();
@@ -83,11 +85,13 @@ export default class HomePage {
     }
   };
 
-  async #onDetail(movie_id: number) {
+  #onDetail = async (movie_id: number) => {
     try {
-      console.log(movie_id);
-      const response = await fetchMovieDetails(movie_id);
-      console.log(response);
-    } catch {}
-  }
+      console.log(this.#$modal);
+      const movie = await fetchMovieDetails(movie_id);
+      this.#$modal.open(movie);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 }
