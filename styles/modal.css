@@ -86,3 +86,8 @@ body.modal-open {
   max-height: 430px;
   overflow-y: auto;
 }
+
+.average-info {
+  color: var(--color-white);
+  margin-right: 4px;
+}

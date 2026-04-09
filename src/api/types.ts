@@ -16,6 +16,7 @@ export type MovieDetail = {
   poster_path: string;
   genres: Genres[];
   vote_average: string;
+  release_date: string;
 };
 
 export type ResponseMovie = {

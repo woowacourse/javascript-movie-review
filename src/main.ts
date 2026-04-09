@@ -1,3 +1,4 @@
+import Modal from './components/modal/Modal.ts';
 import HomePage from './pages/HomePage.ts';
 import SearchPage from './pages/SearchPage.ts';
 import { ROUTE_CHANGE_EVENT } from './utils/event.ts';
@@ -7,18 +8,18 @@ const routes = [
   { path: '/search', view: SearchPage },
 ];
 
-const router = () => {
+const router = (modal: Modal) => {
   const $app = document.querySelector('#app');
   if (!$app) return;
 
   $app.innerHTML = '';
-
   const fullHash = location.hash.replace('#', '') || '/';
   const [path, _] = fullHash.split('?');
   const match = routes.find((route) => route.path === path);
 
   const View = match ? match.view : HomePage;
-  const page = new View();
+  const page = new View(modal);
+
   $app.replaceChildren(page.$element);
 };
 
@@ -33,6 +34,12 @@ window.addEventListener(ROUTE_CHANGE_EVENT, (e: Event) => {
 });
 
 addEventListener('load', () => {
-  window.addEventListener('hashchange', router);
-  router();
+  const $body = document.querySelector('body');
+  if (!$body) return;
+
+  const modal = new Modal($body);
+  $body.append(modal.$element);
+
+  window.addEventListener('hashchange', () => router(modal));
+  router(modal);
 });
