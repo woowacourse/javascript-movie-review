@@ -6,7 +6,7 @@ import {
   renderSearchEmpty,
   renderSearchError,
 } from "./renderResultSectionContent";
-import { renderThumbnailList } from "./renderThumbnailList";
+import { renderThumbnailList } from "../shared/ThumbnailList";
 import { renderLoadingUI } from "./renderLoadingUI.ts";
 
 export const renderSearchUI = async (keyword: string) => {
@@ -14,6 +14,8 @@ export const renderSearchUI = async (keyword: string) => {
     "search-input",
   ) as HTMLInputElement;
   const thumbnailListElement = document.getElementById("search-thumbnail-list");
+  if (!thumbnailListElement) return;
+
   searchInput.value = keyword;
 
   let isError = false;
@@ -34,7 +36,7 @@ export const renderSearchUI = async (keyword: string) => {
 
     isLastPage = searchResult.page === searchResult.total_pages;
     movies = searchResult.results;
-    renderThumbnailList({ movies, thumbnailListElement });
+    renderThumbnailList(thumbnailListElement, movies);
   } catch (error) {
     isError = true;
     errorMessage = "🚨알 수 없는 에러가 발생했습니다.🚨";
