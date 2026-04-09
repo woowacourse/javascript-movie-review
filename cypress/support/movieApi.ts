@@ -1,10 +1,4 @@
-type MockMovie = {
-  id: number;
-  title: string;
-  poster_path: string;
-  backdrop_path: string;
-  vote_average: number;
-};
+import { MockMovie } from "./types";
 
 export const createMovie = (id: number, title: string): MockMovie => ({
   id,
