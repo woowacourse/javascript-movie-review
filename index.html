@@ -1,12 +1,76 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./src/styles/index.css" />
     <title>영화 리뷰</title>
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app">
+      <header class="site-header">
+        <div class="site-header-inner">
+          <a href="./" class="logo">
+            <img src="./images/logo.png" alt="MovieList Icon" />
+          </a>
+          <form id="search-form" role="search">
+            <label class="visually-hidden" for="search-input"> 영화 검색어 입력 </label>
+            <div id="search-input-container">
+              <input type="text" name="query" placeholder="검색어를 입력하세요" id="search-input" autocomplete="off" />
+              <button type="submit" id="search-button" aria-label="영화 검색">
+                <img src="./images/search-icon.png" alt="" aria-hidden="true" />
+              </button>
+            </div>
+          </form>
+        </div>
+      </header>
+
+      <section class="hero-section" id="hero-section" aria-label="대표 인기 영화">
+        <div class="hero-backdrop" id="hero-backdrop">
+          <div class="hero-overlay" aria-hidden="true"></div>
+          <div class="hero-shell">
+            <div class="hero-content">
+              <div class="hero-rate" id="hero-rate">
+                <img src="./images/star_empty.png" class="star" alt="star-rate" aria-hidden="true" />
+                <span id="hero-rate-value"></span>
+              </div>
+              <h1 class="hero-title" id="hero-title"></h1>
+              <button class="primary hero-detail-button" type="button">자세히 보기</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="container">
+        <main>
+          <section>
+            <h2 class="movie-section-title"></h2>
+            <div class="thumbnail-grid">
+              <ul class="thumbnail-list"></ul>
+              <ul class="skeleton-card"></ul>
+            </div>
+            <div class="no-result" hidden>
+              <div class="no-result-content">
+                <img class="no-result-image" src="./images/no-result-planet.png" alt="" aria-hidden="true" />
+                <p class="no-result-text">검색 결과가 없습니다.</p>
+              </div>
+            </div>
+          </section>
+          <button type="submit" id="see-more-btn">더 보기</button>
+        </main>
+      </div>
+
+      <footer class="footer">
+        <p><img src="./images/woowacourse_logo.png" width="180" /></p>
+        <p>&copy; 우아한테크코스 All Rights Reserved.</p>
+      </footer>
+    </div>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
+
+<!--
+  포스터 원본: https://image.tmdb.org/t/p/original//pmemGuhr450DK8GiTT44mgwWCP7.jpg
+  포스터 썸네일: https://media.themoviedb.org/t/p/w440_and_h660_face/pmemGuhr450DK8GiTT44mgwWCP7.jpg
+  배너 원본: https://image.tmdb.org/t/p/w1920_and_h800_multi_faces/stKGOm8UyhuLPR9sZLjs5AkmncA.jpg
+-->

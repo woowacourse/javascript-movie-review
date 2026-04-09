@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "test-unit": "vitest",
     "test-e2e": "cypress open",
-    "deploy": "vite build --base=/javascript-movie-review/ --minify=false && npx gh-pages -d dist"
+    "deploy": "vite build --base=/javascript-movie-review/ --minify=false && npx gh-pages -b main -d dist"
   },
   "repository": {
     "type": "git",
@@ -19,7 +19,7 @@
   "bugs": {
     "url": "https://github.com/woowacourse-projects/javascript-movie-review/issues"
   },
-  "homepage": "https://{username}.github.io/javascript-movie-review",
+  "homepage": "https://eastar-ds.github.io/javascript-movie-review",
   "devDependencies": {
     "@babel/core": "^7.29.0",
     "@babel/preset-env": "^7.29.0",
@@ -39,5 +39,8 @@
   "engines": {
     "npm": ">=10.8.2",
     "node": ">=20.17.0"
+  },
+  "dependencies": {
+    "simple-notify": "^1.0.6"
   }
 }
