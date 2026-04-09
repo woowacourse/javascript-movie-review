@@ -1,20 +1,20 @@
+import { removeEmptyContainer, renderEmptyContainer } from "../components/EmptyContainer";
 import { removeErrorContainer, renderErrorContainer } from "../components/ErrorContainer";
 
 const hideAll = () => {
   const skeletonList = document.getElementById("skeleton-list");
-  const emptyContainer = document.getElementById("empty-container");
   const mainThumbnailList = document.getElementById("main-thumbnail-list");
   const mainSeeMoreButton = document.getElementById("main-see-more-button");
   const searchThumbnailList = document.getElementById("search-thumbnail-list");
   const searchSeeMoreButton = document.getElementById("search-see-more-button");
 
   skeletonList?.classList.add("hidden");
-  emptyContainer?.classList.add("hidden");
   mainThumbnailList?.classList.add("hidden");
   mainSeeMoreButton?.classList.add("hidden");
   searchThumbnailList?.classList.add("hidden");
   searchSeeMoreButton?.classList.add("hidden");
   removeErrorContainer();
+  removeEmptyContainer();
 };
 
 export const renderMainLoading = () => {
@@ -36,8 +36,10 @@ export const renderMainError = (errorMessage?: string) => {
 
 export const renderMainEmpty = () => {
   hideAll();
-  const emptyContainer = document.getElementById("empty-container");
-  emptyContainer?.classList.remove("hidden");
+  const resultSection = document.getElementById("result-section");
+  if (resultSection) {
+    renderEmptyContainer(resultSection, "검색 결과가 없습니다.");
+  }
 };
 
 export const renderMain = (isLastPage: boolean) => {
@@ -74,8 +76,10 @@ export const renderSearchError = (errorMessage?: string) => {
 
 export const renderSearchEmpty = () => {
   hideAll();
-  const emptyContainer = document.getElementById("empty-container");
-  emptyContainer?.classList.remove("hidden");
+  const resultSection = document.getElementById("result-section");
+  if (resultSection) {
+    renderEmptyContainer(resultSection, "검색 결과가 없습니다.");
+  }
 };
 
 export const renderSearch = (isLastPage: boolean) => {
