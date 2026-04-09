@@ -91,3 +91,14 @@ body.modal-open {
   color: var(--color-white);
   margin-right: 4px;
 }
+
+.submit-rate-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.submit-star-button {
+  border: 0;
+  background-color: transparent;
+  margin: 0;
+  padding: 0;
+}
