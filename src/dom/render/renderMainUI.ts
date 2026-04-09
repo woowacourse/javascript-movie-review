@@ -15,7 +15,7 @@ export const renderMainUI = async () => {
     const popularMovies = await getPopularMovies({ language: "ko-KR" });
     isLastPage = popularMovies.page === popularMovies.total_pages;
     movies = popularMovies.results;
-    renderBanner({ movie: movies[0] });
+    if (movies[0]) renderBanner({ movie: movies[0] });
     renderThumbnailList({ movies, thumbnailListElement });
   } catch (error) {
     isError = true;

@@ -1,12 +1,10 @@
 import { Movie } from "../../apis/movie/api";
 
 interface RenderBannerProps {
-  movie: Movie | undefined;
+  movie: Movie;
 }
 
 export const renderBanner = ({ movie }: RenderBannerProps) => {
-  if (!movie) return;
-
   const banner = document.getElementById(
     "background-container",
   ) as HTMLDivElement;
