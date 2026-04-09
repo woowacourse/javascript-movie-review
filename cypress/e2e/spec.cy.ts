@@ -101,7 +101,7 @@ describe("영화 리뷰 앱", () => {
 
       cy.get(".notice-text").should(
         "contain.text",
-        "영화 정보를 불러오는 데 실패했습니다.",
+        "오류가 발생했습니다. 다시 시도해주세요.",
       );
     });
   });
@@ -194,7 +194,7 @@ describe("영화 리뷰 앱", () => {
 
       cy.get(".notice-text").should(
         "contain.text",
-        "영화 정보를 불러오는 데 실패했습니다.",
+        "오류가 발생했습니다. 다시 시도해주세요.",
       );
     });
   });
@@ -210,7 +210,7 @@ describe("영화 리뷰 앱", () => {
 
       cy.get(".notice-text").should(
         "contain.text",
-        "영화 정보를 불러오는 데 실패했습니다.",
+        "오류가 발생했습니다. 다시 시도해주세요.",
       );
     });
 
@@ -233,6 +233,25 @@ describe("영화 리뷰 앱", () => {
 
       cy.get(".thumbnail-list li").should("have.length", 5);
       cy.get("section > h2").should("contain.text", "액션");
+    });
+
+    [
+      ["인증에 실패했습니다. API 키를 확인해주세요.", 401],
+      ["요청한 정보를 찾을 수 없습니다", 404],
+      ["오류가 발생했습니다. 다시 시도해주세요.", 500],
+    ].forEach(([message, statusCode]) => {
+      it(`API ${statusCode} 에러 시 에러 메시지가 렌더링된다`, () => {
+        cy.wait("@getPopularMovies");
+
+        cy.intercept("GET", "**/movie/popular*", { statusCode }).as(
+          "getMoreMoviesError",
+        );
+
+        cy.get(".load-more-button").click();
+        cy.wait("@getMoreMoviesError");
+
+        cy.get(".notice-text").should("contain.text", message);
+      });
     });
   });
 });

@@ -46,10 +46,10 @@ export const MovieRenderer = {
     }
   },
 
-  renderError() {
+  renderError(err: unknown) {
+    const message = err instanceof Error ? err.message : "에러가 발생했습니다.";
     const content = document.querySelector(".thumbnail-list");
-    if (content)
-      Renderer.renderError(content, "영화 정보를 불러오는 데 실패했습니다.");
+    if (content) Renderer.renderError(content, message);
   },
 };
 

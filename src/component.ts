@@ -9,9 +9,7 @@ const IMAGE_PATH = "https://image.tmdb.org/t/p/original";
 const Component = {
   movie(movieData: Pick<Movie, "poster_path" | "title" | "vote_average">) {
     const { poster_path, title, vote_average } = movieData;
-    const src = poster_path
-      ? `${IMAGE_PATH}/${poster_path}`
-      : noImagePlanetImg;
+    const src = poster_path ? `${IMAGE_PATH}/${poster_path}` : noImagePlanetImg;
     return `
     <li>
       <div class="item">
