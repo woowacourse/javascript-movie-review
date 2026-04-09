@@ -1,10 +1,8 @@
 import { loadMovies } from "../service/loadMovies";
 import { fetchMovieDetail } from "../service/movieApi";
 import { State } from "../types";
-import {
-  showBackgroundMovieInfo,
-  showDetailModal,
-} from "../view/movieListView";
+import { showDetailModal } from "../view/modalView";
+import { showBackgroundMovieInfo } from "../view/movieListView";
 import {
   hideErrorText,
   showErrorText,
