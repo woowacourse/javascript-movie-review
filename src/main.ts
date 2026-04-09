@@ -17,6 +17,7 @@ addEventListener("load", async () => {
 
   try {
     await movieController.initPage();
+    ratingController.initUserRating();
   } finally {
     bindMovieEvents({
       onMore: movieController.loadMoreMovies,
