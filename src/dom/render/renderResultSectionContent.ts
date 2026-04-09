@@ -1,12 +1,33 @@
 import { Movie } from "../../apis/movie/api.ts";
-import { handleMainSeeMore, handleSearchSeeMore } from "../eventHandler/handleSeeMore";
-import { removeEmptyContainer, renderEmptyContainer } from "../components/EmptyContainer";
-import { removeErrorContainer, renderErrorContainer } from "../components/ErrorContainer";
-import { removeMainSeeMoreButton, renderMainSeeMoreButton } from "../components/MainSeeMoreButton";
-import { removeSearchSeeMoreButton, renderSearchSeeMoreButton } from "../components/SearchSeeMoreButton";
-import { removeMainThumbnailList, renderMainThumbnailList } from "../components/MainThumbnailList.ts";
-import { removeSearchThumbnailList, renderSearchThumbnailList } from "../components/SearchThumbnailList.ts";
-import { renderThumbnailList } from "../shared/ThumbnailList.ts";
+import {
+  handleMainSeeMore,
+  handleSearchSeeMore,
+} from "../eventHandler/handleSeeMore";
+import {
+  removeEmptyContainer,
+  renderEmptyContainer,
+} from "../components/EmptyContainer";
+import {
+  removeErrorContainer,
+  renderErrorContainer,
+} from "../components/ErrorContainer";
+import {
+  removeMainSeeMoreButton,
+  renderMainSeeMoreButton,
+} from "../components/MainSeeMoreButton";
+import {
+  removeSearchSeeMoreButton,
+  renderSearchSeeMoreButton,
+} from "../components/SearchSeeMoreButton";
+import {
+  removeMainThumbnailList,
+  renderMainThumbnailList,
+} from "../components/MainThumbnailList.ts";
+import {
+  removeSearchThumbnailList,
+  renderSearchThumbnailList,
+} from "../components/SearchThumbnailList.ts";
+import { renderMovieItems } from "../shared/MovieItem.ts";
 
 const hideAll = () => {
   const skeletonList = document.getElementById("skeleton-list");
@@ -55,7 +76,7 @@ export const renderMain = (isLastPage: boolean, movies: Movie[]) => {
     hideAll();
     renderMainThumbnailList(resultSection, movies);
   } else {
-    renderThumbnailList(mainThumbnailList, movies);
+    renderMovieItems(mainThumbnailList, movies);
   }
 
   if (isLastPage) {
@@ -109,7 +130,7 @@ export const renderSearch = (isLastPage: boolean, movies: Movie[]) => {
     hideAll();
     renderSearchThumbnailList(resultSection, movies);
   } else {
-    renderThumbnailList(searchThumbnailList, movies);
+    renderMovieItems(searchThumbnailList, movies);
   }
 
   if (isLastPage) {

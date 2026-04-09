@@ -1,6 +1,6 @@
 import { Movie } from "../../apis/movie/api";
 
-const createThumbnailItemTemplate = (movie: Movie) => `
+const createMovieItemTemplate = (movie: Movie) => `
   <li id="movie-${movie.id}">
     <div class="item">
       <img
@@ -19,7 +19,7 @@ const createThumbnailItemTemplate = (movie: Movie) => `
   </li>
 `;
 
-export const renderThumbnailList = (parent: HTMLElement, movies: Movie[]) => {
-  const itemsHTML = movies.map(createThumbnailItemTemplate).join("");
+export const renderMovieItems = (parent: HTMLElement, movies: Movie[]) => {
+  const itemsHTML = movies.map(createMovieItemTemplate).join("");
   parent.insertAdjacentHTML("beforeend", itemsHTML);
 };

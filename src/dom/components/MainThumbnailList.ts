@@ -1,5 +1,5 @@
 import { Movie } from "../../apis/movie/api";
-import { renderThumbnailList } from "../shared/ThumbnailList";
+import { renderMovieItems } from "../shared/MovieItem.ts";
 
 const MAIN_THUMBNAIL_LIST_ID = "main-thumbnail-list";
 
@@ -9,7 +9,10 @@ const createMainThumbnailListTemplate = () => `
   <ul class="thumbnail-list" id="${MAIN_THUMBNAIL_LIST_ID}"></ul>
 `;
 
-export const renderMainThumbnailList = (parent: HTMLElement, movies: Movie[]) => {
+export const renderMainThumbnailList = (
+  parent: HTMLElement,
+  movies: Movie[],
+) => {
   if (mainThumbnailList) {
     mainThumbnailList.remove();
   }
@@ -18,7 +21,7 @@ export const renderMainThumbnailList = (parent: HTMLElement, movies: Movie[]) =>
   mainThumbnailList = document.getElementById(MAIN_THUMBNAIL_LIST_ID);
 
   if (mainThumbnailList && movies.length > 0) {
-    renderThumbnailList(mainThumbnailList, movies);
+    renderMovieItems(mainThumbnailList, movies);
   }
 };
 

@@ -1,5 +1,5 @@
 import { Movie } from "../../apis/movie/api";
-import { renderThumbnailList } from "../shared/ThumbnailList";
+import { renderMovieItems } from "../shared/MovieItem.ts";
 
 const SEARCH_THUMBNAIL_LIST_ID = "search-thumbnail-list";
 
@@ -9,7 +9,10 @@ const createSearchThumbnailListTemplate = () => `
   <ul class="thumbnail-list" id="${SEARCH_THUMBNAIL_LIST_ID}"></ul>
 `;
 
-export const renderSearchThumbnailList = (parent: HTMLElement, movies: Movie[]) => {
+export const renderSearchThumbnailList = (
+  parent: HTMLElement,
+  movies: Movie[],
+) => {
   if (searchThumbnailList) {
     searchThumbnailList.remove();
   }
@@ -18,7 +21,7 @@ export const renderSearchThumbnailList = (parent: HTMLElement, movies: Movie[]) 
   searchThumbnailList = document.getElementById(SEARCH_THUMBNAIL_LIST_ID);
 
   if (searchThumbnailList && movies.length > 0) {
-    renderThumbnailList(searchThumbnailList, movies);
+    renderMovieItems(searchThumbnailList, movies);
   }
 };
 
