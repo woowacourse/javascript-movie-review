@@ -4,7 +4,6 @@ import posterError from "../../templates/images/poster_error.png";
 import { Movie } from "../types";
 import { getElement } from "./getElementView";
 
-import star_filled from "../../templates/images/star_filled.png";
 import star_empty from "../../templates/images/star_empty.png";
 
 export const addMovieList = (
@@ -101,25 +100,6 @@ export const hideDetailModal = () => {
 
   // 스크롤 허용
   document.body.classList.remove("stop-scrolling");
-};
-
-export const renderUserRate = (movieId: number, userRate: number) => {
-  const ratingContainer = getElement(
-    `.star-container[data-movie-id="${movieId}"]`,
-    HTMLElement,
-  );
-
-  const stars = ratingContainer.querySelectorAll(".star");
-
-  stars.forEach((star) => {
-    if (!(star instanceof HTMLImageElement)) return;
-
-    const value = Number(star.getAttribute("value"));
-    const isActive = value <= userRate;
-
-    // star.classList.toggle("is-active", isActive);
-    star.src = isActive ? star_filled : star_empty;
-  });
 };
 
 export const showBackgroundMovieInfo = (movie: Movie) => {

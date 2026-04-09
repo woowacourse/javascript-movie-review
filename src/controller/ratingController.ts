@@ -1,6 +1,6 @@
 import { loadUserRate, saveUserRate } from "../service/storageUserRate";
 import { State } from "../types";
-import { renderUserRate } from "../view/movieListView";
+import { renderUserRate } from "../view/userRatingView";
 
 export const createRatingController = (state: State) => ({
   initUserRating: () => {

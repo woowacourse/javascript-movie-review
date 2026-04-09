@@ -105,7 +105,7 @@ body.modal-open {
   display: flex;
   justify-content: space-between;
 
-  width: 60%;
+  width: 70%;
   gap: 0.7rem;
 }
 

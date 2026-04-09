@@ -2,7 +2,6 @@ import { loadMovies } from "../service/loadMovies";
 import { fetchMovieDetail } from "../service/movieApi";
 import { State } from "../types";
 import {
-  renderUserRate,
   showBackgroundMovieInfo,
   showDetailModal,
 } from "../view/movieListView";
@@ -11,6 +10,7 @@ import {
   showErrorText,
   updateTitleText,
 } from "../view/textView";
+import { renderUserRate } from "../view/userRatingView";
 
 export const createMovieController = (state: State) => ({
   initPage: async () => {
