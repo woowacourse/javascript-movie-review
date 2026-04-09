@@ -9,6 +9,28 @@ import { createSkeleton } from "./components/skeleton";
 
 let page = 1;
 
+const createLoadMoreHandler = async (
+  getUrl: (page: number) => string,
+  loadBtnEl: HTMLButtonElement,
+  mainEl: Element,
+) => {
+  page++;
+  loadBtnEl.disabled = true;
+
+  const skeletons = createSkeleton();
+  mainEl.append(skeletons, loadBtnEl);
+
+  const data = await apiRequest<MovieResponse>({
+    url: getUrl(page),
+    method: "GET",
+  });
+  if (data) loadBtnEl.disabled = false;
+
+  const newMovieList = createMovieList(data.results);
+  skeletons.replaceWith(newMovieList);
+  mainEl.append(loadBtnEl);
+};
+
 addEventListener("load", async () => {
   const headerEl = document.querySelector("header")!;
   const heroEl = document.querySelector("#hero")!;
@@ -18,8 +40,11 @@ addEventListener("load", async () => {
   const { formWrapper, form, input } = createSearchForm();
   headerEl.appendChild(formWrapper);
 
+  const moreButton = createButton("more", "더 보기");
+
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
+    page = 1;
 
     const params = new URLSearchParams();
     const query = input.value.trim();
@@ -50,6 +75,14 @@ addEventListener("load", async () => {
       const searchResult = createMovieList(data.results);
       mainEl.append(searchResult, moreButton);
     }
+
+    moreButton.onclick = () => {
+      createLoadMoreHandler(
+        (page) => `/search/movie?language=ko-KR&query=${query}&page=${page}`,
+        moreButton,
+        mainEl,
+      );
+    };
   });
 
   const hero = createHero({
@@ -69,23 +102,13 @@ addEventListener("load", async () => {
   });
   const movieList = createMovieList(data.results);
 
-  const moreButton = createButton("more", "더 보기", async () => {
-    page++;
-    moreButton.disabled = true;
-
-    const skeletons = createSkeleton();
-    mainEl.append(skeletons, moreButton);
-
-    const data = await apiRequest<MovieResponse>({
-      url: `/movie/popular?language=ko-KR&page=${page}`,
-      method: "GET",
-    });
-    if (data) moreButton.disabled = false;
-
-    const newMovieList = createMovieList(data.results);
-    skeletons.replaceWith(newMovieList);
-    mainEl.append(moreButton);
-  });
+  moreButton.onclick = () => {
+    createLoadMoreHandler(
+      (page) => `/movie/popular?language=ko-KR&page=${page}`,
+      moreButton,
+      mainEl,
+    );
+  };
 
   skeletons.replaceWith(movieList, moreButton);
 });
