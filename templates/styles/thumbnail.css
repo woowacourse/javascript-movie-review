@@ -47,6 +47,14 @@ p.rate > span {
     top: 1px;
 }
 
+@media only screen and (800px <= width <= 1300px) {
+    .thumbnail-list {
+        margin: 0 auto 56px;
+        display: grid;
+        grid-template-columns: repeat(3, 200px);
+    }
+}
+
 @media only screen and (max-width: 800px) {
     .thumbnail-list {
         margin: 0 auto 56px;
@@ -55,7 +63,7 @@ p.rate > span {
     }
 }
 
-@media only screen and (max-width: 480px) {
+@media only screen and (480px<= width <= 800px) {
     .thumbnail-list {
         margin: 0 auto 56px;
         display: grid;

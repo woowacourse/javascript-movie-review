@@ -109,7 +109,7 @@ body.modal-open {
     font-size: 2rem;
 }
 
-@media only screen and (max-width: 480px) {
+@media only screen and (480px <= width <= 800px) {
     .modal {
         width: 100%;
         height: 50vh;
@@ -178,7 +178,7 @@ body.modal-open {
     }
 }
 
-@media only screen and (max-width: 800px) {
+@media only screen and (800px <= width <= 1300px) {
     .modal {
         width: 100%;
         height: 60vh;
