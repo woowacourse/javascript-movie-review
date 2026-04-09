@@ -77,6 +77,14 @@ class MovieListView {
     this.#dom.title.textContent = title;
   }
 
+  addTopMargin() {
+    this.#dom.container.classList.add("search-mode");
+  }
+
+  removeTopMargin() {
+    this.#dom.container.classList.remove("search-mode");
+  }
+
   showNotFound() {
     this.#dom.notFound.style.display = "flex";
   }

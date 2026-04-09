@@ -36,6 +36,7 @@ class App {
 
   async init() {
     this.#bindAllEvents();
+    this.#views.movieList.removeTopMargin();
 
     addEventListener("load", () => {
       const buttonImage = document.createElement("img");
@@ -136,6 +137,7 @@ class App {
       return;
     }
 
+    this.#views.movieList.addTopMargin();
     this.#state.searchString = searchValue;
     this.#views.topRated.hide();
     this.#views.movieList.hideNotFound(); // 올바른 검색결과에도 notFound가 표시되는 것 방지

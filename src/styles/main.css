@@ -56,6 +56,7 @@ button.primary {
 #app {
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
 }
 
 #wrap {
@@ -217,6 +218,10 @@ span.rate-value {
   margin-top: 50px;
 }
 
+.section-container.search-mode {
+  margin-top: 150px;
+}
+
 .more-button {
   width: 100%;
   color: white;
@@ -233,6 +238,7 @@ footer.footer {
   flex-direction: column;
   justify-content: center;
   text-align: center;
+  margin-top: auto;
   font-size: 1.1rem;
 }
 
