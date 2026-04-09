@@ -146,7 +146,7 @@ body.modal-open {
 }
 
 /* 반응형 디자인 처리 */
-@media (max-width: 1024px) {
+@media (max-width: 800px) {
   .modal-background {
     align-items: flex-end;
   } 
@@ -177,7 +177,7 @@ body.modal-open {
   }
   
 }
-@media (max-width: 800px) {
+@media (max-width: 640px) {
   .modal {
     padding-top: 75px;
   }
