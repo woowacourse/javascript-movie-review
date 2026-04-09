@@ -3,7 +3,7 @@ import { fetchPopularMovies, fetchSearchedMovies } from "./api/fetchMovies";
 import { ERROR_MESSAGE } from "./constants/errorMessage";
 import { extractThumbnailInfo } from "./thumnailManager";
 import LogoView from "./View/LogoView";
-import MoreMovieView from "./View/MoreMovieView";
+
 import MovieListView from "./View/MovieListView";
 import SearchView from "./View/SearchView";
 import TopRatedView from "./View/TopRatedView";
@@ -21,7 +21,6 @@ class App {
       topRated: new TopRatedView(),
       search: new SearchView(),
       movieList: new MovieListView(),
-      moreMovie: new MoreMovieView(),
       movieDetail: new MovieDetailView(),
       rating: new RatingView(),
     };
@@ -29,6 +28,8 @@ class App {
     this.#state = {
       popularMoviePage: 1,
       searchMoviePage: 1,
+      totalSearchMoviePage: 1,
+      totalPopularMoviePage: 1,
       searchString: "",
     };
   }
@@ -37,20 +38,15 @@ class App {
     this.#bindAllEvents();
 
     addEventListener("load", () => {
-      //   const app = document.querySelector("#app");
       const buttonImage = document.createElement("img");
       buttonImage.src = FilledStarIcon;
-
-      //   if (app) {
-      //     app.appendChild(buttonImage);
-      //   }
     });
 
     await this.#renderPopularMovieAtFirst();
   }
 
   #bindAllEvents() {
-    this.#views.moreMovie.bindEvent(this.#moreMovieEventHandler);
+    this.#bindWindowEvent();
     this.#views.search.bindEvent(this.#searchEventHandler);
     this.#views.logo.bindEvent(this.#logoEventHandler);
     this.#views.movieList.bindEvent(this.#movieDetailEventHandler);
@@ -62,13 +58,15 @@ class App {
   async #renderPopularMovieAtFirst() {
     try {
       this.#views.movieList.addSkeletons();
-      const { movies: popularMovies, totalPages: popularTotalPages } =
-        await fetchPopularMovies(this.#state.popularMoviePage);
-      this.#views.movieList.addMovies(extractThumbnailInfo(popularMovies));
+      const {
+        movies: popularMovies,
+        nowPage,
+        totalPages: popularTotalPages,
+      } = await fetchPopularMovies(this.#state.popularMoviePage);
+      this.#state.popularMoviePage = nowPage;
+      this.#state.totalPopularMoviePage = popularTotalPages;
 
-      if (this.#state.popularMoviePage === popularTotalPages) {
-        this.#views.moreMovie.hide();
-      }
+      this.#views.movieList.addMovies(extractThumbnailInfo(popularMovies));
 
       this.#views.topRated.render(extractThumbnailInfo(popularMovies)[0]);
     } catch (error) {
@@ -82,31 +80,48 @@ class App {
     location.reload();
   };
 
-  #moreMovieEventHandler = async () => {
-    this.#views.moreMovie.disable();
-
-    const searchValue = this.#state.searchString;
-
-    const requestMovies =
-      searchValue.trim().length === 0
-        ? () => fetchPopularMovies(++this.#state.popularMoviePage)
-        : () => fetchSearchedMovies(++this.#state.searchMoviePage, searchValue);
-
-    try {
-      this.#views.movieList.addSkeletons();
-      const { movies, nowPage, totalPages } = await requestMovies();
-
-      if (nowPage === totalPages) {
-        this.#views.moreMovie.hide();
+  #bindWindowEvent = () => {
+    window.addEventListener("scroll", async () => {
+      if (
+        this.#state.searchString.length !== 0 &&
+        this.#state.searchMoviePage === this.#state.totalSearchMoviePage
+      ) {
+        return;
       }
+      if (
+        this.#state.searchString.length === 0 &&
+        this.#state.popularMoviePage === this.#state.totalPopularMoviePage
+      ) {
+        return;
+      }
+      if (
+        window.innerHeight + window.scrollY >=
+        document.body.offsetHeight - 50
+      ) {
+        const searchValue = this.#state.searchString;
 
-      this.#views.movieList.addMovies(extractThumbnailInfo(movies));
-    } catch (error) {
-      alert(ERROR_MESSAGE.MOVIE.FAILED_GET_MORE);
-    } finally {
-      this.#views.movieList.removeAllSkeletons();
-      this.#views.moreMovie.able();
-    }
+        const requestMovies =
+          searchValue.trim().length === 0
+            ? () => fetchPopularMovies(++this.#state.popularMoviePage)
+            : () =>
+                fetchSearchedMovies(++this.#state.searchMoviePage, searchValue);
+
+        setTimeout(async () => {
+          try {
+            this.#views.movieList.addSkeletons();
+            const { movies, nowPage, totalPages } = await requestMovies();
+            this.#state.totalSearchMoviePage = totalPages;
+            this.#state.searchMoviePage = nowPage;
+
+            this.#views.movieList.addMovies(extractThumbnailInfo(movies));
+          } catch (error) {
+            alert(ERROR_MESSAGE.MOVIE.FAILED_GET_MORE);
+          } finally {
+            this.#views.movieList.removeAllSkeletons();
+          }
+        }, 200);
+      }
+    });
   };
 
   #searchEventHandler = async () => {
@@ -115,6 +130,7 @@ class App {
       return;
     }
 
+    this.#state.searchString = searchValue;
     this.#views.topRated.hide();
     this.#views.movieList.hideNotFound(); // 올바른 검색결과에도 notFound가 표시되는 것 방지
     this.#state.searchMoviePage = 1;
@@ -132,20 +148,15 @@ class App {
         searchValue,
       );
 
-      this.#views.moreMovie.show();
-      this.#views.movieList.addMovies(extractThumbnailInfo(movies));
+      this.#state.totalSearchMoviePage = totalPages;
+      this.#state.searchMoviePage = nowPage;
 
-      if (nowPage === totalPages) {
-        this.#views.moreMovie.hide();
-      }
+      this.#views.movieList.addMovies(extractThumbnailInfo(movies));
 
       // 3. 검색 결과가 없으면 notFound 표시
       if (movies.length === 0) {
         this.#views.movieList.showNotFound();
-        this.#views.moreMovie.hide();
       }
-
-      this.#state.searchString = searchValue;
     } catch (error) {
       alert(ERROR_MESSAGE.MOVIE.FAILED_SEARCH);
     } finally {
