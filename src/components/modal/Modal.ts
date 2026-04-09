@@ -3,6 +3,7 @@ import { MovieDetail } from '../../api/types';
 import LocalStorage from '../../storage/LocalStorage';
 import { $ } from '../../utils/dom';
 import { Rate } from '../common/Rate';
+import { Star } from '../common/Star';
 import SubmitRate from './SubmitRate';
 
 export default class Modal {
@@ -21,17 +22,20 @@ export default class Modal {
           <img src="./images/modal_button_close.png" />
         </button>
         <div class="modal-container">
-          <div class="modal-image"><img /><img /></div>
+          <div class="modal-image"><img /></div>
           <div class="modal-description">
             <h2></h2>
             <p class="category"></p>
-            <p class="rate"></p>
+            <div class="rate"></div>
             <hr />
             <div class="modal-submit-star">
               <h3>내 별점</h3>
             </div>
             <hr />
-            <p class="detail"></p>
+            <div>
+              <h3>줄거리</h3>
+              <p class="detail"></p>
+            </div>
           </div>
         </div>
       </div>
@@ -48,25 +52,21 @@ export default class Modal {
     const { title, release_date, overview, poster_path, genres, vote_average } = movie;
 
     $<HTMLImageElement>(this.#$modal, '.modal-image img').src = getOriginalImageUrl(poster_path);
-    $<HTMLImageElement>(this.#$modal, '.modal-image img').alt = title;
-
-    const $modalDesc = $(this.#$modal, '.modal-description');
-    $($modalDesc, 'h2').textContent = title;
+    $(this.#$modal, 'h2').textContent = title;
+    $(this.#$modal, '.detail').textContent = overview;
 
     const releaseYear = new Date(release_date).getFullYear();
-    const categoryString = genres.map(({ name }) => name).join(' ');
-    $($modalDesc, '.category').textContent = releaseYear + '·' + categoryString;
-    const $rate = $($modalDesc, '.rate');
-    const $newRate = Rate(vote_average, true);
+    const category = genres.map((g) => g.name).join(' ');
+    $(this.#$modal, '.category').textContent = `${releaseYear} · ${category}`;
 
-    const $average = document.createElement('span');
-    $average.className = 'average-info';
-    $average.textContent = '평균';
-    $newRate.prepend($average);
+    const $rateContainer = $(this.#$modal, '.rate');
+    $rateContainer.innerHTML = '';
 
-    $modalDesc.replaceChild($newRate, $rate);
+    const $starIcon = Star(true);
+    const $score = document.createElement('span');
+    $score.textContent = `평균 ${Number(vote_average).toFixed(1)}`;
 
-    $($modalDesc, '.detail').textContent = overview;
+    $rateContainer.append($starIcon, $score);
   }
 
   open(movie: MovieDetail) {

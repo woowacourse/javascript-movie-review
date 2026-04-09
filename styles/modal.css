@@ -102,3 +102,72 @@ body.modal-open {
   margin: 0;
   padding: 0;
 }
+
+@media (max-width: 800px) {
+  .modal-background {
+    align-items: flex-end;
+  }
+
+  .modal {
+    border-radius: 0;
+    bottom: 0;
+    width: 800px;
+  }
+
+  .modal-image img {
+    width: 200px;
+    height: 295px;
+    border-radius: 16px;
+  }
+  .modal-container {
+    padding: 40 24;
+    gap: 10px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modal-description h2 {
+    font-size: 32px;
+  }
+}
+
+@media (max-width: 390px) {
+  .modal {
+    top: 20px;
+    border-radius: 0;
+    bottom: 0;
+    width: 800px;
+    height: 749px;
+    width: 390;
+    gap: 24px;
+
+    opacity: 1;
+    padding: 40px 24px;
+    border-radius: 16px;
+  }
+
+  .modal-image img {
+    display: none;
+  }
+  .rate {
+    text-align: center;
+  }
+  .modal-description > div > h3 {
+    text-align: center;
+  }
+  .modal-submit-star,
+  .submit-rate-container,
+  .modal-description {
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  hr {
+    width: 100%;
+  }
+}

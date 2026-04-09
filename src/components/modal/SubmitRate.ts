@@ -1,4 +1,3 @@
-import localStorage from '../../storage/LocalStorage.ts';
 import { Star } from '../common/Star.ts';
 const POINTS = ['최악이예요', '별로예요', '보통이에요', '재미있어요', '명작이에요'] as const;
 
@@ -34,7 +33,8 @@ export default class SubmitRate {
 
   #renderStar = (rate: number = 0) => {
     this.#$starContanier.innerHTML = '';
-    this.#$rateText.textContent = POINTS[rate / 2 - 1];
+    const rateText = rate !== 0 ? `${POINTS[rate / 2 - 1]} ${rate}/10` : '별점을 입력해주세요';
+    this.#$rateText.textContent = rateText;
 
     POINTS.forEach((point, index) => {
       const score = (index + 1) * 2;
