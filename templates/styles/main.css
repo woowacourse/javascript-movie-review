@@ -33,6 +33,7 @@ main section {
 .page-title {
   font-size: 3rem;
   margin-bottom: 4rem;
+  margin-left: 2rem;
   font-weight: 600;
 }
 .star {
@@ -76,11 +77,22 @@ button.primary {
   padding: 48px;
 }
 
+.logo-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  gap: 1.5rem;
+}
+
+.logo-container > img {
+  width: 10rem;
+  z-index: 3;
+}
+
 .search-container {
-  position: absolute;
-  top: 3.4%;
-  left: 35%;
-  width: 500px;
+  width: 55%;
 
   border: 2px solid white;
   border-radius: 20px;
@@ -137,7 +149,7 @@ button.primary {
   user-select: none;
   position: relative;
   z-index: 2;
-  max-width: 1280px;
+  max-width: 1000px;
   margin: 0 auto;
 }
 

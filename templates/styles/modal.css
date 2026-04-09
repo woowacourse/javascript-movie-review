@@ -103,13 +103,11 @@ body.modal-open {
 
 .user-rate {
   display: flex;
-  justify-content: space-between;
 
-  width: 70%;
-  gap: 0.7rem;
+  gap: 1rem;
 }
 
-.user-rate > span {
+.rate-detail > span {
   font-size: 1.5rem;
   font-weight: 600;
 }

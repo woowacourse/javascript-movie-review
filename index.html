@@ -10,12 +10,29 @@
   <body>
     <div id="app">
       <header>
-        <div class="search-container">
-          <input class="search-bar" placeholder="검색어를 입력하세요" />
-          <button class="search-btn">🔍</button>
+        <div class="background-container">
+          <div class="logo-container">
+            <img src="./templates/images/logo.png" alt="MovieList" />
+            <div class="search-container">
+              <input class="search-bar" placeholder="검색어를 입력하세요" />
+              <button class="search-btn">🔍</button>
+            </div>
+          </div>
+          <div class="overlay" aria-hidden="true">
+            <img alt="영화 이미지" />
+          </div>
+          <div class="top-rated-container">
+            <div class="top-rated-movie">
+              <div class="rate">
+                <img src="./templates/images/star_empty.png" class="star" />
+                <span class="rate-value"></span>
+              </div>
+              <div class="title">${movie.title}</div>
+            </div>
+          </div>
         </div>
-        <div class="background-container"></div>
       </header>
+
       <div class="container">
         <main>
           <section>
@@ -55,12 +72,14 @@
             />
           </div>
           <div class="modal-description">
-            <h2></h2>
-            <p class="category"></p>
-            <div class="rate">
-              <span>평균 &nbsp;</span>
-              <img src="./templates/images/star_filled.png" class="star" />
-              <p class="rate_average"></p>
+            <div class="movie-detail">
+              <h2></h2>
+              <p class="category"></p>
+              <div class="rate">
+                <span>평균 &nbsp;</span>
+                <img src="./templates/images/star_filled.png" class="star" />
+                <p class="rate_average"></p>
+              </div>
             </div>
             <hr />
             <p class="rate-title">내 별점</p>
@@ -92,8 +111,10 @@
                   value="5"
                 />
               </div>
-              <span class="rate-description"></span>
-              <span class="rate-percentage"></span>
+              <div class="rate-detail">
+                <span class="rate-description"></span>
+                <span class="rate-percentage"></span>
+              </div>
             </div>
             <hr />
             <p class="detail-title">줄거리</p>
