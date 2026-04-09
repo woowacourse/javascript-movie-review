@@ -19,7 +19,7 @@ import {
 } from "./renders/movieList";
 import { renderSkeleton, removeSkeleton } from "./renders/skeleton";
 
-import { renderDetailModal } from "./renders/detailModal";
+import { renderDetailModal, removeDetailModal, } from "./renders/detailModal";
 
 import PageState from "./states/PageState";
 
@@ -173,6 +173,12 @@ addEventListener("load", async () => {
   searchInput?.addEventListener("keyup", (e: KeyboardEvent) => {
     if (e.key === "Enter") {
       handleSearch();
+    }
+  });
+
+  document.addEventListener('keyup', (e) => {
+    if (e.key === "Escape") {
+      removeDetailModal();
     }
   });
 });

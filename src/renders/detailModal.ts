@@ -44,5 +44,23 @@ export const renderDetailModal = (movieInfo: MovieInfo) => {
   if(!detailModalDetail) return;
   detailModalDetail.textContent = movieInfo.overview;
 
+  // event binding
+  const closeModal = cloneNode.querySelector("#closeModal");
+  closeModal?.addEventListener('click', () => {
+    removeDetailModal();
+  });
+
   modal.appendChild(cloneNode);
+}
+
+export const removeDetailModal = () => {
+ const modal = document.querySelector("#modal");
+  if(!modal) return;
+
+  modal.replaceChildren();
+
+  const body = document.querySelector("body");
+  if(!body) return;
+
+  body.classList.remove('modal-open');
 }
