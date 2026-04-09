@@ -1,6 +1,6 @@
 import { getPopularMovies, getSearchMovies } from "./api.ts";
 import { observeHeaderScroll } from "./observer.ts";
-import State from "./state.ts";
+import MovieState from "./state/business/movieState.ts";
 import { setupLoadMoreInteraction } from "./ui/business/interactor.ts";
 import {
   paintClearBanner,
@@ -33,8 +33,8 @@ export async function loadInitialMovie() {
     },
   });
 
-  State.setNextPageNum(page + 1);
-  State.setRequestMovieCount(movies.length);
+  MovieState.setNextPageNum(page + 1);
+  MovieState.setRequestMovieCount(movies.length);
 
   paintHomeSectionHeading();
   if (movies.length > 0) {
@@ -48,65 +48,67 @@ export async function loadInitialMovie() {
 }
 
 export async function loadMoreMovies() {
-  await getPopularMovies({
-    pageNum: State.getNextPageNum(),
-    onSuccess: ({ page, results: movies, total_pages }) => {
-      State.setNextPageNum(page + 1);
-      paintLoadMoreButtonStatus(page !== total_pages);
-      paintMovieList(movies);
-    },
+  const {
+    page,
+    results: movies,
+    total_pages,
+  } = await getPopularMovies({
+    pageNum: MovieState.getNextPageNum(),
     onError: () => {
       paintError();
       paintClearBanner();
     },
-    onLoading: () => {
-      paintInitialLoading(State.getRequestMovieCount());
-    },
+    onLoading: () => paintInitialLoading(MovieState.getRequestMovieCount()),
   });
+
+  MovieState.setNextPageNum(page + 1);
+  paintLoadMoreButtonStatus(page !== total_pages);
+  paintMovieList(movies);
 }
 
 export async function loadSearchMovies(query: string) {
-  await getSearchMovies({
+  const {
+    page,
+    results: movies,
+    total_pages,
+  } = await getSearchMovies({
     query,
     pageNum: INITIAL_PAGE_NUM,
-    onSuccess: ({ page, results: movies, total_pages }) => {
-      setupLoadMoreInteraction(() => loadMoreSearchMovies(query));
-
-      State.setNextSearchPageNum(page + 1);
-      paintResetList();
-      paintLoadMoreButtonStatus(page !== total_pages);
-
-      if (movies.length === 0) {
-        paintEmptyResult();
-      } else {
-        paintMovieList(movies);
-      }
-    },
-    onError: () => {
-      paintError();
-    },
-    onLoading: () => {
-      paintPrepareSearch(query, State.getRequestMovieCount());
-    },
+    onError: () => paintError(),
+    onLoading: () =>
+      paintPrepareSearch(query, MovieState.getRequestMovieCount()),
   });
+
+  setupLoadMoreInteraction(() => loadMoreSearchMovies(query));
+
+  MovieState.setNextSearchPageNum(page + 1);
+  paintResetList();
+  paintLoadMoreButtonStatus(page !== total_pages);
+
+  if (movies.length === 0) {
+    paintEmptyResult();
+  } else {
+    paintMovieList(movies);
+  }
 }
 
 export async function loadMoreSearchMovies(query: string) {
-  await getSearchMovies({
+  const {
+    page,
+    results: movies,
+    total_pages,
+  } = await getSearchMovies({
     query,
-    pageNum: State.getNextSearchPageNum(),
-    onSuccess: ({ page, results: movies, total_pages }) => {
-      State.setNextSearchPageNum(page + 1);
-      paintLoadMoreButtonStatus(page !== total_pages);
-      paintMovieList(movies);
-    },
-    onError: () => {
-      paintError();
-    },
+    pageNum: MovieState.getNextSearchPageNum(),
+    onError: () => paintError(),
     onLoading: () => {
-      paintInitialLoading(State.getRequestMovieCount());
+      paintInitialLoading(MovieState.getRequestMovieCount());
     },
   });
+
+  MovieState.setNextSearchPageNum(page + 1);
+  paintLoadMoreButtonStatus(page !== total_pages);
+  paintMovieList(movies);
 }
 
 const searchForm = getSearchFormElement();
