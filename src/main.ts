@@ -5,6 +5,7 @@ import { searchView } from "./view/searchView";
 import { addButtonView } from "./view/addButtonView";
 import { modalView } from "./view/modalView";
 import { handleModal } from "./controller/handleModal";
+import { myStarRatingView } from "./view/myStarRatingView";
 
 function init() {
   addEventListener("load", () => {
@@ -24,6 +25,8 @@ function init() {
   });
 
   modalView.bindCloseModalClick();
+
+  myStarRatingView.bindHandleMyStarClick();
 }
 
 init();
