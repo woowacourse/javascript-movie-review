@@ -47,3 +47,7 @@ export function handleModal(data: MovieDetailResponse) {
   const modal = new Modal(data);
   modal.renderModal();
 }
+
+export function closeModal(element: HTMLElement) {
+  element.classList.remove("active");
+}

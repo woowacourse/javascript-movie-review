@@ -60,6 +60,7 @@ p.rate {
   display: flex;
   align-items: baseline;
   color: var(--color-yellow);
+  margin-bottom: 0px !important;
 }
 
 p.rate > span {
@@ -69,4 +70,13 @@ p.rate > span {
 .item .star {
   width: 16px;
   top: 1px;
+}
+
+.rate-label {
+  font-family: "DM Sans";
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  color: var(--color-white);
 }

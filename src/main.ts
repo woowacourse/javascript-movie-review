@@ -4,6 +4,8 @@ import {
   controlSearchMovies,
   controlModal,
 } from "./features/handler/controllerHandlers";
+import { closeModal } from "./features/handler/renderHandlers";
+import { setRating } from "./utils/setRating";
 
 let page: number = 1;
 let searchMovie: string = "";
@@ -81,6 +83,7 @@ movieCard.addEventListener("click", async (e: MouseEvent) => {
   await controlModal(movieId);
 });
 
+// 모달 닫기
 modalContainer.addEventListener("click", async (e: MouseEvent) => {
   const target = e.target as HTMLElement;
   const modalBackground = target.closest(".modal-background") as HTMLElement;
@@ -90,9 +93,10 @@ modalContainer.addEventListener("click", async (e: MouseEvent) => {
     return;
   }
 
-  modalBackground.classList.remove("active");
+  closeModal(modalBackground);
 });
 
+// ESC
 document.addEventListener("keydown", async (e: KeyboardEvent) => {
   if (e.key !== "Escape") {
     return;
@@ -107,4 +111,28 @@ document.addEventListener("keydown", async (e: KeyboardEvent) => {
   }
 
   modalBackground.classList.remove("active");
+});
+
+// 별점 클릭
+modalContainer.addEventListener("click", async (e: MouseEvent) => {
+  const target = e.target as HTMLElement;
+  const modal = target.closest(".modal") as HTMLElement;
+  const modalBackground = target.closest(".modal-background") as HTMLElement;
+
+  if (!modal) {
+    return;
+  }
+
+  const star = target.closest(".star") as HTMLImageElement;
+
+  if (!star) {
+    return;
+  }
+
+  const id = Number(modal.dataset.id);
+  const rating = Number(star.dataset.id);
+
+  setRating(id, rating);
+  closeModal(modalBackground);
+  await controlModal(id);
 });

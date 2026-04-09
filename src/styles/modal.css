@@ -59,6 +59,7 @@ body.modal-open {
 .modal-image img {
   width: 380px;
   border-radius: 16px;
+  height: 100%;
 }
 
 .modal-description {
@@ -66,6 +67,9 @@ body.modal-open {
   padding: 8px;
   margin-left: 16px;
   line-height: 1.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .modal-description .rate > img {
@@ -82,7 +86,51 @@ body.modal-open {
   margin: 0 0 8px;
 }
 
-.detail {
+.detail-content {
   max-height: 430px;
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  font-family: "Montserrat";
+  font-weight: 300;
+  font-style: Light;
+  font-size: 24px;
+  line-height: 147%;
+  letter-spacing: 0.18px;
+}
+
+hr {
+  opacity: 1;
+  width: 100%;
+}
+
+.detail-label {
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 100%;
+}
+
+.my-rating {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.rating-container {
+  display: flex;
+  gap: 8px;
+}
+
+.stars {
+  display: flex;
+}
+
+.my-rating-value {
+  font-family: "Montserrat";
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 100%;
+  letter-spacing: 0.18px;
+  color: var(--color-bluegray-10);
 }

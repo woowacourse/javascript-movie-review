@@ -10,3 +10,11 @@ export const BASE_URL: string = "https://api.themoviedb.org/3";
 export const POPULAR_PATH: string = "movie/popular";
 
 export const SEARCH_PATH: string = "search/movie";
+
+export const MOVIE_RATING = {
+  2: "최악이예요",
+  4: "별로예요",
+  6: "보통이에요",
+  8: "재미있어요",
+  10: "명작이에요",
+};
