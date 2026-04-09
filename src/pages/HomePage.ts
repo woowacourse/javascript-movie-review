@@ -10,14 +10,22 @@ import Modal from '../components/modal/Modal.ts';
 
 export default class HomePage {
   #$fragment: DocumentFragment;
-  #page: number = 1;
+
+  #page: number;
+  #totalPage: number;
+
   #header: Header;
   #main: Main;
   #footer: Footer;
   #$modal: Modal;
+  #isLoading: boolean;
 
   constructor(modal: Modal) {
     this.#$modal = modal;
+    this.#isLoading = false;
+    this.#totalPage = 1;
+    this.#page = 1;
+
     this.#$fragment = document.createDocumentFragment();
     this.#header = new Header(this.#onSubmit);
     this.#main = new Main('지금 인기있는 영화', this.#onDetail);
@@ -37,21 +45,29 @@ export default class HomePage {
   async #initialFetch() {
     try {
       const response = await this.#appendMovies();
-      this.#header.render(response.results[0]);
+      if (response) {
+        this.#header.render(response.results[0]);
+      }
     } catch (error) {
       this.#handleError(error);
     }
   }
 
   async #loadMore() {
+    if (this.#isLoading) return;
     this.#page += 1;
+    this.#isLoading = true;
     await this.#appendMovies();
+    this.#isLoading = false;
   }
 
-  async #appendMovies(): Promise<ResponseMovie> {
+  async #appendMovies(): Promise<ResponseMovie | void> {
     this.#main.renderSkeletons(this.#page);
+
     try {
+      if (this.#page > this.#totalPage) return;
       const response = await fetchPopularMovies(this.#page);
+      this.#totalPage = response.total_pages;
       this.#main.renderMovies(response.results, this.#page);
 
       return response;

@@ -14,11 +14,13 @@ export default class SearchPage {
   #totalPage: number;
   #main: Main;
   #$modal: Modal;
+  #isLoading: boolean;
 
   constructor(modal: Modal) {
     this.#page = 1;
     this.#totalPage = 1;
     this.#$modal = modal;
+    this.#isLoading = false;
 
     this.#$fragment = document.createDocumentFragment();
     const query = this.#getQuery();
@@ -50,8 +52,11 @@ export default class SearchPage {
   }
 
   async #loadMore() {
+    if (this.#isLoading) return;
     this.#page += 1;
+    this.#isLoading = true;
     await this.#appendMovies();
+    this.#isLoading = false;
   }
 
   async #appendMovies(): Promise<ResponseMovie | void> {
@@ -66,7 +71,6 @@ export default class SearchPage {
         return response;
       }
 
-      console.log(response);
       this.#main.renderMovies(response.results, this.#page);
 
       return response;
