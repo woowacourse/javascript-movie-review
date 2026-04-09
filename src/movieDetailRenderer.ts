@@ -1,5 +1,6 @@
 import { fetchMovieDetail } from "./movieAPIResponse";
 import type { MovieDetail } from "../types/MovieDetail";
+import StarRating from "./StarRating.ts";
 
 const posterBaseURL = "https://image.tmdb.org/t/p/original/";
 const base = import.meta.env.BASE_URL;
@@ -40,15 +41,15 @@ const createMovieDetailItem = (
               <h3 class="my-rate-title">내 별점</h3>
               <div class="my-rate">
                 <div class="my-rate-stars">
-                  <img src="./images/star_empty.png" class="star my-star" data-value="2" />
-                  <img src="./images/star_empty.png" class="star my-star" data-value="4" />
-                  <img src="./images/star_empty.png" class="star my-star" data-value="6" />
-                  <img src="./images/star_empty.png" class="star my-star" data-value="8" />
-                  <img src="./images/star_empty.png" class="star my-star" data-value="10" />
+                  <img src="./images/star_empty.png" class="star my-star" />
+                  <img src="./images/star_empty.png" class="star my-star" />
+                  <img src="./images/star_empty.png" class="star my-star" />
+                  <img src="./images/star_empty.png" class="star my-star" />
+                  <img src="./images/star_empty.png" class="star my-star" />
                 </div>
                 <div class="my-score">
-                  <span class="my-score-label">명작이에요</span>
-                  <span class="my-rate-value">(0/10)</span>
+                  <span class="my-score-label"></span>
+                  <span class="my-rate-value"></span>
                 </div>
               </div>
               <hr />
@@ -80,6 +81,11 @@ export const renderMovieDetail = async (movieId: number) => {
 
     const modal = document.querySelector(".modal");
     modal?.appendChild(createMovieDetailItem(movieDetailData));
+
+    const rateContainer = modal?.querySelector(".my-rate") as HTMLElement;
+    if (rateContainer) {
+      new StarRating(rateContainer);
+    }
   } catch (error) {
     alert(
       "영화 세부정보를 불러오는 데 실패했습니다. 잠시 후 다시 시도해 주세요.",
