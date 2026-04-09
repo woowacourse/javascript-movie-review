@@ -1,10 +1,17 @@
 class StarRating {
   private container: HTMLElement;
+  private movieId: number;
   private currentScore: number = 0;
   private hoverScore: number = 0;
 
-  constructor(container: HTMLElement) {
+  constructor(container: HTMLElement, movieId: number) {
     this.container = container;
+    this.movieId = movieId;
+
+    // 로컬스토리지에서 값 object 가져오기 & 현재 연 영화 별점 업데이트
+    const ratings = JSON.parse(localStorage.getItem("movieRatings") || "{}");
+    this.currentScore = ratings[this.movieId] || 0;
+
     this.bindRatingEvents();
     this.updateRatingUI();
   }
@@ -36,6 +43,12 @@ class StarRating {
         const targetStarIndex = stars.indexOf(targetStar as HTMLElement);
         this.currentScore = (targetStarIndex + 1) * 2;
         this.updateRatingUI();
+
+        const ratings = JSON.parse(
+          localStorage.getItem("movieRatings") || "{}",
+        );
+        ratings[this.movieId] = this.currentScore;
+        localStorage.setItem("movieRatings", JSON.stringify(ratings));
       }
     });
   }
@@ -61,14 +74,23 @@ class StarRating {
       ".my-rate-value",
     ) as HTMLElement;
 
+    const scoreLabelObject: Record<number, string> = {
+      2: "최악이예요",
+      4: "별로예요",
+      6: "보통이에요",
+      8: "재미있어요",
+      10: "명작이에요",
+    };
+
     // 0점일 때는 텍스트 영역 숨기기
     if (displayScore === 0) {
       if (scoreContainer) scoreContainer.style.display = "none";
     } else {
       if (scoreContainer) scoreContainer.style.display = "flex";
 
+      if (scoreLabel)
+        scoreLabel.textContent = `${scoreLabelObject[displayScore]}`;
       if (rateValue) rateValue.textContent = `(${displayScore}/10)`;
-      if (scoreLabel) scoreLabel.textContent = "명작이에요";
     }
 
     // 별 이미지 바꿔주기

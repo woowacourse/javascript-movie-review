@@ -84,7 +84,7 @@ export const renderMovieDetail = async (movieId: number) => {
 
     const rateContainer = modal?.querySelector(".my-rate") as HTMLElement;
     if (rateContainer) {
-      new StarRating(rateContainer);
+      new StarRating(rateContainer, movieId);
     }
   } catch (error) {
     alert(
