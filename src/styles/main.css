@@ -50,6 +50,10 @@ button.primary {
   margin-bottom: 32px;
 }
 
+#wrap h2.search-mode {
+  margin-top: 12rem;
+}
+
 .container {
   max-width: 1280px;
   margin: 0 auto;

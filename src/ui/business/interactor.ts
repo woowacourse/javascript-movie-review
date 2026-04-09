@@ -1,4 +1,4 @@
-import { getSearchFormElement } from "../domain/movieElement";
+import { getSearchFormElement, getSearchInputElement } from "../domain/movieElement";
 import { addEventListenerToElement } from "../utils/eventListener";
 
 export const setupSearchInteraction = (onSearch: (query: string) => void) => {
@@ -9,10 +9,9 @@ export const setupSearchInteraction = (onSearch: (query: string) => void) => {
     event: "submit",
     handler: (event) => {
       event.preventDefault();
-      const form = event.target as HTMLFormElement;
-      const input = form.querySelector<HTMLInputElement>("input"); //TODO: 계층화 필요
+      const input = getSearchInputElement();
       if (input) {
-        onSearch(input.value);
+        onSearch((input as HTMLInputElement).value);
       }
     },
   });

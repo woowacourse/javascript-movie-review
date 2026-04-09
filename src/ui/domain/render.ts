@@ -13,6 +13,7 @@ const Renderer = {
     const heading = getSectionHeadingElement();
     if (heading) {
       heading.textContent = `지금 인기 있는 영화`;
+      heading.classList.remove("search-mode");
     }
   },
 
@@ -20,7 +21,7 @@ const Renderer = {
     const heading = getSectionHeadingElement();
     if (heading) {
       heading.textContent = `"${title}"검색 결과`;
-      heading.style.marginTop = "12rem";
+      heading.classList.add("search-mode");
     }
   },
 

@@ -14,9 +14,9 @@ import {
   paintResetList,
 } from "./ui/business/painter.ts";
 import {
-  observeHeaderScroll,
-  observeLoadMoreScroll,
-} from "./ui/domain/observer.ts";
+  replaceLoadMoreScrollObserver,
+  setupHeaderScrollObserver,
+} from "./ui/business/scrollObserver.ts";
 
 const ONCE_MOVIE_LIMIT = 20;
 const INITIAL_PAGE_NUM = 1;
@@ -37,18 +37,13 @@ export async function loadInitialMovie() {
   paintHomeSectionHeading();
   if (movies.length > 0) {
     paintMovieBanner(movies[0]);
-    observeHeaderScroll();
+    setupHeaderScrollObserver();
     paintMovieList(movies);
     paintInView();
   }
 
-  const disconnect = observeLoadMoreScroll(loadMoreMovies);
-
-  if (disconnect)
-    setupSearchInteraction((query: string) => {
-      loadSearchMovies(query);
-      disconnect && disconnect();
-    });
+  replaceLoadMoreScrollObserver(loadMoreMovies);
+  setupSearchInteraction(loadSearchMovies);
 }
 
 export async function loadMoreMovies() {
@@ -65,10 +60,8 @@ export async function loadMoreMovies() {
   paintMovieList(movies);
 }
 
-let disconnectSearchScroll: (() => void) | undefined;
-
 export async function loadSearchMovies(query: string) {
-  disconnectSearchScroll?.();
+  replaceLoadMoreScrollObserver(() => loadMoreSearchMovies(query));
 
   const { page, movies } = await getSearchMovies({
     query,
@@ -77,10 +70,6 @@ export async function loadSearchMovies(query: string) {
     onLoading: () =>
       paintPrepareSearch(query, MovieState.getRequestMovieCount()),
   });
-
-  disconnectSearchScroll = observeLoadMoreScroll(() =>
-    loadMoreSearchMovies(query),
-  );
 
   MovieState.setNextSearchPageNum(page + 1);
   paintResetList();

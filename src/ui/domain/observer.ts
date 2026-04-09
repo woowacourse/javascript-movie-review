@@ -1,6 +1,7 @@
 import { reserveIntersectionHandler } from "../utils/intersectionObserver";
 import {
   getBackgroundContainerElement,
+  getLoadMoreInViewElement,
   getTopRatedMovieElement,
 } from "./movieElement";
 
@@ -16,8 +17,7 @@ export const observeHeaderScroll = () => {
 };
 
 export const observeLoadMoreScroll = (callback: () => Promise<void>) => {
-  const loadMoreInView =
-    document.querySelector<HTMLDivElement>(".load-more-inView"); //TODO: 계층화 필요
+  const loadMoreInView = getLoadMoreInViewElement();
   if (!loadMoreInView) return;
 
   let isLoading = false;
@@ -25,8 +25,7 @@ export const observeLoadMoreScroll = (callback: () => Promise<void>) => {
   return reserveIntersectionHandler(
     loadMoreInView,
     async ({ isIntersecting }) => {
-      const loadMoreButton = document.querySelector(".load-more-inView");
-      if (loadMoreButton && isIntersecting && !isLoading) {
+      if (loadMoreInView && isIntersecting && !isLoading) {
         isLoading = true;
         await callback();
         isLoading = false;

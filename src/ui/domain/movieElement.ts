@@ -27,3 +27,9 @@ export const getTopRatedMovieElement = () =>
 
 export const getBackgroundContainerElement = () =>
   getElementBySelector(".background-container");
+
+export const getLoadMoreInViewElement = () =>
+  getElementBySelector(".load-more-inView");
+
+export const getSearchInputElement = () =>
+  getElementBySelector(".search-form input");
