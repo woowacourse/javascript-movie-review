@@ -86,3 +86,43 @@ body.modal-open {
   max-height: 430px;
   overflow-y: auto;
 }
+
+.my-star-container {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 0 1rem 0;
+  gap: 0.75rem;
+}
+
+.my-star-description {
+  display: flex;
+  align-items: center;
+}
+
+.my-start-image{
+  width: 1.25rem;
+  margin-right: 0.25rem;
+}
+
+#my-start-evaluation {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-left: 0.25rem;
+}
+
+#my-star-score {
+  width: fit-content; /* 요소의 너비만큼 */
+  margin-left: auto;
+  margin-right: 0;
+  font-weight: bold;
+}
+
+.my-star-rate-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.modal-detail-description-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
