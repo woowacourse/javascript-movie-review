@@ -1,6 +1,13 @@
 @import "./colors.css";
 
 @media (max-width: 400px) {
+  .top-rated-movie > .title {
+    font-size: 2rem;
+  }
+  .search-container {
+    width: 100%;
+  }
+
   /* 1. 그리드 변경 */
   .thumbnail-list {
     display: grid;
