@@ -34,10 +34,15 @@ class MovieDetailView {
     this.#dom.closeButton.addEventListener("click", () => {
       this.#dom.modal.close();
     });
+
+    this.#dom.modal.addEventListener("close", () => {
+      document.body.classList.remove("modal-open");
+    });
   }
 
   show() {
     this.#dom.modal.showModal();
+    document.body.classList.add("modal-open");
   }
 
   hide() {
