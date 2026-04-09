@@ -12,21 +12,6 @@ addEventListener("load", async () => {
   const mainEl = document.querySelector("#main")!;
   const titleEl = document.querySelector(".main-title")!;
 
-  const { formWrapper, form, input } = createSearchForm();
-  headerEl.appendChild(formWrapper);
-
-  const loadMoreBtnEl = createButton("more", "더 보기");
-  const skeletonEls = createSkeleton();
-
-  mainEl.appendChild(skeletonEls); // 초기 로딩 시 스켈레톤 렌더링
-
-  renderPopularMovieList(loadMoreBtnEl, mainEl, skeletonEls); // 인기 영화 목록 렌더링
-
-  form.addEventListener(
-    "submit",
-    handleSearch(input, loadMoreBtnEl, mainEl, titleEl, skeletonEls),
-  );
-
   // 히어로 배너 렌더링
   const hero = createHero({
     backgroundImageUrl: `${IMAGE_BASE_URL}/w1920_and_h800_multi_faces/stKGOm8UyhuLPR9sZLjs5AkmncA.jpg`,
@@ -35,4 +20,20 @@ addEventListener("load", async () => {
     onDetailClick: () => {},
   });
   heroEl.appendChild(hero);
+
+  // 검색 폼 렌더링
+  const { formWrapper, form, input } = createSearchForm();
+  headerEl.appendChild(formWrapper);
+
+  const loadMoreBtnEl = createButton("more", "더 보기");
+  const skeletonEls = createSkeleton();
+
+  mainEl.appendChild(skeletonEls); // 초기 로딩 시 스켈레톤 렌더링
+  renderPopularMovieList(loadMoreBtnEl, mainEl, skeletonEls); // 인기 영화 목록 렌더링
+
+  // 검색 폼 제출 이벤트 핸들러 등록
+  form.addEventListener(
+    "submit",
+    handleSearch(input, loadMoreBtnEl, mainEl, titleEl, skeletonEls),
+  );
 });
