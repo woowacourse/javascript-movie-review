@@ -12,7 +12,7 @@ const createNewRequest = (): AbortSignal => {
   return controller.signal;
 };
 
-const applyResult = (data: MoviePage, onSuccess?: () => void) => {
+const handleSuccess = (data: MoviePage, onSuccess?: () => void) => {
   onSuccess?.();
   browser.setTotalPages(data.totalPages);
   render(browser, data.results);
@@ -29,7 +29,7 @@ const load = async (page: number, onSuccess?: () => void) => {
   startLoading();
   try {
     const data = await strategy(page, signal);
-    applyResult(data, onSuccess);
+    handleSuccess(data, onSuccess);
   } catch (error) {
     stopLoading();
     handleError(error);

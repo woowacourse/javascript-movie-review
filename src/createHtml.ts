@@ -58,3 +58,33 @@ export const createNoResultHTML = (): HTMLDivElement => {
 
   return div;
 };
+
+export const createModalHTML = (): HTMLDivElement => {
+  const div = document.createElement("div");
+  div.insertAdjacentHTML(
+    "beforeend",
+    /*html*/ `<div class="modal-background" id="modalBackground">
+      <div class="modal">
+        <button class="close-modal" id="closeModal">
+          <img src="./images/modal_button_close.png" />
+        </button>
+        <div class="modal-container">
+          <div class="modal-image">
+            <img src="" alt="영화 포스터" />
+          </div>
+          <div class="modal-description">
+            <h2></h2>
+            <p class="category"></p>
+            <p class="rate">
+              <text>내 별점<text>
+              <img src="./images/star_filled.png" class="star" /><span></span>
+            </p>
+            <hr />
+            <p class="detail"></p>
+          </div>
+        </div>
+      </div>
+    </div>`,
+  );
+  return div;
+};
