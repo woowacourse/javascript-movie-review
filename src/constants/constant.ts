@@ -19,6 +19,7 @@ export const IMAGE_URL = {
 export const API_PATH = {
   POPULAR_MOVIE: `/movie/popular`,
   SEARCH_MOVIE: `/search/movie`,
+  MOVIE_DETAIL: (movieId: number) => `/movie/${movieId}`,
 };
 
 export const PAGE_TITLE = {

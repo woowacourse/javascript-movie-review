@@ -1,7 +1,8 @@
+import { MovieDetail } from "../../types/movie";
 import { API_PATH, BASE_URL, DEFAULT_LANGUAGE } from "../constants/constant";
 import { ApiError, ApiParseError, ConfigError, NetworkError } from "../errors/DomainErrors";
 import { MovieListResponse } from "./apiTypes";
-import { mapMovieListResponse } from "./movieResponseMapper";
+import { mapMovieDetailResponse, mapMovieListResponse } from "./movieResponseMapper";
 
 type QueryValue = string | number | boolean;
 type QueryParams = Record<string, QueryValue | undefined>;
@@ -19,6 +20,11 @@ export class TmdbClient {
 
   searchMovies(query: string, page: number): Promise<MovieListResponse> {
     return this.requestJson<unknown>(API_PATH.SEARCH_MOVIE, { query, page }).then(mapMovieListResponse);
+  }
+
+  fetchMovieDetail(movieId: number): Promise<MovieDetail> {
+    return this.requestJson<unknown>(API_PATH.MOVIE_DETAIL(movieId), {})
+      .then(mapMovieDetailResponse);
   }
 
   private async requestJson<T>(path: string, params: QueryParams): Promise<T> {
