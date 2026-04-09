@@ -20,7 +20,7 @@ export default class HomePage {
     this.#$modal = modal;
     this.#$fragment = document.createDocumentFragment();
     this.#header = new Header(this.#onSubmit);
-    this.#main = new Main('지금 인기있는 영화');
+    this.#main = new Main('지금 인기있는 영화', this.#onDetail);
     this.#footer = new Footer();
 
     this.#$fragment.append(this.#header.$element, this.#main.$element, this.#footer.$element);
@@ -51,7 +51,7 @@ export default class HomePage {
     this.#main.renderSkeletons();
     try {
       const response = await fetchPopularMovies(this.#page);
-      this.#main.renderMovies(response.results, this.#onDetail);
+      this.#main.renderMovies(response.results);
 
       if (this.#page < response.total_pages) {
         this.#main.renderMoreButton(() => this.#loadMore());

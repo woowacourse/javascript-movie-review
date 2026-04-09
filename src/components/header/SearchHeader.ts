@@ -9,11 +9,11 @@ export default class SearchHeader {
     this.#$element = document.createElement('header');
     this.#$element.innerHTML = `
       <div class="background-container">
-        <div class="top-rated-container"></div>
+        <div class="search-container"></div>
       </div>
     `;
 
-    $<HTMLElement>(this.#$element, '.top-rated-container').append(Logo(), SearchForm(onSubmit));
+    $<HTMLElement>(this.#$element, '.search-container').append(Logo(), SearchForm(onSubmit));
   }
 
   get $element() {

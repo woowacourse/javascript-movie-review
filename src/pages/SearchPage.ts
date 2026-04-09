@@ -2,21 +2,25 @@ import Header from '../components/header/SearchHeader.ts';
 import Main from '../components/main/Main.ts';
 import Footer from '../components/footer/Footer.ts';
 
-import { fetchSearchMovies } from '../api/fetchApi.ts';
+import { fetchMovieDetails, fetchSearchMovies } from '../api/fetchApi.ts';
 import { ResponseMovie } from '../api/types.ts';
 import TMDBError from '../api/TMDBError.ts';
 import { dispatchRouteChange } from '../utils/event.ts';
+import Modal from '../components/modal/Modal.ts';
 
 export default class SearchPage {
   #$fragment: DocumentFragment;
   #page: number = 1;
   #main: Main;
+  #$modal: Modal;
 
-  constructor() {
+  constructor(modal: Modal) {
+    this.#$modal = modal;
+
     this.#$fragment = document.createDocumentFragment();
     const query = this.#getQuery();
     const header = new Header(this.#onSubmit);
-    this.#main = new Main(`"${query}" 검색 결과`);
+    this.#main = new Main(`"${query}" 검색 결과`, this.#onDetail);
     const footer = new Footer();
 
     this.#$fragment.append(header.$element, this.#main.$element, footer.$element);
@@ -91,6 +95,16 @@ export default class SearchPage {
   #onSubmit = (query: string): void => {
     if (query.trim()) {
       dispatchRouteChange(`/search?query=${encodeURIComponent(query)}`);
+    }
+  };
+
+  #onDetail = async (movie_id: number) => {
+    try {
+      console.log(this.#$modal);
+      const movie = await fetchMovieDetails(movie_id);
+      this.#$modal.open(movie);
+    } catch (e) {
+      console.log(e);
     }
   };
 }

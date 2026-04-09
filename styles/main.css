@@ -92,9 +92,9 @@ button.primary {
   z-index: 1;
 }
 
-.top-rated-container {
+.top-rated-container,
+.search-container {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
 
   user-select: none;
   position: relative;
@@ -103,7 +103,16 @@ button.primary {
   margin: 0 auto;
 }
 
-.top-rated-container .search-form {
+.top-header-container {
+  min-height: 500px;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.search-container {
+  grid-template-columns: 1fr 1fr;
+}
+
+.top-rated-container .search-form,
+.search-container .search-form {
   justify-self: center;
 }
 
@@ -281,5 +290,4 @@ form {
 }
 
 .top-header-container {
-  min-height: 500px;
 }
