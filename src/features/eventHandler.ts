@@ -1,8 +1,20 @@
 import { movieState } from "./movieState";
-import { initialRender, renderMoreMovies, renderSearchResults } from "./movieController";
+import {
+  initialRender,
+  renderMoreMovies,
+  renderSearchResults,
+} from "./movieController";
 import { Header } from "./View/Header";
 
 export function initEvents() {
+  loadHeader();
+
+  loadSearch();
+
+  loadMoreButton();
+}
+
+function loadHeader() {
   const header = document.querySelector(".header") as HTMLElement;
 
   header.addEventListener("click", async (e) => {
@@ -12,9 +24,12 @@ export function initEvents() {
       await initialRender(movieState.page);
     }
   });
+}
 
-  // 검색
-  const submitContainer = document.querySelector(".background-container") as HTMLFormElement;
+function loadSearch() {
+  const submitContainer = document.querySelector(
+    ".background-container",
+  ) as HTMLFormElement;
   submitContainer.addEventListener("submit", async (e: SubmitEvent) => {
     e.preventDefault();
     movieState.page = 1;
@@ -27,8 +42,9 @@ export function initEvents() {
 
     await renderSearchResults(movieState.page, movieState.searchQuery);
   });
+}
 
-  // 더보기 버튼
+function loadMoreButton() {
   const moreButton = document.querySelector(".btn-more") as HTMLButtonElement;
   if (moreButton) {
     moreButton.addEventListener("click", async () => {
