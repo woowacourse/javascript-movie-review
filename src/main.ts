@@ -1,8 +1,4 @@
 import { handleMovieSearch } from "./dom/eventHandler/handleMovieSearch";
-import {
-  handleMainSeeMore,
-  handleSearchSeeMore,
-} from "./dom/eventHandler/handleSeeMore";
 import { renderLoadingUI } from "./dom/render/renderLoadingUI.ts";
 import { renderMainUI } from "./dom/render/renderMainUI";
 import { renderSearchUI } from "./dom/render/renderSearchUI";
@@ -12,8 +8,6 @@ const searchInput = document.getElementById(
   "search-input",
 ) as HTMLInputElement | null;
 const searchButton = document.getElementById("search-button");
-const mainSeeMoreButton = document.getElementById("main-see-more-button");
-const searchSeeMoreButton = document.getElementById("search-see-more-button");
 
 if (logo) {
   logo.addEventListener("click", () => {
@@ -28,18 +22,6 @@ if (searchInput && searchButton) {
 
   searchInput.addEventListener("keydown", (e) => {
     if (e.key === "Enter") handleMovieSearch(searchInput.value);
-  });
-}
-
-if (mainSeeMoreButton) {
-  mainSeeMoreButton.addEventListener("click", () => {
-    handleMainSeeMore();
-  });
-}
-
-if (searchSeeMoreButton && searchInput) {
-  searchSeeMoreButton.addEventListener("click", () => {
-    handleSearchSeeMore(searchInput.value);
   });
 }
 

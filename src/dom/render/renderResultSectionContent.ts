@@ -1,20 +1,22 @@
+import { handleMainSeeMore, handleSearchSeeMore } from "../eventHandler/handleSeeMore";
 import { removeEmptyContainer, renderEmptyContainer } from "../components/EmptyContainer";
 import { removeErrorContainer, renderErrorContainer } from "../components/ErrorContainer";
+import { removeMainSeeMoreButton, renderMainSeeMoreButton } from "../components/MainSeeMoreButton";
+import { removeSearchSeeMoreButton, renderSearchSeeMoreButton } from "../components/SearchSeeMoreButton";
 
 const hideAll = () => {
   const skeletonList = document.getElementById("skeleton-list");
   const mainThumbnailList = document.getElementById("main-thumbnail-list");
-  const mainSeeMoreButton = document.getElementById("main-see-more-button");
   const searchThumbnailList = document.getElementById("search-thumbnail-list");
-  const searchSeeMoreButton = document.getElementById("search-see-more-button");
 
   skeletonList?.classList.add("hidden");
   mainThumbnailList?.classList.add("hidden");
-  mainSeeMoreButton?.classList.add("hidden");
   searchThumbnailList?.classList.add("hidden");
-  searchSeeMoreButton?.classList.add("hidden");
+  
   removeErrorContainer();
   removeEmptyContainer();
+  removeMainSeeMoreButton();
+  removeSearchSeeMoreButton();
 };
 
 export const renderMainLoading = () => {
@@ -45,9 +47,14 @@ export const renderMainEmpty = () => {
 export const renderMain = (isLastPage: boolean) => {
   hideAll();
   const mainThumbnailList = document.getElementById("main-thumbnail-list");
-  const mainSeeMoreButton = document.getElementById("main-see-more-button");
+  const resultSection = document.getElementById("result-section");
   mainThumbnailList?.classList.remove("hidden");
-  if (!isLastPage) mainSeeMoreButton?.classList.remove("hidden");
+  
+  if (!isLastPage && resultSection) {
+    renderMainSeeMoreButton(resultSection, () => {
+      handleMainSeeMore();
+    });
+  }
 };
 
 export const renderSearchLoading = (keyword: string) => {
@@ -85,7 +92,14 @@ export const renderSearchEmpty = () => {
 export const renderSearch = (isLastPage: boolean) => {
   hideAll();
   const searchThumbnailList = document.getElementById("search-thumbnail-list");
-  const searchSeeMoreButton = document.getElementById("search-see-more-button");
+  const resultSection = document.getElementById("result-section");
   searchThumbnailList?.classList.remove("hidden");
-  if (!isLastPage) searchSeeMoreButton?.classList.remove("hidden");
+  
+  if (!isLastPage && resultSection) {
+    const url = new URL(window.location.href);
+    const keyword = url.searchParams.get("keyword") || "";
+    renderSearchSeeMoreButton(resultSection, () => {
+      handleSearchSeeMore(keyword);
+    });
+  }
 };
