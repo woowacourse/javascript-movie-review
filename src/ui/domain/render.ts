@@ -1,4 +1,3 @@
-import type { Movie } from "../../types";
 import {
   getBannerElement,
   getEmptyResultElement,
@@ -8,6 +7,7 @@ import {
   getSectionHeadingElement,
 } from "./movieElement";
 import Component from "../utils/component.ts";
+import { Movie } from "../../apis/dtos.ts";
 
 const Renderer = {
   renderSectionHeading() {
@@ -30,11 +30,11 @@ const Renderer = {
     if (movieList) movieList.innerHTML = "";
   },
 
-  renderBanner(parent: Element, { title, vote_average, poster_path }: Movie) {
+  renderBanner(parent: Element, { title, voteAverage, posterPath }: Movie) {
     parent.innerHTML = Component.movieBanner({
       title,
-      vote_average,
-      poster_path,
+      voteAverage,
+      posterPath,
     });
   },
 

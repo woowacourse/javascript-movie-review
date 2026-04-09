@@ -1,4 +1,4 @@
-import type { Movie } from "../../types";
+import { Movie } from "../../apis/dtos";
 import {
   getBannerElement,
   getMovieListElement,

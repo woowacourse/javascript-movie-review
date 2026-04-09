@@ -1,30 +1,7 @@
 import { fetcher } from "./utils";
+import { MoviesResponse, MoviesResponseDTO } from "./dtos";
 
 const API_KEY = import.meta.env.VITE_API_KEY;
-
-interface MoviesResponse {
-  page: number;
-  results: Movie[];
-  total_pages: number;
-  total_results: number;
-}
-
-export interface Movie {
-  adult: boolean;
-  backdrop_path: string;
-  genre_ids: number[];
-  id: number;
-  original_language: "en-US";
-  original_title: string;
-  overview: string;
-  popularity: number;
-  poster_path: string | null;
-  release_date: string;
-  title: string;
-  video: boolean;
-  vote_average: number;
-  vote_count: number;
-}
 
 const API_PATH = {
   POPULAR_MOVIE: "https://api.themoviedb.org/3/movie/popular",
@@ -35,7 +12,7 @@ export async function getPopularMovies(arg: {
   pageNum: number;
   onSuccess?: (data: MoviesResponse) => void;
   onError: (error: Error) => void;
-  onLoading: () => void;
+  onLoading?: () => void;
 }) {
   const { pageNum, onSuccess, onError, onLoading } = arg;
   return fetcher<MoviesResponse>({
@@ -54,8 +31,9 @@ export async function getPopularMovies(arg: {
       const response = await fetch(url, options);
       if (!response.ok)
         throw new Error(`HTTP error! status: ${response.status}`);
-      const data = (await response.json()) as unknown as MoviesResponse;
-      return data;
+      const data = await response.json();
+
+      return MoviesResponseDTO.from(data);
     },
     onSuccess,
     onError,
@@ -88,8 +66,8 @@ export async function getSearchMovies(arg: {
       const response = await fetch(url, options);
       if (!response.ok)
         throw new Error(`HTTP error! status: ${response.status}`);
-      const data = (await response.json()) as unknown as MoviesResponse;
-      return data;
+      const data = await response.json();
+      return MoviesResponseDTO.from(data);
     },
     onSuccess,
     onError,

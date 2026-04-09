@@ -1,4 +1,4 @@
-import { getPopularMovies, getSearchMovies } from "./api.ts";
+import { getPopularMovies, getSearchMovies } from "./apis/api.ts";
 import { observeHeaderScroll } from "./observer.ts";
 import MovieState from "./state/business/movieState.ts";
 import {
@@ -17,15 +17,12 @@ import {
   paintPrepareSearch,
   paintResetList,
 } from "./ui/business/painter.ts";
+
 const ONCE_MOVIE_LIMIT = 20;
 const INITIAL_PAGE_NUM = 1;
 
 export async function loadInitialMovie() {
-  const {
-    page,
-    results: movies,
-    total_pages,
-  } = await getPopularMovies({
+  const { movies, page, totalPages } = await getPopularMovies({
     pageNum: INITIAL_PAGE_NUM,
     onLoading: () => paintInitialLoading(ONCE_MOVIE_LIMIT),
     onError: () => {
@@ -46,15 +43,11 @@ export async function loadInitialMovie() {
 
   setupLoadMoreInteraction(loadMoreMovies);
   setupSearchInteraction(loadSearchMovies);
-  paintLoadMoreButtonStatus(page !== total_pages);
+  paintLoadMoreButtonStatus(page !== totalPages);
 }
 
 export async function loadMoreMovies() {
-  const {
-    page,
-    results: movies,
-    total_pages,
-  } = await getPopularMovies({
+  const { page, movies, totalPages } = await getPopularMovies({
     pageNum: MovieState.getNextPageNum(),
     onError: () => {
       paintError();
@@ -64,16 +57,12 @@ export async function loadMoreMovies() {
   });
 
   MovieState.setNextPageNum(page + 1);
-  paintLoadMoreButtonStatus(page !== total_pages);
+  paintLoadMoreButtonStatus(page !== totalPages);
   paintMovieList(movies);
 }
 
 export async function loadSearchMovies(query: string) {
-  const {
-    page,
-    results: movies,
-    total_pages,
-  } = await getSearchMovies({
+  const { page, movies, totalPages } = await getSearchMovies({
     query,
     pageNum: INITIAL_PAGE_NUM,
     onError: () => paintError(),
@@ -85,21 +74,14 @@ export async function loadSearchMovies(query: string) {
 
   MovieState.setNextSearchPageNum(page + 1);
   paintResetList();
-  paintLoadMoreButtonStatus(page !== total_pages);
+  paintLoadMoreButtonStatus(page !== totalPages);
 
-  if (movies.length === 0) {
-    paintEmptyResult();
-  } else {
-    paintMovieList(movies);
-  }
+  if (movies.length === 0) paintEmptyResult();
+  else paintMovieList(movies);
 }
 
 export async function loadMoreSearchMovies(query: string) {
-  const {
-    page,
-    results: movies,
-    total_pages,
-  } = await getSearchMovies({
+  const { page, movies, totalPages } = await getSearchMovies({
     query,
     pageNum: MovieState.getNextSearchPageNum(),
     onError: () => paintError(),
@@ -109,6 +91,6 @@ export async function loadMoreSearchMovies(query: string) {
   });
 
   MovieState.setNextSearchPageNum(page + 1);
-  paintLoadMoreButtonStatus(page !== total_pages);
+  paintLoadMoreButtonStatus(page !== totalPages);
   paintMovieList(movies);
 }
