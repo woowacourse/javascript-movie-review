@@ -17,7 +17,6 @@ addEventListener("load", async () => {
     backgroundImageUrl: `${IMAGE_BASE_URL}/w1920_and_h800_multi_faces/stKGOm8UyhuLPR9sZLjs5AkmncA.jpg`,
     rating: 9.5,
     title: "인사이드 아웃2",
-    onDetailClick: () => {},
   });
   heroEl.appendChild(hero);
 
