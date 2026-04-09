@@ -1,3 +1,51 @@
+describe('infinite scroll test', () => {
+    beforeEach(() => {
+        cy.intercept('GET', '**/movie/popular**', { fixture: 'popularMovies.json' })
+    })
+
+    it('스크롤을 내리면 추가 영화 목록을 불러온다.', () => {
+        cy.visit('https://javascript-movie-review-dvlk.vercel.app/')
+
+        cy.get('.thumbnail-list li').should('have.length', 20)
+
+        cy.get('.thumbnail-list li').last().scrollIntoView()
+
+        cy.get('.thumbnail-list li').should('have.length', 40)
+
+        cy.get('.thumbnail-list li').last().scrollIntoView()
+
+        cy.get('.thumbnail-list li').should('have.length', 60)
+
+        cy.get('.thumbnail-list li').last().scrollIntoView()
+
+        cy.get('.thumbnail-list li').should('have.length', 80)
+
+        cy.get('.thumbnail-list li').last().scrollIntoView()
+
+        cy.get('.thumbnail-list li').should('have.length', 100)
+
+        cy.get('.thumbnail-list li').last().scrollIntoView()
+
+        cy.get('.thumbnail-list li').should('have.length', 120)
+
+        cy.get('.thumbnail-list li').last().scrollIntoView()
+
+        cy.get('.thumbnail-list li').should('have.length', 140)
+
+        cy.get('.thumbnail-list li').last().scrollIntoView()
+
+        cy.get('.thumbnail-list li').should('have.length', 160)
+
+        cy.get('.thumbnail-list li').last().scrollIntoView()
+
+        cy.get('.thumbnail-list li').should('have.length', 180)
+
+        cy.get('.thumbnail-list li').last().scrollIntoView()
+
+        cy.get('.thumbnail-list li').should('have.length', 200)
+    })
+})
+
 // describe('more btn test', () => {
 //     beforeEach(() => {
 //         cy.intercept('GET', '**/movie/popular**', { fixture: 'popularMovies.json' })
