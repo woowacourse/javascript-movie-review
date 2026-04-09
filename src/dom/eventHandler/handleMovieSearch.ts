@@ -11,10 +11,6 @@ export const handleMovieSearch = async (keyword: string) => {
     return;
   }
 
-  const thumbnailListElement = document.getElementById(
-    "search-thumbnail-list",
-  ) as HTMLUListElement;
-
   const url = new URL(window.location.href);
   const params = url.searchParams;
 
@@ -23,6 +19,5 @@ export const handleMovieSearch = async (keyword: string) => {
   url.search = params.toString();
   window.history.pushState({}, "", url.toString());
 
-  thumbnailListElement.innerHTML = "";
   await renderSearchUI(keyword);
 };

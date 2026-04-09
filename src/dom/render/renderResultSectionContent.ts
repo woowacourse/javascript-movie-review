@@ -1,20 +1,21 @@
+import { Movie } from "../../apis/movie/api.ts";
 import { handleMainSeeMore, handleSearchSeeMore } from "../eventHandler/handleSeeMore";
 import { removeEmptyContainer, renderEmptyContainer } from "../components/EmptyContainer";
 import { removeErrorContainer, renderErrorContainer } from "../components/ErrorContainer";
 import { removeMainSeeMoreButton, renderMainSeeMoreButton } from "../components/MainSeeMoreButton";
 import { removeSearchSeeMoreButton, renderSearchSeeMoreButton } from "../components/SearchSeeMoreButton";
+import { removeMainThumbnailList, renderMainThumbnailList } from "../components/MainThumbnailList.ts";
+import { removeSearchThumbnailList, renderSearchThumbnailList } from "../components/SearchThumbnailList.ts";
+import { renderThumbnailList } from "../shared/ThumbnailList.ts";
 
 const hideAll = () => {
   const skeletonList = document.getElementById("skeleton-list");
-  const mainThumbnailList = document.getElementById("main-thumbnail-list");
-  const searchThumbnailList = document.getElementById("search-thumbnail-list");
-
   skeletonList?.classList.add("hidden");
-  mainThumbnailList?.classList.add("hidden");
-  searchThumbnailList?.classList.add("hidden");
-  
+
   removeErrorContainer();
   removeEmptyContainer();
+  removeMainThumbnailList();
+  removeSearchThumbnailList();
   removeMainSeeMoreButton();
   removeSearchSeeMoreButton();
 };
@@ -44,13 +45,22 @@ export const renderMainEmpty = () => {
   }
 };
 
-export const renderMain = (isLastPage: boolean) => {
-  hideAll();
-  const mainThumbnailList = document.getElementById("main-thumbnail-list");
+export const renderMain = (isLastPage: boolean, movies: Movie[]) => {
   const resultSection = document.getElementById("result-section");
-  mainThumbnailList?.classList.remove("hidden");
-  
-  if (!isLastPage && resultSection) {
+  if (!resultSection) return;
+
+  const mainThumbnailList = document.getElementById("main-thumbnail-list");
+
+  if (!mainThumbnailList) {
+    hideAll();
+    renderMainThumbnailList(resultSection, movies);
+  } else {
+    renderThumbnailList(mainThumbnailList, movies);
+  }
+
+  if (isLastPage) {
+    removeMainSeeMoreButton();
+  } else {
     renderMainSeeMoreButton(resultSection, () => {
       handleMainSeeMore();
     });
@@ -89,13 +99,22 @@ export const renderSearchEmpty = () => {
   }
 };
 
-export const renderSearch = (isLastPage: boolean) => {
-  hideAll();
-  const searchThumbnailList = document.getElementById("search-thumbnail-list");
+export const renderSearch = (isLastPage: boolean, movies: Movie[]) => {
   const resultSection = document.getElementById("result-section");
-  searchThumbnailList?.classList.remove("hidden");
-  
-  if (!isLastPage && resultSection) {
+  if (!resultSection) return;
+
+  const searchThumbnailList = document.getElementById("search-thumbnail-list");
+
+  if (!searchThumbnailList) {
+    hideAll();
+    renderSearchThumbnailList(resultSection, movies);
+  } else {
+    renderThumbnailList(searchThumbnailList, movies);
+  }
+
+  if (isLastPage) {
+    removeSearchSeeMoreButton();
+  } else {
     const url = new URL(window.location.href);
     const keyword = url.searchParams.get("keyword") || "";
     renderSearchSeeMoreButton(resultSection, () => {

@@ -2,12 +2,8 @@ import { getPopularMovies } from "../../apis/movie/api";
 import { getSearchedMovies } from "../../apis/search/api";
 import TMDBError from "../../TMDBError";
 import { renderMain, renderSearch } from "../render/renderResultSectionContent";
-import { renderThumbnailList } from "../shared/ThumbnailList";
 
 export const handleMainSeeMore = async () => {
-  const mainThumbnailList = document.getElementById("main-thumbnail-list");
-  if (!mainThumbnailList) return;
-
   const url = new URL(window.location.href);
   const params = url.searchParams;
   const prevPage = Number(params.get("page") || 1);
@@ -24,8 +20,7 @@ export const handleMainSeeMore = async () => {
     const isLastPage = popularMovies.page === popularMovies.total_pages;
     const movies = popularMovies.results;
 
-    renderThumbnailList(mainThumbnailList, movies);
-    renderMain(isLastPage);
+    renderMain(isLastPage, movies);
   } catch (error) {
     let errorMessage = "알 수 없는 에러가 발생했습니다.";
     if (error instanceof TMDBError) {
@@ -36,9 +31,6 @@ export const handleMainSeeMore = async () => {
 };
 
 export const handleSearchSeeMore = async (keyword: string) => {
-  const searchThumbnailList = document.getElementById("search-thumbnail-list");
-  if (!searchThumbnailList) return;
-
   const url = new URL(window.location.href);
   const params = url.searchParams;
   const prevPage = Number(params.get("page") || 1);
@@ -56,8 +48,7 @@ export const handleSearchSeeMore = async (keyword: string) => {
     const isLastPage = searchResult.page === searchResult.total_pages;
     const movies = searchResult.results;
 
-    renderThumbnailList(searchThumbnailList, movies);
-    renderSearch(isLastPage);
+    renderSearch(isLastPage, movies);
   } catch (error) {
     let errorMessage = "알 수 없는 에러가 발생했습니다.";
     if (error instanceof TMDBError) {
