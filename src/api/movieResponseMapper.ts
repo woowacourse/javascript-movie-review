@@ -1,8 +1,8 @@
-import type { FetchMoviePageDataResponse } from "./apiTypes";
+import type { MovieListResponse } from "./apiTypes";
 
-import type { Movie } from "../../types/movie";
+import type { Movie, MovieDetail } from "../../types/movie";
 
-export const mapFetchMoviePageDataResponse = (data: any): FetchMoviePageDataResponse => {
+export const mapMovieListResponse = (data: any): MovieListResponse => {
   const movies: Movie[] = data.results.map((movie: any): Movie => {
     return {
       id: movie.id,
@@ -17,6 +17,19 @@ export const mapFetchMoviePageDataResponse = (data: any): FetchMoviePageDataResp
     currentPage: data.page ?? 0,
     totalPages: data.total_pages ?? 0,
     results: movies,
+  };
+};
+
+export const mapMovieDetailResponse = (data: any): MovieDetail => {
+  return {
+    id: data.id,
+    title: data.title,
+    rate: data.vote_average,
+    thumbnail_path: data.poster_path,
+    hero_path: data.backdrop_path,
+    genres: (data.genres ?? []).map((g: any) => g.name),
+    releaseYear: (data.release_date ?? "").slice(0, 4),
+    overview: data.overview ?? "",
   };
 };
 

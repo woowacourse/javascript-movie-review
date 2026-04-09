@@ -1,7 +1,7 @@
 import { API_PATH, BASE_URL, DEFAULT_LANGUAGE } from "../constants/constant";
 import { ApiError, ApiParseError, ConfigError, NetworkError } from "../errors/DomainErrors";
-import { mapFetchMoviePageDataResponse } from "./movieResponseMapper";
-import type { FetchMoviePageDataResponse } from "./apiTypes";
+import { MovieListResponse } from "./apiTypes";
+import { mapMovieListResponse } from "./movieResponseMapper";
 
 type QueryValue = string | number | boolean;
 type QueryParams = Record<string, QueryValue | undefined>;
@@ -13,14 +13,12 @@ export class TmdbClient {
     }
   }
 
-  fetchPopular(page: number): Promise<FetchMoviePageDataResponse> {
-    return this.requestJson<unknown>(API_PATH.POPULAR_MOVIE, {page})
-      .then(mapFetchMoviePageDataResponse);
+  fetchPopular(page: number): Promise<MovieListResponse> {
+    return this.requestJson<unknown>(API_PATH.POPULAR_MOVIE, { page }).then(mapMovieListResponse);
   }
 
-  searchMovies(query: string, page: number): Promise<FetchMoviePageDataResponse> {
-    return this.requestJson<unknown>(API_PATH.SEARCH_MOVIE, {query, page})
-      .then(mapFetchMoviePageDataResponse);
+  searchMovies(query: string, page: number): Promise<MovieListResponse> {
+    return this.requestJson<unknown>(API_PATH.SEARCH_MOVIE, { query, page }).then(mapMovieListResponse);
   }
 
   private async requestJson<T>(path: string, params: QueryParams): Promise<T> {
@@ -37,17 +35,17 @@ export class TmdbClient {
         },
       });
     } catch (cause) {
-        throw new NetworkError("네트워크 요청 실패", cause);
+      throw new NetworkError("네트워크 요청 실패", cause);
     }
 
     if (!response.ok) {
-        throw new ApiError(response.status, `TMDB API ${response.status}`);
+      throw new ApiError(response.status, `TMDB API ${response.status}`);
     }
 
     try {
-        return (await response.json() as T);
+      return (await response.json()) as T;
     } catch (cause) {
-        throw new ApiParseError("응답 JSON 파싱 실패", cause);
+      throw new ApiParseError("응답 JSON 파싱 실패", cause);
     }
   }
 
