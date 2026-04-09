@@ -34,7 +34,7 @@ export const fetchSearchedMovies = async (
   searchTitle: string,
 ): Promise<MovieResponse> => {
   const response = await fetch(
-    `${apiUrl}/search/movie?query=${encodeURIComponent(searchTitle)}&include_adult=false&language=ko-KR&page=${page}`,
+    `${apiUrl}/search/movie?query=${encodeURIComponent(searchTitle)}&include_adult=false&language=ko-KR&page=${page}&region=KR`,
     {
       method: "GET",
       headers: {
