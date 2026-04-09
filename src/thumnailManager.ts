@@ -46,6 +46,7 @@ export const makeMovieThumbnail = (movie: ThumbnailInfo) => {
   voteAverage.textContent = movie.vote_average.toFixed(1).toString();
 
   const title = document.createElement("strong");
+  title.className = "thumbnail-title";
   title.textContent = movie.title;
 
   rate.appendChild(starImg);

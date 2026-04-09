@@ -7,7 +7,7 @@ class RatingView {
 
   constructor() {
     this.#dom = {
-      container: getElementOrThrow<HTMLDivElement>(".review-container"),
+      container: getElementOrThrow<HTMLDivElement>(".review-star-container"),
       firstStar: getElementOrThrow<HTMLImageElement>(".star-first"),
       secondStar: getElementOrThrow<HTMLImageElement>(".star-second"),
       thirdStar: getElementOrThrow<HTMLImageElement>(".star-third"),

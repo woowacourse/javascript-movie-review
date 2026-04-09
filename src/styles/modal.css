@@ -39,6 +39,108 @@ body.modal-open {
   width: 1000px;
 }
 
+.review-container {
+  margin-top: 16px;
+}
+
+.overview-container {
+  margin-top: 16px;
+}
+
+/* 모바일 */
+@media (max-width: 768px) {
+  .modal {
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+  }
+
+  .modal-image {
+    display: none;
+  }
+
+  .modal-description {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modal-movie-title {
+    text-align: center;
+  }
+
+  .review-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .review-star-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .overview-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+  }
+}
+
+/* 태블릿 */
+@media screen and (max-width: 1024px) {
+  .modal {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+
+  .modal-container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .modal-image {
+    text-align: center;
+  }
+
+  .modal-image img {
+    max-width: 200px;
+    height: 300px;
+    border-radius: 16px;
+  }
+
+  .modal-description {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .review-container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+  }
+
+  .overview-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+  }
+}
+
 .close-modal {
   position: absolute;
   margin: 0;
@@ -82,12 +184,12 @@ body.modal-open {
   margin: 0 0 8px;
 }
 
-.review-title {
+.modal h3 {
   font-size: 24px;
   font-weight: 600;
 }
 
-.review-container {
+.review-star-container {
   display: flex;
   gap: 16px;
   align-items: center;
@@ -107,4 +209,8 @@ body.modal-open {
 .overview {
   max-height: 430px;
   overflow-y: auto;
+}
+
+hr {
+  width: 100%;
 }

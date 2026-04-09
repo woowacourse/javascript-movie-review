@@ -82,14 +82,15 @@ class App {
 
   #bindWindowEvent = () => {
     window.addEventListener("scroll", async () => {
+      const isSearchPage = this.#state.searchString.length !== 0;
       if (
-        this.#state.searchString.length !== 0 &&
+        isSearchPage &&
         this.#state.searchMoviePage === this.#state.totalSearchMoviePage
       ) {
         return;
       }
       if (
-        this.#state.searchString.length === 0 &&
+        !isSearchPage &&
         this.#state.popularMoviePage === this.#state.totalPopularMoviePage
       ) {
         return;
@@ -100,18 +101,23 @@ class App {
       ) {
         const searchValue = this.#state.searchString;
 
-        const requestMovies =
-          searchValue.trim().length === 0
-            ? () => fetchPopularMovies(++this.#state.popularMoviePage)
-            : () =>
-                fetchSearchedMovies(++this.#state.searchMoviePage, searchValue);
+        const requestMovies = isSearchPage
+          ? () =>
+              fetchSearchedMovies(++this.#state.searchMoviePage, searchValue)
+          : () => fetchPopularMovies(++this.#state.popularMoviePage);
 
         setTimeout(async () => {
+          // 내리자마자 새로운 데이터 불러오는 것을 방지하기 위해 timeout
           try {
             this.#views.movieList.addSkeletons();
             const { movies, nowPage, totalPages } = await requestMovies();
-            this.#state.totalSearchMoviePage = totalPages;
-            this.#state.searchMoviePage = nowPage;
+            if (isSearchPage) {
+              this.#state.totalSearchMoviePage = totalPages;
+              this.#state.searchMoviePage = nowPage;
+            } else {
+              this.#state.totalPopularMoviePage = totalPages;
+              this.#state.popularMoviePage = nowPage;
+            }
 
             this.#views.movieList.addMovies(extractThumbnailInfo(movies));
           } catch (error) {
