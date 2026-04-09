@@ -1,8 +1,8 @@
-import { PopularMovie } from "../types/api";
+import { Movie } from "../types/api";
 import starIconSrc from "../images/star_empty.png";
 import { IMAGE_BASE_URL } from "../utils/constants";
 
-export function createMovieList(movies: PopularMovie[]): HTMLElement {
+export function createMovieList(movies: Movie[]): HTMLElement {
   const section = document.createElement("section");
 
   const ul = document.createElement("ul");
@@ -21,7 +21,7 @@ export function createMovieCard({
   title,
   poster_path: posterImg,
   vote_average: rating,
-}: PopularMovie): HTMLLIElement {
+}: Movie): HTMLLIElement {
   const li = document.createElement("li");
 
   const item = document.createElement("div");
@@ -43,7 +43,7 @@ export function createMovieCard({
   starImg.className = "star";
 
   const rateSpan = document.createElement("span");
-  rateSpan.textContent = String(rating.toFixed(1));
+  rateSpan.textContent = (rating ?? 0).toFixed(1);
 
   rateP.append(starImg, rateSpan);
 

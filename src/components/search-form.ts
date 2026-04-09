@@ -1,8 +1,8 @@
 import searchIconSrc from "../images/search.png";
 
-export function createSearchForm(): HTMLDivElement {
-  const wrapper = document.createElement("div");
-  wrapper.className = "search-form-wrapper";
+export function createSearchForm() {
+  const formWrapper = document.createElement("div");
+  formWrapper.className = "search-form-wrapper";
 
   const form = document.createElement("form");
   form.className = "search-form";
@@ -25,7 +25,7 @@ export function createSearchForm(): HTMLDivElement {
 
   button.appendChild(icon);
   form.append(input, button);
-  wrapper.appendChild(form);
+  formWrapper.appendChild(form);
 
-  return wrapper;
+  return { formWrapper, form, input };
 }

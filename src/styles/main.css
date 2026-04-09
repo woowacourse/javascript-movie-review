@@ -31,11 +31,14 @@ section {
 main#main {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 56px;
-  margin: 64px auto;
+  padding: 64px 0;
+  margin: 0 auto;
   overflow: auto;
 
-  .popular-movie-title {
+  .main-title {
+    width: 100%;
     font-size: 2.25rem;
     font-weight: 600;
     color: var(--white);
@@ -125,6 +128,7 @@ button.full-width {
   position: absolute;
   top: 48px;
   left: 6%;
+  cursor: pointer;
 }
 
 .rate {
@@ -221,6 +225,17 @@ header {
   height: 18px;
 }
 
+.no-search-result {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 130px;
+  font-size: 2.25rem;
+  font-weight: 600;
+}
+
 footer.footer {
   min-height: 180px;
   background-color: var(--color-bluegray-80);
@@ -247,6 +262,8 @@ footer.footer {
 }
 
 .skeleton {
+  width: 200px;
+  height: 300px;
   background: linear-gradient(
     15deg,
     var(--color-bluegray-90) 35%,

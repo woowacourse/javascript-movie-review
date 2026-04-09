@@ -7,8 +7,6 @@ export function createSkeleton(count: number = PAGE_SIZE): HTMLUListElement {
   const skeletons = Array.from({ length: count }, () => {
     const skeleton = document.createElement("li");
     skeleton.className = "skeleton";
-    skeleton.style.width = "200px";
-    skeleton.style.height = "300px";
     return skeleton;
   });
 
