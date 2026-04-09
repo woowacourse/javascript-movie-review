@@ -12,7 +12,7 @@ export default class Main {
   #$skeletons: HTMLElement[] = [];
   #$moreButton: HTMLElement | null;
 
-  constructor(title: string) {
+  constructor(title: string, onDetail: (movie_id: number) => void) {
     this.#$element = document.createElement('div');
     this.#$element.className = 'container';
     this.#$element.innerHTML = `
@@ -25,16 +25,23 @@ export default class Main {
     `;
     this.#$list = $<HTMLElement>(this.#$element, '.thumbnail-list');
     this.#$moreButton = null;
+
+    const $ul = $(this.#$element, 'ul');
+    $ul.addEventListener('click', (e) => {
+      const $li = (e.target as Element).closest('li');
+      const id = $li?.dataset.id;
+      onDetail(Number(id));
+    });
   }
 
   get $element() {
     return this.#$element;
   }
 
-  renderMovies(movies: MovieData[], onDetail: (movie_id: number) => void) {
+  renderMovies(movies: MovieData[]) {
     this.removeSkeletons();
     const $fragment = new DocumentFragment();
-    movies.forEach((movie) => $fragment.append(MovieItem(movie, onDetail)));
+    movies.forEach((movie) => $fragment.append(MovieItem(movie)));
     this.#$list.append($fragment);
   }
 
