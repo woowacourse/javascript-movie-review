@@ -41,4 +41,7 @@
 
     gap: 0.5rem;
   }
+  .modal-description h2 {
+    text-align: center;
+  }
 }

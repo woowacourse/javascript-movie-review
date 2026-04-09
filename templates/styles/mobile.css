@@ -67,4 +67,8 @@
   .modal-description hr {
     width: 100%;
   }
+  .modal-description h2 {
+    text-align: center;
+    width: 100%;
+  }
 }
