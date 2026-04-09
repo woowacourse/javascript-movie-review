@@ -18,13 +18,17 @@ export const showErrorText = (string: string) => {
 
 export const updateTitleText = (state: State) => {
   const description = getElement(".page-title", HTMLElement);
-  const background = getElement(".background-container", HTMLElement);
 
-  if (state.searchBarText === "") {
-    background.hidden = false;
-    description.textContent = "지금 인기 있는 영화";
-  } else {
-    background.hidden = true;
-    description.textContent = `'${state.searchBarText}' 검색 결과`;
-  }
+  const backgroundContainer = getElement(".background-container", HTMLElement);
+  const overlay = getElement(".overlay", HTMLElement);
+  const topRatedContainer = getElement(".top-rated-container", HTMLElement);
+
+  const isPopularPage = state.searchBarText === "";
+
+  backgroundContainer.classList.toggle("is-search-mode", !isPopularPage);
+  overlay.hidden = !isPopularPage;
+  topRatedContainer.hidden = !isPopularPage;
+  description.textContent = isPopularPage
+    ? "지금 인기 있는 영화"
+    : `'${state.searchBarText}' 검색 결과`;
 };

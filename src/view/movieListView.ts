@@ -1,5 +1,3 @@
-import logo from "../../templates/images/logo.png";
-
 import { Movie } from "../types";
 import { getElement } from "./getElementView";
 

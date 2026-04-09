@@ -10,14 +10,12 @@
 
   /* 1. 그리드 변경 */
   .thumbnail-list {
-    display: grid;
-    grid-template-columns: repeat(1, 250px);
-    gap: 70px;
+    /* grid-template-columns: repeat(1, 250px); */
+    gap: 50px;
   }
 
   .thumbnail {
-    width: 250px;
-    height: 350px;
+    width: 200px;
     border-radius: 8px;
   }
 

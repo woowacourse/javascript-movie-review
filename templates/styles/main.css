@@ -22,6 +22,11 @@ section {
   justify-content: center;
 }
 
+.movie-section {
+  width: fit-content;
+  margin: 0 auto;
+}
+
 main {
   margin: 64px 0;
 }
@@ -75,6 +80,10 @@ button.primary {
   background-size: cover;
   height: 500px;
   padding: 48px;
+}
+.background-container.is-search-mode {
+  height: auto;
+  padding: 24px 48px;
 }
 
 .logo-container {
@@ -143,6 +152,10 @@ button.primary {
   height: 100%;
   object-fit: cover;
   opacity: 50%;
+}
+
+.overlay[hidden] {
+  display: none;
 }
 
 .top-rated-container {
