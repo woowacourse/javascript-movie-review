@@ -8,19 +8,31 @@ const routes = [
   { path: '/search', view: SearchPage },
 ];
 
+const PAGE_CACHE = new Map<string, HTMLElement>();
+
 const router = (modal: Modal) => {
   const $app = document.querySelector('#app');
   if (!$app) return;
 
   $app.innerHTML = '';
   const fullHash = location.hash.replace('#', '') || '/';
-  const [path, _] = fullHash.split('?');
+  const [path] = fullHash.split('?');
   const match = routes.find((route) => route.path === path);
 
   const View = match ? match.view : HomePage;
-  const page = new View(modal);
+  const fullpath = match ? fullHash : '/';
 
-  $app.replaceChildren(page.$element);
+  const cachePage = PAGE_CACHE.get(fullpath);
+
+  if (cachePage !== undefined) {
+    PAGE_CACHE.set(fullpath, cachePage as HTMLElement);
+    $app.append(cachePage as any);
+    return;
+  }
+
+  const newPage = new View(modal).$element;
+  $app.append(newPage);
+  PAGE_CACHE.set(fullpath, newPage);
 };
 
 const navigateTo = (url: string) => {

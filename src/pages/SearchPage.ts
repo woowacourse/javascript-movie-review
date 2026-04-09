@@ -9,7 +9,7 @@ import { CUSTOM_EVENT, dispatchRouteChange } from '../utils/event.ts';
 import Modal from '../components/modal/Modal.ts';
 
 export default class SearchPage {
-  #$fragment: DocumentFragment;
+  #$div: HTMLElement;
   #page: number;
   #totalPage: number;
   #main: Main;
@@ -22,19 +22,19 @@ export default class SearchPage {
     this.#$modal = modal;
     this.#isLoading = false;
 
-    this.#$fragment = document.createDocumentFragment();
+    this.#$div = document.createElement('div');
     const query = this.#getQuery();
     const header = new Header(this.#onSubmit);
     this.#main = new Main(`"${query}" 검색 결과`, this.#onDetail);
     const footer = new Footer();
 
-    this.#$fragment.append(header.$element, this.#main.$element, footer.$element);
+    this.#$div.append(header.$element, this.#main.$element, footer.$element);
     window.addEventListener(CUSTOM_EVENT.SCROOL_END, () => this.#loadMore());
     this.#initialFetch();
   }
 
   get $element() {
-    return this.#$fragment;
+    return this.#$div;
   }
 
   #getQuery(): string {

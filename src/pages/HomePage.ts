@@ -9,7 +9,7 @@ import { CUSTOM_EVENT, dispatchRouteChange } from '../utils/event.ts';
 import Modal from '../components/modal/Modal.ts';
 
 export default class HomePage {
-  #$fragment: DocumentFragment;
+  #$div: HTMLElement;
 
   #page: number;
   #totalPage: number;
@@ -26,12 +26,12 @@ export default class HomePage {
     this.#totalPage = 1;
     this.#page = 1;
 
-    this.#$fragment = document.createDocumentFragment();
+    this.#$div = document.createElement('div');
     this.#header = new Header(this.#onSubmit);
     this.#main = new Main('지금 인기있는 영화', this.#onDetail);
     this.#footer = new Footer();
 
-    this.#$fragment.append(this.#header.$element, this.#main.$element, this.#footer.$element);
+    this.#$div.append(this.#header.$element, this.#main.$element, this.#footer.$element);
 
     window.addEventListener(CUSTOM_EVENT.SCROOL_END, () => this.#loadMore());
 
@@ -39,7 +39,7 @@ export default class HomePage {
   }
 
   get $element() {
-    return this.#$fragment;
+    return this.#$div;
   }
 
   async #initialFetch() {
