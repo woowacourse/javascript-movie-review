@@ -1,6 +1,6 @@
 import { getPopularMovies, Movie } from "../../apis/movie/api";
 import TMDBError from "../../TMDBError";
-import { renderBanner } from "./renderBanner";
+import { renderBanner } from "../components/Banner";
 import {
   renderMain,
   renderMainEmpty,
@@ -17,7 +17,11 @@ export const renderMainUI = async () => {
     const popularMovies = await getPopularMovies({ language: "ko-KR" });
     isLastPage = popularMovies.page === popularMovies.total_pages;
     movies = popularMovies.results;
-    renderBanner({ movie: movies[0] });
+
+    const header = document.querySelector("header");
+    if (header) {
+      renderBanner(header, movies[0]);
+    }
   } catch (error) {
     isError = true;
     errorMessage = "🚨알 수 없는 에러가 발생했습니다.🚨";

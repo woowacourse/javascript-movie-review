@@ -1,33 +1,13 @@
 import { Movie } from "../../apis/movie/api.ts";
-import {
-  handleMainSeeMore,
-  handleSearchSeeMore,
-} from "../eventHandler/handleSeeMore";
-import {
-  removeEmptyContainer,
-  renderEmptyContainer,
-} from "../components/EmptyContainer";
-import {
-  removeErrorContainer,
-  renderErrorContainer,
-} from "../components/ErrorContainer";
-import {
-  removeMainSeeMoreButton,
-  renderMainSeeMoreButton,
-} from "../components/MainSeeMoreButton";
-import {
-  removeSearchSeeMoreButton,
-  renderSearchSeeMoreButton,
-} from "../components/SearchSeeMoreButton";
-import {
-  removeMainThumbnailList,
-  renderMainThumbnailList,
-} from "../components/MainThumbnailList.ts";
-import {
-  removeSearchThumbnailList,
-  renderSearchThumbnailList,
-} from "../components/SearchThumbnailList.ts";
+import { handleMainSeeMore, handleSearchSeeMore } from "../eventHandler/handleSeeMore";
+import { removeEmptyContainer, renderEmptyContainer } from "../components/EmptyContainer";
+import { removeErrorContainer, renderErrorContainer } from "../components/ErrorContainer";
+import { removeMainSeeMoreButton, renderMainSeeMoreButton } from "../components/MainSeeMoreButton";
+import { removeSearchSeeMoreButton, renderSearchSeeMoreButton } from "../components/SearchSeeMoreButton";
+import { removeMainThumbnailList, renderMainThumbnailList } from "../components/MainThumbnailList.ts";
+import { removeSearchThumbnailList, renderSearchThumbnailList } from "../components/SearchThumbnailList.ts";
 import { renderMovieItems } from "../shared/MovieItem.ts";
+import { hideBanner, showBanner } from "../components/Banner";
 
 const hideAll = () => {
   const skeletonList = document.getElementById("skeleton-list");
@@ -43,6 +23,9 @@ const hideAll = () => {
 
 export const renderMainLoading = () => {
   hideAll();
+  // TODO: loading 시점에 아직 banner가 렌더링이 안 된 문제
+  // -> renderMainUI 로직과 renderMain 함수 둘 중 하나 제거하면 좋을 듯
+  showBanner();
   const skeletonList = document.getElementById("skeleton-list");
   skeletonList?.classList.remove("hidden");
 };
@@ -74,6 +57,7 @@ export const renderMain = (isLastPage: boolean, movies: Movie[]) => {
 
   if (!mainThumbnailList) {
     hideAll();
+    showBanner();
     renderMainThumbnailList(resultSection, movies);
   } else {
     renderMovieItems(mainThumbnailList, movies);
@@ -90,12 +74,11 @@ export const renderMain = (isLastPage: boolean, movies: Movie[]) => {
 
 export const renderSearchLoading = (keyword: string) => {
   hideAll();
-  const banner = document.getElementById("background-container");
+  hideBanner();
   const resultSection = document.getElementById("result-section");
   const subTitle = document.getElementById("sub-title");
   const skeletonList = document.getElementById("skeleton-list");
 
-  banner?.classList.add("hidden");
   resultSection?.classList.add("result-section");
   if (subTitle) subTitle.innerText = `"${keyword}" 검색 결과`;
   skeletonList?.classList.remove("hidden");
