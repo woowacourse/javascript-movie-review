@@ -187,20 +187,25 @@ addEventListener("load", async () => {
   moreButton?.addEventListener("click", handleMoreMovie);
 
   document.addEventListener('scroll', () => {
-    const movieList = document.querySelector<HTMLUListElement>("#movie-list");
-    if(!movieList) return;
 
-    const { scrollY } = window;
+    const getIsBottom = () => {
+      const movieList = document.querySelector<HTMLUListElement>("#movie-list");
+      if(!movieList) return;
 
-    const { top, height } = movieList.getBoundingClientRect();
-    const { pageYOffset } = window;
-    const offsetBottom = pageYOffset + top +  height;
+      const { scrollY } = window;
 
-    const windowInnerHeight = window.innerHeight;
+      const { top, height } = movieList.getBoundingClientRect();
+      const { pageYOffset } = window;
+      const offsetBottom = pageYOffset + top +  height;
 
-    const isBottom = scrollY + windowInnerHeight >= offsetBottom;
+      const windowInnerHeight = window.innerHeight;
 
-    if(isBottom){
+      const isBottom = scrollY + windowInnerHeight >= offsetBottom;
+
+      return isBottom;
+    }
+
+    if(getIsBottom()){
       handleMoreMovie();
     }
   });
