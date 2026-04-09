@@ -1,23 +1,20 @@
+import { removeErrorContainer, renderErrorContainer } from "../components/ErrorContainer";
+
 const hideAll = () => {
   const skeletonList = document.getElementById("skeleton-list");
-  const errorContainer = document.getElementById("error-container");
   const emptyContainer = document.getElementById("empty-container");
-  const errorMessageContent = document.querySelector(
-    "#error-container p",
-  ) as HTMLParagraphElement;
   const mainThumbnailList = document.getElementById("main-thumbnail-list");
   const mainSeeMoreButton = document.getElementById("main-see-more-button");
   const searchThumbnailList = document.getElementById("search-thumbnail-list");
   const searchSeeMoreButton = document.getElementById("search-see-more-button");
 
   skeletonList?.classList.add("hidden");
-  errorContainer?.classList.add("hidden");
   emptyContainer?.classList.add("hidden");
-  errorMessageContent?.classList.add("hidden");
   mainThumbnailList?.classList.add("hidden");
   mainSeeMoreButton?.classList.add("hidden");
   searchThumbnailList?.classList.add("hidden");
   searchSeeMoreButton?.classList.add("hidden");
+  removeErrorContainer();
 };
 
 export const renderMainLoading = () => {
@@ -28,14 +25,12 @@ export const renderMainLoading = () => {
 
 export const renderMainError = (errorMessage?: string) => {
   hideAll();
-  const errorContainer = document.getElementById("error-container");
-  const errorMessageContent = document.querySelector(
-    "#error-container p",
-  ) as HTMLParagraphElement;
-  errorContainer?.classList.remove("hidden");
-  if (errorMessageContent) {
-    errorMessageContent.classList.remove("hidden");
-    errorMessageContent.innerText = errorMessage || "🚨문제가 발생했습니다.🚨";
+  const resultSection = document.getElementById("result-section");
+  if (resultSection) {
+    renderErrorContainer(
+      resultSection,
+      errorMessage || "🚨문제가 발생했습니다.🚨",
+    );
   }
 };
 
@@ -68,14 +63,12 @@ export const renderSearchLoading = (keyword: string) => {
 
 export const renderSearchError = (errorMessage?: string) => {
   hideAll();
-  const errorContainer = document.getElementById("error-container");
-  const errorMessageContent = document.querySelector(
-    "#error-container p",
-  ) as HTMLParagraphElement;
-  errorContainer?.classList.remove("hidden");
-  if (errorMessageContent) {
-    errorMessageContent.classList.remove("hidden");
-    errorMessageContent.innerText = errorMessage || "🚨문제가 발생했습니다.🚨";
+  const resultSection = document.getElementById("result-section");
+  if (resultSection) {
+    renderErrorContainer(
+      resultSection,
+      errorMessage || "🚨문제가 발생했습니다.🚨",
+    );
   }
 };
 
