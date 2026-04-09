@@ -6,6 +6,7 @@ export const createMovieItemHTML = (movie: Movie): HTMLLIElement => {
   const posterSrc = `${posterBaseURL}${movie.poster_path}`;
 
   const li = document.createElement("li");
+  li.dataset.movieId = String(movie.id);
   li.insertAdjacentHTML(
     "beforeend",
     /*html*/ `
