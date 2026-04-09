@@ -132,36 +132,38 @@ const errorTryCatch = async (api: Function, errorCallback: Function) => {
   }
 };
 
+const handleMoreMovie = () => {
+  pageState.increamentPage();
+  const isSearchParams = hasSearchParams("search");
+
+  if (isSearchParams) {
+    runSearch();
+    return;
+  }
+  (async () => {
+    const page = pageState.getPage();
+
+    const movies = await errorTryCatch(
+      async () => await getMoviePopular({ page }),
+      async (e: ApiError) => {
+        if (e.status_code == 22) {
+          alert("잘못된 페이지 요청입니다.");
+          return;
+        }
+        alert("영화 정보를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.");
+      },
+    );
+
+    if (movies) renderMovieList(movies);
+  })(); 
+}
+
 addEventListener("load", async () => {
 
   loadInit();
 
   const moreButton = document.querySelector("#more-button");
-  moreButton?.addEventListener("click", () => {
-    pageState.increamentPage();
-    const isSearchParams = hasSearchParams("search");
-
-    if (isSearchParams) {
-      runSearch();
-      return;
-    }
-    (async () => {
-      const page = pageState.getPage();
-
-      const movies = await errorTryCatch(
-        async () => await getMoviePopular({ page }),
-        async (e: ApiError) => {
-          if (e.status_code == 22) {
-            alert("잘못된 페이지 요청입니다.");
-            return;
-          }
-          alert("영화 정보를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.");
-        },
-      );
-
-      if (movies) renderMovieList(movies);
-    })();
-  });
+  moreButton?.addEventListener("click", handleMoreMovie);
 
   const searchButton = document.querySelector("#search-button");
   searchButton?.addEventListener("click", () => {
