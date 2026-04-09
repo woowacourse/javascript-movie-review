@@ -22,14 +22,19 @@ export default class SearchPage {
     this.#$modal = modal;
     this.#isLoading = false;
 
-    this.#$div = document.createElement('div');
     const query = this.#getQuery();
+
+    this.#$div = document.createElement('div');
+    this.#$div.id = 'query';
     const header = new Header(this.#onSubmit);
     this.#main = new Main(`"${query}" 검색 결과`, this.#onDetail);
     const footer = new Footer();
 
     this.#$div.append(header.$element, this.#main.$element, footer.$element);
-    window.addEventListener(CUSTOM_EVENT.SCROOL_END, () => this.#loadMore());
+    window.addEventListener(CUSTOM_EVENT.SCROOL_END, () => {
+      const isPage = window.document.querySelector(`#${query}`);
+      if (isPage) this.#loadMore();
+    });
     this.#initialFetch();
   }
 

@@ -27,13 +27,18 @@ export default class HomePage {
     this.#page = 1;
 
     this.#$div = document.createElement('div');
+    this.#$div.id = 'homepage';
+
     this.#header = new Header(this.#onSubmit);
     this.#main = new Main('지금 인기있는 영화', this.#onDetail);
     this.#footer = new Footer();
 
     this.#$div.append(this.#header.$element, this.#main.$element, this.#footer.$element);
 
-    window.addEventListener(CUSTOM_EVENT.SCROOL_END, () => this.#loadMore());
+    window.addEventListener(CUSTOM_EVENT.SCROOL_END, () => {
+      const isPage = window.document.querySelector('#homepage');
+      if (isPage) this.#loadMore();
+    });
 
     this.#initialFetch();
   }

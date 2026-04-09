@@ -8,7 +8,7 @@ const routes = [
   { path: '/search', view: SearchPage },
 ];
 
-const PAGE_CACHE = new Map<string, HTMLElement>();
+const PAGE_CACHE = new Map<string, HomePage | SearchPage>();
 
 const router = (modal: Modal) => {
   const $app = document.querySelector('#app');
@@ -22,16 +22,14 @@ const router = (modal: Modal) => {
   const View = match ? match.view : HomePage;
   const fullpath = match ? fullHash : '/';
 
-  const cachePage = PAGE_CACHE.get(fullpath);
-
-  if (cachePage !== undefined) {
-    PAGE_CACHE.set(fullpath, cachePage as HTMLElement);
-    $app.append(cachePage as any);
+  const cachedPage = PAGE_CACHE.get(fullpath);
+  if (cachedPage !== undefined) {
+    $app.append(cachedPage.$element);
     return;
   }
 
-  const newPage = new View(modal).$element;
-  $app.append(newPage);
+  const newPage = new View(modal);
+  $app.append(newPage.$element);
   PAGE_CACHE.set(fullpath, newPage);
 };
 
