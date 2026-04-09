@@ -3,7 +3,7 @@ import { getElementOrThrow, getYearFromDate } from "./utils";
 import NotFoundPoster from "../assets/notFoundImage.png";
 
 interface MovieDetailViewDomType {
-  background: HTMLDivElement;
+  modal: HTMLDialogElement;
   closeButton: HTMLButtonElement;
   posterImage: HTMLImageElement;
   title: HTMLHeadingElement;
@@ -17,7 +17,7 @@ class MovieDetailView {
 
   constructor() {
     this.#dom = {
-      background: getElementOrThrow<HTMLDivElement>(".modal-background"),
+      modal: getElementOrThrow<HTMLDialogElement>(".modal"),
       closeButton: getElementOrThrow<HTMLButtonElement>(".close-modal"),
       posterImage: getElementOrThrow<HTMLImageElement>(".modal-poster-image"),
       title: getElementOrThrow<HTMLHeadingElement>(".modal-movie-title"),
@@ -32,16 +32,16 @@ class MovieDetailView {
     // 너무 돌아가는 느낌인데
     // 만약 close 버튼에 추가 기능이 생기면 App.ts에서 받는게 맞는데,,
     this.#dom.closeButton.addEventListener("click", () => {
-      this.hide();
+      this.#dom.modal.close();
     });
   }
 
   show() {
-    this.#dom.background.classList.add("active");
+    this.#dom.modal.showModal();
   }
 
   hide() {
-    this.#dom.background.classList.remove("active");
+    this.#dom.modal.close();
   }
 
   getMovieId() {
