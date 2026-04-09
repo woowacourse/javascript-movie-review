@@ -7,30 +7,6 @@ import { MovieResponse } from "./types/api";
 import { IMAGE_BASE_URL } from "./utils/constants";
 import { createSkeleton } from "./components/skeleton";
 
-let page = 1;
-
-const createLoadMoreHandler = async (
-  getUrl: (page: number) => string,
-  loadBtnEl: HTMLButtonElement,
-  mainEl: Element,
-) => {
-  page++;
-  loadBtnEl.disabled = true;
-
-  const skeletons = createSkeleton();
-  mainEl.append(skeletons, loadBtnEl);
-
-  const data = await apiRequest<MovieResponse>({
-    url: getUrl(page),
-    method: "GET",
-  });
-  if (data) loadBtnEl.disabled = false;
-
-  const newMovieList = createMovieList(data.results);
-  skeletons.replaceWith(newMovieList);
-  mainEl.append(loadBtnEl);
-};
-
 addEventListener("load", async () => {
   const headerEl = document.querySelector("header")!;
   const heroEl = document.querySelector("#hero")!;
@@ -41,10 +17,11 @@ addEventListener("load", async () => {
   headerEl.appendChild(formWrapper);
 
   const moreButton = createButton("more", "더 보기");
+  const skeletonEls = createSkeleton();
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
-    page = 1;
+    let page = 1;
 
     const params = new URLSearchParams();
     const query = input.value.trim();
@@ -77,10 +54,12 @@ addEventListener("load", async () => {
     }
 
     moreButton.onclick = () => {
+      page++;
       createLoadMoreHandler(
-        (page) => `/search/movie?language=ko-KR&query=${query}&page=${page}`,
+        `/search/movie?language=ko-KR&query=${query}&page=${page}`,
         moreButton,
         mainEl,
+        skeletonEls,
       );
     };
   });
@@ -93,22 +72,56 @@ addEventListener("load", async () => {
   });
   heroEl.appendChild(hero);
 
-  const skeletons = createSkeleton();
-  mainEl.appendChild(skeletons);
+  renderPopularMovieList(moreButton, mainEl, skeletonEls);
+
+  mainEl.appendChild(skeletonEls);
+});
+
+// 인기 영화 목록을 불러와서 렌더링하는 함수
+const renderPopularMovieList = async (
+  loadMoreBtnEl: HTMLButtonElement,
+  mainEl: Element,
+  skeletonEls: HTMLElement,
+) => {
+  let page = 1;
 
   const data = await apiRequest<MovieResponse>({
     url: `/movie/popular?language=ko-KR&page=${page}`,
     method: "GET",
   });
   const movieList = createMovieList(data.results);
+  skeletonEls.replaceWith(movieList, loadMoreBtnEl);
 
-  moreButton.onclick = () => {
+  loadMoreBtnEl.onclick = () => {
+    page++;
+
     createLoadMoreHandler(
-      (page) => `/movie/popular?language=ko-KR&page=${page}`,
-      moreButton,
+      `/movie/popular?language=ko-KR&page=${page}`,
+      loadMoreBtnEl,
       mainEl,
+      skeletonEls,
     );
   };
+};
 
-  skeletons.replaceWith(movieList, moreButton);
-});
+// Load More 버튼 클릭 시 추가 영화 데이터를 불러오는 핸들러
+const createLoadMoreHandler = async (
+  url: string,
+  loadMoreBtnEl: HTMLButtonElement,
+  mainEl: Element,
+  skeletonEls: HTMLElement,
+) => {
+  loadMoreBtnEl.disabled = true;
+
+  mainEl.append(skeletonEls, loadMoreBtnEl);
+
+  const data = await apiRequest<MovieResponse>({
+    url: url,
+    method: "GET",
+  });
+  if (data) loadMoreBtnEl.disabled = false;
+
+  const newMovieList = createMovieList(data.results);
+  skeletonEls.replaceWith(newMovieList);
+  mainEl.append(loadMoreBtnEl);
+};
