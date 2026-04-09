@@ -15,7 +15,6 @@ export const paintError = () => {
 export const paintInitialLoading = (skeletonCount: number) => {
   const movieList = getMovieListElement();
   if (movieList) Renderer.renderSkeleton(movieList, skeletonCount);
-  Renderer.hideLoadMoreButton();
 };
 
 export const paintClearBanner = () => {
@@ -55,11 +54,6 @@ export const paintEmptyResult = () => {
 
 export const paintClearEmptyResult = () => {
   Renderer.clearEmptyResult();
-};
-
-export const paintLoadMoreButtonStatus = (hasNextPage: boolean) => {
-  if (hasNextPage) Renderer.showLoadMoreButton();
-  else Renderer.hideLoadMoreButton();
 };
 
 export const paintResetList = () => {

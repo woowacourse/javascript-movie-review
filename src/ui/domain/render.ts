@@ -86,16 +86,6 @@ const Renderer = {
       .map((child) => child.outerHTML)
       .join("");
   },
-
-  showLoadMoreButton() {
-    const button = getLoadMoreButtonElement();
-    if (button) button.style.display = "block";
-  },
-
-  hideLoadMoreButton() {
-    const button = getLoadMoreButtonElement();
-    if (button) button.style.display = "none";
-  },
 };
 
 export default Renderer;

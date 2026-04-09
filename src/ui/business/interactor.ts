@@ -1,23 +1,5 @@
-import { getLoadMoreButtonElement, getSearchFormElement } from "../domain/movieElement";
-import {
-  addEventListenerToElement,
-  replaceEventListenerToElement,
-} from "../utils/eventListener";
-
-let currentLoadMoreHandler: (() => void) | null = null;
-
-export const setupLoadMoreInteraction = (loadMoreMovies: () => void) => {
-  const loadMoreButton = getLoadMoreButtonElement();
-
-  replaceEventListenerToElement({
-    element: loadMoreButton,
-    event: "click",
-    prevHandler: currentLoadMoreHandler,
-    nextHandler: loadMoreMovies,
-  });
-
-  currentLoadMoreHandler = loadMoreMovies;
-};
+import { getSearchFormElement } from "../domain/movieElement";
+import { addEventListenerToElement } from "../utils/eventListener";
 
 export const setupSearchInteraction = (onSearch: (query: string) => void) => {
   const searchForm = getSearchFormElement();
