@@ -5,8 +5,8 @@ import {
   renderSearch,
   renderSearchEmpty,
   renderSearchError,
+  renderSearchLoading,
 } from "../../pages/search";
-import { renderLoadingUI } from "./renderLoadingUI.ts";
 
 export const renderSearchUI = async (keyword: string) => {
   const searchInput = document.getElementById(
@@ -22,7 +22,7 @@ export const renderSearchUI = async (keyword: string) => {
   if (searchInput?.value.trim() === "") return;
 
   try {
-    renderLoadingUI();
+    renderSearchLoading(keyword);
 
     const searchResult = await getSearchedMovies({
       query: keyword,

@@ -1,7 +1,8 @@
 import { handleMovieSearch } from "./dom/eventHandler/handleMovieSearch";
-import { renderLoadingUI } from "./dom/render/renderLoadingUI.ts";
 import { renderMainUI } from "./dom/render/renderMainUI";
 import { renderSearchUI } from "./dom/render/renderSearchUI";
+import { renderMainLoading } from "./pages/home";
+import { renderSearchLoading } from "./pages/search";
 
 const logo = document.getElementById("logo");
 const searchInput = document.getElementById(
@@ -26,14 +27,14 @@ if (searchInput && searchButton) {
 }
 
 const render = async () => {
-  renderLoadingUI();
-
   const url = new URL(window.location.href);
   const params = url.searchParams;
   const keyword = params.get("keyword");
   if (keyword) {
+    renderSearchLoading(keyword);
     await renderSearchUI(keyword);
   } else {
+    renderMainLoading();
     await renderMainUI();
   }
 };
