@@ -23,6 +23,9 @@ class SearchUI {
   errorMessageContent = document.querySelector(
     "#error-container p",
   ) as HTMLParagraphElement;
+  thumbnailListElement = document.getElementById(
+    "search-thumbnail-list",
+  ) as HTMLUListElement;
 
   keyword = getKeywordFromURL();
 
@@ -47,6 +50,7 @@ class SearchUI {
 
   async load() {
     this.setSearchState({ type: "loading" });
+    this.thumbnailListElement.innerHTML = "";
     try {
       const keyword = getKeywordFromURL();
       const searchResult = await getSearchedMovies({
