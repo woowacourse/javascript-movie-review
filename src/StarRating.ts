@@ -1,16 +1,19 @@
+import { RatingStorage } from "./storage/RatingStorage";
+
 class StarRating {
   private container: HTMLElement;
   private movieId: number;
   private currentScore: number = 0;
   private hoverScore: number = 0;
+  private storage: RatingStorage;
 
-  constructor(container: HTMLElement, movieId: number) {
+  constructor(container: HTMLElement, movieId: number, storage: RatingStorage) {
     this.container = container;
     this.movieId = movieId;
+    this.storage = storage;
 
-    // 로컬스토리지에서 값 object 가져오기 & 현재 연 영화 별점 업데이트
-    const ratings = JSON.parse(localStorage.getItem("movieRatings") || "{}");
-    this.currentScore = ratings[this.movieId] || 0;
+    // storage에서 현재 연 영화 별점 업데이트
+    this.currentScore = this.storage.getRating(this.movieId);
 
     this.bindRatingEvents();
     this.updateRatingUI();
@@ -44,11 +47,7 @@ class StarRating {
         this.currentScore = (targetStarIndex + 1) * 2;
         this.updateRatingUI();
 
-        const ratings = JSON.parse(
-          localStorage.getItem("movieRatings") || "{}",
-        );
-        ratings[this.movieId] = this.currentScore;
-        localStorage.setItem("movieRatings", JSON.stringify(ratings));
+        this.storage.setRating(this.movieId, this.currentScore);
       }
     });
   }

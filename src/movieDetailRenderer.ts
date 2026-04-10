@@ -1,6 +1,7 @@
 import { fetchMovieDetail } from "./movieAPIResponse";
 import type { MovieDetail } from "../types/MovieDetail";
 import StarRating from "./StarRating.ts";
+import { LocalRatingStorage } from "./storage/LocalRatingStorage";
 
 const posterBaseURL = "https://image.tmdb.org/t/p/original/";
 const base = import.meta.env.BASE_URL;
@@ -84,7 +85,7 @@ export const renderMovieDetail = async (movieId: number) => {
 
     const rateContainer = modal?.querySelector(".my-rate") as HTMLElement;
     if (rateContainer) {
-      new StarRating(rateContainer, movieId);
+      new StarRating(rateContainer, movieId, new LocalRatingStorage());
     }
   } catch (error) {
     alert(
