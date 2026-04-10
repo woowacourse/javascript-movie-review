@@ -20,14 +20,10 @@ export const updateTitleText = (state: State) => {
   const description = getElement(".page-title", HTMLElement);
 
   const backgroundContainer = getElement(".background-container", HTMLElement);
-  const overlay = getElement(".overlay", HTMLElement);
-  const topRatedContainer = getElement(".top-rated-container", HTMLElement);
 
   const isPopularPage = state.searchBarText === "";
 
-  backgroundContainer.classList.toggle("is-search-mode", !isPopularPage);
-  overlay.hidden = !isPopularPage;
-  topRatedContainer.hidden = !isPopularPage;
+  backgroundContainer.hidden = !isPopularPage;
   description.textContent = isPopularPage
     ? "지금 인기 있는 영화"
     : `'${state.searchBarText}' 검색 결과`;

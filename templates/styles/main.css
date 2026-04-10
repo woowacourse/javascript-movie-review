@@ -37,6 +37,7 @@ main section {
 
 .page-title {
   font-size: 3rem;
+  margin-top: 10rem;
   margin-bottom: 4rem;
   margin-left: 2rem;
   font-weight: 600;
@@ -84,6 +85,14 @@ button.primary {
 .background-container.is-search-mode {
   height: auto;
   padding: 24px 48px;
+}
+
+nav {
+  position: absolute;
+  top: 24px;
+  left: 0;
+  width: 100%;
+  z-index: 10;
 }
 
 .logo-container {
@@ -161,6 +170,7 @@ button.primary {
 .top-rated-container {
   user-select: none;
   position: relative;
+  top: 14rem;
   z-index: 2;
   max-width: 1000px;
   margin: 0 auto;
