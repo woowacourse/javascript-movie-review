@@ -8,20 +8,25 @@ import {
   renderSearchLoading,
 } from "../../pages/search";
 
-export const renderSearchUI = async (keyword: string) => {
+export const renderSearchUI = async () => {
+  const url = new URL(window.location.href);
+  const keyword = url.searchParams.get("keyword") || "";
+
   const searchInput = document.getElementById(
     "search-input",
   ) as HTMLInputElement;
-  searchInput.value = keyword;
+
+  if (searchInput) {
+    searchInput.value = keyword;
+  }
 
   let isError = false;
   let isLastPage = true;
   let movies: Movie[] = [];
   let errorMessage = "";
 
-  if (searchInput?.value.trim() === "") return;
+  if (keyword.trim() === "") return;
 
-  const url = new URL(window.location.href);
   const page = Number(url.searchParams.get("page")) || 1;
 
   try {

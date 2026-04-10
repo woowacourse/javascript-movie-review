@@ -22,7 +22,7 @@ export const handleMainSeeMore = async () => {
   }
 };
 
-export const handleSearchSeeMore = async (keyword: string) => {
+export const handleSearchSeeMore = async () => {
   const url = new URL(window.location.href);
   const params = url.searchParams;
   const prevPage = Number(params.get("page") || 1);
@@ -32,7 +32,7 @@ export const handleSearchSeeMore = async (keyword: string) => {
   window.history.pushState({}, "", url.toString());
 
   try {
-    await renderSearchUI(keyword);
+    await renderSearchUI();
   } catch (error) {
     let errorMessage = "알 수 없는 에러가 발생했습니다.";
     if (error instanceof TMDBError) {

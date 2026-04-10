@@ -32,7 +32,7 @@ const render = async () => {
   const keyword = params.get("keyword");
   if (keyword) {
     renderSearchLoading(keyword);
-    await renderSearchUI(keyword);
+    await renderSearchUI();
   } else {
     renderMainLoading();
     await renderMainUI();

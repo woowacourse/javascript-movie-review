@@ -70,10 +70,8 @@ export const renderSearch = (isLastPage: boolean, movies: Movie[]) => {
   if (isLastPage) {
     removeSearchSeeMoreButton();
   } else {
-    const url = new URL(window.location.href);
-    const keyword = url.searchParams.get("keyword") || "";
     renderSearchSeeMoreButton(resultSection, () => {
-      handleSearchSeeMore(keyword);
+      handleSearchSeeMore();
     });
   }
 };
