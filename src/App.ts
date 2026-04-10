@@ -140,7 +140,7 @@ class App {
     this.#views.movieList.addTopMargin();
     this.#state.searchString = searchValue;
     this.#views.topRated.hide();
-    this.#views.movieList.hideNotFound(); // 올바른 검색결과에도 notFound가 표시되는 것 방지
+    this.#views.movieList.hideNotFound();
     this.#state.searchMoviePage = 1;
 
     window.scrollTo({ top: 0, behavior: "instant" });
@@ -177,19 +177,16 @@ class App {
 
     this.#views.movieDetail.show();
     const savedRatingValue = Number(localStorage.getItem(`rating-${movieId}`));
-    this.#views.rating.renderByRatingValue(savedRatingValue); // 누를
+    this.#views.rating.renderByRatingValue(savedRatingValue);
 
     this.#views.movieDetail.renderData(movieDetail);
   };
 
   #ratingEventHandler = (ratingValue: string) => {
-    // 일단 눌린 애가 몇 번째 별인지 확인해야함
     this.#views.rating.setRating(ratingValue);
-    // 자기보다 아래에 있는 별들을 다 렌더링 함
     const movieId = this.#views.movieDetail.getMovieId();
     localStorage.setItem(`rating-${movieId}`, ratingValue);
     this.#views.rating.renderByRatingValue(Number(ratingValue));
-    // localStorage에 데이터를 저장함
   };
 }
 
