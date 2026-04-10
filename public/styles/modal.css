@@ -177,3 +177,62 @@ body.modal-open {
   position: relative;
   top: 2.5px;
 }
+
+/* =====================
+   태블릿 (768px ~ 1023px)
+   ===================== */
+@media (max-width: 1023px) {
+  /* 모달 하단 고정 */
+  .modal-background {
+    align-items: flex-end;
+  }
+
+  .modal {
+    width: 100%;
+    border-radius: 16px 16px 0 0;
+    max-height: 85vh;
+    overflow-y: auto;
+  }
+
+  /* 포스터 사진, 제목, 출시년도/장르, 평균 세로 정렬 + 가운데 정렬 */
+  .modal-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .modal-image img {
+    width: 160px;
+    border-radius: 12px;
+  }
+
+  .modal-description {
+    margin-left: 0;
+    margin-top: 16px;
+    width: 100%;
+  }
+
+  /* hr 위: 포스터, 제목, 출시년도/장르, 평균만 가운데 정렬 */
+  .modal-description h2,
+  .modal-description .category,
+  .modal-description .rate {
+    text-align: center;
+    justify-content: center;
+  }
+
+  .modal-description h2 {
+    font-size: 1.5rem;
+  }
+}
+
+/* =====================
+   모바일 (~ 767px)
+   ===================== */
+@media (max-width: 767px) {
+  .modal-image {
+    display: none;
+  }
+
+  .modal-description {
+    margin-top: 0;
+  }
+}
