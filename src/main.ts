@@ -1,11 +1,10 @@
-import { handleMovieSearch } from "./dom/eventHandler/handleMovieSearch";
-import {
-  handleMainSeeMore,
-  handleSearchSeeMore,
-} from "./dom/eventHandler/handleSeeMore";
-import { renderInitialUI } from "./dom/render/renderInitialUI";
-import { renderMainUI } from "./dom/render/renderMainUI";
-import { renderSearchUI } from "./dom/render/renderSearchUI";
+import MainUI from "./dom/render/MainUI";
+import SearchUI from "./dom/render/SearchUI";
+import { getKeywordFromURL } from "./utils/getKeywordFromURL";
+import { setURLParams } from "./utils/setURLParams";
+
+const mainUI = new MainUI();
+const searchUI = new SearchUI();
 
 const logo = document.getElementById("logo");
 const searchInput = document.getElementById(
@@ -22,37 +21,39 @@ if (logo) {
 }
 
 if (searchInput && searchButton) {
-  searchButton.addEventListener("click", () =>
-    handleMovieSearch(searchInput.value),
-  );
+  searchButton.addEventListener("click", () => {
+    setURLParams({ keyword: searchInput.value, page: "1" });
+    mainUI.hide();
+    searchUI.load();
+  });
 
   searchInput.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") handleMovieSearch(searchInput.value);
+    if (e.key === "Enter") {
+      setURLParams({ keyword: searchInput.value, page: "1" });
+      mainUI.hide();
+      searchUI.load();
+    }
   });
 }
 
 if (mainSeeMoreButton) {
   mainSeeMoreButton.addEventListener("click", () => {
-    handleMainSeeMore();
+    mainUI.seeMore();
   });
 }
 
 if (searchSeeMoreButton && searchInput) {
   searchSeeMoreButton.addEventListener("click", () => {
-    handleSearchSeeMore(searchInput.value);
+    searchUI.seeMore();
   });
 }
 
 const render = async () => {
-  renderInitialUI();
-
-  const url = new URL(window.location.href);
-  const params = url.searchParams;
-  const keyword = params.get("keyword");
+  const keyword = getKeywordFromURL();
   if (keyword) {
-    await renderSearchUI(keyword);
+    await searchUI.load();
   } else {
-    await renderMainUI();
+    await mainUI.load();
   }
 };
 
