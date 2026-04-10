@@ -15,13 +15,21 @@ export const renderTopRatedMovie = (topRatedMovie: Movie) => {
   const overlay = document.querySelector<HTMLDivElement>(".overlay");
   if (!overlay) return null;
 
-  overlay.style.display = "block";
+  const overlayImage = overlay.querySelector<HTMLImageElement>(".overlay img");
+  if (!overlayImage) return null;
+
+  overlayImage.style.display = "block";
 
   const BASE_URL = `https://media.themoviedb.org/t/p/w1920_and_h800_multi_faces`;
-  const FALLBACK = '/images/no_image_large.png';
+  const FALLBACK = './images/no_image_large.png';
 
-  const backgroundImage = topRatedMovie.backdrop_path ? BASE_URL + topRatedMovie.backdrop_path: FALLBACK;
-  overlay.style.backgroundImage = `url(${backgroundImage}), url(${FALLBACK}) `;
+  const overlayImagePath = topRatedMovie.backdrop_path ? BASE_URL + topRatedMovie.backdrop_path: FALLBACK;
+  overlayImage.src = overlayImagePath;
+  overlayImage.alt = topRatedMovie.title;
+
+  overlayImage.onerror = () => {
+    overlayImage.src = FALLBACK;
+  }
 
   const topRatedMovieElement =
     document.querySelector<HTMLDivElement>(".top-rated-movie");
@@ -47,11 +55,9 @@ export const removeTopRatedMovie = () => {
     ".background-container",
   );
   if (!background) return null;
-  background.style.backgroundColor = "transparent";
   background.style.height = "auto";
 
   const overlay = document.querySelector<HTMLDivElement>(".overlay");
   if (!overlay) return null;
-  overlay.style.background = "";
   overlay.style.display = "none";
 };

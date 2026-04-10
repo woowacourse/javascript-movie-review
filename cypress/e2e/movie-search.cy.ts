@@ -1,5 +1,7 @@
 import { searchFixture } from "../../test/fixtures";
 
+import { entries } from "../../src/constants/policy";
+
 describe("영화 검색 기능 테스트", () => {
   beforeEach(() => {
     cy.intercept(
@@ -67,7 +69,7 @@ describe("영화 검색 기능 테스트", () => {
     cy.get("#more-button").click();
     cy.wait("@getSearchPage2");
 
-    cy.get("#movie-list li").should("have.length.greaterThan", 0);
+    cy.get("#movie-list li").should("have.length.greaterThan", entries);
   });
 
   it("필터링 된 영화 목록이 마지막 페이지면 더보기 버튼을 출력하지 않는다.", () => {

@@ -18,7 +18,7 @@ const createMovieNode = (movie: Movie): DocumentFragment | null => {
   if (!thumbnail) return null;
 
   const BASE_URL = `https://media.themoviedb.org/t/p/w220_and_h330_face`
-  const FALLBACK = '/images/no_image.png';
+  const FALLBACK = './images/no_image.png';
 
   thumbnail.src = movie.poster_path ? BASE_URL + movie.poster_path: FALLBACK;
   thumbnail.onerror = () => {
@@ -61,7 +61,7 @@ export const renderNoResult = () => {
   if (!noResult) return;
   const empty = /* html */ `
   <p class="message-box">
-    <img src="/images/mascot.png" alt="" />
+    <img src="./images/mascot.png" alt="" />
     <span>검색 결과가 없습니다.</span>
   </p>`;
   noResult.innerHTML = empty;

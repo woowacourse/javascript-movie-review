@@ -1,3 +1,5 @@
+import { MINIMUM_DISPLAY_DURATION } from "../constants/policy";
+
 export const renderSkeleton = () => {
   const skeleton = document.querySelector<HTMLDivElement>("#skeleton");
   if (!skeleton) return;
@@ -20,7 +22,7 @@ export const renderSkeleton = () => {
 export const removeSkeleton = (start: number) => {
   const skeleton = document.querySelector<HTMLDivElement>("#skeleton");
   if (!skeleton) return;
-  const MIN_SKELETON_TIME = 600;
+  const MIN_SKELETON_TIME = MINIMUM_DISPLAY_DURATION;
 
   const elapsed = Date.now() - start;
   const remaining = Math.max(MIN_SKELETON_TIME - elapsed, 0);

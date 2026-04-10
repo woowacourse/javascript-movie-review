@@ -1,5 +1,7 @@
 import { moviesFixture } from "../../test/fixtures";
 
+import { errorMessages } from "../../src/constants/errorMessage";
+
 describe("오류 대응 테스트", () => {
   beforeEach(() => {
     cy.intercept("GET", "**/movie/popular?page=1", {
@@ -46,6 +48,6 @@ describe("오류 대응 테스트", () => {
     cy.on("window:alert", alertSpy);
 
     cy.get("#more-button").click();
-    cy.wrap(alertSpy).should("have.been.called");
+    cy.wrap(alertSpy).should("have.been.calledWith", errorMessages.INVALID_PAGE);
   });
 });
