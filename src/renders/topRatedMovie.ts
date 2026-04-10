@@ -18,7 +18,7 @@ export const renderTopRatedMovie = (topRatedMovie: Movie) => {
   overlay.style.display = "block";
 
   const BASE_URL = `https://media.themoviedb.org/t/p/w1920_and_h800_multi_faces`;
-  const FALLBACK = '/images/no_image_large.png';
+  const FALLBACK = './images/no_image_large.png';
 
   const backgroundImage = topRatedMovie.backdrop_path ? BASE_URL + topRatedMovie.backdrop_path: FALLBACK;
   overlay.style.backgroundImage = `url(${backgroundImage}), url(${FALLBACK}) `;
