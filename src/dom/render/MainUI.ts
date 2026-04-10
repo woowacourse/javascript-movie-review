@@ -21,6 +21,10 @@ class MainUI {
   errorMessageContent = document.querySelector(
     "#error-container p",
   ) as HTMLParagraphElement;
+  subTitle = document.getElementById("sub-title");
+  thumbnailListElement = document.getElementById(
+    "search-thumbnail-list",
+  ) as HTMLUListElement;
 
   constructor() {
     this.#render();
@@ -39,6 +43,7 @@ class MainUI {
     this.errorContainer?.classList.add("hidden");
     this.bannerContainer?.classList.add("hidden");
     this.errorMessageContent?.classList.add("hidden");
+    this.subTitle?.classList.add("hidden");
   }
 
   async load() {
@@ -75,7 +80,10 @@ class MainUI {
       });
 
       const bannerMovieInfo = this.mainState.movies[0];
-      if (bannerMovieInfo) renderBanner({ movie: bannerMovieInfo });
+      if (bannerMovieInfo) {
+        this.bannerContainer?.classList.remove("hidden");
+        renderBanner({ movie: bannerMovieInfo });
+      }
 
       if (!this.mainState.isLastPage)
         this.mainSeeMoreButton?.classList.remove("hidden");
