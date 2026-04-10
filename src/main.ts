@@ -18,6 +18,8 @@ import {
 } from "./renders/movieList";
 import { renderSkeleton, removeSkeleton } from "./renders/skeleton";
 
+import { displayErrorMessage } from "./feedback/displayErrorMessage";
+
 import { errorMessages } from "./constants/errorMessage";
 
 import PageState from "./states/PageState";
@@ -33,10 +35,10 @@ const loadInit = () => {
         async () => await getTopRatedMovie(),
         (e: ApiError) => {
           if (e.status_code == 22) {
-            alert(errorMessages.INVALID_REQUEST);
+            displayErrorMessage(errorMessages.INVALID_REQUEST);
             return;
           }
-          alert(errorMessages.UNKNOWN);
+          displayErrorMessage(errorMessages.UNKNOWN);
         }
       );
 
@@ -52,10 +54,10 @@ const loadInit = () => {
         async () => await getMoviePopular({ page }),
         async (e: ApiError) => {
           if (e.status_code == 22) {
-            alert(errorMessages.INVALID_PAGE);
+            displayErrorMessage(errorMessages.INVALID_PAGE);
             return;
           }
-          alert(errorMessages.UNKNOWN);;
+          displayErrorMessage(errorMessages.UNKNOWN);;
         },
       );
 
@@ -78,10 +80,10 @@ const runSearch = () => {
         query: search || "",
       }), (e: ApiError) => {
         if(e.status_code === 22){
-          alert(errorMessages.INVALID_SEARCH);
+          displayErrorMessage(errorMessages.INVALID_SEARCH);
             return;
         }
-        alert(errorMessages.UNKNOWN);;
+        displayErrorMessage(errorMessages.UNKNOWN);;
       }
     );
 
@@ -144,10 +146,10 @@ addEventListener("load", async () => {
         async () => await getMoviePopular({ page }),
         async (e: ApiError) => {
           if (e.status_code == 22) {
-            alert("잘못된 페이지 요청입니다.");
+            displayErrorMessage("잘못된 페이지 요청입니다.");
             return;
           }
-          alert("영화 정보를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.");
+          displayErrorMessage("영화 정보를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.");
         },
       );
 
