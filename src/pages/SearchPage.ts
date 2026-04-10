@@ -4,16 +4,16 @@ import Footer from '../components/footer/Footer.ts';
 
 import { fetchMovieDetails, fetchSearchMovies } from '../api/fetchApi.ts';
 import { ResponseMovie } from '../api/types.ts';
-import TMDBError from '../api/TMDBError.ts';
 import { CUSTOM_EVENT, dispatchRouteChange } from '../utils/event.ts';
 import Modal from '../components/modal/Modal.ts';
 
 export default class SearchPage {
   #$div: HTMLElement;
-  #page: number;
-  #totalPage: number;
   #main: Main;
   #$modal: Modal;
+
+  #totalPage: number;
+  #page: number;
   #isLoading: boolean;
 
   constructor(modal: Modal) {
@@ -80,25 +80,15 @@ export default class SearchPage {
 
       return response;
     } catch (error) {
-      this.#handleError(error);
+      this.#handleError(error as Error);
       throw error;
     } finally {
       this.#main.removeSkeletons(this.#page);
     }
   }
 
-  #handleError(error: unknown) {
-    if (error instanceof TMDBError) {
-      this.#main.renderError(`TMDB 에러: ${error.message}`);
-      return;
-    }
-
-    if (error instanceof Error) {
-      this.#main.renderError(`시스템 에러: ${error.message}`);
-      return;
-    }
-
-    this.#main.renderError('알 수 없는 에러가 발생했습니다.');
+  #handleError(error: Error) {
+    this.#main.handleError(error);
   }
 
   #onSubmit = (query: string): void => {

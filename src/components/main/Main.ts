@@ -1,6 +1,6 @@
 import { MovieData } from '../../api/types.ts';
 import { $ } from '../../utils/dom.ts';
-import { Error } from './Error.ts';
+import { ErrorComponent } from '../common/ErrorComponent.ts';
 import { MovieItem } from './MovieItem.ts';
 import { MovieItemSkeleton } from './MovieItemSkeleton.ts';
 import { NothingResult } from './NothingResult.ts';
@@ -61,10 +61,10 @@ export default class Main {
     $skeletonList?.forEach(($skeleton) => $skeleton.remove());
   }
 
-  renderError(messsage: string) {
+  handleError(error: Error) {
     const $element = $<HTMLElement>(this.#$element, 'section');
     $element.innerHTML = '';
-    $element.append(Error(messsage));
+    $element.append(ErrorComponent(error));
   }
 
   renderNothing() {
