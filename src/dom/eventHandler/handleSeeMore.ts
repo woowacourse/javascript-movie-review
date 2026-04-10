@@ -1,8 +1,6 @@
-import { getPopularMovies } from "../../apis/movie/api";
-import { getSearchedMovies } from "../../apis/search/api";
 import TMDBError from "../../TMDBError";
-import { renderMain } from "../../pages/home.ts";
-import { renderSearch } from "../../pages/search.ts";
+import { renderSearchUI } from "../render/renderSearchUI.ts";
+import { renderMainUI } from "../render/renderMainUI.ts";
 
 export const handleMainSeeMore = async () => {
   const url = new URL(window.location.href);
@@ -14,14 +12,7 @@ export const handleMainSeeMore = async () => {
   window.history.pushState({}, "", url.toString());
 
   try {
-    const popularMovies = await getPopularMovies({
-      page: prevPage + 1,
-      language: "ko-KR",
-    });
-    const isLastPage = popularMovies.page === popularMovies.total_pages;
-    const movies = popularMovies.results;
-
-    renderMain(isLastPage, movies);
+    await renderMainUI();
   } catch (error) {
     let errorMessage = "알 수 없는 에러가 발생했습니다.";
     if (error instanceof TMDBError) {
@@ -41,15 +32,7 @@ export const handleSearchSeeMore = async (keyword: string) => {
   window.history.pushState({}, "", url.toString());
 
   try {
-    const searchResult = await getSearchedMovies({
-      query: keyword,
-      page: prevPage + 1,
-      language: "ko-KR",
-    });
-    const isLastPage = searchResult.page === searchResult.total_pages;
-    const movies = searchResult.results;
-
-    renderSearch(isLastPage, movies);
+    await renderSearchUI(keyword);
   } catch (error) {
     let errorMessage = "알 수 없는 에러가 발생했습니다.";
     if (error instanceof TMDBError) {

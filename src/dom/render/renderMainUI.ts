@@ -13,8 +13,14 @@ export const renderMainUI = async () => {
   let movies: Movie[] = [];
   let errorMessage = "";
 
+  const url = new URL(window.location.href);
+  const page = Number(url.searchParams.get("page")) || 1;
+
   try {
-    const popularMovies = await getPopularMovies({ language: "ko-KR" });
+    const popularMovies = await getPopularMovies({
+      language: "ko-KR",
+      page,
+    });
     isLastPage = popularMovies.page === popularMovies.total_pages;
     movies = popularMovies.results;
 

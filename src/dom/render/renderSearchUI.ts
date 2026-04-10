@@ -21,13 +21,16 @@ export const renderSearchUI = async (keyword: string) => {
 
   if (searchInput?.value.trim() === "") return;
 
+  const url = new URL(window.location.href);
+  const page = Number(url.searchParams.get("page")) || 1;
+
   try {
     renderSearchLoading(keyword);
 
     const searchResult = await getSearchedMovies({
       query: keyword,
       language: "ko-KR",
-      page: 1,
+      page,
     });
 
     isLastPage = searchResult.page === searchResult.total_pages;
