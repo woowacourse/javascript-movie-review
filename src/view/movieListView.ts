@@ -16,7 +16,7 @@ export const addMovieList = (movieDisplay: HTMLUListElement, movieList: Movie[])
         const li = document.createElement('li')
         li.dataset.id = String(movie.id)
 
-        li.innerHTML = /*html*/ ` 
+        li.innerHTML = /*html*/ `
     <div class="item" >
       <img
         class="thumbnail"
@@ -41,7 +41,7 @@ export const addMovieSkeletonUIList = (movieDisplay: HTMLUListElement, count: nu
         const li = document.createElement('li')
         li.className = 'skeleton-li'
 
-        li.innerHTML = /*html*/ ` 
+        li.innerHTML = /*html*/ `
     <div class="skeleton-item">
       <div class="square"></div>
       <div class="first-line"></div>
@@ -69,7 +69,7 @@ export const showBackgroundMovieInfo = (movie: Movie) => {
                 <span class="rate-value">${(movie.vote_average ?? 0).toFixed(1)}</span>
               </div>
               <div class="title">${movie.title}</div>
-            </div> 
+            </div>
           </div>
   `
 }
