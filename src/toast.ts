@@ -1,6 +1,6 @@
 const TOAST_DURATION_MS = 5000;
 
-function createToast({ title, message }: { title?: string, message: string }): HTMLElement {
+function createToast({ title, message }: { title?: string, message?: string }): HTMLElement {
   const toast = document.createElement("div");
   toast.className = "toast";
 
@@ -33,7 +33,7 @@ function getOrCreateContainer(): HTMLElement {
   return container;
 }
 
-export function showErrorToast({ title, message }: { title?: string, message: string }): void {
+export function showErrorToast({ title, message }: { title?: string, message?: string }): void {
   const container = getOrCreateContainer();
   const toast = createToast({ title, message });
   container.appendChild(toast);

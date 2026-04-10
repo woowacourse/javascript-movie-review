@@ -7,7 +7,8 @@ import renderShowMoreButton from "./render/renderShowMoreButton";
 import renderSkeletonItems from "./render/renderSkeletonItemsToList";
 import renderTopRatedMovie from "./render/renderTopRatedMovie";
 import { MovieListResponse, Movie } from "./type";
-import { fetchMoviesByPageRange, getPage, getQuery, handleError, setPage, setQuery } from "./utils";
+import { fetchMoviesByPageRange, getPage, getQuery, setPage, setQuery } from "./utils";
+import { handleError } from "./error";
 
 addEventListener("load", async () => {
   let prevResponseList: MovieListResponse[] = [];

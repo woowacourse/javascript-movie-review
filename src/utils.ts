@@ -1,6 +1,5 @@
-import { ERROR, FETCH_OPTION, FETCH_TIMEOUT_MS } from "./constants";
-import { APIError, UnknownError } from "./error";
-import { showErrorToast } from "./toast";
+import { FETCH_OPTION } from "./constants";
+import { APIError } from "./error";
 import { MovieListResponse, TMDBAPIEndpoint } from "./type";
 
 export function getURLSearchParam(name: string, defaultValue: string) {
@@ -47,25 +46,26 @@ export function throttle<T extends (...args: any[]) => void>(callback: T, ms: nu
   };
 };
 
-export function handleError(catchedError: unknown): void {
-  const error = catchedError instanceof Error ? catchedError : new UnknownError("에러 객체를 찾을 수 없습니다.");
-  const title = (error.name in ERROR) ? ERROR[error.name as keyof typeof ERROR] : error.name;
-  const message = error.message ?? "에러 메시지가 없습니다.";
-  showErrorToast({ title, message });
-}
-
 function delay(ms: number) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-async function fetcher<T>(url: string, options: RequestInit) {
-  const response = await fetch(url, options);
+function fetcher<T>(url: string, { timeoutMs, ...options }: RequestInit & { timeoutMs?: number }) {
+  const response = fetch(url, options).then(res => {
+    if (!res.ok) {
+      throw new APIError(`API 응답 에러: ${res.status}`, res)
+    }
 
-  if (!response.ok) {
-    throw new APIError('API 응답이 올바르지 않습니다.')
-  }
+    return res.json() as Promise<T>
+  })
 
-  return response.json() as Promise<T>
+  const timeoutPromise = new Promise<never>((_, reject) => {
+    setTimeout(() => {
+      reject(new APIError(`API 응답 시간 초과: ${timeoutMs}ms 초과`));
+    }, timeoutMs);
+  })
+
+  return timeoutMs ? Promise.race([response, timeoutPromise]) : response
 }
 
 export async function fetchMovies(endpoint: "/search/movie", params: { query: string, page: number }): Promise<MovieListResponse>
@@ -76,18 +76,9 @@ export async function fetchMovies(endpoint: TMDBAPIEndpoint, params: Record<stri
     ...params
   });
 
-  try {
-    const fetchPromise = fetcher<MovieListResponse>(`${import.meta.env.VITE_API_BASE_URL}${endpoint}?${queryParams}`, FETCH_OPTION);
-    const timeoutPromise = new Promise<never>((_, reject) => {
-      setTimeout(() => {
-        reject(new APIError(`API 응답 시간이 ${FETCH_TIMEOUT_MS}ms를 초과했습니다.`));
-      }, FETCH_TIMEOUT_MS);
-    })
+  const response = await fetcher<MovieListResponse>(`${import.meta.env.VITE_API_BASE_URL}${endpoint}?${queryParams}`, FETCH_OPTION);
 
-    return await Promise.race([fetchPromise, timeoutPromise]);
-  } catch (error) {
-    throw (error instanceof Error) ? error : new APIError('API 요청중 에러가 발생했습니다.')
-  }
+  return response;
 }
 
 
