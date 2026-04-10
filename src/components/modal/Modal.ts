@@ -55,7 +55,9 @@ export default class Modal {
 
     $<HTMLImageElement>(this.#$modal, '.modal-image img').src = getOriginalImageUrl(poster_path);
     $(this.#$modal, 'h2').textContent = title;
-    $(this.#$modal, '.detail').textContent = overview;
+
+    const overViewString = overview ? overview : '줄거리 데이터가 없습니다';
+    $(this.#$modal, '.detail').textContent = overViewString;
 
     const releaseYear = new Date(release_date).getFullYear();
     const category = genres.map((g) => g.name).join(' ');
@@ -90,7 +92,6 @@ export default class Modal {
   }
 
   close() {
-    console.log('object');
     this.#$body.classList.remove('modal-open');
     this.#$modal.classList.remove('active');
   }

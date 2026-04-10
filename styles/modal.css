@@ -112,6 +112,8 @@ body.modal-open {
     border-radius: 0;
     bottom: 0;
     width: 800px;
+    height: 70%;
+    overflow: scroll;
   }
 
   .modal-image img {
@@ -140,10 +142,7 @@ body.modal-open {
     border-radius: 0;
     bottom: 0;
     width: 800px;
-    height: 749px;
-    width: 390;
     gap: 24px;
-
     opacity: 1;
     padding: 40px 24px;
     border-radius: 16px;
