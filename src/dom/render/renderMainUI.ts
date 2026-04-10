@@ -1,11 +1,7 @@
 import { getPopularMovies, Movie } from "../../apis/movie/api";
 import TMDBError from "../../TMDBError";
 import { renderBanner } from "../components/Banner";
-import {
-  renderMain,
-  renderMainEmpty,
-  renderMainError,
-} from "../../pages/home";
+import { renderMain, renderMainEmpty, renderMainError, renderMainLoading } from "../../pages/home";
 
 export const renderMainUI = async () => {
   let isError = false;
@@ -17,6 +13,8 @@ export const renderMainUI = async () => {
   const page = Number(url.searchParams.get("page")) || 1;
 
   try {
+    renderMainLoading();
+
     const popularMovies = await getPopularMovies({
       language: "ko-KR",
       page,

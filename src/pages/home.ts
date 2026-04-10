@@ -1,14 +1,31 @@
 import { Movie } from "../apis/movie/api.ts";
 import { handleMainSeeMore } from "../dom/eventHandler/handleSeeMore";
-import { removeEmptyContainer, renderEmptyContainer } from "../dom/components/EmptyContainer";
-import { removeErrorContainer, renderErrorContainer } from "../dom/components/ErrorContainer";
-import { removeMainSeeMoreButton, renderMainSeeMoreButton } from "../dom/components/MainSeeMoreButton";
-import { removeMainThumbnailList, renderMainThumbnailList, renderMainThumbnailLoading } from "../dom/components/MainThumbnailList.ts";
-import { removeMovieItemsLoading, renderMovieItems } from "../dom/shared/MovieItem.ts";
-import { showBanner } from "../dom/components/Banner";
+import {
+  removeEmptyContainer,
+  renderEmptyContainer,
+} from "../dom/components/EmptyContainer";
+import {
+  removeErrorContainer,
+  renderErrorContainer,
+} from "../dom/components/ErrorContainer";
+import {
+  removeMainSeeMoreButton,
+  renderMainSeeMoreButton,
+} from "../dom/components/MainSeeMoreButton";
+import {
+  removeMainThumbnailList,
+  renderMainThumbnailList,
+  renderMainThumbnailLoading,
+} from "../dom/components/MainThumbnailList.ts";
+import {
+  removeMovieItemsLoading,
+  renderMovieItems,
+} from "../dom/shared/MovieItem.ts";
+import { removeBanner, renderBanner } from "../dom/components/Banner";
 import { removeSearch } from "./search";
 
 export const removeMain = () => {
+  removeBanner();
   removeMainThumbnailList();
   removeMainSeeMoreButton();
   removeErrorContainer();
@@ -18,8 +35,12 @@ export const removeMain = () => {
 export const renderMainLoading = () => {
   removeMain();
   removeSearch();
-  // TODO: loading 시점에 아직 banner가 렌더링이 안 된 문제
-  showBanner();
+
+  const header = document.querySelector("header");
+  if (header) {
+    renderBanner(header);
+  }
+
   const resultSection = document.getElementById("result-section");
   if (resultSection) {
     renderMainThumbnailLoading(resultSection);
@@ -29,6 +50,7 @@ export const renderMainLoading = () => {
 export const renderMainError = (errorMessage?: string) => {
   removeMain();
   removeSearch();
+
   const resultSection = document.getElementById("result-section");
   if (resultSection) {
     renderErrorContainer(
@@ -54,9 +76,14 @@ export const renderMain = (isLastPage: boolean, movies: Movie[]) => {
   const mainThumbnailList = document.getElementById("main-thumbnail-list");
 
   if (!mainThumbnailList) {
+    removeMain();
     removeSearch();
-    removeMain(); // Common UI 제거를 위해 호출
-    showBanner();
+
+    const header = document.querySelector("header");
+    if (header) {
+      renderBanner(header);
+    }
+
     renderMainThumbnailList(resultSection, movies);
   } else {
     // TODO: mail thumbnail list가 append와 loading remove를 담당하게 하는 게 추상화 레벨이 맞지 않는지
