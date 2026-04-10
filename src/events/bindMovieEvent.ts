@@ -1,118 +1,117 @@
-import { State } from '../main.ts'
-import { HttpError, fetchDefaultMovieList, fetchSearchMovieList, fetchMovieDetail } from '../service/movieApi.ts'
-import { getElement, getInputElement, getUListElement } from '../view/getElementView.ts'
+import { State } from '../main.ts';
+import { HttpError, fetchDefaultMovieList, fetchSearchMovieList, fetchMovieDetail } from '../service/movieApi.ts';
+import { getElement, getInputElement, getUListElement } from '../view/getElementView.ts';
 import {
     addMovieList,
     addMovieSkeletonUIList,
     Movie,
     removeMovieSkeletonUIList,
     showBackgroundMovieInfo,
-} from '../view/movieListView.ts'
-import star_empty from '../../templates/images/star_empty.png'
-import star_filled from '../../templates/images/star_filled.png'
+} from '../view/movieListView.ts';
+import star_empty from '../../templates/images/star_empty.png';
+import star_filled from '../../templates/images/star_filled.png';
 
 export const callMovieList = async (pageNum: number, searchBarText: string): Promise<Movie[]> => {
     try {
         if (searchBarText === '') {
-            return await fetchDefaultMovieList(pageNum)
+            return await fetchDefaultMovieList(pageNum);
         } else {
-            return await fetchSearchMovieList(pageNum, searchBarText)
+            return await fetchSearchMovieList(pageNum, searchBarText);
         }
     } catch (e) {
-        if (e instanceof HttpError) alert('데이터를 불러오지 못했습니다.')
-        else alert('네트워크 오류가 발생하였습니다.')
-        return []
+        if (e instanceof HttpError) alert('데이터를 불러오지 못했습니다.');
+        else alert('네트워크 오류가 발생하였습니다.');
+        return [];
     }
-}
+};
 const renderMovieList = async (movieDisplay: HTMLUListElement, state: State): Promise<Movie[]> => {
-    let movieList
-    movieDisplay.replaceChildren()
-    addMovieSkeletonUIList(movieDisplay)
+    let movieList;
+    movieDisplay.replaceChildren();
+    addMovieSkeletonUIList(movieDisplay);
 
-    movieList = await callMovieList(state.pageNum, state.searchBarText)
+    movieList = await callMovieList(state.pageNum, state.searchBarText);
 
-    removeMovieSkeletonUIList(movieDisplay)
+    removeMovieSkeletonUIList(movieDisplay);
 
-    return movieList
-}
+    return movieList;
+};
 
 // 상태 변경
 const updateSearchState = (state: State, searchBarText: string) => {
-    state.searchBarText = searchBarText
+    state.searchBarText = searchBarText;
     if (searchBarText === '') {
-        state.pageNum = 1
+        state.pageNum = 1;
     }
-}
+};
 
 // UI 업데이트
 const updateSearchUI = (background: HTMLElement, description: HTMLElement, searchBarText: string) => {
     if (searchBarText === '') {
-        background.hidden = false
-        description.textContent = '지금 인기 있는 영화'
+        background.hidden = false;
+        description.textContent = '지금 인기 있는 영화';
     } else {
-        background.hidden = true
-        description.textContent = `'${searchBarText}' 검색 결과`
+        background.hidden = true;
+        description.textContent = `'${searchBarText}' 검색 결과`;
     }
-}
+};
 
 // 검색 결과 없을 때 처리
 const handleEmptyResult = (movieList: Movie[]) => {
-    const searchError = getElement('.search-error-container')
-    searchError.hidden = movieList.length !== 0
-}
+    const searchError = getElement('.search-error-container');
+    searchError.hidden = movieList.length !== 0;
+};
 
 const displayMovieBySearch = async (movieDisplay: HTMLUListElement, state: State) => {
-    const searchBar = getInputElement('.search-bar')
-    const background = getElement('.background-container')
-    const description = getElement('.page-title')
+    const searchBar = getInputElement('.search-bar');
+    const background = getElement('.background-container');
+    const description = getElement('.page-title');
 
-    updateSearchState(state, searchBar.value)
-    updateSearchUI(background, description, state.searchBarText)
+    updateSearchState(state, searchBar.value);
+    updateSearchUI(background, description, state.searchBarText);
 
-    const movieList = await renderMovieList(movieDisplay, state)
+    const movieList = await renderMovieList(movieDisplay, state);
 
     if (state.searchBarText !== '') {
-        handleEmptyResult(movieList)
+        handleEmptyResult(movieList);
     }
 
-    addMovieList(movieDisplay, movieList)
-}
+    addMovieList(movieDisplay, movieList);
+};
 
 export const bindSearchEvents = (state: State) => {
-    const movieDisplay = getUListElement('.thumbnail-list')
+    const movieDisplay = getUListElement('.thumbnail-list');
 
     // 엔터키 이벤트
-    const searchBar = getInputElement('.search-bar')
+    const searchBar = getInputElement('.search-bar');
     searchBar.addEventListener('keydown', async (event) => {
-        if (event.isComposing) return
+        if (event.isComposing) return;
 
         if (event.key === 'Enter') {
-            displayMovieBySearch(movieDisplay, state)
+            displayMovieBySearch(movieDisplay, state);
         }
-    })
+    });
 
     // 검색 버튼 '클릭'
-    const searchBtn = document.querySelector('.search-btn')
+    const searchBtn = document.querySelector('.search-btn');
     searchBtn?.addEventListener('click', async () => {
-        displayMovieBySearch(movieDisplay, state)
-    })
-}
+        displayMovieBySearch(movieDisplay, state);
+    });
+};
 
 // 구 더 보기 버튼 / 현 무한 스크롤
 export const bindMoreMovieEvents = (state: State) => {
-    const firstTarget = document.querySelector('.thumbnail-list > li:last-child')
-    const movieDisplay = getUListElement('.thumbnail-list')
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(async (entry) => {
-            if (entry.isIntersecting) {
-                await movieViewFlow(state, movieDisplay)
-                const target = document.querySelector('.thumbnail-list > li:last-child')
-                observer.observe(target as HTMLElement)
-                observer.unobserve(entry.target)
-            }
-        })
-    })
-    observer.observe(firstTarget as HTMLElement)
+    const firstTarget = document.querySelector('.thumbnail-list > li:last-child');
+    const movieDisplay = getUListElement('.thumbnail-list');
+    const observer = new IntersectionObserver(async (entries) => {
+        const entry = entries[0];
+        if (entry.isIntersecting) {
+            await movieViewFlow(state, movieDisplay);
+            const target = document.querySelector('.thumbnail-list > li:last-child');
+            observer.observe(target as HTMLElement);
+            observer.unobserve(entry.target);
+        }
+    });
+    observer.observe(firstTarget as HTMLElement);
 
     // const displayMoreBtn = document.querySelector('.display-more-btn')
     // displayMoreBtn?.addEventListener('click', async () => {
@@ -127,92 +126,92 @@ export const bindMoreMovieEvents = (state: State) => {
     //     removeMovieSkeletonUIList(movieDisplay)
     //     addMovieList(movieDisplay, movieList)
     // })
-}
+};
 
 export const movieViewFlow = async (state: State, movieDisplay: HTMLUListElement) => {
-    state.pageNum++
+    state.pageNum++;
 
-    addMovieSkeletonUIList(movieDisplay)
+    addMovieSkeletonUIList(movieDisplay);
 
-    let movieList
-    movieList = await callMovieList(state.pageNum, state.searchBarText)
+    let movieList;
+    movieList = await callMovieList(state.pageNum, state.searchBarText);
 
-    removeMovieSkeletonUIList(movieDisplay)
-    addMovieList(movieDisplay, movieList)
-}
+    removeMovieSkeletonUIList(movieDisplay);
+    addMovieList(movieDisplay, movieList);
+};
 
 const updateMyStarRate = (value: string) => {
-    const emptyStars = document.querySelectorAll<HTMLImageElement>('.star-icon')
+    const emptyStars = document.querySelectorAll<HTMLImageElement>('.star-icon');
     emptyStars.forEach((star) => {
         if (Number(star.dataset.value) <= Number(value)) {
-            star.src = star_filled
+            star.src = star_filled;
         } else {
-            star.src = star_empty
+            star.src = star_empty;
         }
-    })
+    });
     const rateText: Record<number, string> = {
         2: '최악이에요',
         4: '별로예요',
         6: '보통이에요',
         8: '재미있어요',
         10: '명작이에요',
-    }
+    };
 
-    const text = rateText[Number(value)]
-    getElement('.my-rate-text').textContent = text ? `${text} (${value}/10)` : ''
-}
+    const text = rateText[Number(value)];
+    getElement('.my-rate-text').textContent = text ? `${text} (${value}/10)` : '';
+};
 
 // 포스터 클릭 이벤트
 export const bindClickPosterEvent = () => {
-    const thumbnailBox = getElement('.thumbnail-list')
-    const modalBackground = getElement('#modalBackground')
-    let currentMovieId = 0
+    const thumbnailBox = getElement('.thumbnail-list');
+    const modalBackground = getElement('#modalBackground');
+    let currentMovieId = 0;
 
     // 별점 클릭 - 한 번만 등록
-    const emptyStars = document.querySelectorAll<HTMLElement>('.star-icon')
+    const emptyStars = document.querySelectorAll<HTMLElement>('.star-icon');
     emptyStars.forEach((star: HTMLElement) => {
         star.addEventListener('click', () => {
-            const starValue = star.dataset.value
-            localStorage.setItem(`rating_${currentMovieId}`, starValue ?? '')
-            updateMyStarRate(starValue ?? '')
-        })
-    })
+            const starValue = star.dataset.value;
+            localStorage.setItem(`rating_${currentMovieId}`, starValue ?? '');
+            updateMyStarRate(starValue ?? '');
+        });
+    });
 
     // 모달 열기
     thumbnailBox.addEventListener('click', async (event: MouseEvent) => {
-        const target = event.target as HTMLElement
-        const item = target.closest('li') as HTMLElement
-        if (!item?.dataset.id) return
+        const target = event.target as HTMLElement;
+        const item = target.closest('li') as HTMLElement;
+        if (!item?.dataset.id) return;
 
-        const movie = await fetchMovieDetail(Number(item.dataset.id))
-        currentMovieId = movie.id
-        showBackgroundMovieInfo(movie)
-        const modalPoster = getElement('#modalPoster') as HTMLImageElement
-        modalPoster.src = `https://image.tmdb.org/t/p/w500${movie.poster_path}`
-        getElement('#modalTitle').textContent = movie.title
+        const movie = await fetchMovieDetail(Number(item.dataset.id));
+        currentMovieId = movie.id;
+        showBackgroundMovieInfo(movie);
+        const modalPoster = getElement('#modalPoster') as HTMLImageElement;
+        modalPoster.src = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
+        getElement('#modalTitle').textContent = movie.title;
         getElement('#modalCategory').textContent =
-            `${movie.release_date.slice(0, 4)} · ${movie.genres.map((g) => g.name).join(', ')}`
-        getElement('#modalRate').textContent = String(movie.vote_average.toFixed(1))
-        getElement('#modalDetail').textContent = movie.overview
+            `${movie.release_date.slice(0, 4)} · ${movie.genres.map((g) => g.name).join(', ')}`;
+        getElement('#modalRate').textContent = String(movie.vote_average.toFixed(1));
+        getElement('#modalDetail').textContent = movie.overview;
 
-        const savedRate = localStorage.getItem(`rating_${movie.id}`)
-        updateMyStarRate(savedRate ?? '0')
+        const savedRate = localStorage.getItem(`rating_${movie.id}`);
+        updateMyStarRate(savedRate ?? '0');
 
-        modalBackground.classList.add('active')
-        document.body.classList.add('modal-open')
-    })
+        modalBackground.classList.add('active');
+        document.body.classList.add('modal-open');
+    });
 
     // 모달 닫기 - X 버튼
     getElement('#closeModal').addEventListener('click', () => {
-        modalBackground.classList.remove('active')
-        document.body.classList.remove('modal-open')
-    })
+        modalBackground.classList.remove('active');
+        document.body.classList.remove('modal-open');
+    });
 
     // 모달 닫기 - 배경 클릭
     modalBackground.addEventListener('click', (event: MouseEvent) => {
         if (event.target === modalBackground) {
-            modalBackground.classList.remove('active')
-            document.body.classList.remove('modal-open')
+            modalBackground.classList.remove('active');
+            document.body.classList.remove('modal-open');
         }
-    })
-}
+    });
+};
