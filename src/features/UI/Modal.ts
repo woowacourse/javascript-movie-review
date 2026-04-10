@@ -40,6 +40,7 @@ export default class Modal {
             />
           </div>
           <div class="modal-description">
+            <div class="movie-info">
             <h2>${this.movieInfo.title}</h2>
             <p class="category">
               ${this.movieInfo.release_date.split("-")[0]} · ${this.movieInfo.genres.map((genre) => genre.name).join(", ")}
@@ -50,6 +51,7 @@ export default class Modal {
                 >${this.movieInfo.vote_average.toFixed(1)}</span
               >
             </p>
+            </div>
             <hr />
             <div class="my-rating">
               <span class="detail-label">내 별점</span>
@@ -68,7 +70,7 @@ export default class Modal {
             <hr />
             <p class="detail-content">
               <span class="detail-label">줄거리</span>
-              ${this.movieInfo.overview}
+              ${this.movieInfo.overview !== "" ? this.movieInfo.overview : "줄거리가 존재하지 않습니다."}
             </p>
           </div>
         </div>

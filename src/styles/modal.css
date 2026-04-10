@@ -36,7 +36,16 @@ body.modal-open {
   color: white;
   z-index: 2;
   position: relative;
-  width: 1000px;
+  max-width: 1080px;
+  width: 90%;
+}
+
+@media (max-width: 1080px) {
+  .modal {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+  }
 }
 
 .close-modal {
@@ -60,6 +69,28 @@ body.modal-open {
   width: 380px;
   border-radius: 16px;
   height: 100%;
+}
+
+@media (max-width: 890px) {
+  .modal-image img {
+    width: 200px;
+    height: 300px;
+  }
+  .modal-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  .movie-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .modal-image {
+    display: none;
+  }
 }
 
 .modal-description {
@@ -109,6 +140,12 @@ hr {
   font-weight: 600;
   font-size: 24px;
   line-height: 100%;
+}
+
+@media (max-width: 890px) {
+  .detail-label {
+    font-size: 16px;
+  }
 }
 
 .my-rating {
