@@ -48,6 +48,6 @@ describe("오류 대응 테스트", () => {
     cy.on("window:alert", alertSpy);
 
     cy.get("#more-button").click();
-    cy.wrap(alertSpy).should("have.been.calledWith", errorMessages.POPULAR_MOVIES_MESSAGE);
+    cy.wrap(alertSpy).should("have.been.calledWith", errorMessages.INVALID_PAGE);
   });
 });
