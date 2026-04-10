@@ -23,12 +23,12 @@ class SearchHandler {
     }
   };
 
-  handleLoadMoreClick = async () => {
+  handleLoadMoreScroll = async () => {
     if (!this.state.isSearched) {
       this.state.moviePageCount += 1;
       const totalPopularPages = await renderMovies(this.state.moviePageCount);
       if (totalPopularPages === this.state.moviePageCount) {
-        this.hideLoadButton();
+        return true;
       }
     } else {
       this.state.searchPageCount += 1;
@@ -37,16 +37,15 @@ class SearchHandler {
         this.state.searchPageCount,
       );
       if (totalSearchPages === this.state.searchPageCount) {
-        this.hideLoadButton();
+        return true;
       }
     }
+    return false;
   };
 
   handleSearchSubmit = async () => {
     this.state.isSearched = true;
     this.state.searchPageCount = 1;
-    this.state.totalSearchPages = 0;
-    this.showLoadButton();
     this.state.currentKeyword =
       document.querySelector<HTMLInputElement>(".search-input")!.value;
 
@@ -59,31 +58,16 @@ class SearchHandler {
       replaceBanner(header, this.state.currentKeyword);
     }
 
-    this.state.totalSearchPages = await renderSearchedMovies(
+    await renderSearchedMovies(
       this.state.currentKeyword,
       this.state.searchPageCount,
     );
-    if (this.state.totalSearchPages === this.state.searchPageCount) {
-      this.hideLoadButton();
-    }
 
     const sectionTitle = document.querySelector("#section-title");
     if (sectionTitle) {
       sectionTitle.textContent = `"${this.state.currentKeyword}" 검색 결과`;
     }
   };
-
-  private hideLoadButton() {
-    const loadMovieButton =
-      document.querySelector<HTMLElement>("#load-movie-button");
-    if (loadMovieButton) loadMovieButton.style.display = "none";
-  }
-
-  private showLoadButton() {
-    const loadMovieButton =
-      document.querySelector<HTMLElement>("#load-movie-button");
-    if (loadMovieButton) loadMovieButton.style.display = "";
-  }
 }
 
 export default SearchHandler;

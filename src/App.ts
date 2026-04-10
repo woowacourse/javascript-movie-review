@@ -4,6 +4,7 @@ import { renderMovies } from "./movieRenderer.ts";
 import AppState from "./AppState.ts";
 import SearchHandler from "./SearchHandler.ts";
 import ModalHandler from "./ModalHandler.ts";
+import { createScrollObserver } from "./utils/scrollObserver.ts";
 
 class App {
   private state = new AppState();
@@ -31,9 +32,14 @@ class App {
     document.addEventListener("keydown", modal.handleModalCloseButtonKeyDown);
 
     // 더보기 흐름 이벤트 부착
-    document
-      .querySelector("#load-movie-button")!
-      .addEventListener("click", search.handleLoadMoreClick);
+    const sentinel = document.querySelector<HTMLElement>("#scroll-sentinel");
+    if (sentinel) {
+      let cleanup: () => void;
+      cleanup = createScrollObserver(sentinel, async () => {
+        const isLastPage = await search.handleLoadMoreScroll();
+        if (isLastPage) cleanup();
+      });
+    }
   }
 }
 

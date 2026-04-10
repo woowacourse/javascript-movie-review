@@ -44,17 +44,6 @@ button.primary {
   border-radius: 4px;
 }
 
-#load-movie-button {
-  display: block;
-  width: 1280px;
-  height: 49px;
-  margin: 0 auto 4rem;
-  background-color: #0DA9FD;
-  color: white;
-  border-radius: 4px;
-  font-size: 16px;
-}
-
 #wrap {
   min-width: 1440px;
   min-height: 100vh;
