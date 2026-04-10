@@ -4,15 +4,12 @@ import { removeEmptyContainer, renderEmptyContainer } from "../components/EmptyC
 import { removeErrorContainer, renderErrorContainer } from "../components/ErrorContainer";
 import { removeMainSeeMoreButton, renderMainSeeMoreButton } from "../components/MainSeeMoreButton";
 import { removeSearchSeeMoreButton, renderSearchSeeMoreButton } from "../components/SearchSeeMoreButton";
-import { removeMainThumbnailList, renderMainThumbnailList } from "../components/MainThumbnailList.ts";
-import { removeSearchThumbnailList, renderSearchThumbnailList } from "../components/SearchThumbnailList.ts";
-import { renderMovieItems } from "../shared/MovieItem.ts";
+import { removeMainThumbnailList, renderMainThumbnailList, renderMainThumbnailLoading } from "../components/MainThumbnailList.ts";
+import { removeSearchThumbnailList, renderSearchThumbnailList, renderSearchThumbnailLoading } from "../components/SearchThumbnailList.ts";
+import { removeMovieItemsLoading, renderMovieItems } from "../shared/MovieItem.ts";
 import { hideBanner, showBanner } from "../components/Banner";
 
 const hideAll = () => {
-  const skeletonList = document.getElementById("skeleton-list");
-  skeletonList?.classList.add("hidden");
-
   removeErrorContainer();
   removeEmptyContainer();
   removeMainThumbnailList();
@@ -26,8 +23,10 @@ export const renderMainLoading = () => {
   // TODO: loading 시점에 아직 banner가 렌더링이 안 된 문제
   // -> renderMainUI 로직과 renderMain 함수 둘 중 하나 제거하면 좋을 듯
   showBanner();
-  const skeletonList = document.getElementById("skeleton-list");
-  skeletonList?.classList.remove("hidden");
+  const resultSection = document.getElementById("result-section");
+  if (resultSection) {
+    renderMainThumbnailLoading(resultSection);
+  }
 };
 
 export const renderMainError = (errorMessage?: string) => {
@@ -60,7 +59,9 @@ export const renderMain = (isLastPage: boolean, movies: Movie[]) => {
     showBanner();
     renderMainThumbnailList(resultSection, movies);
   } else {
-    renderMovieItems(mainThumbnailList, movies);
+    // TODO: mail thumbnail list가 append와 loading remove를 담당하게 하는 게 추상화 레벨이 맞지 않는지
+    removeMovieItemsLoading(mainThumbnailList as HTMLElement);
+    renderMovieItems(mainThumbnailList as HTMLElement, movies);
   }
 
   if (isLastPage) {
@@ -77,11 +78,14 @@ export const renderSearchLoading = (keyword: string) => {
   hideBanner();
   const resultSection = document.getElementById("result-section");
   const subTitle = document.getElementById("sub-title");
-  const skeletonList = document.getElementById("skeleton-list");
 
-  resultSection?.classList.add("result-section");
-  if (subTitle) subTitle.innerText = `"${keyword}" 검색 결과`;
-  skeletonList?.classList.remove("hidden");
+  if (resultSection) {
+    resultSection.classList.add("result-section");
+    renderSearchThumbnailLoading(resultSection);
+  }
+  if (subTitle) {
+    subTitle.innerText = `"${keyword}" 검색 결과`;
+  }
 };
 
 export const renderSearchError = (errorMessage?: string) => {
@@ -113,7 +117,8 @@ export const renderSearch = (isLastPage: boolean, movies: Movie[]) => {
     hideAll();
     renderSearchThumbnailList(resultSection, movies);
   } else {
-    renderMovieItems(searchThumbnailList, movies);
+    removeMovieItemsLoading(searchThumbnailList as HTMLElement);
+    renderMovieItems(searchThumbnailList as HTMLElement, movies);
   }
 
   if (isLastPage) {

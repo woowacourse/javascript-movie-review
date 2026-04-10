@@ -1,5 +1,5 @@
 import { Movie } from "../../apis/movie/api";
-import { renderMovieItems } from "../shared/MovieItem.ts";
+import { renderMovieItems, renderMovieItemsLoading } from "../shared/MovieItem.ts";
 
 const MAIN_THUMBNAIL_LIST_ID = "main-thumbnail-list";
 
@@ -8,6 +8,17 @@ let mainThumbnailList: HTMLElement | null = null;
 const createMainThumbnailListTemplate = () => `
   <ul class="thumbnail-list" id="${MAIN_THUMBNAIL_LIST_ID}"></ul>
 `;
+
+export const renderMainThumbnailLoading = (parent: HTMLElement) => {
+  if (!mainThumbnailList) {
+    parent.insertAdjacentHTML("beforeend", createMainThumbnailListTemplate());
+    mainThumbnailList = document.getElementById(MAIN_THUMBNAIL_LIST_ID);
+  }
+
+  if (mainThumbnailList) {
+    renderMovieItemsLoading(mainThumbnailList);
+  }
+};
 
 export const renderMainThumbnailList = (
   parent: HTMLElement,

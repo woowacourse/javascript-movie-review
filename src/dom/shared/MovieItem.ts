@@ -19,7 +19,35 @@ const createMovieItemTemplate = (movie: Movie) => `
   </li>
 `;
 
+const createMovieItemSkeletonTemplate = () => `
+  <li class="skeleton">
+    <div class="item">
+      <div class="thumbnail"></div>
+      <div class="item-desc">
+        <p class="rate"></p>
+        <p class="title"></p>
+      </div>
+    </div>
+  </li>
+`;
+
 export const renderMovieItems = (parent: HTMLElement, movies: Movie[]) => {
   const itemsHTML = movies.map(createMovieItemTemplate).join("");
   parent.insertAdjacentHTML("beforeend", itemsHTML);
+};
+
+export const renderMovieItemsLoading = (
+  parent: HTMLElement,
+  count: number = 20,
+) => {
+  const skeletonsHTML = Array.from(
+    { length: count },
+    createMovieItemSkeletonTemplate,
+  ).join("");
+  parent.insertAdjacentHTML("beforeend", skeletonsHTML);
+};
+
+export const removeMovieItemsLoading = (parent: HTMLElement) => {
+  const skeletons = parent.querySelectorAll(".skeleton");
+  skeletons.forEach((skeleton) => skeleton.remove());
 };
