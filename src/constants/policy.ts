@@ -1,0 +1,1 @@
+export const entries = 20;
