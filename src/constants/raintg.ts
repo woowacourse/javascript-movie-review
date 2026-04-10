@@ -22,7 +22,7 @@ export const RATING = {
   },
   GOOD: {
     MESSAGE: "재미있어요",
-    SCORE: 7,
+    SCORE: 8,
   },
   EXCELLENT: {
     MESSAGE: "명작이에요",

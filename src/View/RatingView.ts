@@ -9,11 +9,7 @@ class RatingView {
   constructor() {
     this.#dom = {
       container: getElementOrThrow<HTMLDivElement>(".review-star-container"),
-      firstStar: getElementOrThrow<HTMLImageElement>(".star-first"),
-      secondStar: getElementOrThrow<HTMLImageElement>(".star-second"),
-      thirdStar: getElementOrThrow<HTMLImageElement>(".star-third"),
-      fourthStar: getElementOrThrow<HTMLImageElement>(".star-fourth"),
-      fifthStar: getElementOrThrow<HTMLImageElement>(".star-fifth"),
+      stars: document.querySelectorAll(".review-star"),
       text: getElementOrThrow<HTMLSpanElement>(".review-text"),
       score: getElementOrThrow<HTMLSpanElement>(".review-score"),
     };
@@ -24,44 +20,13 @@ class RatingView {
   }
 
   renderByRatingValue(savedRatingValue: number) {
-    // 리팩토링 필수
-    if (
-      Number(this.#dom.firstStar.getAttribute("data-score")) <= savedRatingValue
-    ) {
-      this.#dom.firstStar.src = FilledStarIcon;
-    } else {
-      this.#dom.firstStar.src = EmptyStarIcon;
-    }
-    if (
-      Number(this.#dom.secondStar.getAttribute("data-score")) <=
-      savedRatingValue
-    ) {
-      this.#dom.secondStar.src = FilledStarIcon;
-    } else {
-      this.#dom.secondStar.src = EmptyStarIcon;
-    }
-    if (
-      Number(this.#dom.thirdStar.getAttribute("data-score")) <= savedRatingValue
-    ) {
-      this.#dom.thirdStar.src = FilledStarIcon;
-    } else {
-      this.#dom.thirdStar.src = EmptyStarIcon;
-    }
-    if (
-      Number(this.#dom.fourthStar.getAttribute("data-score")) <=
-      savedRatingValue
-    ) {
-      this.#dom.fourthStar.src = FilledStarIcon;
-    } else {
-      this.#dom.fourthStar.src = EmptyStarIcon;
-    }
-    if (
-      Number(this.#dom.fifthStar.getAttribute("data-score")) <= savedRatingValue
-    ) {
-      this.#dom.fifthStar.src = FilledStarIcon;
-    } else {
-      this.#dom.fifthStar.src = EmptyStarIcon;
-    }
+    this.#dom.stars.forEach((star) => {
+      if (Number(star.getAttribute("data-score")) <= savedRatingValue) {
+        (star as HTMLImageElement).src = FilledStarIcon;
+      } else {
+        (star as HTMLImageElement).src = EmptyStarIcon;
+      }
+    });
     this.#renderText(savedRatingValue);
   }
 
