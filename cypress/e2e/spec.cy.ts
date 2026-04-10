@@ -255,7 +255,7 @@ describe("영화 리뷰 앱", () => {
     });
   });
 
-  describe.only("영화 정보", () => {
+  describe("영화 정보", () => {
     it("영화를 클릭하면 영화에 대한 자세한 정보가 담긴 모달이 렌더링된다", () => {
       cy.wait("@getPopularMovies");
       cy.get(".thumbnail-list li").first().click();

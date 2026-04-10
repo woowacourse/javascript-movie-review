@@ -1,4 +1,4 @@
-import { getPopularMovies, getSearchMovies } from "./api.ts";
+import { getPopularMovies, getSearchMovies, Movie } from "./api.ts";
 import { MovieRenderer, Renderer } from "./render.ts";
 import { ONCE_MOVIE_LIMIT, INITIAL_PAGE_NUM } from "./constans/movie.ts";
 import State from "./state.ts";
@@ -38,12 +38,15 @@ const App = {
     });
   },
 
-  setUpMovieDetail() {
-    const movieList = document.querySelectorAll(".thumbnail-list li");
-    movieList.forEach((movie) => {
+  setUpMovieDetail(moviesData: Movie[]) {
+    const movieList = [
+      ...document.querySelectorAll(".thumbnail-list li"),
+    ].slice(-moviesData.length);
+
+    movieList.forEach((movie, idx) => {
       movie.addEventListener("click", (e) => {
         e.preventDefault();
-        Renderer.renderMovieDetail();
+        Renderer.renderMovieDetail(moviesData[idx]);
       });
     });
   },
@@ -70,10 +73,9 @@ const App = {
         State.setNextPageNum(page + 1);
         State.setRequestMovieCount(movies.length);
         MovieRenderer.renderInitialMovies(movies);
+        this.setUpMovieDetail(movies);
       } catch (err) {
         MovieRenderer.renderError(err);
-      } finally {
-        this.setUpMovieDetail();
       }
     }
   },
@@ -87,11 +89,10 @@ const App = {
       );
       State.setNextPageNum(page + 1);
       MovieRenderer.renderLoadMoreMovies(movies);
+      this.setUpMovieDetail(movies);
     } catch (err) {
       MovieRenderer.renderError(err);
       Renderer.clearBanner();
-    } finally {
-      this.setUpMovieDetail();
     }
   },
 
@@ -106,10 +107,9 @@ const App = {
       MovieRenderer.renderSearchResult(movies, query);
       State.setNextSearchPageNum(page + 1);
       State.setSearchQuery(query);
+      this.setUpMovieDetail(movies);
     } catch (err) {
       MovieRenderer.renderError(err);
-    } finally {
-      this.setUpMovieDetail();
     }
   },
 
@@ -123,10 +123,9 @@ const App = {
       );
       State.setNextSearchPageNum(page + 1);
       MovieRenderer.renderLoadMoreSearchMovies(movies);
+      this.setUpMovieDetail(movies);
     } catch (err) {
       MovieRenderer.renderError(err);
-    } finally {
-      this.setUpMovieDetail();
     }
   },
 };
