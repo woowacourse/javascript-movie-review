@@ -5,7 +5,7 @@ import {
   renderMain,
   renderMainEmpty,
   renderMainError,
-} from "./renderResultSectionContent";
+} from "../../pages/home";
 
 export const renderMainUI = async () => {
   let isError = false;

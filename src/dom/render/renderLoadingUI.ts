@@ -1,7 +1,5 @@
-import {
-  renderMainLoading,
-  renderSearchLoading,
-} from "./renderResultSectionContent";
+import { renderMainLoading } from "../../pages/home";
+import { renderSearchLoading } from "../../pages/search";
 
 export const renderLoadingUI = () => {
   const url = new URL(window.location.href);

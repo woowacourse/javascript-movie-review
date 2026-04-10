@@ -5,7 +5,7 @@ import {
   renderSearch,
   renderSearchEmpty,
   renderSearchError,
-} from "./renderResultSectionContent";
+} from "../../pages/search";
 import { renderLoadingUI } from "./renderLoadingUI.ts";
 
 export const renderSearchUI = async (keyword: string) => {

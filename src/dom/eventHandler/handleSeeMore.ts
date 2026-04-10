@@ -1,7 +1,8 @@
 import { getPopularMovies } from "../../apis/movie/api";
 import { getSearchedMovies } from "../../apis/search/api";
 import TMDBError from "../../TMDBError";
-import { renderMain, renderSearch } from "../render/renderResultSectionContent";
+import { renderMain } from "../../pages/home.ts";
+import { renderSearch } from "../../pages/search.ts";
 
 export const handleMainSeeMore = async () => {
   const url = new URL(window.location.href);
