@@ -5,11 +5,11 @@ export default class MovieRepository {
     this.#db = db;
   }
 
-  saveRate(key: string, value: string) {
+  async saveRate(key: string, value: string): Promise<void> {
     return this.#db.save(key, value);
   }
 
-  getRate(key: string) {
+  async getRate(key: string): Promise<string | null> {
     return this.#db.get(key);
   }
 }

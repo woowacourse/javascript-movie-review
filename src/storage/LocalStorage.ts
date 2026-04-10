@@ -1,6 +1,6 @@
 export type MovieStore = {
-  get(key: string): void;
-  save(key: string, value: string): void;
+  get(key: string): Promise<string | null>;
+  save(key: string, value: string): Promise<void>;
 };
 export default class LocalStorage {
   #myStorage;
@@ -9,11 +9,11 @@ export default class LocalStorage {
     this.#myStorage = window.localStorage;
   }
 
-  save(key: string, value: string) {
+  async save(key: string, value: string): Promise<void> {
     this.#myStorage.setItem(key, value);
   }
 
-  get(key: string) {
+  async get(key: string): Promise<string | null> {
     return this.#myStorage.getItem(key);
   }
 }

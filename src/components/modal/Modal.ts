@@ -78,16 +78,16 @@ export default class Modal {
     $rateContainer.append($starIcon, $score);
   }
 
-  open(movie: MovieDetail) {
+  async open(movie: MovieDetail) {
     this.#$body.className = 'modal-open';
     this.#$modal.classList.add('active');
     this.#update(movie);
 
     const { id } = movie;
-    const movieRate = Number(this.#movieRepo.getRate(`${id}`)) || 0;
+    const movieRate = Number(await this.#movieRepo.getRate(`${id}`)) || 0;
 
-    const $submitRate = new SubmitRate(movieRate, (rate) => {
-      this.#movieRepo.saveRate(`${id}`, String(rate));
+    const $submitRate = new SubmitRate(movieRate, async (rate) => {
+      await this.#movieRepo.saveRate(`${id}`, String(rate));
     }).$element;
 
     const $container = $(this.#$modal, '.modal-submit-star');
