@@ -19,8 +19,6 @@ const fetchAPI = async <T extends ResponseMovie | MovieDetail>(req: Request): Pr
   if (query) params.set('query', query);
   if (page) params.set('page', String(page));
   const resultUrl = url + '?' + params.toString();
-  console.log(resultUrl);
-
   const response = await fetch(resultUrl, options);
   const data = await response.json();
 
