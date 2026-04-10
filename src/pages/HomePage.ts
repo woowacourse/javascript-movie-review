@@ -35,7 +35,7 @@ export default class HomePage {
 
     this.#$div.append(this.#header.$element, this.#main.$element, this.#footer.$element);
 
-    window.addEventListener(CUSTOM_EVENT.SCROOL_END, () => {
+    window.addEventListener(CUSTOM_EVENT.SCROLL_END, () => {
       const isPage = window.document.querySelector('#homepage');
       if (isPage) this.#loadMore();
     });

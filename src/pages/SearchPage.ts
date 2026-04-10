@@ -25,13 +25,13 @@ export default class SearchPage {
     const query = this.#getQuery();
 
     this.#$div = document.createElement('div');
-    this.#$div.id = 'query';
+    this.#$div.id = `${query}`;
     const header = new Header(this.#onSubmit);
     this.#main = new Main(`"${query}" 검색 결과`, this.#onDetail);
     const footer = new Footer();
 
     this.#$div.append(header.$element, this.#main.$element, footer.$element);
-    window.addEventListener(CUSTOM_EVENT.SCROOL_END, () => {
+    window.addEventListener(CUSTOM_EVENT.SCROLL_END, () => {
       const isPage = window.document.querySelector(`#${query}`);
       if (isPage) this.#loadMore();
     });
