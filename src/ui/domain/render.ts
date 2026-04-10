@@ -1,14 +1,10 @@
 import { Movie, MovieDetail } from "../../apis/dtos.ts";
-import Component from "../utils/component.ts";
-import {
-  getBannerElement,
-  getEmptyResultElement,
-  getMovieListElement,
-  getSectionElement,
-  getSectionHeadingElement,
-} from "./movieElement";
+import Component from "../component.ts";
+import { appendHTML, filterHTML } from "../utils/inner.ts";
+import { getSectionElement, getSectionHeadingElement } from "./movieElement";
 
 const Renderer = {
+  // TODO: 같은 계층을 사용하고, 바로 하위가 아닌 더 하위의 계층을 사용하는 부분 수정 필요
   renderSectionHeading() {
     const heading = getSectionHeadingElement();
     if (heading) {
@@ -17,17 +13,13 @@ const Renderer = {
     }
   },
 
+  // TODO: 같은 계층을 사용하고, 바로 하위가 아닌 더 하위의 계층을 사용하는 부분 수정 필요
   renderSearchSectionHeading(title: string) {
     const heading = getSectionHeadingElement();
     if (heading) {
       heading.textContent = `"${title}"검색 결과`;
       heading.classList.add("search-mode");
     }
-  },
-
-  clearMovies() {
-    const movieList = getMovieListElement();
-    if (movieList) movieList.innerHTML = "";
   },
 
   renderBanner(parent: Element, { title, voteAverage, posterPath }: Movie) {
@@ -38,11 +30,6 @@ const Renderer = {
     });
   },
 
-  clearBanner() {
-    const banner = getBannerElement();
-    if (banner) banner.innerHTML = "";
-  },
-
   renderEmptyResult() {
     const section = getSectionElement();
     const node = document.createElement("div");
@@ -50,57 +37,45 @@ const Renderer = {
     section?.appendChild(node);
   },
 
-  clearEmptyResult() {
-    const emptyResult = getEmptyResultElement();
-    emptyResult?.remove();
-  },
-
   renderError(parent: Element, message: string) {
     parent.innerHTML = Component.error(message);
   },
 
   renderSkeleton(parent: Element, length: number) {
-    parent.innerHTML += Array.from({ length: length })
-      .map(() => Component.movieSkeleton())
-      .join("");
+    appendHTML(
+      parent,
+      Array.from({ length: length })
+        .map(() => Component.movieSkeleton())
+        .join(""),
+    );
   },
 
   renderMovies(parent: Element, movies: Movie[]) {
     const movieListComponent = movies
       .map((movie) => Component.movie(movie))
       .join("");
-    parent.innerHTML += movieListComponent;
+    appendHTML(parent, movieListComponent);
   },
 
   clearSkeleton(parent: Element) {
-    parent.innerHTML = [...parent.children]
-      .filter((child) => {
-        if (
-          child instanceof HTMLElement &&
-          child.classList.contains("skeleton")
-        ) {
-          return false;
-        }
-        return true;
-      })
-      .map((child) => child.outerHTML)
-      .join("");
+    const targetClassName = "skeleton";
+    filterHTML(parent, targetClassName);
   },
 
   renderInView(parent: Element) {
-    parent.innerHTML += Component.inView();
+    appendHTML(parent, Component.inView());
   },
 
   renderMovieModalSkeleton(parent: Element) {
-    parent.innerHTML += Component.movieModalSkeleton();
+    appendHTML(parent, Component.movieModalSkeleton());
   },
 
   renderMovieModal(parent: Element, movie: MovieDetail) {
-    parent.innerHTML += Component.movieModal(movie);
+    appendHTML(parent, Component.movieModal(movie));
   },
 
   renderMovieModalError(parent: Element) {
-    parent.innerHTML += Component.movieModalError();
+    appendHTML(parent, Component.movieModalError());
   },
 };
 

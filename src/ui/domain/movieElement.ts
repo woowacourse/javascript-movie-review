@@ -33,3 +33,5 @@ export const getLoadMoreInViewElement = () =>
 
 export const getSearchInputElement = () =>
   getElementBySelector(".search-form input");
+
+export const getBodyElement = () => getElementBySelector("body");

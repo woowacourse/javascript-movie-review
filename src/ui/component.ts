@@ -1,8 +1,9 @@
-import { Movie, MovieDetail } from "../../apis/dtos";
-import planetAndStarImg from "../../images/planet_and_star.png";
-import screamingPlanetImg from "../../images/screaming_planet.svg";
-import starEmptyImg from "../../images/star_empty.png";
+import { Movie, MovieDetail } from "../apis/dtos";
+import planetAndStarImg from "../images/planet_and_star.png";
+import screamingPlanetImg from "../images/screaming_planet.svg";
+import starEmptyImg from "../images/star_empty.png";
 
+//TODO: 컴포넌트 요소가 movie 데이터의 형태를 알고 있음. 도메인에 의존적이지 않도록 수정 필요
 const Component = {
   movie(movieData: Pick<Movie, "posterPath" | "title" | "voteAverage" | "id">) {
     const { posterPath, title, voteAverage } = movieData;

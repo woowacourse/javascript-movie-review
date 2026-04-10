@@ -52,21 +52,21 @@ export async function loadInitialMovie() {
     paintInView();
   }
 
+  setupInteractions();
+}
+
+function setupInteractions() {
   replaceLoadMoreScrollObserver(loadMoreMovies);
   setupSearchInteraction(loadSearchMovies);
-  setupMovieInteraction((movieId) => {
-    getMovieDetails({
-      movieId,
-      onSuccess: (movie) => {
-        paintMovieModal(movie);
-      },
-      onError: (_) => {
-        paintMovieModalError();
-      },
-      onLoading: () => {
-        paintMovieModalSkeleton();
-      },
-    });
+  setupMovieInteraction(loadMovieDetails);
+}
+
+export async function loadMovieDetails(movieId: string) {
+  getMovieDetails({
+    movieId,
+    onSuccess: (movie) => paintMovieModal(movie),
+    onError: () => paintMovieModalError(),
+    onLoading: () => paintMovieModalSkeleton(),
   });
 }
 
