@@ -1,4 +1,4 @@
-import { Movie } from "../../apis/dtos.ts";
+import { Movie, MovieDetail } from "../../apis/dtos.ts";
 import Component from "../utils/component.ts";
 import {
   getBannerElement,
@@ -89,6 +89,18 @@ const Renderer = {
 
   renderInView(parent: Element) {
     parent.innerHTML += Component.inView();
+  },
+
+  renderMovieModalSkeleton(parent: Element) {
+    parent.innerHTML += Component.movieModalSkeleton();
+  },
+
+  renderMovieModal(parent: Element, movie: MovieDetail) {
+    parent.innerHTML += Component.movieModal(movie);
+  },
+
+  renderMovieModalError(parent: Element) {
+    parent.innerHTML += Component.movieModalError();
   },
 };
 

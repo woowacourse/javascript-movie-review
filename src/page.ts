@@ -1,6 +1,13 @@
-import { getPopularMovies, getSearchMovies } from "./apis/api.ts";
+import {
+  getMovieDetails,
+  getPopularMovies,
+  getSearchMovies,
+} from "./apis/api.ts";
 import MovieState from "./state/business/movieState.ts";
-import { setupSearchInteraction } from "./ui/business/interactor.ts";
+import {
+  setupMovieInteraction,
+  setupSearchInteraction,
+} from "./ui/business/interactor.ts";
 import {
   paintClearBanner,
   paintEmptyResult,
@@ -10,6 +17,9 @@ import {
   paintInView,
   paintMovieBanner,
   paintMovieList,
+  paintMovieModal,
+  paintMovieModalError,
+  paintMovieModalSkeleton,
   paintPrepareSearch,
   paintResetList,
 } from "./ui/business/painter.ts";
@@ -44,6 +54,20 @@ export async function loadInitialMovie() {
 
   replaceLoadMoreScrollObserver(loadMoreMovies);
   setupSearchInteraction(loadSearchMovies);
+  setupMovieInteraction((movieId) => {
+    getMovieDetails({
+      movieId,
+      onSuccess: (movie) => {
+        paintMovieModal(movie);
+      },
+      onError: (_) => {
+        paintMovieModalError();
+      },
+      onLoading: () => {
+        paintMovieModalSkeleton();
+      },
+    });
+  });
 }
 
 export async function loadMoreMovies() {

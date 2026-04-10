@@ -1,4 +1,4 @@
-import { Movie } from "../../apis/dtos";
+import { Movie, MovieDetail } from "../../apis/dtos";
 import {
   getBannerElement,
   getMovieListElement,
@@ -70,4 +70,25 @@ export const paintPrepareSearch = (query: string, skeletonCount: number) => {
 export const paintInView = () => {
   const section = getSectionElement();
   if (section) Renderer.renderInView(section);
+};
+
+export const paintMovieModalSkeleton = () => {
+  const body = document.querySelector("body");
+  if (body) {
+    Renderer.renderMovieModalSkeleton(body);
+  }
+};
+
+export const paintMovieModal = (movie: MovieDetail) => {
+  const body = document.querySelector("body"); // TODO: 계층화 하기
+  if (body) {
+    Renderer.renderMovieModal(body, movie);
+  }
+};
+
+export const paintMovieModalError = () => {
+  const body = document.querySelector("body");
+  if (body) {
+    Renderer.renderMovieModalError(body);
+  }
 };
