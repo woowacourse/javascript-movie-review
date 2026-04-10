@@ -9,17 +9,23 @@ import { removeSearchThumbnailList, renderSearchThumbnailList, renderSearchThumb
 import { removeMovieItemsLoading, renderMovieItems } from "../shared/MovieItem.ts";
 import { hideBanner, showBanner } from "../components/Banner";
 
-const hideAll = () => {
+const removeMain = () => {
+  removeMainThumbnailList();
+  removeMainSeeMoreButton();
   removeErrorContainer();
   removeEmptyContainer();
-  removeMainThumbnailList();
+};
+
+const removeSearch = () => {
   removeSearchThumbnailList();
-  removeMainSeeMoreButton();
   removeSearchSeeMoreButton();
+  removeErrorContainer();
+  removeEmptyContainer();
 };
 
 export const renderMainLoading = () => {
-  hideAll();
+  removeMain();
+  removeSearch();
   // TODO: loading 시점에 아직 banner가 렌더링이 안 된 문제
   // -> renderMainUI 로직과 renderMain 함수 둘 중 하나 제거하면 좋을 듯
   showBanner();
@@ -30,7 +36,8 @@ export const renderMainLoading = () => {
 };
 
 export const renderMainError = (errorMessage?: string) => {
-  hideAll();
+  removeMain();
+  removeSearch();
   const resultSection = document.getElementById("result-section");
   if (resultSection) {
     renderErrorContainer(
@@ -41,7 +48,8 @@ export const renderMainError = (errorMessage?: string) => {
 };
 
 export const renderMainEmpty = () => {
-  hideAll();
+  removeMain();
+  removeSearch();
   const resultSection = document.getElementById("result-section");
   if (resultSection) {
     renderEmptyContainer(resultSection, "검색 결과가 없습니다.");
@@ -55,7 +63,7 @@ export const renderMain = (isLastPage: boolean, movies: Movie[]) => {
   const mainThumbnailList = document.getElementById("main-thumbnail-list");
 
   if (!mainThumbnailList) {
-    hideAll();
+    removeSearch();
     showBanner();
     renderMainThumbnailList(resultSection, movies);
   } else {
@@ -74,7 +82,8 @@ export const renderMain = (isLastPage: boolean, movies: Movie[]) => {
 };
 
 export const renderSearchLoading = (keyword: string) => {
-  hideAll();
+  removeMain();
+  removeSearch();
   hideBanner();
   const resultSection = document.getElementById("result-section");
   const subTitle = document.getElementById("sub-title");
@@ -89,7 +98,8 @@ export const renderSearchLoading = (keyword: string) => {
 };
 
 export const renderSearchError = (errorMessage?: string) => {
-  hideAll();
+  removeMain();
+  removeSearch();
   const resultSection = document.getElementById("result-section");
   if (resultSection) {
     renderErrorContainer(
@@ -100,7 +110,8 @@ export const renderSearchError = (errorMessage?: string) => {
 };
 
 export const renderSearchEmpty = () => {
-  hideAll();
+  removeMain();
+  removeSearch();
   const resultSection = document.getElementById("result-section");
   if (resultSection) {
     renderEmptyContainer(resultSection, "검색 결과가 없습니다.");
@@ -114,7 +125,7 @@ export const renderSearch = (isLastPage: boolean, movies: Movie[]) => {
   const searchThumbnailList = document.getElementById("search-thumbnail-list");
 
   if (!searchThumbnailList) {
-    hideAll();
+    removeMain();
     renderSearchThumbnailList(resultSection, movies);
   } else {
     removeMovieItemsLoading(searchThumbnailList as HTMLElement);
