@@ -98,7 +98,6 @@ button.primary {
 .top-rated-container,
 .search-container {
   display: grid;
-
   user-select: none;
   position: relative;
   z-index: 2;
@@ -176,10 +175,8 @@ span.rate-value {
   display: flex;
   justify-content: space-between;
   align-items: center;
-
   width: 525px;
   height: 36px;
-
   border: 2px solid var(--color-ffffff);
   border-radius: 32px;
   outline: none;
@@ -313,7 +310,7 @@ form {
   .search-container {
     display: flex;
     flex-direction: column;
-    justify-items: center;
+    justify-content: center;
     align-items: center;
   }
 }

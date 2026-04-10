@@ -122,9 +122,8 @@ body.modal-open {
     border-radius: 16px;
   }
   .modal-container {
-    padding: 40 24;
+    padding: 40px 24px;
     gap: 10px;
-
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -139,12 +138,11 @@ body.modal-open {
 @media (max-width: 390px) {
   .modal {
     top: 20px;
-    border-radius: 0;
     bottom: 0;
-    width: 800px;
     gap: 24px;
     opacity: 1;
     padding: 40px 24px;
+    width: 390px;
     border-radius: 16px;
   }
 

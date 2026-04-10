@@ -1,7 +1,6 @@
-// 커스텀이벤터패턴 나중에공부
 export const CUSTOM_EVENT = {
   ROUTE_CHANGE: 'ROUTE_CHANGE',
-  SCROOL_END: 'SCROOL_END',
+  SCROLL_END: 'SCROLL_END',
 } as const;
 
 export const dispatchRouteChange = (url: string) => {
@@ -20,7 +19,7 @@ export const scrollEvent = () => {
   if (throttle.timer) return;
 
   throttle.timer = setTimeout(() => {
-    window.dispatchEvent(new CustomEvent(CUSTOM_EVENT.SCROOL_END));
+    window.dispatchEvent(new CustomEvent(CUSTOM_EVENT.SCROLL_END));
     throttle.timer = null;
   }, throttle.delay);
 };
