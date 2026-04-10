@@ -10,10 +10,12 @@ const createSearchThumbnailListTemplate = () => `
 `;
 
 export const renderSearchThumbnailLoading = (parent: HTMLElement) => {
-  if (!searchThumbnailList) {
-    parent.insertAdjacentHTML("beforeend", createSearchThumbnailListTemplate());
-    searchThumbnailList = document.getElementById(SEARCH_THUMBNAIL_LIST_ID);
+  if (searchThumbnailList) {
+    searchThumbnailList.remove();
   }
+
+  parent.insertAdjacentHTML("beforeend", createSearchThumbnailListTemplate());
+  searchThumbnailList = document.getElementById(SEARCH_THUMBNAIL_LIST_ID);
 
   if (searchThumbnailList) {
     renderMovieItemsLoading(searchThumbnailList);
