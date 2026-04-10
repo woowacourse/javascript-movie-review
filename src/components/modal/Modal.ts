@@ -44,6 +44,11 @@ export default class Modal {
     `;
 
     $(this.#$modal, 'button').addEventListener('click', () => this.close());
+    window.addEventListener('keydown', (e) => {
+      if ((e as KeyboardEvent).key === 'Escape') {
+        this.close();
+      }
+    });
   }
 
   get $element() {
