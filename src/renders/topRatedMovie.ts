@@ -27,6 +27,10 @@ export const renderTopRatedMovie = (topRatedMovie: Movie) => {
   overlayImage.src = overlayImagePath;
   overlayImage.alt = topRatedMovie.title;
 
+  overlayImage.onerror = () => {
+    overlayImage.src = FALLBACK;
+  }
+
   const topRatedMovieElement =
     document.querySelector<HTMLDivElement>(".top-rated-movie");
   if (!topRatedMovieElement) return null;
