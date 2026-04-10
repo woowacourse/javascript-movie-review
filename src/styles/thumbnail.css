@@ -25,6 +25,11 @@
   background: none;
 }
 
+.item:focus {
+  scale: 105%;
+  outline: none;
+}
+
 .item-desc {
   max-width: 200px;
 }
