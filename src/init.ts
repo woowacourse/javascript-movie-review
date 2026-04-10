@@ -15,7 +15,7 @@ function attachLogoListener() {
 }
 
 export function setupSubscriptions(
-  moreButton: HTMLButtonElement,
+  // moreButton: HTMLButtonElement,
   mainTitle: HTMLElement,
 ): void {
   eventBus.subscribe(APP_EVENTS.LOGO_CLICK, handleLogo);
@@ -34,7 +34,7 @@ export function setupSubscriptions(
     attachLogoListener();
     movieListView.clearList();
     movieListView.renderMovieList(data);
-    updateMoreButton(moreButton, data.total_pages, state.page);
+    updateMoreButton(data.total_pages, state.page);
   });
 
   eventBus.subscribe(APP_EVENTS.SEARCH_LOADED, (data) => {
@@ -48,12 +48,12 @@ export function setupSubscriptions(
       movieListView.clearList();
       movieListView.renderMovieList(data);
     }
-    updateMoreButton(moreButton, data.total_pages, state.page);
+    updateMoreButton(data.total_pages, state.page);
   });
 
   eventBus.subscribe(APP_EVENTS.MORE_LOADED, (data) => {
     movieListView.renderMovieList(data);
-    updateMoreButton(moreButton, data.total_pages, state.page);
+    updateMoreButton(data.total_pages, state.page);
   });
 
   eventBus.subscribe(APP_EVENTS.ERROR, (message) => {

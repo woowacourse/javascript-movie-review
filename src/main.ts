@@ -1,14 +1,14 @@
 import {
   handleInitial,
   handleSearch,
-  handleMore,
+  // handleMore,
 } from "./features/handler/controllerHandlers";
 import { setupSubscriptions } from "./init";
 
-const moreButton = document.querySelector(".btn-more") as HTMLButtonElement;
+// const moreButton = document.querySelector(".btn-more") as HTMLButtonElement;
 const mainTitle = document.querySelector(".main-title") as HTMLElement;
 
-setupSubscriptions(moreButton, mainTitle);
+setupSubscriptions(mainTitle);
 
 addEventListener("load", async () => {
   await handleInitial();
@@ -24,6 +24,6 @@ submitContainer.addEventListener("submit", async (e: SubmitEvent) => {
   await handleSearch(searchInput.value.trim());
 });
 
-moreButton.addEventListener("click", async () => {
-  await handleMore();
-});
+// moreButton.addEventListener("click", async () => {
+//   await handleMore();
+// });
