@@ -19,9 +19,12 @@ class SearchUI {
   errorContainer = document.getElementById("error-container");
   emptyContainer = document.getElementById("empty-container");
   resultSection = document.getElementById("result-section");
+  subTitle = document.getElementById("sub-title");
   errorMessageContent = document.querySelector(
     "#error-container p",
   ) as HTMLParagraphElement;
+
+  keyword = getKeywordFromURL();
 
   constructor() {
     this.#render();
@@ -39,6 +42,7 @@ class SearchUI {
     this.errorContainer?.classList.add("hidden");
     this.emptyContainer?.classList.add("hidden");
     this.errorMessageContent?.classList.add("hidden");
+    this.subTitle?.classList.add("hidden");
   }
 
   async load() {
@@ -62,7 +66,9 @@ class SearchUI {
 
   async seeMore() {
     const searchedMovies = await getSearchedMovies({
+      query: this.keyword || "",
       page: getPageParam() + 1,
+      language: "ko-KR",
     });
     incrementPageParam();
     renderThumbnailList({
@@ -74,6 +80,10 @@ class SearchUI {
   #render() {
     this.hide();
     this.resultSection?.classList.add("result-section");
+    const keyword = getKeywordFromURL();
+    if (!this.subTitle) return;
+    this.subTitle?.classList.remove("hidden");
+    this.subTitle.innerText = `"${keyword}" 검색 결과`;
     if (this.searchState.type === "data") {
       this.searchThumbnailList?.classList.remove("hidden");
       renderThumbnailList({
