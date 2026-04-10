@@ -2,6 +2,8 @@ import Modal from './components/modal/Modal.ts';
 import HomePage from './pages/HomePage.ts';
 import SearchPage from './pages/SearchPage.ts';
 import { CUSTOM_EVENT, scrollEvent } from './utils/event.ts';
+import LocalStorage from './storage/LocalStorage.ts';
+import MovieRepository from './repositories/MovieRepository.ts';
 
 const routes = [
   { path: '/', view: HomePage },
@@ -54,7 +56,9 @@ addEventListener('load', () => {
   const $body = document.querySelector('body');
   if (!$body) return;
 
-  const modal = new Modal($body);
+  const db = new LocalStorage();
+  const movieRepo = new MovieRepository(db);
+  const modal = new Modal(movieRepo, $body);
   $body.append(modal.$element);
 
   window.addEventListener('hashchange', () => router(modal));

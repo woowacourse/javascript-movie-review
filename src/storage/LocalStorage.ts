@@ -1,18 +1,19 @@
-class LocalStorage {
+export type MovieStore = {
+  get(key: string): void;
+  save(key: string, value: string): void;
+};
+export default class LocalStorage {
   #myStorage;
 
   constructor() {
     this.#myStorage = window.localStorage;
   }
 
-  saveRate(key: string, value: string) {
+  save(key: string, value: string) {
     this.#myStorage.setItem(key, value);
   }
 
-  getRate(key: string) {
+  get(key: string) {
     return this.#myStorage.getItem(key);
   }
 }
-
-const localStorage = new LocalStorage();
-export default localStorage;

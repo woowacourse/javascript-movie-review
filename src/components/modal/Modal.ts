@@ -1,15 +1,18 @@
 import { getOriginalImageUrl } from '../../api/renderImage';
 import { MovieDetail } from '../../api/types';
-import LocalStorage from '../../storage/LocalStorage';
+import MovieRepository from '../../repositories/MovieRepository';
 import { $ } from '../../utils/dom';
 import { Star } from '../common/Star';
 import SubmitRate from './SubmitRate';
 
 export default class Modal {
+  #movieRepo: MovieRepository;
+
   #$modal: HTMLElement;
   #$body: HTMLElement;
 
-  constructor($body: HTMLElement) {
+  constructor(movieRepo: MovieRepository, $body: HTMLElement) {
+    this.#movieRepo = movieRepo;
     this.#$body = $body;
 
     this.#$modal = document.createElement('div');
@@ -74,10 +77,10 @@ export default class Modal {
     this.#update(movie);
 
     const { id } = movie;
-    const movieRate = Number(LocalStorage.getRate(`${id}`)) || 0;
+    const movieRate = Number(this.#movieRepo.getRate(`${id}`)) || 0;
 
     const $submitRate = new SubmitRate(movieRate, (rate) => {
-      LocalStorage.saveRate(`${id}`, String(rate));
+      this.#movieRepo.saveRate(`${id}`, String(rate));
     }).$element;
 
     const $container = $(this.#$modal, '.modal-submit-star');
