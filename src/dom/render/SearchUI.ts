@@ -18,6 +18,7 @@ class SearchUI {
   skeletonList = document.getElementById("skeleton-list");
   errorContainer = document.getElementById("error-container");
   emptyContainer = document.getElementById("empty-container");
+  resultSection = document.getElementById("result-section");
   errorMessageContent = document.querySelector(
     "#error-container p",
   ) as HTMLParagraphElement;
@@ -72,6 +73,7 @@ class SearchUI {
 
   #render() {
     this.hide();
+    this.resultSection?.classList.add("result-section");
     if (this.searchState.type === "data") {
       this.searchThumbnailList?.classList.remove("hidden");
       renderThumbnailList({
