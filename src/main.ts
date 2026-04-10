@@ -33,10 +33,10 @@ const loadInit = () => {
         async () => await getTopRatedMovie(),
         (e: ApiError) => {
           if (e.status_code == 22) {
-            alert(errorMessages.TOP_RATED_MESSAGE);
+            alert(errorMessages.INVALID_REQUEST);
             return;
           }
-          alert(errorMessages.API_COMMON_MESSAGE);
+          alert(errorMessages.UNKNOWN);
         }
       );
 
@@ -52,10 +52,10 @@ const loadInit = () => {
         async () => await getMoviePopular({ page }),
         async (e: ApiError) => {
           if (e.status_code == 22) {
-            alert(errorMessages.POPULAR_MOVIES_MESSAGE);
+            alert(errorMessages.INVALID_PAGE);
             return;
           }
-          alert(errorMessages.API_COMMON_MESSAGE);;
+          alert(errorMessages.UNKNOWN);;
         },
       );
 
@@ -78,10 +78,10 @@ const runSearch = () => {
         query: search || "",
       }), (e: ApiError) => {
         if(e.status_code === 22){
-          alert(errorMessages.SEARCH_MOVIE_MESSAGE);
+          alert(errorMessages.INVALID_SEARCH);
             return;
         }
-        alert(errorMessages.API_COMMON_MESSAGE);;
+        alert(errorMessages.UNKNOWN);;
       }
     );
 
