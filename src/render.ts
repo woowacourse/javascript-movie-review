@@ -150,4 +150,11 @@ export const Renderer = {
     const button = document.querySelector(".load-more-button");
     if (button instanceof HTMLElement) button.style.display = "none";
   },
+
+  renderMovieDetail() {
+    const app = document.querySelector("#app");
+    if (app instanceof HTMLElement) {
+      app?.insertAdjacentHTML("beforeend", Component.movieDetail());
+    }
+  },
 };

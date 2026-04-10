@@ -10,7 +10,7 @@ const App = {
   },
 
   setUpInitialContent() {
-    addEventListener("load", this.showPopularMovies);
+    addEventListener("load", () => this.showPopularMovies());
   },
 
   setUpEventListeners() {
@@ -38,6 +38,16 @@ const App = {
     });
   },
 
+  setUpMovieDetail() {
+    const movieList = document.querySelectorAll(".thumbnail-list li");
+    movieList.forEach((movie) => {
+      movie.addEventListener("click", (e) => {
+        e.preventDefault();
+        Renderer.renderMovieDetail();
+      });
+    });
+  },
+
   handleLoadMoreMovies() {
     const query = State.getSearchQuery();
     if (query) {
@@ -62,6 +72,8 @@ const App = {
         MovieRenderer.renderInitialMovies(movies);
       } catch (err) {
         MovieRenderer.renderError(err);
+      } finally {
+        this.setUpMovieDetail();
       }
     }
   },
@@ -78,6 +90,8 @@ const App = {
     } catch (err) {
       MovieRenderer.renderError(err);
       Renderer.clearBanner();
+    } finally {
+      this.setUpMovieDetail();
     }
   },
 
@@ -94,6 +108,8 @@ const App = {
       State.setSearchQuery(query);
     } catch (err) {
       MovieRenderer.renderError(err);
+    } finally {
+      this.setUpMovieDetail();
     }
   },
 
@@ -109,6 +125,8 @@ const App = {
       MovieRenderer.renderLoadMoreSearchMovies(movies);
     } catch (err) {
       MovieRenderer.renderError(err);
+    } finally {
+      this.setUpMovieDetail();
     }
   },
 };
