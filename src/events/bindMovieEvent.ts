@@ -15,6 +15,9 @@ export const bindMovieEvents = ({ onMore, onSearch, onClick }: handler) => {
   //   onMore();
   // });
   window.addEventListener("scroll", () => {
+    const movieList = getElement(".thumbnail-list", HTMLUListElement);
+    if (movieList.children.length === 0) return;
+
     if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 2)
       onMore();
   });
