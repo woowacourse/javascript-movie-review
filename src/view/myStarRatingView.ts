@@ -14,9 +14,11 @@ class MyStarRatingView {
     this.#myStarScore = document.querySelector<HTMLElement>("#my-star-score");
   };
 
-  bindHandleMyStarClick() {
+  bindHandleMyStarClick(handler: (score: string | undefined) => void) {
     this.#myStarImageArray.forEach((item, index) => {
       item?.addEventListener("click", () => {
+        const score = item.dataset.score;
+
         for (let i = 0; i <= index; i++) {
           const star = this.#myStarImageArray[i];
           if (star) star.src = `${FILLED_STAR}`;
@@ -32,11 +34,15 @@ class MyStarRatingView {
         };
 
         if (this.#myStarScore) {
-          this.#myStarScore.innerText = `${item.dataset.score}`;
+          this.#myStarScore.innerText = `${score}`;
         };
+
+        handler(score);
       });
     });
   };
+
+  
 };
 
 export const myStarRatingView = new MyStarRatingView();
