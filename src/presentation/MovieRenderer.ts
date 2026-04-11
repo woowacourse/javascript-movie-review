@@ -63,25 +63,25 @@ const hideBanner = () => {
   if (bg) bg.hidden = true;
 };
 
-const showLoadButton = () => {
-  const loadButton = document.querySelector<HTMLButtonElement>('#load-movie-button');
-  if (loadButton) loadButton.style.display = '';
-};
+// const showLoadButton = () => {
+//   const loadButton = document.querySelector<HTMLButtonElement>('#load-movie-button');
+//   if (loadButton) loadButton.style.display = '';
+// };
 
-const hideLoadButton = () => {
-  const loadButton = document.querySelector<HTMLButtonElement>('#load-movie-button');
-  if (loadButton) loadButton.style.display = 'none';
-};
+// const hideLoadButton = () => {
+//   const loadButton = document.querySelector<HTMLButtonElement>('#load-movie-button');
+//   if (loadButton) loadButton.style.display = 'none';
+// };
 
-export const startLoading = () => {
-  const loadButton = document.querySelector<HTMLButtonElement>('#load-movie-button');
-  if (loadButton) loadButton.disabled = true;
-};
+// export const startLoading = () => {
+//   const loadButton = document.querySelector<HTMLButtonElement>('#load-movie-button');
+//   if (loadButton) loadButton.disabled = true;
+// };
 
-export const stopLoading = () => {
-  const loadButton = document.querySelector<HTMLButtonElement>('#load-movie-button');
-  if (loadButton) loadButton.disabled = false;
-};
+// export const stopLoading = () => {
+//   const loadButton = document.querySelector<HTMLButtonElement>('#load-movie-button');
+//   if (loadButton) loadButton.disabled = false;
+// };
 
 const setSectionTitle = (title: string) => {
   const sectionTitle = document.querySelector<HTMLElement>('#section-title');
@@ -106,8 +106,9 @@ export const render = (state: MovieBrowser, movies: Movie[]) => {
     renderMovieList(movies);
   }
 
-  setSectionTitle(state.sectionTitle);
-  if (state.canLoadMore) showLoadButton(); else hideLoadButton();
+  // setSectionTitle(state.sectionTitle);
+  // if (state.canLoadMore) 
+    // showLoadButton(); else hideLoadButton();
 };
 
 export const showError = (error: unknown) => {

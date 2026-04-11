@@ -28,7 +28,9 @@ export const initDetailClick = (onClick: (movieId: number) => void) => {
 };
 
 export const initLoadMore = (onLoadMore: () => void) => {
-  document.querySelector('#load-movie-button')?.addEventListener('click', onLoadMore);
+  window.addEventListener('scroll', () => {                                          
+    if(window.scrollY + window.innerHeight === document.documentElement.scrollHeight)onLoadMore()                                                      
+  }); 
 };
 
 export const initMovieClick = (onSelect: (id: number) => void) => {

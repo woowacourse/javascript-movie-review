@@ -1,10 +1,12 @@
 import { MovieBrowser } from '../domain/MovieBrowser.ts';
 import { type FetchStrategy, type MoviePage, popularStrategy, searchStrategy } from './fetchStrategies.ts';
-import { render, showError, startLoading, stopLoading } from './MovieRenderer.ts';
+import { render, showError } from './MovieRenderer.ts';
 
 const browser = new MovieBrowser();
 let strategy: FetchStrategy = popularStrategy;
 let controller: AbortController | undefined;
+let isLoading = false;
+
 
 const createNewRequest = (): AbortSignal => {
   controller?.abort();
@@ -16,7 +18,7 @@ const handleSuccess = (data: MoviePage, onSuccess?: () => void) => {
   onSuccess?.();
   browser.setTotalPages(data.totalPages);
   render(browser, data.results);
-  stopLoading();
+  // stopLoading(isLoading);
 };
 
 const handleError = (error: unknown) => {
@@ -26,13 +28,16 @@ const handleError = (error: unknown) => {
 
 const load = async (page: number, onSuccess?: () => void) => {
   const signal = createNewRequest();
-  startLoading();
+  // startLoading(isLoading);
+  isLoading = true;
   try {
     const data = await strategy(page, signal);
     handleSuccess(data, onSuccess);
   } catch (error) {
-    stopLoading();
+    // stopLoading(isLoading);
     handleError(error);
+  } finally {
+    isLoading = false;
   }
 };
 
@@ -46,5 +51,6 @@ export const search = (keyword: string) => {
 
 export const loadMore = () => {
   if (!browser.canLoadMore) return;
+  if (isLoading) return;
   return load(browser.nextPageNumber, () => browser.nextPage());
 };
