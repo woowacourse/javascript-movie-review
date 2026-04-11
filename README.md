@@ -3,7 +3,7 @@
 ## 무한 스크롤
 
 - [x] 더 보기 버튼 제거
-- page search params 제거
+- [x] page search params 제거
 
 ## 영화 상세정보 조회
 
