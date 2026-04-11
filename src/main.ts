@@ -2,7 +2,6 @@ import { handleHome } from "./controller/handleHome";
 import { handleLoadMore } from "./controller/handleLoadMore";
 import { handleSearch } from "./controller/handleSearch";
 import { searchView } from "./view/searchView";
-import { addButtonView } from "./view/addButtonView";
 import { modalView } from "./view/modalView";
 import { handleModal } from "./controller/handleModal";
 import { myStarRatingView } from "./view/myStarRatingView";
@@ -13,10 +12,6 @@ import { infiniteScrollView } from "./view/InfiniteScrollView";
 function init() {
   addEventListener("load", () => {
     handleHome();
-  });
-
-  addButtonView.bindAddButtonClick(async () => {
-    await handleLoadMore();
   });
 
   infiniteScrollView.bindBottomIntersect(async () => {

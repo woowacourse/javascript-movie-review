@@ -4,7 +4,6 @@ import { movieModel } from "../model/movieModel";
 import { searchView } from "../view/searchView";
 import { movieListView } from "../view/movieListView";
 import { bannerView } from "../view/bannerView";
-import { addButtonView } from "../view/addButtonView";
 import { errorMovieList } from "../services/errorMovieList";
 import { emptyMovieList } from "../services/emptyMovieList";
 import { infiniteScrollView } from "../view/InfiniteScrollView";
@@ -14,7 +13,6 @@ export async function handleSearch(keyword: string) {
     movieModel.startSearch(1, true, keyword);
     searchView.changeToSearchMode(movieModel.searchValue);
     bannerView.hideBanner();
-    addButtonView.showAddButton();
     movieListView.resetMovieList();
     movieListView.renderSkeletonList(SKELETON_NUMBER);
 
