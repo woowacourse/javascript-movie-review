@@ -68,6 +68,7 @@ class MainUI {
       movies: popularMovies.results,
       thumbnailListElement: this.mainThumbnailList,
     });
+    return !(popularMovies.page === popularMovies.total_pages);
   }
 
   #render() {
