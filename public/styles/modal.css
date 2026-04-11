@@ -37,6 +37,7 @@ body.modal-open {
   z-index: 2;
   position: relative;
   width: 1000px;
+  height: 613px;
 }
 
 .close-modal {
@@ -73,16 +74,59 @@ body.modal-open {
   top: 5px;
 }
 
+.modal-description .rate-label {
+  color: white;
+  padding-right: 10px;
+}
+
+.modal-description .rate-value {
+  font-size: 16px;
+  font-weight: normal;
+}
+
 .modal-description > *:not(:last-child) {
   margin-bottom: 8px;
 }
 
+.modal-description .stars {
+  display: flex;
+  gap: 2px;
+}
+
+.modal-description .stars > img {
+  width: 32px;
+  position: relative;
+  bottom: 7px;
+  display: block;
+}
+
+.movie-rating {
+  display: flex;
+  justify-content: space-between;
+  max-width: 380px;
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.18px;
+  margin-top: 20px;
+}
+
+.rating-score {
+  color: #95a1b2;
+}
+
 .modal-description h2 {
   font-size: 2rem;
+  font-weight: bold;
   margin: 0 0 8px;
 }
 
+.modal-description h3 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding-top: 8px;
+}
+
 .detail {
-  max-height: 430px;
+  max-height: 300px;
   overflow-y: auto;
 }

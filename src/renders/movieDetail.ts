@@ -7,7 +7,7 @@ export function renderMovieDetail(movieDetail: MovieDetail) {
   const modalImage =
     movieModal.querySelector<HTMLImageElement>(".modal-image img");
   const title = movieModal.querySelector("h2");
-  const rate = movieModal.querySelector(".rate span");
+  const rate = movieModal.querySelector(".rate-value");
   const detail = movieModal.querySelector(".detail");
   const category = movieModal.querySelector(".category");
 

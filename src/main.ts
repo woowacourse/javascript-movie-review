@@ -57,6 +57,32 @@ addEventListener("load", () => {
     }
   });
 
+  const RATING_TEXT = [
+    "최악이에요",
+    "별로에요",
+    "보통이에요",
+    "재밌어요",
+    "명작이에요",
+  ];
+
+  const stars = document.querySelectorAll<HTMLImageElement>(".stars img");
+  stars.forEach((star, index) => {
+    star.addEventListener("click", () => {
+      stars.forEach((currentStar, currentIndex) => {
+        currentStar.src =
+          currentIndex <= index
+            ? "./images/star_filled.png"
+            : "./images/star_empty.png";
+      });
+
+      const ratingText = document.querySelector(".rating-text");
+      if (ratingText) ratingText.textContent = RATING_TEXT[index];
+
+      const ratingScore = document.querySelector(".rating-score");
+      if (ratingScore) ratingScore.textContent = `(${(index + 1) * 2}/10)`;
+    });
+  });
+
   loadTopRatedMovie();
   loadMovieList();
 });
