@@ -2,6 +2,7 @@ import {
   getTopRatedMovies,
   getPopularMovies,
   getSearchMovies,
+  getMovieDetail,
 } from "./services/api";
 
 import { renderTopRatedMovie, removeTopRatedMovie } from "./view/topRatedMovie";
@@ -15,6 +16,7 @@ import { renderSkeleton, removeSkeleton } from "./view/skeleton";
 import PageState from "./states/PageState";
 import { getSearchParams, hasSearchParams } from "./utils/router";
 import { showError } from "./utils/error";
+import { renderMovieDetail } from "./view/movieDetail";
 
 const popularPageState = new PageState();
 const searchPageState = new PageState();
@@ -97,4 +99,9 @@ export const loadMovieList = () => {
   }
 
   loadPopularMovies();
+};
+
+export const loadMovieDetail = async (movieId: string) => {
+  const movieDetail = await getMovieDetail(movieId);
+  renderMovieDetail(movieDetail);
 };

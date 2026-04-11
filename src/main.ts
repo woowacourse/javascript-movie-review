@@ -1,12 +1,14 @@
 import { baseUrl } from "./constants/env";
+import {
+  handleModalCloseButtonClick,
+  handleModalEscapeKeydown,
+  handleMovieItemClick,
+} from "./modalHandler";
 import { loadMovieList, loadTopRatedMovie } from "./movieLoader";
 import {
   handleSearchButtonClick,
   handleSearchInputEnter,
 } from "./searchHandler";
-import { getDetailMovie } from "./services/api";
-import { clearMovieDetail, renderMovieDetail } from "./view/movieDetail";
-import { closeMovieModal, openMovieModal } from "./view/movieModal";
 
 addEventListener("load", () => {
   const logo = document.querySelector<HTMLButtonElement>(".logo");
@@ -25,29 +27,14 @@ addEventListener("load", () => {
   });
 
   const movieList = document.querySelector("#movie-list");
-  movieList?.addEventListener("click", async (e) => {
-    const target = e.target as HTMLElement;
-    const movieItem = target.closest("li");
-    if (!movieItem) return;
-
-    const movieId = movieItem.dataset.movieId;
-    if (!movieId) return;
-
-    const movieDetail = await getDetailMovie(movieId);
-    renderMovieDetail(movieDetail);
-    openMovieModal();
-  });
+  movieList?.addEventListener("click", handleMovieItemClick);
 
   const closeModal = document.querySelector("#close-modal");
-  closeModal?.addEventListener("click", () => {
-    closeMovieModal();
-    clearMovieDetail();
-  });
+  closeModal?.addEventListener("click", handleModalCloseButtonClick);
 
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
-      closeMovieModal();
-      clearMovieDetail();
+      handleModalEscapeKeydown();
     }
   });
 

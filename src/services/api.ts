@@ -66,7 +66,7 @@ export const getSearchMovies = async ({
   throw new ApiError(errorBody.status_message, errorBody.status_code);
 };
 
-export const getDetailMovie = async (movieId: string): Promise<MovieDetail> => {
+export const getMovieDetail = async (movieId: string): Promise<MovieDetail> => {
   const url = `${apiUrl}/movie/${movieId}?language=ko-KR`;
   const res = await fetch(url, {
     method: "get",
