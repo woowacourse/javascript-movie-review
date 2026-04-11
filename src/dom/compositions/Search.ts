@@ -1,27 +1,10 @@
 import { Movie } from "../../apis/movie/api.ts";
 import { handleSearchSeeMore } from "../eventHandler/handleSeeMore.ts";
-import {
-  removeEmptyContainer,
-  renderEmptyContainer,
-} from "../components/EmptyContainer.ts";
-import {
-  removeErrorContainer,
-  renderErrorContainer,
-} from "../components/ErrorContainer.ts";
-import {
-  removeSearchSeeMoreButton,
-  renderSearchSeeMoreButton,
-} from "../components/SearchSeeMoreButton.ts";
-import {
-  removeSearchThumbnailList,
-  renderSearchThumbnailList,
-  renderSearchThumbnailLoading,
-} from "../components/SearchThumbnailList.ts";
-import {
-  removeMovieItemsLoading,
-  renderMovieItems,
-} from "../shared/MovieItem.ts";
-import { hideBanner } from "../components/Banner.ts";
+import { removeEmptyContainer, renderEmptyContainer } from "../components/EmptyContainer.ts";
+import { removeErrorContainer, renderErrorContainer } from "../components/ErrorContainer.ts";
+import { removeSearchSeeMoreButton, renderSearchSeeMoreButton } from "../components/SearchSeeMoreButton.ts";
+import { removeSearchThumbnailList, renderSearchThumbnailList, renderSearchThumbnailLoading } from "../components/SearchThumbnailList.ts";
+import { removeMovieItemsLoading, renderMovieItems } from "../shared/MovieItem.ts";
 import { removeMain } from "./Main.ts";
 
 export const removeSearch = () => {
@@ -34,7 +17,6 @@ export const removeSearch = () => {
 export const renderSearchLoading = (keyword: string) => {
   removeMain();
   removeSearch();
-  hideBanner();
   const resultSection = document.getElementById("result-section");
   const subTitle = document.getElementById("sub-title");
 
@@ -76,7 +58,7 @@ export const renderSearch = (isLastPage: boolean, movies: Movie[]) => {
 
   if (!searchThumbnailList) {
     removeMain();
-    removeSearch(); // Common UI 제거를 위해 호출
+    removeSearch();
     renderSearchThumbnailList(resultSection, movies);
   } else {
     removeMovieItemsLoading(searchThumbnailList as HTMLElement);

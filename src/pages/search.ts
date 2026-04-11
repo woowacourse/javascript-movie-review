@@ -1,7 +1,12 @@
 import { Movie } from "../apis/movie/api.ts";
 import { getSearchedMovies } from "../apis/search/api.ts";
 import TMDBError from "../TMDBError.ts";
-import { renderSearch, renderSearchEmpty, renderSearchError, renderSearchLoading } from "../dom/compositions/Search.ts";
+import {
+  renderSearch,
+  renderSearchEmpty,
+  renderSearchError,
+  renderSearchLoading,
+} from "../dom/compositions/Search.ts";
 
 export const renderSearchPage = async () => {
   const url = new URL(window.location.href);
