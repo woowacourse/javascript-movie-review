@@ -9,6 +9,7 @@ export type AppEventPayloads = {
   logoClick: void;
   error: string;
   loadMore: void;
+  lastPageReached: void;
 };
 
 export const APP_EVENTS = {
@@ -19,5 +20,6 @@ export const APP_EVENTS = {
   TITLE_CHANGED: "titleChanged",
   LOGO_CLICK: "logoClick",
   ERROR: "error",
-  LOAD_MORE:"loadMore",
+  LOAD_MORE: "loadMore",
+  LAST_PAGE_REACHED: "lastPageReached",
 } as const satisfies Record<string, keyof AppEventPayloads>;
