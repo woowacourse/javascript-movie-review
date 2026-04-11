@@ -224,6 +224,10 @@ span.rate-value {
   letter-spacing: 0.015rem;
 }
 
+#sentinel {
+  height: 1px;
+}
+
 footer.footer {
   min-height: 180px;
   background-color: var(--color-bluegray-80);
