@@ -6,6 +6,7 @@ class StarRating {
   private currentScore: number = 0;
   private hoverScore: number = 0;
   private storage: RatingStorage;
+  private stars: HTMLElement[] = [];
 
   constructor(container: HTMLElement, movieId: number, storage: RatingStorage) {
     this.container = container;
@@ -21,39 +22,54 @@ class StarRating {
 
   private bindRatingEvents() {
     // 마우스 호버 이벤트 => image가 filled로 변경 혹은 다시 원래대로
-    const stars = Array.from(this.container.querySelectorAll(".star.my-star"));
+    this.stars = Array.from(
+      this.container.querySelectorAll<HTMLElement>(".star.my-star"),
+    );
 
-    this.container.addEventListener("mouseover", (e: MouseEvent) => {
-      if ((e.target as HTMLElement).closest(".star.my-star")) {
-        const targetStar = (e.target as HTMLElement).closest(".star.my-star");
-        const targetStarIndex = stars.indexOf(targetStar as HTMLElement);
-
-        this.hoverScore = (targetStarIndex + 1) * 2;
-        this.updateRatingUI();
-      }
-    });
-    this.container.addEventListener("mouseout", (e: MouseEvent) => {
-      if ((e.target as HTMLElement).closest(".star.my-star")) {
-        this.hoverScore = 0;
-        this.updateRatingUI();
-      }
-    });
+    this.container.addEventListener("mouseover", (e: MouseEvent) =>
+      this.handleMouseOver(e),
+    );
+    this.container.addEventListener("mouseout", (e: MouseEvent) =>
+      this.handleMouseOut(e),
+    );
 
     // 클릭 이벤트 => image가 선택한 갯수대로 filled되고 텍스트 및 숫자 업데이트
-    this.container.addEventListener("click", (e: MouseEvent) => {
-      if ((e.target as HTMLElement).closest(".star.my-star")) {
-        const targetStar = (e.target as HTMLElement).closest(".star.my-star");
-        const targetStarIndex = stars.indexOf(targetStar as HTMLElement);
-        this.currentScore = (targetStarIndex + 1) * 2;
-        this.updateRatingUI();
+    this.container.addEventListener("click", (e: MouseEvent) =>
+      this.handleClick(e),
+    );
+  }
 
-        this.storage.setRating(this.movieId, this.currentScore);
-      }
-    });
+  // 위에 이벤트리스너에 부착되는 이벤트 핸들러들
+  private handleMouseOver(e: MouseEvent) {
+    if ((e.target as HTMLElement).closest(".star.my-star")) {
+      const targetStar = (e.target as HTMLElement).closest(".star.my-star");
+      const targetStarIndex = this.stars.indexOf(targetStar as HTMLElement);
+
+      this.hoverScore = (targetStarIndex + 1) * 2;
+      this.updateRatingUI();
+    }
+  }
+
+  private handleMouseOut(e: MouseEvent) {
+    if ((e.target as HTMLElement).closest(".star.my-star")) {
+      this.hoverScore = 0;
+      this.updateRatingUI();
+    }
+  }
+
+  private handleClick(e: MouseEvent) {
+    if ((e.target as HTMLElement).closest(".star.my-star")) {
+      const targetStar = (e.target as HTMLElement).closest(".star.my-star");
+      const targetStarIndex = this.stars.indexOf(targetStar as HTMLElement);
+      this.currentScore = (targetStarIndex + 1) * 2;
+      this.updateRatingUI();
+
+      this.storage.setRating(this.movieId, this.currentScore);
+    }
   }
 
   private updateRatingUI() {
-    const stars = Array.from(this.container.querySelectorAll(".star.my-star"));
+    const stars = this.stars;
     const starFilled = "./images/star_filled.png";
     const starEmpty = "./images/star_empty.png";
 
