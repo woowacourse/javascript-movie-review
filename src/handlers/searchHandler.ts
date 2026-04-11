@@ -1,6 +1,6 @@
-import { baseUrl } from "./constants/env";
-import { loadSearchMovies } from "./movieLoader";
-import { createSearchUrl, navigate } from "./utils/router";
+import { baseUrl } from "../constants/env";
+import { loadSearchMovies } from "../movieLoader";
+import { createSearchUrl, navigate } from "../utils/router";
 
 export const handleSearchButtonClick = () => {
   const searchInput = document.querySelector<HTMLInputElement>("#search-input");

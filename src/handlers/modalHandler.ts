@@ -1,6 +1,6 @@
-import { loadMovieDetail } from "./movieLoader";
-import { clearMovieDetail } from "./view/movieDetail";
-import { closeMovieModal, openMovieModal } from "./view/movieModal";
+import { loadMovieDetail } from "../movieLoader";
+import { clearMovieDetail } from "../view/movieDetail";
+import { closeMovieModal, openMovieModal } from "../view/movieModal";
 
 export const handleMovieItemClick = async (e: Event) => {
   const target = e.target as HTMLElement;
