@@ -83,6 +83,36 @@ body.modal-open {
   margin: 0 0 8px;
 }
 
+.modal-sub-title {
+  margin-top: 16px;
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: 0.18px;
+  line-height: 100%;
+}
+
+.modal-rate-stars {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  height: 30px;
+}
+
+.modal-my-rate-star {
+  width: 32px;
+  height: 32px;
+}
+
+.modal-rate-stars span {
+  margin-left: 5px;
+}
+
+.modal-rate-stars span span {
+  font-weight: 600;
+  font-size: 24px;
+  letter-spacing: 0.18px;
+}
+
 .detail {
   max-height: 430px;
   overflow-y: auto;
