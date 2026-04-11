@@ -37,6 +37,9 @@ body.modal-open {
   z-index: 2;
   position: relative;
   width: 1000px;
+  min-height: 500px;
+  display: flex;
+  flex-direction: column;
 }
 
 .close-modal {
@@ -126,4 +129,72 @@ body.modal-open {
 .modal-detail-description-title {
   font-size: 1.5rem;
   font-weight: bold;
+}
+
+.spinner {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  z-index: 100;
+
+  width: 40px; 
+  height: 40px; 
+  border: 4px solid rgba(0, 0, 0, 0.1); 
+  border-top-color: #3498db; 
+  border-radius: 50%; 
+  animation: spin 1s linear infinite; 
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.modal-error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  text-align: center;
+}
+
+/* 💡 텍스트 스타일링 */
+.modal-error-container p {
+  margin: 0 0 8px 0;
+  color: #ccc;
+  font-size: 1rem;
+}
+
+.modal-error-container p:first-child {
+  color: white;
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.retry-button {
+  margin-top: 24px;
+  padding: 12px 32px;
+  background-color: #2b39ff9c;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.retry-button:hover {
+  background-color: #e6b715;
+  transform: translateY(-2px);
+}
+
+.retry-button:active {
+  transform: translateY(0) scale(0.96);
 }
