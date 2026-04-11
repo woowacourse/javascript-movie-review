@@ -9,25 +9,18 @@ const createMovieNode = (movie: Movie): DocumentFragment | null => {
   const movieFragment = movieTemplate.content.cloneNode(
     true,
   ) as DocumentFragment;
-
   const movieItem = movieFragment.querySelector("li");
-  if (!movieItem) return null;
-  movieItem.dataset.movieId = String(movie.id);
-
   const thumbnail = movieFragment.querySelector<HTMLImageElement>(".thumbnail");
-  if (!thumbnail) return null;
+  const rate = movieFragment.querySelector(".item-desc span");
+  const title = movieFragment.querySelector(".item-desc strong");
+
+  if (!movieItem || !thumbnail || !rate || !title) return null;
+
+  movieItem.dataset.movieId = String(movie.id);
   thumbnail.src =
     `https://media.themoviedb.org/t/p/w220_and_h330_face` + movie.poster_path;
   thumbnail.alt = movie.title;
-
-  const itemDesc = movieFragment.querySelector(".item-desc");
-
-  const rate = itemDesc?.querySelector("span");
-  if (!rate) return null;
   rate.textContent = movie.vote_average.toString();
-
-  const title = itemDesc?.querySelector("strong");
-  if (!title) return null;
   title.textContent = movie.title;
 
   return movieFragment;
@@ -41,7 +34,7 @@ export const renderMovieList = (movies: Movies): void => {
   movies.results.forEach((movie: Movie) => {
     const movieNode = createMovieNode(movie);
     if (movieNode) {
-      movieList?.appendChild(movieNode);
+      movieList.appendChild(movieNode);
     }
   });
 };
@@ -61,11 +54,13 @@ export const renderNoResult = () => {
 
 export const removeMovieList = () => {
   const noResult = document.querySelector("#no-result");
-  noResult?.replaceChildren();
+  if (noResult) {
+    noResult.replaceChildren();
+  }
 
   const movieList = document.querySelector<HTMLUListElement>("#movie-list");
-  movieList?.replaceChildren();
   if (movieList) {
+    movieList.replaceChildren();
     movieList.hidden = true;
   }
 };
