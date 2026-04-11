@@ -3,13 +3,8 @@ import { renderSearchPage } from "../../pages/search.ts";
 import { renderHomePage } from "../../pages/home.ts";
 
 export const handleMainSeeMore = async () => {
-  const url = new URL(window.location.href);
-  const params = url.searchParams;
-  const prevPage = Number(params.get("page") || 1);
-
-  params.set("page", String(prevPage + 1));
-  url.search = params.toString();
-  window.history.pushState({}, "", url.toString());
+  const prevPage = Number(sessionStorage.getItem("page") || 1);
+  sessionStorage.setItem("page", String(prevPage + 1));
 
   try {
     await renderHomePage("append");
@@ -23,13 +18,8 @@ export const handleMainSeeMore = async () => {
 };
 
 export const handleSearchSeeMore = async () => {
-  const url = new URL(window.location.href);
-  const params = url.searchParams;
-  const prevPage = Number(params.get("page") || 1);
-
-  params.set("page", String(prevPage + 1));
-  url.search = params.toString();
-  window.history.pushState({}, "", url.toString());
+  const prevPage = Number(sessionStorage.getItem("page") || 1);
+  sessionStorage.setItem("page", String(prevPage + 1));
 
   try {
     await renderSearchPage("append");

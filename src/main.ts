@@ -7,6 +7,7 @@ const main = async () => {
   const params = url.searchParams;
   const keyword = params.get("keyword");
 
+  sessionStorage.setItem("page", "1");
   addEventListener();
   if (keyword) {
     await renderSearchPage("init");

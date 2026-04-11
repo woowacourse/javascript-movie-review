@@ -15,8 +15,7 @@ export const renderHomePage = async (type: "init" | "append") => {
   let movies: Movie[] = [];
   let errorMessage = "";
 
-  const url = new URL(window.location.href);
-  const page = Number(url.searchParams.get("page")) || 1;
+  const page = Number(sessionStorage.getItem("page") || 1);
 
   try {
     if (type === "init") {

@@ -15,9 +15,8 @@ export const renderSearchPage = async (type: "init" | "append") => {
   let movies: Movie[] = [];
   let errorMessage = "";
 
-  const url = new URL(window.location.href);
-  const keyword = url.searchParams.get("keyword") || "";
-  const page = Number(url.searchParams.get("page")) || 1;
+  const keyword = new URLSearchParams(window.location.search).get("keyword") || "";
+  const page = Number(sessionStorage.getItem("page") || 1);
   if (keyword.trim() === "") return;
 
   const searchInput = document.getElementById(

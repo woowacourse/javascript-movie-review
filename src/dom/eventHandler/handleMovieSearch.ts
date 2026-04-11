@@ -15,9 +15,10 @@ export const handleMovieSearch = async (keyword: string) => {
   const params = url.searchParams;
 
   params.set("keyword", keyword);
-  params.set("page", String(1));
   url.search = params.toString();
   window.history.pushState({}, "", url.toString());
+
+  sessionStorage.setItem("page", "1");
 
   await renderSearchPage("init");
 };
