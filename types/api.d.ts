@@ -13,6 +13,7 @@ interface Movies {
 }
 
 interface MovieModalData {
+  id: number;
   title: string;
   release_date: string;
   genres: Genre[];
