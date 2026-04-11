@@ -6,6 +6,10 @@ body.modal-open {
 }
 
 .modal-background {
+  display: none;
+}
+
+.modal-background[open] {
   position: fixed;
   top: 0;
   left: 0;
@@ -17,16 +21,9 @@ body.modal-open {
   justify-content: center;
   align-items: center;
   z-index: 10;
-  visibility: hidden; /* 모달이 기본적으로 보이지 않도록 설정 */
-  opacity: 0;
   transition:
     opacity 0.3s ease,
     visibility 0.3s ease;
-}
-
-.modal-background.active {
-  visibility: visible;
-  opacity: 1;
 }
 
 .modal {
@@ -109,4 +106,20 @@ body.modal-open {
 .modal .rate .rate-value {
   color: var(--color-yellow);
   margin-left: 4px;
+}
+
+.modal .average-container {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.modal .category {
+  margin: 16px 0;
+}
+
+.modal .detail-container dt {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 16px 0;
 }
