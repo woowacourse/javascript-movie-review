@@ -7,7 +7,7 @@ import { modalView } from "./view/modalView";
 import { handleModal } from "./controller/handleModal";
 import { myStarRatingView } from "./view/myStarRatingView";
 import { handleMyStar } from "./controller/handleMyStar";
-import { currentMovieModal } from "./model/currentMovieModel";
+import { currentMovieModel } from "./model/currentMovieModel";
 
 function init() {
   addEventListener("load", () => {
@@ -29,8 +29,7 @@ function init() {
   modalView.bindCloseModalClick();
 
   myStarRatingView.bindHandleMyStarClick((score) => {
-    const currentMovieId = currentMovieModal.currentMovieId;
-    handleMyStar(currentMovieId, score);
+    handleMyStar(score);
   });
 }
 
