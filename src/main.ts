@@ -5,6 +5,7 @@ import {
   handleMovieItemClick,
 } from "./modalHandler";
 import { loadMovieList, loadTopRatedMovie } from "./movieLoader";
+import { handleRatingStarClick } from "./ratingHandler";
 import {
   handleSearchButtonClick,
   handleSearchInputEnter,
@@ -38,37 +39,9 @@ addEventListener("load", () => {
     }
   });
 
-  const RATING_TEXT = [
-    "최악이에요",
-    "별로에요",
-    "보통이에요",
-    "재밌어요",
-    "명작이에요",
-  ];
-
   const stars = document.querySelectorAll<HTMLImageElement>(".stars img");
   stars.forEach((star, index) => {
-    star.addEventListener("click", () => {
-      stars.forEach((currentStar, currentIndex) => {
-        currentStar.src =
-          currentIndex <= index
-            ? "./images/star_filled.png"
-            : "./images/star_empty.png";
-      });
-
-      const ratingText = document.querySelector(".rating-text");
-      if (ratingText) ratingText.textContent = RATING_TEXT[index];
-
-      const ratingValue = document.querySelector("#rating-value");
-      if (ratingValue) ratingValue.textContent = ((index + 1) * 2).toString();
-
-      const movieModal = document.querySelector<HTMLElement>(".modal");
-      if (!movieModal) return;
-      const key = movieModal.dataset.movieId;
-      if (!key) return;
-
-      window.localStorage.setItem(key, String((index + 1) * 2));
-    });
+    star.addEventListener("click", () => handleRatingStarClick(stars, index));
   });
 
   loadTopRatedMovie();
