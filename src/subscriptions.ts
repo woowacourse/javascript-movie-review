@@ -11,12 +11,14 @@ export function registerSubscriptions(): void {
     mainTitle.textContent = title;
   });
 
+  // 로딩 시작 시 observer 해제 (응답 오기전에 중복 요청을 방지하기 위해서)
   eventBus.subscribe(APP_EVENTS.LOAD_START, () => {
     scrollObserver.disconnect();
     movieListView.renderSkeleton();
   });
 
-  eventBus.subscribe(APP_EVENTS.MOVIES_LOADED, (data ) => {
+  // 렌더 완료 이후 observer 재등록
+  eventBus.subscribe(APP_EVENTS.MOVIES_LOADED, (data) => {
     Header.clearHeader();
     Header.render(data.results[0] ?? null);
     movieListView.clearList();

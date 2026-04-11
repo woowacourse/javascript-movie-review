@@ -1,7 +1,7 @@
 import { eventBus } from "./pubsub/EventBus";
 import { APP_EVENTS } from "./pubsub/AppEvents";
 import { handleLogo, handleMore, handleSearch, handleInitial } from "./features/handler/controllerHandlers";
-import { submitContainer } from "./dom";
+import { header } from "./dom";
 
 export function setupRoutes(): void {
   eventBus.subscribe(APP_EVENTS.LOAD_MORE, handleMore);
@@ -19,7 +19,7 @@ export function bindDomEvents(): void {
     await handleInitial();
   });
 
-  submitContainer.addEventListener("submit", async (e: SubmitEvent) => {
+  header.addEventListener("submit", async (e: SubmitEvent) => {
     e.preventDefault();
     const searchInput = document.querySelector(".search-input") as HTMLInputElement;
     const query = searchInput.value.trim();
