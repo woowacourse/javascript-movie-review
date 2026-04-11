@@ -1,9 +1,22 @@
 import { Movie } from "../../apis/movie/type.ts";
 import { handleMainSeeMore } from "../eventHandler/handleSeeMore.ts";
-import { removeEmptyContainer, renderEmptyContainer } from "../components/EmptyContainer.ts";
-import { removeErrorContainer, renderErrorContainer } from "../components/ErrorContainer.ts";
-import { removeMainThumbnailList, renderMainThumbnailList, renderMainThumbnailLoading } from "../components/MainThumbnailList.ts";
-import { removeMovieItemsLoading, renderMovieItems } from "../shared/MovieItem.ts";
+import {
+  removeEmptyContainer,
+  renderEmptyContainer,
+} from "../components/EmptyContainer.ts";
+import {
+  removeErrorContainer,
+  renderErrorContainer,
+} from "../components/ErrorContainer.ts";
+import {
+  removeMainThumbnailList,
+  renderMainThumbnailList,
+  renderMainThumbnailLoading,
+} from "../components/MainThumbnailList.ts";
+import {
+  removeMovieItemsLoading,
+  renderMovieItems,
+} from "../shared/MovieItem.ts";
 import { removeBanner, renderBanner } from "../components/Banner.ts";
 import { removeSearch } from "./Search.ts";
 
@@ -115,7 +128,7 @@ const observeTarget = (parent: HTMLElement, onIntersect: () => void) => {
       }
     },
     {
-      rootMargin: "500px",
+      rootMargin: "400px",
       threshold: 0.1,
     },
   );

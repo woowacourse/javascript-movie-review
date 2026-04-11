@@ -107,7 +107,10 @@ const observeTarget = (parent: HTMLElement, onIntersect: () => void) => {
         onIntersect();
       }
     },
-    { threshold: 0.1 },
+    {
+      rootMargin: "400px",
+      threshold: 0.1,
+    },
   );
   searchObserver.observe(searchObserverTarget);
 };
