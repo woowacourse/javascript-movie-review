@@ -1,6 +1,6 @@
 import { MovieDetail } from "../services/dto";
 
-export function renderMovieDetail(movieDetail: MovieDetail) {
+export const renderMovieDetail = (movieDetail: MovieDetail) => {
   const movieModal = document.querySelector<HTMLElement>(".modal");
   if (!movieModal) return null;
 
@@ -35,9 +35,9 @@ export function renderMovieDetail(movieDetail: MovieDetail) {
 
   const stars = movieModal.querySelectorAll<HTMLImageElement>(".stars img");
   stars[Number(key) / 2 - 1].click();
-}
+};
 
-export function clearMovieDetail() {
+export const clearMovieDetail = () => {
   const movieModal = document.querySelector(".modal");
   if (!movieModal) return;
 
@@ -54,4 +54,4 @@ export function clearMovieDetail() {
 
   const ratingValue = document.querySelector("#rating-value");
   if (ratingValue) ratingValue.textContent = (0).toString();
-}
+};

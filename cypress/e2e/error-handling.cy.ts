@@ -36,7 +36,8 @@ describe("오류 대응 테스트", () => {
     const alertSpy = cy.stub();
     cy.on("window:alert", alertSpy);
 
-    cy.get("#more-button").click();
+    cy.get(".scroll-sentinel").scrollIntoView();
+    cy.wait("@getInvalidPopularPage");
     cy.wrap(alertSpy).should("have.been.called");
   });
 });

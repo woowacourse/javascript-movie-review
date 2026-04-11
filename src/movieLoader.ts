@@ -2,22 +2,19 @@ import {
   getTopRatedMovies,
   getPopularMovies,
   getSearchMovies,
-} from "../services/api";
+} from "./services/api";
 
-import {
-  renderTopRatedMovie,
-  removeTopRatedMovie,
-} from "../renders/topRatedMovie";
+import { renderTopRatedMovie, removeTopRatedMovie } from "./view/topRatedMovie";
 import {
   removeMovieList,
   renderMovieList,
   renderNoResult,
-} from "../renders/movieList";
-import { renderSkeleton, removeSkeleton } from "../renders/skeleton";
+} from "./view/movieList";
+import { renderSkeleton, removeSkeleton } from "./view/skeleton";
 
-import PageState from "../states/PageState";
-import { getSearchParams, hasSearchParams } from "../utils/router";
-import { showError } from "../utils/error";
+import PageState from "./states/PageState";
+import { getSearchParams, hasSearchParams } from "./utils/router";
+import { showError } from "./utils/error";
 
 const popularPageState = new PageState();
 const searchPageState = new PageState();

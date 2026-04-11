@@ -1,10 +1,9 @@
 import { baseUrl } from "./constants/env";
-import { handleSearch } from "./controllers/search";
-
-import { loadMovieList, loadTopRatedMovie } from "./controllers/movieLoad";
+import { loadMovieList, loadTopRatedMovie } from "./movieLoader";
+import { handleSearch } from "./search";
 import { getDetailMovie } from "./services/api";
-import { clearMovieDetail, renderMovieDetail } from "./renders/movieDetail";
-import { closeMovieModal, openMovieModal } from "./renders/movieModal";
+import { clearMovieDetail, renderMovieDetail } from "./view/movieDetail";
+import { closeMovieModal, openMovieModal } from "./view/movieModal";
 
 addEventListener("load", () => {
   const logo = document.querySelector<HTMLButtonElement>(".logo");
