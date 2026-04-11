@@ -5,7 +5,19 @@ body.modal-open {
   overflow: hidden;
 }
 
-.modal-background {
+
+.modal {
+  background-color: var(--color-bluegray-90);
+  padding: 40px 24px;
+  border-radius: 16px;
+  border: none;
+  color: white;
+  z-index: 2;
+  position: relative;
+  width: 1000px;
+}
+
+.modal::backdrop {
   position: fixed;
   top: 0;
   left: 0;
@@ -17,25 +29,7 @@ body.modal-open {
   justify-content: center;
   align-items: center;
   z-index: 10;
-  visibility: hidden; /* 모달이 기본적으로 보이지 않도록 설정 */
-  opacity: 0;
-  transition: opacity 0.3s ease,
-  visibility 0.3s ease;
-}
-
-.modal-background.active {
-  visibility: visible;
-  opacity: 1;
-}
-
-.modal {
-  background-color: var(--color-bluegray-90);
-  padding: 40px 24px;
-  border-radius: 16px;
-  color: white;
-  z-index: 2;
-  position: relative;
-  width: 1000px;
+  /*transition: opacity 0.3s ease, visibility 0.3s ease;*/
 }
 
 .close-modal {
@@ -49,6 +43,7 @@ body.modal-open {
   color: white;
   font-size: 20px;
   cursor: pointer;
+  outline: none;
 }
 
 .modal-container {
