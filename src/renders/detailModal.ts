@@ -44,10 +44,19 @@ export const renderDetailModal = (movieInfo: MovieInfo) => {
   if(!detailModalDetail) return;
   detailModalDetail.textContent = movieInfo.overview;
 
-  // event binding
+  // event binding - close
   const closeModal = cloneNode.querySelector("#closeModal");
   closeModal?.addEventListener('click', () => {
     removeDetailModal();
+  });
+
+  // event biding - rate
+  const rateStar = cloneNode.querySelectorAll("#detail-modal-star-box .star");
+  Array.from(rateStar).forEach((star, index) => {
+    star.addEventListener('click', () => {
+      const rate = (index + 1) * 2;
+      console.log("start", rate);
+    });
   });
 
   modal.appendChild(cloneNode);
