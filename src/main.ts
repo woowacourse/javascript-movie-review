@@ -1,6 +1,9 @@
 import { baseUrl } from "./constants/env";
 import { loadMovieList, loadTopRatedMovie } from "./movieLoader";
-import { handleSearch } from "./search";
+import {
+  handleSearchButtonClick,
+  handleSearchInputEnter,
+} from "./searchHandler";
 import { getDetailMovie } from "./services/api";
 import { clearMovieDetail, renderMovieDetail } from "./view/movieDetail";
 import { closeMovieModal, openMovieModal } from "./view/movieModal";
@@ -12,14 +15,12 @@ addEventListener("load", () => {
   });
 
   const searchButton = document.querySelector("#search-button");
-  searchButton?.addEventListener("click", () => {
-    handleSearch();
-  });
+  searchButton?.addEventListener("click", handleSearchButtonClick);
 
   const searchInput = document.querySelector<HTMLInputElement>("#search-input");
   searchInput?.addEventListener("keyup", (e: KeyboardEvent) => {
     if (e.key === "Enter") {
-      handleSearch();
+      handleSearchInputEnter();
     }
   });
 

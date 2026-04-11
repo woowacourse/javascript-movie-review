@@ -1,8 +1,8 @@
 import { baseUrl } from "./constants/env";
 import { loadSearchMovies } from "./movieLoader";
-import { navigate } from "./utils/router";
+import { createSearchUrl, navigate } from "./utils/router";
 
-export const handleSearch = () => {
+export const handleSearchButtonClick = () => {
   const searchInput = document.querySelector<HTMLInputElement>("#search-input");
   if (!searchInput) return;
 
@@ -12,9 +12,9 @@ export const handleSearch = () => {
     return;
   }
 
-  const searchUrl = new URL(baseUrl, window.location.origin);
-  searchUrl.searchParams.set("search", search);
-  navigate(`${searchUrl.pathname}${searchUrl.search}`);
-
+  const url = createSearchUrl(baseUrl, search);
+  navigate(url);
   loadSearchMovies({ reset: true });
 };
+
+export const handleSearchInputEnter = handleSearchButtonClick;
