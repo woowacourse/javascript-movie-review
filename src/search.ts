@@ -3,7 +3,7 @@ import removeSkeletonItems from "./render/removeSkeletonItems";
 import renderSearchInput from "./render/renderSearchInput";
 import renderSearchListrEmptyAlert from "./render/renderSearchListrEmptyAlert";
 import renderSearchListTitle from "./render/renderSearchListTitle";
-import renderShowMoreButton from "./render/renderShowMoreButton";
+import bindInfiniteScrollObserver from "./observer/bindInfiniteScrollObserver";
 import renderSkeletonItems from "./render/renderSkeletonItemsToList";
 import renderTopRatedMovie from "./render/renderTopRatedMovie";
 import { MovieListResponse, Movie } from "./type";
@@ -41,7 +41,9 @@ addEventListener("load", async () => {
     renderMovieItemsToList(movieList);
     renderSearchListrEmptyAlert();
 
-    renderShowMoreButton(prevResponseList, page, async () => {
+    const hasNextPage = prevResponseList.length > 0 && prevResponseList[prevResponseList.length - 1].total_pages > page;
+
+    bindInfiniteScrollObserver(hasNextPage, async () => {
       try {
         await renderSearchMoviePage(getPage() + 1, getQuery());
       } catch (error) {

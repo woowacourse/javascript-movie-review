@@ -1,6 +1,6 @@
 import renderMovieItemsToList from "./render/renderMovieItemsToList";
 import removeSkeletonItems from "./render/removeSkeletonItems";
-import renderShowMoreButton from "./render/renderShowMoreButton";
+import bindInfiniteScrollObserver from "./observer/bindInfiniteScrollObserver";
 import renderSkeletonItemsToList from "./render/renderSkeletonItemsToList";
 import renderTopRatedMovie from "./render/renderTopRatedMovie";
 import { MovieListResponse, Movie } from "./type";
@@ -34,7 +34,9 @@ addEventListener("load", async () => {
 
     renderMovieItemsToList(movieList);
 
-    renderShowMoreButton(prevResponseList, initPage, async () => {
+    const hasNextPage = prevResponseList.length > 0 && prevResponseList[prevResponseList.length - 1].total_pages > initPage;
+
+    bindInfiniteScrollObserver(hasNextPage, async () => {
       try {
         await renderPopularMoviePage(getPage() + 1);
       } catch (error) {
