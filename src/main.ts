@@ -7,6 +7,7 @@ import { modalView } from "./view/modalView";
 import { handleModal } from "./controller/handleModal";
 import { myStarRatingView } from "./view/myStarRatingView";
 import { handleMyStar } from "./controller/handleMyStar";
+import { currentMovieModel } from "./model/currentMovieModel";
 
 function init() {
   addEventListener("load", () => {
@@ -22,13 +23,21 @@ function init() {
   });
 
   modalView.bindMovieClick((clickedMovieId: string) => {
-    handleModal(clickedMovieId);
+    handleModal(Number(clickedMovieId));
   });
 
   modalView.bindCloseModalClick();
 
   myStarRatingView.bindHandleMyStarClick((score) => {
     handleMyStar(score);
+  });
+
+  modalView.bindRetryClick(() => {
+    const failedMovieId = currentMovieModel.currentMovieId;
+    
+    if (failedMovieId) {
+      handleModal(failedMovieId);
+    };
   });
 }
 

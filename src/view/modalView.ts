@@ -3,7 +3,7 @@ import NO_IMAGE from "../../public/images/no-image.png";
 
 class ModalView {
   #movieListContainer;
-  #modalContainer;
+  #modalBackground;
   #closeModal;
   #modalImage;
   #modalDescriptionTitle;
@@ -11,10 +11,13 @@ class ModalView {
   #modalDescriptionGenre;
   #modalRateNumber;
   #modalDetailDescription;
+  #modalContainer;
+  #modalErrorContainer;
+  #retryButton;
 
   constructor() {
     this.#movieListContainer = document.querySelector<HTMLElement>(".thumbnail-list");
-    this.#modalContainer = document.querySelector<HTMLElement>(".modal-background");
+    this.#modalBackground = document.querySelector<HTMLElement>(".modal-background");
     this.#closeModal = document.querySelector<HTMLButtonElement>(".close-modal");
     this.#modalImage = document.querySelector<HTMLImageElement>("#modal-image");
     this.#modalDescriptionTitle = document.querySelector<HTMLTitleElement>(".modal-description-title");
@@ -22,6 +25,9 @@ class ModalView {
     this.#modalDescriptionGenre = document.querySelector<HTMLTitleElement>("#modal-description-genre");
     this.#modalRateNumber = document.querySelector<HTMLTitleElement>("#modal-rate-number");
     this.#modalDetailDescription = document.querySelector<HTMLTitleElement>("#modal-detail-description");
+    this.#modalContainer = document.querySelector<HTMLDivElement>(".modal-container");
+    this.#modalErrorContainer = document.querySelector<HTMLDivElement>(".modal-error-container");
+    this.#retryButton = document.querySelector<HTMLButtonElement>(".retry-button");
   };
 
   bindMovieClick(handler: (clickedMovieId: string) => void) {
@@ -47,6 +53,9 @@ class ModalView {
   };
 
   renderMovieDetail(data: MovieModalData) {
+    this.#modalContainer?.classList.remove("hidden");
+    this.#modalErrorContainer?.classList.add("hidden");
+
     if (this.#modalImage) {
       this.#modalImage.src = data.poster_path ? `${ORIGINAL_IMAGE}${data.poster_path}` : `${NO_IMAGE}`;
     };
@@ -75,11 +84,22 @@ class ModalView {
   };
 
   openModal() {
-    this.#modalContainer?.classList.add("active");
+    this.#modalBackground?.classList.add("active");
   };
 
   closeModal() {
-    this.#modalContainer?.classList.remove("active");
+    this.#modalBackground?.classList.remove("active");
+  };
+
+  renderError() {
+    this.#modalContainer?.classList.add("hidden");
+    this.#modalErrorContainer?.classList.remove("hidden");
+  };
+
+  bindRetryClick(handler: () => void) {
+    this.#retryButton?.addEventListener("click", () => {
+      handler();
+    });
   };
 }
 

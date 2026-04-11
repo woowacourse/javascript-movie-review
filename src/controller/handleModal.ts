@@ -4,8 +4,9 @@ import { modalView } from "../view/modalView";
 import { currentMovieModel } from "../model/currentMovieModel";
 import { myStarRatingView } from "../view/myStarRatingView";
 
-export async function handleModal(clickedMovieId: string) {
-  const movieDetailsData = await getMovieDetails(Number(clickedMovieId));
+export async function handleModal(clickedMovieId: number) {
+  currentMovieModel.currentMovieId = clickedMovieId;
+  const movieDetailsData = await getMovieDetails(clickedMovieId);
 
   if (!movieDetailsData.success) {
     errorMovieDetail(movieDetailsData.error);
