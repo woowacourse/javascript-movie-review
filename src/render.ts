@@ -159,5 +159,14 @@ export const Renderer = {
         Component.movieDetail(movieData, releaseYear, genres),
       );
     }
+    const modalCloser = document.querySelector("#closeModal");
+    modalCloser?.addEventListener("click", () => {
+      this.clearMovieDetail();
+    });
+  },
+
+  clearMovieDetail() {
+    const modal = document.querySelector("#modalBackground");
+    modal?.remove();
   },
 };
