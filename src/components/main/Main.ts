@@ -54,11 +54,11 @@ export default class Main {
   }
 
   removeSkeletons(page: number) {
-    if (!this.#$skeletons.has(String(page))) {
+    const $skeletonList = this.#$skeletons.get(String(page));
+    if (!$skeletonList) {
       return;
     }
-    const $skeletonList = this.#$skeletons.get(String(page));
-    $skeletonList?.forEach(($skeleton) => $skeleton.remove());
+    $skeletonList.forEach(($skeleton) => $skeleton.remove());
   }
 
   handleError(error: Error) {

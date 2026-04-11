@@ -58,6 +58,7 @@ export default class SearchPage {
 
   async #loadMore() {
     if (this.#isLoading) return;
+    this.#main.removeSkeletons(this.#page);
     this.#page += 1;
     this.#isLoading = true;
     await this.#appendMovies();
