@@ -1,5 +1,5 @@
 import { getMovieDetail } from "../../apis/movie/api.ts";
-import { renderModal } from "../components/Modal.ts";
+import { renderMovieModal } from "../components/MovieModal.ts";
 
 export const handleMovieItemClick = async (e: MouseEvent) => {
   if (e.target instanceof HTMLElement) {
@@ -17,7 +17,7 @@ export const handleMovieItemClick = async (e: MouseEvent) => {
         language: "ko-KR",
       });
 
-      renderModal(document.body, movieDetail);
+      renderMovieModal(document.body, movieDetail);
     } catch {
       alert("영화 정보를 불러올 수 없습니다.");
     }

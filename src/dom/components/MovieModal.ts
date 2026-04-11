@@ -4,7 +4,7 @@ const MODAL_ID = "modal-dialog";
 
 let modalElement: HTMLDialogElement | null = null;
 
-const createModalTemplate = (movie: MovieDetail | null) => `
+const createMovieModalTemplate = (movie: MovieDetail | null) => `
   <dialog class="modal" id="${MODAL_ID}">
     <button class="close-modal" id="closeModal">
       <img src="./images/modal_button_close.png" alt="닫기" />
@@ -63,15 +63,16 @@ const createModalTemplate = (movie: MovieDetail | null) => `
   </dialog>
 `;
 
-export const renderModal = (
+export const renderMovieModal = (
   parent: HTMLElement,
   movie: MovieDetail | null = null,
 ) => {
   if (modalElement) {
+    // TODO: 매번 remove하지 않으려면 상태 기반으로 데이터가 변경되도록?
     modalElement.remove();
   }
 
-  parent.insertAdjacentHTML("beforeend", createModalTemplate(movie));
+  parent.insertAdjacentHTML("beforeend", createMovieModalTemplate(movie));
   modalElement = document.getElementById(MODAL_ID) as HTMLDialogElement | null;
   modalElement?.showModal();
 
@@ -87,17 +88,16 @@ export const renderModal = (
   });
 };
 
-// TODO: 매번 remove하지 않으려면 hide/show + 상태 기반으로 데이터가 변경되도록 해야 함
-export const removeModal = () => {
+export const removeMovieModal = () => {
   modalElement?.close();
   modalElement?.remove();
   modalElement = null;
 };
 
-export const hideModal = () => {
+export const hideMovieModal = () => {
   modalElement?.close();
 };
 
-export const showModal = () => {
+export const showMovieModal = () => {
   modalElement?.showModal();
 };
