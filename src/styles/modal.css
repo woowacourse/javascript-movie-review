@@ -85,4 +85,28 @@ body.modal-open {
 .detail {
   max-height: 430px;
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.detail .label {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 8px 0;
+}
+
+.detail .modal .rate {
+  display: flex;
+  align-items: baseline;
+}
+
+.modal .rate .label {
+  margin-left: 0;
+  margin-right: 8px;
+  color: white;
+}
+
+.modal .rate .rate-value {
+  color: var(--color-yellow);
+  margin-left: 4px;
 }

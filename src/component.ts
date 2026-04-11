@@ -20,7 +20,7 @@ const Component = {
       />
         <div class="item-desc">
           <p class="rate">
-            <img src="${starEmptyImg}" class="star" /><span>${vote_average.toFixed(1)}</span>
+            <img src="${starEmptyImg}" class="star" /><span class="rating">${vote_average.toFixed(1)}</span>
             </p>
             <strong>${title}</strong>
         </div>
@@ -98,11 +98,12 @@ const Component = {
               <h2>${title}</h2>
               <p class="category">${releaseYear} · ${genres.join(", ")}</p>
               <p class="rate">
+                <span class="label">평균</span>
                 <img src="src/images/star_filled.png" class="star" alt="vote average" />
-                <span>${vote_average.toFixed(1)}</span>
+                <span class="rating">${vote_average.toFixed(1)}</span>
               </p>
               <hr />
-              <p class="detail">${overview}</p>
+              <p class="detail"><span class="label">줄거리</span>${overview}</p>
             </div>
           </div>
         </div>
