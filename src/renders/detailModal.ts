@@ -43,7 +43,9 @@ export const renderDetailModal = (movieInfo: MovieInfo) => {
   if(!detailModalRate) return;
   detailModalRate.textContent = mathRound(movieInfo.vote_average).toString();
 
-  renderRateStart(movieInfo.id, rootNode);
+  const rates = JSON.parse(localStorage.getItem('rates')|| "");
+  const rate = rates[movieInfo.id];
+  renderRateStart(rate, rootNode);
 
   const detailModalDetail = cloneNode.querySelector('#detail-modal-detail');
   if(!detailModalDetail) return;
@@ -67,17 +69,14 @@ export const renderDetailModal = (movieInfo: MovieInfo) => {
       const rates = { ...prevRates, [id]: rate };
       localStorage.setItem('rates', JSON.stringify(rates));
 
-      renderRateStart(id, rootNode);
+      renderRateStart(rate, rootNode);
     });
   });
 
   modal.appendChild(cloneNode); 
 }
 
-const renderRateStart = (id: number, parentNode: HTMLDivElement) => {
-  const rates = JSON.parse(localStorage.getItem('rates')|| "");
-  const rate = rates[id];
-  
+const renderRateStart = (rate: number = 0, parentNode: HTMLDivElement) => {
   const rateStar = parentNode.querySelectorAll("#detail-modal-star-box .star");
   
   Array.from(rateStar).forEach((star, index) => {
