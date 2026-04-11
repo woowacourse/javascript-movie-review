@@ -55,7 +55,12 @@ export const renderDetailModal = (movieInfo: MovieInfo) => {
   Array.from(rateStar).forEach((star, index) => {
     star.addEventListener('click', () => {
       const rate = (index + 1) * 2;
-      console.log("start", rate);
+
+      const prevRates = localStorage.getItem('rate') ? JSON.parse(localStorage.getItem('rate') || ""): {};
+
+      const { id } = movieInfo;
+      const rates = { ...prevRates, [id]: rate };
+      localStorage.setItem('rates', JSON.stringify(rates));
     });
   });
 
