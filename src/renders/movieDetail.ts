@@ -1,7 +1,7 @@
 import { MovieDetail } from "../services/dto";
 
 export function renderMovieDetail(movieDetail: MovieDetail) {
-  const movieModal = document.querySelector("#modalBackground");
+  const movieModal = document.querySelector("#modal-background");
   if (!movieModal) return null;
 
   const modalImage =
@@ -27,6 +27,14 @@ export function renderMovieDetail(movieDetail: MovieDetail) {
     const genres = movieDetail.genres.map((genre) => genre.name).join(", ");
     category.textContent = `${releaseYear} · ${genres}`;
   }
+}
 
-  movieModal.classList.add("active");
+export function clearMovieDetail() {
+  const movieModal = document.querySelector("#modal-background");
+  if (!movieModal) return;
+
+  const modalImage =
+    movieModal.querySelector<HTMLImageElement>(".modal-image img");
+
+  if (modalImage) modalImage.src = "";
 }

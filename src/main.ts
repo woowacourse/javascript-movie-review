@@ -3,7 +3,8 @@ import { handleSearch } from "./controllers/search";
 
 import { loadMovieList, loadTopRatedMovie } from "./controllers/movieLoad";
 import { getDetailMovie } from "./services/api";
-import { renderMovieDetail } from "./renders/movieDetail";
+import { clearMovieDetail, renderMovieDetail } from "./renders/movieDetail";
+import { closeMovieModal, openMovieModal } from "./renders/movieModal";
 
 addEventListener("load", () => {
   const logo = document.querySelector<HTMLButtonElement>(".logo");
@@ -40,6 +41,20 @@ addEventListener("load", () => {
 
     const movieDetail = await getDetailMovie(movieId);
     renderMovieDetail(movieDetail);
+    openMovieModal();
+  });
+
+  const closeModal = document.querySelector("#close-modal");
+  closeModal?.addEventListener("click", () => {
+    closeMovieModal();
+    clearMovieDetail();
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      closeMovieModal();
+      clearMovieDetail();
+    }
   });
 
   loadTopRatedMovie();
