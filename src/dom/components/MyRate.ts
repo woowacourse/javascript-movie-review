@@ -6,7 +6,8 @@ const RATE_BUTTON_CONTAINER_ID = "rate-button-container";
 
 let myRateElement: HTMLElement | null = null;
 
-const createMyRateTemplate = (userRate: number = 0) => {
+// TODO: (typeof RATES)[number]["rate"]로 타입을 엄격히 검사할 필요가 있을까?
+const createMyRateTemplate = (userRate: number) => {
   const rateConfig = RATES.find(({ rate }) => rate === userRate);
 
   return `
@@ -20,7 +21,7 @@ const createMyRateTemplate = (userRate: number = 0) => {
 `;
 };
 
-export const renderMyRate = (parent: HTMLElement, rate: number) => {
+export const renderMyRate = (parent: HTMLElement, rate: number = 0) => {
   if (myRateElement) {
     myRateElement.remove();
   }
@@ -34,8 +35,19 @@ export const renderMyRate = (parent: HTMLElement, rate: number) => {
     renderRateButtons(rateButtonContainer, "empty", 5 - rate);
   }
 
+  // TODO: 이벤트 핸들러, 분리해야 하나?
   myRateElement?.addEventListener("click", (e) => {
-    console.log(e.target);
+    if (e.target instanceof HTMLElement) {
+      const rateButtonContainer = document.getElementById(
+        RATE_BUTTON_CONTAINER_ID,
+      ) as HTMLElement;
+      const clickedButton = e.target.closest("button");
+
+      const buttonIndex = Array.from(rateButtonContainer.children).findIndex(
+        (element) => element === clickedButton,
+      );
+      renderMyRate(parent, buttonIndex + 1);
+    }
   });
 };
 
