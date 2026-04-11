@@ -16,7 +16,7 @@ export const handleMovieSearch = async (keyword: string) => {
 
   params.set("keyword", keyword);
   url.search = params.toString();
-  window.history.pushState({}, "", url.toString());
+  window.location.href = url.toString();
 
   sessionStorage.setItem("page", "1");
 
