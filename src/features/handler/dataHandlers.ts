@@ -1,6 +1,6 @@
-import { fetchApi } from "../api/fetchApi";
+import { fetchApi, fetchMovieDetailApi } from "../api/fetchApi";
 import { POPULAR_PATH, SEARCH_PATH } from "../../constants/path";
-import { MovieResponse } from "../../../types/types";
+import { MovieDetail, MovieResponse } from "../../../types/types";
 
 async function fetchMovieList(
   page: number,
@@ -28,4 +28,8 @@ export async function readSearchMovies(
   searchMovie: string,
 ): Promise<MovieResponse> {
   return await fetchMovieList(page, searchMovie);
+}
+
+export async function readMovieDetail(movieId: number): Promise<MovieDetail> {
+  return await fetchMovieDetailApi(movieId);
 }

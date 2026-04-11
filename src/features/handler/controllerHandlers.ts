@@ -1,5 +1,5 @@
-import { MovieResponse } from "../../../types/types";
-import { readMoreMovies, readPopularMovies, readSearchMovies } from "./dataHandlers";
+import { MovieDetail, MovieResponse } from "../../../types/types";
+import { readMoreMovies, readMovieDetail, readPopularMovies, readSearchMovies } from "./dataHandlers";
 import { eventBus } from "../../pubsub/EventBus";
 import { APP_EVENTS } from "../../pubsub/AppEvents";
 import { state } from "../../state";
@@ -65,4 +65,13 @@ export async function handleSearch(query: string): Promise<void> {
 export async function handleMore(): Promise<void> {
   state.page += 1;
   await loadMore(state.page, state.searchQuery);
+}
+
+export async function handleMovieSelected(movieId: number): Promise<void> {
+  try {
+    const data: MovieDetail = await readMovieDetail(movieId);
+    eventBus.publish(APP_EVENTS.MOVIE_DETAIL_LOADED, data);
+  } catch (error) {
+    eventBus.publish(APP_EVENTS.ERROR, (error as Error).message);
+  }
 }
