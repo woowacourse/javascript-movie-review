@@ -14,7 +14,7 @@ export async function handleHome() {
     const popularMovies: ApiResult<MovieResponse> = await getMovies(movieModel.page);
 
     if (!popularMovies.success) {
-      errorMovieList(popularMovies.error);
+      errorMovieList.handleHomeError(popularMovies.error);
       return;
     };
 

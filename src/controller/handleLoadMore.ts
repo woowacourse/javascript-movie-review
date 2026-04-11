@@ -13,7 +13,7 @@ export async function handleLoadMore() {
     const response: ApiResult<MovieResponse> = await fetchCurrentModeData();
 
     if (!response.success) {
-      errorMovieList(response.error);
+      errorMovieList.handleLoadMoreError(response.error);
       return;
     };
 

@@ -2,6 +2,10 @@ import { movieListTemplate } from "./templates/movieListsTemplates";
 
 class MovieListView {
   #thumbnailList = document.querySelector<HTMLElement>(".thumbnail-list");
+  #thumbnailContainer = document.querySelector<HTMLDivElement>(".thumbnail-container");
+  #errorThumbnailContainer = document.querySelector<HTMLDivElement>(".error-thumbnail-container");
+  #thumbnailRetryButton = document.querySelector<HTMLButtonElement>(".thumbnail-retry-button");
+  #emptyMessageContainer = document.querySelector<HTMLElement>(".empty-message-container");
 
   constructor() {
     this.#thumbnailList?.addEventListener('error', (event) => {
@@ -29,6 +33,10 @@ class MovieListView {
   };
 
   renderMovieList(movies: Movies[]) {
+    this.#thumbnailContainer?.classList.remove("hidden");
+    this.#errorThumbnailContainer?.classList.add("hidden");
+    this.#emptyMessageContainer?.classList.add("hidden");
+    
     if (!this.#thumbnailList) return;
 
     const movieListHTML = movies
@@ -42,13 +50,17 @@ class MovieListView {
   };
 
   renderErrorList() {
-    const errorList = movieListTemplate.errorList;
-    if (this.#thumbnailList) this.#thumbnailList.innerHTML = errorList;
+    this.#errorThumbnailContainer?.classList.remove("hidden");
+  };
+
+  bindThumbnailRetryClick(handler: () => void) {
+    this.#thumbnailRetryButton?.addEventListener("click", () => {
+      handler();
+    });
   };
 
   renderEmptyList() {
-    const emptyList = movieListTemplate.emptyList;
-    if (this.#thumbnailList) this.#thumbnailList.innerHTML = emptyList;
+    this.#emptyMessageContainer?.classList.remove("hidden");
   };
 }
 

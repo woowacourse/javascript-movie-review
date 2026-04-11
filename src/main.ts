@@ -8,6 +8,8 @@ import { myStarRatingView } from "./view/myStarRatingView";
 import { handleMyStar } from "./controller/handleMyStar";
 import { currentMovieModel } from "./model/currentMovieModel";
 import { infiniteScrollView } from "./view/InfiniteScrollView";
+import { bannerView } from "./view/bannerView";
+import { movieListView } from "./view/movieListView";
 
 function init() {
   addEventListener("load", () => {
@@ -38,6 +40,14 @@ function init() {
     if (failedMovieId) {
       handleModal(failedMovieId);
     };
+  });
+
+  bannerView.bindBannerRetryClick(() => {
+    handleHome();
+  });
+
+  movieListView.bindThumbnailRetryClick(() => {
+    handleLoadMore();
   });
 }
 

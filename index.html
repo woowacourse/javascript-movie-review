@@ -42,6 +42,12 @@
               <button class="primary detail">자세히 보기</button>
             </div>
           </div>
+
+          <div class="error-banner-container hidden">
+            <p>배너를 불러오는 중 에러가 발생했습니다.</p>
+            <p>다시 시도해주세요.</p>
+            <button class="banner-retry-button">다시 시도하기</button>
+          </div>
         </div>
       </header>
 
@@ -51,6 +57,17 @@
             지금 인기 있는 영화
           </h2>
           <ul class="thumbnail-list"></ul>
+        </section>
+
+        <section class="error-thumbnail-container hidden">
+          <p class="error-thumbnail-message">영화 정보를 불러오지 못했습니다.</p>
+          <p>다시 시도해주세요.</p>
+          <button class="thumbnail-retry-button">다시 시도하기</button>
+        </section>
+
+        <section class="empty-message-container hidden">
+          <img src="./images/empty_icon.png" alt="empty list" class="empty-icon" />
+          <p class="empty-message">검색 결과가 없습니다.</p>
         </section>
       </main>
 

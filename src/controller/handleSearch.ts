@@ -22,7 +22,7 @@ export async function handleSearch(keyword: string) {
     );
 
     if (!searchMoviesResult.success) {
-      errorMovieList(searchMoviesResult.error);
+      errorMovieList.handleSearchError(searchMoviesResult.error);
       return;
     };
 
