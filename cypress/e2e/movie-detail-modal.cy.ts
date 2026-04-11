@@ -68,7 +68,7 @@ describe("영화 상세 팝업 기능 테스트", () => {
 
     const rate = 5;
 
-    cy.get("#detail-modal-star-box .star").eq(rate).click();
+    cy.get("#detail-modal-star-box .star").eq(rate - 1).click();
 
     cy.get("#detail-modal-star-box .star.on").should('have.length', rate);
   });
@@ -94,7 +94,7 @@ describe("영화 상세 팝업 기능 테스트", () => {
 
     cy.get("#detail-modal-star-box .star.on").should('have.length', prevRate);
 
-    cy.get("#detail-modal-star-box .star").eq(rate).click();
+    cy.get("#detail-modal-star-box .star").eq(rate - 1).click();
 
     cy.get("#detail-modal-star-box .star.on").should('have.length', rate);
   });
