@@ -1,3 +1,5 @@
+import { localStarApi as starApi} from "../api/localStarApi";
+
 class CurrentMovieModel {
   #currentMovieId: number | null = null;
 
@@ -9,18 +11,17 @@ class CurrentMovieModel {
     this.#currentMovieId = movieId;
   };
 
-  saveRating(score: number) {
-    window.localStorage.setItem(`${this.#currentMovieId}`, `${score}`);
+  async saveRating(score: number) {
+    if (this.#currentMovieId) {
+      await starApi.saveRating(this.#currentMovieId, score);
+    };
   };
 
-  getRating() {
+  async getRating() {
     if (this.#currentMovieId) {
-      const movieRatingScore = window.localStorage.getItem(`${this.#currentMovieId}`);
-      if (!movieRatingScore) {
-        return 0;
-      };
-      return Number(movieRatingScore);
+      return await starApi.getRating(this.#currentMovieId);
     };
+    return 0;
   };
 }
 
