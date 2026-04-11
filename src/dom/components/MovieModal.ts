@@ -1,6 +1,8 @@
 import { MovieDetail } from "../../apis/movie/type";
+import { renderMyRate } from "./MyRate.ts";
 
 const MODAL_ID = "modal-dialog";
+const MY_RATE_CONTAINER_ID = "my-rate-container";
 
 let modalElement: HTMLDialogElement | null = null;
 
@@ -28,30 +30,7 @@ const createMovieModalTemplate = (movie: MovieDetail | null) => `
             <span>${movie?.vote_average ?? "0"}</span>
           </p>
         </div>
-        <div class="my-rate">
-          <h3>내 별점</h3>
-          <div>
-            <div>
-              <button>
-                <img src="./images/star_filled.png" alt="" class="star" />
-              </button>
-              <button>
-                <img src="./images/star_filled.png" alt="" class="star" />
-              </button>
-              <button>
-                <img src="./images/star_filled.png" alt="" class="star" />
-              </button>
-              <button>
-                <img src="./images/star_filled.png" alt="" class="star" />
-              </button>
-              <button>
-                <img src="./images/star_filled.png" alt="" class="star" />
-              </button>
-            </div>
-            <span class="comment">별점을 남겨주세요.</span>
-            <span class="score">(0/10)</span>
-          </div>
-        </div>
+        <div id="${MY_RATE_CONTAINER_ID}"></div>
         <div class="detail">
           <h3>줄거리</h3>
           <p>
@@ -74,6 +53,12 @@ export const renderMovieModal = (
 
   parent.insertAdjacentHTML("beforeend", createMovieModalTemplate(movie));
   modalElement = document.getElementById(MODAL_ID) as HTMLDialogElement | null;
+
+  const myRateContainer = document.getElementById(MY_RATE_CONTAINER_ID);
+  if (myRateContainer) {
+    renderMyRate(myRateContainer, 0);
+  }
+
   modalElement?.showModal();
 
   modalElement?.addEventListener("click", (e) => {
