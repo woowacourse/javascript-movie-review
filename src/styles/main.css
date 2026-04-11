@@ -66,7 +66,6 @@ input::placeholder {
   width: 100%;
   max-width: 1280px;
   margin: 0 auto;
-  /* padding: 48px; */
 }
 
 .header-container {
@@ -77,7 +76,7 @@ input::placeholder {
   position: relative;
   background-position: center center;
   background-size: cover;
-  height: 500px;
+  min-height: 500px;
 }
 
 .overlay {
@@ -97,7 +96,17 @@ input::placeholder {
   gap: 32px;
 }
 
-/* 592px >= scree */
+@media (width < 1280px) {
+  .header {
+    flex-direction: column;
+    padding: 0 64px;
+  }
+
+  .top-rated-movie {
+    padding: 0 64px;
+  }
+}
+
 
 .search-form {
   display: flex;
@@ -136,7 +145,7 @@ input::placeholder {
   margin-top: 64px;
 }
 
-.top-rated-movie > *:not(:last-child) {
+.top-rated-movie>*:not(:last-child) {
   margin-bottom: 8px;
 }
 
