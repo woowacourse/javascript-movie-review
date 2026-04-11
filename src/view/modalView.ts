@@ -14,6 +14,7 @@ class ModalView {
   #modalContainer;
   #modalErrorContainer;
   #retryButton;
+  #spinner;
 
   constructor() {
     this.#movieListContainer = document.querySelector<HTMLElement>(".thumbnail-list");
@@ -28,6 +29,7 @@ class ModalView {
     this.#modalContainer = document.querySelector<HTMLDivElement>(".modal-container");
     this.#modalErrorContainer = document.querySelector<HTMLDivElement>(".modal-error-container");
     this.#retryButton = document.querySelector<HTMLButtonElement>(".retry-button");
+    this.#spinner = document.querySelector<HTMLDivElement>(".spinner");
   };
 
   bindMovieClick(handler: (clickedMovieId: string) => void) {
@@ -52,9 +54,18 @@ class ModalView {
     });
   };
 
+  renderSpinner() {
+    this.#modalContainer?.classList.add("hidden");
+    this.#spinner?.classList.remove("hidden");
+    this.#modalErrorContainer?.classList.add("hidden");
+  };
+
+  removeSpinner() {
+    this.#spinner?.classList.add("hidden");
+  };
+
   renderMovieDetail(data: MovieModalData) {
     this.#modalContainer?.classList.remove("hidden");
-    this.#modalErrorContainer?.classList.add("hidden");
 
     if (this.#modalImage) {
       this.#modalImage.src = data.poster_path ? `${ORIGINAL_IMAGE}${data.poster_path}` : `${NO_IMAGE}`;

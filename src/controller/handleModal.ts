@@ -5,17 +5,23 @@ import { currentMovieModel } from "../model/currentMovieModel";
 import { myStarRatingView } from "../view/myStarRatingView";
 
 export async function handleModal(clickedMovieId: number) {
-  currentMovieModel.currentMovieId = clickedMovieId;
-  const movieDetailsData = await getMovieDetails(clickedMovieId);
+  try {
+    modalView.renderSpinner();
 
-  if (!movieDetailsData.success) {
-    errorMovieDetail(movieDetailsData.error);
-    return;
+    currentMovieModel.currentMovieId = clickedMovieId;
+    const movieDetailsData = await getMovieDetails(clickedMovieId);
+
+    if (!movieDetailsData.success) {
+      errorMovieDetail(movieDetailsData.error);
+      return;
+    };
+
+    modalView.renderMovieDetail(movieDetailsData.data);
+    currentMovieModel.currentMovieId = movieDetailsData.data.id;
+    
+    const myStarRating: number | undefined = await currentMovieModel.getRating();
+    myStarRatingView.renderRating(myStarRating || 0);
+  } finally {
+    modalView.removeSpinner();
   };
-
-  modalView.renderMovieDetail(movieDetailsData.data);
-  currentMovieModel.currentMovieId = movieDetailsData.data.id;
-  
-  const myStarRating: number | undefined = await currentMovieModel.getRating();
-  myStarRatingView.renderRating(myStarRating || 0);
 };
