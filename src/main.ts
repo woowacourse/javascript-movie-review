@@ -1,10 +1,19 @@
 import MainUI from "./dom/render/MainUI";
+import ModalUI from "./dom/render/ModalUI";
 import SearchUI from "./dom/render/SearchUI";
 import { getKeywordFromURL } from "./utils/getKeywordFromURL";
 import { setURLParams } from "./utils/setURLParams";
 
 const mainUI = new MainUI();
 const searchUI = new SearchUI();
+const modalUI = new ModalUI();
+
+document.addEventListener("click", (e) => {
+  const item = (e.target as HTMLElement).closest("li[id^='movie-']");
+  if (!item) return;
+  const movieId = Number(item.id.replace("movie-", ""));
+  modalUI.load(movieId);
+});
 
 const logo = document.getElementById("logo");
 const searchInput = document.getElementById(
