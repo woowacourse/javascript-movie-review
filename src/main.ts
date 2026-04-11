@@ -1,11 +1,6 @@
-import {
-  handleInitial,
-  handleSearch,
-  // handleMore,
-} from "./features/handler/controllerHandlers";
+import { handleInitial, handleSearch } from "./features/handler/controllerHandlers";
 import { setupSubscriptions } from "./init";
 
-// const moreButton = document.querySelector(".btn-more") as HTMLButtonElement;
 const mainTitle = document.querySelector(".main-title") as HTMLElement;
 
 setupSubscriptions(mainTitle);
@@ -14,9 +9,7 @@ addEventListener("load", async () => {
   await handleInitial();
 });
 
-const submitContainer = document.querySelector(
-  ".background-container",
-) as HTMLFormElement;
+const submitContainer = document.querySelector(".background-container") as HTMLFormElement;
 
 submitContainer.addEventListener("submit", async (e: SubmitEvent) => {
   e.preventDefault();
@@ -24,6 +17,3 @@ submitContainer.addEventListener("submit", async (e: SubmitEvent) => {
   await handleSearch(searchInput.value.trim());
 });
 
-// moreButton.addEventListener("click", async () => {
-//   await handleMore();
-// });

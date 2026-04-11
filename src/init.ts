@@ -2,7 +2,6 @@ import { eventBus } from "./pubsub/EventBus";
 import { APP_EVENTS } from "./pubsub/AppEvents";
 import { Header } from "./features/ui/Header";
 import { movieListView } from "./features/ui/MovieList";
-import { updateMoreButton } from "./utils/dom";
 import { state } from "./state";
 import { handleLogo } from "./features/handler/controllerHandlers";
 
@@ -15,7 +14,6 @@ function attachLogoListener() {
 }
 
 export function setupSubscriptions(
-  // moreButton: HTMLButtonElement,
   mainTitle: HTMLElement,
 ): void {
   eventBus.subscribe(APP_EVENTS.LOGO_CLICK, handleLogo);
@@ -34,7 +32,6 @@ export function setupSubscriptions(
     attachLogoListener();
     movieListView.clearList();
     movieListView.renderMovieList(data);
-    updateMoreButton(data.total_pages, state.page);
   });
 
   eventBus.subscribe(APP_EVENTS.SEARCH_LOADED, (data) => {
@@ -48,12 +45,10 @@ export function setupSubscriptions(
       movieListView.clearList();
       movieListView.renderMovieList(data);
     }
-    updateMoreButton(data.total_pages, state.page);
   });
 
   eventBus.subscribe(APP_EVENTS.MORE_LOADED, (data) => {
     movieListView.renderMovieList(data);
-    updateMoreButton(data.total_pages, state.page);
   });
 
   eventBus.subscribe(APP_EVENTS.ERROR, (message) => {
