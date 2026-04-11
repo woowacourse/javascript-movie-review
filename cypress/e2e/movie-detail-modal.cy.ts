@@ -60,4 +60,42 @@ describe("영화 상세 팝업 기능 테스트", () => {
 
     cy.get("#modalBackground").should('have.length', 0);
   });
+
+  it("평점 별을 눌러서 평점을 매길수 있다.", () => {
+    cy.get("#movie-list li").first().find(".thumbnail").click();
+    
+    cy.wait("@getMovieId");
+
+    const rate = 5;
+
+    cy.get("#detail-modal-star-box .star").eq(rate).click();
+
+    cy.get("#detail-modal-star-box .star.on").should('have.length', rate);
+  });
+
+  it("매겼던 평점을 다시 확인할 수 있다", () => {
+    cy.get("#movie-list li").first().find(".thumbnail").click();
+    
+    cy.wait("@getMovieId");
+
+    const rate = 5;
+
+    cy.get("#detail-modal-star-box .star.on").should('have.length', rate);
+  });
+  
+
+  it("매겼던 평점을 평점의별을 눌러서 다시 평점을 매길 수 있다", () => {
+    cy.get("#movie-list li").first().find(".thumbnail").click();
+    
+    cy.wait("@getMovieId");
+
+    const prevRate = 5;
+    const rate = 1;
+
+    cy.get("#detail-modal-star-box .star.on").should('have.length', prevRate);
+
+    cy.get("#detail-modal-star-box .star").eq(rate).click();
+
+    cy.get("#detail-modal-star-box .star.on").should('have.length', rate);
+  });
 });
