@@ -2,15 +2,23 @@ import { Movie } from "../apis/movie/type.ts";
 import { getSearchedMovies } from "../apis/search/api.ts";
 import TMDBError from "../TMDBError.ts";
 import {
+  appendSearchedMovies,
   renderSearch,
   renderSearchEmpty,
   renderSearchError,
   renderSearchLoading,
 } from "../dom/compositions/Search.ts";
 
-export const renderSearchPage = async () => {
+export const renderSearchPage = async (type: "init" | "append") => {
+  let isError = false;
+  let isLastPage = true;
+  let movies: Movie[] = [];
+  let errorMessage = "";
+
   const url = new URL(window.location.href);
   const keyword = url.searchParams.get("keyword") || "";
+  const page = Number(url.searchParams.get("page")) || 1;
+  if (keyword.trim() === "") return;
 
   const searchInput = document.getElementById(
     "search-input",
@@ -20,17 +28,10 @@ export const renderSearchPage = async () => {
     searchInput.value = keyword;
   }
 
-  let isError = false;
-  let isLastPage = true;
-  let movies: Movie[] = [];
-  let errorMessage = "";
-
-  if (keyword.trim() === "") return;
-
-  const page = Number(url.searchParams.get("page")) || 1;
-
   try {
-    renderSearchLoading(keyword);
+    if (type === "init") {
+      renderSearchLoading(keyword);
+    }
 
     const searchResult = await getSearchedMovies({
       query: keyword,
@@ -51,8 +52,10 @@ export const renderSearchPage = async () => {
       renderSearchError(errorMessage);
     } else if (movies.length === 0) {
       renderSearchEmpty();
-    } else {
+    } else if (type === "init") {
       renderSearch(isLastPage, movies);
+    } else {
+      appendSearchedMovies(isLastPage, movies);
     }
   }
 };

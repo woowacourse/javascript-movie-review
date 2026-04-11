@@ -9,7 +9,7 @@ const main = async () => {
 
   addEventListener();
   if (keyword) {
-    await renderSearchPage();
+    await renderSearchPage("init");
   } else {
     await renderHomePage("init");
   }

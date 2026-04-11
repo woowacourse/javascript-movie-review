@@ -51,19 +51,30 @@ export const renderSearchEmpty = () => {
 };
 
 export const renderSearch = (isLastPage: boolean, movies: Movie[]) => {
+  removeMain();
+  removeSearch();
+
   const resultSection = document.getElementById("result-section");
   if (!resultSection) return;
 
-  const searchThumbnailList = document.getElementById("search-thumbnail-list");
+  renderSearchThumbnailList(resultSection, movies);
 
-  if (!searchThumbnailList) {
-    removeMain();
-    removeSearch();
-    renderSearchThumbnailList(resultSection, movies);
+  if (isLastPage) {
+    removeSearchSeeMoreButton();
   } else {
-    removeMovieItemsLoading(searchThumbnailList as HTMLElement);
-    renderMovieItems(searchThumbnailList as HTMLElement, movies);
+    renderSearchSeeMoreButton(resultSection, () => {
+      handleSearchSeeMore();
+    });
   }
+};
+
+export const appendSearchedMovies = (isLastPage: boolean, movies: Movie[]) => {
+  const resultSection = document.getElementById("result-section");
+  const searchThumbnailList = document.getElementById("search-thumbnail-list");
+  if (!resultSection || !searchThumbnailList) return;
+
+  removeMovieItemsLoading(searchThumbnailList as HTMLElement);
+  renderMovieItems(searchThumbnailList as HTMLElement, movies);
 
   if (isLastPage) {
     removeSearchSeeMoreButton();

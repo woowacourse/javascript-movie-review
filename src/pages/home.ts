@@ -1,7 +1,13 @@
 import { getPopularMovies } from "../apis/movie/api.ts";
 import { Movie } from "../apis/movie/type.ts";
 import TMDBError from "../TMDBError.ts";
-import { appendPopularMovies, renderMain, renderMainEmpty, renderMainError, renderMainLoading } from "../dom/compositions/Main.ts";
+import {
+  appendPopularMovies,
+  renderMain,
+  renderMainEmpty,
+  renderMainError,
+  renderMainLoading,
+} from "../dom/compositions/Main.ts";
 
 export const renderHomePage = async (type: "init" | "append") => {
   let isError = false;

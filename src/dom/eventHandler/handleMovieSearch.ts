@@ -19,5 +19,5 @@ export const handleMovieSearch = async (keyword: string) => {
   url.search = params.toString();
   window.history.pushState({}, "", url.toString());
 
-  await renderSearchPage();
+  await renderSearchPage("init");
 };
