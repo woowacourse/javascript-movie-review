@@ -1,7 +1,8 @@
 import { Movie } from "../../apis/movie/type";
+import { handleMovieItemClick } from "../eventHandler/handleMovieItemClick.ts";
 
 const createMovieItemTemplate = (movie: Movie) => `
-  <li id="movie-${movie.id}">
+  <li id="${movie.id}">
     <div class="item">
       <img
         class="thumbnail"
@@ -34,6 +35,7 @@ const createMovieItemSkeletonTemplate = () => `
 export const renderMovieItems = (parent: HTMLElement, movies: Movie[]) => {
   const itemsHTML = movies.map(createMovieItemTemplate).join("");
   parent.insertAdjacentHTML("beforeend", itemsHTML);
+  parent.addEventListener("click", handleMovieItemClick);
 };
 
 export const renderMovieItemsLoading = (
