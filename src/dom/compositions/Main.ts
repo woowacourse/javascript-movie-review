@@ -1,33 +1,22 @@
 import { Movie } from "../../apis/movie/type.ts";
 import { handleMainSeeMore } from "../eventHandler/handleSeeMore.ts";
-import {
-  removeEmptyContainer,
-  renderEmptyContainer,
-} from "../components/EmptyContainer.ts";
-import {
-  removeErrorContainer,
-  renderErrorContainer,
-} from "../components/ErrorContainer.ts";
-import {
-  removeMainSeeMoreButton,
-  renderMainSeeMoreButton,
-} from "../components/MainSeeMoreButton.ts";
-import {
-  removeMainThumbnailList,
-  renderMainThumbnailList,
-  renderMainThumbnailLoading,
-} from "../components/MainThumbnailList.ts";
-import {
-  removeMovieItemsLoading,
-  renderMovieItems,
-} from "../shared/MovieItem.ts";
+import { removeEmptyContainer, renderEmptyContainer } from "../components/EmptyContainer.ts";
+import { removeErrorContainer, renderErrorContainer } from "../components/ErrorContainer.ts";
+import { removeMainThumbnailList, renderMainThumbnailList, renderMainThumbnailLoading } from "../components/MainThumbnailList.ts";
+import { removeMovieItemsLoading, renderMovieItems } from "../shared/MovieItem.ts";
 import { removeBanner, renderBanner } from "../components/Banner.ts";
 import { removeSearch } from "./Search.ts";
 
+const MAIN_OBSERVER_TARGET_ID = "main-observer-target";
+let mainObserver: IntersectionObserver | null = null;
+let mainObserverTarget: HTMLElement | null = null;
+
 export const removeMain = () => {
+  mainObserver?.disconnect();
+  mainObserver = null;
+  removeObserverTarget();
   removeBanner();
   removeMainThumbnailList();
-  removeMainSeeMoreButton();
   removeErrorContainer();
   removeEmptyContainer();
 };
@@ -85,10 +74,8 @@ export const renderMain = (isLastPage: boolean, movies: Movie[]) => {
 
   renderMainThumbnailList(resultSection, movies);
 
-  if (isLastPage) {
-    removeMainSeeMoreButton();
-  } else {
-    renderMainSeeMoreButton(resultSection, () => {
+  if (!isLastPage) {
+    observeTarget(resultSection, () => {
       handleMainSeeMore();
     });
   }
@@ -99,15 +86,43 @@ export const appendPopularMovies = (isLastPage: boolean, movies: Movie[]) => {
   const mainThumbnailList = document.getElementById("main-thumbnail-list");
   if (!resultSection || !mainThumbnailList) return;
 
-  // TODO: mail thumbnail list가 append와 loading remove를 담당하게 하는 게 추상화 레벨이 맞지 않는지
+  removeObserverTarget();
   removeMovieItemsLoading(mainThumbnailList as HTMLElement);
   renderMovieItems(mainThumbnailList as HTMLElement, movies);
 
-  if (isLastPage) {
-    removeMainSeeMoreButton();
-  } else {
-    renderMainSeeMoreButton(resultSection, () => {
+  if (!isLastPage) {
+    observeTarget(resultSection, () => {
       handleMainSeeMore();
     });
   }
+};
+
+const removeObserverTarget = () => {
+  mainObserverTarget?.remove();
+  mainObserverTarget = null;
+};
+
+const observeTarget = (parent: HTMLElement, onIntersect: () => void) => {
+  mainObserver?.disconnect();
+
+  parent.insertAdjacentHTML(
+    "beforeend",
+    `<div id="${MAIN_OBSERVER_TARGET_ID}" class="observer-target"></div>`,
+  );
+  mainObserverTarget = document.getElementById(MAIN_OBSERVER_TARGET_ID);
+  if (!mainObserverTarget) return;
+
+  mainObserver = new IntersectionObserver(
+    (entries) => {
+      if (entries[0].isIntersecting) {
+        mainObserver?.disconnect();
+        onIntersect();
+      }
+    },
+    {
+      rootMargin: "500px",
+      threshold: 0.1,
+    },
+  );
+  mainObserver.observe(mainObserverTarget);
 };

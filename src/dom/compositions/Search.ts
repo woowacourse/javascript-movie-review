@@ -2,14 +2,19 @@ import { Movie } from "../../apis/movie/type.ts";
 import { handleSearchSeeMore } from "../eventHandler/handleSeeMore.ts";
 import { removeEmptyContainer, renderEmptyContainer } from "../components/EmptyContainer.ts";
 import { removeErrorContainer, renderErrorContainer } from "../components/ErrorContainer.ts";
-import { removeSearchSeeMoreButton, renderSearchSeeMoreButton } from "../components/SearchSeeMoreButton.ts";
 import { removeSearchThumbnailList, renderSearchThumbnailList, renderSearchThumbnailLoading } from "../components/SearchThumbnailList.ts";
 import { removeMovieItemsLoading, renderMovieItems } from "../shared/MovieItem.ts";
 import { removeMain } from "./Main.ts";
 
+const SEARCH_OBSERVER_TARGET_ID = "search-observer-target";
+let searchObserver: IntersectionObserver | null = null;
+let searchObserverTarget: HTMLElement | null = null;
+
 export const removeSearch = () => {
+  searchObserver?.disconnect();
+  searchObserver = null;
+  removeObserverTarget();
   removeSearchThumbnailList();
-  removeSearchSeeMoreButton();
   removeErrorContainer();
   removeEmptyContainer();
 };
@@ -17,6 +22,7 @@ export const removeSearch = () => {
 export const renderSearchLoading = (keyword: string) => {
   removeMain();
   removeSearch();
+
   const resultSection = document.getElementById("result-section");
   const subTitle = document.getElementById("sub-title");
 
@@ -32,6 +38,7 @@ export const renderSearchLoading = (keyword: string) => {
 export const renderSearchError = (errorMessage?: string) => {
   removeMain();
   removeSearch();
+
   const resultSection = document.getElementById("result-section");
   if (resultSection) {
     renderErrorContainer(
@@ -44,6 +51,7 @@ export const renderSearchError = (errorMessage?: string) => {
 export const renderSearchEmpty = () => {
   removeMain();
   removeSearch();
+
   const resultSection = document.getElementById("result-section");
   if (resultSection) {
     renderEmptyContainer(resultSection, "검색 결과가 없습니다.");
@@ -59,10 +67,8 @@ export const renderSearch = (isLastPage: boolean, movies: Movie[]) => {
 
   renderSearchThumbnailList(resultSection, movies);
 
-  if (isLastPage) {
-    removeSearchSeeMoreButton();
-  } else {
-    renderSearchSeeMoreButton(resultSection, () => {
+  if (!isLastPage) {
+    observeTarget(resultSection, () => {
       handleSearchSeeMore();
     });
   }
@@ -73,14 +79,40 @@ export const appendSearchedMovies = (isLastPage: boolean, movies: Movie[]) => {
   const searchThumbnailList = document.getElementById("search-thumbnail-list");
   if (!resultSection || !searchThumbnailList) return;
 
+  removeObserverTarget();
   removeMovieItemsLoading(searchThumbnailList as HTMLElement);
   renderMovieItems(searchThumbnailList as HTMLElement, movies);
 
-  if (isLastPage) {
-    removeSearchSeeMoreButton();
-  } else {
-    renderSearchSeeMoreButton(resultSection, () => {
+  if (!isLastPage) {
+    observeTarget(resultSection, () => {
       handleSearchSeeMore();
     });
   }
+};
+
+const removeObserverTarget = () => {
+  searchObserverTarget?.remove();
+  searchObserverTarget = null;
+};
+
+const observeTarget = (parent: HTMLElement, onIntersect: () => void) => {
+  searchObserver?.disconnect();
+
+  parent.insertAdjacentHTML(
+    "beforeend",
+    `<div id="${SEARCH_OBSERVER_TARGET_ID}" class="observer-target"></div>`,
+  );
+  searchObserverTarget = document.getElementById(SEARCH_OBSERVER_TARGET_ID);
+  if (!searchObserverTarget) return;
+
+  searchObserver = new IntersectionObserver(
+    (entries) => {
+      if (entries[0].isIntersecting) {
+        searchObserver?.disconnect();
+        onIntersect();
+      }
+    },
+    { threshold: 0.1 },
+  );
+  searchObserver.observe(searchObserverTarget);
 };
