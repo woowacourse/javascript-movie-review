@@ -171,11 +171,6 @@ button.primary {
   color: var(--color-yellow);
 }
 
-.rate > img {
-  position: relative;
-  top: 2px;
-}
-
 span.rate-value {
   margin-left: 8px;
   font-weight: bold;
