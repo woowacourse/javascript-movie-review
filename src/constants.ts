@@ -7,3 +7,5 @@ export const FETCH_OPTION = {
   },
   timeoutMs: 10000
 }
+
+export const RATING_OPTIONS = [2, 4, 6, 8, 10];

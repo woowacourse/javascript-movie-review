@@ -4,15 +4,16 @@ import renderShowMoreButton from "./render/renderShowMoreButton";
 import renderSkeletonItemsToList from "./render/renderSkeletonItemsToList";
 import renderTopRatedMovie from "./render/renderTopRatedMovie";
 import { MovieListResponse, Movie } from "./type";
-import { fetchMoviesByPageRange, getPage, setPage } from "./utils";
+import { getPage, setPage } from "./url";
 import { handleError } from "./error";
-import bindMovieListEvent from "./event/bindMovieListEvent";
+import bindClickMovieEvent from "./event/bindClickMovieEvent";
+import { fetchMoviesByPageRange } from "./api";
 
 addEventListener("load", async () => {
   let prevResponseList: MovieListResponse[] = [];
 
   async function renderPopularMoviePage(initPage: number) {
-    bindMovieListEvent();
+    bindClickMovieEvent();
     renderSkeletonItemsToList(20);
 
     const responseList = await fetchMoviesByPageRange(

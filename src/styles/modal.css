@@ -95,6 +95,53 @@
   font-weight: 600;
 }
 
+.modal-movie-my-rate-form {
+  display: flex;
+  gap: 8px;
+}
+
+.modal-movie-my-rate-form>button {
+  width: 32px;
+  height: 32px;
+  margin: 0;
+  padding: 0;
+  background: 0;
+  background-image: url('/images/star_sprites.png');
+  background-size: cover;
+  background-position: 0px 0px;
+}
+
+.modal-movie-my-rate-form[data-rating="2"]>button:nth-of-type(1) {
+  background-position: 33px 0px;
+}
+
+.modal-movie-my-rate-form[data-rating="4"]>button:nth-of-type(1),
+.modal-movie-my-rate-form[data-rating="4"]>button:nth-of-type(2) {
+  background-position: 33px 0px;
+}
+
+.modal-movie-my-rate-form[data-rating="6"]>button:nth-of-type(1),
+.modal-movie-my-rate-form[data-rating="6"]>button:nth-of-type(2),
+.modal-movie-my-rate-form[data-rating="6"]>button:nth-of-type(3) {
+  background-position: 33px 0px;
+}
+
+.modal-movie-my-rate-form[data-rating="8"]>button:nth-of-type(1),
+.modal-movie-my-rate-form[data-rating="8"]>button:nth-of-type(2),
+.modal-movie-my-rate-form[data-rating="8"]>button:nth-of-type(3),
+.modal-movie-my-rate-form[data-rating="8"]>button:nth-of-type(4) {
+  background-position: 33px 0px;
+}
+
+.modal-movie-my-rate-form[data-rating="10"]>button:nth-of-type(1),
+.modal-movie-my-rate-form[data-rating="10"]>button:nth-of-type(1),
+.modal-movie-my-rate-form[data-rating="10"]>button:nth-of-type(2),
+.modal-movie-my-rate-form[data-rating="10"]>button:nth-of-type(3),
+.modal-movie-my-rate-form[data-rating="10"]>button:nth-of-type(4),
+.modal-movie-my-rate-form[data-rating="10"]>button:nth-of-type(5) {
+  background-position: 33px 0px;
+}
+
 .modal-movie-plot-body {
   font-size: 24px;
   line-height: 150%;

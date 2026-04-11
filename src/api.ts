@@ -1,50 +1,6 @@
-import { FETCH_OPTION } from "./constants";
+import { FETCH_OPTION, RATING_OPTIONS } from "./constants";
 import { APIError } from "./error";
 import { MovieDetail, MovieListResponse, TMDBAPIEndpoint } from "./type";
-
-export function getURLSearchParam(name: string, defaultValue: string) {
-  const urlParams = new URLSearchParams(window.location.search);
-  return urlParams.get(name) ?? defaultValue
-}
-
-export function setURLSearchParam(name: string, value: string) {
-  const url = new URL(window.location.href);
-  url.searchParams.set(name, value);
-  window.history.replaceState({}, "", url);
-}
-
-export function getQuery() {
-  return getURLSearchParam("query", "");
-}
-
-export function getPage() {
-  const pageStr = getURLSearchParam("page", "1");
-  const pageNum = Number(pageStr)
-  const page = isNaN(pageNum) || pageNum % 1 || pageNum < 1 ? 1 : pageNum;
-  return page;
-}
-
-export function setQuery(query: string) {
-  setURLSearchParam("query", query)
-}
-
-export function setPage(page: number) {
-  setURLSearchParam("page", page.toString())
-}
-
-export function throttle<T extends (...args: any[]) => void>(callback: T, ms: number) {
-  let timer: ReturnType<typeof setTimeout> | null = null;
-
-  return (...args: Parameters<T>): void => {
-    if (timer) return;
-
-    callback(...args);
-
-    timer = setTimeout(() => {
-      timer = null;
-    }, ms);
-  };
-};
 
 function delay(ms: number) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -68,7 +24,7 @@ function fetcher<T>(url: string, { timeoutMs, ...options }: RequestInit & { time
   return timeoutMs ? Promise.race([response, timeoutPromise]) : response
 }
 
-export async function fetchMovieDetail(movieId: string) {
+export async function fetchMovieDetail(movieId: number) {
   const queryParams = new URLSearchParams({
     language: "ko-KR"
   });
@@ -106,4 +62,19 @@ export async function fetchMoviesByPageRange(endpoint: TMDBAPIEndpoint, startPag
   );
 
   return Promise.all(promises);
+}
+
+export function fetchMyRating(movieId: number) {
+  const myRatingsJSON = localStorage.getItem("my-ratings");
+  const myRatingsObj = JSON.parse(myRatingsJSON ?? "{}");
+  const myRating = Number(myRatingsObj[movieId]);
+  return RATING_OPTIONS.includes(myRating) ? myRating : undefined;
+}
+
+export function updateMyRating(movieId: number, rating: number) {
+  const myRatingsJSON = localStorage.getItem("my-ratings");
+  const myRatingsObj = JSON.parse(myRatingsJSON ?? "{}");
+  // TODO: 객체 구조 유효성 검증
+  if (RATING_OPTIONS.includes(rating)) myRatingsObj[movieId] = rating
+  localStorage.setItem("my-ratings", JSON.stringify(myRatingsObj));
 }

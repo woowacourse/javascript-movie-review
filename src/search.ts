@@ -7,15 +7,16 @@ import renderShowMoreButton from "./render/renderShowMoreButton";
 import renderSkeletonItems from "./render/renderSkeletonItemsToList";
 import renderTopRatedMovie from "./render/renderTopRatedMovie";
 import { MovieListResponse, Movie } from "./type";
-import { fetchMoviesByPageRange, getPage, getQuery, setPage, setQuery } from "./utils";
+import { getPage, getQuery, setPage, setQuery } from "./url";
 import { handleError } from "./error";
-import bindMovieListEvent from "./event/bindMovieListEvent";
+import bindClickMovieEvent from "./event/bindClickMovieEvent";
+import { fetchMoviesByPageRange } from "./api";
 
 addEventListener("load", async () => {
   let prevResponseList: MovieListResponse[] = [];
 
   async function renderSearchMoviePage(page: number, query: string) {
-    bindMovieListEvent();
+    bindClickMovieEvent();
     renderSearchListTitle(query);
     renderSkeletonItems(20);
 

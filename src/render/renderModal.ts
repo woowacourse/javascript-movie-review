@@ -1,9 +1,11 @@
+import { fetchMovieDetail, fetchMyRating } from "../api";
+import bindSelectRatingEvent from "../event/bindSelectRatingEvent";
 import { MovieDetail } from "../type";
-import { fetchMovieDetail } from "../utils";
 
 function createModalElement(movieDetail: MovieDetail) {
   const dialogElement = document.createElement("dialog");
-  dialogElement.classList.add("modal")
+  dialogElement.classList.add("modal");
+  dialogElement.dataset.movieId = movieDetail.id.toString();
 
   dialogElement.insertAdjacentHTML('afterbegin', /* html */`
     <form method="dialog">
@@ -33,7 +35,8 @@ function createModalElement(movieDetail: MovieDetail) {
         </div>
         <div class="modal-movie-my-rate">
           <h3 class="modal-movie-content-title">내 평점</h3>
-
+          <div class="modal-movie-my-rate-body">
+          </div>
         </div>
         <div class="modal-movie-plot">
           <h3 class="modal-movie-content-title">줄거리</h3>
@@ -46,14 +49,41 @@ function createModalElement(movieDetail: MovieDetail) {
   return dialogElement
 }
 
-export async function renderModal(movieId: string) {
-  document.querySelector("dialog")?.remove();
+function createMyRateSelectorElement(currentRating?: number) {
+  const formElement = document.createElement("div");
+  formElement.classList.add("modal-movie-my-rate-form")
 
+  if (currentRating !== undefined) {
+    formElement.dataset.rating = currentRating.toString()
+  }
+
+  const buttonElements = Array.from({ length: 5 }, (_, index) => {
+    const buttonElement = document.createElement("button");
+    buttonElement.type = "button";
+    buttonElement.classList.add("star-button");
+    buttonElement.dataset.rating = String((index + 1) * 2);
+    return buttonElement
+  })
+
+  formElement.append(...buttonElements);
+
+  return formElement
+}
+
+export async function renderModal(movieId: number) {
+  document.querySelector(".modal")?.remove();
+
+  // TODO: 비동기를 기다리는 동안 로딩 스피너 표시
   const response = await fetchMovieDetail(movieId);
+  const myRating = fetchMyRating(movieId);
 
   const dialogElement = createModalElement(response);
+  const myRateFormElement = createMyRateSelectorElement(myRating);
 
   document.querySelector('#app')?.insertAdjacentElement("beforeend", dialogElement);
+  dialogElement.querySelector(".modal-movie-my-rate-body")?.append(myRateFormElement);
+
+  bindSelectRatingEvent()
 
   dialogElement.showModal();
 }

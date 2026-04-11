@@ -1,6 +1,19 @@
 import { SHOW_MORE_THROTTLE_MS } from "../constants";
 import { MovieListResponse } from "../type";
-import { throttle } from "../utils";
+
+function throttle<T extends (...args: any[]) => void>(callback: T, ms: number) {
+  let timer: ReturnType<typeof setTimeout> | null = null;
+
+  return (...args: Parameters<T>): void => {
+    if (timer) return;
+
+    callback(...args);
+
+    timer = setTimeout(() => {
+      timer = null;
+    }, ms);
+  };
+};
 
 function createShowMoreButton() {
   const buttonElement = document.createElement("button");
