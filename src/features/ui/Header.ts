@@ -3,6 +3,17 @@ import logo from "../../images/logo.png";
 import searchIcon from "../../images/Search.png";
 import { Movie } from "../../../types/types";
 import { BACKDROP_IMAGE_URL } from "../../constants/image";
+import { eventBus } from "../../pubsub/EventBus";
+import { APP_EVENTS } from "../../pubsub/AppEvents";
+
+function attachLogoListener(): void {
+  const logoEl = document.querySelector(".logo") as HTMLElement | null;
+  if (!logoEl) return;
+  logoEl.addEventListener("click", () => {
+    eventBus.publish(APP_EVENTS.LOGO_CLICK, undefined);
+  }, { once: true });
+}
+
 export const Header = {
   clearHeader(): void {
     const backgroundContainer = document.querySelector(
@@ -16,9 +27,7 @@ export const Header = {
 
   render(movie: Movie | null): void {
     if (!movie) return;
-    const backgroundContainer = document.querySelector(
-      ".background-container",
-    ) as HTMLElement;
+    const backgroundContainer = document.querySelector(".background-container") as HTMLElement;
 
     backgroundContainer.innerHTML = /*html*/ `
             <div class="top-rated-movie">
@@ -34,14 +43,14 @@ export const Header = {
 
     backgroundContainer.style.background = `url(${BACKDROP_IMAGE_URL}${movie.backdrop_path}) no-repeat center center / cover`;
     backgroundContainer.style.removeProperty("height");
+    attachLogoListener();
   },
 
   renderSearch(): void {
-    const backgroundContainer = document.querySelector(
-      ".background-container",
-    ) as HTMLElement;
+    const backgroundContainer = document.querySelector(".background-container") as HTMLElement;
 
     backgroundContainer.innerHTML = /*html*/ `${this.renderImage()}`;
+    attachLogoListener();
   },
 
   renderImage(): string {
