@@ -81,7 +81,11 @@ const renderRateStart = (id: number) => {
   Array.from(rateStar).forEach((star, index) => {
     const isOn = rate / 2 >= (index + 1);
 
-    if(isOn) star.classList.add('on');
+    if(isOn) {
+      star.classList.add('on');
+    } else {
+      star.classList.remove('on');
+    }
   });
 }
 
