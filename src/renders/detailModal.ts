@@ -61,10 +61,28 @@ export const renderDetailModal = (movieInfo: MovieInfo) => {
       const { id } = movieInfo;
       const rates = { ...prevRates, [id]: rate };
       localStorage.setItem('rates', JSON.stringify(rates));
+
+      renderRateStart(id);
     });
   });
 
-  modal.appendChild(cloneNode);
+  modal.appendChild(cloneNode); 
+}
+
+const renderRateStart = (id: number) => {
+  const parentNode = document.querySelector('#modal');
+  if(!parentNode) return;
+
+  const rates = JSON.parse(localStorage.getItem('rates')|| "");
+  const rate = rates[id];
+  
+  const rateStar = parentNode.querySelectorAll("#detail-modal-star-box .star");
+  
+  Array.from(rateStar).forEach((star, index) => {
+    const isOn = rate / 2 >= (index + 1);
+
+    if(isOn) star.classList.add('on');
+  });
 }
 
 export const removeDetailModal = () => {
