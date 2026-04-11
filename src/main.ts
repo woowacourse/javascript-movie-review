@@ -3,6 +3,7 @@ import { handleSearch } from "./controllers/search";
 
 import { loadMovieList, loadTopRatedMovie } from "./controllers/movieLoad";
 import { getDetailMovie } from "./services/api";
+import { renderMovieDetail } from "./renders/movieDetail";
 
 addEventListener("load", () => {
   const logo = document.querySelector<HTMLButtonElement>(".logo");
@@ -36,10 +37,9 @@ addEventListener("load", () => {
 
     const movieId = movieItem.dataset.movieId;
     if (!movieId) return;
-    console.log(movieId);
 
-    const data = await getDetailMovie(movieId);
-    console.log(data);
+    const movieDetail = await getDetailMovie(movieId);
+    renderMovieDetail(movieDetail);
   });
 
   loadTopRatedMovie();
