@@ -18,9 +18,60 @@ export interface Movie {
   vote_count: number;
 }
 
+export interface MovieDetail extends Omit<Movie, "genre_ids"> {
+  belongs_to_collection: BelongsToCollection;
+  budget: number;
+  genres: Genre[];
+  homepage: string;
+  imdb_id: string;
+  origin_country: string[];
+  production_companies: ProductionCompany[];
+  production_countries: ProductionCountry[];
+  revenue: number;
+  runtime: number;
+  spoken_languages: SpokenLanguage[];
+  status: string;
+  tagline: string;
+}
+
+export interface BelongsToCollection {
+  id: number;
+  name: string;
+  poster_path: string;
+  backdrop_path: string;
+}
+
+export interface Genre {
+  id: number;
+  name: string;
+}
+
+export interface ProductionCompany {
+  id: number;
+  logo_path: string;
+  name: string;
+  origin_country: string;
+}
+
+export interface ProductionCountry {
+  iso_3166_1: string;
+  name: string;
+}
+
+export interface SpokenLanguage {
+  english_name: string;
+  iso_639_1: string;
+  name: string;
+}
+
 export interface PopularMoviesParameter {
   language: string;
   page: number;
+}
+
+export interface MovieDetailParameter {
+  language: string;
+  movieId: number;
 }
 
 export const getPopularMovies = async (
@@ -29,5 +80,15 @@ export const getPopularMovies = async (
   const searchParams = getSearchParamsFromObject(params);
   return await tmdbFetcher<TmdbPagination<Movie[]>>(
     `/movie/popular?${searchParams.toString()}`,
+  );
+};
+
+export const getMovieDetail = async ({
+  movieId,
+  ...params
+}: MovieDetailParameter) => {
+  const searchParams = getSearchParamsFromObject(params);
+  return await tmdbFetcher<MovieDetail>(
+    `/movie/${movieId}?${searchParams.toString()}`,
   );
 };
