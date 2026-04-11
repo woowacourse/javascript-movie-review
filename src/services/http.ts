@@ -1,37 +1,92 @@
 import { apiUrl, apiKey } from "../constants/env";
 
-interface Configs {
-  method?: 'get' | 'post' | 'put' | 'delete';
-  query?: Record<string, unknown>;
-}
+export type Method = 'get' | 'post' | 'put' | 'delete';
+
+export type Configs = {
+  method?: Method | undefined;
+  url?: string | undefined;
+  params?: Record<string, unknown> | undefined;
+  query?: Record<string, unknown> | undefined;
+  data?: Record<string, unknown> | undefined;
+  headers?: Record<string, unknown> | undefined;
+};
 
 export const requestAjax = async (
   url: string,
-  { method, query }: Configs = { method: 'get' }
-) => {
-  const queryString = query ? '?' + new URLSearchParams(query as any).toString() : '';
-  const fullPathUrl = `${apiUrl}${url}${queryString}`;
-  const res = await fetch(fullPathUrl, {
-    method,
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-    },
-  });
+  config?: Configs,
+): Promise<RequestFetchResponse> => {
+  const { method = 'get', url: configUrl, params, query, data, headers } = config || {};
 
-  if (res.ok) {
-    return await res.json();
+  let finalUrl = `${apiUrl}${configUrl || url}`;
+
+  if (params) {
+    const paramsstring = Object.values(params).join('/');
+    finalUrl += `/${paramsstring}`;
   }
 
-  const errorBody = await res.json();
-  throw new ApiError(errorBody.status_message, errorBody.status_code);
-}
+  if (query) {
+    const querystring = new URLSearchParams(query as Record<string, string>).toString();
+    finalUrl += `?${querystring}`;
+  }
 
-export class ApiError extends Error {
-  status_code: number;
+  const customHeaders = {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${apiKey}`,
+    ...headers,
+  };
 
-  constructor(message: string, status_code: number) {
-    super(message);
-    this.name = "ApiError";
-    this.status_code = status_code;
+  const res = await fetch(finalUrl, {
+    method,
+    ...(!!Object.values(customHeaders).filter(Boolean).length && {
+      headers: {
+        ...customHeaders as Record<string, string>,
+      }
+    }),
+    // credentials: 'include',
+    ...(data && {
+      body: data instanceof FormData ? data : JSON.stringify(data),
+    }),
+  });
+
+  let responseData;
+  try {
+    responseData = await res.json();
+  } catch (e) {
+    console.error(e);
+    responseData = await res.text();
+  }
+
+  const response = {
+    data: responseData,
+    status: res.status,
+    headers: customHeaders,
+    config,
+  };
+
+  if (res.ok) {
+    return response;
+  } else {
+    throw new RequestFetchError(response);
+  }
+};
+
+export type RequestFetchResponse = {
+  data: any;
+  status: number;
+  headers?: Record<string, unknown> | undefined;
+  config?: Configs | undefined;
+};
+
+export class RequestFetchError extends Error {
+  status: number;
+  data?: unknown;
+  headers?: unknown;
+  config?: unknown;
+  constructor(error: { data: unknown; status: number; headers: unknown; config: unknown }) {
+    super('RequestFetchError');
+    this.data = error.data;
+    this.status = error.status;
+    this.headers = error.headers;
+    this.config = error.config;
   }
 }

@@ -11,7 +11,7 @@ export const getMoviePopular = async ({
   page: number;
 }): Promise<Movies> => {
   const url = `/movie/popular`;
-  const data = await requestAjax(url, { query : { page } });
+  const { data } = await requestAjax(url, { query : { page } });
 
   return {
     ...data,
@@ -21,7 +21,7 @@ export const getMoviePopular = async ({
 
 export const getTopRatedMovie = async () => {
   const url = `/movie/top_rated`;
-  const data = await requestAjax(url);
+  const { data } = await requestAjax(url);
 
   return {
     ...data,
@@ -37,8 +37,8 @@ export const getSearchMovie = async ({
   query: string;
 }): Promise<Movies> => {
   const url = `/search/movie`;
-  const data = await requestAjax(url, { query: { page, query } });
-
+  const { data } = await requestAjax(url, { query: { page, query } });
+  
   return {
     ...data,
     results: parseMovies(data.results),
@@ -47,7 +47,7 @@ export const getSearchMovie = async ({
 
 export const getMovieMovieId = async ({ id, }: { id: number }): Promise<MovieInfo> => {
   const url = `/movie/${id}`;
-  const data = await requestAjax(url);
+  const { data } = await requestAjax(url);
 
   return data;
 };

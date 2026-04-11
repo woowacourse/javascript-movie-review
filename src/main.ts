@@ -1,7 +1,8 @@
 import { navigate, getSearchParams, hasSearchParams } from "./utils/router";
 
+import { RequestFetchResponse } from "./services/http";
+
 import {
-  ApiError,
   getMoviePopular,
   getTopRatedMovie,
   getSearchMovie,
@@ -38,8 +39,8 @@ const loadInit = () => {
     (async () => {
       const topRatedMovies = await errorTryCatch(
         async () => await getTopRatedMovie(),
-        (e: ApiError) => {
-          if (e.status_code == 22) {
+        (e: RequestFetchResponse) => {
+          if (e.data.status_code == 22) {
             alert("잘못된 요청입니다.");
             return;
           }
@@ -57,8 +58,8 @@ const loadInit = () => {
       const page = pageState.getPage();
       const movies = await errorTryCatch(
         async () => await getMoviePopular({ page }),
-        async (e: ApiError) => {
-          if (e.status_code == 22) {
+        async (e: RequestFetchResponse) => {
+          if (e.data.status_code == 22) {
             alert("잘못된 페이지 요청입니다.");
             return;
           }
@@ -87,8 +88,8 @@ const runSearch = () => {
       async () => await getSearchMovie({
         page,
         query: search || "",
-      }), (e: ApiError) => {
-        if(e.status_code === 22){
+      }), (e: RequestFetchResponse) => {
+        if(e.data.status_code === 22){
           alert("잘못된 검색 요청입니다.");
             return;
         }
@@ -154,8 +155,8 @@ const handleMoreMovie = () => {
 
     const movies = await errorTryCatch(
       async () => await getMoviePopular({ page }),
-      async (e: ApiError) => {
-        if (e.status_code == 22) {
+      async (e: RequestFetchResponse) => {
+        if (e.data.status_code == 22) {
           alert("잘못된 페이지 요청입니다.");
           return;
         }
