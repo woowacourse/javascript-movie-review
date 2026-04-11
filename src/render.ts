@@ -159,6 +159,7 @@ export const Renderer = {
         Component.movieDetail(movieData, releaseYear, genres),
       );
     }
+    document.body.classList.add("modal-open");
     const modalCloser = document.querySelector("#closeModal");
     modalCloser?.addEventListener("click", () => {
       this.clearMovieDetail();
@@ -168,5 +169,6 @@ export const Renderer = {
   clearMovieDetail() {
     const modal = document.querySelector("#modalBackground");
     modal?.remove();
+    document.body.classList.remove("modal-open");
   },
 };
