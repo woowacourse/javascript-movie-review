@@ -78,10 +78,12 @@ const Component = {
   movieDetail(
     movieData: Pick<
       Movie,
-      "title" | "poster_path" | "vote_average" | "overview" | "genre_ids"
+      "title" | "poster_path" | "vote_average" | "overview"
     >,
+    releaseYear: number,
+    genres: string[],
   ) {
-    const { title, poster_path, genre_ids, vote_average, overview } = movieData;
+    const { title, poster_path, vote_average, overview } = movieData;
     return `
       <div class="modal-background active" id="modalBackground">
         <div class="modal">
@@ -94,7 +96,7 @@ const Component = {
             </div>
             <div class="modal-description">
               <h2>${title}</h2>
-              <p class="category">${genre_ids}</p>
+              <p class="category">${releaseYear} · ${genres.join(", ")}</p>
               <p class="rate">
                 <img src="src/images/star_filled.png" class="star" alt="vote average" />
                 <span>${vote_average.toFixed(1)}</span>

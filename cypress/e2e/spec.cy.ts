@@ -4,7 +4,7 @@ const createMockMovie = (id: number) => ({
   poster_path: `/avengers${id}.jpg`,
   vote_average: 7.5,
   backdrop_path: `/backdrop${id}.jpg`,
-  genre_ids: [28],
+  genre_ids: [12, 99],
   original_language: "ko",
   original_title: `어벤져스 ${id}`,
   overview: "타노스를 조심해",
@@ -29,6 +29,9 @@ describe("영화 리뷰 앱", () => {
     cy.intercept("GET", "**/movie/popular*", createMoviesResponse(20)).as(
       "getPopularMovies",
     );
+    cy.intercept("GET", "**/genre/movie/list*", {
+      fixture: "genres.json",
+    }).as("getGenres");
     cy.visit("/");
   });
 
@@ -256,10 +259,18 @@ describe("영화 리뷰 앱", () => {
   });
 
   describe("영화 정보", () => {
-    it("영화를 클릭하면 영화에 대한 자세한 정보가 담긴 모달이 렌더링된다", () => {
+    beforeEach(() => {
       cy.wait("@getPopularMovies");
+      cy.wait("@getGenres");
+    });
+    it("영화를 클릭하면 영화에 대한 자세한 정보가 담긴 모달이 렌더링된다", () => {
       cy.get(".thumbnail-list li").first().click();
       cy.get(".modal").should("be.visible");
+    });
+
+    it("영화 카테고리 아이디는 이름으로 변환되어 렌더링된다.", () => {
+      cy.get(".thumbnail-list li").first().click();
+      cy.get(".modal .category").should("have.text", "2026 · 모험, 다큐멘터리");
     });
   });
 });

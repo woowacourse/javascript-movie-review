@@ -1,4 +1,4 @@
-import { getPopularMovies, getSearchMovies, Movie } from "./api.ts";
+import { getPopularMovies, getSearchMovies, getGenres, Movie } from "./api.ts";
 import { MovieRenderer, Renderer } from "./render.ts";
 import { ONCE_MOVIE_LIMIT, INITIAL_PAGE_NUM } from "./constans/movie.ts";
 import State from "./state.ts";
@@ -39,14 +39,24 @@ const App = {
   },
 
   setUpMovieDetail(moviesData: Movie[]) {
+    // 이미 렌더링된 영화는 제외한다.
     const movieList = [
       ...document.querySelectorAll(".thumbnail-list li"),
     ].slice(-moviesData.length);
-
+    const genres = State.getGenres();
     movieList.forEach((movie, idx) => {
       movie.addEventListener("click", (e) => {
         e.preventDefault();
-        Renderer.renderMovieDetail(moviesData[idx]);
+        const movieData = moviesData[idx];
+        // 장르 ID를 이름으로 변경한다.
+        const movieGenres = movieData.genre_ids.map(
+          (genreId) => genres.find((genre) => genre.id === genreId)!.name,
+        );
+        Renderer.renderMovieDetail(
+          movieData,
+          new Date(movieData.release_date).getFullYear(),
+          movieGenres,
+        );
       });
     });
   },
@@ -68,10 +78,13 @@ const App = {
         State.getRequestMovieCount() || ONCE_MOVIE_LIMIT,
       );
       try {
-        const { results: movies, page } =
-          await getPopularMovies(INITIAL_PAGE_NUM);
+        const [{ results: movies, page }, { genres }] = await Promise.all([
+          getPopularMovies(INITIAL_PAGE_NUM),
+          getGenres(),
+        ]);
         State.setNextPageNum(page + 1);
         State.setRequestMovieCount(movies.length);
+        State.setGenres(genres);
         MovieRenderer.renderInitialMovies(movies);
         this.setUpMovieDetail(movies);
       } catch (err) {

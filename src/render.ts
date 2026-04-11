@@ -151,10 +151,13 @@ export const Renderer = {
     if (button instanceof HTMLElement) button.style.display = "none";
   },
 
-  renderMovieDetail(movieData: Movie) {
+  renderMovieDetail(movieData: Movie, releaseYear: number, genres: string[]) {
     const app = document.querySelector("#app");
     if (app instanceof HTMLElement) {
-      app?.insertAdjacentHTML("beforeend", Component.movieDetail(movieData));
+      app?.insertAdjacentHTML(
+        "beforeend",
+        Component.movieDetail(movieData, releaseYear, genres),
+      );
     }
   },
 };

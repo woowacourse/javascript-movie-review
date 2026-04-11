@@ -7,6 +7,11 @@ interface MoviesResponse {
   total_results: number;
 }
 
+export interface Genre {
+  id: number;
+  name: string;
+}
+
 function handleResponseError(response: Response) {
   if (!response.ok) {
     if (response.status === 401) {
@@ -25,6 +30,7 @@ export interface Movie {
   adult: boolean;
   backdrop_path: string;
   genre_ids: number[];
+  genres: string[];
   id: number;
   original_language: "en-US";
   original_title: string;
@@ -41,6 +47,7 @@ export interface Movie {
 const API_PATH = {
   POPULAR_MOVIE: "https://api.themoviedb.org/3/movie/popular",
   SEARCH_MOVIE: "https://api.themoviedb.org/3/search/movie",
+  GENRE: "https://api.themoviedb.org/3/genre/movie/list",
 };
 
 export async function getPopularMovies(
@@ -72,6 +79,20 @@ export async function getSearchMovies(
     },
   };
   const response = await fetch(url, options);
+  handleResponseError(response);
+  return response.json();
+}
+
+export async function getGenres(): Promise<{ genres: Genre[] }> {
+  const url = API_PATH.GENRE;
+  const options = {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization: `Bearer ${API_KEY}`,
+    },
+  };
+  const response = await fetch(`${url}?language=ko-KR`, options);
   handleResponseError(response);
   return response.json();
 }
