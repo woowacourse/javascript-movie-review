@@ -43,22 +43,29 @@ const App = {
     const movieList = [
       ...document.querySelectorAll(".thumbnail-list li"),
     ].slice(-moviesData.length);
-    const genres = State.getGenres();
     movieList.forEach((movie, idx) => {
       movie.addEventListener("click", (e) => {
         e.preventDefault();
-        const movieData = moviesData[idx];
-        // 장르 ID를 이름으로 변경한다.
-        const movieGenres = movieData.genre_ids.map(
-          (genreId) => genres.find((genre) => genre.id === genreId)!.name,
-        );
-        Renderer.renderMovieDetail(
-          movieData,
-          new Date(movieData.release_date).getFullYear(),
-          movieGenres,
-        );
+        const dialog = document.querySelector("dialog");
+        dialog?.showModal();
       });
     });
+    // const genres = State.getGenres();
+    // movieList.forEach((movie, idx) => {
+    //   movie.addEventListener("click", (e) => {
+    //     e.preventDefault();
+    //     const movieData = moviesData[idx];
+    //     // 장르 ID를 이름으로 변경한다.
+    //     const movieGenres = movieData.genre_ids.map(
+    //       (genreId) => genres.find((genre) => genre.id === genreId)!.name,
+    //     );
+    //     Renderer.renderMovieDetail(
+    //       movieData,
+    //       new Date(movieData.release_date).getFullYear(),
+    //       movieGenres,
+    //     );
+    //   });
+    // });
   },
 
   handleLoadMoreMovies() {
