@@ -1,12 +1,7 @@
 import { getSearchParamsFromObject } from "../../utils/getSearchParamsFromObject";
 import { tmdbFetcher, TmdbPagination } from "../../utils/tmdbFetcher";
-import { Movie } from "../movie/api";
-
-export interface SearchedMoviesParameter {
-  query: string;
-  language: string;
-  page: number;
-}
+import { Movie } from "../movie/type";
+import { SearchedMoviesParameter } from "./type.ts";
 
 export const getSearchedMovies = async (
   params: Partial<SearchedMoviesParameter> = {},

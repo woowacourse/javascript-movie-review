@@ -1,4 +1,4 @@
-import { Movie } from "../../apis/movie/api.ts";
+import { Movie } from "../../apis/movie/type.ts";
 import { handleMainSeeMore } from "../eventHandler/handleSeeMore.ts";
 import {
   removeEmptyContainer,

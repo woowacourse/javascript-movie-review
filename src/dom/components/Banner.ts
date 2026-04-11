@@ -1,4 +1,4 @@
-import { Movie } from "../../apis/movie/api";
+import { Movie } from "../../apis/movie/type";
 
 const BANNER_ID = "background-container";
 

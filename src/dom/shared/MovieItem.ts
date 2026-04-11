@@ -1,4 +1,4 @@
-import { Movie } from "../../apis/movie/api";
+import { Movie } from "../../apis/movie/type";
 
 const createMovieItemTemplate = (movie: Movie) => `
   <li id="movie-${movie.id}">

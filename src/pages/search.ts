@@ -1,4 +1,4 @@
-import { Movie } from "../apis/movie/api.ts";
+import { Movie } from "../apis/movie/type.ts";
 import { getSearchedMovies } from "../apis/search/api.ts";
 import TMDBError from "../TMDBError.ts";
 import {
