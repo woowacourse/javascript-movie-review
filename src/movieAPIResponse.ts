@@ -46,7 +46,7 @@ export const fetchMovieDetail = async (id: number, signal?: AbortSignal): Promis
     id: json.id,
     title: json.title,
     poster_path: json.poster_path,
-    // vote_average: json.vote_average,
+    vote_average: json.vote_average,
     overview: json.overview,
     release_date: json.release_date,
     genres: json.genres,

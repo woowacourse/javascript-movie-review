@@ -12,7 +12,7 @@ const hideModal = () => {
   document.body.classList.remove('modal-open');
 };
 
-export const renderModal = (state: MovieSelection) => {
+export const renderModal = (state: MovieSelection, customRateNum : number | null) => {
   if (!state.isOpen) {
     hideModal();
     return;
@@ -29,8 +29,8 @@ export const renderModal = (state: MovieSelection) => {
   const category = document.querySelector('.modal-description .category');
   if (category) category.textContent = `${detail.release_date.slice(0, 4)} · ${detail.genres.map((g) => g.name).join(', ')}`;
 
-  // const rate = document.querySelector('.modal-description .rate span');
-  // if (rate) rate.textContent = String(detail.vote_average);
+  const rate = document.querySelector('#average-score')
+  if (rate) rate.textContent = `${detail.vote_average.toFixed(1)}`
 
   const description = document.querySelector('.modal-description .detail');
   if (description) description.textContent = detail.overview;
