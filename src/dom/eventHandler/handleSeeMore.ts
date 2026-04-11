@@ -1,6 +1,6 @@
 import TMDBError from "../../TMDBError";
-import { renderSearchUI } from "../render/renderSearchUI.ts";
-import { renderMainUI } from "../render/renderMainUI.ts";
+import { renderSearchPage } from "../../pages/search.ts";
+import { renderHomePage } from "../../pages/home.ts";
 
 export const handleMainSeeMore = async () => {
   const url = new URL(window.location.href);
@@ -12,7 +12,7 @@ export const handleMainSeeMore = async () => {
   window.history.pushState({}, "", url.toString());
 
   try {
-    await renderMainUI();
+    await renderHomePage();
   } catch (error) {
     let errorMessage = "알 수 없는 에러가 발생했습니다.";
     if (error instanceof TMDBError) {
@@ -32,7 +32,7 @@ export const handleSearchSeeMore = async () => {
   window.history.pushState({}, "", url.toString());
 
   try {
-    await renderSearchUI();
+    await renderSearchPage();
   } catch (error) {
     let errorMessage = "알 수 없는 에러가 발생했습니다.";
     if (error instanceof TMDBError) {

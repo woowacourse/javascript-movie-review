@@ -1,101 +1,44 @@
-import { Movie } from "../apis/movie/api.ts";
-import { handleMainSeeMore } from "../dom/eventHandler/handleSeeMore";
-import {
-  removeEmptyContainer,
-  renderEmptyContainer,
-} from "../dom/components/EmptyContainer";
-import {
-  removeErrorContainer,
-  renderErrorContainer,
-} from "../dom/components/ErrorContainer";
-import {
-  removeMainSeeMoreButton,
-  renderMainSeeMoreButton,
-} from "../dom/components/MainSeeMoreButton";
-import {
-  removeMainThumbnailList,
-  renderMainThumbnailList,
-  renderMainThumbnailLoading,
-} from "../dom/components/MainThumbnailList.ts";
-import {
-  removeMovieItemsLoading,
-  renderMovieItems,
-} from "../dom/shared/MovieItem.ts";
-import { removeBanner, renderBanner } from "../dom/components/Banner";
-import { removeSearch } from "./search";
+import { getPopularMovies, Movie } from "../apis/movie/api.ts";
+import TMDBError from "../TMDBError.ts";
+import { renderBanner } from "../dom/components/Banner.ts";
+import { renderMain, renderMainEmpty, renderMainError, renderMainLoading } from "../dom/compositions/Main.ts";
 
-export const removeMain = () => {
-  removeBanner();
-  removeMainThumbnailList();
-  removeMainSeeMoreButton();
-  removeErrorContainer();
-  removeEmptyContainer();
-};
+export const renderHomePage = async () => {
+  let isError = false;
+  let isLastPage = true;
+  let movies: Movie[] = [];
+  let errorMessage = "";
 
-export const renderMainLoading = () => {
-  removeMain();
-  removeSearch();
+  const url = new URL(window.location.href);
+  const page = Number(url.searchParams.get("page")) || 1;
 
-  const header = document.querySelector("header");
-  if (header) {
-    renderBanner(header);
-  }
+  try {
+    renderMainLoading();
 
-  const resultSection = document.getElementById("result-section");
-  if (resultSection) {
-    renderMainThumbnailLoading(resultSection);
-  }
-};
-
-export const renderMainError = (errorMessage?: string) => {
-  removeMain();
-  removeSearch();
-
-  const resultSection = document.getElementById("result-section");
-  if (resultSection) {
-    renderErrorContainer(
-      resultSection,
-      errorMessage || "🚨문제가 발생했습니다.🚨",
-    );
-  }
-};
-
-export const renderMainEmpty = () => {
-  removeMain();
-  removeSearch();
-  const resultSection = document.getElementById("result-section");
-  if (resultSection) {
-    renderEmptyContainer(resultSection, "검색 결과가 없습니다.");
-  }
-};
-
-export const renderMain = (isLastPage: boolean, movies: Movie[]) => {
-  const resultSection = document.getElementById("result-section");
-  if (!resultSection) return;
-
-  const mainThumbnailList = document.getElementById("main-thumbnail-list");
-
-  if (!mainThumbnailList) {
-    removeMain();
-    removeSearch();
+    const popularMovies = await getPopularMovies({
+      language: "ko-KR",
+      page,
+    });
+    isLastPage = popularMovies.page === popularMovies.total_pages;
+    movies = popularMovies.results;
 
     const header = document.querySelector("header");
     if (header) {
-      renderBanner(header);
+      renderBanner(header, movies[0]);
     }
-
-    renderMainThumbnailList(resultSection, movies);
-  } else {
-    // TODO: mail thumbnail list가 append와 loading remove를 담당하게 하는 게 추상화 레벨이 맞지 않는지
-    removeMovieItemsLoading(mainThumbnailList as HTMLElement);
-    renderMovieItems(mainThumbnailList as HTMLElement, movies);
-  }
-
-  if (isLastPage) {
-    removeMainSeeMoreButton();
-  } else {
-    renderMainSeeMoreButton(resultSection, () => {
-      handleMainSeeMore();
-    });
+  } catch (error) {
+    isError = true;
+    errorMessage = "🚨알 수 없는 에러가 발생했습니다.🚨";
+    if (error instanceof TMDBError) {
+      errorMessage = "🚨TMDB에서 데이터를 불러오는 중 에러가 발생했습니다🚨";
+    }
+  } finally {
+    if (isError) {
+      renderMainError(errorMessage);
+    } else if (movies.length === 0) {
+      renderMainEmpty();
+    } else {
+      renderMain(isLastPage, movies);
+    }
   }
 };

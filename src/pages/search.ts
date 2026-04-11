@@ -1,77 +1,53 @@
 import { Movie } from "../apis/movie/api.ts";
-import { handleSearchSeeMore } from "../dom/eventHandler/handleSeeMore";
-import { removeEmptyContainer, renderEmptyContainer } from "../dom/components/EmptyContainer";
-import { removeErrorContainer, renderErrorContainer } from "../dom/components/ErrorContainer";
-import { removeSearchSeeMoreButton, renderSearchSeeMoreButton } from "../dom/components/SearchSeeMoreButton";
-import { removeSearchThumbnailList, renderSearchThumbnailList, renderSearchThumbnailLoading } from "../dom/components/SearchThumbnailList.ts";
-import { removeMovieItemsLoading, renderMovieItems } from "../dom/shared/MovieItem.ts";
-import { hideBanner } from "../dom/components/Banner";
-import { removeMain } from "./home";
+import { getSearchedMovies } from "../apis/search/api.ts";
+import TMDBError from "../TMDBError.ts";
+import { renderSearch, renderSearchEmpty, renderSearchError, renderSearchLoading } from "../dom/compositions/Search.ts";
 
-export const removeSearch = () => {
-  removeSearchThumbnailList();
-  removeSearchSeeMoreButton();
-  removeErrorContainer();
-  removeEmptyContainer();
-};
+export const renderSearchPage = async () => {
+  const url = new URL(window.location.href);
+  const keyword = url.searchParams.get("keyword") || "";
 
-export const renderSearchLoading = (keyword: string) => {
-  removeMain();
-  removeSearch();
-  hideBanner();
-  const resultSection = document.getElementById("result-section");
-  const subTitle = document.getElementById("sub-title");
+  const searchInput = document.getElementById(
+    "search-input",
+  ) as HTMLInputElement;
 
-  if (resultSection) {
-    resultSection.classList.add("result-section");
-    renderSearchThumbnailLoading(resultSection);
-  }
-  if (subTitle) {
-    subTitle.innerText = `"${keyword}" 검색 결과`;
-  }
-};
-
-export const renderSearchError = (errorMessage?: string) => {
-  removeMain();
-  removeSearch();
-  const resultSection = document.getElementById("result-section");
-  if (resultSection) {
-    renderErrorContainer(
-      resultSection,
-      errorMessage || "🚨문제가 발생했습니다.🚨",
-    );
-  }
-};
-
-export const renderSearchEmpty = () => {
-  removeMain();
-  removeSearch();
-  const resultSection = document.getElementById("result-section");
-  if (resultSection) {
-    renderEmptyContainer(resultSection, "검색 결과가 없습니다.");
-  }
-};
-
-export const renderSearch = (isLastPage: boolean, movies: Movie[]) => {
-  const resultSection = document.getElementById("result-section");
-  if (!resultSection) return;
-
-  const searchThumbnailList = document.getElementById("search-thumbnail-list");
-
-  if (!searchThumbnailList) {
-    removeMain();
-    removeSearch(); // Common UI 제거를 위해 호출
-    renderSearchThumbnailList(resultSection, movies);
-  } else {
-    removeMovieItemsLoading(searchThumbnailList as HTMLElement);
-    renderMovieItems(searchThumbnailList as HTMLElement, movies);
+  if (searchInput) {
+    searchInput.value = keyword;
   }
 
-  if (isLastPage) {
-    removeSearchSeeMoreButton();
-  } else {
-    renderSearchSeeMoreButton(resultSection, () => {
-      handleSearchSeeMore();
+  let isError = false;
+  let isLastPage = true;
+  let movies: Movie[] = [];
+  let errorMessage = "";
+
+  if (keyword.trim() === "") return;
+
+  const page = Number(url.searchParams.get("page")) || 1;
+
+  try {
+    renderSearchLoading(keyword);
+
+    const searchResult = await getSearchedMovies({
+      query: keyword,
+      language: "ko-KR",
+      page,
     });
+
+    isLastPage = searchResult.page === searchResult.total_pages;
+    movies = searchResult.results;
+  } catch (error) {
+    isError = true;
+    errorMessage = "🚨알 수 없는 에러가 발생했습니다.🚨";
+    if (error instanceof TMDBError) {
+      errorMessage = "🚨TMDB에서 데이터를 불러오는 중 에러가 발생했습니다🚨";
+    }
+  } finally {
+    if (isError) {
+      renderSearchError(errorMessage);
+    } else if (movies.length === 0) {
+      renderSearchEmpty();
+    } else {
+      renderSearch(isLastPage, movies);
+    }
   }
 };

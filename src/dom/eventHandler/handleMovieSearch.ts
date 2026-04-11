@@ -1,4 +1,4 @@
-import { renderSearchUI } from "../render/renderSearchUI";
+import { renderSearchPage } from "../../pages/search.ts";
 
 export const handleMovieSearch = async (keyword: string) => {
   if (keyword.trim() === "") {
@@ -19,5 +19,5 @@ export const handleMovieSearch = async (keyword: string) => {
   url.search = params.toString();
   window.history.pushState({}, "", url.toString());
 
-  await renderSearchUI();
+  await renderSearchPage();
 };
