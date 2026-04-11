@@ -88,6 +88,26 @@ const renderRateStart = (rate: number = 0, parentNode: HTMLDivElement) => {
       star.classList.remove('on');
     }
   });
+
+  const starMessages = {
+    2: "최악이예요",
+    4: "별로예요",
+    6: "보통이에요",
+    8: "재미있어요",
+    10: "명작이에요",
+  }
+
+  if(!rate) return;
+
+  const starMessage = parentNode.querySelector("#detail-modal-star-message");
+  if(!starMessage) return;
+  const message = starMessages[rate as keyof typeof starMessages] || "";
+  starMessage.textContent = message;
+
+  const starNumber = parentNode.querySelector("#detail-modal-star-number");
+  if(!starNumber) return;
+  const rateMax = Math.max(...Object.keys(starMessages).map(Number))
+  starNumber.textContent = `${rate.toString()}/${rateMax}`;
 }
 
 export const removeDetailModal = () => {
