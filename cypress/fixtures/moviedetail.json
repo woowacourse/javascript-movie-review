@@ -1,0 +1,13 @@
+{
+  "id": 1001,
+  "title": "영화 1",
+  "poster_path": "/test0.jpg",
+  "backdrop_path": "/backdrop0.jpg",
+  "release_date": "2024-01-01",
+  "genres": [
+    { "id": 28, "name": "액션" },
+    { "id": 12, "name": "모험" }
+  ],
+  "vote_average": 7.5,
+  "overview": "테스트용 영화 줄거리입니다."
+}

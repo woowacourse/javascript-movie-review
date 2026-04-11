@@ -1,19 +1,23 @@
 describe("인기영화 렌더링 테스트", () => {
-  beforeEach(() => {
-    cy.visit("localhost:5173");
-  });
-
   it("웹에 접근을 하면 인기 영화 20개를 랜더링 한다", () => {
+    // page=2 자동 로드를 막아 20개만 렌더링되도록 intercept
+    cy.intercept(
+      "GET",
+      "https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=2",
+      { body: { results: [], total_pages: 1 } },
+    );
+    cy.visit("localhost:5173");
     cy.get(".thumbnail-list li").should("have.length", 20);
   });
 
-  it("인기 영화 화면에서 더보기 버튼을 누르면 인기 영화 20개를 추가로 렌더링 한다", () => {
-    cy.get("#load-movie-button").click();
+  it("인기 영화 화면에서 화면의 끝에 도달하면 인기 영화 20개를 추가로 렌더링 한다", () => {
+    cy.visit("localhost:5173");
+    cy.get("#scroll-sentinel").scrollIntoView();
     cy.get(".thumbnail-list li").should("have.length", 40);
   });
 });
 
-describe("인기 영화 더보기 버튼이 숨겨지는지 테스트", () => {
+describe("인기 영화 무한스크롤 테스트", () => {
   beforeEach(() => {
     cy.intercept(
       "GET",
@@ -30,11 +34,11 @@ describe("인기 영화 더보기 버튼이 숨겨지는지 테스트", () => {
     cy.visit("http://localhost:5173");
   });
 
-  it("마지막 페이지 도달 시 더보기 버튼이 사라진다", () => {
+  it("마지막 페이지 도달 시 스크롤 시에 영화를 더 불러오지 않는다.", () => {
     cy.wait("@getMovies");
-    cy.get("#load-movie-button").click();
+    cy.get("#scroll-sentinel").scrollIntoView();
     cy.wait("@getMoviesPage2");
-    cy.get("#load-movie-button").should("have.css", "display", "none");
+    cy.get(".thumbnail-list li").should("have.length", 40);
   });
 });
 
@@ -57,8 +61,14 @@ describe("검색영화 렌더링 테스트", () => {
   });
 });
 
-describe("검색 영화 더보기 버튼이 숨겨지는지 테스트", () => {
+describe("검색 영화 무한스크롤 테스트", () => {
   beforeEach(() => {
+    cy.intercept(
+      "GET",
+      "https://api.themoviedb.org/3/movie/popular?language=ko-KR&page=2",
+      { body: { results: [], total_pages: 1 } },
+    );
+
     cy.intercept("GET", "**/search/movie*page=1*", {
       fixture: "movies.json",
     }).as("getMovies");
@@ -70,13 +80,13 @@ describe("검색 영화 더보기 버튼이 숨겨지는지 테스트", () => {
     cy.visit("http://localhost:5173");
   });
 
-  it("마지막 페이지 도달 시 더보기 버튼이 사라진다", () => {
+  it("마지막 페이지 도달 시 스크롤 시에 영화를 더 불러오지 않는다.", () => {
     cy.get(".search-input").type("영화");
     cy.get(".search-input").type("{enter}");
     cy.wait("@getMovies");
-    cy.get("#load-movie-button").click();
+    cy.get("#scroll-sentinel").scrollIntoView();
     cy.wait("@getMoviesPage2");
-    cy.get("#load-movie-button").should("have.css", "display", "none");
+    cy.get(".thumbnail-list li").should("have.length", 40);
   });
 });
 
