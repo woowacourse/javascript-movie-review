@@ -13,6 +13,7 @@ const searchInput = document.getElementById(
 const searchButton = document.getElementById("search-button");
 const mainSeeMoreButton = document.getElementById("main-see-more-button");
 const searchSeeMoreButton = document.getElementById("search-see-more-button");
+const sentinel = document.getElementById("sentinel");
 
 if (logo) {
   logo.addEventListener("click", () => {
@@ -58,3 +59,27 @@ const render = async () => {
 };
 
 await render();
+
+if (sentinel) {
+  let isLoading = false;
+
+  const observer = new IntersectionObserver(
+    async (entries, observer) => {
+      if (!entries[0].isIntersecting || isLoading) return;
+
+      isLoading = true;
+      try {
+        const keyword = getKeywordFromURL();
+        const hasMore = keyword
+          ? await searchUI.seeMore()
+          : await mainUI.seeMore();
+        if (!hasMore) observer.disconnect();
+      } finally {
+        isLoading = false;
+      }
+    },
+    { rootMargin: "200px" },
+  );
+
+  observer.observe(sentinel);
+}
