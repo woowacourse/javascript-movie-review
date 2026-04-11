@@ -25,6 +25,14 @@ class ModalUI {
     this.modalBackground?.addEventListener("click", (e) => {
       if (e.target === this.modalBackground) this.hide();
     });
+    document.addEventListener("keydown", (e) => {
+      if (
+        e.key === "Escape" &&
+        !this.modalBackground?.classList.contains("hidden")
+      ) {
+        this.hide();
+      }
+    });
   }
 
   #setModalState(modalState: ModalState) {
