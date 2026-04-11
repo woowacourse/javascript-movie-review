@@ -40,6 +40,8 @@ export const renderDetailModal = (movieInfo: MovieInfo) => {
   if(!detailModalRate) return;
   detailModalRate.textContent = mathRound(movieInfo.vote_average).toString();
 
+  renderRateStart(movieInfo.id);
+
   const detailModalDetail = cloneNode.querySelector('#detail-modal-detail');
   if(!detailModalDetail) return;
   detailModalDetail.textContent = movieInfo.overview;
