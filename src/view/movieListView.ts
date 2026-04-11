@@ -15,7 +15,7 @@ class MovieListView {
         target.src = './images/no-image.png';
       }
     }, true);
-  }
+  };
 
   renderSkeletonList(count: number) {
     if (!this.#thumbnailList) return;
