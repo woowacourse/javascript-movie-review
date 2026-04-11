@@ -21,10 +21,16 @@ const createMyRateTemplate = (userRate: number) => {
 `;
 };
 
-export const renderMyRate = (parent: HTMLElement, rate: number = 0) => {
+export const renderMyRate = (parent: HTMLElement, movieId: number) => {
   if (myRateElement) {
     myRateElement.remove();
   }
+
+  const rates = JSON.parse(localStorage.getItem("/rate") ?? "{}") as Record<
+    string,
+    number
+  >;
+  const rate = rates[movieId] ?? 0;
 
   parent.insertAdjacentHTML("beforeend", createMyRateTemplate(rate));
   myRateElement = document.getElementById(MY_RATE_ID);
@@ -46,7 +52,12 @@ export const renderMyRate = (parent: HTMLElement, rate: number = 0) => {
       const buttonIndex = Array.from(rateButtonContainer.children).findIndex(
         (element) => element === clickedButton,
       );
-      renderMyRate(parent, buttonIndex + 1);
+
+      localStorage.setItem(
+        `/rate`,
+        JSON.stringify({ ...rates, [movieId]: buttonIndex + 1 }),
+      );
+      renderMyRate(parent, movieId);
     }
   });
 };

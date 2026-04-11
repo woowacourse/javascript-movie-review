@@ -56,7 +56,7 @@ export const renderMovieModal = (
 
   const myRateContainer = document.getElementById(MY_RATE_CONTAINER_ID);
   if (myRateContainer) {
-    renderMyRate(myRateContainer, 0);
+    renderMyRate(myRateContainer, movie?.id ?? -1);
   }
 
   modalElement?.showModal();
