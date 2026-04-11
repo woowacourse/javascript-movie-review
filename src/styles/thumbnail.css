@@ -2,7 +2,10 @@
 
 .thumbnail-container {
   position: relative;
-  width: 1280px;
+  width: 100%;
+  max-width: 1280px;
+  padding: 0 20px;
+  box-sizing: border-box;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -15,15 +18,18 @@
 }
 
 .thumbnail-list {
+  width: 100%;
   margin: 0 auto 56px;
   display: grid;
-  grid-template-columns: repeat(5, 200px);
-  gap: 70px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));  
+  gap: 20px;
 }
 
 .thumbnail {
-  width: 200px;
-  height: 300px;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
   border-radius: 8px;
 }
 
@@ -153,4 +159,11 @@ p.rate > span {
   font-size: 1.5rem;
   font-weight: bold;
   margin: 0;
+}
+
+@media screen and (max-width: 480px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 12px;
+  }
 }
