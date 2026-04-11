@@ -183,9 +183,6 @@ addEventListener("load", async () => {
 
   loadInit();
 
-  const moreButton = document.querySelector("#more-button");
-  moreButton?.addEventListener("click", handleMoreMovie);
-
   document.addEventListener('scroll', () => {
 
     const getIsBottom = () => {
