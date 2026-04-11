@@ -61,7 +61,7 @@ export const renderDetailModal = (movieInfo: MovieInfo) => {
     star.addEventListener('click', () => {
       const rate = (index + 1) * 2;
 
-      const prevRates = localStorage.getItem('rate') ? JSON.parse(localStorage.getItem('rate') || ""): {};
+      const prevRates = localStorage.getItem('rates') ? JSON.parse(localStorage.getItem('rates') || ""): {};
 
       const { id } = movieInfo;
       const rates = { ...prevRates, [id]: rate };
