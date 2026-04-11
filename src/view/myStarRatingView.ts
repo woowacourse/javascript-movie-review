@@ -35,14 +35,12 @@ class MyStarRatingView {
   renderRating(score: number) {
     const index = score / 2;
 
-    for (let i = 1; i <= index; i++) {
+    for (let i = 1; i <= 5; i++) {
       const star = this.#myStarImageArray[i];
-      if (star) star.src = `${FILLED_STAR}`;
-    };
 
-    for (let i = index + 1; i <= 5; i++) {
-      const star = this.#myStarImageArray[i];
-      if (star) star.src = `${EMPTY_STAR}`;
+      if (star) {
+        star.src = (i <= index) ? `${FILLED_STAR}` : `${EMPTY_STAR}`;
+      }
     };
         
     if (this.#myStarEvaluation) {
