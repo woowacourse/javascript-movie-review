@@ -39,3 +39,16 @@ export const setupMovieInteraction = (
     },
   });
 };
+
+export const setupModalCloseInteraction = (onClose: () => void) => {
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") onClose();
+  });
+
+  document.addEventListener("click", (event) => {
+    const target = event.target as HTMLElement;
+    const isCloseButton = !!target.closest(".close-modal");
+    const isBackground = target.classList.contains("modal-background");
+    if (isCloseButton || isBackground) onClose();
+  });
+};

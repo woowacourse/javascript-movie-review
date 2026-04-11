@@ -35,3 +35,9 @@ export const getSearchInputElement = () =>
   getElementBySelector(".search-form input");
 
 export const getBodyElement = () => getElementBySelector("body");
+
+export const getModalBackgroundElement = () =>
+  getElementBySelector(".modal-background");
+
+export const getModalSkeletonElement = () =>
+  getElementBySelector(".modal-background.skeleton");

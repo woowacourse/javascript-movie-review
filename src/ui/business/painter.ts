@@ -4,6 +4,7 @@ import {
   getBodyElement,
   getEmptyResultElement,
   getModalBackgroundElement,
+  getModalSkeletonElement,
   getMovieListElement,
   getSectionElement,
 } from "../domain/movieElement";
@@ -98,15 +99,23 @@ export const paintMovieModalSkeleton = () => {
   if (body) Renderer.renderMovieModalSkeleton(body);
 };
 
+export const paintRemoveModalSkeleton = () => {
+  const skeleton = getModalSkeletonElement();
+
+  if (skeleton) removeElement(skeleton);
+};
+
 export const paintMovieModal = (movie: MovieDetail) => {
   const body = getBodyElement();
 
+  paintRemoveModalSkeleton();
   if (body) Renderer.renderMovieModal(body, movie);
 };
 
 export const paintMovieModalError = () => {
   const body = getBodyElement();
 
+  paintRemoveModalSkeleton();
   if (body) Renderer.renderMovieModalError(body);
 };
 

@@ -3,7 +3,7 @@ export const replaceHTML = (parent: Element, html: string) => {
 };
 
 export const appendHTML = (parent: Element, html: string) => {
-  parent.innerHTML += html;
+  parent.insertAdjacentHTML("beforeend", html);
 };
 
 export const clearHTML = (parent: Element) => {

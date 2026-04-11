@@ -88,7 +88,7 @@ const Component = {
 
   movieModalSkeleton() {
     return `
-    <div class="modal-background active">
+    <div class="modal-background active skeleton">
       <div class="modal">
         <button class="close-modal" id="closeModal">
           <img src="src/images/modal_button_close.svg" />

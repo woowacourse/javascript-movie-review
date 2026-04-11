@@ -5,6 +5,7 @@ import {
 } from "./apis/api.ts";
 import MovieState from "./state/business/movieState.ts";
 import {
+  setupModalCloseInteraction,
   setupMovieInteraction,
   setupSearchInteraction,
 } from "./ui/business/interactor.ts";
@@ -21,6 +22,8 @@ import {
   paintMovieModalError,
   paintMovieModalSkeleton,
   paintPrepareSearch,
+  paintRemoveModal,
+  paintRemoveModalSkeleton,
   paintResetList,
 } from "./ui/business/painter.ts";
 import {
@@ -59,13 +62,20 @@ function setupInteractions() {
   replaceLoadMoreScrollObserver(loadMoreMovies);
   setupSearchInteraction(loadSearchMovies);
   setupMovieInteraction(loadMovieDetails);
+  setupModalCloseInteraction(paintRemoveModal);
 }
 
-export async function loadMovieDetails(movieId: string) {
+export function loadMovieDetails(movieId: string) {
   getMovieDetails({
     movieId,
-    onSuccess: (movie) => paintMovieModal(movie),
-    onError: () => paintMovieModalError(),
+    onSuccess: (movie) => {
+      paintRemoveModalSkeleton();
+      paintMovieModal(movie);
+    },
+    onError: () => {
+      paintRemoveModalSkeleton();
+      paintMovieModalError();
+    },
     onLoading: () => paintMovieModalSkeleton(),
   });
 }
