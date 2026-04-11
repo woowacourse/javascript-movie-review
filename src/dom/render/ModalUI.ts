@@ -10,12 +10,12 @@ class ModalUI {
   modalState: ModalState = { type: "loading" };
   modalBackground = document.getElementById("modalBackground");
   modalCloseButton = document.getElementById("closeModal");
+  modalImageContainer = document.getElementById("modal-image");
   modalImage = document.querySelector<HTMLImageElement>("#modal-image img");
   modalTitle = document.getElementById("modal-title");
   modalCategory = document.getElementById("modal-category");
   modalRate = document.getElementById("modal-rate");
   modalDetail = document.getElementById("modal-detail");
-  modalErrorContainer = document.getElementById("modal-error-container"); // TODO 요소 추가
 
   constructor() {
     this.hide();
@@ -30,6 +30,36 @@ class ModalUI {
   #setModalState(modalState: ModalState) {
     this.modalState = modalState;
     this.#render();
+  }
+
+  #addSkeletonClasses() {
+    this.modalImageContainer?.classList.add("modal-skeleton-image");
+    this.modalTitle?.classList.add("modal-skeleton", "modal-skeleton-title");
+    this.modalCategory?.classList.add(
+      "modal-skeleton",
+      "modal-skeleton-category",
+    );
+    this.modalRate?.classList.add("modal-skeleton", "modal-skeleton-rate");
+    this.modalDetail?.classList.add("modal-skeleton", "modal-skeleton-detail");
+    if (this.modalImage) this.modalImage.src = "";
+    if (this.modalTitle) this.modalTitle.innerText = "";
+    if (this.modalCategory) this.modalCategory.innerText = "";
+    if (this.modalRate) this.modalRate.innerText = "";
+    if (this.modalDetail) this.modalDetail.innerText = "";
+  }
+
+  #removeSkeletonClasses() {
+    this.modalImageContainer?.classList.remove("modal-skeleton-image");
+    this.modalTitle?.classList.remove("modal-skeleton", "modal-skeleton-title");
+    this.modalCategory?.classList.remove(
+      "modal-skeleton",
+      "modal-skeleton-category",
+    );
+    this.modalRate?.classList.remove("modal-skeleton", "modal-skeleton-rate");
+    this.modalDetail?.classList.remove(
+      "modal-skeleton",
+      "modal-skeleton-detail",
+    );
   }
 
   hide() {
@@ -49,17 +79,19 @@ class ModalUI {
 
   #render() {
     if (this.modalState.type === "loading") {
-      // 스켈레톤
+      this.#addSkeletonClasses();
       return;
     }
 
     if (this.modalState.type === "error") {
+      this.#removeSkeletonClasses();
       if (this.modalDetail)
         this.modalDetail.innerText = this.modalState.message;
       return;
     }
 
     if (this.modalState.type === "data") {
+      this.#removeSkeletonClasses();
       const { movie } = this.modalState;
       const year = movie.release_date.slice(0, 4);
       const genres = movie.genres.map((g) => g.name).join(", ");

@@ -1,4 +1,5 @@
 @import "./colors.css";
+@import "./thumbnail.css";
 
 /* modal.css */
 body.modal-open {
@@ -85,4 +86,43 @@ body.modal-open {
 .detail {
   max-height: 430px;
   overflow-y: auto;
+}
+
+.modal-skeleton {
+  animation: skeleton-loading 2s infinite;
+  border-radius: 4px;
+  display: block;
+}
+
+.modal-skeleton-image {
+  animation: skeleton-loading 2s infinite;
+  border-radius: 16px;
+  width: 380px;
+  min-height: 500px;
+}
+
+.modal-skeleton-image img {
+  visibility: hidden;
+}
+
+.modal-skeleton-title {
+  width: 60%;
+  height: 2rem;
+  margin-bottom: 8px;
+}
+
+.modal-skeleton-category {
+  width: 40%;
+  height: 1rem;
+}
+
+.modal-skeleton-rate {
+  width: 30px;
+  height: 1rem;
+  display: inline-block;
+}
+
+.modal-skeleton-detail {
+  width: 100%;
+  height: 200px;
 }
