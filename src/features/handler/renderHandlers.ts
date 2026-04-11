@@ -12,38 +12,38 @@ const header = new Header();
 const mainTitle = new MainTitle();
 const movieList = new MovieList();
 
-export function handleHeaderSearch(searchMovie: string): void {
+export function showSearchHeader(searchMovie: string): void {
   header.clearHeader();
   header.renderSearch(searchMovie);
 }
 
-export function handleHeader(movie: Movie): void {
+export function showHeader(movie: Movie): void {
   header.clearHeader();
   header.render(movie);
 }
 
-export function handleMainTitle(title: string): void {
+export function showMainTitle(title: string): void {
   mainTitle.render(title);
 }
 
-export function handleMovieList(data: MovieResponse): void {
+export function showMovieList(data: MovieResponse): void {
   movieList.clearList();
   movieList.renderMovieList(data);
 }
 
-export function handleSkeleton(): void {
+export function showSkeleton(): void {
   movieList.renderSkeleton();
 }
 
-export function handleEmptyMovie(): void {
+export function emptyMovie(): void {
   movieList.showEmpty();
 }
 
-export function handleMoreMovie(data: MovieResponse): void {
+export function showMoreMovie(data: MovieResponse): void {
   movieList.renderMovieList(data);
 }
 
-export function handleModal(data: MovieDetailResponse) {
+export function openModal(data: MovieDetailResponse) {
   const modal = new Modal(data);
   modal.renderModal();
 }

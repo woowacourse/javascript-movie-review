@@ -1,6 +1,6 @@
 import {
   controlInitialMovies,
-  controlMoreMovies,
+  appendNextPageMovies,
   controlSearchMovies,
   controlModal,
 } from "./features/handler/controllerHandlers";
@@ -61,7 +61,7 @@ backgroundContainer.addEventListener("click", async (e: MouseEvent) => {
 window.addEventListener("scroll", async () => {
   if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 1) {
     page += 1;
-    await controlMoreMovies(page, searchMovie);
+    await appendNextPageMovies(page, searchMovie);
   }
 });
 
