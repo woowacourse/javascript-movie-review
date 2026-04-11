@@ -79,6 +79,7 @@ class SearchUI {
       movies: searchedMovies.results,
       thumbnailListElement: this.searchThumbnailList,
     });
+    return !(searchedMovies.page === searchedMovies.total_pages);
   }
 
   #render() {
