@@ -1,6 +1,7 @@
 import { getMovieDetails } from "../api/getMovieDetails";
 import { errorMovieDetail } from "../services/errorMovieDetail";
 import { modalView } from "../view/modalView";
+import { currentMovieModal } from "../model/currentMovieModel";
 
 export async function handleModal(clickedMovieId: string) {
   const movieDetailsData = await getMovieDetails(Number(clickedMovieId));
@@ -11,4 +12,5 @@ export async function handleModal(clickedMovieId: string) {
   };
 
   modalView.renderMovieDetail(movieDetailsData.data);
+  currentMovieModal.currentMovieId = movieDetailsData.data.id;
 };
