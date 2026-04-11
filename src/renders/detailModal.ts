@@ -43,7 +43,7 @@ export const renderDetailModal = (movieInfo: MovieInfo) => {
   if(!detailModalRate) return;
   detailModalRate.textContent = mathRound(movieInfo.vote_average).toString();
 
-  const rates = JSON.parse(localStorage.getItem('rates')|| "");
+  const rates = JSON.parse(localStorage.getItem('rates') || '{}');
   const rate = rates[movieInfo.id];
   renderRateStart(rate, rootNode);
 
@@ -63,7 +63,7 @@ export const renderDetailModal = (movieInfo: MovieInfo) => {
     star.addEventListener('click', () => {
       const rate = (index + 1) * 2;
 
-      const prevRates = localStorage.getItem('rates') ? JSON.parse(localStorage.getItem('rates') || ""): {};
+      const prevRates = localStorage.getItem('rates') ? JSON.parse(localStorage.getItem('rates') || "{}"): {};
 
       const { id } = movieInfo;
       const rates = { ...prevRates, [id]: rate };
