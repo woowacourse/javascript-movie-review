@@ -1,6 +1,6 @@
 import { FETCH_OPTION } from "./constants";
 import { APIError } from "./error";
-import { MovieListResponse, TMDBAPIEndpoint } from "./type";
+import { MovieDetail, MovieListResponse, TMDBAPIEndpoint } from "./type";
 
 export function getURLSearchParam(name: string, defaultValue: string) {
   const urlParams = new URLSearchParams(window.location.search);
@@ -66,6 +66,14 @@ function fetcher<T>(url: string, { timeoutMs, ...options }: RequestInit & { time
   })
 
   return timeoutMs ? Promise.race([response, timeoutPromise]) : response
+}
+
+export async function fetchMovieDetail(movieId: string) {
+  const queryParams = new URLSearchParams({
+    language: "ko-KR"
+  });
+
+  return fetcher<MovieDetail>(`${import.meta.env.VITE_API_BASE_URL}/movie/${movieId}?${queryParams}`, FETCH_OPTION);
 }
 
 export async function fetchMovies(endpoint: "/search/movie", params: { query: string, page: number }): Promise<MovieListResponse>

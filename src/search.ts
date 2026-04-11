@@ -9,49 +9,50 @@ import renderTopRatedMovie from "./render/renderTopRatedMovie";
 import { MovieListResponse, Movie } from "./type";
 import { fetchMoviesByPageRange, getPage, getQuery, setPage, setQuery } from "./utils";
 import { handleError } from "./error";
+import bindMovieListEvent from "./event/bindMovieListEvent";
 
 addEventListener("load", async () => {
   let prevResponseList: MovieListResponse[] = [];
 
+  async function renderSearchMoviePage(page: number, query: string) {
+    bindMovieListEvent();
+    renderSearchListTitle(query);
+    renderSkeletonItems(20);
+
+    const responseList = await fetchMoviesByPageRange(
+      "/search/movie",
+      prevResponseList.length,
+      page,
+      query
+    );
+
+    setPage(page);
+    setQuery(query);
+
+    removeSkeletonItems();
+
+    prevResponseList.push(...responseList);
+
+    const movieList = responseList.reduce((arr: Movie[], response) => {
+      return [...arr, ...response.results];
+    }, []);
+
+    renderMovieItemsToList(movieList);
+    renderSearchListrEmptyAlert();
+
+    renderShowMoreButton(prevResponseList, page, async () => {
+      try {
+        await renderSearchMoviePage(getPage() + 1, getQuery());
+      } catch (error) {
+        handleError(error);
+      } finally {
+        removeSkeletonItems();
+      }
+    })
+  }
+
   try {
-    async function renderSearchMoviePage(page: number, query: string) {
-      renderSearchListTitle(query);
-      renderSkeletonItems(20);
-
-      const responseList = await fetchMoviesByPageRange(
-        "/search/movie",
-        prevResponseList.length,
-        page,
-        query
-      );
-
-      setPage(page);
-      setQuery(query);
-
-      removeSkeletonItems();
-
-      prevResponseList.push(...responseList);
-
-      const movieList = responseList.reduce((arr: Movie[], response) => {
-        return [...arr, ...response.results];
-      }, []);
-
-      renderMovieItemsToList(movieList);
-      renderSearchListrEmptyAlert();
-
-      renderShowMoreButton(prevResponseList, page, async () => {
-        try {
-          await renderSearchMoviePage(getPage() + 1, getQuery());
-        } catch (error) {
-          handleError(error);
-        } finally {
-          removeSkeletonItems();
-        }
-      })
-    }
-
     renderSearchInput(getQuery());
-
     await renderSearchMoviePage(getPage(), getQuery());
 
     if (prevResponseList.length && prevResponseList[0].results.length) {

@@ -1,12 +1,10 @@
 function createSkeletonItemTemplate(): string {
   return `
-    <li class="skeleton-item">
-      <div class="item">
-        <div class="skeleton thumbnail"></div>
-        <div class="item-desc">
-          <div class="skeleton skeleton-rate"></div>
-          <div class="skeleton skeleton-title"></div>
-        </div>
+    <li class="skeleton-item item">
+      <div class="skeleton thumbnail"></div>
+      <div class="item-desc">
+        <div class="skeleton skeleton-rate"></div>
+        <div class="skeleton skeleton-title"></div>
       </div>
     </li>
   `
