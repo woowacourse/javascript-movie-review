@@ -86,3 +86,71 @@ p.rate > span {
 .relative {
   position: relative;
 }
+
+.error-thumbnail-container {
+  width: 100%;
+  min-height: 400px; /* 에러 화면이 너무 찌그러지지 않게 여유로운 최소 높이 확보 */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 가로 정중앙 */
+  justify-content: center; /* 세로 정중앙 */
+  text-align: center;
+}
+
+.error-thumbnail-message {
+  color: var(--color-white);
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0 0 8px 0;
+}
+
+.error-thumbnail-container p:nth-child(2) {
+  color: #ccc;
+  font-size: 1.1rem;
+  margin: 0 0 24px 0; /* 버튼과의 간격 확보 */
+}
+
+.thumbnail-retry-button {
+  padding: 12px 32px;
+  background-color: rgb(37, 58, 163); /* 기존 앱의 포인트 컬러 사용 */
+  color: #e2e2e2; /* 노란색 배경에 잘 보이는 어두운 글씨 */
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.error-thumbnail-retry-button:hover {
+  filter: brightness(0.9);
+  transform: translateY(-2px);
+}
+
+.error-thumbnail-retry-button:active {
+  transform: translateY(0) scale(0.96);
+}
+
+.empty-message-container {
+  width: 100%;
+  min-height: 400px; /* 에러 화면과 마찬가지로 찌그러짐 방지 */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 가로 정중앙 */
+  justify-content: center; /* 세로 정중앙 */
+  text-align: center;
+  gap: 16px; /* 아이콘과 텍스트 사이의 간격 */
+}
+
+.empty-icon {
+  width: 80px; /* 아이콘 크기 (필요에 따라 조절하세요) */
+  height: 80px;
+  opacity: 0.5; /* 너무 튀지 않게 반투명 처리 */
+}
+
+.empty-message-container .empty-message {
+  color: var(--color-white);
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0;
+}
