@@ -80,6 +80,14 @@ describe("영화 상세 팝업 기능 테스트", () => {
 
     const rate = 5;
 
+    cy.get("#detail-modal-star-box .star").eq(rate - 1).click();
+
+    cy.get("#detail-modal-star-box .star.on").should('have.length', rate);
+
+    cy.get("#closeModal").click();
+
+    cy.get("#movie-list li").first().find(".thumbnail").click();
+
     cy.get("#detail-modal-star-box .star.on").should('have.length', rate);
   });
   
@@ -92,7 +100,13 @@ describe("영화 상세 팝업 기능 테스트", () => {
     const prevRate = 5;
     const rate = 1;
 
+    cy.get("#detail-modal-star-box .star").eq(prevRate - 1).click();
+
     cy.get("#detail-modal-star-box .star.on").should('have.length', prevRate);
+
+    cy.get("#closeModal").click();
+
+    cy.get("#movie-list li").first().find(".thumbnail").click();
 
     cy.get("#detail-modal-star-box .star").eq(rate - 1).click();
 
