@@ -15,7 +15,6 @@ import {
 } from "../renders/movieList";
 import { renderSkeleton, removeSkeleton } from "../renders/skeleton";
 
-import { updateMoreButton } from "../renders/moreButton";
 import PageState from "../states/PageState";
 import { getSearchParams, hasSearchParams } from "../utils/router";
 import { showError } from "../utils/error";
@@ -44,8 +43,8 @@ export const loadPopularMovies = async () => {
 
     if (movies) {
       renderMovieList(movies);
-      updateMoreButton(movies.page, movies.total_pages);
       popularPageState.incrementPage();
+      popularPageState.setTotalPages(movies.total_pages);
     }
   } catch (e) {
     showError(e);
@@ -80,8 +79,8 @@ export const loadSearchMovies = async ({
 
     if (movies.results.length) {
       renderMovieList(movies);
-      updateMoreButton(movies.page, movies.total_pages);
       searchPageState.incrementPage();
+      searchPageState.setTotalPages(movies.total_pages);
     } else {
       renderNoResult();
     }

@@ -86,4 +86,17 @@ addEventListener("load", () => {
 
   loadTopRatedMovie();
   loadMovieList();
+
+  const movieListObserver = new IntersectionObserver(
+    (entries) => {
+      const [sentinelEntry] = entries;
+      if (!sentinelEntry.isIntersecting) return;
+
+      loadMovieList();
+    },
+    { rootMargin: "300px" },
+  );
+
+  const sentinel = document.querySelector(".scroll-sentinel");
+  if (sentinel) movieListObserver.observe(sentinel);
 });
