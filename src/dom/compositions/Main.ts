@@ -36,6 +36,7 @@ export const renderMainLoading = () => {
   removeMain();
   removeSearch();
 
+  // TODO: banner 렌더링 책임은 main composition이 아님
   const header = document.querySelector("header");
   if (header) {
     renderBanner(header);
@@ -78,11 +79,6 @@ export const renderMain = (isLastPage: boolean, movies: Movie[]) => {
   if (!mainThumbnailList) {
     removeMain();
     removeSearch();
-
-    const header = document.querySelector("header");
-    if (header) {
-      renderBanner(header);
-    }
 
     renderMainThumbnailList(resultSection, movies);
   } else {
