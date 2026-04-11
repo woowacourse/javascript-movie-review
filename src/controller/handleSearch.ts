@@ -5,9 +5,9 @@ import { searchView } from "../view/searchView";
 import { movieListView } from "../view/movieListView";
 import { bannerView } from "../view/bannerView";
 import { addButtonView } from "../view/addButtonView";
-import { isLastPage } from "../api/isLastPage";
 import { errorMovieList } from "../services/errorMovieList";
 import { emptyMovieList } from "../services/emptyMovieList";
+import { infiniteScrollView } from "../view/InfiniteScrollView";
 
 export async function handleSearch(keyword: string) {
   try {
@@ -33,9 +33,8 @@ export async function handleSearch(keyword: string) {
       return;
     };
 
-    if (isLastPage(searchMoviesResult.data)) addButtonView.hideAddButton();
-
     movieListView.renderMovieList(searchMoviesResult.data.results);
+    infiniteScrollView.updateObserver(searchMoviesResult.data);
     return;
   } finally {
     movieListView.removeSkeletonList();

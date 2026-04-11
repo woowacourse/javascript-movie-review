@@ -1,11 +1,10 @@
-import { isLastPage } from "../api/isLastPage";
 import { SKELETON_NUMBER } from "../constants/constant";
 import { movieListView } from "../view/movieListView";
 import { movieModel } from "../model/movieModel";
-import { addButtonView } from "../view/addButtonView";
 import { emptyMovieList } from "../services/emptyMovieList";
 import { fetchCurrentModeData } from "../services/fetchCurrentModeData";
 import { errorMovieList } from "../services/errorMovieList";
+import { infiniteScrollView } from "../view/InfiniteScrollView";
 
 export async function handleLoadMore() {
   try {
@@ -24,8 +23,8 @@ export async function handleLoadMore() {
     };
     
     movieModel.increasePage();
-    if(isLastPage(response.data)) addButtonView.hideAddButton();
     movieListView.renderMovieList(response.data.results);
+    infiniteScrollView.updateObserver(response.data);
     return;
   } finally {
     movieListView.removeSkeletonList();
