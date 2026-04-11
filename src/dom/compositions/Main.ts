@@ -11,14 +11,25 @@ const MAIN_OBSERVER_TARGET_ID = "main-observer-target";
 let mainObserver: IntersectionObserver | null = null;
 let mainObserverTarget: HTMLElement | null = null;
 
-export const removeMain = () => {
-  mainObserver?.disconnect();
-  mainObserver = null;
-  removeObserverTarget();
-  removeBanner();
-  removeMainThumbnailList();
-  removeErrorContainer();
-  removeEmptyContainer();
+export const renderMain = (isLastPage: boolean, movies: Movie[]) => {
+  removeMain();
+  removeSearch();
+
+  const header = document.querySelector("header");
+  if (header) {
+    renderBanner(header, movies[0]);
+  }
+
+  const resultSection = document.getElementById("result-section");
+  if (!resultSection) return;
+
+  renderMainThumbnailList(resultSection, movies);
+
+  if (!isLastPage) {
+    observeTarget(resultSection, () => {
+      handleMainSeeMore();
+    });
+  }
 };
 
 export const renderMainLoading = () => {
@@ -60,27 +71,6 @@ export const renderMainEmpty = () => {
   }
 };
 
-export const renderMain = (isLastPage: boolean, movies: Movie[]) => {
-  removeMain();
-  removeSearch();
-
-  const header = document.querySelector("header");
-  if (header) {
-    renderBanner(header, movies[0]);
-  }
-
-  const resultSection = document.getElementById("result-section");
-  if (!resultSection) return;
-
-  renderMainThumbnailList(resultSection, movies);
-
-  if (!isLastPage) {
-    observeTarget(resultSection, () => {
-      handleMainSeeMore();
-    });
-  }
-};
-
 export const appendPopularMovies = (isLastPage: boolean, movies: Movie[]) => {
   const resultSection = document.getElementById("result-section");
   const mainThumbnailList = document.getElementById("main-thumbnail-list");
@@ -97,9 +87,14 @@ export const appendPopularMovies = (isLastPage: boolean, movies: Movie[]) => {
   }
 };
 
-const removeObserverTarget = () => {
-  mainObserverTarget?.remove();
-  mainObserverTarget = null;
+export const removeMain = () => {
+  mainObserver?.disconnect();
+  mainObserver = null;
+  removeObserverTarget();
+  removeBanner();
+  removeMainThumbnailList();
+  removeErrorContainer();
+  removeEmptyContainer();
 };
 
 const observeTarget = (parent: HTMLElement, onIntersect: () => void) => {
@@ -125,4 +120,9 @@ const observeTarget = (parent: HTMLElement, onIntersect: () => void) => {
     },
   );
   mainObserver.observe(mainObserverTarget);
+};
+
+const removeObserverTarget = () => {
+  mainObserverTarget?.remove();
+  mainObserverTarget = null;
 };

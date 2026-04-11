@@ -10,13 +10,20 @@ const SEARCH_OBSERVER_TARGET_ID = "search-observer-target";
 let searchObserver: IntersectionObserver | null = null;
 let searchObserverTarget: HTMLElement | null = null;
 
-export const removeSearch = () => {
-  searchObserver?.disconnect();
-  searchObserver = null;
-  removeObserverTarget();
-  removeSearchThumbnailList();
-  removeErrorContainer();
-  removeEmptyContainer();
+export const renderSearch = (isLastPage: boolean, movies: Movie[]) => {
+  removeMain();
+  removeSearch();
+
+  const resultSection = document.getElementById("result-section");
+  if (!resultSection) return;
+
+  renderSearchThumbnailList(resultSection, movies);
+
+  if (!isLastPage) {
+    observeTarget(resultSection, () => {
+      handleSearchSeeMore();
+    });
+  }
 };
 
 export const renderSearchLoading = (keyword: string) => {
@@ -58,22 +65,6 @@ export const renderSearchEmpty = () => {
   }
 };
 
-export const renderSearch = (isLastPage: boolean, movies: Movie[]) => {
-  removeMain();
-  removeSearch();
-
-  const resultSection = document.getElementById("result-section");
-  if (!resultSection) return;
-
-  renderSearchThumbnailList(resultSection, movies);
-
-  if (!isLastPage) {
-    observeTarget(resultSection, () => {
-      handleSearchSeeMore();
-    });
-  }
-};
-
 export const appendSearchedMovies = (isLastPage: boolean, movies: Movie[]) => {
   const resultSection = document.getElementById("result-section");
   const searchThumbnailList = document.getElementById("search-thumbnail-list");
@@ -90,9 +81,13 @@ export const appendSearchedMovies = (isLastPage: boolean, movies: Movie[]) => {
   }
 };
 
-const removeObserverTarget = () => {
-  searchObserverTarget?.remove();
-  searchObserverTarget = null;
+export const removeSearch = () => {
+  searchObserver?.disconnect();
+  searchObserver = null;
+  removeObserverTarget();
+  removeSearchThumbnailList();
+  removeErrorContainer();
+  removeEmptyContainer();
 };
 
 const observeTarget = (parent: HTMLElement, onIntersect: () => void) => {
@@ -115,4 +110,9 @@ const observeTarget = (parent: HTMLElement, onIntersect: () => void) => {
     { threshold: 0.1 },
   );
   searchObserver.observe(searchObserverTarget);
+};
+
+const removeObserverTarget = () => {
+  searchObserverTarget?.remove();
+  searchObserverTarget = null;
 };
