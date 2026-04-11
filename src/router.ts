@@ -1,7 +1,7 @@
 import { eventBus } from "./pubsub/EventBus";
 import { APP_EVENTS } from "./pubsub/AppEvents";
 import { handleLogo, handleMore, handleSearch, handleInitial } from "./features/handler/controllerHandlers";
-import { searchInput, submitContainer } from "./dom";
+import { submitContainer } from "./dom";
 
 export function setupRoutes(): void {
   eventBus.subscribe(APP_EVENTS.LOAD_MORE, handleMore);
@@ -21,6 +21,7 @@ export function bindDomEvents(): void {
 
   submitContainer.addEventListener("submit", async (e: SubmitEvent) => {
     e.preventDefault();
+    const searchInput = document.querySelector(".search-input") as HTMLInputElement;
     const query = searchInput.value.trim();
     const title = query === "" ? "지금 인기 있는 영화" : `"${query}" 검색 결과`;
     eventBus.publish(APP_EVENTS.TITLE_CHANGED, title);
