@@ -1,15 +1,17 @@
 import { MovieDetail } from "../services/dto";
 
 export function renderMovieDetail(movieDetail: MovieDetail) {
-  const movieModal = document.querySelector("#modal-background");
+  const movieModal = document.querySelector<HTMLElement>(".modal");
   if (!movieModal) return null;
+
+  movieModal.dataset.movieId = String(movieDetail.id);
 
   const modalImage =
     movieModal.querySelector<HTMLImageElement>(".modal-image img");
   const title = movieModal.querySelector("h2");
+  const category = movieModal.querySelector(".category");
   const rate = movieModal.querySelector(".rate-value");
   const detail = movieModal.querySelector(".detail");
-  const category = movieModal.querySelector(".category");
 
   if (modalImage)
     modalImage.src =
@@ -18,23 +20,38 @@ export function renderMovieDetail(movieDetail: MovieDetail) {
 
   if (title) title.textContent = movieDetail.title;
 
-  if (rate) rate.textContent = movieDetail.vote_average.toString();
-
-  if (detail) detail.textContent = movieDetail.overview;
-
   if (category) {
     const releaseYear = new Date(movieDetail.release_date).getFullYear();
     const genres = movieDetail.genres.map((genre) => genre.name).join(", ");
     category.textContent = `${releaseYear} · ${genres}`;
   }
+
+  if (rate) rate.textContent = movieDetail.vote_average.toString();
+
+  if (detail) detail.textContent = movieDetail.overview;
+
+  const key = window.localStorage.getItem(String(movieDetail.id));
+  if (!key) return;
+
+  const stars = movieModal.querySelectorAll<HTMLImageElement>(".stars img");
+  stars[Number(key) / 2 - 1].click();
 }
 
 export function clearMovieDetail() {
-  const movieModal = document.querySelector("#modal-background");
+  const movieModal = document.querySelector(".modal");
   if (!movieModal) return;
 
   const modalImage =
     movieModal.querySelector<HTMLImageElement>(".modal-image img");
 
   if (modalImage) modalImage.src = "";
+
+  const stars = movieModal.querySelectorAll<HTMLImageElement>(".stars img");
+  stars.forEach((star) => (star.src = "./images/star_empty.png"));
+
+  const ratingText = document.querySelector(".rating-text");
+  if (ratingText) ratingText.textContent = "평가해주세요";
+
+  const ratingValue = document.querySelector("#rating-value");
+  if (ratingValue) ratingValue.textContent = (0).toString();
 }

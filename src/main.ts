@@ -24,16 +24,10 @@ addEventListener("load", () => {
     }
   });
 
-  const moreButton = document.querySelector("#more-button");
-  moreButton?.addEventListener("click", () => {
-    loadMovieList();
-  });
-
   const movieList = document.querySelector("#movie-list");
   movieList?.addEventListener("click", async (e) => {
     const target = e.target as HTMLElement;
     const movieItem = target.closest("li");
-
     if (!movieItem) return;
 
     const movieId = movieItem.dataset.movieId;
@@ -78,8 +72,15 @@ addEventListener("load", () => {
       const ratingText = document.querySelector(".rating-text");
       if (ratingText) ratingText.textContent = RATING_TEXT[index];
 
-      const ratingScore = document.querySelector(".rating-score");
-      if (ratingScore) ratingScore.textContent = `(${(index + 1) * 2}/10)`;
+      const ratingValue = document.querySelector("#rating-value");
+      if (ratingValue) ratingValue.textContent = ((index + 1) * 2).toString();
+
+      const movieModal = document.querySelector<HTMLElement>(".modal");
+      if (!movieModal) return;
+      const key = movieModal.dataset.movieId;
+      if (!key) return;
+
+      window.localStorage.setItem(key, String((index + 1) * 2));
     });
   });
 
