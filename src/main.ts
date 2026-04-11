@@ -16,6 +16,7 @@ const App = {
   setUpEventListeners() {
     this.setUpLoadMoreButton();
     this.setUpSearchForm();
+    this.setUpDialogCloser();
   },
 
   setUpLoadMoreButton() {
@@ -35,6 +36,14 @@ const App = {
         const searchValue = input.value;
         this.showSearchMovies(searchValue);
       }
+    });
+  },
+
+  setUpDialogCloser() {
+    const dialog = document.querySelector("dialog");
+    const dialogCloser = document.querySelector("#closeModal");
+    dialogCloser?.addEventListener("click", () => {
+      if (dialog) dialog.close();
     });
   },
 
