@@ -7,7 +7,6 @@ class InfiniteScrollView {
   #callback = (entries: IntersectionObserverEntry[], observer: IntersectionObserver) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
-        console.log("target");
         observer.unobserve(entry.target);
 
         if (this.#handler) this.#handler();
