@@ -7,7 +7,6 @@ import { modalView } from "./view/modalView";
 import { handleModal } from "./controller/handleModal";
 import { myStarRatingView } from "./view/myStarRatingView";
 import { handleMyStar } from "./controller/handleMyStar";
-import { currentMovieModel } from "./model/currentMovieModel";
 
 function init() {
   addEventListener("load", () => {
