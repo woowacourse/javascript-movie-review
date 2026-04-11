@@ -1,4 +1,4 @@
-import { MovieResponse } from "../../types/types";
+import { MovieDetail, MovieResponse } from "../../types/types";
 
 export type AppEventPayloads = {
   loadStart: void;
@@ -10,6 +10,8 @@ export type AppEventPayloads = {
   error: string;
   loadMore: void;
   lastPageReached: void;
+  movieSelected: number;
+  movieDetailLoaded: MovieDetail;
 };
 
 export const APP_EVENTS = {
@@ -22,4 +24,6 @@ export const APP_EVENTS = {
   ERROR: "error",
   LOAD_MORE: "loadMore",
   LAST_PAGE_REACHED: "lastPageReached",
+  MOVIE_SELECTED: "movieSelected",
+  MOVIE_DETAIL_LOADED: "movieDetailLoaded",
 } as const satisfies Record<string, keyof AppEventPayloads>;
