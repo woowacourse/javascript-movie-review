@@ -258,7 +258,7 @@ describe("영화 리뷰 앱", () => {
     });
   });
 
-  describe.only("영화 정보", () => {
+  describe("영화 정보", () => {
     beforeEach(() => {
       cy.wait("@getPopularMovies");
       cy.wait("@getGenres");
@@ -270,13 +270,14 @@ describe("영화 리뷰 앱", () => {
 
     it("영화 카테고리 아이디는 이름으로 변환되어 렌더링된다.", () => {
       cy.get(".thumbnail-list li").first().click();
-      cy.get(".modal .category").should("have.text", "2026 · 모험, 다큐멘터리");
+      cy.get("#movie-detail-category").should("have.text", "모험, 다큐멘터리");
+      cy.get("#movie-detail-release-year").should("have.text", "2026");
     });
 
     it("모달 닫기 버튼을 클릭하면 영화 정보 모달이 제거된다.", () => {
       cy.get(".thumbnail-list li").first().click();
       cy.get("#closeModal").click();
-      cy.get(".modal").should("not.exist");
+      cy.get("dialog").should("not.be.visible");
     });
   });
 });

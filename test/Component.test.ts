@@ -50,29 +50,4 @@ describe("컴포넌트 테스트", () => {
     );
     expect(movideBannerComponent).contain('<div class="title">겨울왕국2</div>');
   });
-
-  test("영화 자세한 정보 컴포넌트", () => {
-    const movieData = {
-      poster_path: "장경철.png",
-      genre_ids: [1, 2, 3],
-      title: "악마를 보았다",
-      vote_average: 8.3333,
-      overview: "국정원 경호요원 ‘수현(이병헌)’은...",
-    };
-    const movieDetail = Component.movieDetail(movieData, 2010, [
-      "범죄",
-      "스릴러",
-    ]);
-    console.log(movieDetail);
-    expect(movieDetail).contain('<div class="modal">');
-    expect(movieDetail).contain(
-      '<img src="https://image.tmdb.org/t/p/original/장경철.png" alt="movie poster"/>',
-    );
-    expect(movieDetail).contain('<p class="category">2010 · 범죄, 스릴러</p>');
-    expect(movieDetail).contain("<h2>악마를 보았다</h2>");
-    expect(movieDetail).contain("<span>8.3</span>");
-    expect(movieDetail).contain(
-      '<p class="detail">국정원 경호요원 ‘수현(이병헌)’은...</p>',
-    );
-  });
 });

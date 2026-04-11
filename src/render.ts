@@ -2,6 +2,7 @@ import type { Movie } from "./api.ts";
 import Component from "./component.ts";
 import { ONCE_MOVIE_LIMIT } from "./constans/movie.ts";
 import { observeHeaderScroll } from "./observer.ts";
+import { IMAGE_PATH } from "./constans/movie.ts";
 
 export const MovieRenderer = {
   renderInitialMovies(movies: Movie[]) {
@@ -44,6 +45,27 @@ export const MovieRenderer = {
       Renderer.clearSkeleton(movieList);
       Renderer.renderSearchMovies(movies);
     }
+  },
+
+  renderMovieDetail(movieData: Movie, releaseYear: number, genres: string[]) {
+    const { title, poster_path, vote_average, overview } = movieData;
+    const movieTitle = document.querySelector("#movie-detail-title");
+    const moviePoster = document.querySelector("#movie-detail-poster");
+    const movieVoteAverage = document.querySelector(
+      "#movie-detail-vote-average",
+    );
+    const movieOverview = document.querySelector("#movie-detail-overview");
+    const movieReleaseYear = document.querySelector(
+      "#movie-detail-release-year",
+    );
+    const movieGenres = document.querySelector("#movie-detail-category");
+    movieTitle!.innerHTML = title;
+    if (moviePoster instanceof Image)
+      moviePoster.src = `${IMAGE_PATH}/${poster_path}`;
+    movieVoteAverage!.innerHTML = vote_average.toFixed(1);
+    movieOverview!.innerHTML = overview;
+    movieReleaseYear!.innerHTML = String(releaseYear);
+    movieGenres!.innerHTML = genres.join(", ");
   },
 
   renderError(err: unknown) {
@@ -149,21 +171,6 @@ export const Renderer = {
   hideLoadMoreButton() {
     const button = document.querySelector(".load-more-button");
     if (button instanceof HTMLElement) button.style.display = "none";
-  },
-
-  renderMovieDetail(movieData: Movie, releaseYear: number, genres: string[]) {
-    const app = document.querySelector("#app");
-    if (app instanceof HTMLElement) {
-      app?.insertAdjacentHTML(
-        "beforeend",
-        Component.movieDetail(movieData, releaseYear, genres),
-      );
-    }
-    document.body.classList.add("modal-open");
-    const modalCloser = document.querySelector("#closeModal");
-    modalCloser?.addEventListener("click", () => {
-      this.clearMovieDetail();
-    });
   },
 
   clearMovieDetail() {

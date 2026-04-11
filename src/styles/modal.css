@@ -86,28 +86,6 @@ body.modal-open {
   flex-direction: column;
 }
 
-.detail .label {
-  font-size: 24px;
-  font-weight: 600;
-  margin: 8px 0;
-}
-
-.detail .modal .rate {
-  display: flex;
-  align-items: baseline;
-}
-
-.modal .rate .label {
-  margin-left: 0;
-  margin-right: 8px;
-  color: white;
-}
-
-.modal .rate .rate-value {
-  color: var(--color-yellow);
-  margin-left: 4px;
-}
-
 .modal .average-container {
   display: flex;
   align-items: flex-end;

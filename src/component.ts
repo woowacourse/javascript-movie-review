@@ -3,8 +3,7 @@ import starEmptyImg from "./images/star_empty.png";
 import noImagePlanetImg from "./images/no_image_planet.png";
 import screamingPlanetImg from "./images/screaming_planet.svg";
 import planetAndStarImg from "./images/planet_and_star.png";
-
-const IMAGE_PATH = "https://image.tmdb.org/t/p/original";
+import { IMAGE_PATH } from "./constans/movie";
 
 const Component = {
   movie(movieData: Pick<Movie, "poster_path" | "title" | "vote_average">) {
@@ -20,7 +19,7 @@ const Component = {
       />
         <div class="item-desc">
           <p class="rate">
-            <img src="${starEmptyImg}" class="star" /><span class="rating">${vote_average.toFixed(1)}</span>
+            <img src="${starEmptyImg}" class="star" /><span>${vote_average.toFixed(1)}</span>
             </p>
             <strong>${title}</strong>
         </div>
@@ -73,42 +72,6 @@ const Component = {
         <p class="notice-text">검색 결과가 없습니다.</p>
       </div>
       `;
-  },
-
-  movieDetail(
-    movieData: Pick<
-      Movie,
-      "title" | "poster_path" | "vote_average" | "overview"
-    >,
-    releaseYear: number,
-    genres: string[],
-  ) {
-    const { title, poster_path, vote_average, overview } = movieData;
-    return `
-      <div class="modal-background active" id="modalBackground">
-        <div class="modal">
-          <button class="close-modal" id="closeModal">
-            <img src="src/images/modal_button_close.png" alt="close modal"/>
-          </button>
-          <div class="modal-container">
-            <div class="modal-image">
-              <img src="${IMAGE_PATH}/${poster_path}" alt="movie poster"/>
-            </div>
-            <div class="modal-description">
-              <h2>${title}</h2>
-              <p class="category">${releaseYear} · ${genres.join(", ")}</p>
-              <p class="rate">
-                <span class="label">평균</span>
-                <img src="src/images/star_filled.png" class="star" alt="vote average" />
-                <span class="rating">${vote_average.toFixed(1)}</span>
-              </p>
-              <hr />
-              <p class="detail"><span class="label">줄거리</span>${overview}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    `;
   },
 
   error(message: string) {
