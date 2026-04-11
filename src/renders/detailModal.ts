@@ -3,8 +3,12 @@ import { MovieInfo } from "../services/dto";
 const mathRound = (value: number, numDigits:number = 1): number => {
   return Math.round(value * 10 ** numDigits) / 10 ** numDigits;
 }
+interface RateRepository {
+  getMovieRate(id: number): number;
+  setMovieRate(id: number, rate: number): void
+}
 
-class RateLocalStroageRepository {
+class RateLocalStroageRepository implements RateRepository {
   #getRates(){
     const rates = localStorage.getItem('rates') || "{}";
     return JSON.parse(rates) || {};
