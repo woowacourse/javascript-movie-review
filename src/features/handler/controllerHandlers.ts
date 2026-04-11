@@ -15,7 +15,6 @@ export async function handleLogo(): Promise<void> {
 }
 
 export async function loadPopular(page: number): Promise<void> {
-  eventBus.publish(APP_EVENTS.TITLE_CHANGED, "지금 인기 있는 영화");
   eventBus.publish(APP_EVENTS.LOAD_START, undefined);
   try {
     const data: MovieResponse = await readPopularMovies(page);
@@ -29,7 +28,6 @@ export async function loadSearch(
   page: number,
   searchMovie: string,
 ): Promise<void> {
-  eventBus.publish(APP_EVENTS.TITLE_CHANGED, `"${searchMovie}" 검색 결과`);
   eventBus.publish(APP_EVENTS.LOAD_START, undefined);
   try {
     const data: MovieResponse = await readSearchMovies(page, searchMovie);
@@ -46,6 +44,9 @@ export async function loadMore(
   try {
     const data: MovieResponse = await readMoreMovies(page, searchMovie);
     eventBus.publish(APP_EVENTS.MORE_LOADED, data);
+    if (page >= data.total_pages) {
+      eventBus.publish(APP_EVENTS.LAST_PAGE_REACHED, undefined);
+    }
   } catch (error) {
     eventBus.publish(APP_EVENTS.ERROR, (error as Error).message);
   }
