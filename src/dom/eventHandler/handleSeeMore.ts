@@ -12,7 +12,7 @@ export const handleMainSeeMore = async () => {
   window.history.pushState({}, "", url.toString());
 
   try {
-    await renderHomePage();
+    await renderHomePage("append");
   } catch (error) {
     let errorMessage = "알 수 없는 에러가 발생했습니다.";
     if (error instanceof TMDBError) {

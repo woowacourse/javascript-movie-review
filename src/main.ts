@@ -11,7 +11,7 @@ const main = async () => {
   if (keyword) {
     await renderSearchPage();
   } else {
-    await renderHomePage();
+    await renderHomePage("init");
   }
 };
 

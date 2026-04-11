@@ -1,10 +1,9 @@
 import { getPopularMovies } from "../apis/movie/api.ts";
 import { Movie } from "../apis/movie/type.ts";
 import TMDBError from "../TMDBError.ts";
-import { renderBanner } from "../dom/components/Banner.ts";
-import { renderMain, renderMainEmpty, renderMainError, renderMainLoading } from "../dom/compositions/Main.ts";
+import { appendPopularMovies, renderMain, renderMainEmpty, renderMainError, renderMainLoading } from "../dom/compositions/Main.ts";
 
-export const renderHomePage = async () => {
+export const renderHomePage = async (type: "init" | "append") => {
   let isError = false;
   let isLastPage = true;
   let movies: Movie[] = [];
@@ -14,7 +13,9 @@ export const renderHomePage = async () => {
   const page = Number(url.searchParams.get("page")) || 1;
 
   try {
-    renderMainLoading();
+    if (type === "init") {
+      renderMainLoading();
+    }
 
     const popularMovies = await getPopularMovies({
       language: "ko-KR",
@@ -22,11 +23,6 @@ export const renderHomePage = async () => {
     });
     isLastPage = popularMovies.page === popularMovies.total_pages;
     movies = popularMovies.results;
-
-    const header = document.querySelector("header");
-    if (header) {
-      renderBanner(header, movies[0]);
-    }
   } catch (error) {
     isError = true;
     errorMessage = "🚨알 수 없는 에러가 발생했습니다.🚨";
@@ -38,8 +34,10 @@ export const renderHomePage = async () => {
       renderMainError(errorMessage);
     } else if (movies.length === 0) {
       renderMainEmpty();
-    } else {
+    } else if (type === "init") {
       renderMain(isLastPage, movies);
+    } else {
+      appendPopularMovies(isLastPage, movies);
     }
   }
 };

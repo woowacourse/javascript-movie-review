@@ -64,6 +64,7 @@ export const renderMainError = (errorMessage?: string) => {
 export const renderMainEmpty = () => {
   removeMain();
   removeSearch();
+
   const resultSection = document.getElementById("result-section");
   if (resultSection) {
     renderEmptyContainer(resultSection, "검색 결과가 없습니다.");
@@ -71,21 +72,36 @@ export const renderMainEmpty = () => {
 };
 
 export const renderMain = (isLastPage: boolean, movies: Movie[]) => {
+  removeMain();
+  removeSearch();
+
+  const header = document.querySelector("header");
+  if (header) {
+    renderBanner(header, movies[0]);
+  }
+
   const resultSection = document.getElementById("result-section");
   if (!resultSection) return;
 
-  const mainThumbnailList = document.getElementById("main-thumbnail-list");
+  renderMainThumbnailList(resultSection, movies);
 
-  if (!mainThumbnailList) {
-    removeMain();
-    removeSearch();
-
-    renderMainThumbnailList(resultSection, movies);
+  if (isLastPage) {
+    removeMainSeeMoreButton();
   } else {
-    // TODO: mail thumbnail list가 append와 loading remove를 담당하게 하는 게 추상화 레벨이 맞지 않는지
-    removeMovieItemsLoading(mainThumbnailList as HTMLElement);
-    renderMovieItems(mainThumbnailList as HTMLElement, movies);
+    renderMainSeeMoreButton(resultSection, () => {
+      handleMainSeeMore();
+    });
   }
+};
+
+export const appendPopularMovies = (isLastPage: boolean, movies: Movie[]) => {
+  const resultSection = document.getElementById("result-section");
+  const mainThumbnailList = document.getElementById("main-thumbnail-list");
+  if (!resultSection || !mainThumbnailList) return;
+
+  // TODO: mail thumbnail list가 append와 loading remove를 담당하게 하는 게 추상화 레벨이 맞지 않는지
+  removeMovieItemsLoading(mainThumbnailList as HTMLElement);
+  renderMovieItems(mainThumbnailList as HTMLElement, movies);
 
   if (isLastPage) {
     removeMainSeeMoreButton();
