@@ -12,18 +12,18 @@ Cypress.Commands.add('mockPopularMovies', (page: number) => {
   ).as(`getPopularMoviesPage${page}`);
 });
 
-Cypress.Commands.add("mockSearchMovies", (searchQuery: string, jsonFile: string) => {
+Cypress.Commands.add("mockSearchMovies", (searchQuery: string, page: number, jsonFile: string) => {
   cy.intercept(
     {
       method: "GET", 
       url: "**/search/movie*",
       query: {
         query: searchQuery,
-        page: String(1)
+        page: String(page)
       }
     }, {
     fixture: jsonFile
-  }).as("searchMovies");
+  }).as(`searchMovies${page}`);
 });
 
 Cypress.Commands.add("performSearch", (searchQuery: string) => {

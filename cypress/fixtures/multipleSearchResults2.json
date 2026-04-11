@@ -1,0 +1,367 @@
+{
+  "page": 2,
+  "results": [
+    {
+      "adult": false,
+      "backdrop_path": "/7NNx4UvaDMWn3hf1J1Ld4mhjB4C.jpg",
+      "genre_ids": [
+        18,
+        35
+      ],
+      "id": 51392,
+      "original_language": "en",
+      "original_title": "The Saphead",
+      "overview": "부유한 광산주 닉 반 앨스틴의 아들 버티는 세상물정 모르는 응석받이이다. 앨스틴의 사위 마크는 능력은 없으면서 야심만 많은 브로커이다. 어느 날 부정이 탄로나게 된 마크는 그것을 버티의 잘못으로 뒤집어씌움과 동시에 광산을 헐값에 팔아넘기려는 음모를 꾸민다. 이제 버티는 자신과 집안을 지켜내기 위한 싸움을 시작한다.",
+      "popularity": 0.8097,
+      "poster_path": "/n1i7g4dGkV6oKxPpFJJYk2gVhh4.jpg",
+      "release_date": "1920-09-01",
+      "title": "바보",
+      "video": false,
+      "vote_average": 5.7,
+      "vote_count": 50
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/dgPw3BuA27tADAunD9di3goacGJ.jpg",
+      "genre_ids": [
+        18
+      ],
+      "id": 892463,
+      "original_language": "ja",
+      "original_title": "愚か者、HINAのためのセレナーデ",
+      "overview": "",
+      "popularity": 0.4631,
+      "poster_path": "/wVwxqEVeIdTtQK3bk1Oq4qa4MW7.jpg",
+      "release_date": "2019-10-16",
+      "title": "바보, 히나를 위한 세레나데",
+      "video": false,
+      "vote_average": 0,
+      "vote_count": 0
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/ocRku7QqOa6qUrbrkbfqWYSGRjl.jpg",
+      "genre_ids": [
+        16,
+        35,
+        14,
+        18
+      ],
+      "id": 42521,
+      "original_language": "en",
+      "original_title": "Idiots and Angels",
+      "overview": "탐욕스럽고 이기적이며 천박한 삶을 살아가고 있는 한 샐러리맨의 일상에서 이야기는 시작된다.\r 그는 어느 날 자신의 등에서 천사의 날개가 자라고 있음을 발견하고 경악을 금치 못한다. 더구나 그 날개는 짜증과 분노로 점철된 그의 이기적이고 탐욕스러운 삶에 반하여 자꾸만 선행을 하려고 해서 그와 사사건건 충돌한다.\r 그러던 그는 하늘을 날 수 있다는 사실까지 알게 되고 자신의 탐욕을 채우는 나쁜 의도로 날개를 활용하려 계획을 세우지만 날개는 자신의 뜻대로 움직여 주지 않는다. 결국, 남자는 날개를 떼어내기로 결심하는데...",
+      "popularity": 0.3856,
+      "poster_path": "/z1cKsKMfjl5n1TNcfnk2rQ20wM0.jpg",
+      "release_date": "2008-04-26",
+      "title": "바보와 천사",
+      "video": false,
+      "vote_average": 6.8,
+      "vote_count": 74
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/iJisubFpFkQxYBKhjjJxxaGuAOM.jpg",
+      "genre_ids": [
+        18
+      ],
+      "id": 467750,
+      "original_language": "zh",
+      "original_title": "忠爱无言",
+      "overview": "학성은 우연히 보신탕 집에서 도망 나온 개를 집에 데리고 오고, 다리를 못쓰는 우는 그 개에게 도움을 받고 친구가 되고 '바보'라는 이름을 지어준다. 우는 자신을 끄는 수레를 발명하고 그걸로 소형 가전을 고쳐주는 일을 하게 된다. 바보는 그런 우를 끌어주며 함께 생활하고 점점 가까워지며 가족이 된다.",
+      "popularity": 0.4919,
+      "poster_path": "/9HaoTvNziJmwo1BEn6hWWcWSA1S.jpg",
+      "release_date": "2017-06-09",
+      "title": "바보",
+      "video": false,
+      "vote_average": 10,
+      "vote_count": 1
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/4HFs3bMvjw6EgVqNPVK8SQlepUs.jpg",
+      "genre_ids": [
+        35,
+        18
+      ],
+      "id": 352387,
+      "original_language": "en",
+      "original_title": "Fool's Day",
+      "overview": "",
+      "popularity": 0.3893,
+      "poster_path": "/9go3jkIHtMSrjAnuxLu3aSTPcjJ.jpg",
+      "release_date": "2013-04-18",
+      "title": "바보들의 거짓말",
+      "video": false,
+      "vote_average": 7.8,
+      "vote_count": 14
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/wPaHwxzDbeFFklfI8vecmp9bxxN.jpg",
+      "genre_ids": [
+        37,
+        28,
+        35
+      ],
+      "id": 51623,
+      "original_language": "en",
+      "original_title": "Fool's Gold",
+      "overview": "금을 찾아 일확천금을 하는 일은 말처럼 쉽지 않다.",
+      "popularity": 0.467,
+      "poster_path": "/g6jVkR1AonPpAauwO4ahrHfra5C.jpg",
+      "release_date": "1946-10-09",
+      "title": "바보의 금",
+      "video": false,
+      "vote_average": 3,
+      "vote_count": 1
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/hY9S0Gh9OyG4F5tOK83qN1ywaXf.jpg",
+      "genre_ids": [
+        35
+      ],
+      "id": 1495110,
+      "original_language": "en",
+      "original_title": "Vir Das: Fool Volume",
+      "overview": "경찰, 악담, 그리고 갑자기 목소리를 잃은 경험까지. 코미디언 비르 다스가 자신의 어리석음을 인정하면서 모두와 행복을 나누게 된 이야기를 유쾌하게 털어놓는다.",
+      "popularity": 0.3506,
+      "poster_path": "/7PyndlSw2u60puKW67BjCPIF9H7.jpg",
+      "release_date": "2025-07-17",
+      "title": "비르 다스: 바보, 볼륨을 높여요",
+      "video": false,
+      "vote_average": 6.9,
+      "vote_count": 7
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/swdaEyEbR94Q5O6mZSmKUx7PrXQ.jpg",
+      "genre_ids": [],
+      "id": 374039,
+      "original_language": "ja",
+      "original_title": "釣りバカ日誌2",
+      "overview": "",
+      "popularity": 1.3536,
+      "poster_path": "/b1foveoOjmPkIC06QS57HszU0UO.jpg",
+      "release_date": "1989-12-27",
+      "title": "낚시바보일지 2",
+      "video": false,
+      "vote_average": 8,
+      "vote_count": 2
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/cAqQ62iPR6pC3tbKchdXzj7h4f6.jpg",
+      "genre_ids": [
+        99
+      ],
+      "id": 588070,
+      "original_language": "ko",
+      "original_title": "노무현과 바보들",
+      "overview": "1981년, ‘부림사건’의 변호인. 1988년, ‘청문회 스타’ 제13대 국회의원. 1998년, ‘오뚝이 인생’ 제15대 국회의원. 2002년, ‘꼴찌의 반란’ 대선후보 선출. 2003~2008년, 제16대 대한민국 대통령 재임. 2009년 5월 23일, 서거. 그로부터 10년- 바보 대통령 故 노무현, 그를 기억하고 그리워하는 사람들의 이야기.",
+      "popularity": 0.672,
+      "poster_path": "/peQCnCs8RkWsX4hFjiTYHGOLSW4.jpg",
+      "release_date": "2019-04-18",
+      "title": "노무현과 바보들",
+      "video": false,
+      "vote_average": 8,
+      "vote_count": 4
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/vFkt3AkTdfHzOPGin5iLH2nWYEH.jpg",
+      "genre_ids": [
+        18
+      ],
+      "id": 414832,
+      "original_language": "ko",
+      "original_title": "바보사냥",
+      "overview": "대학졸업정원제의 공포속에서 4학년에 재학중이던 강석은 삶의 회의를 느끼고 자살 소동을 벌여 정신병원에 입원된다. 거시서 홍익이라는 환자를 알게되어 그에게 탈출을 제의한다. 홍익은 무인도에서의 환상적인 생활을 설명하는 강석에게 설득되었고, 무사히 병원을 탈출한 두사람은 바깥 세상에서 여러가지 사건에 부딪친다. 마침내 광부생활을 하게된 그들은 거기서 석호라는 현실적인 바보 처녀를 알게된다. 갱내 폭파 사고로 석호는 아버지를 잃게 되고 세사람은 동행이 되어 토끼섬 건설을 위해 남해의 무인도로 움직인다. 홍익과 석호는 앞으로 부부가 될 것이 확실하다. 남해의 어촌에 도착한 일행은 본격적인 토끼섬 건설준비를 하나 준비가 완료되는 날 석호는 돌변해 토끼섬은 정신착란자의 환상이라고 판단한다. 어느날 밤 술에 취한 강석을 석호는 숫처녀의 몸으로 맞이하고 둘은 홍익을 버려둔채 속세로 도망친다. 홍익은 처음으로 절망을 느끼나 여지껏 보이지 않던 힘이 솟구치는 것 같다.",
+      "popularity": 0.8775,
+      "poster_path": "/bVJocrRVbB4yK179OWu9cfXjl70.jpg",
+      "release_date": "1984-12-01",
+      "title": "바보사냥",
+      "video": false,
+      "vote_average": 6,
+      "vote_count": 2
+    },
+    {
+      "adult": false,
+      "backdrop_path": null,
+      "genre_ids": [
+        35
+      ],
+      "id": 411752,
+      "original_language": "ja",
+      "original_title": "釣りバカ日誌7",
+      "overview": "",
+      "popularity": 1.2962,
+      "poster_path": "/pZwxQoLtuDkIto5qj3Yhl21Z8uL.jpg",
+      "release_date": "1994-12-23",
+      "title": "낚시바보일지 7",
+      "video": false,
+      "vote_average": 7.5,
+      "vote_count": 2
+    },
+    {
+      "adult": false,
+      "backdrop_path": null,
+      "genre_ids": [],
+      "id": 411753,
+      "original_language": "ja",
+      "original_title": "釣りバカ日誌8",
+      "overview": "",
+      "popularity": 1.6273,
+      "poster_path": "/9h8aa5SQw0cFDTwZZNX6Xba82O4.jpg",
+      "release_date": "1996-08-10",
+      "title": "낚시바보일지 8",
+      "video": false,
+      "vote_average": 7.5,
+      "vote_count": 2
+    },
+    {
+      "adult": false,
+      "backdrop_path": null,
+      "genre_ids": [
+        99
+      ],
+      "id": 544948,
+      "original_language": "ko",
+      "original_title": "바보야",
+      "overview": "영하 10도의 살을 에는 추위는 아무런 문제가 되지 않았다. 2009년 2월, 몇 초간의 짧은 만남을 위해 약 40만 명의 사람들이 명동에 모인 단 하나의 이유. 믿음이 척박한 땅에서 최초의 추기경이 되었고, 누구도 나서지 않을 때 용기를 냈으며, 우리 곁을 떠나는 순간까지 기적 같은 사랑을 실천한 故 김수환 추기경. 한국사의 격동기 시절 종교를 넘어 사회의 가장 큰 어른, 약자들의 울타리, 마지막 대변인으로서의 삶을 살아간 '시대의 거인' 김수환… 그의 뜨거운 사랑이 스크린에서 되살아난다.",
+      "popularity": 0.5681,
+      "poster_path": "/tSNclOm4zkQafhn8yuV0lAm8AbU.jpg",
+      "release_date": "2011-04-21",
+      "title": "바보야",
+      "video": false,
+      "vote_average": 8,
+      "vote_count": 1
+    },
+    {
+      "adult": false,
+      "backdrop_path": null,
+      "genre_ids": [],
+      "id": 411750,
+      "original_language": "ja",
+      "original_title": "釣りバカ日誌6",
+      "overview": "",
+      "popularity": 1.2706,
+      "poster_path": "/uYzDC5PRoeIGS4sUD2zIbtd3Zp1.jpg",
+      "release_date": "1993-12-25",
+      "title": "낚시바보일지 6",
+      "video": false,
+      "vote_average": 7.5,
+      "vote_count": 2
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/wucvH4Ky3kgvhV1giGi7fZUGHIf.jpg",
+      "genre_ids": [
+        35,
+        10751
+      ],
+      "id": 411755,
+      "original_language": "ja",
+      "original_title": "釣りバカ日誌10",
+      "overview": "",
+      "popularity": 1.1595,
+      "poster_path": "/dFutJhZFtNowtPa2ypD9YFBbigu.jpg",
+      "release_date": "1998-08-08",
+      "title": "낚시바보일지 10",
+      "video": false,
+      "vote_average": 6.7,
+      "vote_count": 4
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/vqHaI2PuWEDviLvzRwPyRe3pTBF.jpg",
+      "genre_ids": [
+        18
+      ],
+      "id": 129738,
+      "original_language": "ja",
+      "original_title": "釣りバカ日誌",
+      "overview": "",
+      "popularity": 1.7751,
+      "poster_path": "/fbOEhcRQyUkbiwYSpZ2zQYXmq59.jpg",
+      "release_date": "1988-12-24",
+      "title": "낚시바보일지",
+      "video": false,
+      "vote_average": 7.3,
+      "vote_count": 3
+    },
+    {
+      "adult": false,
+      "backdrop_path": null,
+      "genre_ids": [],
+      "id": 124783,
+      "original_language": "ja",
+      "original_title": "釣りバカ日誌１４　お遍路大パニック！",
+      "overview": "",
+      "popularity": 1.9051,
+      "poster_path": "/kOXD2QHCSAuvywy0w0wL9MltY6z.jpg",
+      "release_date": "2003-09-20",
+      "title": "낚시바보일지 14: 순례자 대소동!",
+      "video": false,
+      "vote_average": 7.5,
+      "vote_count": 2
+    },
+    {
+      "adult": false,
+      "backdrop_path": null,
+      "genre_ids": [],
+      "id": 411938,
+      "original_language": "ja",
+      "original_title": "釣りバカ日誌16 浜崎は今日もダメだった♪♪",
+      "overview": "",
+      "popularity": 1.2286,
+      "poster_path": "/uS4KORFJLjS86SooBfanP96T9VN.jpg",
+      "release_date": "2005-08-27",
+      "title": "낚시바보일지 16: 하마자키는 오늘도 되는게 없다♪♪",
+      "video": false,
+      "vote_average": 7.5,
+      "vote_count": 2
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/ezK37HfxL1KV3SJhS5M5kOpBlCd.jpg",
+      "genre_ids": [
+        18,
+        35
+      ],
+      "id": 411747,
+      "original_language": "ja",
+      "original_title": "釣りバカ日誌4",
+      "overview": "",
+      "popularity": 1.2847,
+      "poster_path": "/nFVLBe9QhRYiBKg6nr8J03mc0LO.jpg",
+      "release_date": "1991-12-23",
+      "title": "낚시바보일지 4",
+      "video": false,
+      "vote_average": 7.5,
+      "vote_count": 2
+    },
+    {
+      "adult": false,
+      "backdrop_path": null,
+      "genre_ids": [
+        35,
+        18
+      ],
+      "id": 374035,
+      "original_language": "ja",
+      "original_title": "釣りバカ日誌9",
+      "overview": "",
+      "popularity": 1.1963,
+      "poster_path": "/diA2yc83PxwkZ9vyrE44LNY6EI4.jpg",
+      "release_date": "1997-09-06",
+      "title": "낚시바보일지 9",
+      "video": false,
+      "vote_average": 7.3,
+      "vote_count": 3
+    }
+  ],
+  "total_pages": 3,
+  "total_results": 53
+}

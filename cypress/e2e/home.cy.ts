@@ -27,13 +27,9 @@ describe("홈 화면 테스트", () => {
         cy.verifyMovieItems(results);
       });
   });
-
-  it("더보기 버튼이 있는지 확인", () => {
-    cy.get(".thumbnail-add-button").should("exist");
-  });
 });
 
-describe("더보기 버튼 테스트", () => {
+describe("무한 스크롤 테스트", () => {
   beforeEach(() => {
     cy.mockPopularMovies(1);
     cy.mockPopularMovies(2);
@@ -41,9 +37,9 @@ describe("더보기 버튼 테스트", () => {
     cy.visit("/");
   });
 
-  it("버튼 클릭 시 API 호출 확인", () => {
-    cy.get(".thumbnail-add-button").click();
-
+  it("스크롤 시 API 호출 확인", () => {
+    cy.wait("@getPopularMoviesPage1");
+    cy.get(".thumbnail-list li:last-child").scrollIntoView();
     cy.wait("@getPopularMoviesPage2").its("response.body.results").should("be.an", "array");
   });
 
@@ -56,7 +52,7 @@ describe("더보기 버튼 테스트", () => {
         page1Results = results1;
       });
 
-    cy.get(".thumbnail-add-button").click();
+    cy.get(".thumbnail-list li:last-child").scrollIntoView();
 
     cy.wait("@getPopularMoviesPage2")
       .its("response.body.results")
