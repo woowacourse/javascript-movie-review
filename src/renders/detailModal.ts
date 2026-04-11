@@ -4,6 +4,25 @@ const mathRound = (value: number, numDigits:number = 1): number => {
   return Math.round(value * 10 ** numDigits) / 10 ** numDigits;
 }
 
+class RateLocalStroageRepository {
+  #getRates(){
+    const rates = localStorage.getItem('rates') || "{}";
+    return JSON.parse(rates) || {};
+  }
+  getMovieRate(id: number){
+    const rates = this.#getRates();
+
+    return rates[id];
+  }
+  setMovieRate(id: number, rate: number){
+    const prevRates = this.#getRates();
+    const rates = { ...prevRates, [id]: rate };
+    localStorage.setItem('rates', JSON.stringify(rates));
+  }
+}
+
+const rateRepository = new RateLocalStroageRepository();
+
 export const renderDetailModal = (movieInfo: MovieInfo) => {
   const modal = document.querySelector("#modal");
   if(!modal) return;
@@ -43,8 +62,7 @@ export const renderDetailModal = (movieInfo: MovieInfo) => {
   if(!detailModalRate) return;
   detailModalRate.textContent = mathRound(movieInfo.vote_average).toString();
 
-  const rates = JSON.parse(localStorage.getItem('rates') || '{}');
-  const rate = rates[movieInfo.id];
+  const rate = rateRepository.getMovieRate(movieInfo.id);
   renderRateStart(rate, rootNode);
 
   const detailModalDetail = cloneNode.querySelector('#detail-modal-detail');
@@ -63,11 +81,7 @@ export const renderDetailModal = (movieInfo: MovieInfo) => {
     star.addEventListener('click', () => {
       const rate = (index + 1) * 2;
 
-      const prevRates = localStorage.getItem('rates') ? JSON.parse(localStorage.getItem('rates') || "{}"): {};
-
-      const { id } = movieInfo;
-      const rates = { ...prevRates, [id]: rate };
-      localStorage.setItem('rates', JSON.stringify(rates));
+      rateRepository.setMovieRate(movieInfo.id, rate);
 
       renderRateStart(rate, rootNode);
     });
