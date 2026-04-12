@@ -106,6 +106,7 @@ export default class HomePage {
 
   #onDetail = async (movie_id: number) => {
     try {
+      this.#$modal.renderSkeleton();
       const movie = await fetchMovieDetails(movie_id);
       this.#$modal.open(movie);
     } catch (error) {

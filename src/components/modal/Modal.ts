@@ -9,13 +9,14 @@ export default class Modal {
   #movieStore: MovieStore;
 
   #$modal: HTMLElement;
+  #$modalImg: HTMLImageElement;
   #$body: HTMLElement;
 
   constructor(movieRepo: MovieStore, $body: HTMLElement) {
     this.#movieStore = movieRepo;
     this.#$body = $body;
-
     this.#$modal = document.createElement('div');
+
     this.#$modal.id = 'modalBackground';
     this.#$modal.className = 'modal-background';
     this.#$modal.innerHTML = /*html */ `
@@ -43,6 +44,8 @@ export default class Modal {
       </div>
     `;
 
+    this.#$modalImg = $<HTMLImageElement>(this.#$modal, '.modal-image img');
+
     $(this.#$modal, 'button').addEventListener('click', () => this.close());
     window.addEventListener('keydown', (e) => {
       if ((e as KeyboardEvent).key === 'Escape') {
@@ -58,7 +61,8 @@ export default class Modal {
   #update(movie: MovieDetail) {
     const { title, release_date, overview, poster_path, genres, vote_average } = movie;
 
-    $<HTMLImageElement>(this.#$modal, '.modal-image img').src = getOriginalImageUrl(poster_path);
+    this.#$modalImg.src = getOriginalImageUrl(poster_path);
+
     $(this.#$modal, 'h2').textContent = title;
 
     const overViewString = overview ? overview : '줄거리 데이터가 없습니다';
@@ -94,6 +98,10 @@ export default class Modal {
     const $oldCon = $container.querySelector('.submit-rate-container');
     if ($oldCon) $oldCon.remove();
     $container.append($submitRate);
+  }
+
+  renderSkeleton() {
+    this.#$modalImg.src = './images/empty.png';
   }
 
   close() {
