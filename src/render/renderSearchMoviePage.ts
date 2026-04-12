@@ -41,7 +41,7 @@ export async function renderSearchMoviePage(page: number, query: string, directi
     try {
       await renderSearchMoviePage(firstLoadedPage! - 1, query, 'prepend');
     } catch (error) {
-      handleError(error);
+      await handleError(error);
       removeSkeletonItems();
     }
   });
@@ -52,7 +52,7 @@ export async function renderSearchMoviePage(page: number, query: string, directi
     try {
       await renderSearchMoviePage(lastLoadedPage! + 1, query, 'append');
     } catch (error) {
-      handleError(error);
+      await handleError(error);
       removeSkeletonItems();
     }
   })

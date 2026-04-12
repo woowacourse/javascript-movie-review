@@ -42,7 +42,7 @@ export async function renderPopularMoviePage(page: number, direction: 'append' |
     try {
       await renderPopularMoviePage(firstLoadedPage! - 1, 'prepend');
     } catch (error) {
-      handleError(error);
+      await handleError(error);
       removeSkeletonItems();
     }
   });
@@ -53,7 +53,7 @@ export async function renderPopularMoviePage(page: number, direction: 'append' |
     try {
       await renderPopularMoviePage(lastLoadedPage! + 1, 'append');
     } catch (error) {
-      handleError(error);
+      await handleError(error);
       removeSkeletonItems();
     }
   });

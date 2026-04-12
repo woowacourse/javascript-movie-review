@@ -12,7 +12,7 @@ addEventListener("load", async () => {
     renderSearchListTitle(query);
     await renderSearchMoviePage(getPage(), query);
   } catch (error) {
-    handleError(error);
+    await handleError(error);
     removeSkeletonItems();
   }
 });

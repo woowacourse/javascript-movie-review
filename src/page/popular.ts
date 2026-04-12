@@ -7,7 +7,7 @@ addEventListener("load", async () => {
   try {
     await renderPopularMoviePage(getPage());
   } catch (error) {
-    handleError(error);
+    await handleError(error);
     removeSkeletonItems();
   }
 });

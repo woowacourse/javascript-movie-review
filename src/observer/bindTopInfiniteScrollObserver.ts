@@ -23,7 +23,7 @@ function createTopScrollAreaElement() {
 
 let topObserver: IntersectionObserver | null = null;
 
-export default function bindTopInfiniteScrollObserver(hasPrevPage: boolean, callback: () => void) {
+export default function bindTopInfiniteScrollObserver(hasPrevPage: boolean, callback: () => void | Promise<void>) {
   const prevScrollAreaElement = document.querySelector(".scroll-area-top");
 
   if (prevScrollAreaElement) {
