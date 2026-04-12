@@ -26,6 +26,18 @@ export const interceptSearchPage2 = () => {
   );
 };
 
+export const interceptPopularLastPage = () => {
+  cy.intercept("GET", POPULAR_API, { fixture: "popularMoviesLastPage.json" }).as(
+    "getPopularLastPage",
+  );
+};
+
+export const interceptSearchLastPage = () => {
+  cy.intercept("GET", SEARCH_API, { fixture: "searchMoviesLastPage.json" }).as(
+    "getSearchLastPage",
+  );
+};
+
 export const interceptPopularError = () => {
   cy.intercept("GET", POPULAR_API, { statusCode: 500 }).as("getPopularError");
 };
