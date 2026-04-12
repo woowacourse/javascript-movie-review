@@ -11,6 +11,8 @@ export interface Notifier {
 }
 
 export class MovieListController {
+  private _detailToken = 0;
+
   constructor(
     private readonly store: MovieListStore,
     private readonly view: MovieListView,
@@ -44,11 +46,14 @@ export class MovieListController {
   }
 
   async openDetail(movieId: number): Promise<void> {
+    const token = ++this._detailToken;
     try {
       const detail = await this.tmdb.fetchMovieDetail(movieId);
+      if (token !== this._detailToken) return;
       const currentRating = this.ratingRepo.getRating(movieId);
       this.modal.open(detail, currentRating);
     } catch (error) {
+      if (token !== this._detailToken) return;
       this.notifier.error(error);
     }
   }
