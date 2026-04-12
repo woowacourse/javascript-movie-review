@@ -4,14 +4,14 @@ import { removeEmptyContainer, renderEmptyContainer } from "../components/EmptyC
 import { removeErrorContainer, renderErrorContainer } from "../components/ErrorContainer.ts";
 import { removeSearchThumbnailList, renderSearchThumbnailList, renderSearchThumbnailLoading } from "../components/SearchThumbnailList.ts";
 import { removeMovieItemsLoading, renderMovieItems } from "../shared/MovieItem.ts";
-import { removeMain } from "./Main.ts";
+import { removeHome } from "./Home.ts";
 
 const SEARCH_OBSERVER_TARGET_ID = "search-observer-target";
 let searchObserver: IntersectionObserver | null = null;
 let searchObserverTarget: HTMLElement | null = null;
 
 export const renderSearch = (isLastPage: boolean, movies: Movie[]) => {
-  removeMain();
+  removeHome();
   removeSearch();
 
   const resultSection = document.getElementById("result-section");
@@ -27,7 +27,7 @@ export const renderSearch = (isLastPage: boolean, movies: Movie[]) => {
 };
 
 export const renderSearchLoading = (keyword: string) => {
-  removeMain();
+  removeHome();
   removeSearch();
 
   const resultSection = document.getElementById("result-section");
@@ -43,7 +43,7 @@ export const renderSearchLoading = (keyword: string) => {
 };
 
 export const renderSearchError = (errorMessage?: string) => {
-  removeMain();
+  removeHome();
   removeSearch();
 
   const resultSection = document.getElementById("result-section");
@@ -56,7 +56,7 @@ export const renderSearchError = (errorMessage?: string) => {
 };
 
 export const renderSearchEmpty = () => {
-  removeMain();
+  removeHome();
   removeSearch();
 
   const resultSection = document.getElementById("result-section");

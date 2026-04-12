@@ -24,8 +24,8 @@ const MAIN_OBSERVER_TARGET_ID = "main-observer-target";
 let mainObserver: IntersectionObserver | null = null;
 let mainObserverTarget: HTMLElement | null = null;
 
-export const renderMain = (isLastPage: boolean, movies: Movie[]) => {
-  removeMain();
+export const renderHome = (isLastPage: boolean, movies: Movie[]) => {
+  removeHome();
   removeSearch();
 
   const header = document.querySelector("header");
@@ -45,11 +45,10 @@ export const renderMain = (isLastPage: boolean, movies: Movie[]) => {
   }
 };
 
-export const renderMainLoading = () => {
-  removeMain();
+export const renderHomeLoading = () => {
+  removeHome();
   removeSearch();
 
-  // TODO: banner 렌더링 책임은 main composition이 아님
   const header = document.querySelector("header");
   if (header) {
     renderBanner(header);
@@ -61,8 +60,8 @@ export const renderMainLoading = () => {
   }
 };
 
-export const renderMainError = (errorMessage?: string) => {
-  removeMain();
+export const renderHomeError = (errorMessage?: string) => {
+  removeHome();
   removeSearch();
 
   const resultSection = document.getElementById("result-section");
@@ -74,8 +73,8 @@ export const renderMainError = (errorMessage?: string) => {
   }
 };
 
-export const renderMainEmpty = () => {
-  removeMain();
+export const renderHomeEmpty = () => {
+  removeHome();
   removeSearch();
 
   const resultSection = document.getElementById("result-section");
@@ -100,7 +99,7 @@ export const appendPopularMovies = (isLastPage: boolean, movies: Movie[]) => {
   }
 };
 
-export const removeMain = () => {
+export const removeHome = () => {
   mainObserver?.disconnect();
   mainObserver = null;
   removeObserverTarget();

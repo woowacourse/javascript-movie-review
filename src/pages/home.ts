@@ -1,7 +1,13 @@
 import { getPopularMovies } from "../apis/movie/api.ts";
 import { Movie } from "../apis/movie/type.ts";
 import TMDBError from "../TMDBError.ts";
-import { appendPopularMovies, renderMain, renderMainEmpty, renderMainError, renderMainLoading } from "../dom/compositions/Main.ts";
+import {
+  appendPopularMovies,
+  renderHome,
+  renderHomeEmpty,
+  renderHomeError,
+  renderHomeLoading,
+} from "../dom/compositions/Home.ts";
 
 export const renderHomePage = async (type: "init" | "append") => {
   let isError = false;
@@ -13,7 +19,7 @@ export const renderHomePage = async (type: "init" | "append") => {
 
   try {
     if (type === "init") {
-      renderMainLoading();
+      renderHomeLoading();
     }
 
     const popularMovies = await getPopularMovies({
@@ -31,11 +37,11 @@ export const renderHomePage = async (type: "init" | "append") => {
   } finally {
     if (type === "init") {
       if (isError) {
-        renderMainError(errorMessage);
+        renderHomeError(errorMessage);
       } else if (movies.length === 0) {
-        renderMainEmpty();
+        renderHomeEmpty();
       } else if (type === "init") {
-        renderMain(isLastPage, movies);
+        renderHome(isLastPage, movies);
       }
     }
 
