@@ -88,3 +88,13 @@ FE 레벨1 영화 리뷰 미션
 - [x] 영화의 자세한 정보가 담긴 모달을 정적인 형태로 두기.
   - [x] dialog 태그로 전환
   - [x] 동적으로 변경되어야할 부분만 따로 변경
+
+## 리팩토링
+
+- [] main로직을 분리
+  - [] index
+  - [] search
+  - [] movieDetail
+
+- [] renderMovieDetail, renderMyRating을 Renderer로 이동
+- [] renderMyRating에 switch/case 부분을 분리
