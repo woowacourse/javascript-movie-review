@@ -5,5 +5,6 @@ declare namespace Cypress {
     performSearch(searchQuery: string): Chainable<void>;
     verifyMovieItems(allResults: Movies[]): Chainable<void>;
     disappearMoreButton(): Chainable<void>;
+    getMovieDetail(id: number): Chainable<undefined>;
   }
 }

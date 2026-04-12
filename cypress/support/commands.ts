@@ -57,4 +57,17 @@ Cypress.Commands.add("disappearMoreButton", () => {
       expect(data.page).to.equal(data.total_pages)
       cy.get(".thumbnail-add-button").should("not.be.visible");
   })
+});
+
+Cypress.Commands.add("getMovieDetail", (id: number) => {
+  cy.intercept(
+    {
+      method: "GET", 
+      url: `**/movie/${id}*`,
+      query: {
+        language: "ko-KR",
+      }
+    }, {
+    fixture: `movieDetail.json`
+  }).as(`getMovieDetail${id}`);
 })
