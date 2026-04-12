@@ -29,6 +29,11 @@ body.modal-open {
   opacity: 1;
 }
 
+hr {
+  border: 1px solid #67788e;
+  width: 100%;
+}
+
 .modal {
   background-color: var(--color-bluegray-90);
   padding: 20px;
@@ -82,6 +87,50 @@ body.modal-open {
   padding-top: 2px;
 }
 
+.modal-user-rating {
+  font-family: Montserrat;
+  font-weight: 600;
+  font-style: SemiBold;
+  font-size: 24px;
+  line-height: 100%;
+  letter-spacing: 0.18px;
+}
+
+.modal-overview-title {
+  font-family: Montserrat;
+  font-weight: 600;
+  font-style: SemiBold;
+  font-size: 24px;
+  line-height: 100%;
+  letter-spacing: 0.18px;
+}
+
+.modal-overview {
+  font-family: Montserrat;
+  font-weight: 300;
+  font-style: Light;
+  font-style: Bold;
+  font-size: 24px;
+  line-height: 147%;
+  letter-spacing: 0.18px;
+  max-height: 275px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.modal-overview::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modal-overview::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.modal-overview::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+}
+
 .modal-rating {
   margin: 0;
   margin-left: 2px;
@@ -121,6 +170,14 @@ body.modal-open {
 
 .modal-image img {
   width: 380px;
+  border-radius: 16px;
+}
+
+.modal-image {
+  width: 400px;
+  height: 600px;
+  angle: 0 deg;
+  opacity: 1;
   border-radius: 16px;
 }
 
