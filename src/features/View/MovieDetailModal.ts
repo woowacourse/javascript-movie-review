@@ -63,6 +63,8 @@ export default class MovieDetailModal {
     document.body.appendChild(this.div);
     this.div.classList.add("active");
 
+    this.div.querySelector(".close-modal")!.addEventListener("click", () => this.close());
+
     this.#initStarRating(data.id);
   }
 
