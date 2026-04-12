@@ -2,11 +2,11 @@
 
 dialog.modal {
   background-color: var(--color-bluegray-90);
-  padding: 20px;
+  padding: 40px 24px;
   border-radius: 16px;
   border: none;
   color: white;
-  width: 800px;
+  width: 960px;
   max-width: 90vw;
   max-height: 90vh;
   overflow: hidden;
@@ -31,32 +31,138 @@ dialog.modal::backdrop {
 
 .modal-container {
   display: flex;
+  gap: 24px;
 }
 
 .modal-image img {
-  width: 300px;
+  width: 500px;
+  height: 737px;
+  object-fit: cover;
   border-radius: 16px;
 }
 
 .modal-description {
   width: 100%;
-  padding: 8px;
-  margin-left: 16px;
   line-height: 1.6rem;
 }
 
-.modal-description .rate > img {
-  position: relative;
-  top: 5px;
+.modal-description .rate {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  line-height: 1;
+}
+
+.modal-description .rate > span:first-child {
+  font-family: "DM Sans", sans-serif;
+  font-weight: 400;
+  font-size: 1.25rem;
+  color: white;
+}
+
+.rate-score {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 29px;
+}
+
+.rate-score img {
+  width: 24px;
+  height: 24px;
+}
+
+.rate-score span {
+  font-family: Montserrat, sans-serif;
+  font-weight: 600;
+  font-size: 1.5rem;
+  line-height: 100%;
+  letter-spacing: 0.18px;
+  color: #ffc700;
 }
 
 .modal-description > *:not(:last-child) {
-  margin-bottom: 8px;
+  margin-bottom: 16px;
+}
+
+.modal-description .rate {
+  margin-bottom: 16px;
+}
+
+.modal-divider {
+  border: none;
+  border-top: 0.5px solid #95a1b2;
+  margin: 0;
 }
 
 .modal-description h2 {
+  font-family: "DM Sans", sans-serif;
+  font-weight: 700;
   font-size: 2rem;
+  line-height: 100%;
+  letter-spacing: 0%;
   margin: 0 0 8px;
+}
+
+.subtitle {
+  font-family: "DM Sans", sans-serif;
+  font-weight: 400;
+  font-size: 1.25rem;
+  line-height: 100%;
+  letter-spacing: 0%;
+}
+
+.section-label {
+  font-family: Montserrat, sans-serif;
+  font-weight: 600;
+  font-size: 1.5rem;
+  line-height: 100%;
+  letter-spacing: 0.18px;
+  margin-top: 16px;
+}
+
+.star-rating {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.star-list {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.star-list input[type="radio"] {
+  display: none;
+}
+
+.star-list label {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  background-size: 200% 100%;
+  background-position: 0% 0%; /* empty */
+  cursor: pointer;
+}
+
+/* 체크된 별 + 왼쪽(DOM 기준 이후) 전부 채움 */
+.star-list input[type="radio"]:checked ~ label {
+  background-position: 100% 0%;
+}
+
+
+.rating-label {
+  font-family: Montserrat, sans-serif;
+  font-weight: 600;
+  font-size: 1.125rem;
+  line-height: 100%;
+  letter-spacing: 0.18px;
+  color: white;
+  margin-left: 8px;
+}
+
+.rating-score {
+  color: #95a1b2;
 }
 
 .detail {

@@ -5,6 +5,7 @@ import { Movie } from "../../../types/types";
 import { BACKDROP_IMAGE_URL } from "../../constants/image";
 import { eventBus } from "../../pubsub/EventBus";
 import { APP_EVENTS } from "../../pubsub/AppEvents";
+import { header } from "../../dom";
 
 function attachLogoListener(): void {
   const logoEl = document.querySelector(".logo") as HTMLElement | null;
@@ -16,9 +17,7 @@ function attachLogoListener(): void {
 
 export const Header = {
   clearHeader(): void {
-    const backgroundContainer = document.querySelector(
-      ".background-container",
-    ) as HTMLElement;
+    const backgroundContainer = header;
 
     backgroundContainer.innerHTML = "";
     backgroundContainer.style.background = "none";
@@ -27,7 +26,7 @@ export const Header = {
 
   render(movie: Movie | null): void {
     if (!movie) return;
-    const backgroundContainer = document.querySelector(".background-container") as HTMLElement;
+    const backgroundContainer = header;
 
     backgroundContainer.innerHTML = /*html*/ `
             <div class="top-rated-movie">
@@ -47,7 +46,7 @@ export const Header = {
   },
 
   renderSearch(): void {
-    const backgroundContainer = document.querySelector(".background-container") as HTMLElement;
+    const backgroundContainer = header;
 
     backgroundContainer.innerHTML = /*html*/ `${this.renderImage()}`;
     attachLogoListener();
