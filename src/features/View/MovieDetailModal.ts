@@ -27,6 +27,9 @@ export default class MovieDetailModal {
         <div class="modal-container">
             <img class="modal-image" src="${THUMB_NAIL_URL}${data.poster_path}" alt="${data.title}">
             <div class="modal-description">
+                <button class="close-modal">
+                    <img src="./src/images/modal_button_close.png" alt="닫기">
+                </button>
                 <h2 class="modal-title">${data.title}</h2>
                 <p class="modal-release-date-and-genres">${data.release_date.slice(0, 4)} · ${data.genres.map((genre) => genre.name).join(", ")}</p>
                 <div class="average">
@@ -43,7 +46,10 @@ export default class MovieDetailModal {
         </div>
     </div>`;
     document.body.appendChild(this.div);
-
     this.div.classList.add("active");
+  }
+
+  close() {
+    this.div.classList.remove("active");
   }
 }

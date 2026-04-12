@@ -78,3 +78,7 @@ export async function renderMovieDetailModal(id: number) {
     if (error instanceof Error) movieList.renderError(error.message);
   }
 }
+
+export function closeMovieDetailModal() {
+  movieDetailModal.close();
+}
