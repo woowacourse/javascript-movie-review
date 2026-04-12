@@ -4,7 +4,7 @@ export default function bindSelectRatingEvent(element: HTMLElement) {
   element.addEventListener("click", (event) => {
     if (!(event.target instanceof HTMLButtonElement)) return
     const dialogElement = event.target.closest("dialog") as HTMLDialogElement;
-    const formElement = event.target.closest(".modal-movie-my-rating-form") as HTMLFormElement;
+    const formElement = event.target.closest(".modal-movie-my-rating-selector") as HTMLFormElement;
     const movieIdStr = dialogElement.dataset.movieId;
     const ratingStr = event.target.dataset.rating;
 

@@ -95,12 +95,19 @@
   font-weight: 600;
 }
 
-.modal-movie-my-rating-form {
+.modal-movie-my-rating-body {
   display: flex;
-  gap: 8px;
+  align-items: center;
+  gap: 16px;
 }
 
-.modal-movie-my-rating-form>button {
+.modal-movie-my-rating-selector {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.modal-movie-my-rating-selector>button {
   width: 32px;
   height: 32px;
   margin: 0;
@@ -111,35 +118,67 @@
   background-position: 0px 0px;
 }
 
-.modal-movie-my-rating-form[data-rating="2"]>button:nth-of-type(1) {
-  background-position: 33px 0px;
+.modal-movie-my-rating-selector[data-rating="2"]>button:nth-of-type(1) {
+  background-position: 31.5px 0px;
 }
 
-.modal-movie-my-rating-form[data-rating="4"]>button:nth-of-type(1),
-.modal-movie-my-rating-form[data-rating="4"]>button:nth-of-type(2) {
-  background-position: 33px 0px;
+.modal-movie-my-rating-selector[data-rating="4"]>button:nth-of-type(1),
+.modal-movie-my-rating-selector[data-rating="4"]>button:nth-of-type(2) {
+  background-position: 31.5px 0px;
 }
 
-.modal-movie-my-rating-form[data-rating="6"]>button:nth-of-type(1),
-.modal-movie-my-rating-form[data-rating="6"]>button:nth-of-type(2),
-.modal-movie-my-rating-form[data-rating="6"]>button:nth-of-type(3) {
-  background-position: 33px 0px;
+.modal-movie-my-rating-selector[data-rating="6"]>button:nth-of-type(1),
+.modal-movie-my-rating-selector[data-rating="6"]>button:nth-of-type(2),
+.modal-movie-my-rating-selector[data-rating="6"]>button:nth-of-type(3) {
+  background-position: 31.5px 0px;
 }
 
-.modal-movie-my-rating-form[data-rating="8"]>button:nth-of-type(1),
-.modal-movie-my-rating-form[data-rating="8"]>button:nth-of-type(2),
-.modal-movie-my-rating-form[data-rating="8"]>button:nth-of-type(3),
-.modal-movie-my-rating-form[data-rating="8"]>button:nth-of-type(4) {
-  background-position: 33px 0px;
+.modal-movie-my-rating-selector[data-rating="8"]>button:nth-of-type(1),
+.modal-movie-my-rating-selector[data-rating="8"]>button:nth-of-type(2),
+.modal-movie-my-rating-selector[data-rating="8"]>button:nth-of-type(3),
+.modal-movie-my-rating-selector[data-rating="8"]>button:nth-of-type(4) {
+  background-position: 31.5px 0px;
 }
 
-.modal-movie-my-rating-form[data-rating="10"]>button:nth-of-type(1),
-.modal-movie-my-rating-form[data-rating="10"]>button:nth-of-type(1),
-.modal-movie-my-rating-form[data-rating="10"]>button:nth-of-type(2),
-.modal-movie-my-rating-form[data-rating="10"]>button:nth-of-type(3),
-.modal-movie-my-rating-form[data-rating="10"]>button:nth-of-type(4),
-.modal-movie-my-rating-form[data-rating="10"]>button:nth-of-type(5) {
-  background-position: 33px 0px;
+.modal-movie-my-rating-selector[data-rating="10"]>button:nth-of-type(1),
+.modal-movie-my-rating-selector[data-rating="10"]>button:nth-of-type(1),
+.modal-movie-my-rating-selector[data-rating="10"]>button:nth-of-type(2),
+.modal-movie-my-rating-selector[data-rating="10"]>button:nth-of-type(3),
+.modal-movie-my-rating-selector[data-rating="10"]>button:nth-of-type(4),
+.modal-movie-my-rating-selector[data-rating="10"]>button:nth-of-type(5) {
+  background-position: 31.5px 0px;
+}
+
+.modal-movie-my-rating-message {
+  display: none;
+}
+
+.modal-movie-my-rating-selector[data-rating="2"]+.modal-movie-my-rating-messages>.modal-movie-my-rating-message[data-rating="2"] {
+  display: block;
+}
+
+.modal-movie-my-rating-selector[data-rating="4"]+.modal-movie-my-rating-messages>.modal-movie-my-rating-message[data-rating="4"] {
+  display: block;
+}
+
+.modal-movie-my-rating-selector[data-rating="6"]+.modal-movie-my-rating-messages>.modal-movie-my-rating-message[data-rating="6"] {
+  display: block;
+}
+
+.modal-movie-my-rating-selector[data-rating="8"]+.modal-movie-my-rating-messages>.modal-movie-my-rating-message[data-rating="8"] {
+  display: block;
+}
+
+.modal-movie-my-rating-selector[data-rating="10"]+.modal-movie-my-rating-messages>.modal-movie-my-rating-message[data-rating="10"] {
+  display: block;
+}
+
+.modal-movie-my-rating-message {
+  font-weight: 600;
+}
+
+.modal-movie-my-rating-message-score {
+  color: var(--color-bluegray-30)
 }
 
 .modal-movie-plot-body {
