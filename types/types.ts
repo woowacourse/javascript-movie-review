@@ -9,4 +9,5 @@ export interface Movie {
 export interface MovieDetail extends Movie {
   overview: string;
   genres: {id: number, name : string}[];
+  release_date : string;
 }
