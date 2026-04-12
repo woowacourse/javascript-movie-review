@@ -5,15 +5,14 @@ body.modal-open {
   overflow: hidden;
 }
 
-
 .modal {
   background-color: var(--color-bluegray-90);
-  padding: 40px 24px;
   border-radius: 16px;
   border: none;
   color: white;
   z-index: 2;
-  position: relative;
+  position: fixed;
+  margin: auto;
   width: 1000px;
 }
 
@@ -49,6 +48,7 @@ body.modal-open {
 .modal-container {
   display: flex;
   gap: 24px;
+  padding: 40px 24px;
 }
 
 .modal-image img {
@@ -67,6 +67,7 @@ body.modal-open {
 }
 
 .modal-description h2 {
+  word-break: keep-all;
   font-size: 32px;
   font-weight: 700;
   line-height: 100%;
@@ -149,4 +150,63 @@ body.modal-open {
 
 .detail h3 {
   margin-bottom: 16px;
+}
+
+@media (max-width: 1024px) {
+  .modal {
+    width: 100vw;
+    margin: auto 0 0 0;
+    border-radius: 16px 16px 0 0;
+  }
+
+  .modal-container {
+    flex-direction: column;
+  }
+
+  .modal-image {
+    margin: auto;
+  }
+
+  .modal-image img {
+    width: 200px;
+  }
+
+  .modal-description > h2 {
+    text-align: center;
+  }
+
+  .modal-description > p {
+    text-align: center;
+  }
+
+  .modal-description .modal-rate {
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 640px) {
+  .modal-image img {
+    display: none;
+  }
+
+  .modal-description {
+    text-align: center;
+  }
+
+  .modal-description > p {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .my-rate > div {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .my-rate .rate-button-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
 }

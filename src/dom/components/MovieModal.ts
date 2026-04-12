@@ -6,6 +6,7 @@ const MY_RATE_CONTAINER_ID = "my-rate-container";
 
 let modalElement: HTMLDialogElement | null = null;
 
+// TODO: 예외 메시지 점검 (애초에 tmdb에 정보가 없으면 null로 오는 듯)
 const createMovieModalTemplate = (movie: MovieDetail | null) => `
   <dialog class="modal" id="${MODAL_ID}">
     <button class="close-modal" id="closeModal">
