@@ -27,10 +27,18 @@ h2 {
   font-size: 1.4rem;
   font-weight: bold;
   margin-bottom: 32px;
+  padding-left: 30px;
+}
+
+@media (max-width: 360px) {
+  h2 {
+    padding-left: 0;
+    text-align: center;
+  }
 }
 
 main {
-  margin: 64px 0;
+  margin: 32px 0;
   display: flex;
   flex-direction: column;
   align-items: center;

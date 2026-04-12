@@ -21,7 +21,7 @@ export const openModal = async (movieId: number) => {
   document.body.classList.add('modal-open');
 
   // 스켈레톤 필요
-  $modalContainer.innerHTML = `<div class="modal-description"><h2>정보를 불러오는 중입니다...</h2></div>`;
+  $modalContainer.innerHTML = `<div class="modal-loading-wrapper"><h2>정보를 불러오는 중입니다...</h2></div>`;
 
   try {
     const data = await fetchMovieDetail(movieId);
@@ -65,9 +65,9 @@ const renderModalContent = (data: MovieDetailData, myRating: number) => {
       <h2>${data.title}</h2>
       <p class="category">${year} · ${genres}</p>
       <p class="rate">
-        <span>평균</span>
-        <img src="./images/star_filled.png" class="star" />
-        <span>${data.vote_average}</span>
+        <span class="average-text">평균</span>
+        <img src="./images/star_filled.png" class="average-star" />
+        <span>${data.vote_average.toFixed(1)}</span>
       </p>
       <hr />
 

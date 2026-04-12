@@ -98,7 +98,7 @@ export function renderMovieItem(data: resultData): string {
           <div class="item-desc">
             <p class="rate">
               <img src="./images/star_filled.png" class="star" />
-              <span>${data.vote_average}</span>
+              <span>${data.vote_average.toFixed(1)}</span>
             </p>
             <strong>${data.title}</strong>
           </div>
