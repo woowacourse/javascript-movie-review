@@ -132,7 +132,7 @@ const Component = {
     `;
   },
 
-  movieModal(movie: MovieDetail) {
+  movieModal(movie: MovieDetail, rating: number = 0) {
     const { title, posterPath, voteAverage, genres, releaseYear, tagline } =
       movie;
     return `
@@ -161,19 +161,22 @@ const Component = {
             </section>
             <hr />
             <section class="my-rating">
-              <h3 class="my-rating__heading">내 별점</h3>
-              <div class="my-rating__content">
-                <div>
-                  <img src="src/images/star_filled.png" class="star" />
-                  <img src="src/images/star_filled.png" class="star" />
-                  <img src="src/images/star_filled.png" class="star" />
-                  <img src="src/images/star_empty.png" class="star" />
-                  <img src="src/images/star_empty.png" class="star" />
-                </div>
-                <span>명작이에요</span>
-                <span class="my-rating__point">(8/10)</span>
-              </div>
-            </section>
+        <h3 class="my-rating__heading">내 별점</h3>
+        <div class="my-rating__content">
+          <div>
+          ${Array.from({ length: 5 })
+            .map((_, index) => {
+              const ratingValue = (index + 1) * 2;
+              const starType =
+                ratingValue <= rating ? "star_filled.png" : "star_empty.png";
+              return `<img src="src/images/${starType}" class="star" data-rating-value="${ratingValue}" />`;
+            })
+            .join("")}
+          </div>
+          <span>명작이에요</span>
+          <span class="my-rating__point">(${rating}/10)</span>
+        </div>
+      </section>
             <hr />
             <section>
               <h3>줄거리</h3>

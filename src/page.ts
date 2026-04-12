@@ -7,6 +7,7 @@ import MovieState from "./state/business/movieState.ts";
 import {
   setupModalCloseInteraction,
   setupMovieInteraction,
+  setupMyRatingInteraction,
   setupSearchInteraction,
 } from "./ui/business/interactor.ts";
 import {
@@ -65,12 +66,20 @@ function setupInteractions() {
   setupModalCloseInteraction(paintRemoveModal);
 }
 
-export function loadMovieDetails(movieId: string) {
-  getMovieDetails({
+export async function loadMovieDetails(movieId: string) {
+  const myRate = 2;
+  await getMovieDetails({
     movieId,
     onSuccess: (movie) => {
+      const renderModalWithRating = (rating: number) => {
+        paintRemoveModal();
+        paintMovieModal(movie, rating);
+        setupMyRatingInteraction(renderModalWithRating);
+      };
+
       paintRemoveModalSkeleton();
-      paintMovieModal(movie);
+      paintMovieModal(movie, myRate);
+      setupMyRatingInteraction(renderModalWithRating);
     },
     onError: () => {
       paintRemoveModalSkeleton();

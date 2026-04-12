@@ -105,17 +105,15 @@ export const paintRemoveModalSkeleton = () => {
   if (skeleton) removeElement(skeleton);
 };
 
-export const paintMovieModal = (movie: MovieDetail) => {
+export const paintMovieModal = (movie: MovieDetail, rating: number) => {
   const body = getBodyElement();
 
-  paintRemoveModalSkeleton();
-  if (body) Renderer.renderMovieModal(body, movie);
+  if (body) Renderer.renderMovieModal(body, movie, rating);
 };
 
 export const paintMovieModalError = () => {
   const body = getBodyElement();
 
-  paintRemoveModalSkeleton();
   if (body) Renderer.renderMovieModalError(body);
 };
 

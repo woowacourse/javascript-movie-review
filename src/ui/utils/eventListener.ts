@@ -1,5 +1,5 @@
 interface AddEventListenerToElementArg {
-  element: HTMLElement | null;
+  element: HTMLElement | Element | null;
   event: string;
   handler: EventListenerOrEventListenerObject;
 }

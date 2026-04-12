@@ -70,8 +70,8 @@ const Renderer = {
     appendHTML(parent, Component.movieModalSkeleton());
   },
 
-  renderMovieModal(parent: Element, movie: MovieDetail) {
-    appendHTML(parent, Component.movieModal(movie));
+  renderMovieModal(parent: Element, movie: MovieDetail, rating?: number) {
+    appendHTML(parent, Component.movieModal(movie, rating || 0));
   },
 
   renderMovieModalError(parent: Element) {
