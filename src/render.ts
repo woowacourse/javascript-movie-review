@@ -97,7 +97,7 @@ export function renderMovieItem(data: resultData): string {
           <img class="thumbnail" src="https://image.tmdb.org/t/p/w500${data.poster_path}" alt="${data.title}" />
           <div class="item-desc">
             <p class="rate">
-              <img src="./images/star_empty.png" class="star" />
+              <img src="./images/star_filled.png" class="star" />
               <span>${data.vote_average}</span>
             </p>
             <strong>${data.title}</strong>

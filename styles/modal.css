@@ -85,13 +85,7 @@ body.modal-open {
 .rate {
   display: flex;
   align-items: center;
-  margin-bottom: 24px;
   font-size: 20px;
-}
-
-.rate .star {
-  width: 24px;
-  margin-left: 10px; /* 평균 글자와 별 사이 간격 */
 }
 
 .my-rating-container {
