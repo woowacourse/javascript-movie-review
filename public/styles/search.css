@@ -70,3 +70,21 @@
     max-width: 525px;
   }
 }
+
+/* 모바일 */
+@media (max-width: 767px) {
+  .search-box {
+    width: 100%;
+    max-width: 280px;
+    position: relative;
+  }
+
+  #search-input {
+    width: 100%;
+    padding-right: 44px;
+  }
+
+  .search-box button {
+    right: 8px;
+  }
+}

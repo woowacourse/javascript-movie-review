@@ -66,6 +66,7 @@ body.modal-open {
   padding: 8px;
   margin-left: 16px;
   line-height: 1.6rem;
+  font-size: 1.2rem;
 }
 
 .modal-description .rate > img {
@@ -79,7 +80,7 @@ body.modal-open {
 }
 
 .modal-description .rate-value {
-  font-size: 16px;
+  font-size: 1.2rem;
   font-weight: normal;
 }
 
@@ -116,7 +117,7 @@ body.modal-open {
 .modal-description h2 {
   font-size: 2rem;
   font-weight: bold;
-  margin: 0 0 8px;
+  margin: 0 0 4px 0;
 }
 
 .modal-description h3 {
@@ -137,8 +138,9 @@ body.modal-open {
   }
 
   .modal {
-    max-height: 950px;
+    max-height: 750px;
     border-radius: 16px 16px 0 0;
+    overflow-y: scroll;
   }
 
   .modal-image img {
@@ -169,14 +171,38 @@ body.modal-open {
   }
 
   .modal-description h3 {
-    padding: 15px 0;
-  }
-
-  hr {
-    margin: 13px 0;
+    padding: 10px 0 5px 0;
   }
 
   .detail {
-    max-height: 155px;
+    max-height: none;
+    overflow-y: visible;
+  }
+}
+
+/* 모바일 */
+@media (max-width: 767px) {
+  .modal-image {
+    display: none;
+  }
+
+  .modal-description {
+    text-align: center;
+  }
+
+  .movie-rating {
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: none;
+    gap: 8px;
+  }
+
+  .movie-rating .stars {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .detail {
+    text-align: left;
   }
 }
