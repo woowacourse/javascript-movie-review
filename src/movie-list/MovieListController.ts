@@ -1,5 +1,8 @@
+import { TmdbClient } from "../api/TmdbClient";
 import { PAGE_TITLE } from "../constants/constant";
 import { HeroSection } from "../hero/HeroSection";
+import { MovieDetailModal } from "../modal/MovieDetailModal";
+import { MovieRatingRepo } from "../rating/MovieRatingRepo";
 import { MovieListStore } from "./MovieListStore";
 import { MovieListView } from "./MovieListView";
 
@@ -13,6 +16,9 @@ export class MovieListController {
     private readonly view: MovieListView,
     private readonly hero: HeroSection,
     private readonly notifier: Notifier,
+    private readonly tmdb: TmdbClient,
+    private readonly modal: MovieDetailModal,
+    private readonly ratingRepo: MovieRatingRepo,
   ) {}
 
   async showPopular(): Promise<void> {
@@ -35,6 +41,16 @@ export class MovieListController {
   // 더보기 버튼이건 무한스크롤 방식이건 대응 가능
   async loadMore(): Promise<void> {
     await this.runWithUi(() => this.store.loadNextPage());
+  }
+
+  async openDetail(movieId: number): Promise<void> {
+    try {
+      const detail = await this.tmdb.fetchMovieDetail(movieId);
+      const currentRating = this.ratingRepo.getRating(movieId);
+      this.modal.open(detail, currentRating);
+    } catch (error) {
+      this.notifier.error(error);
+    }
   }
 
   private async runWithUi(action: () => Promise<void>): Promise<void> {
