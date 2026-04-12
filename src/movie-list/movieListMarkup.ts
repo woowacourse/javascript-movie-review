@@ -19,7 +19,7 @@ export const createMovieListItemMarkup = (movie: Movie) => {
       <div class="item-desc">
         <p class="rate">
           <img src="${IMAGE_URL.STAR_IMAGE_URL}" class="star" alt="" aria-hidden="true" />
-          <span>${movie.rate}</span>
+          <span>${movie.rate.toFixed(1)}</span>
         </p>
         <strong>${movie.title}</strong>
       </div>

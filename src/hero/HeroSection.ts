@@ -19,7 +19,7 @@ export class HeroSection {
 
     this.el.backdrop.style.backgroundImage = posterImageUrl ? `url("${posterImageUrl}")` : "";
     this.el.rate.hidden = false;
-    this.el.rateValue.textContent = String(movie.rate);
+    this.el.rateValue.textContent = movie.rate.toFixed(1);
     this.el.title.textContent = movie.title;
   }
 

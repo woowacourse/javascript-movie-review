@@ -48,7 +48,7 @@ export class MovieDetailModal {
       Boolean,
     );
     this.el.category.textContent = categoryParts.join(" · ");
-    this.el.rateValue.textContent = `${detail.rate}`;
+    this.el.rateValue.textContent = `${detail.rate.toFixed(1)}`;
     this.el.detail.textContent = detail.overview;
 
     this.starRating.setScore(currentRating ?? 0);
