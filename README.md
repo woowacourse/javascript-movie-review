@@ -91,10 +91,10 @@ FE 레벨1 영화 리뷰 미션
 
 ## 리팩토링
 
-- [] main로직을 분리
-  - [] index
-  - [] search
-  - [] movieDetail
+- [x] main로직을 분리
+  - [x] index
+  - [x] search
+  - [x] movieDetail
 
 - [] renderMovieDetail, renderMyRating을 Renderer로 이동
 - [] renderMyRating에 switch/case 부분을 분리
