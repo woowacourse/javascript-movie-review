@@ -1,4 +1,5 @@
 import {
+  handleModalBackdropClick,
   handleModalCloseButtonClick,
   handleModalEscapeKeydown,
   handleMovieItemClick,
@@ -34,6 +35,16 @@ export const bindModalEvents = () => {
 
   const closeModal = document.querySelector("#close-modal");
   closeModal?.addEventListener("click", handleModalCloseButtonClick);
+
+  const modalBackground = document.querySelector("#modal-background");
+  modalBackground?.addEventListener("click", () => {
+    handleModalBackdropClick();
+  });
+
+  const modal = document.querySelector(".modal");
+  modal?.addEventListener("click", (event) => {
+    event.stopPropagation();
+  });
 
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {

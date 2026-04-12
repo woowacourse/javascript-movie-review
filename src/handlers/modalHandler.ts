@@ -20,3 +20,5 @@ export const handleModalCloseButtonClick = () => {
 };
 
 export const handleModalEscapeKeydown = handleModalCloseButtonClick;
+
+export const handleModalBackdropClick = handleModalCloseButtonClick;
