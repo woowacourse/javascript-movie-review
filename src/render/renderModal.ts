@@ -49,6 +49,21 @@ function createModalElement(movieDetail: MovieDetail) {
   return dialogElement
 }
 
+function createSpinnerElement() {
+  const divElement = document.createElement("div");
+  divElement.classList.add("spinner-overlay");
+  divElement.id = "movie-loading-spinner";
+  divElement.insertAdjacentHTML('beforeend', /* html */`
+    <div class="spinner"></div>
+  `);
+
+  return divElement;
+}
+
+function removeSpinnerElement() {
+  document.getElementById("movie-loading-spinner")?.remove();
+}
+
 let isModalLoading = false;
 
 export async function renderModal(movieId: number) {
@@ -58,7 +73,8 @@ export async function renderModal(movieId: number) {
   try {
     document.querySelector(".modal")?.remove();
 
-    // TODO: 비동기를 기다리는 동안 로딩 스피너 표시
+    document.body.insertAdjacentElement("beforeend", createSpinnerElement());
+
     const response = await fetchMovieDetail(movieId);
 
     const dialogElement = createModalElement(response);
@@ -69,6 +85,7 @@ export async function renderModal(movieId: number) {
 
     dialogElement.showModal();
   } finally {
+    removeSpinnerElement();
     isModalLoading = false;
   }
 }
