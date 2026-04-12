@@ -1,8 +1,11 @@
-export interface Movie {
+interface BaseMovie {
   id: number;
-  poster_path: string | null;
   title: string;
+  poster_path: string | null;
   vote_average: number | null;
+}
+
+export interface Movie extends BaseMovie {
   backdrop_path: string | null;
 }
 
@@ -18,11 +21,7 @@ export interface Genre {
   name: string;
 }
 
-export interface MovieDetail {
-  id: number;
-  title: string;
-  poster_path: string | null;
-  vote_average: number | null;
+export interface MovieDetail extends BaseMovie {
   overview: string;
   genres: Genre[];
   release_date: string;
