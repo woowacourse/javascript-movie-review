@@ -6,10 +6,12 @@ export interface Movie {
   backdrop_path: string | null;
 }
 
-export interface MovieResponse {
-  results: Movie[];
+export interface PaginatedResponse<T> {
+  results: T[];
   total_pages: number;
 }
+
+export type MovieResponse = PaginatedResponse<Movie>;
 
 export interface Genre {
   id: number;
