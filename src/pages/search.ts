@@ -15,7 +15,8 @@ export const renderSearchPage = async (type: "init" | "append") => {
   let movies: Movie[] = [];
   let errorMessage = "";
 
-  const keyword = new URLSearchParams(window.location.search).get("keyword") || "";
+  const keyword =
+    new URLSearchParams(window.location.search).get("keyword") || "";
   const page = Number(sessionStorage.getItem("page") || 1);
   if (keyword.trim() === "") return;
 
@@ -47,14 +48,22 @@ export const renderSearchPage = async (type: "init" | "append") => {
       errorMessage = "🚨TMDB에서 데이터를 불러오는 중 에러가 발생했습니다🚨";
     }
   } finally {
-    if (isError) {
-      renderSearchError(errorMessage);
-    } else if (movies.length === 0) {
-      renderSearchEmpty();
-    } else if (type === "init") {
-      renderSearch(isLastPage, movies);
-    } else {
-      appendSearchedMovies(isLastPage, movies);
+    if (type === "init") {
+      if (isError) {
+        renderSearchError(errorMessage);
+      } else if (movies.length === 0) {
+        renderSearchEmpty();
+      } else if (type === "init") {
+        renderSearch(isLastPage, movies);
+      }
+    }
+
+    if (type === "append") {
+      if (isError) {
+        window.alert(errorMessage);
+      } else {
+        appendSearchedMovies(isLastPage, movies);
+      }
     }
   }
 };

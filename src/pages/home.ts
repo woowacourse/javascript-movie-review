@@ -1,13 +1,7 @@
 import { getPopularMovies } from "../apis/movie/api.ts";
 import { Movie } from "../apis/movie/type.ts";
 import TMDBError from "../TMDBError.ts";
-import {
-  appendPopularMovies,
-  renderMain,
-  renderMainEmpty,
-  renderMainError,
-  renderMainLoading,
-} from "../dom/compositions/Main.ts";
+import { appendPopularMovies, renderMain, renderMainEmpty, renderMainError, renderMainLoading } from "../dom/compositions/Main.ts";
 
 export const renderHomePage = async (type: "init" | "append") => {
   let isError = false;
@@ -35,14 +29,22 @@ export const renderHomePage = async (type: "init" | "append") => {
       errorMessage = "🚨TMDB에서 데이터를 불러오는 중 에러가 발생했습니다🚨";
     }
   } finally {
-    if (isError) {
-      renderMainError(errorMessage);
-    } else if (movies.length === 0) {
-      renderMainEmpty();
-    } else if (type === "init") {
-      renderMain(isLastPage, movies);
-    } else {
-      appendPopularMovies(isLastPage, movies);
+    if (type === "init") {
+      if (isError) {
+        renderMainError(errorMessage);
+      } else if (movies.length === 0) {
+        renderMainEmpty();
+      } else if (type === "init") {
+        renderMain(isLastPage, movies);
+      }
+    }
+
+    if (type === "append") {
+      if (isError) {
+        window.alert(errorMessage);
+      } else {
+        appendPopularMovies(isLastPage, movies);
+      }
     }
   }
 };
