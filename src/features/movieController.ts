@@ -1,7 +1,12 @@
 import { Header } from "./View/Header";
 import MovieList from "./View/MovieList";
 import MovieDetailModal from "./View/MovieDetailModal.ts";
-import { getMoreMovies, getPopularMovies, getSearchMovies, getMovieDetail} from "./movieModel";
+import {
+  getMoreMovies,
+  getPopularMovies,
+  getSearchMovies,
+  getMovieDetail,
+} from "./movieModel";
 
 const movieList = new MovieList();
 const movieDetailModal = new MovieDetailModal();
@@ -62,15 +67,14 @@ export async function renderMoreMovies(
 }
 
 // 영화 상세 정보 API를 요청하여 영화 상세 정보 모달을 렌더링하는 함수
-export async function renderMovieDetailModal(id: number){
-  try{
+export async function renderMovieDetailModal(id: number) {
+  try {
     movieDetailModal.reset();
     // 영화 상세 정보 API 요청
     const data = await getMovieDetail(id);
     // 영화 상세 정보 모달 렌더링 함수 호출
     movieDetailModal.render(data);
-    movieDetailModal.open();
-  }catch(error){
+  } catch (error) {
     if (error instanceof Error) movieList.renderError(error.message);
   }
 }

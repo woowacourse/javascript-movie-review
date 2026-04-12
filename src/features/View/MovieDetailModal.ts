@@ -6,10 +6,6 @@ import { THUMB_NAIL_URL } from "../../constants/constant";
 export default class MovieDetailModal {
   div = document.createElement("div");
 
-  open() {
-    this.div.classList.add("active");
-  }
-
   reset() {
     this.div.innerHTML = "";
     this.div.classList.remove("active");
@@ -24,6 +20,7 @@ export default class MovieDetailModal {
     // - 평균 별점
     // - 내 별점
     // - 줄거리
+
     this.div.className = "modal-background";
     this.div.innerHTML = /*html*/ `
     <div class="modal">
@@ -37,12 +34,16 @@ export default class MovieDetailModal {
                     <img class="average-star" src="./src/images/star_filled.png">
                     <p class="modal-rating">${data.vote_average.toFixed(1)}</p>
                 </div>
-                <p class="modal-user-rating">내 별점: </p>
+                <hr>
+                <p class="modal-user-rating">내 별점</p>
+                <hr>
                 <p class="modal-overview-title">줄거리</p>
                 <p class="modal-overview">${data.overview}</p>
             </div>
         </div>
     </div>`;
     document.body.appendChild(this.div);
+
+    this.div.classList.add("active");
   }
 }
