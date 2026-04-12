@@ -44,7 +44,10 @@ export class MovieDetailModal {
       : IMAGE_URL.DEFAULT_THUMBNAIL_IMAGE_URL;
     this.el.poster.alt = detail.title;
     this.el.title.textContent = detail.title;
-    this.el.category.textContent = `${detail.releaseYear} · ${detail.genres.join(", ")}`;
+    const categoryParts = [detail.releaseYear, detail.genres.join(", ")].filter(
+      Boolean,
+    );
+    this.el.category.textContent = categoryParts.join(" · ");
     this.el.rateValue.textContent = `${detail.rate}`;
     this.el.detail.textContent = detail.overview;
 
