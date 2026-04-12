@@ -15,7 +15,7 @@ const createMyRateTemplate = (userRate: number) => {
   <div class="my-rate" id="${MY_RATE_ID}">
     <h3>내 별점</h3>
     <div>
-      <div class="rate-button-container" id="${RATE_BUTTON_CONTAINER_ID}"></div>
+      <div class="rate-button-container" id="${RATE_BUTTON_CONTAINER_ID}" aria-label="별점 ${userRate}점"></div>
       <span class="comment">${rateConfig?.comment}</span>
       <span class="score">(${rateConfig?.score}/10)</span>
     </div>

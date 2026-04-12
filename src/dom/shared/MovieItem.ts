@@ -11,7 +11,7 @@ const createMovieItemTemplate = (movie: Movie) => `
       />
       <div class="item-desc">
         <p class="rate">
-          <img src="./images/star_empty.png" alt="" class="star" />
+          <img src="./images/star_empty.png" alt="별점" class="star" />
           <span>${movie.vote_average}</span>
         </p>
         <strong>${movie.title}</strong>

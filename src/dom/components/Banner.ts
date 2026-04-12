@@ -12,7 +12,7 @@ const createBannerTemplate = (movie: Movie | null) => `
     <div class="top-rated-container">
       <div class="top-rated-movie">
         <div class="rate">
-          <img class="star" src="./images/star_empty.png"/>
+          <img class="star" src="./images/star_empty.png" alt="별점"/>
           <span class="rate-value">${movie?.vote_average ?? "..."}</span>
         </div>
         <h3 class="title">${movie?.title ?? "정보를 불러오는 중..."}</h3>
