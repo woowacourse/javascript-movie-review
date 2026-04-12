@@ -18,7 +18,7 @@
   cursor: pointer;
 }
 
-.item-desc > *:not(:last-child) {
+.item-desc>*:not(:last-child) {
   position: relative;
   margin-bottom: 4px;
   line-height: 1.2rem;
@@ -30,7 +30,7 @@ p.rate {
   color: var(--color-yellow);
 }
 
-p.rate > span {
+p.rate>span {
   margin-left: 4px;
 }
 

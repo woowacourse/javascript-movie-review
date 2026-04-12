@@ -16,7 +16,7 @@ function createModalElement(movieDetail: MovieDetail) {
     <div class="modal-body">
       <div class="modal-movie-poster">
         <img 
-          src="${import.meta.env.VITE_IMAGE_BASE_URL}/w500${movieDetail.poster_path}"
+          src="${import.meta.env.VITE_IMAGE_BASE_URL}/w400${movieDetail.poster_path}"
           onerror="this.src='${import.meta.env.BASE_URL}images/default_movie_image.png'"
           alt="${movieDetail.title}"
         />

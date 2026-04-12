@@ -30,12 +30,13 @@
 }
 
 .modal-movie-poster img {
-  width: 500px;
+  width: 400px;
   border-radius: 16px;
-  aspect-ratio: 2/3;
+  aspect-ratio: 2 / 3;
 }
 
 .modal-movie-content {
+  width: 100%;
   font-size: 20px;
   font-weight: 400;
 }
@@ -182,7 +183,9 @@
 }
 
 .modal-movie-plot-body {
-  font-size: 24px;
+  height: 300px;
+  overflow-y: auto;
+  font-size: 20px;
   line-height: 150%;
   font-weight: 300;
 }
@@ -192,7 +195,7 @@
     position: fixed;
     bottom: 0;
     min-width: 100%;
-    margin: 0;
+    margin: 64px 0 0 0;
     align-self: end;
   }
 
@@ -209,6 +212,10 @@
 
   .modal-movie-poster img {
     width: 200px;
+  }
+
+  .modal-movie-plot-body {
+    height: 100%;
   }
 }
 

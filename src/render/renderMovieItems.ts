@@ -11,7 +11,7 @@ export function createMovieItemElement(page: number, movie: Movie) {
   liElement.insertAdjacentHTML('beforeend', /*html*/`
     <img
       class="thumbnail"
-      src="${import.meta.env.VITE_IMAGE_BASE_URL}/w200${movie.poster_path}"
+      src="${import.meta.env.VITE_IMAGE_BASE_URL}/w300${movie.poster_path}"
       onerror="this.src='${import.meta.env.BASE_URL}images/default_movie_image.png'"
       alt="${movie.title}"
     />
