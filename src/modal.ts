@@ -2,6 +2,7 @@ import { fetchMovieDetail, MovieDetailData } from "./api.ts";
 
 const $modalBackground = document.querySelector('#modalBackground') as HTMLElement | null;
 const $modalContainer = document.querySelector('#modalContainer') as HTMLElement | null;
+const $closeModalButton = document.querySelector('#closeModal') as HTMLButtonElement | null;
 
 export const openModal = async (movieId: number) => {
   if(!$modalBackground || !$modalContainer) return;
@@ -58,4 +59,26 @@ const closeModal = () => {
   document.body.classList.remove('modal-open');
 };
 
+
+// 모달 창 닫기 이벤트 추가
+// 닫기 버튼 클릭할 때
+if ($closeModalButton) {
+  $closeModalButton.addEventListener('click', closeModal);
+}
+
+// 모달 창 바깥 배경 클릭하면
+if ($modalBackground) {
+  $modalBackground.addEventListener('click', (event) => {
+    if (event.target === $modalBackground) {
+      closeModal();
+    }
+  });
+}
+
+// ESC 키 눌렀을 때
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape' && $modalBackground?.classList.contains('active')) {
+    closeModal();
+  }
+});
 
