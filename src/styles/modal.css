@@ -85,3 +85,29 @@ body.modal-open {
   max-height: 430px;
   overflow-y: auto;
 }
+
+.my-rating-title {
+  font-weight: bold;
+}
+
+.my-rating-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.my-rating-stars {
+  display: flex;
+  gap: 2px;
+}
+
+.star-rating-star {
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+}
+
+.my-rating-label {
+  color: var(--color-bluegray-10);
+  font-size: 0.9rem;
+}
