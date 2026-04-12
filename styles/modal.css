@@ -36,7 +36,10 @@ body.modal-open {
   color: white;
   z-index: 2;
   position: relative;
-  width: 1000px;
+  max-width: 1000px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
 .close-modal {
@@ -56,9 +59,16 @@ body.modal-open {
   display: flex;
 }
 
+.modal-image {
+  flex-shrink: 0;
+  width: 40%;
+  max-width: 350px;
+}
+
 .modal-image img {
-  width: 380px;
+  width: 100%;
   border-radius: 16px;
+  object-fit: cover;
 }
 
 .modal-description {
@@ -141,4 +151,61 @@ body.modal-open {
 .detail {
   max-height: 430px;
   overflow-y: auto;
+}
+
+@media (max-width: 1024px) {
+  .modal-background {
+    align-items: flex-end;
+  }
+
+  .modal {
+    width: 100%;
+    max-width: 100%;
+    border-radius: 24px 24px 0 0;
+    padding: 32px 24px;
+    
+    /* 아래에서 올라옴!! */
+    transform: translateY(100%);
+    animation: slideUp 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  }
+
+  /* 세로 방향으로 배치 변경 */
+  .modal-container {
+    flex-direction: column; 
+    align-items: center;
+  }
+
+  /* 닫기 버튼 위치 조정 */
+  .close-modal {
+    top: 24px;
+    right: 24px;
+    z-index: 1000;
+  }
+
+  .modal-image {
+    width: 60%;
+    margin-bottom: 24px;
+    max-width: 250px;
+  }
+  
+  .modal-description {
+    margin-left: 0;
+  }
+
+  .rate {
+    justify-content: center;
+    text-align: center;
+  }
+}
+
+@keyframes slideUp {
+  to {
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 360px) {
+  .modal-image {
+    display: none;
+  }
 }
