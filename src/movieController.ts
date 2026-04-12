@@ -1,4 +1,5 @@
 import { renderFetchMovieItem, hideMoreButton } from './render.ts';
+import { openModal } from './modal.ts';
 
 export const initMovieList = (query?: string) => {
   let currentPage: number = 1;
@@ -57,4 +58,16 @@ export const initMovieList = (query?: string) => {
     hideMoreButton();
     loadMovies();
   });
+
+  $thumbnailList.addEventListener('click', (event) => {
+    const target = event.target as HTMLElement;
+    const $movieItem = target.closest('.movie-item') as HTMLElement | null;
+
+    if ($movieItem) {
+      const movieId = Number($movieItem.dataset.id);
+      if (movieId) {
+        openModal(movieId);
+      }
+    }
+  })
 };
