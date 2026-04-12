@@ -27,15 +27,10 @@ export const Index = {
       const observer = new IntersectionObserver(
         ([entry]) => {
           if (!entry.isIntersecting) return;
-          // 로딩시에는 가져오지 않는다.
           if (State.isLoading) return;
           const query = State.searchQuery;
-          const nextPage = query
-            ? State.nextSearchPageNum
-            : State.nextPageNum;
-          const totalPage = query
-            ? State.totalSearchPages
-            : State.totalPages;
+          const nextPage = query ? State.nextSearchPageNum : State.nextPageNum;
+          const totalPage = query ? State.totalSearchPages : State.totalPages;
           if (totalPage === 0 || nextPage > totalPage) return;
           this.handleLoadMoreMovies();
         },
@@ -95,9 +90,11 @@ export const Index = {
     State.isLoading = true;
     Renderer.renderSkeleton(".thumbnail-list", State.requestMovieCount);
     try {
-      const { results: movies, page, total_pages } = await getPopularMovies(
-        State.nextPageNum,
-      );
+      const {
+        results: movies,
+        page,
+        total_pages,
+      } = await getPopularMovies(State.nextPageNum);
       State.nextPageNum = page + 1;
       State.totalPages = total_pages;
       IndexRenderer.renderLoadMoreMovies(movies);
