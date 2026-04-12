@@ -5,3 +5,8 @@ export interface Movie {
   vote_average: number;
   backdrop_path: string;
 }
+
+export interface MovieDetail extends Movie {
+  overview: string;
+  genres: {id: number, name : string}[];
+}
