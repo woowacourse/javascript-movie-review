@@ -3,6 +3,7 @@ import {
   initialRender,
   renderMoreMovies,
   renderSearchResults,
+  renderMovieDetailModal
 } from "./movieController";
 import { Header } from "./View/Header";
 
@@ -12,6 +13,8 @@ export function initEvents() {
   loadSearch();
 
   loadMoreButton();
+
+  loadMovieDetailInfo();
 }
 
 function loadHeader() {
@@ -51,5 +54,20 @@ function loadMoreButton() {
       movieState.page += 1;
       await renderMoreMovies(movieState.page, movieState.searchQuery);
     });
+  }
+}
+
+// 하나의 영화 카드를 클릭했을 때, 해당 카드에서 영화의 id를 받아서 
+// 그 id를 그 영화 정보를 렌더링 하는 함수로 넘겨준다. -> 렌더링 한다.
+function loadMovieDetailInfo() {
+  const movieList = document.querySelector(".thumnail-list") as HTMLElement;
+  if(movieList){
+    movieList.addEventListener("click", async () => {
+      const target = movieList.closest(".movie-card") as HTMLElement;
+      const id  = target.dataset.id;
+       if(id){
+          await renderMovieDetailModal(Number(id));
+        }
+    })
   }
 }
