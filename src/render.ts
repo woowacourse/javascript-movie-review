@@ -1,8 +1,12 @@
 import type { Movie } from "./api.ts";
 import Component from "./component.ts";
 import { observeHeaderScroll } from "./observer.ts";
-import { IMAGE_PATH } from "./constants/movie.ts";
-import { getRatingToString } from "./utils/rating.ts";
+import {
+  IMAGE_PATH,
+  RATING_STRING,
+  RATING_BLANK_IMAGE,
+  RATING_FILL_IMAGE,
+} from "./constants/movie.ts";
 
 export const IndexRenderer = {
   renderInitialMovies(movies: Movie[]) {
@@ -111,15 +115,15 @@ export const MovieDetailRenderer = {
       const backgroundImage = button.querySelector<HTMLImageElement>("img");
       if (!backgroundImage) return;
       if (rating >= Number((button as HTMLElement).dataset.rating)) {
-        backgroundImage.src = "src/images/star_filled.png";
+        backgroundImage.src = RATING_FILL_IMAGE;
       } else {
-        backgroundImage.src = "src/images/star_empty.png";
+        backgroundImage.src = RATING_BLANK_IMAGE;
       }
     });
     if (myRatingToString)
-      myRatingToString.innerHTML = getRatingToString(rating);
+      myRatingToString.innerHTML = RATING_STRING[rating] ?? "";
     if (myRatingRatio instanceof HTMLElement)
-      myRatingRatio.innerHTML = `(${rating}/10)`;
+      myRatingRatio.innerHTML = `(${rating}/${Object.keys(RATING_STRING).slice(-1)})`;
   },
 
   clearMovieDetail() {
