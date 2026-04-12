@@ -96,8 +96,30 @@ body.modal-open {
   margin: 16px 0;
 }
 
-.modal .detail-container dt {
+.modal .detail-container dt,
+.modal .my-rating-container dt,
+.modal .my-rating-container dd {
   font-size: 24px;
   font-weight: 600;
   margin: 16px 0;
+}
+
+.modal .my-rating-container dd {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.modal .my-rating-container dd button {
+  background-color: transparent;
+  padding: 0;
+}
+
+.modal .my-rating-container dd button img {
+  width: 32px;
+  height: 32px;
+}
+
+.modal .my-rating-container .rating-ratio {
+  color: var(--color-bluegray-30);
 }
