@@ -2,6 +2,7 @@ import type { Movie } from "./api.ts";
 import Component from "./component.ts";
 import { observeHeaderScroll } from "./observer.ts";
 import { IMAGE_PATH } from "./constants/movie.ts";
+import { getRatingToString } from "./utils/rating.ts";
 
 export const MovieRenderer = {
   renderInitialMovies(movies: Movie[]) {
@@ -83,7 +84,6 @@ export const MovieRenderer = {
   },
 
   renderMyRating(rating: number) {
-    let ratingToString = "";
     const myRating = document.querySelectorAll("#my-rating button");
     const myRatingToString = document.querySelector("#my-rating-to-string");
     const myRatingRatio = document.querySelector("#my-rating-ratio");
@@ -96,24 +96,8 @@ export const MovieRenderer = {
         backgroundImage.src = "src/images/star_empty.png";
       }
     });
-    switch (rating) {
-      case 10:
-        ratingToString = "명작이에요";
-        break;
-      case 8:
-        ratingToString = "재미있어요";
-        break;
-      case 6:
-        ratingToString = "보통이에요";
-        break;
-      case 4:
-        ratingToString = "별로에요";
-        break;
-      case 2:
-        ratingToString = "최악이에요";
-        break;
-    }
-    if (myRatingToString) myRatingToString.innerHTML = ratingToString;
+    if (myRatingToString)
+      myRatingToString.innerHTML = getRatingToString(rating);
     if (myRatingRatio instanceof HTMLElement)
       myRatingRatio.innerHTML = `(${rating}/10)`;
   },
