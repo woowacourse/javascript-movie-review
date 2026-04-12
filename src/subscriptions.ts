@@ -49,6 +49,7 @@ export function registerSubscriptions(): void {
     scrollObserver.disconnect();
   });
 
+  // 모달이 열리는 동안 observer를 해제 (LOAD_MORE가 중복 발생하는 문제를 방지하기 위해서)
   eventBus.subscribe(APP_EVENTS.MOVIE_SELECTED, () => {
     scrollObserver.disconnect();
   });

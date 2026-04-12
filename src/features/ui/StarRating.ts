@@ -50,7 +50,6 @@ export class StarRating {
 
   private attach(): void {
     const starList = this.container.querySelector(".star-list") as HTMLElement;
-    const labels = Array.from(starList.querySelectorAll("label")) as HTMLElement[];
     const ratingLabel = this.container.querySelector(".rating-label") as HTMLElement;
 
     starList.addEventListener("change", async (e) => {
@@ -58,19 +57,6 @@ export class StarRating {
       this.currentRating = Number(input.value);
       await this.repository.save(this.movieId, this.currentRating);
       this.updateLabel(ratingLabel, this.currentRating);
-    });
-
-    starList.addEventListener("mouseover", (e) => {
-      const label = (e.target as HTMLElement).closest("label") as HTMLElement | null;
-      if (!label) return;
-      const hoverValue = Number(label.dataset.value);
-      labels.forEach((l) => {
-        l.style.backgroundPosition = Number(l.dataset.value) <= hoverValue ? "100% 0%" : "0% 0%";
-      });
-    });
-
-    starList.addEventListener("mouseleave", () => {
-      labels.forEach((l) => (l.style.backgroundPosition = ""));
     });
   }
 }

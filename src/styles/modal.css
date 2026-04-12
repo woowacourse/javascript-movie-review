@@ -140,13 +140,23 @@ dialog.modal::backdrop {
   display: inline-block;
   width: 32px;
   height: 32px;
-  background-size: 200% 100%;
+  background-size: 200% 100%; /* 스프라이트 이미지(빈 별 | 채운 별)에서 절반만 보이게 */
   background-position: 0% 0%; /* empty */
   cursor: pointer;
 }
 
-/* 체크된 별 + 왼쪽(DOM 기준 이후) 전부 채움 */
-.star-list input[type="radio"]:checked ~ label {
+/* hover 중일 때 전부 초기화 후 hover된 별 + 왼쪽 채움 */
+.star-list:has(label:hover) label {
+  background-position: 0% 0%;
+}
+
+.star-list:has(label:hover) label:hover,
+.star-list label:hover ~ label {
+  background-position: 100% 0%;
+}
+
+/* hover 아닐 때 checked 상태 */
+.star-list:not(:hover) input[type="radio"]:checked ~ label {
   background-position: 100% 0%;
 }
 
