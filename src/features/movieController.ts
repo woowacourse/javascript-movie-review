@@ -68,7 +68,8 @@ export async function renderMovieDetailModal(id: number){
     // 영화 상세 정보 API 요청
     const data = await getMovieDetail(id);
     // 영화 상세 정보 모달 렌더링 함수 호출
-    movieDetailModal.render(data);  
+    movieDetailModal.render(data);
+    movieDetailModal.open();
   }catch(error){
     if (error instanceof Error) movieList.renderError(error.message);
   }

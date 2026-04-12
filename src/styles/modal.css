@@ -39,6 +39,69 @@ body.modal-open {
   width: 1000px;
 }
 
+.modal-container {
+  width: 960px;
+  angle: 0 deg;
+  opacity: 1;
+  padding-top: 40px;
+  padding-right: 24px;
+  padding-bottom: 40px;
+  padding-left: 24px;
+  gap: 24px;
+  border-radius: 16px;
+}
+
+.modal-title {
+  font-family: DM Sans;
+  font-weight: 700;
+  font-style: Bold;
+  font-size: 32px;
+  line-height: 100%;
+  letter-spacing: 0%;
+}
+
+.modal-release-date-and-genres {
+  font-family: DM Sans;
+  font-weight: 400;
+  font-style: Regular;
+  font-size: 20px;
+  line-height: 100%;
+  letter-spacing: 0%;
+}
+
+.modal-rating-text {
+  font-size: 20px;
+  margin: 0;
+  margin-right: 16px;
+  font-family: DM Sans;
+  font-weight: 400;
+  font-style: Regular;
+  font-size: 20px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  padding-top: 2px;
+}
+
+.modal-rating {
+  margin: 0;
+  margin-left: 2px;
+  color: #ffc700;
+  font-family: Montserrat;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: 0.18px;
+  padding-top: 1.5px;
+  font-style: SemiBold;
+  line-height: 100%;
+}
+
+.average-star {
+  width: 24px;
+  height: 24px;
+  margin-right: 2.5px;
+}
+
 .close-modal {
   position: absolute;
   margin: 0;
@@ -61,11 +124,20 @@ body.modal-open {
   border-radius: 16px;
 }
 
+.average {
+  display: flex;
+  align-items: center;
+  line-height: 1;
+}
+
 .modal-description {
+  display: flex;
+  flex-direction: column;
   width: 100%;
   padding: 8px;
   margin-left: 16px;
   line-height: 1.6rem;
+  gap: 16px;
 }
 
 .modal-description .rate > img {
