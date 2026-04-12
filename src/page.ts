@@ -4,6 +4,7 @@ import {
   getSearchMovies,
 } from "./apis/api.ts";
 import MovieState from "./state/business/movieState.ts";
+import { getMyRating, setMyRating } from "./storage/domain/myRating.ts";
 import {
   setupModalCloseInteraction,
   setupMovieInteraction,
@@ -67,18 +68,20 @@ function setupInteractions() {
 }
 
 export async function loadMovieDetails(movieId: string) {
-  const myRate = 2;
+  const savedMyRate = getMyRating(movieId); //TODO: 계층이 일정하지 않음
+
   await getMovieDetails({
     movieId,
     onSuccess: (movie) => {
       const renderModalWithRating = (rating: number) => {
+        setMyRating(movieId, rating); //TODO: 계층이 일정하지 않음
         paintRemoveModal();
         paintMovieModal(movie, rating);
         setupMyRatingInteraction(renderModalWithRating);
       };
 
       paintRemoveModalSkeleton();
-      paintMovieModal(movie, myRate);
+      paintMovieModal(movie, savedMyRate);
       setupMyRatingInteraction(renderModalWithRating);
     },
     onError: () => {

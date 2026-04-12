@@ -67,8 +67,7 @@ export const setupMyRatingInteraction = (
         const ratingItem = event.currentTarget as HTMLElement;
         if (!ratingItem) return;
         const ratingValue = ratingItem.dataset.ratingValue;
-        localStorage.setItem("myRating", ratingValue || "0");
-        onRatingSelect(parseInt(ratingValue || "0")); //어디까지가 이 함수의 책임일까? storage에 저장하는 것은..? 돔을 조작하는 것은?
+        onRatingSelect(parseInt(ratingValue || "0"));
         //
       },
     });
