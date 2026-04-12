@@ -8,8 +8,23 @@
 
 .thumbnail-grid {
   display: grid;
-  grid-template-columns: repeat(5, 200px);
-  gap: 70px;
+  grid-template-columns: repeat(1, 200px);
+  justify-content: center;
+  gap: 32px;
+}
+
+@media (min-width: 520px) {
+  .thumbnail-grid {
+    grid-template-columns: repeat(2, 200px);
+    gap: 40px;
+  }
+}
+
+@media (min-width: 1120px) {
+  .thumbnail-grid {
+    grid-template-columns: repeat(4, 200px);
+    gap: 53px;
+  }
 }
 
 .thumbnail-list,
@@ -49,7 +64,10 @@
   display: flex;
   flex-direction: column;
   gap: var(--thumbnail-desc-gap);
-  min-height: calc(var(--thumbnail-rate-height) + var(--thumbnail-title-height) + var(--thumbnail-desc-gap));
+  min-height: calc(
+    var(--thumbnail-rate-height) + var(--thumbnail-title-height) +
+      var(--thumbnail-desc-gap)
+  );
   padding-top: 4px;
 }
 

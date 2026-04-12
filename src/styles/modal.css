@@ -14,7 +14,7 @@ body.modal-open {
   backdrop-filter: blur(10px);
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-end;
   z-index: 10;
   visibility: hidden;
   opacity: 0;
@@ -30,12 +30,14 @@ body.modal-open {
 
 .modal {
   background-color: var(--color-bluegray-90);
-  padding: 20px;
-  border-radius: 16px;
+  padding: 40px 24px 20px;
+  border-radius: 16px 16px 0 0;
   color: white;
   z-index: 2;
   position: relative;
-  width: 1000px;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
 }
 
 .close-modal {
@@ -53,18 +55,24 @@ body.modal-open {
 
 .modal-container {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.modal-image {
+  display: none;
 }
 
 .modal-image img {
-  width: 380px;
+  width: 200px;
   border-radius: 16px;
 }
 
 .modal-description {
   width: 100%;
   padding: 8px;
-  margin-left: 16px;
   line-height: 1.6rem;
+  text-align: center;
 }
 
 .modal-description .rate > img {
@@ -92,8 +100,9 @@ body.modal-open {
 
 .my-rating-row {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
 }
 
 .my-rating-stars {
@@ -110,4 +119,47 @@ body.modal-open {
 .my-rating-label {
   color: var(--color-bluegray-10);
   font-size: 0.9rem;
+}
+
+@media (min-width: 520px) {
+  .modal-image {
+    display: block;
+  }
+
+  .modal-description {
+    text-align: left;
+  }
+
+  .my-rating-row {
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+  }
+}
+
+@media (min-width: 1120px) {
+  .modal-background {
+    align-items: center;
+  }
+
+  .modal {
+    width: 960px;
+    padding: 20px;
+    border-radius: 16px;
+    max-height: none;
+    overflow-y: visible;
+  }
+
+  .modal-container {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .modal-image img {
+    width: 500px;
+  }
+
+  .modal-description {
+    margin-left: 16px;
+  }
 }
