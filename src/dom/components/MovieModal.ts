@@ -61,27 +61,29 @@ export const renderMovieModal = (
   }
 
   modalElement?.showModal();
+  document.body.classList.add("modal-open");
 
   modalElement?.addEventListener("click", (e) => {
     if (e.target === e.currentTarget) {
-      modalElement?.close();
+      hideMovieModal();
     }
   });
 
   const closeModalButton = modalElement?.querySelector("button");
   closeModalButton?.addEventListener("click", () => {
-    modalElement?.close();
+    hideMovieModal();
   });
 };
 
 export const removeMovieModal = () => {
-  modalElement?.close();
+  hideMovieModal();
   modalElement?.remove();
   modalElement = null;
 };
 
 export const hideMovieModal = () => {
-  modalElement?.close();
+  modalElement?.remove();
+  document.body.classList.remove("modal-open");
 };
 
 export const showMovieModal = () => {
