@@ -6,8 +6,8 @@ import State from "../state.ts";
 
 export const Search = {
   async showSearchMovies(query: string) {
-    State.setIsLoading(true);
-    Renderer.renderSkeleton(".thumbnail-list", State.getRequestMovieCount());
+    State.isLoading = true;
+    Renderer.renderSkeleton(".thumbnail-list", State.requestMovieCount);
     try {
       const {
         results: movies,
@@ -15,32 +15,32 @@ export const Search = {
         total_pages,
       } = await getSearchMovies(query, INITIAL_PAGE_NUM);
       SearchRenderer.renderSearchResult(movies, query);
-      State.setNextSearchPageNum(page + 1);
-      State.setTotalSearchPages(total_pages);
-      State.setSearchQuery(query);
+      State.nextSearchPageNum = page + 1;
+      State.totalSearchPages = total_pages;
+      State.searchQuery = query;
       MovieDetail.setUpMovieDetail(movies);
     } catch (err) {
       Renderer.renderError(err);
     } finally {
-      State.setIsLoading(false);
+      State.isLoading = false;
     }
   },
 
   async showMoreSearchMovies(query: string) {
-    State.setIsLoading(true);
-    Renderer.renderSkeleton(".thumbnail-list", State.getRequestMovieCount());
+    State.isLoading = true;
+    Renderer.renderSkeleton(".thumbnail-list", State.requestMovieCount);
     try {
       const { results: movies, page } = await getSearchMovies(
         query,
-        State.getNextSearchPageNum(),
+        State.nextSearchPageNum,
       );
-      State.setNextSearchPageNum(page + 1);
+      State.nextSearchPageNum = page + 1;
       SearchRenderer.renderLoadMoreSearchMovies(movies);
       MovieDetail.setUpMovieDetail(movies);
     } catch (err) {
       Renderer.renderError(err);
     } finally {
-      State.setIsLoading(false);
+      State.isLoading = false;
     }
   },
 };

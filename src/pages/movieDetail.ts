@@ -57,7 +57,7 @@ export const MovieDetail = {
   },
 
   extractDetailMovieData(movie: Movie): [string[], number] {
-    const genres = State.getGenres();
+    const genres = State.genres;
     const movieGenres = movie.genre_ids.map(
       (genreId) => genres.find((genre) => genre.id === genreId)!.name,
     );

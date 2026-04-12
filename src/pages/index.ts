@@ -28,14 +28,14 @@ export const Index = {
         ([entry]) => {
           if (!entry.isIntersecting) return;
           // 로딩시에는 가져오지 않는다.
-          if (State.getIsLoading()) return;
-          const query = State.getSearchQuery();
+          if (State.isLoading) return;
+          const query = State.searchQuery;
           const nextPage = query
-            ? State.getNextSearchPageNum()
-            : State.getNextPageNum();
+            ? State.nextSearchPageNum
+            : State.nextPageNum;
           const totalPage = query
-            ? State.getTotalSearchPages()
-            : State.getTotalPages();
+            ? State.totalSearchPages
+            : State.totalPages;
           if (totalPage === 0 || nextPage > totalPage) return;
           this.handleLoadMoreMovies();
         },
@@ -58,7 +58,7 @@ export const Index = {
   },
 
   handleLoadMoreMovies() {
-    const query = State.getSearchQuery();
+    const query = State.searchQuery;
     if (query) {
       Search.showMoreSearchMovies(query);
     } else {
@@ -69,43 +69,43 @@ export const Index = {
   async showPopularMovies() {
     const app = document.querySelector("#app");
     if (app) {
-      State.setIsLoading(true);
+      State.isLoading = true;
       Renderer.renderSkeleton(
         ".thumbnail-list",
-        State.getRequestMovieCount() || ONCE_MOVIE_LIMIT,
+        State.requestMovieCount || ONCE_MOVIE_LIMIT,
       );
       try {
         const [{ results: movies, page, total_pages }, { genres }] =
           await Promise.all([getPopularMovies(INITIAL_PAGE_NUM), getGenres()]);
-        State.setNextPageNum(page + 1);
-        State.setTotalPages(total_pages);
-        State.setRequestMovieCount(movies.length);
-        State.setGenres(genres);
+        State.nextPageNum = page + 1;
+        State.totalPages = total_pages;
+        State.requestMovieCount = movies.length;
+        State.genres = genres;
         IndexRenderer.renderInitialMovies(movies);
         MovieDetail.setUpMovieDetail(movies);
       } catch (err) {
         Renderer.renderError(err);
       } finally {
-        State.setIsLoading(false);
+        State.isLoading = false;
       }
     }
   },
 
   async showMoreMovies() {
-    State.setIsLoading(true);
-    Renderer.renderSkeleton(".thumbnail-list", State.getRequestMovieCount());
+    State.isLoading = true;
+    Renderer.renderSkeleton(".thumbnail-list", State.requestMovieCount);
     try {
       const { results: movies, page } = await getPopularMovies(
-        State.getNextPageNum(),
+        State.nextPageNum,
       );
-      State.setNextPageNum(page + 1);
+      State.nextPageNum = page + 1;
       IndexRenderer.renderLoadMoreMovies(movies);
       MovieDetail.setUpMovieDetail(movies);
     } catch (err) {
       Renderer.renderError(err);
       Renderer.clearBanner();
     } finally {
-      State.setIsLoading(false);
+      State.isLoading = false;
     }
   },
 };
