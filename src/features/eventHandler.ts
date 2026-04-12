@@ -4,16 +4,16 @@ import {
   renderMoreMovies,
   renderSearchResults,
   renderMovieDetailModal,
+  closeMovieDetailModal,
 } from "./movieController";
 import { Header } from "./View/Header";
-import { closeMovieDetailModal } from "./movieController";
 
 export function initEvents() {
   loadHeader();
 
   loadSearch();
 
-  loadMoreButton();
+  loadInfiniteScroll();
 
   loadMovieDetailInfo();
 }
@@ -48,14 +48,25 @@ function loadSearch() {
   });
 }
 
-function loadMoreButton() {
-  const moreButton = document.querySelector(".btn-more") as HTMLButtonElement;
-  if (moreButton) {
-    moreButton.addEventListener("click", async () => {
-      movieState.page += 1;
-      await renderMoreMovies(movieState.page, movieState.searchQuery);
-    });
-  }
+function loadInfiniteScroll() {
+  const sentinel = document.querySelector(".scroll-sentinel") as HTMLElement;
+  if (!sentinel) return;
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      const entry = entries[0];
+      if (entry.isIntersecting && !movieState.isLoading && movieState.hasMore) {
+        movieState.page += 1;
+        renderMoreMovies(movieState.page, movieState.searchQuery);
+      }
+
+      // 마지막 페이지면 관찰 중단
+      if (!movieState.hasMore) observer.disconnect();
+    },
+    { rootMargin: "200px" },
+  );
+
+  observer.observe(sentinel);
 }
 
 // 하나의 영화 카드를 클릭했을 때, 해당 카드에서 영화의 id를 받아서
@@ -75,7 +86,10 @@ function loadMovieDetailInfo() {
 
   document.body.addEventListener("click", (e) => {
     const target = e.target as HTMLElement;
-    if (target.closest(".close-modal") || target.classList.contains("modal-background")) {
+    if (
+      target.closest(".close-modal") ||
+      target.classList.contains("modal-background")
+    ) {
       closeMovieDetailModal();
     }
   });

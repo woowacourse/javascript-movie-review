@@ -7,6 +7,7 @@ import {
   getSearchMovies,
   getMovieDetail,
 } from "./movieModel";
+import { movieState } from "./movieState";
 
 const movieList = new MovieList();
 const movieDetailModal = new MovieDetailModal();
@@ -22,7 +23,7 @@ export async function initialRender(page: number): Promise<void> {
     Header.render(data.results[0]);
     movieList.clearList();
     movieList.renderMovieList(data);
-    movieList.updateMoreButton(data.total_pages, page);
+    movieState.hasMore = page < data.total_pages;
   } catch (error) {
     if (error instanceof Error) movieList.renderError(error.message);
   }
@@ -42,12 +43,12 @@ export async function renderSearchResults(
 
     if (data.results.length === 0) {
       movieList.showEmpty();
+      movieState.hasMore = false;
     } else {
       movieList.clearList();
       movieList.renderMovieList(data);
+      movieState.hasMore = page < data.total_pages;
     }
-
-    movieList.updateMoreButton(data.total_pages, page);
   } catch (error) {
     if (error instanceof Error) movieList.renderError(error.message);
   }
@@ -57,12 +58,15 @@ export async function renderMoreMovies(
   page: number,
   searchQuery: string,
 ): Promise<void> {
+  movieState.isLoading = true;
   try {
     const data = await getMoreMovies(page, searchQuery);
     movieList.renderMovieList(data);
-    movieList.updateMoreButton(data.total_pages, page);
+    movieState.hasMore = page < data.total_pages;
   } catch (error) {
     if (error instanceof Error) movieList.renderError(error.message);
+  } finally {
+    movieState.isLoading = false;
   }
 }
 
