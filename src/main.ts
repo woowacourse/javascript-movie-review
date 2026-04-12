@@ -7,9 +7,10 @@ import { handleModal } from "./controller/handleModal";
 import { myStarRatingView } from "./view/myStarRatingView";
 import { handleMyStar } from "./controller/handleMyStar";
 import { currentMovieModel } from "./model/currentMovieModel";
-import { infiniteScrollView } from "./view/InfiniteScrollView";
+import { infiniteScrollView } from "./view/infiniteScrollView";
 import { bannerView } from "./view/bannerView";
 import { movieListView } from "./view/movieListView";
+import { movieModel } from "./model/movieModel";
 
 function init() {
   addEventListener("load", () => {
@@ -47,7 +48,15 @@ function init() {
   });
 
   movieListView.bindThumbnailRetryClick(() => {
-    handleLoadMore();
+    if (movieModel.page === 1) {
+      if (movieModel.isSearch) {
+        handleSearch(movieModel.searchValue);
+      } else {
+        handleHome();
+      }
+    } else {
+      handleLoadMore();
+    }
   });
 }
 

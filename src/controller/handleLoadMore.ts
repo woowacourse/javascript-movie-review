@@ -4,7 +4,7 @@ import { movieModel } from "../model/movieModel";
 import { emptyMovieList } from "../services/emptyMovieList";
 import { fetchCurrentModeData } from "../services/fetchCurrentModeData";
 import { errorMovieList } from "../services/errorMovieList";
-import { infiniteScrollView } from "../view/InfiniteScrollView";
+import { infiniteScrollView } from "../view/infiniteScrollView";
 
 export async function handleLoadMore() {
   try {
@@ -14,6 +14,7 @@ export async function handleLoadMore() {
 
     if (!response.success) {
       errorMovieList.handleLoadMoreError(response.error);
+      infiniteScrollView.disconnect();
       return;
     };
 

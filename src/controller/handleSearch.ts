@@ -6,7 +6,7 @@ import { movieListView } from "../view/movieListView";
 import { bannerView } from "../view/bannerView";
 import { errorMovieList } from "../services/errorMovieList";
 import { emptyMovieList } from "../services/emptyMovieList";
-import { infiniteScrollView } from "../view/InfiniteScrollView";
+import { infiniteScrollView } from "../view/infiniteScrollView";
 
 export async function handleSearch(keyword: string) {
   try {
@@ -23,6 +23,7 @@ export async function handleSearch(keyword: string) {
 
     if (!searchMoviesResult.success) {
       errorMovieList.handleSearchError(searchMoviesResult.error);
+      infiniteScrollView.disconnect();
       return;
     };
 

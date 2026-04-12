@@ -5,7 +5,7 @@ import { movieModel } from "../model/movieModel";
 import { bannerView } from "../view/bannerView";
 import { errorMovieList } from "../services/errorMovieList";
 import { emptyMovieList } from "../services/emptyMovieList";
-import { infiniteScrollView } from "../view/InfiniteScrollView";
+import { infiniteScrollView } from "../view/infiniteScrollView";
 
 export async function handleHome() {
   try {
@@ -15,6 +15,7 @@ export async function handleHome() {
 
     if (!popularMovies.success) {
       errorMovieList.handleHomeError(popularMovies.error);
+      infiniteScrollView.disconnect();
       return;
     };
 
