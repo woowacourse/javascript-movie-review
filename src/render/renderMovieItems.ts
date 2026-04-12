@@ -1,11 +1,14 @@
+import bindClickMovieEvent from "../event/bindClickMovieEvent";
+import { observeVisibleMovieItem } from "../observer/bindVisibleMovieObserver";
 import { Movie } from "../type";
 
-export function createMovieItemElement(movie: Movie) {
+export function createMovieItemElement(page: number, movie: Movie) {
   const liElement = document.createElement("li");
   liElement.classList.add("item");
+  liElement.dataset.page = page.toString();
   liElement.dataset.movieId = movie.id.toString();
 
-  liElement.insertAdjacentHTML('beforeend', `
+  liElement.insertAdjacentHTML('beforeend', /*html*/`
     <img
       class="thumbnail"
       src="${import.meta.env.VITE_IMAGE_BASE_URL}/w200${movie.poster_path}"
@@ -21,10 +24,20 @@ export function createMovieItemElement(movie: Movie) {
     </div>
   `)
 
+  bindClickMovieEvent(liElement);
+  observeVisibleMovieItem(liElement);
+
   return liElement;
 }
 
-export default function renderMovieItemsToList(movieList: Movie[]) {
+export default function renderMovieItems(page: number, movieList: Movie[], direction: 'append' | 'prepend' = 'append') {
   const listElement = document.querySelector(".thumbnail-list");
-  listElement?.append(...movieList.map((movie) => createMovieItemElement(movie)));
+  if (!listElement) return;
+
+  const elements = movieList.map((movie) => createMovieItemElement(page, movie));
+  if (direction === 'append') {
+    listElement.append(...elements);
+  } else {
+    listElement.prepend(...elements);
+  }
 }

@@ -106,3 +106,9 @@
   font-size: 20px;
   font-weight: 700;
 }
+
+.load-more-top-button {
+  width: 500px;
+  align-self: center;
+  margin: 24px 0;
+}

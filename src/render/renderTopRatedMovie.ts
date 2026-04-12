@@ -1,4 +1,4 @@
-import bindClickTopRatedMovieEvent from "../event/bindClickTopRatedMovieEvent";
+import bindClickMovieEvent from "../event/bindClickMovieEvent";
 import { Movie } from "../type";
 
 export default function renderTopRatedMovie(movie: Movie) {
@@ -27,11 +27,10 @@ export default function renderTopRatedMovie(movie: Movie) {
 
   if (detailButtonEl) {
     detailButtonEl.disabled = false;
+    bindClickMovieEvent(detailButtonEl);
   }
 
   if (backgroundContainerEl) {
     backgroundContainerEl.style.backgroundImage = `url(${import.meta.env.VITE_IMAGE_BASE_URL}/w1920_and_h800_multi_faces${movie.backdrop_path})`;
   }
-
-  bindClickTopRatedMovieEvent();
 }

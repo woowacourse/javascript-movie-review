@@ -4,7 +4,7 @@ function createToast({ title, message }: { title?: string, message?: string }): 
   const toast = document.createElement("div");
   toast.className = "toast";
 
-  toast.innerHTML = `
+  toast.innerHTML = /*html*/`
     <div>
       <p class="toast-title">${title}</p>
       <p class="toast-message">${message}</p>

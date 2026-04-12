@@ -1,4 +1,4 @@
-export function getURLSearchParam(name: string, defaultValue: string) {
+export function getURLSearchParam<T>(name: string, defaultValue: T) {
   const urlParams = new URLSearchParams(window.location.search);
   return urlParams.get(name) ?? defaultValue
 }
@@ -6,7 +6,19 @@ export function getURLSearchParam(name: string, defaultValue: string) {
 export function setURLSearchParam(name: string, value: string) {
   const url = new URL(window.location.href);
   url.searchParams.set(name, value);
-  window.history.replaceState({}, "", url);
+  history.replaceState({}, "", url);
+}
+
+export function getURLSearchParams() {
+  return new URLSearchParams(window.location.search);
+}
+
+export function setURLSearchParams(params: Record<string, string>) {
+  const url = new URL(window.location.href);
+  Object.entries(params).forEach(([key, value]) => {
+    url.searchParams.set(key, value);
+  })
+  history.replaceState({}, "", url);
 }
 
 export function getQuery() {

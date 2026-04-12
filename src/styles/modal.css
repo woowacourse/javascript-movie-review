@@ -95,12 +95,12 @@
   font-weight: 600;
 }
 
-.modal-movie-my-rate-form {
+.modal-movie-my-rating-form {
   display: flex;
   gap: 8px;
 }
 
-.modal-movie-my-rate-form>button {
+.modal-movie-my-rating-form>button {
   width: 32px;
   height: 32px;
   margin: 0;
@@ -111,34 +111,34 @@
   background-position: 0px 0px;
 }
 
-.modal-movie-my-rate-form[data-rating="2"]>button:nth-of-type(1) {
+.modal-movie-my-rating-form[data-rating="2"]>button:nth-of-type(1) {
   background-position: 33px 0px;
 }
 
-.modal-movie-my-rate-form[data-rating="4"]>button:nth-of-type(1),
-.modal-movie-my-rate-form[data-rating="4"]>button:nth-of-type(2) {
+.modal-movie-my-rating-form[data-rating="4"]>button:nth-of-type(1),
+.modal-movie-my-rating-form[data-rating="4"]>button:nth-of-type(2) {
   background-position: 33px 0px;
 }
 
-.modal-movie-my-rate-form[data-rating="6"]>button:nth-of-type(1),
-.modal-movie-my-rate-form[data-rating="6"]>button:nth-of-type(2),
-.modal-movie-my-rate-form[data-rating="6"]>button:nth-of-type(3) {
+.modal-movie-my-rating-form[data-rating="6"]>button:nth-of-type(1),
+.modal-movie-my-rating-form[data-rating="6"]>button:nth-of-type(2),
+.modal-movie-my-rating-form[data-rating="6"]>button:nth-of-type(3) {
   background-position: 33px 0px;
 }
 
-.modal-movie-my-rate-form[data-rating="8"]>button:nth-of-type(1),
-.modal-movie-my-rate-form[data-rating="8"]>button:nth-of-type(2),
-.modal-movie-my-rate-form[data-rating="8"]>button:nth-of-type(3),
-.modal-movie-my-rate-form[data-rating="8"]>button:nth-of-type(4) {
+.modal-movie-my-rating-form[data-rating="8"]>button:nth-of-type(1),
+.modal-movie-my-rating-form[data-rating="8"]>button:nth-of-type(2),
+.modal-movie-my-rating-form[data-rating="8"]>button:nth-of-type(3),
+.modal-movie-my-rating-form[data-rating="8"]>button:nth-of-type(4) {
   background-position: 33px 0px;
 }
 
-.modal-movie-my-rate-form[data-rating="10"]>button:nth-of-type(1),
-.modal-movie-my-rate-form[data-rating="10"]>button:nth-of-type(1),
-.modal-movie-my-rate-form[data-rating="10"]>button:nth-of-type(2),
-.modal-movie-my-rate-form[data-rating="10"]>button:nth-of-type(3),
-.modal-movie-my-rate-form[data-rating="10"]>button:nth-of-type(4),
-.modal-movie-my-rate-form[data-rating="10"]>button:nth-of-type(5) {
+.modal-movie-my-rating-form[data-rating="10"]>button:nth-of-type(1),
+.modal-movie-my-rating-form[data-rating="10"]>button:nth-of-type(1),
+.modal-movie-my-rating-form[data-rating="10"]>button:nth-of-type(2),
+.modal-movie-my-rating-form[data-rating="10"]>button:nth-of-type(3),
+.modal-movie-my-rating-form[data-rating="10"]>button:nth-of-type(4),
+.modal-movie-my-rating-form[data-rating="10"]>button:nth-of-type(5) {
   background-position: 33px 0px;
 }
 

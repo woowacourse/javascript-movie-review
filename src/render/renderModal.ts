@@ -1,6 +1,6 @@
-import { fetchMovieDetail, fetchMyRating } from "../api";
-import bindSelectRatingEvent from "../event/bindSelectRatingEvent";
+import { fetchMovieDetail } from "../api";
 import { MovieDetail } from "../type";
+import renderMyRatingSelector from "./renderMyRatingSelector";
 
 function createModalElement(movieDetail: MovieDetail) {
   const dialogElement = document.createElement("dialog");
@@ -33,9 +33,9 @@ function createModalElement(movieDetail: MovieDetail) {
             </span>
           </p>
         </div>
-        <div class="modal-movie-my-rate">
+        <div class="modal-movie-my-rating">
           <h3 class="modal-movie-content-title">내 평점</h3>
-          <div class="modal-movie-my-rate-body">
+          <div class="modal-movie-my-rating-body">
           </div>
         </div>
         <div class="modal-movie-plot">
@@ -49,41 +49,26 @@ function createModalElement(movieDetail: MovieDetail) {
   return dialogElement
 }
 
-function createMyRateSelectorElement(currentRating?: number) {
-  const formElement = document.createElement("div");
-  formElement.classList.add("modal-movie-my-rate-form")
-
-  if (currentRating !== undefined) {
-    formElement.dataset.rating = currentRating.toString()
-  }
-
-  const buttonElements = Array.from({ length: 5 }, (_, index) => {
-    const buttonElement = document.createElement("button");
-    buttonElement.type = "button";
-    buttonElement.classList.add("star-button");
-    buttonElement.dataset.rating = String((index + 1) * 2);
-    return buttonElement
-  })
-
-  formElement.append(...buttonElements);
-
-  return formElement
-}
+let isModalLoading = false;
 
 export async function renderModal(movieId: number) {
-  document.querySelector(".modal")?.remove();
+  if (isModalLoading) return;
+  isModalLoading = true;
 
-  // TODO: 비동기를 기다리는 동안 로딩 스피너 표시
-  const response = await fetchMovieDetail(movieId);
-  const myRating = fetchMyRating(movieId);
+  try {
+    document.querySelector(".modal")?.remove();
 
-  const dialogElement = createModalElement(response);
-  const myRateFormElement = createMyRateSelectorElement(myRating);
+    // TODO: 비동기를 기다리는 동안 로딩 스피너 표시
+    const response = await fetchMovieDetail(movieId);
 
-  document.querySelector('#app')?.insertAdjacentElement("beforeend", dialogElement);
-  dialogElement.querySelector(".modal-movie-my-rate-body")?.append(myRateFormElement);
+    const dialogElement = createModalElement(response);
 
-  bindSelectRatingEvent()
+    document.querySelector('#app')?.insertAdjacentElement("beforeend", dialogElement);
 
-  dialogElement.showModal();
+    await renderMyRatingSelector(".modal-movie-my-rating-body", movieId);
+
+    dialogElement.showModal();
+  } finally {
+    isModalLoading = false;
+  }
 }
