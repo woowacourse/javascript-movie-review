@@ -4,11 +4,14 @@ import closeButtonImg from "../../images/modal_button_close.png";
 import starImg from "../../images/star_filled.png";
 import { eventBus } from "../../pubsub/EventBus";
 import { APP_EVENTS } from "../../pubsub/AppEvents";
+import { StarRating } from "./StarRating";
+import { IRatingRepository } from "../rating/IRatingRepository";
+import { LocalStorageRatingRepository } from "../rating/LocalStorageRatingRepository";
 
 export class Modal {
   private dialog: HTMLDialogElement;
 
-  constructor() {
+  constructor(private ratingRepository: IRatingRepository) {
     this.dialog = document.querySelector(".modal") as HTMLDialogElement;
     this.dialog.addEventListener("close", () => {
       eventBus.publish(APP_EVENTS.MODAL_CLOSED, undefined);
@@ -22,6 +25,9 @@ export class Modal {
     const closeButton = this.dialog.querySelector(".close-modal") as HTMLElement;
     closeButton.focus();
     closeButton.addEventListener("click", () => this.dialog.close());
+
+    const starRatingContainer = this.dialog.querySelector(".star-rating") as HTMLElement;
+    new StarRating(starRatingContainer, movie.id, this.ratingRepository).mount();
   }
 
   private render(movie: MovieDetail): string {
@@ -39,11 +45,19 @@ export class Modal {
         </div>
         <div class="modal-description">
           <h2>${movie.title}</h2>
-          <p>${year} · ${genres}</p>
-          <p class="rate">
-            <img src="${starImg}" alt="별점" />
-            <span>${(movie.vote_average ?? 0).toFixed(1)}</span>
-          </p>
+          <p class="subtitle">${year} · ${genres}</p>
+          <div class="rate">
+            <span>평균</span>
+            <span class="rate-score">
+              <img src="${starImg}" alt="별점" />
+              <span>${(movie.vote_average ?? 0).toFixed(1)}</span>
+            </span>
+          </div>
+          <hr class="modal-divider" />
+          <p class="section-label">내 별점</p>
+          <div class="star-rating"></div>
+          <hr class="modal-divider" />
+          <p class="section-label">줄거리</p>
           <p class="detail">${movie.overview}</p>
         </div>
       </div>
@@ -51,4 +65,4 @@ export class Modal {
   }
 }
 
-export const modal = new Modal();
+export const modal = new Modal(new LocalStorageRatingRepository());
