@@ -3,6 +3,7 @@ import { APP_EVENTS } from "./pubsub/AppEvents";
 import { Header } from "./features/ui/Header";
 import { movieListView } from "./features/ui/MovieList";
 import { ScrollObserver } from "./features/ui/ScrollObserver";
+import { modal } from "./features/ui/Modal";
 import { mainTitle, sentinel } from "./dom";
 
 export function registerSubscriptions(): void {
@@ -46,6 +47,18 @@ export function registerSubscriptions(): void {
 
   eventBus.subscribe(APP_EVENTS.LAST_PAGE_REACHED, () => {
     scrollObserver.disconnect();
+  });
+
+  eventBus.subscribe(APP_EVENTS.MOVIE_SELECTED, () => {
+    scrollObserver.disconnect();
+  });
+
+  eventBus.subscribe(APP_EVENTS.MOVIE_DETAIL_LOADED, (data) => {
+    modal.open(data);
+  });
+
+  eventBus.subscribe(APP_EVENTS.MODAL_CLOSED, () => {
+    scrollObserver.observe();
   });
 
   eventBus.subscribe(APP_EVENTS.ERROR, (message) => {

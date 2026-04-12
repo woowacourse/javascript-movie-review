@@ -12,6 +12,7 @@ export type AppEventPayloads = {
   lastPageReached: void;
   movieSelected: number;
   movieDetailLoaded: MovieDetail;
+  modalClosed: void;
 };
 
 export const APP_EVENTS = {
@@ -26,4 +27,5 @@ export const APP_EVENTS = {
   LAST_PAGE_REACHED: "lastPageReached",
   MOVIE_SELECTED: "movieSelected",
   MOVIE_DETAIL_LOADED: "movieDetailLoaded",
+  MODAL_CLOSED: "modalClosed",
 } as const satisfies Record<string, keyof AppEventPayloads>;
