@@ -1,13 +1,11 @@
 import { Movie } from "../services/dto";
 
 export const renderTopRatedMovie = (movie: Movie) => {
-  const topRatedContainer = document.querySelector(".top-rated-container");
+  const topRatedContainer = document.querySelector<HTMLDivElement>(
+    ".background-container",
+  );
   if (!topRatedContainer) return;
-
-  const overlay = document.querySelector<HTMLDivElement>(".overlay");
-  if (overlay) {
-    overlay.style.background = `url(${`https://media.themoviedb.org/t/p/w1920_and_h800_multi_faces` + movie.backdrop_path}) center center no-repeat`;
-  }
+  topRatedContainer.style.backgroundImage = `url(${`https://media.themoviedb.org/t/p/w1920_and_h800_multi_faces` + movie.backdrop_path})`;
 
   const rateValue = topRatedContainer.querySelector(".rate-value");
   if (rateValue) {
