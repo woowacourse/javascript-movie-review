@@ -1,6 +1,6 @@
 import { getPopularMovies, getSearchMovies, getGenres, Movie } from "./api.ts";
 import { MovieRenderer, Renderer } from "./render.ts";
-import { ONCE_MOVIE_LIMIT, INITIAL_PAGE_NUM } from "./constans/movie.ts";
+import { ONCE_MOVIE_LIMIT, INITIAL_PAGE_NUM } from "./constants/movie.ts";
 import State from "./state.ts";
 
 const App = {

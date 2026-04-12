@@ -3,7 +3,7 @@ import starEmptyImg from "./images/star_empty.png";
 import noImagePlanetImg from "./images/no_image_planet.png";
 import screamingPlanetImg from "./images/screaming_planet.svg";
 import planetAndStarImg from "./images/planet_and_star.png";
-import { IMAGE_PATH } from "./constans/movie";
+import { IMAGE_PATH } from "./constants/movie";
 
 const Component = {
   movie(movieData: Pick<Movie, "poster_path" | "title" | "vote_average">) {

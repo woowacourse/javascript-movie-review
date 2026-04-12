@@ -1,7 +1,7 @@
 import type { Movie } from "./api.ts";
 import Component from "./component.ts";
 import { observeHeaderScroll } from "./observer.ts";
-import { IMAGE_PATH } from "./constans/movie.ts";
+import { IMAGE_PATH } from "./constants/movie.ts";
 
 export const MovieRenderer = {
   renderInitialMovies(movies: Movie[]) {

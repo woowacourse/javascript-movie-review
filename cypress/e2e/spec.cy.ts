@@ -1,4 +1,4 @@
-const createMockMovie = (id: number) => ({
+export const createMockMovie = (id: number) => ({
   id,
   title: `어벤져스 ${id}`,
   poster_path: `/avengers${id}.jpg`,
@@ -15,7 +15,7 @@ const createMockMovie = (id: number) => ({
   adult: false,
 });
 
-const createMoviesResponse = (
+export const createMoviesResponse = (
   count: number,
   page: number = 1,
   totalPages: number = 500,
