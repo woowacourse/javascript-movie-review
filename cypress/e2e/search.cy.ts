@@ -55,4 +55,32 @@ describe("무한 스크롤 테스트", () => {
     cy.get(".thumbnail-list li:last-child").scrollIntoView();
     cy.get("@searchMovies2").its("response.body.results").should("be.an", "array");
   });
-})
+});
+
+describe("데이터 로딩 시 에러 화면을 띄우고, 다시 시도하기 버튼으로 복구", () => {
+  beforeEach(() => {
+    cy.mockPopularMovies(1);
+    cy.getSearchNetworkError();
+    cy.visit("/");
+    cy.wait("@getPopularMoviesPage1");
+    cy.performSearch(SEARCH_QUERIES.valid);
+    cy.wait("@getSearchNetworkError");
+  });
+
+  it("검색 실패 시 에러 화면을 확인하고, 다시 시도하기 버튼으로 복구한다", () => {
+    cy.get(".error-thumbnail-container").should("not.have.class", "hidden");
+    cy.get(".thumbnail-retry-button").should("be.visible");
+
+    cy.mockSearchMovies(SEARCH_QUERIES.valid, 1, 'searchResults.json');
+
+    cy.get(".thumbnail-retry-button").click();
+
+    cy.wait("@searchMovies1") 
+      .its("response.body.results")
+      .then((results) => {
+        cy.verifyMovieItems(results);
+      });
+
+    cy.get(".error-thumbnail-container").should("have.class", "hidden");
+  });
+});

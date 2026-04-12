@@ -48,7 +48,7 @@ Cypress.Commands.add("verifyMovieItems", (allResults: Movies[]) => {
       String(allResults[index].vote_average),
     );
   });
-})
+});
 
 Cypress.Commands.add("disappearMoreButton", () => {
   cy.wait("@searchMovies")
@@ -70,4 +70,22 @@ Cypress.Commands.add("getMovieDetail", (id: number) => {
     }, {
     fixture: `movieDetail.json`
   }).as(`getMovieDetail${id}`);
-})
+});
+
+Cypress.Commands.add("getPopularNetworkError", () => {
+  cy.intercept("GET", "**/movie/popular*", {
+    forceNetworkError: true,
+  }).as("getPopularNetworkError");
+});
+
+Cypress.Commands.add("getMovieDetailNetworkError", (id: number) => {
+  cy.intercept("GET", `**/movie/${id}*`, {
+    forceNetworkError: true,
+  }).as(`getMovieDetailNetworkError`);
+});
+
+Cypress.Commands.add("getSearchNetworkError", () => {
+  cy.intercept("GET", "**/search/movie*", {
+    forceNetworkError: true,
+  }).as("getSearchNetworkError");
+});

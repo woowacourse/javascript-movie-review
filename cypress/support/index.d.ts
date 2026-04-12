@@ -6,5 +6,8 @@ declare namespace Cypress {
     verifyMovieItems(allResults: Movies[]): Chainable<void>;
     disappearMoreButton(): Chainable<void>;
     getMovieDetail(id: number): Chainable<undefined>;
+    getPopularNetworkError(): Chainable<undefined>;
+    getMovieDetailNetworkError(id: number): Chainable<undefined>;
+    getSearchNetworkError(): Chainable<undefined>;
   }
 }

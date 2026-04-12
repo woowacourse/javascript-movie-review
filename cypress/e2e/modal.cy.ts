@@ -138,3 +138,34 @@ it("별 이미지를 클릭한만큼 나의 평점이 localstorage에 저장되�
     cy.get(`#my-star-image-5`).should("have.attr", "src").and("include", "star_filled.png");
   });
 });
+
+describe("데이터 로딩 시 에러 화면을 띄우고, 다시 시도하기 버튼으로 복구하는 테스트", () => {
+  beforeEach(() => {
+    cy.mockPopularMovies(1);
+    cy.getMovieDetailNetworkError(83533);
+    cy.visit("/");
+    cy.wait("@getPopularMoviesPage1");
+    cy.get(`[data-movie-id=83533]`).click();
+    cy.wait("@getMovieDetailNetworkError");
+  });
+
+  it("데이터 로딩 시 에러 화면을 띄우고, 다시 시도하기 버튼으로 복구하는 테스트", () => {
+    cy.get(".modal-error-container").should("not.have.class", "hidden");
+    cy.get(".retry-button").should("be.visible");
+
+    cy.getMovieDetail(83533);
+    cy.get(".retry-button").click();
+
+    cy.wait("@getMovieDetail83533")
+      .its("response.body")
+      .then((movieDetail) => {
+        cy.get(".modal-description-title").should("contain", movieDetail.title);
+        cy.get("#modal-description-year").should("contain", movieDetail.release_date.split("-")[0]);
+        cy.get("#modal-description-genre").should("contain", movieDetail.genres.map((item: {id: Number, name: string}) => item.name).join(", "));
+        cy.get("#modal-rate-number").should("contain", movieDetail.vote_average.toFixed(1));
+        cy.get("#modal-detail-description").should("contain", movieDetail.overview);
+      });
+
+    cy.get(".modal-error-container").should("have.class", "hidden");
+  });
+});

@@ -62,3 +62,27 @@ describe("무한 스크롤 테스트", () => {
       });
   });
 });
+
+describe("데이터 로딩 시 에러 화면을 띄우고, 다시 시도하기 버튼으로 복구", () => {
+  beforeEach(() => {
+    cy.getPopularNetworkError();
+    cy.visit("/");
+    cy.wait("@getPopularNetworkError");
+  });
+
+  it("데이터 로딩 시 에러 화면을 띄우고, 다시 시도하기 버튼으로 복구하는 테스트", () => {
+    cy.get(".error-thumbnail-container").should("not.have.class", "hidden");
+    cy.get(".thumbnail-retry-button").should("be.visible");
+
+    cy.mockPopularMovies(1);
+
+    cy.get(".thumbnail-retry-button").click();
+    cy.wait("@getPopularMoviesPage1")
+      .its("response.body.results")
+      .then((results) => {
+        cy.verifyMovieItems(results);
+    });
+
+    cy.get(".error-thumbnail-container").should("have.class", "hidden");
+  });
+});
