@@ -8,11 +8,9 @@ import { NothingResult } from './NothingResult.ts';
 export default class Main {
   #$element: HTMLElement;
   #$list: HTMLElement;
-  #$skeletons: Map<string, HTMLElement[]>;
+  #$skeletons: HTMLElement[] | undefined;
 
   constructor(title: string, onDetail: (movie_id: number) => void) {
-    this.#$skeletons = new Map<string, HTMLElement[]>();
-
     this.#$element = document.createElement('div');
     this.#$element.className = 'container';
     this.#$element.innerHTML = `
@@ -37,28 +35,22 @@ export default class Main {
     return this.#$element;
   }
 
-  renderMovies(movies: MovieData[], page: number) {
-    this.removeSkeletons(page);
+  renderMovies(movies: MovieData[]) {
+    this.removeSkeletons();
     const $fragment = new DocumentFragment();
     movies.forEach((movie) => $fragment.append(MovieItem(movie)));
     this.#$list.append($fragment);
+    return this.#$list.lastElementChild;
   }
 
-  renderSkeletons(page: number, length: number = 20) {
-    if (this.#$skeletons.has(String(page))) {
-      this.removeSkeletons(page);
-    }
+  renderSkeletons(length: number = 20) {
     const $newSkeletons = Array.from({ length }, () => MovieItemSkeleton());
+    this.#$skeletons = $newSkeletons;
     $newSkeletons.forEach(($skeleton) => this.#$list.append($skeleton));
-    this.#$skeletons.set(String(page), $newSkeletons);
   }
 
-  removeSkeletons(page: number) {
-    const $skeletonList = this.#$skeletons.get(String(page));
-    if (!$skeletonList) {
-      return;
-    }
-    $skeletonList.forEach(($skeleton) => $skeleton.remove());
+  removeSkeletons() {
+    this.#$skeletons?.forEach(($skeleton) => $skeleton.remove());
   }
 
   handleError(error: Error) {

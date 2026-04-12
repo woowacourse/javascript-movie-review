@@ -4,24 +4,22 @@ import Footer from '../components/footer/Footer.ts';
 
 import { fetchMovieDetails, fetchPopularMovies } from '../api/fetchApi.ts';
 import { ResponseMovie } from '../api/types.ts';
-import { CUSTOM_EVENT, dispatchRouteChange } from '../utils/event.ts';
 import Modal from '../components/modal/Modal.ts';
 
 export default class HomePage {
-  #$div: HTMLElement;
-
   #page: number;
   #totalPage: number;
 
+  #$div: HTMLElement;
   #header: Header;
   #main: Main;
   #footer: Footer;
   #$modal: Modal;
-  #isLoading: boolean;
+
+  #observer: IntersectionObserver;
 
   constructor(modal: Modal) {
     this.#$modal = modal;
-    this.#isLoading = false;
     this.#totalPage = 1;
     this.#page = 1;
 
@@ -34,10 +32,14 @@ export default class HomePage {
 
     this.#$div.append(this.#header.$element, this.#main.$element, this.#footer.$element);
 
-    window.addEventListener(CUSTOM_EVENT.SCROLL_END, () => {
-      const isPage = window.document.querySelector('#homepage');
-      if (isPage) this.#loadMore();
-    });
+    this.#observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          this.#loadMore();
+        }
+      },
+      { threshold: 0.1 },
+    );
 
     this.#initialFetch();
   }
@@ -46,51 +48,59 @@ export default class HomePage {
     return this.#$div;
   }
 
-  async #initialFetch() {
-    try {
-      const response = await this.#appendMovies();
-      if (response) {
-        this.#header.render(response.results[0]);
-      }
-    } catch (error) {
-      this.#handleError(error as Error);
-    }
-  }
-
-  async #loadMore() {
-    if (this.#isLoading) return;
-    this.#main.removeSkeletons(this.#page);
+  async #fetchPopularMovies(): Promise<ResponseMovie | void> {
+    if (this.#page > this.#totalPage) return;
+    const response = await fetchPopularMovies(this.#page);
     this.#page += 1;
-    this.#isLoading = true;
-    await this.#appendMovies();
-    this.#isLoading = false;
+    this.#totalPage = response.total_pages;
+    return response;
   }
 
-  async #appendMovies(): Promise<ResponseMovie | void> {
-    this.#main.renderSkeletons(this.#page);
-
+  async #initialFetch(): Promise<void> {
     try {
-      if (this.#page > this.#totalPage) return;
-      const response = await fetchPopularMovies(this.#page);
-      this.#totalPage = response.total_pages;
-      this.#main.renderMovies(response.results, this.#page);
+      this.#main.renderSkeletons();
+      const response = await this.#fetchPopularMovies();
+      if (!response) return;
 
-      return response;
+      this.#header.render(response.results[0]);
+      const lastElement = this.#appendMovies(response);
+      if (lastElement) this.#observer.observe(lastElement);
     } catch (error) {
-      this.#handleError(error as Error);
-      throw error;
+      this.#handleError(error);
     } finally {
-      this.#main.removeSkeletons(this.#page);
+      this.#main.removeSkeletons();
     }
   }
 
-  #handleError(error: Error) {
-    this.#main.handleError(error);
+  async #loadMore(): Promise<void> {
+    this.#observer.disconnect();
+    this.#main.renderSkeletons();
+    try {
+      const response = await this.#fetchPopularMovies();
+      if (!response) return;
+
+      const lastElement = this.#appendMovies(response);
+      if (lastElement) this.#observer.observe(lastElement);
+    } catch (error) {
+      this.#handleError(error);
+    } finally {
+      this.#main.removeSkeletons();
+    }
+  }
+
+  #appendMovies(response: ResponseMovie): Element | null {
+    return this.#main.renderMovies(response.results);
+  }
+
+  #handleError(error: unknown) {
+    if (error instanceof Error) {
+      this.#main.handleError(error);
+    }
   }
 
   #onSubmit = (query: string): void => {
     if (query.trim()) {
-      dispatchRouteChange(`/search?query=${encodeURIComponent(query)}`);
+      location.hash = `/search?query=${encodeURIComponent(query)}`;
     }
   };
 
@@ -98,6 +108,8 @@ export default class HomePage {
     try {
       const movie = await fetchMovieDetails(movie_id);
       this.#$modal.open(movie);
-    } catch (e) {}
+    } catch (error) {
+      this.#handleError(error as Error);
+    }
   };
 }
