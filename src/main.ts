@@ -17,6 +17,7 @@ const App = {
     this.setUpLoadMoreButton();
     this.setUpSearchForm();
     this.setUpDialogCloser();
+    this.setUpMyRatingToMovie();
   },
 
   setUpLoadMoreButton() {
@@ -67,6 +68,23 @@ const App = {
           movieGenres,
         );
         dialog?.showModal();
+      });
+    });
+  },
+
+  setUpMyRatingToMovie() {
+    const ratingButtons = document.querySelectorAll(
+      ".modal .my-rating-container button",
+    );
+    ratingButtons.forEach((button) => {
+      button.addEventListener("click", (e) => {
+        e.preventDefault();
+        const myRating = (e.currentTarget as HTMLElement).dataset.rating;
+        const movieContainer = document.querySelector(
+          "#movie-detail-container",
+        );
+        const movieId = (movieContainer as HTMLElement).dataset.movieId;
+        localStorage.setItem(`movie-${movieId}-my-rating`, String(myRating));
       });
     });
   },

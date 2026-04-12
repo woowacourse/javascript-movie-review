@@ -48,7 +48,10 @@ export const MovieRenderer = {
   },
 
   renderMovieDetail(movieData: Movie, releaseYear: number, genres: string[]) {
-    const { title, poster_path, vote_average, overview } = movieData;
+    const { id, title, poster_path, vote_average, overview } = movieData;
+    const movieContainer = document.querySelector<HTMLElement>(
+      "#movie-detail-container",
+    );
     const movieTitle = document.querySelector("#movie-detail-title");
     const moviePoster = document.querySelector("#movie-detail-poster");
     const movieVoteAverage = document.querySelector(
@@ -59,6 +62,7 @@ export const MovieRenderer = {
       "#movie-detail-release-year",
     );
     const movieGenres = document.querySelector("#movie-detail-category");
+    if (movieContainer) movieContainer.dataset.movieId = String(id);
     movieTitle!.innerHTML = title;
     if (moviePoster instanceof Image)
       moviePoster.src = `${IMAGE_PATH}/${poster_path}`;

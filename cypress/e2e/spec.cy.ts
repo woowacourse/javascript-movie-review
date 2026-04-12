@@ -258,7 +258,8 @@ describe("영화 리뷰 앱", () => {
     });
   });
 
-  describe("영화 정보", () => {
+  describe.only("영화 정보", () => {
+    const origin = new URL(Cypress.config("baseUrl") as string).origin;
     beforeEach(() => {
       cy.wait("@getPopularMovies");
       cy.wait("@getGenres");
@@ -278,6 +279,36 @@ describe("영화 리뷰 앱", () => {
       cy.get(".thumbnail-list li").first().click();
       cy.get("#closeModal").click();
       cy.get("dialog").should("not.be.visible");
+    });
+
+    it("영화를 클릭하면 영화 ID가 영화에 대한 자세한 정보가 담긴 컨테이너의 data-movie-id 속성에 저장된다.", () => {
+      cy.get(".thumbnail-list li").eq(2).click();
+      cy.get("#movie-detail-container")
+        .invoke("attr", "data-movie-id")
+        .should("eq", "3");
+    });
+
+    it("별점을 클릭하면 로컬스토리지에 선택된 영화에 내 평점이 저장된다.", () => {
+      function assertLocalStorageValue(key: string, value: string) {
+        cy.getAllLocalStorage().then((result) => {
+          expect(result).to.deep.equal({
+            [origin]: {
+              [key]: value,
+            },
+          });
+        });
+      }
+      cy.get(".thumbnail-list li").eq(4).click();
+      cy.get(".my-rating-container button").eq(0).click();
+      assertLocalStorageValue("movie-5-my-rating", "2");
+      cy.get(".my-rating-container button").eq(1).click();
+      assertLocalStorageValue("movie-5-my-rating", "4");
+      cy.get(".my-rating-container button").eq(2).click();
+      assertLocalStorageValue("movie-5-my-rating", "6");
+      cy.get(".my-rating-container button").eq(3).click();
+      assertLocalStorageValue("movie-5-my-rating", "8");
+      cy.get(".my-rating-container button").eq(4).click();
+      assertLocalStorageValue("movie-5-my-rating", "10");
     });
   });
 });
