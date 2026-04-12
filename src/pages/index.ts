@@ -1,5 +1,5 @@
 import { getPopularMovies, getGenres } from "../api.ts";
-import { MovieRenderer, Renderer } from "../render.ts";
+import { IndexRenderer, Renderer } from "../render.ts";
 import { ONCE_MOVIE_LIMIT, INITIAL_PAGE_NUM } from "../constants/movie.ts";
 import { Search } from "./search.ts";
 import { MovieDetail } from "./movieDetail.ts";
@@ -81,10 +81,10 @@ export const Index = {
         State.setTotalPages(total_pages);
         State.setRequestMovieCount(movies.length);
         State.setGenres(genres);
-        MovieRenderer.renderInitialMovies(movies);
+        IndexRenderer.renderInitialMovies(movies);
         MovieDetail.setUpMovieDetail(movies);
       } catch (err) {
-        MovieRenderer.renderError(err);
+        Renderer.renderError(err);
       } finally {
         State.setIsLoading(false);
       }
@@ -99,10 +99,10 @@ export const Index = {
         State.getNextPageNum(),
       );
       State.setNextPageNum(page + 1);
-      MovieRenderer.renderLoadMoreMovies(movies);
+      IndexRenderer.renderLoadMoreMovies(movies);
       MovieDetail.setUpMovieDetail(movies);
     } catch (err) {
-      MovieRenderer.renderError(err);
+      Renderer.renderError(err);
       Renderer.clearBanner();
     } finally {
       State.setIsLoading(false);

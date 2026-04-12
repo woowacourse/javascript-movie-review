@@ -4,7 +4,7 @@ import { observeHeaderScroll } from "./observer.ts";
 import { IMAGE_PATH } from "./constants/movie.ts";
 import { getRatingToString } from "./utils/rating.ts";
 
-export const MovieRenderer = {
+export const IndexRenderer = {
   renderInitialMovies(movies: Movie[]) {
     const movieList = document.querySelector(".thumbnail-list");
     const banner = document.querySelector(".banner-container");
@@ -16,7 +16,7 @@ export const MovieRenderer = {
       Renderer.clearSkeleton(movieList);
       Renderer.renderMovies(movieList, movies);
     }
-    Renderer.renderSectionHeading();
+    this.renderSectionHeading();
   },
 
   renderLoadMoreMovies(movies: Movie[]) {
@@ -27,23 +27,43 @@ export const MovieRenderer = {
     }
   },
 
+  renderSectionHeading() {
+    const heading = document.querySelector("section > h2");
+    if (heading instanceof HTMLElement) {
+      heading.innerHTML = `지금 인기 있는 영화`;
+    }
+  },
+};
+
+export const SearchRenderer = {
   renderSearchResult(movies: Movie[], query: string) {
+    const movieList = document.querySelector(".thumbnail-list");
     Renderer.clearBanner();
     Renderer.clearMovies();
     Renderer.clearEmptyResult();
-    Renderer.renderSearchSectionHeading(query);
+    this.renderSearchSectionHeading(query);
     if (movies.length === 0) Renderer.renderEmptyResult();
-    else Renderer.renderSearchMovies(movies);
+    else if (movieList) Renderer.renderMovies(movieList, movies);
   },
 
   renderLoadMoreSearchMovies(movies: Movie[]) {
     const movieList = document.querySelector(".thumbnail-list");
     if (movieList) {
       Renderer.clearSkeleton(movieList);
-      Renderer.renderSearchMovies(movies);
+      Renderer.renderMovies(movieList, movies);
     }
   },
 
+  renderSearchSectionHeading(title: string) {
+    const heading = document.querySelector("section > h2");
+    if (heading instanceof HTMLElement) {
+      heading.innerHTML = `"${title}"검색 결과`;
+      heading.style.marginTop = "12rem";
+    }
+  },
+};
+
+export const MovieDetailRenderer = {
   renderMovieDetail(
     movieData: Movie,
     releaseYear: number,
@@ -102,36 +122,14 @@ export const MovieRenderer = {
       myRatingRatio.innerHTML = `(${rating}/10)`;
   },
 
-  renderError(err: unknown) {
-    const message = err instanceof Error ? err.message : "에러가 발생했습니다.";
-    const content = document.querySelector(".thumbnail-list");
-    if (content) Renderer.renderError(content, message);
+  clearMovieDetail() {
+    const modal = document.querySelector("#modalBackground");
+    modal?.remove();
+    document.body.classList.remove("modal-open");
   },
 };
 
 export const Renderer = {
-  renderSectionHeading() {
-    const heading = document.querySelector("section > h2");
-    if (heading instanceof HTMLElement) {
-      heading.innerHTML = `지금 인기 있는 영화`;
-    }
-  },
-
-  renderSearchSectionHeading(title: string) {
-    const heading = document.querySelector("section > h2");
-    if (heading instanceof HTMLElement) {
-      heading.innerHTML = `"${title}"검색 결과`;
-      heading.style.marginTop = "12rem";
-    }
-  },
-
-  renderSearchMovies(movies: Movie[]) {
-    const movieList = document.querySelector(".thumbnail-list");
-    if (movieList) {
-      this.renderMovies(movieList, movies);
-    }
-  },
-
   clearMovies() {
     const movieList = document.querySelector(".thumbnail-list");
     if (movieList) movieList.innerHTML = "";
@@ -160,10 +158,6 @@ export const Renderer = {
   clearEmptyResult() {
     const emptyResult = document.querySelector(".empty-result");
     emptyResult?.remove();
-  },
-
-  renderError(parent: Element, message: string) {
-    parent.innerHTML = Component.error(message);
   },
 
   renderSkeleton(selector: string, length: number) {
@@ -197,9 +191,9 @@ export const Renderer = {
       .join("");
   },
 
-  clearMovieDetail() {
-    const modal = document.querySelector("#modalBackground");
-    modal?.remove();
-    document.body.classList.remove("modal-open");
+  renderError(err: unknown) {
+    const message = err instanceof Error ? err.message : "에러가 발생했습니다.";
+    const content = document.querySelector(".thumbnail-list");
+    if (content) content.innerHTML = Component.error(message);
   },
 };

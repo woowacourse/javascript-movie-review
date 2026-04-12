@@ -1,5 +1,5 @@
 import { Movie } from "../api.ts";
-import { MovieRenderer } from "../render.ts";
+import { MovieDetailRenderer } from "../render.ts";
 import State from "../state.ts";
 
 export const MovieDetail = {
@@ -27,7 +27,7 @@ export const MovieDetail = {
         const dialog = document.querySelector("dialog");
         const movieData = moviesData[idx];
         const [movieGenres, rating] = this.extractDetailMovieData(movieData);
-        MovieRenderer.renderMovieDetail(
+        MovieDetailRenderer.renderMovieDetail(
           movieData,
           new Date(movieData.release_date).getFullYear(),
           movieGenres,
@@ -51,7 +51,7 @@ export const MovieDetail = {
         );
         const movieId = (movieContainer as HTMLElement).dataset.movieId;
         this.setMyRating(`movie-${movieId}-my-rating`, String(myRating));
-        MovieRenderer.renderMyRating(myRating ? Number(myRating) : 0);
+        MovieDetailRenderer.renderMyRating(myRating ? Number(myRating) : 0);
       });
     });
   },

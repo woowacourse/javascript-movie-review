@@ -1,5 +1,5 @@
 import { getSearchMovies } from "../api.ts";
-import { MovieRenderer, Renderer } from "../render.ts";
+import { Renderer, SearchRenderer } from "../render.ts";
 import { INITIAL_PAGE_NUM } from "../constants/movie.ts";
 import { MovieDetail } from "./movieDetail.ts";
 import State from "../state.ts";
@@ -14,13 +14,13 @@ export const Search = {
         page,
         total_pages,
       } = await getSearchMovies(query, INITIAL_PAGE_NUM);
-      MovieRenderer.renderSearchResult(movies, query);
+      SearchRenderer.renderSearchResult(movies, query);
       State.setNextSearchPageNum(page + 1);
       State.setTotalSearchPages(total_pages);
       State.setSearchQuery(query);
       MovieDetail.setUpMovieDetail(movies);
     } catch (err) {
-      MovieRenderer.renderError(err);
+      Renderer.renderError(err);
     } finally {
       State.setIsLoading(false);
     }
@@ -35,10 +35,10 @@ export const Search = {
         State.getNextSearchPageNum(),
       );
       State.setNextSearchPageNum(page + 1);
-      MovieRenderer.renderLoadMoreSearchMovies(movies);
+      SearchRenderer.renderLoadMoreSearchMovies(movies);
       MovieDetail.setUpMovieDetail(movies);
     } catch (err) {
-      MovieRenderer.renderError(err);
+      Renderer.renderError(err);
     } finally {
       State.setIsLoading(false);
     }
