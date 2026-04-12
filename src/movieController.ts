@@ -6,6 +6,7 @@ export const initMovieList = (query?: string) => {
   let isFetching: boolean = false;
   const $thumbnailList = document.querySelector('.thumbnail-list');
   const $button = document.querySelector('#more-page-button') as HTMLElement | null;
+  const $heroDetailBtn = document.querySelector('.top-rated-movie .detail') as HTMLButtonElement | null;
 
   if (!$thumbnailList || !$button) return;
 
@@ -52,6 +53,18 @@ export const initMovieList = (query?: string) => {
 
   // 실행
   start();
+
+  // herobanner 자세히 보기 버튼 클릭 이벤트
+  if ($heroDetailBtn) {
+    $heroDetailBtn.addEventListener('click', (event) => {
+      const target = event.currentTarget as HTMLButtonElement;
+      const movieId = Number(target.dataset.id);
+      
+      if (movieId) {
+        openModal(movieId);
+      }
+    });
+  }
 
   // 더보기 버튼 클릭 시 렌더링
   $button?.addEventListener('click', async () => {

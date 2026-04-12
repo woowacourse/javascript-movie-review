@@ -135,4 +135,9 @@ const updateHeroBanner = (movie: resultData) => {
 
   const $rate = document.querySelector('.top-rated-movie .rate-value');
   if ($rate) $rate.textContent = movie.vote_average.toFixed(1);
+
+  const $detailBtn = document.querySelector('.top-rated-movie .detail') as HTMLButtonElement | null;
+  if ($detailBtn) {
+    $detailBtn.dataset.id = String(movie.id);
+  }
 };
