@@ -135,17 +135,18 @@ describe("영화 리뷰 앱", () => {
     it("검색 결과가 마지막 페이지일 때 더 이상 영화를 가져오지 않는다.", () => {
       cy.wait("@getPopularMovies");
 
-      cy.intercept("GET", "**/search/movie*", createMoviesResponse(20)).as(
-        "searchMovies",
+      cy.intercept("GET", "**/search/movie*", createMoviesResponse(3, 1, 1)).as(
+        "getMoreMovies",
       );
+      cy.intercept(
+        { method: "GET", url: "**/search/movie*", times: 1 },
+        createMoviesResponse(20),
+      ).as("searchMovies");
 
       cy.get(".search-form input").type("액션");
       cy.get(".search-form").submit();
       cy.wait("@searchMovies");
 
-      cy.intercept("GET", "**/search/movie*", createMoviesResponse(3, 1, 1)).as(
-        "getMoreMovies",
-      );
       cy.get("#end-of-thumbnail-list").scrollIntoView();
       cy.wait("@getMoreMovies");
       cy.get(".thumbnail-list li").should("have.length", 23);
