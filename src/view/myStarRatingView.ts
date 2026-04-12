@@ -48,7 +48,7 @@ class MyStarRatingView {
     };
 
     if (this.#myStarScore) {
-      this.#myStarScore.innerText = `${score}`;
+      this.#myStarScore.innerText = `${score} / 10`;
     };
   };
 };
