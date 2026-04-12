@@ -1,3 +1,4 @@
+import { createRate, getRate, updateRate } from "../../apis/rate/api.ts";
 import { RATES } from "../../constants/rates.ts";
 import { renderRateButtons } from "./RateButton.ts";
 
@@ -21,16 +22,13 @@ const createMyRateTemplate = (userRate: number) => {
 `;
 };
 
-export const renderMyRate = (parent: HTMLElement, movieId: number) => {
+export const renderMyRate = async (parent: HTMLElement, movieId: number) => {
   if (myRateElement) {
     myRateElement.remove();
   }
 
-  const rates = JSON.parse(localStorage.getItem("/rate") ?? "{}") as Record<
-    string,
-    number
-  >;
-  const rate = rates[movieId] ?? 0;
+  const response = await getRate({ movieId });
+  const rate = response?.rate ?? 0;
 
   parent.insertAdjacentHTML("beforeend", createMyRateTemplate(rate));
   myRateElement = document.getElementById(MY_RATE_ID);
@@ -42,7 +40,7 @@ export const renderMyRate = (parent: HTMLElement, movieId: number) => {
   }
 
   // TODO: 이벤트 핸들러, 분리해야 하나?
-  myRateElement?.addEventListener("click", (e) => {
+  myRateElement?.addEventListener("click", async (e) => {
     if (e.target instanceof HTMLElement) {
       const rateButtonContainer = document.getElementById(
         RATE_BUTTON_CONTAINER_ID,
@@ -53,11 +51,12 @@ export const renderMyRate = (parent: HTMLElement, movieId: number) => {
         (element) => element === clickedButton,
       );
 
-      localStorage.setItem(
-        `/rate`,
-        JSON.stringify({ ...rates, [movieId]: buttonIndex + 1 }),
-      );
-      renderMyRate(parent, movieId);
+      if (rate === 0) {
+        await createRate({ movieId, rate: buttonIndex + 1 });
+      } else {
+        await updateRate({ movieId, rate: buttonIndex + 1 });
+      }
+      await renderMyRate(parent, movieId);
     }
   });
 };
