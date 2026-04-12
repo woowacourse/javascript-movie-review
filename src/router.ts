@@ -1,10 +1,11 @@
 import { eventBus } from "./pubsub/EventBus";
 import { APP_EVENTS } from "./pubsub/AppEvents";
-import { handleLogo, handleMore, handleSearch, handleInitial } from "./features/handler/controllerHandlers";
+import { handleLogo, handleMore, handleMovieSelected, handleSearch, handleInitial } from "./features/handler/controllerHandlers";
 import { header } from "./dom";
 
 export function setupRoutes(): void {
   eventBus.subscribe(APP_EVENTS.LOAD_MORE, handleMore);
+  eventBus.subscribe(APP_EVENTS.MOVIE_SELECTED, handleMovieSelected);
 
   eventBus.subscribe(APP_EVENTS.LOGO_CLICK, () => {
     eventBus.publish(APP_EVENTS.TITLE_CHANGED, "지금 인기 있는 영화");
