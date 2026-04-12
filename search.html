@@ -15,23 +15,23 @@
 <body>
   <div id="app"></div>
 
-<header style="position: relative; width: 100%; height: 144px;">
+<header style="position: relative; width: 100%;">
   
-  <div style="width: 100%; max-width: 1280px; margin: 0 auto; padding-top: 48px;">
-    <h1 class="logo" style="margin: 0;">
+  <div class="header-top-wrapper">
+    <h1 class="logo">
       <a href="/"><img src="./images/logo.png" alt="MovieList" /></a>
     </h1>
-  </div>
 
-  <form class="pretty-search-bar" action="./search.html" method="GET" style="position: absolute; top: 48px; left: 50%; transform: translateX(-50%); width: 480px; margin: 0;">
-    <input type="text" class="search-input" name="q" placeholder="검색어를 입력하세요" required/>
-    <button type="submit" class="search-icon-btn">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="11" cy="11" r="8"></circle>
-        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-      </svg>
-    </button>
-  </form>
+    <form class="pretty-search-bar" action="./search.html" method="GET">
+      <input type="text" class="search-input" name="q" placeholder="검색어를 입력하세요" required/>
+      <button type="submit" class="search-icon-btn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+       </button>
+    </form>
+  </div>
 </header>
 
   <main>

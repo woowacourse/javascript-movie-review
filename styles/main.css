@@ -58,17 +58,26 @@ button.primary {
   display: none;
 }
 
+.header-top-wrapper {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
 .pretty-search-bar {
-display: flex;
+  display: flex;
   align-items: center;
   justify-content: space-between;
-
-  width: 480px; 
-  flex-shrink: 0;
-
+  
+  width: 90%;
+  max-width: 480px;
+  
   height: 48px;
   padding: 0 16px;
-
   border-radius: 40px;
   border: 1px solid var(--color-bluegray-30);
   background: var(--color-bluegray-90);
