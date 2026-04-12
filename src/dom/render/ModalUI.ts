@@ -1,10 +1,22 @@
 import { getMovieDetail, MovieDetail } from "../../apis/movie/api";
+import RatingRepository from "../../repository/RatingRepository";
 import { getErrorMessage } from "../../utils/getErrorMessage";
 
 type ModalState =
   | { type: "loading" }
   | { type: "data"; movie: MovieDetail }
   | { type: "error"; message: string };
+
+const STAR_EMPTY = "./images/star_empty.png";
+const STAR_FILLED = "./images/star_filled.png";
+const RATE_LABELS = [
+  "",
+  "최악이에요",
+  "별로예요",
+  "보통이에요",
+  "재미있어요",
+  "명작이에요",
+];
 
 class ModalUI {
   modalState: ModalState = { type: "loading" };
@@ -16,9 +28,22 @@ class ModalUI {
   modalCategory = document.getElementById("modal-category");
   modalRate = document.getElementById("modal-rate");
   modalDetail = document.getElementById("modal-detail");
+  modalRateReview = document.getElementById("modal-rate-review");
+  modalRatePoints = document.getElementById("modal-rate-points");
+  starEls = [1, 2, 3, 4, 5].map(
+    (i) =>
+      document.getElementById(
+        `modal-my-rate-star-${i}`,
+      ) as HTMLImageElement | null,
+  );
+  currentMovieId: number | null = null;
+  myRating = 0;
+  ratingRepository: RatingRepository;
 
-  constructor() {
+  constructor(ratingRepository: RatingRepository) {
+    this.ratingRepository = ratingRepository;
     this.hide();
+    this.#initStarEvents();
     this.modalCloseButton?.addEventListener("click", () => {
       this.hide();
     });
@@ -29,10 +54,33 @@ class ModalUI {
       if (
         e.key === "Escape" &&
         !this.modalBackground?.classList.contains("hidden")
-      ) {
+      )
         this.hide();
-      }
     });
+  }
+
+  #initStarEvents() {
+    this.starEls.forEach((star, index) => {
+      star?.addEventListener("click", () => {
+        if (this.currentMovieId === null) return;
+        this.myRating = index + 1;
+        this.ratingRepository.setRate(this.currentMovieId, this.myRating);
+        this.#updateStars();
+      });
+    });
+  }
+
+  #updateStars() {
+    this.starEls.forEach((star, index) => {
+      if (!star) return;
+      star.src = index < this.myRating ? STAR_FILLED : STAR_EMPTY;
+    });
+    if (this.modalRateReview)
+      this.modalRateReview.innerText = RATE_LABELS[this.myRating];
+    if (this.modalRatePoints)
+      this.modalRatePoints.innerText = this.myRating
+        ? `(${this.myRating * 2}/10)`
+        : "";
   }
 
   #setModalState(modalState: ModalState) {
@@ -75,6 +123,9 @@ class ModalUI {
   }
 
   async load(movieId: number) {
+    this.currentMovieId = movieId;
+    this.myRating = this.ratingRepository.getRate(movieId) ?? 0;
+    this.#updateStars();
     this.#setModalState({ type: "loading" });
     this.modalBackground?.classList.remove("hidden");
     try {

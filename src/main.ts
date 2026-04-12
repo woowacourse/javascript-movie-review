@@ -1,12 +1,15 @@
 import MainUI from "./dom/render/MainUI";
 import ModalUI from "./dom/render/ModalUI";
 import SearchUI from "./dom/render/SearchUI";
+import RatingRepository from "./repository/RatingRepository";
 import { getKeywordFromURL } from "./utils/getKeywordFromURL";
 import { setURLParams } from "./utils/setURLParams";
 
 const mainUI = new MainUI();
 const searchUI = new SearchUI();
-const modalUI = new ModalUI();
+
+const ratingRepository = new RatingRepository();
+const modalUI = new ModalUI(ratingRepository);
 
 document.addEventListener("click", (e) => {
   const item = (e.target as HTMLElement).closest("li[id^='movie-']");
