@@ -1,6 +1,6 @@
 const POPULAR_API = "**/movie/popular**";
 const SEARCH_API = "**/search/movie**";
-const MOVIE_DETAIL_API = "**/movie/*";
+const MOVIE_DETAIL_API = /\/movie\/\d+/;
 
 export const interceptPopularPage1 = () => {
   cy.intercept("GET", POPULAR_API, { fixture: "popularMoviesPage1.json" }).as(
