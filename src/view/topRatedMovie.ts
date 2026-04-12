@@ -25,17 +25,16 @@ export const removeTopRatedMovie = () => {
     topRatedMovie.style.display = "none";
   }
 
-  const background = document.querySelector<HTMLDivElement>(
+  const topRatedContainer = document.querySelector<HTMLDivElement>(
     ".background-container",
   );
-  if (background) {
-    background.style.backgroundColor = "transparent";
-    background.style.height = "auto";
+  if (topRatedContainer) {
+    topRatedContainer.style.backgroundImage = "";
+    topRatedContainer.style.height = "auto";
   }
 
   const overlay = document.querySelector<HTMLDivElement>(".overlay");
   if (overlay) {
-    overlay.style.background = "";
     overlay.style.display = "none";
   }
 };
