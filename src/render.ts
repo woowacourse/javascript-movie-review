@@ -1,6 +1,5 @@
 import type { Movie } from "./api.ts";
 import Component from "./component.ts";
-import { ONCE_MOVIE_LIMIT } from "./constans/movie.ts";
 import { observeHeaderScroll } from "./observer.ts";
 import { IMAGE_PATH } from "./constans/movie.ts";
 
@@ -18,29 +17,26 @@ export const MovieRenderer = {
     }
     Renderer.renderSectionHeading();
   },
+
   renderLoadMoreMovies(movies: Movie[]) {
     const movieList = document.querySelector(".thumbnail-list");
-    const haveRestPage = movies.length === ONCE_MOVIE_LIMIT;
-    if (haveRestPage) Renderer.showLoadMoreButton();
     if (movieList) {
       Renderer.clearSkeleton(movieList);
       Renderer.renderMovies(movieList, movies);
     }
   },
+
   renderSearchResult(movies: Movie[], query: string) {
-    const haveRestPage = movies.length === ONCE_MOVIE_LIMIT;
     Renderer.clearBanner();
     Renderer.clearMovies();
     Renderer.clearEmptyResult();
     Renderer.renderSearchSectionHeading(query);
-    if (haveRestPage) Renderer.showLoadMoreButton();
     if (movies.length === 0) Renderer.renderEmptyResult();
     else Renderer.renderSearchMovies(movies);
   },
+
   renderLoadMoreSearchMovies(movies: Movie[]) {
     const movieList = document.querySelector(".thumbnail-list");
-    const haveRestPage = movies.length === ONCE_MOVIE_LIMIT;
-    if (haveRestPage) Renderer.showLoadMoreButton();
     if (movieList) {
       Renderer.clearSkeleton(movieList);
       Renderer.renderSearchMovies(movies);
@@ -215,16 +211,6 @@ export const Renderer = {
       })
       .map((child) => child.outerHTML)
       .join("");
-  },
-
-  showLoadMoreButton() {
-    const button = document.querySelector(".load-more-button");
-    if (button instanceof HTMLElement) button.style.display = "block";
-  },
-
-  hideLoadMoreButton() {
-    const button = document.querySelector(".load-more-button");
-    if (button instanceof HTMLElement) button.style.display = "none";
   },
 
   clearMovieDetail() {

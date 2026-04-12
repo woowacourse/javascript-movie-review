@@ -14,18 +14,36 @@ const App = {
   },
 
   setUpEventListeners() {
-    this.setUpLoadMoreButton();
+    this.setUpLoadMoreMovies();
     this.setUpSearchForm();
     this.setUpDialogCloser();
     this.setUpMyRatingToMovie();
   },
 
-  setUpLoadMoreButton() {
-    const loadMoreButton = document.querySelector(".load-more-button");
-    if (loadMoreButton)
-      loadMoreButton.addEventListener("click", () =>
-        this.handleLoadMoreMovies(),
+  setUpLoadMoreMovies() {
+    const endOfThumbnailList = document.querySelector("#end-of-thumbnail-list");
+    if (endOfThumbnailList) {
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (!entry.isIntersecting) return;
+          // 로딩시에는 가져오지 않는다.
+          if (State.getIsLoading()) return;
+          const query = State.getSearchQuery();
+          const nextPage = query
+            ? State.getNextSearchPageNum()
+            : State.getNextPageNum();
+          const totalPage = query
+            ? State.getTotalSearchPages()
+            : State.getTotalPages();
+          console.log(nextPage);
+          console.log(totalPage);
+          if (totalPage === 0 || nextPage > totalPage) return;
+          this.handleLoadMoreMovies();
+        },
+        { threshold: 0.8 },
       );
+      observer.observe(endOfThumbnailList);
+    }
   },
 
   setUpSearchForm() {
@@ -108,29 +126,31 @@ const App = {
   async showPopularMovies() {
     const app = document.querySelector("#app");
     if (app) {
+      State.setIsLoading(true);
       Renderer.renderSkeleton(
         ".thumbnail-list",
         State.getRequestMovieCount() || ONCE_MOVIE_LIMIT,
       );
       try {
-        const [{ results: movies, page }, { genres }] = await Promise.all([
-          getPopularMovies(INITIAL_PAGE_NUM),
-          getGenres(),
-        ]);
+        const [{ results: movies, page, total_pages }, { genres }] =
+          await Promise.all([getPopularMovies(INITIAL_PAGE_NUM), getGenres()]);
         State.setNextPageNum(page + 1);
+        State.setTotalPages(total_pages);
         State.setRequestMovieCount(movies.length);
         State.setGenres(genres);
         MovieRenderer.renderInitialMovies(movies);
         this.setUpMovieDetail(movies);
       } catch (err) {
         MovieRenderer.renderError(err);
+      } finally {
+        State.setIsLoading(false);
       }
     }
   },
 
   async showMoreMovies() {
+    State.setIsLoading(true);
     Renderer.renderSkeleton(".thumbnail-list", State.getRequestMovieCount());
-    Renderer.hideLoadMoreButton();
     try {
       const { results: movies, page } = await getPopularMovies(
         State.getNextPageNum(),
@@ -141,29 +161,35 @@ const App = {
     } catch (err) {
       MovieRenderer.renderError(err);
       Renderer.clearBanner();
+    } finally {
+      State.setIsLoading(false);
     }
   },
 
   async showSearchMovies(query: string) {
+    State.setIsLoading(true);
     Renderer.renderSkeleton(".thumbnail-list", State.getRequestMovieCount());
-    Renderer.hideLoadMoreButton();
     try {
-      const { results: movies, page } = await getSearchMovies(
-        query,
-        INITIAL_PAGE_NUM,
-      );
+      const {
+        results: movies,
+        page,
+        total_pages,
+      } = await getSearchMovies(query, INITIAL_PAGE_NUM);
       MovieRenderer.renderSearchResult(movies, query);
       State.setNextSearchPageNum(page + 1);
+      State.setTotalSearchPages(total_pages);
       State.setSearchQuery(query);
       this.setUpMovieDetail(movies);
     } catch (err) {
       MovieRenderer.renderError(err);
+    } finally {
+      State.setIsLoading(false);
     }
   },
 
   async showMoreSearchMovies(query: string) {
+    State.setIsLoading(true);
     Renderer.renderSkeleton(".thumbnail-list", State.getRequestMovieCount());
-    Renderer.hideLoadMoreButton();
     try {
       const { results: movies, page } = await getSearchMovies(
         query,
@@ -174,6 +200,8 @@ const App = {
       this.setUpMovieDetail(movies);
     } catch (err) {
       MovieRenderer.renderError(err);
+    } finally {
+      State.setIsLoading(false);
     }
   },
 };

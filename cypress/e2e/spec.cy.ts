@@ -15,12 +15,16 @@ const createMockMovie = (id: number) => ({
   adult: false,
 });
 
-const createMoviesResponse = (count: number, page: number = 1) => ({
+const createMoviesResponse = (
+  count: number,
+  page: number = 1,
+  totalPages: number = 500,
+) => ({
   page,
   results: Array.from({ length: count }, (_, i) =>
     createMockMovie((page - 1) * 20 + i + 1),
   ),
-  total_pages: 500,
+  total_pages: totalPages,
   total_results: 10000,
 });
 
@@ -66,42 +70,45 @@ describe("영화 리뷰 앱", () => {
   });
 
   describe("더 보기", () => {
-    it("더 보기 클릭 시 영화가 20개 추가 렌더링된다", () => {
+    it("end-of-thumbnail-list에 도달했을떄 영화가 20개 추가 렌더링된다", () => {
       cy.wait("@getPopularMovies");
 
       cy.intercept("GET", "**/movie/popular*", createMoviesResponse(20, 2)).as(
         "getMoreMovies",
       );
 
-      cy.get(".load-more-button").click();
+      cy.get("#end-of-thumbnail-list").scrollIntoView();
       cy.wait("@getMoreMovies");
 
       cy.get(".thumbnail-list li").should("have.length", 40);
     });
 
-    it("마지막 페이지일 때 더 보기 버튼이 숨겨진다", () => {
+    it("마지막 페이지일 때 더 이상 영화를 가져오지 않는다", () => {
       cy.wait("@getPopularMovies");
+      cy.intercept(
+        "GET",
+        "**/movie/popular*",
+        createMoviesResponse(5, 1, 1),
+      ).as("getMoreMovies");
+      cy.get("#end-of-thumbnail-list").scrollIntoView();
+      cy.wait("@getMoreMovies");
 
-      cy.intercept("GET", "**/movie/popular*", createMoviesResponse(5, 2)).as(
-        "getLastPageMovies",
-      );
+      cy.get(".thumbnail-list li").should("have.length", 25);
 
-      cy.get(".load-more-button").click();
-      cy.wait("@getLastPageMovies");
-
-      cy.get(".load-more-button").should("not.be.visible");
+      cy.get("#end-of-thumbnail-list").scrollIntoView();
+      cy.wait(500);
+      cy.get(".thumbnail-list li").should("have.length", 25);
     });
 
     it("더 보기 API 실패 시 에러 메시지가 렌더링된다", () => {
       cy.wait("@getPopularMovies");
 
       cy.intercept("GET", "**/movie/popular*", { statusCode: 500 }).as(
-        "getMoreMoviesError",
+        "getMoreMovies",
       );
 
-      cy.get(".load-more-button").click();
-      cy.wait("@getMoreMoviesError");
-
+      cy.get("#end-of-thumbnail-list").scrollIntoView();
+      cy.wait("@getMoreMovies");
       cy.get(".notice-text").should(
         "contain.text",
         "오류가 발생했습니다. 다시 시도해주세요.",
@@ -125,21 +132,7 @@ describe("영화 리뷰 앱", () => {
       cy.get("section > h2").should("contain.text", "액션");
     });
 
-    it("검색 결과가 마지막 페이지일 때 더 보기 버튼이 숨겨진다", () => {
-      cy.wait("@getPopularMovies");
-
-      cy.intercept("GET", "**/search/movie*", createMoviesResponse(5)).as(
-        "searchLastPage",
-      );
-
-      cy.get(".search-form input").type("액션");
-      cy.get(".search-form").submit();
-      cy.wait("@searchLastPage");
-
-      cy.get(".load-more-button").should("not.be.visible");
-    });
-
-    it("검색 더 보기에서 마지막 페이지일때 더 보기 버튼이 숨겨진다", () => {
+    it("검색 결과가 마지막 페이지일 때 더 이상 영화를 가져오지 않는다.", () => {
       cy.wait("@getPopularMovies");
 
       cy.intercept("GET", "**/search/movie*", createMoviesResponse(20)).as(
@@ -150,14 +143,16 @@ describe("영화 리뷰 앱", () => {
       cy.get(".search-form").submit();
       cy.wait("@searchMovies");
 
-      cy.intercept("GET", "**/search/movie*", createMoviesResponse(3, 2)).as(
-        "searchLastPage",
+      cy.intercept("GET", "**/search/movie*", createMoviesResponse(3, 1, 1)).as(
+        "getMoreMovies",
       );
+      cy.get("#end-of-thumbnail-list").scrollIntoView();
+      cy.wait("@getMoreMovies");
+      cy.get(".thumbnail-list li").should("have.length", 23);
 
-      cy.get(".load-more-button").click();
-      cy.wait("@searchLastPage");
-
-      cy.get(".load-more-button").should("not.be.visible");
+      cy.get("#end-of-thumbnail-list").scrollIntoView();
+      cy.wait(500);
+      cy.get(".thumbnail-list li").should("have.length", 23);
     });
 
     it("검색 결과가 없을 때 안내 메시지가 렌더링된다", () => {
@@ -189,11 +184,10 @@ describe("영화 리뷰 앱", () => {
       cy.wait("@searchMovies");
 
       cy.intercept("GET", "**/search/movie*", { statusCode: 500 }).as(
-        "searchMoreMoviesError",
+        "getMoreMovies",
       );
-
-      cy.get(".load-more-button").click();
-      cy.wait("@searchMoreMoviesError");
+      cy.get("#end-of-thumbnail-list").scrollIntoView();
+      cy.wait("@getMoreMovies");
 
       cy.get(".notice-text").should(
         "contain.text",
@@ -247,18 +241,18 @@ describe("영화 리뷰 앱", () => {
         cy.wait("@getPopularMovies");
 
         cy.intercept("GET", "**/movie/popular*", { statusCode }).as(
-          "getMoreMoviesError",
+          "getMoreMovies",
         );
 
-        cy.get(".load-more-button").click();
-        cy.wait("@getMoreMoviesError");
+        cy.get("#end-of-thumbnail-list").scrollIntoView();
+        cy.wait("@getMoreMovies");
 
         cy.get(".notice-text").should("contain.text", message);
       });
     });
   });
 
-  describe.only("영화 정보", () => {
+  describe("영화 정보", () => {
     const origin = new URL(Cypress.config("baseUrl") as string).origin;
     beforeEach(() => {
       cy.wait("@getPopularMovies");

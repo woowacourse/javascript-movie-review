@@ -6,6 +6,9 @@ class State {
   #requestMovieCount = 0;
   #searchQuery = "";
   #genres: Genre[] = [];
+  #isLoading = false;
+  #totalPages = 0;
+  #totalSearchPages = 0;
 
   getNextPageNum() {
     return this.#nextPageNum;
@@ -27,6 +30,18 @@ class State {
     return this.#genres;
   }
 
+  getIsLoading() {
+    return this.#isLoading;
+  }
+
+  getTotalPages() {
+    return this.#totalPages;
+  }
+
+  getTotalSearchPages() {
+    return this.#totalSearchPages;
+  }
+
   setNextPageNum(page: number) {
     this.#nextPageNum = page;
   }
@@ -45,6 +60,18 @@ class State {
 
   setGenres(genres: Genre[]) {
     this.#genres = genres;
+  }
+
+  setIsLoading(loading: boolean) {
+    this.#isLoading = loading;
+  }
+
+  setTotalPages(pages: number) {
+    this.#totalPages = pages;
+  }
+
+  setTotalSearchPages(pages: number) {
+    this.#totalSearchPages = pages;
   }
 }
 
