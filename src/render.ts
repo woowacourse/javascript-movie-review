@@ -92,7 +92,7 @@ export const hideMoreButton = () => {
 
 export function renderMovieItem(data: resultData): string {
   return /* html */ `
-      <li>
+      <li class="movie-item" data-id="${data.id}">
         <div class="item">
           <img class="thumbnail" src="https://image.tmdb.org/t/p/w500${data.poster_path}" alt="${data.title}" />
           <div class="item-desc">

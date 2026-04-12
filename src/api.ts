@@ -13,6 +13,7 @@ const options = {
 };
 
 export interface resultData {
+  id: number;
   title: string;
   poster_path: string;
   backdrop_path: string;
@@ -84,7 +85,7 @@ export const fetchPopularMovies = (page: number = 1): Promise<PreviewData> => {
   });
 };
 
-export const fetchMovieDetail = async (movieId: string): Promise<MovieDetailData> => {
+export const fetchMovieDetail = async (movieId: number): Promise<MovieDetailData> => {
   const url = new URL(`${BASE_URL}/movie/${movieId}`);
   url.searchParams.append('region', 'ko-KR');
   url.searchParams.append('language', 'ko');
