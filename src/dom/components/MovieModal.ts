@@ -43,6 +43,7 @@ const createMovieModalTemplate = (movie: MovieDetail | null) => `
   </dialog>
 `;
 
+// TODO: renderMovieModalLoading?
 export const renderMovieModal = (
   parent: HTMLElement,
   movie: MovieDetail | null = null,
