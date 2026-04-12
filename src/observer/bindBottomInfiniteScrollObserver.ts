@@ -23,7 +23,7 @@ function createScrollAreaElement() {
 
 let observer: IntersectionObserver | null = null;
 
-export default function bindInfiniteScrollObserver(hasNextPage: boolean, callback: () => void) {
+export default function bindBottomInfiniteScrollObserver(hasNextPage: boolean, callback: () => void) {
   const prevScrollAreaElement = document.querySelector(".scroll-area");
 
   if (prevScrollAreaElement) {

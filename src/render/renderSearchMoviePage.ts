@@ -1,7 +1,7 @@
 import { fetchMovies } from "../api";
 import { handleError } from "../error";
-import bindInfiniteScrollObserver from "../observer/bindInfiniteScrollObserver";
-import renderLoadMoreTopButton from "./renderLoadMoreTopButton";
+import bindBottomInfiniteScrollObserver from "../observer/bindBottomInfiniteScrollObserver";
+import bindTopInfiniteScrollObserver from "../observer/bindTopInfiniteScrollObserver";
 import renderMovieItems from "./renderMovieItems";
 import renderSearchListEmptyAlert from "./renderSearchListEmptyAlert";
 
@@ -37,7 +37,7 @@ export async function renderSearchMoviePage(page: number, query: string, directi
 
   const hasPrevPage = firstLoadedPage !== null && firstLoadedPage > 1;
 
-  renderLoadMoreTopButton(hasPrevPage, async () => {
+  bindTopInfiniteScrollObserver(hasPrevPage, async () => {
     try {
       await renderSearchMoviePage(firstLoadedPage! - 1, query, 'prepend');
     } catch (error) {
@@ -48,7 +48,7 @@ export async function renderSearchMoviePage(page: number, query: string, directi
 
   const hasNextPage = totalPages > lastLoadedPage!;
 
-  bindInfiniteScrollObserver(hasNextPage, async () => {
+  bindBottomInfiniteScrollObserver(hasNextPage, async () => {
     try {
       await renderSearchMoviePage(lastLoadedPage! + 1, query, 'append');
     } catch (error) {
