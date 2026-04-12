@@ -1,15 +1,15 @@
 import { eventBus } from "./pubsub/EventBus";
 import { APP_EVENTS } from "./pubsub/AppEvents";
-import { handleLogo, handleMore, handleMovieSelected, handleSearch, handleInitial } from "./features/handler/controllerHandlers";
+import { resetToPopular, handleMore, loadMovieDetail, handleSearch, loadInitial } from "./features/handler/controllerHandlers";
 import { header } from "./dom";
 
 export function setupRoutes(): void {
   eventBus.subscribe(APP_EVENTS.LOAD_MORE, handleMore);
-  eventBus.subscribe(APP_EVENTS.MOVIE_SELECTED, handleMovieSelected);
+  eventBus.subscribe(APP_EVENTS.MOVIE_SELECTED, loadMovieDetail);
 
   eventBus.subscribe(APP_EVENTS.LOGO_CLICK, () => {
     eventBus.publish(APP_EVENTS.TITLE_CHANGED, "지금 인기 있는 영화");
-    handleLogo();
+    resetToPopular();
   });
 }
 
@@ -17,7 +17,7 @@ export function bindDomEvents(): void {
 
   addEventListener("load", async () => {
     eventBus.publish(APP_EVENTS.TITLE_CHANGED, "지금 인기 있는 영화");
-    await handleInitial();
+    await loadInitial();
   });
 
   header.addEventListener("submit", async (e: SubmitEvent) => {

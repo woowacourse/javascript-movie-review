@@ -4,32 +4,32 @@ import { MovieDetail, MovieResponse } from "../../../types/types";
 
 async function fetchMovieList(
   page: number,
-  searchMovie?: string,
+  query?: string,
 ): Promise<MovieResponse> {
-  if (searchMovie) {
-    return await fetchApi(SEARCH_PATH, page, searchMovie);
+  if (query) {
+    return await fetchApi(SEARCH_PATH, page, query);
   }
-  return await fetchApi(POPULAR_PATH, page, searchMovie);
+  return await fetchApi(POPULAR_PATH, page);
 }
 
-export async function readMoreMovies(
-  page: number,
-  searchMovie: string,
-): Promise<MovieResponse> {
-  return await fetchMovieList(page, searchMovie);
-}
-
-export async function readPopularMovies(page: number): Promise<MovieResponse> {
+export async function getPopularMovies(page: number): Promise<MovieResponse> {
   return await fetchMovieList(page);
 }
 
-export async function readSearchMovies(
+export async function getSearchMovies(
   page: number,
-  searchMovie: string,
+  query: string,
 ): Promise<MovieResponse> {
-  return await fetchMovieList(page, searchMovie);
+  return await fetchMovieList(page, query);
 }
 
-export async function readMovieDetail(movieId: number): Promise<MovieDetail> {
+export async function getMoreMovies(
+  page: number,
+  query: string,
+): Promise<MovieResponse> {
+  return await fetchMovieList(page, query);
+}
+
+export async function getMovieDetail(movieId: number): Promise<MovieDetail> {
   return await fetchMovieDetailApi(movieId);
 }
