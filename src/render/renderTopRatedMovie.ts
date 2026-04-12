@@ -27,7 +27,11 @@ export default function renderTopRatedMovie(movie: Movie) {
 
   if (detailButtonEl) {
     detailButtonEl.disabled = false;
-    bindClickMovieEvent(detailButtonEl);
+
+    if (detailButtonEl.dataset.isBound !== "true") {
+      bindClickMovieEvent(detailButtonEl);
+      detailButtonEl.dataset.isBound = "true";
+    }
   }
 
   if (backgroundContainerEl) {

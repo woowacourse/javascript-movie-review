@@ -28,7 +28,9 @@ export async function renderPopularMoviePage(page: number, direction: 'append' |
 
   removeSkeletonItems();
 
-  renderTopRatedMovie(response.results[0]);
+  const isTopPage = page === firstLoadedPage;
+
+  isTopPage && renderTopRatedMovie(response.results[0]);
 
   renderMovieItems(page, response.results, direction);
 
