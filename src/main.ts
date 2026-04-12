@@ -52,7 +52,7 @@ window.addEventListener('scroll', () => {
   }
 });
 
-addEventListener('load', () => {
+window.addEventListener('load', () => {
   const $body = document.querySelector('body');
   if (!$body) return;
 
