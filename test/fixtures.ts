@@ -683,3 +683,27 @@ export const searchFixture = [
     vote_count: 79,
   },
 ];
+
+export const movieDetailFixture = {
+  id: 640146,
+  title: "앤트맨과 와스프: 퀀텀매니아",
+  poster_path: "/ngl2FKBlU4fhbdsrtdom9LVLBXw.jpg",
+  overview:
+    "슈퍼히어로 파트너인 스캇 랭과 호프 반 다인, 호프의 부모 재닛 반 다인과 행크 핌, 그리고 스캇의 딸 캐시 랭까지 미지의 양자 영역 세계 속에 빠져버린 앤트맨 패밀리. 그 곳에서 새로운 존재들과 무한한 우주를 다스리는 정복자 캉을 만나며, 그 누구도 예상 못 한 모든 것의 한계를 뛰어넘는 모험을 시작하게 되는데…",
+  release_date: "2023-02-15",
+  vote_average: 6.232,
+  genres: [
+    {
+      id: 28,
+      name: "액션",
+    },
+    {
+      id: 12,
+      name: "모험",
+    },
+    {
+      id: 878,
+      name: "SF",
+    },
+  ],
+};

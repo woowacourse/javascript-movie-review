@@ -183,6 +183,7 @@ footer.footer p:not(:last-child) {
 
 /* 모바일 */
 @media (max-width: 767px) {
+  header,
   .background-container,
   #wrap {
     min-width: 310px;
