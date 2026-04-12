@@ -29,14 +29,19 @@ describe("영화 상세 모달 렌더링 테스트", () => {
     cy.get(".modal-description .category").should("contain.text", "모험");
   });
 
-  it("모달에 줄거리가 표시된다", () => {
-    openModal();
-    cy.get(".detail p").should("contain.text", "영화1의 줄거리입니다.");
-  });
-
   it("모달에 평균 별점이 표시된다", () => {
     openModal();
     cy.get(".modal-rate .rate span").should("contain.text", "8");
+  });
+
+  it("모달에 내 별점이 표시된다", () => {
+    openModal();
+    cy.get("#my-rate").should("be.visible");
+  });
+
+  it("모달에 줄거리가 표시된다", () => {
+    openModal();
+    cy.get(".detail p").should("contain.text", "영화1의 줄거리입니다.");
   });
 });
 
