@@ -95,10 +95,11 @@ export const Index = {
     State.isLoading = true;
     Renderer.renderSkeleton(".thumbnail-list", State.requestMovieCount);
     try {
-      const { results: movies, page } = await getPopularMovies(
+      const { results: movies, page, total_pages } = await getPopularMovies(
         State.nextPageNum,
       );
       State.nextPageNum = page + 1;
+      State.totalPages = total_pages;
       IndexRenderer.renderLoadMoreMovies(movies);
       MovieDetail.setUpMovieDetail(movies);
     } catch (err) {

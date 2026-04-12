@@ -30,11 +30,12 @@ export const Search = {
     State.isLoading = true;
     Renderer.renderSkeleton(".thumbnail-list", State.requestMovieCount);
     try {
-      const { results: movies, page } = await getSearchMovies(
+      const { results: movies, page, total_pages } = await getSearchMovies(
         query,
         State.nextSearchPageNum,
       );
       State.nextSearchPageNum = page + 1;
+      State.totalSearchPages = total_pages;
       SearchRenderer.renderLoadMoreSearchMovies(movies);
       MovieDetail.setUpMovieDetail(movies);
     } catch (err) {
