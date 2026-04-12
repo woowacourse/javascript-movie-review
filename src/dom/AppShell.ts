@@ -16,6 +16,17 @@ export interface AppShellElements {
 
   skeletonCard: HTMLUListElement;
   seeMoreBtn: HTMLButtonElement;
+
+  // 모달
+  modalBackground: HTMLDivElement;
+  closeModal: HTMLButtonElement;
+  modalPoster: HTMLImageElement;
+  modalTitle: HTMLHeadingElement;
+  modalCategory: HTMLParagraphElement;
+  modalRateValue: HTMLSpanElement;
+  modalDetail: HTMLParagraphElement;
+  myRatingStars: HTMLDivElement;
+  myRatingLabel: HTMLParagraphElement;
 }
 
 export const queryAppShell = (): AppShellElements => ({
@@ -34,4 +45,15 @@ export const queryAppShell = (): AppShellElements => ({
 
   skeletonCard: $<HTMLUListElement>(".skeleton-card"),
   seeMoreBtn: $<HTMLButtonElement>("#see-more-btn"),
+
+  // 모달
+  modalBackground: $<HTMLDivElement>("#modalBackground"),
+  closeModal: $<HTMLButtonElement>("#closeModal"),
+  modalPoster: $<HTMLImageElement>("#modal-poster"),
+  modalTitle: $<HTMLHeadingElement>("#modal-title"),
+  modalCategory: $<HTMLParagraphElement>("#modal-category"),
+  modalRateValue: $<HTMLSpanElement>("#modal-rate-value"),
+  modalDetail: $<HTMLParagraphElement>("#modal-detail"),
+  myRatingStars: $<HTMLDivElement>("#my-rating-stars"),
+  myRatingLabel: $<HTMLParagraphElement>("#my-rating-label"),
 });
