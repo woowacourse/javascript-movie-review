@@ -71,6 +71,13 @@ button.primary {
   font-size: clamp(20px, 4vw, 36px);
   font-weight: 600;
   margin-bottom: clamp(16px, 2vw, 32px);
+  text-align: center;
+}
+
+@media (min-width: 800px) {
+  .movie-section-title {
+    text-align: left;
+  }
 }
 
 #app {
@@ -86,7 +93,7 @@ button.primary {
   flex: 1;
 }
 
-@media (min-width: 520px) {
+@media (min-width: 800px) {
   .container {
     padding: 0 16px;
   }
@@ -149,19 +156,19 @@ footer.footer p:not(:last-child) {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 4px;
+  gap: 12px;
   max-width: 1280px;
-  height: 76px;
+  height: 90px;
   margin: 0 auto;
-  padding: 8px 45px;
+  padding: 14px 45px 8px;
 }
 
 .logo {
 }
 
-@media (min-width: 520px) {
+@media (min-width: 800px) {
   .site-header-inner {
-    padding: 8px 16px;
+    padding: 14px 16px 8px;
   }
 }
 
@@ -248,7 +255,7 @@ footer.footer p:not(:last-child) {
 
 .hero-section {
   position: relative;
-  margin-top: -76px;
+  margin-top: -90px;
 }
 
 .hero-backdrop {
@@ -284,7 +291,7 @@ footer.footer p:not(:last-child) {
   max-width: 1280px;
   min-height: 300px;
   margin: 0 auto;
-  padding: 76px 20px 20px;
+  padding: 90px 45px 20px;
 }
 
 .hero-content {
@@ -311,10 +318,10 @@ footer.footer p:not(:last-child) {
   margin: 10px 0;
 }
 
-@media (min-width: 520px) {
+@media (min-width: 800px) {
   .hero-shell {
     min-height: 500px;
-    padding: 76px 54px 20px;
+    padding: 90px 54px 20px;
   }
 }
 

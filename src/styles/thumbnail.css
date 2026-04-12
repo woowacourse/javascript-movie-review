@@ -13,10 +13,10 @@
   gap: 32px;
 }
 
-@media (min-width: 520px) {
+@media (min-width: 800px) {
   .thumbnail-grid {
-    grid-template-columns: repeat(2, 200px);
-    gap: 40px;
+    grid-template-columns: repeat(3, 200px);
+    gap: 70px;
   }
 }
 
