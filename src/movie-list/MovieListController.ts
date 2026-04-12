@@ -61,7 +61,9 @@ export class MovieListController {
 
       this.view.renderMovies(this.store.movies);
       this.view.toggleSeeMore(this.store.hasMore);
-      this.view.toggleNoResult(this.store.query !== "" && this.store.movies.length === 0);
+      this.view.toggleNoResult(
+        this.store.query !== "" && this.store.movies.length === 0,
+      );
     } catch (error) {
       this.notifier.error(error);
     } finally {

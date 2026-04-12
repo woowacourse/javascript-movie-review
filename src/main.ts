@@ -6,22 +6,44 @@ import { MovieListController } from "./movie-list/MovieListController";
 import { HeroSection } from "./hero/HeroSection";
 import { queryAppShell } from "./dom/AppShell";
 import { Notifier } from "./notify/Notifier";
+import { LocalStorageRatingRepo } from "./rating/LocalStorageRatingRepo";
+import { MovieDetailModal } from "./modal/MovieDetailModal";
 
 const main = async () => {
   const elements = queryAppShell();
 
   const notifier = new Notifier();
-
   const tmdb = new TmdbClient(import.meta.env.VITE_TMDB_API_KEY);
   const movieListStore = new MovieListStore(tmdb);
+  const ratingRepo = new LocalStorageRatingRepo();
 
-  const movieListView = new MovieListView({
-    listElement: elements.movieList,
-    skeletonElement: elements.skeletonCard,
-    seeMoreButton: elements.seeMoreBtn,
-    sectionTitle: elements.movieSectionTitle,
-    noResult: elements.noResult,
-  });
+  const modal = new MovieDetailModal(
+    {
+      background: elements.modalBackground,
+      closeButton: elements.closeModal,
+      poster: elements.modalPoster,
+      title: elements.modalTitle,
+      category: elements.modalCategory,
+      rateValue: elements.modalRateValue,
+      detail: elements.modalDetail,
+      myRatingStars: elements.myRatingStars,
+      myRatingLabel: elements.myRatingLabel,
+    },
+    (movieId, score) => ratingRepo.saveRating(movieId, score),
+  );
+
+  let controller!: MovieListController;
+
+  const movieListView = new MovieListView(
+    {
+      listElement: elements.movieList,
+      skeletonElement: elements.skeletonCard,
+      seeMoreButton: elements.seeMoreBtn,
+      sectionTitle: elements.movieSectionTitle,
+      noResult: elements.noResult,
+    },
+    (movieId) => controller.openDetail(movieId),
+  );
 
   const heroSection = new HeroSection({
     section: elements.heroSection,
@@ -32,7 +54,15 @@ const main = async () => {
     rateValue: elements.heroRateValue,
   });
 
-  const controller = new MovieListController(movieListStore, movieListView, heroSection, notifier);
+  controller = new MovieListController(
+    movieListStore,
+    movieListView,
+    heroSection,
+    notifier,
+    tmdb,
+    modal,
+    ratingRepo,
+  );
 
   const searchForm = new SearchForm(
     elements.searchForm,
@@ -41,7 +71,10 @@ const main = async () => {
       await controller.search(query);
     },
     () => {
-      notifier.warn("검색어를 입력해주세요", "영화 제목을 입력한 뒤 다시 시도해주세요.");
+      notifier.warn(
+        "검색어를 입력해주세요",
+        "영화 제목을 입력한 뒤 다시 시도해주세요.",
+      );
     },
   );
 
