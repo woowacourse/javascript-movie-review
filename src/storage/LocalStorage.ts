@@ -1,8 +1,5 @@
-export type MovieStore = {
-  get(key: string): Promise<string | null>;
-  save(key: string, value: string): Promise<void>;
-};
-export default class LocalStorage {
+import { MovieStore } from './types';
+export default class LocalStorage implements MovieStore {
   #myStorage;
 
   constructor() {

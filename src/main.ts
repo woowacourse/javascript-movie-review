@@ -1,9 +1,7 @@
 import Modal from './components/modal/Modal.ts';
 import HomePage from './pages/HomePage.ts';
 import SearchPage from './pages/SearchPage.ts';
-import { CUSTOM_EVENT, scrollEvent } from './utils/event.ts';
 import LocalStorage from './storage/LocalStorage.ts';
-import MovieRepository from './repositories/MovieRepository.ts';
 
 const routes = [
   { path: '/', view: HomePage },
@@ -35,30 +33,11 @@ const router = (modal: Modal) => {
   PAGE_CACHE.set(fullpath, newPage);
 };
 
-const navigateTo = (url: string) => {
-  location.hash = url;
-};
-
-window.addEventListener(CUSTOM_EVENT.ROUTE_CHANGE, (e: Event) => {
-  const customEvent = e as CustomEvent<{ url: string }>;
-  const { url } = customEvent.detail;
-  navigateTo(url);
-});
-
-window.addEventListener('scroll', () => {
-  const isScrollEnded = window.innerHeight + window.scrollY + 400 >= document.body.offsetHeight;
-  if (isScrollEnded) {
-    scrollEvent();
-  }
-});
-
 window.addEventListener('load', () => {
   const $body = document.querySelector('body');
   if (!$body) return;
 
-  const db = new LocalStorage();
-  const movieRepo = new MovieRepository(db);
-  const modal = new Modal(movieRepo, $body);
+  const modal = new Modal(new LocalStorage(), $body);
   $body.append(modal.$element);
 
   window.addEventListener('hashchange', () => router(modal));
