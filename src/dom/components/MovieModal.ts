@@ -63,6 +63,10 @@ export const renderMovieModal = (
   modalElement?.showModal();
   document.body.classList.add("modal-open");
 
+  modalElement?.addEventListener("cancel", () => {
+    hideMovieModal();
+  });
+
   modalElement?.addEventListener("click", (e) => {
     if (e.target === e.currentTarget) {
       hideMovieModal();
