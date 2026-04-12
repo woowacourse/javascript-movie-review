@@ -141,3 +141,18 @@ footer.footer {
 footer.footer p:not(:last-child) {
   margin-bottom: 8px;
 }
+
+/* 테블릿 */
+@media (max-width: 1023px) {
+  #wrap {
+    min-width: 800px;
+    padding: 0 16px;
+  }
+
+  #wrap,
+  section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
