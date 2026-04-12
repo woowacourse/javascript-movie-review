@@ -11,6 +11,8 @@ export default class MovieCard {
 
   render(): HTMLLIElement {
     const li = document.createElement("li");
+    li.className = "movie-card";
+    li.dataset.id = this.movie.id.toString();
     li.innerHTML = `<div class="item">
       <img
          class="thumbnail"
