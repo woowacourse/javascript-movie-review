@@ -181,18 +181,7 @@ export const Renderer = {
   },
 
   clearSkeleton(parent: Element) {
-    parent.innerHTML = [...parent.children]
-      .filter((child) => {
-        if (
-          child instanceof HTMLElement &&
-          child.classList.contains("skeleton")
-        ) {
-          return false;
-        }
-        return true;
-      })
-      .map((child) => child.outerHTML)
-      .join("");
+    parent.querySelectorAll(".skeleton").forEach((el) => el.remove());
   },
 
   renderError(err: unknown) {
