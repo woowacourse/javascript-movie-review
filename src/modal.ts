@@ -32,7 +32,11 @@ export const openModal = async (movieId: number) => {
     initStarRatingEvents(movieId, myRating);
   } catch (error) {
     if (error instanceof Error) {
-      $modalContainer.innerHTML = `<div class="modal-description"><h2>${error.message}</h2></div>`;
+      $modalContainer.innerHTML = /* html */ `
+      <div class="modal-description">
+        <h2>에러가 발생했습니다! 모달창을 닫고 다시 켜주세요!</h2>
+      </div>
+      `;
     }
   }
 };
