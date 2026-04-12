@@ -1,6 +1,7 @@
 import { Header } from "./View/Header";
 import MovieList from "./View/MovieList";
-import { getMoreMovies, getPopularMovies, getSearchMovies } from "./movieModel";
+import MovieDetailModal from "./View/MovieDetailModal.ts";
+import { getMoreMovies, getPopularMovies, getSearchMovies, getMovieDetail} from "./movieModel";
 
 const movieList = new MovieList();
 
@@ -55,6 +56,18 @@ export async function renderMoreMovies(
     movieList.renderMovieList(data);
     movieList.updateMoreButton(data.total_pages, page);
   } catch (error) {
+    if (error instanceof Error) movieList.renderError(error.message);
+  }
+}
+
+// 영화 상세 정보 API를 요청하여 영화 상세 정보 모달을 렌더링하는 함수
+export async function renderMovieDetailModal(id: number){
+  try{
+    // 영화 상세 정보 API 요청
+    const data = await getMovieDetail(id);
+    // 영화 상세 정보 모달 렌더링 함수 호출
+    MovieDetailModal.render(data);  
+  }catch(error){
     if (error instanceof Error) movieList.renderError(error.message);
   }
 }

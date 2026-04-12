@@ -37,3 +37,14 @@ export async function getMoreMovies(page: number, searchQuery: string): Promise<
     throw new Error("영화 데이터를 불러오는 중 오류가 발생했습니다.");
   }
 }
+
+export async function getMovieDetail(id: Number){
+  try{
+    const response = await fetch(`${BASE_URL}/movie/${id}?api_key=${API_KEY}&language=ko-KR`);
+    if (!response.ok) throw new Error(`API 요청 실패: ${response.status}`);
+    return response.json();
+  }
+  catch(error){
+    throw new Error("영화 데이터를 불러오는 중 오류가 발생했습니다.")
+  }
+}

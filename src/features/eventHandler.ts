@@ -60,14 +60,15 @@ function loadMoreButton() {
 // 하나의 영화 카드를 클릭했을 때, 해당 카드에서 영화의 id를 받아서 
 // 그 id를 그 영화 정보를 렌더링 하는 함수로 넘겨준다. -> 렌더링 한다.
 function loadMovieDetailInfo() {
-  const movieList = document.querySelector(".thumnail-list") as HTMLElement;
+  const movieList = document.querySelector(".thumbnail-list") as HTMLElement;
   if(movieList){
-    movieList.addEventListener("click", async () => {
-      const target = movieList.closest(".movie-card") as HTMLElement;
-      const id  = target.dataset.id;
-       if(id){
-          await renderMovieDetailModal(Number(id));
-        }
-    })
+    movieList.addEventListener("click", async (e) => {
+      const target = e.target as HTMLElement;        // 클릭된 요소
+      const card = target.closest(".movie-card") as HTMLElement;  // 카드 찾기
+      if (card) {
+        const id = card.dataset.id;
+        if (id) await renderMovieDetailModal(Number(id));
+     }
+    });
   }
 }
