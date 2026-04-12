@@ -1,13 +1,4 @@
-import {
-  interceptPopularError,
-  interceptPopularLastPage,
-  interceptPopularPage1,
-  interceptPopularPage2,
-  interceptSearchError,
-  interceptSearchLastPage,
-  interceptSearchPage1,
-  interceptSearchPage2,
-} from "./spec";
+import { interceptPopularError, interceptPopularLastPage, interceptPopularPage1, interceptPopularPage2, interceptSearchError, interceptSearchLastPage, interceptSearchPage1, interceptSearchPage2 } from "./spec";
 
 describe("메인 무한 스크롤 동작 테스트", () => {
   it("스크롤이 observer target에 도달하면 추가 영화가 append된다", () => {
@@ -15,14 +6,14 @@ describe("메인 무한 스크롤 동작 테스트", () => {
     cy.visit("/");
     cy.wait("@getPopularPage1");
 
-    cy.get("#main-thumbnail-list li").then(($initialItems) => {
+    cy.get("#popular-thumbnail-list li").then(($initialItems) => {
       const initialCount = $initialItems.length;
 
       interceptPopularPage2();
-      cy.get("#main-observer-target").scrollIntoView();
+      cy.get("#home-observer-target").scrollIntoView();
       cy.wait("@getPopularPage2");
 
-      cy.get("#main-thumbnail-list li").should(
+      cy.get("#popular-thumbnail-list li").should(
         "have.length.greaterThan",
         initialCount,
       );
@@ -34,7 +25,7 @@ describe("메인 무한 스크롤 동작 테스트", () => {
     cy.visit("/");
     cy.wait("@getPopularLastPage");
 
-    cy.get("#main-observer-target").should("not.exist");
+    cy.get("#home-observer-target").should("not.exist");
   });
 });
 
@@ -77,7 +68,7 @@ describe("검색 무한 스크롤 동작 테스트", () => {
   });
 });
 
-describe("메인 무한 스크롤 에러 테스트", () => {
+describe("홈 무한 스크롤 에러 테스트", () => {
   it("스크롤로 추가 로딩 중 에러가 발생하면 에러 메시지가 alert된다", () => {
     interceptPopularPage1();
     cy.visit("/");
@@ -87,7 +78,7 @@ describe("메인 무한 스크롤 에러 테스트", () => {
     const alertStub = cy.stub();
     cy.on("window:alert", alertStub);
 
-    cy.get("#main-observer-target").scrollIntoView();
+    cy.get("#home-observer-target").scrollIntoView();
     cy.wait("@getPopularError").then(() => {
       expect(alertStub).to.have.been.called;
     });

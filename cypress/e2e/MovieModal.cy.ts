@@ -1,8 +1,12 @@
-import { interceptMovieDetail, interceptMovieDetailError, interceptPopularPage1 } from "./spec";
+import {
+  interceptMovieDetail,
+  interceptMovieDetailError,
+  interceptPopularPage1,
+} from "./spec";
 
 const openModal = () => {
   interceptMovieDetail();
-  cy.get("#main-thumbnail-list li").first().click();
+  cy.get("#popular-thumbnail-list li").first().click();
   cy.wait("@getMovieDetail");
 };
 
@@ -85,7 +89,7 @@ describe("영화 상세 모달 에러 테스트", () => {
     const alertStub = cy.stub();
     cy.on("window:alert", alertStub);
 
-    cy.get("#main-thumbnail-list li").first().click();
+    cy.get("#popular-thumbnail-list li").first().click();
     cy.wait("@getMovieDetailError").then(() => {
       expect(alertStub).to.have.been.called;
     });
@@ -95,7 +99,7 @@ describe("영화 상세 모달 에러 테스트", () => {
     interceptMovieDetailError();
     cy.on("window:alert", () => {});
 
-    cy.get("#main-thumbnail-list li").first().click();
+    cy.get("#popular-thumbnail-list li").first().click();
     cy.wait("@getMovieDetailError");
 
     cy.get("#modal-dialog").should("not.exist");

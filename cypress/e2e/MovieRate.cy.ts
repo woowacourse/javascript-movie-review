@@ -2,7 +2,7 @@ import { interceptMovieDetail, interceptPopularPage1 } from "./spec";
 
 const openModal = () => {
   interceptMovieDetail();
-  cy.get("#main-thumbnail-list li").first().click();
+  cy.get("#popular-thumbnail-list li").first().click();
   cy.wait("@getMovieDetail");
 };
 

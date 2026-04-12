@@ -9,10 +9,10 @@ import {
   renderErrorContainer,
 } from "../components/ErrorContainer.ts";
 import {
-  removeMainThumbnailList,
-  renderMainThumbnailList,
-  renderMainThumbnailLoading,
-} from "../components/MainThumbnailList.ts";
+  removePopularThumbnailList,
+  renderPopularThumbnailList,
+  renderPopularThumbnailLoading,
+} from "../components/PopularThumbnailList.ts";
 import {
   removeMovieItemsLoading,
   renderMovieItems,
@@ -20,9 +20,9 @@ import {
 import { removeBanner, renderBanner } from "../components/Banner.ts";
 import { removeSearch } from "./Search.ts";
 
-const MAIN_OBSERVER_TARGET_ID = "main-observer-target";
-let mainObserver: IntersectionObserver | null = null;
-let mainObserverTarget: HTMLElement | null = null;
+const HOME_OBSERVER_TARGET_ID = "home-observer-target";
+let homeObserver: IntersectionObserver | null = null;
+let homeObserverTarget: HTMLElement | null = null;
 
 export const renderHome = (isLastPage: boolean, movies: Movie[]) => {
   removeHome();
@@ -36,7 +36,7 @@ export const renderHome = (isLastPage: boolean, movies: Movie[]) => {
   const resultSection = document.getElementById("result-section");
   if (!resultSection) return;
 
-  renderMainThumbnailList(resultSection, movies);
+  renderPopularThumbnailList(resultSection, movies);
 
   if (!isLastPage) {
     observeTarget(resultSection, () => {
@@ -56,7 +56,7 @@ export const renderHomeLoading = () => {
 
   const resultSection = document.getElementById("result-section");
   if (resultSection) {
-    renderMainThumbnailLoading(resultSection);
+    renderPopularThumbnailLoading(resultSection);
   }
 };
 
@@ -85,12 +85,14 @@ export const renderHomeEmpty = () => {
 
 export const appendPopularMovies = (isLastPage: boolean, movies: Movie[]) => {
   const resultSection = document.getElementById("result-section");
-  const mainThumbnailList = document.getElementById("main-thumbnail-list");
-  if (!resultSection || !mainThumbnailList) return;
+  const popularThumbnailList = document.getElementById(
+    "popular-thumbnail-list",
+  );
+  if (!resultSection || !popularThumbnailList) return;
 
   removeObserverTarget();
-  removeMovieItemsLoading(mainThumbnailList as HTMLElement);
-  renderMovieItems(mainThumbnailList as HTMLElement, movies);
+  removeMovieItemsLoading(popularThumbnailList as HTMLElement);
+  renderMovieItems(popularThumbnailList as HTMLElement, movies);
 
   if (!isLastPage) {
     observeTarget(resultSection, () => {
@@ -100,29 +102,29 @@ export const appendPopularMovies = (isLastPage: boolean, movies: Movie[]) => {
 };
 
 export const removeHome = () => {
-  mainObserver?.disconnect();
-  mainObserver = null;
+  homeObserver?.disconnect();
+  homeObserver = null;
   removeObserverTarget();
   removeBanner();
-  removeMainThumbnailList();
+  removePopularThumbnailList();
   removeErrorContainer();
   removeEmptyContainer();
 };
 
 const observeTarget = (parent: HTMLElement, onIntersect: () => void) => {
-  mainObserver?.disconnect();
+  homeObserver?.disconnect();
 
   parent.insertAdjacentHTML(
     "beforeend",
-    `<div id="${MAIN_OBSERVER_TARGET_ID}" class="observer-target"></div>`,
+    `<div id="${HOME_OBSERVER_TARGET_ID}" class="observer-target"></div>`,
   );
-  mainObserverTarget = document.getElementById(MAIN_OBSERVER_TARGET_ID);
-  if (!mainObserverTarget) return;
+  homeObserverTarget = document.getElementById(HOME_OBSERVER_TARGET_ID);
+  if (!homeObserverTarget) return;
 
-  mainObserver = new IntersectionObserver(
+  homeObserver = new IntersectionObserver(
     (entries) => {
       if (entries[0].isIntersecting) {
-        mainObserver?.disconnect();
+        homeObserver?.disconnect();
         onIntersect();
       }
     },
@@ -131,10 +133,10 @@ const observeTarget = (parent: HTMLElement, onIntersect: () => void) => {
       threshold: 0.1,
     },
   );
-  mainObserver.observe(mainObserverTarget);
+  homeObserver.observe(homeObserverTarget);
 };
 
 const removeObserverTarget = () => {
-  mainObserverTarget?.remove();
-  mainObserverTarget = null;
+  homeObserverTarget?.remove();
+  homeObserverTarget = null;
 };
