@@ -82,6 +82,68 @@ body.modal-open {
   margin: 0 0 8px;
 }
 
+.rate {
+  display: flex;
+  align-items: center;
+  margin-bottom: 24px;
+  font-size: 20px;
+}
+
+.rate .star {
+  width: 24px;
+  margin-left: 10px; /* 평균 글자와 별 사이 간격 */
+}
+
+.my-rating-container {
+  margin: 24px 0;
+}
+
+.my-rating-container h3 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 24px;
+}
+
+.star-rating {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin-bottom: 24px;
+}
+
+.rate-star-img {
+  width: 32px;
+  height: 32px;
+  margin-right: 4px;
+  transition: transform 0.1s ease;
+}
+
+.rate-star-img:hover {
+  transform: scale(1.1);
+}
+
+.rating-desc {
+  margin-left: 12px;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.score-number {
+  color: var(--color-bluegray-30);
+  font-weight: bold; 
+  font-size: 1.5rem;
+}
+
+.plot-container {
+  margin-top: 24px;
+}
+
+.plot-container h3 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
 .detail {
   max-height: 430px;
   overflow-y: auto;
