@@ -11,13 +11,13 @@ body.modal-open {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경을 위해 설정 */
-  backdrop-filter: blur(10px); /* 블러 효과 적용 */
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 10;
-  visibility: hidden; /* 모달이 기본적으로 보이지 않도록 설정 */
+  visibility: hidden;
   opacity: 0;
   transition:
     opacity 0.3s ease,
@@ -89,13 +89,13 @@ body.modal-open {
 
 .modal-description h2 {
   font-size: 2rem;
-  margin: 0 0 8px;
 }
 
 .rate {
   display: flex;
   align-items: center;
   font-size: 20px;
+  padding: 0 0 8px 0;
 }
 
 .my-rating-container {
@@ -105,7 +105,7 @@ body.modal-open {
 .my-rating-container h3 {
   font-size: 1.5rem;
   font-weight: bold;
-  margin-bottom: 24px;
+  margin-bottom: 18px;
 }
 
 .star-rating {
@@ -113,6 +113,12 @@ body.modal-open {
   align-items: center;
   cursor: pointer;
   margin-bottom: 24px;
+}
+
+.stars-wrapper {
+  display: flex;
+  flex-direction: row; 
+  align-items: center;
 }
 
 .rate-star-img {
@@ -162,20 +168,17 @@ body.modal-open {
     width: 100%;
     max-width: 100%;
     border-radius: 24px 24px 0 0;
-    padding: 32px 24px;
+    padding: 32px 24px 48px;
     
-    /* 아래에서 올라옴!! */
     transform: translateY(100%);
     animation: slideUp 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
   }
 
-  /* 세로 방향으로 배치 변경 */
   .modal-container {
     flex-direction: column; 
-    align-items: center;
+    align-items: flex-start;
   }
 
-  /* 닫기 버튼 위치 조정 */
   .close-modal {
     top: 24px;
     right: 24px;
@@ -183,29 +186,64 @@ body.modal-open {
   }
 
   .modal-image {
-    width: 60%;
-    margin-bottom: 24px;
-    max-width: 250px;
+    align-self: center;
+    width: 40%;
+    min-width: 150px;
+    margin-bottom: 16px;
+  }
+
+  .modal-image img {
+    width: 100%;
+    margin-bottom: 0;
   }
   
   .modal-description {
+    width: 100%;
     margin-left: 0;
   }
 
-  .rate {
-    justify-content: center;
+  .modal-description h2,
+  .modal-description .category {
     text-align: center;
   }
-}
 
-@keyframes slideUp {
-  to {
-    transform: translateY(0);
+  .modal-description .rate {
+    justify-content: center;
   }
+
+  .my-rating-container { text-align: left; }
+  .star-rating { justify-content: flex-start; }
+  .plot-container h3, .plot-container .detail { text-align: left; }
 }
 
 @media (max-width: 360px) {
   .modal-image {
-    display: none;
+    display: none; 
   }
+
+  .my-rating-container {
+    text-align: center;
+  }
+  
+  .star-rating {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .rating-desc {
+    margin-left: 0; 
+  }
+
+  .plot-container h3 {
+    text-align: center;
+  }
+  
+  .plot-container .detail {
+    text-align: left;
+  }
+}
+
+@keyframes slideUp {
+  to { transform: translateY(0); }
 }

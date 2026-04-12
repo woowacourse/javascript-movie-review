@@ -74,7 +74,9 @@ const renderModalContent = (data: MovieDetailData, myRating: number) => {
       <div class="my-rating-container">
         <h3>내 별점</h3>
         <div class="star-rating" id="starRating">
-          ${starsHTML}
+          <div class="stars-wrapper">
+            ${starsHTML}
+          </div>
           <span class="rating-desc" id="ratingDescription">
           ${ratingText} 
           ${myRating > 0 ? `<span class="score-number">(${myRating}/10)</span>` : ''}

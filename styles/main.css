@@ -85,6 +85,7 @@ button.primary {
 
 .search-input {
   flex: 1;
+  min-width: 0;
   border: none;
   background: transparent;
   outline: none;
@@ -93,15 +94,19 @@ button.primary {
   font-size: 16px;
   font-weight: 700;
   padding: 0;
+  text-overflow: ellipsis;
 }
 
 .search-icon-btn {
+  flex-shrink: 0;
   border: none;
   background: transparent;
   cursor: pointer;
   padding: 0;
   margin-left: 10px;
-  display: flex; align-items: center; justify-content: center;
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
 }
 
 .empty-result {
@@ -125,7 +130,7 @@ button.primary {
   position: relative;
   background-position: center center;
   background-size: cover;
-  height: 500px;
+  max-height: 500px;
   padding: 48px;
 }
 
@@ -178,12 +183,15 @@ h1.logo {
 span.rate-value {
   margin-left: 8px;
   font-weight: bold;
-  font-size: 1.66rem;
+  font-size: 1.66rem; 
 }
 
+
 .title {
-  font-size: 3rem;
+  font-size: clamp(1rem, 6vw, 3rem); 
   font-weight: bold;
+  word-break: keep-all;
+  line-height: 1.2;
 }
 
 footer.footer {
