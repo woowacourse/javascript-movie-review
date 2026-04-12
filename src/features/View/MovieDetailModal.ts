@@ -3,6 +3,14 @@
 import { MovieDetail } from "../../../types/types";
 import { THUMB_NAIL_URL } from "../../constants/constant";
 
+const star_score: Record<number, string> = {
+  2: "최악이예요",
+  4: "별로예요",
+  6: "보통이예요",
+  8: "재미있어요",
+  10: "명작이예요",
+};
+
 export default class MovieDetailModal {
   div = document.createElement("div");
 
@@ -38,7 +46,14 @@ export default class MovieDetailModal {
                     <p class="modal-rating">${data.vote_average.toFixed(1)}</p>
                 </div>
                 <hr>
-                <p class="modal-user-rating">내 별점</p>
+                <div class="modal-user-rating">
+                  <p class="modal-user-rating-text">내 별점</p>
+                  <div class="star-rating">
+                    ${[1, 2, 3, 4, 5].map((i) => `<img class="star" data-index="${i}" src="./src/images/star_empty.png">`).join("")}
+                    <span class="rating-label"></span>
+                    <span class="rating-score"></span>
+                  </div>
+                </div>
                 <hr>
                 <p class="modal-overview-title">줄거리</p>
                 <p class="modal-overview">${data.overview}</p>
@@ -47,6 +62,43 @@ export default class MovieDetailModal {
     </div>`;
     document.body.appendChild(this.div);
     this.div.classList.add("active");
+
+    this.#initStarRating(data.id);
+  }
+
+  #initStarRating(movieId: number) {
+    const stars = this.div.querySelectorAll<HTMLImageElement>(".star");
+    const labelEl = this.div.querySelector<HTMLSpanElement>(".rating-label")!;
+    const scoreEl = this.div.querySelector<HTMLSpanElement>(".rating-score")!;
+
+    const saved = localStorage.getItem(`rating-${movieId}`);
+    if (saved) this.#updateStars(stars, labelEl, scoreEl, Number(saved));
+
+    stars.forEach((star) => {
+      star.addEventListener("click", () => {
+        const index = Number(star.dataset.index);
+        this.#updateStars(stars, labelEl, scoreEl, index);
+        localStorage.setItem(`rating-${movieId}`, String(index));
+      });
+    });
+  }
+
+  #updateStars(
+    stars: NodeListOf<HTMLImageElement>,
+    labelEl: HTMLSpanElement,
+    scoreEl: HTMLSpanElement,
+    index: number,
+  ) {
+    stars.forEach((star, i) => {
+      if (i < index) {
+        star.src = "./src/images/star_filled.png";
+      } else {
+        star.src = "./src/images/star_empty.png";
+      }
+    });
+    const score = index * 2;
+    labelEl.textContent = star_score[score];
+    scoreEl.textContent = `(${score}/10)`;
   }
 
   close() {

@@ -86,13 +86,48 @@ hr {
   padding-top: 2px;
 }
 
-.modal-user-rating {
+.star-rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.star {
+  width: 32px;
+  height: 32px;
+  padding-right: 2px;
+}
+
+.rating-label {
   font-family: Montserrat;
   font-weight: 600;
   font-style: SemiBold;
   font-size: 24px;
   line-height: 100%;
   letter-spacing: 0.18px;
+  margin-left: 16px;
+  margin-top: 5px;
+}
+
+.rating-score {
+  font-family: Montserrat;
+  font-weight: 600;
+  font-style: SemiBold;
+  font-size: 24px;
+  line-height: 100%;
+  letter-spacing: 0.18px;
+  color: #95a1b2;
+  margin-top: 5px;
+}
+
+.modal-user-rating-text {
+  font-family: Montserrat;
+  font-weight: 600;
+  font-style: SemiBold;
+  font-size: 24px;
+  line-height: 100%;
+  letter-spacing: 0.18px;
+  margin-bottom: 24px;
 }
 
 .modal-overview-title {
