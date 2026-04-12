@@ -7,8 +7,22 @@
   gap: 70px;
 }
 
+@media (max-width: 1024px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+}
+
+@media (max-width: 600px) {
+  .thumbnail-list {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
 .thumbnail {
-  width: 200px;
+  width: 100%;
   height: 300px;
   border-radius: 8px;
   display: block;
@@ -35,6 +49,11 @@ p.rate {
 
 p.rate > span {
   margin-left: 4px;
+}
+
+.item img.thumbnail {
+  width: 100%;
+  object-fit: cover;
 }
 
 .item .star {
