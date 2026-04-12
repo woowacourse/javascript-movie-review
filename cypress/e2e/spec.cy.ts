@@ -310,5 +310,32 @@ describe("영화 리뷰 앱", () => {
       cy.get(".my-rating-container button").eq(4).click();
       assertLocalStorageValue("movie-5-my-rating", "10");
     });
+
+    it("별점을 클릭하면 별점에 따라 내 평점 렌더링이 변화된다.", () => {
+      const ratingCases = [
+        { buttonIndex: 0, rating: 2, label: "최악이에요", filledCount: 1 },
+        { buttonIndex: 1, rating: 4, label: "별로에요", filledCount: 2 },
+        { buttonIndex: 2, rating: 6, label: "보통이에요", filledCount: 3 },
+        { buttonIndex: 3, rating: 8, label: "재미있어요", filledCount: 4 },
+        { buttonIndex: 4, rating: 10, label: "명작이에요", filledCount: 5 },
+      ];
+
+      cy.get(".thumbnail-list li").eq(4).click();
+
+      ratingCases.forEach(({ buttonIndex, rating, label, filledCount }) => {
+        cy.get(".my-rating-container button").eq(buttonIndex).click();
+        cy.get("#my-rating-to-string").should("have.text", label);
+        cy.get("#my-rating-ratio").should("have.text", `(${rating}/10)`);
+        for (let i = 0; i < ratingCases.length; i++) {
+          const expectedSrc =
+            i < filledCount ? "star_filled.png" : "star_empty.png";
+          cy.get("#my-rating button")
+            .eq(i)
+            .find("img")
+            .should("have.attr", "src")
+            .and("include", expectedSrc);
+        }
+      });
+    });
   });
 });

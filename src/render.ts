@@ -47,7 +47,12 @@ export const MovieRenderer = {
     }
   },
 
-  renderMovieDetail(movieData: Movie, releaseYear: number, genres: string[]) {
+  renderMovieDetail(
+    movieData: Movie,
+    releaseYear: number,
+    genres: string[],
+    rating: number,
+  ) {
     const { id, title, poster_path, vote_average, overview } = movieData;
     const movieContainer = document.querySelector<HTMLElement>(
       "#movie-detail-container",
@@ -62,14 +67,59 @@ export const MovieRenderer = {
       "#movie-detail-release-year",
     );
     const movieGenres = document.querySelector("#movie-detail-category");
+    if (
+      !movieTitle ||
+      !movieVoteAverage ||
+      !movieOverview ||
+      !movieReleaseYear ||
+      !movieGenres
+    )
+      return;
     if (movieContainer) movieContainer.dataset.movieId = String(id);
-    movieTitle!.innerHTML = title;
-    if (moviePoster instanceof Image)
+    movieTitle.innerHTML = title;
+    if (moviePoster instanceof HTMLImageElement)
       moviePoster.src = `${IMAGE_PATH}/${poster_path}`;
-    movieVoteAverage!.innerHTML = vote_average.toFixed(1);
-    movieOverview!.innerHTML = overview;
-    movieReleaseYear!.innerHTML = String(releaseYear);
-    movieGenres!.innerHTML = genres.join(", ");
+    movieVoteAverage.innerHTML = vote_average.toFixed(1);
+    movieOverview.innerHTML = overview;
+    movieReleaseYear.innerHTML = String(releaseYear);
+    movieGenres.innerHTML = genres.join(", ");
+    this.renderMyRating(rating);
+  },
+
+  renderMyRating(rating: number) {
+    let ratingToString = "";
+    const myRating = document.querySelectorAll("#my-rating button");
+    const myRatingToString = document.querySelector("#my-rating-to-string");
+    const myRatingRatio = document.querySelector("#my-rating-ratio");
+    myRating.forEach((button) => {
+      const backgroundImage = button.querySelector<HTMLImageElement>("img");
+      if (!backgroundImage) return;
+      if (rating >= Number((button as HTMLElement).dataset.rating)) {
+        backgroundImage.src = "src/images/star_filled.png";
+      } else {
+        backgroundImage.src = "src/images/star_empty.png";
+      }
+    });
+    switch (rating) {
+      case 10:
+        ratingToString = "명작이에요";
+        break;
+      case 8:
+        ratingToString = "재미있어요";
+        break;
+      case 6:
+        ratingToString = "보통이에요";
+        break;
+      case 4:
+        ratingToString = "별로에요";
+        break;
+      case 2:
+        ratingToString = "최악이에요";
+        break;
+    }
+    if (myRatingToString) myRatingToString.innerHTML = ratingToString;
+    if (myRatingRatio instanceof HTMLElement)
+      myRatingRatio.innerHTML = `(${rating}/10)`;
   },
 
   renderError(err: unknown) {

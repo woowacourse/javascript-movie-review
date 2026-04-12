@@ -62,10 +62,14 @@ const App = {
         const movieGenres = movieData.genre_ids.map(
           (genreId) => genres.find((genre) => genre.id === genreId)!.name,
         );
+        const rating = Number(
+          localStorage.getItem(`movie-${movieData.id}-my-rating`),
+        );
         MovieRenderer.renderMovieDetail(
           movieData,
           new Date(movieData.release_date).getFullYear(),
           movieGenres,
+          rating ? rating : 0,
         );
         dialog?.showModal();
       });
@@ -79,12 +83,15 @@ const App = {
     ratingButtons.forEach((button) => {
       button.addEventListener("click", (e) => {
         e.preventDefault();
-        const myRating = (e.currentTarget as HTMLElement).dataset.rating;
+        const myRating = String(
+          (e.currentTarget as HTMLElement).dataset.rating,
+        );
         const movieContainer = document.querySelector(
           "#movie-detail-container",
         );
         const movieId = (movieContainer as HTMLElement).dataset.movieId;
-        localStorage.setItem(`movie-${movieId}-my-rating`, String(myRating));
+        localStorage.setItem(`movie-${movieId}-my-rating`, myRating);
+        MovieRenderer.renderMyRating(myRating ? Number(myRating) : 0);
       });
     });
   },
