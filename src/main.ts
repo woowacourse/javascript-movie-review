@@ -8,6 +8,7 @@ import { queryAppShell } from "./dom/AppShell";
 import { Notifier } from "./notify/Notifier";
 import { LocalStorageRatingRepo } from "./rating/LocalStorageRatingRepo";
 import { MovieDetailModal } from "./modal/MovieDetailModal";
+import { InfiniteScroll } from "./movie-list/InfiniteScroll";
 
 const main = async () => {
   const elements = queryAppShell();
@@ -38,7 +39,7 @@ const main = async () => {
     {
       listElement: elements.movieList,
       skeletonElement: elements.skeletonCard,
-      seeMoreButton: elements.seeMoreBtn,
+      // seeMoreButton: elements.seeMoreBtn,
       sectionTitle: elements.movieSectionTitle,
       noResult: elements.noResult,
     },
@@ -78,13 +79,18 @@ const main = async () => {
     },
   );
 
-  elements.seeMoreBtn.addEventListener("click", async (event) => {
-    event.preventDefault();
-    await controller.loadMore();
+  // elements.seeMoreBtn.addEventListener("click", async (event) => {
+  //   event.preventDefault();
+  //   await controller.loadMore();
+  // });
+
+  const infiniteScroll = new InfiniteScroll(elements.scrollSentinel, () => {
+    void controller.loadMore();
   });
 
   // 초기 로드
   await controller.showPopular();
+  infiniteScroll.observe();
 };
 
 window.addEventListener("load", () => {
