@@ -27,6 +27,7 @@ export const renderMyRate = async (parent: HTMLElement, movieId: number) => {
     myRateElement.remove();
   }
 
+  // TODO: 에러 핸들링 필요한가
   const response = await getRate({ movieId });
   const rate = response?.rate ?? 0;
 
@@ -51,6 +52,9 @@ export const renderMyRate = async (parent: HTMLElement, movieId: number) => {
         (element) => element === clickedButton,
       );
 
+      if (buttonIndex === -1) return;
+
+      // TODO: 에러 핸들링 필요한가 + 저장되었습니다 토스트?
       if (rate === 0) {
         await createRate({ movieId, rate: buttonIndex + 1 });
       } else {
