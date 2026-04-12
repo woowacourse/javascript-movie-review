@@ -11,12 +11,17 @@ export interface MovieResponse {
   total_pages: number;
 }
 
+export interface Genre {
+  id: number;
+  name: string;
+}
+
 export interface MovieDetail {
   id: number;
   title: string;
   poster_path: string | null;
   vote_average: number | null;
   overview: string;
-  genres: { id: number; name: string }[];
+  genres: Genre[];
   release_date: string;
 }
