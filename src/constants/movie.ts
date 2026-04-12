@@ -11,5 +11,3 @@ export const RATING_STRING: Record<number, string> = {
   10: "명작이에요",
 };
 
-export const RATING_FILL_IMAGE = "src/images/star_filled.png";
-export const RATING_BLANK_IMAGE = "src/images/star_empty.png";

@@ -50,18 +50,19 @@ const API_PATH = {
   GENRE: "https://api.themoviedb.org/3/genre/movie/list",
 };
 
+const defaultOptions = {
+  method: "GET",
+  headers: {
+    accept: "application/json",
+    Authorization: `Bearer ${API_KEY}`,
+  },
+};
+
 export async function getPopularMovies(
   pageNum: number,
 ): Promise<MoviesResponse> {
   const url = `${API_PATH.POPULAR_MOVIE}?page=${pageNum}&language=ko-KR`;
-  const options = {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      Authorization: `Bearer ${API_KEY}`,
-    },
-  };
-  const response = await fetch(url, options);
+  const response = await fetch(url, defaultOptions);
   handleResponseError(response);
   return response.json();
 }
@@ -71,28 +72,14 @@ export async function getSearchMovies(
   pageNum: number,
 ): Promise<MoviesResponse> {
   const url = `${API_PATH.SEARCH_MOVIE}?query=${query}&page=${pageNum}&language=ko-KR`;
-  const options = {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      Authorization: `Bearer ${API_KEY}`,
-    },
-  };
-  const response = await fetch(url, options);
+  const response = await fetch(url, defaultOptions);
   handleResponseError(response);
   return response.json();
 }
 
 export async function getGenres(): Promise<{ genres: Genre[] }> {
-  const url = API_PATH.GENRE;
-  const options = {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      Authorization: `Bearer ${API_KEY}`,
-    },
-  };
-  const response = await fetch(`${url}?language=ko-KR`, options);
+  const url = `${API_PATH.GENRE}?language=ko-KR`;
+  const response = await fetch(url, defaultOptions);
   handleResponseError(response);
   return response.json();
 }
