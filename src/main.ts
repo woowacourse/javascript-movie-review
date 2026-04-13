@@ -33,19 +33,23 @@ if (logo) {
   });
 }
 
+const handleSearch = () => {
+  if (searchInput?.value.trim() === "") {
+    window.history.pushState({}, "", import.meta.env.BASE_URL);
+    searchUI.hide();
+    mainUI.load();
+    return;
+  }
+  setURLParams({ keyword: searchInput!.value, page: "1" });
+  mainUI.hide();
+  searchUI.load();
+};
+
 if (searchInput && searchButton) {
-  searchButton.addEventListener("click", () => {
-    setURLParams({ keyword: searchInput.value, page: "1" });
-    mainUI.hide();
-    searchUI.load();
-  });
+  searchButton.addEventListener("click", handleSearch);
 
   searchInput.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-      setURLParams({ keyword: searchInput.value, page: "1" });
-      mainUI.hide();
-      searchUI.load();
-    }
+    if (e.key === "Enter") handleSearch();
   });
 }
 
