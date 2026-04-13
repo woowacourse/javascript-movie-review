@@ -83,11 +83,11 @@ const hideBanner = () => {
 //   if (loadButton) loadButton.disabled = false;
 // };
 
-const setSectionTitle = (title: string) => {
-  const sectionTitle = document.querySelector<HTMLElement>('#section-title');
-  if (!sectionTitle) return;
-  sectionTitle.textContent = title;
-};
+// const setSectionTitle = (title: string) => {
+//   const sectionTitle = document.querySelector<HTMLElement>('#section-title');
+//   if (!sectionTitle) return;
+//   sectionTitle.textContent = title;
+// };
 
 export const render = (state: MovieBrowser, movies: Movie[]) => {
   if (state.isNewSession) {
