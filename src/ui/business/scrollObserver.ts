@@ -13,3 +13,8 @@ export const replaceLoadMoreScrollObserver = (
   currentScrollDisconnect?.();
   currentScrollDisconnect = observeLoadMoreScroll(callback) ?? undefined;
 };
+
+export const disconnectLoadMoreScrollObserver = () => {
+  currentScrollDisconnect?.();
+  currentScrollDisconnect = undefined;
+};

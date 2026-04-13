@@ -21,10 +21,15 @@ export const observeLoadMoreScroll = (callback: () => Promise<void>) => {
   if (!loadMoreInView) return;
 
   let isLoading = false;
+  let initialized = false;
 
   return reserveIntersectionHandler(
     loadMoreInView,
     async ({ isIntersecting }) => {
+      if (!initialized) {
+        initialized = true;
+        return;
+      }
       if (loadMoreInView && isIntersecting && !isLoading) {
         isLoading = true;
         await callback();
