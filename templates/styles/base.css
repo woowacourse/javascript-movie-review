@@ -28,8 +28,26 @@ section {
 }
 
 main {
-  padding: 64px 80px;
   width: 100%;
+  padding: 64px 0;
+}
+
+@media (max-width: 389px) {
+  main {
+    text-align: center;
+  }
+}
+
+@media (min-width: 390px) {
+  main {
+    padding: 64px 16px;
+  }
+}
+
+@media (min-width: 800px) {
+  main {
+    padding: 64px 80px;
+  }
 }
 
 .star {
