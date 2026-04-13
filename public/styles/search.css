@@ -43,5 +43,5 @@
   transform: translateY(-50%);
   width: 32px;
   height: 32px;
-  background: url("/images/search.png") center center no-repeat;
+  background: url("../images/search.png") center center no-repeat;
 }

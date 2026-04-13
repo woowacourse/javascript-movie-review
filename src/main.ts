@@ -1,7 +1,8 @@
 import { navigate, getSearchParams, hasSearchParams } from "./utils/router";
 
+import { RequestFetchResponse } from "./services/http";
+
 import {
-  ApiError,
   getMoviePopular,
   getTopRatedMovie,
   getSearchMovie,
@@ -21,6 +22,10 @@ import { renderSkeleton, removeSkeleton } from "./renders/skeleton";
 
 import { renderDetailModal, removeDetailModal, } from "./renders/detailModal";
 
+import { displayErrorMessage } from "./feedback/displayErrorMessage";
+
+import { errorMessages } from "./constants/errorMessage";
+
 import PageState from "./states/PageState";
 
 import MovieListState from "./states/MovieListState";
@@ -38,12 +43,12 @@ const loadInit = () => {
     (async () => {
       const topRatedMovies = await errorTryCatch(
         async () => await getTopRatedMovie(),
-        (e: ApiError) => {
-          if (e.status_code == 22) {
-            alert("잘못된 요청입니다.");
+        (e: RequestFetchResponse) => {
+          if (e.data.status_code == 22) {
+            displayErrorMessage(errorMessages.INVALID_REQUEST);
             return;
           }
-          alert("영화 정보를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.");
+          displayErrorMessage(errorMessages.UNKNOWN);
         }
       );
 
@@ -58,12 +63,12 @@ const loadInit = () => {
       isFetching = true;
       const movies = await errorTryCatch(
         async () => await getMoviePopular({ page }),
-        async (e: ApiError) => {
-          if (e.status_code == 22) {
-            alert("잘못된 페이지 요청입니다.");
+        async (e: RequestFetchResponse) => {
+          if (e.data.status_code == 22) {
+            displayErrorMessage(errorMessages.INVALID_PAGE);
             return;
           }
-          alert("영화 정보를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.");
+          displayErrorMessage(errorMessages.UNKNOWN);;
         },
       );
 
@@ -74,6 +79,7 @@ const loadInit = () => {
 
         renderMovieList(movies);
       }
+
       removeSkeleton(Date.now());
     })();
   } else {
@@ -90,12 +96,12 @@ const runSearch = () => {
       async () => await getSearchMovie({
         page,
         query: search || "",
-      }), (e: ApiError) => {
-        if(e.status_code === 22){
-          alert("잘못된 검색 요청입니다.");
+      }), (e: RequestFetchResponse) => {
+        if(e.data.status_code === 22){
+         displayErrorMessage(errorMessages.INVALID_SEARCH);
             return;
         }
-        alert("영화 정보를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.");
+         displayErrorMessage(errorMessages.UNKNOWN);;
       }
     );
 
@@ -162,12 +168,12 @@ const handleMoreMovie = () => {
 
     const movies = await errorTryCatch(
       async () => await getMoviePopular({ page }),
-      async (e: ApiError) => {
-        if (e.status_code == 22) {
-          alert("잘못된 페이지 요청입니다.");
+      async (e: RequestFetchResponse) => {
+        if (e.data.status_code == 22) {
+          displayErrorMessage(errorMessages.INVALID_PAGE);
           return;
         }
-        alert("영화 정보를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.");
+        displayErrorMessage(errorMessages.UNKNOWN);
       },
     );
 

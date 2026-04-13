@@ -36,7 +36,7 @@ body.modal-open {
   color: white;
   z-index: 2;
   position: relative;
-  width: 1000px;
+  /* width: 1000px; */
 }
 
 .close-modal {
@@ -143,4 +143,54 @@ body.modal-open {
 
 .modal-description .star-message-box .star-number {
   color: #95A1B2;
+}
+
+/* 반응형 디자인 처리 */
+@media (max-width: 800px) {
+  .modal-background {
+    align-items: flex-end;
+  } 
+  .modal {
+    max-height: 100vh;
+    overflow-y: auto;
+    border-radius: 0; 
+  }
+  .modal-container {
+    flex-direction: column;
+  }
+  .modal-image {
+    text-align: center;
+  }
+  .modal-image img {
+    width: 200px;
+  }
+  .modal-description h2 {
+    text-align: center;
+    margin-top: 32px;
+  }
+  .category {
+    text-align: center;
+  }
+  .modal .rate {
+    display: block;
+    text-align: center;
+  }
+  
+}
+@media (max-width: 640px) {
+  .modal {
+    padding-top: 75px;
+  }
+  .modal-image {
+    display: none;
+  }
+  .modal-description h2 {
+    margin-top: 0;
+  }
+  .modal h3, .rate-star {
+    text-align: center;
+  }  
+  .modal-description .rate-star{
+    justify-content: center;
+  }
 }

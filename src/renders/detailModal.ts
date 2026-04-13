@@ -3,6 +3,29 @@ import { MovieInfo } from "../services/dto";
 const mathRound = (value: number, numDigits:number = 1): number => {
   return Math.round(value * 10 ** numDigits) / 10 ** numDigits;
 }
+interface RateRepository {
+  getMovieRate(id: number): number;
+  setMovieRate(id: number, rate: number): void
+}
+
+class RateLocalStroageRepository implements RateRepository {
+  #getRates(){
+    const rates = localStorage.getItem('rates') || "{}";
+    return JSON.parse(rates) || {};
+  }
+  getMovieRate(id: number){
+    const rates = this.#getRates();
+
+    return rates[id];
+  }
+  setMovieRate(id: number, rate: number){
+    const prevRates = this.#getRates();
+    const rates = { ...prevRates, [id]: rate };
+    localStorage.setItem('rates', JSON.stringify(rates));
+  }
+}
+
+const rateRepository = new RateLocalStroageRepository();
 
 export const renderDetailModal = (movieInfo: MovieInfo) => {
   const modal = document.querySelector("#modal");
@@ -17,6 +40,9 @@ export const renderDetailModal = (movieInfo: MovieInfo) => {
   if(!detailModalTemplate) return;
 
   const cloneNode =detailModalTemplate.content.cloneNode(true) as DocumentFragment;
+
+  const rootNode = cloneNode.querySelector<HTMLDivElement>('#modalBackground');
+  if(!rootNode) return;
 
   const detailModalImg = cloneNode.querySelector<HTMLImageElement>('#detail-modal-img');
   if(!detailModalImg) return;
@@ -40,17 +66,66 @@ export const renderDetailModal = (movieInfo: MovieInfo) => {
   if(!detailModalRate) return;
   detailModalRate.textContent = mathRound(movieInfo.vote_average).toString();
 
+  const rate = rateRepository.getMovieRate(movieInfo.id);
+  renderRateStart(rate, rootNode);
+
   const detailModalDetail = cloneNode.querySelector('#detail-modal-detail');
   if(!detailModalDetail) return;
   detailModalDetail.textContent = movieInfo.overview;
 
-  // event binding
+  // event binding - close
   const closeModal = cloneNode.querySelector("#closeModal");
   closeModal?.addEventListener('click', () => {
     removeDetailModal();
   });
 
-  modal.appendChild(cloneNode);
+  // event biding - rate
+  const rateStar = rootNode.querySelectorAll("#detail-modal-star-box .star");
+  Array.from(rateStar).forEach((star, index) => {
+    star.addEventListener('click', () => {
+      const rate = (index + 1) * 2;
+
+      rateRepository.setMovieRate(movieInfo.id, rate);
+
+      renderRateStart(rate, rootNode);
+    });
+  });
+
+  modal.appendChild(cloneNode); 
+}
+
+const renderRateStart = (rate: number = 0, parentNode: HTMLDivElement) => {
+  const rateStar = parentNode.querySelectorAll("#detail-modal-star-box .star");
+  
+  Array.from(rateStar).forEach((star, index) => {
+    const isOn = rate / 2 >= (index + 1);
+
+    if(isOn) {
+      star.classList.add('on');
+    } else {
+      star.classList.remove('on');
+    }
+  });
+
+  const starMessages = {
+    2: "최악이예요",
+    4: "별로예요",
+    6: "보통이에요",
+    8: "재미있어요",
+    10: "명작이에요",
+  }
+
+  if(!rate) return;
+
+  const starMessage = parentNode.querySelector("#detail-modal-star-message");
+  if(!starMessage) return;
+  const message = starMessages[rate as keyof typeof starMessages] || "";
+  starMessage.textContent = message;
+
+  const starNumber = parentNode.querySelector("#detail-modal-star-number");
+  if(!starNumber) return;
+  const rateMax = Math.max(...Object.keys(starMessages).map(Number))
+  starNumber.textContent = `${rate.toString()}/${rateMax}`;
 }
 
 export const removeDetailModal = () => {

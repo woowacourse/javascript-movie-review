@@ -1,5 +1,7 @@
 import { moviesFixture } from "../../test/fixtures";
 
+import { entries } from "../../src/constants/policy";
+
 describe("영화 목록 조회 기능 테스트", () => {
   beforeEach(() => {
     cy.intercept("GET", "**/movie/popular?page=1", {
@@ -31,13 +33,8 @@ describe("영화 목록 조회 기능 테스트", () => {
   });
 
   it("스크롤을 끝까지 내리면 영화 목록이 추가로 생성되어 렌더링 된다.", () => {
-    cy.get("#movie-list li").then((eleBefore) => {
-      const prevLength = eleBefore.length;
-
-      cy.scrollTo('bottom', { duration: 500 });
-
-      cy.get("#movie-list li").should("have.length.greaterThan", prevLength);
-    });
+    cy.scrollTo('bottom', { duration: 500 });
+    cy.get("#movie-list li").should("have.length.greaterThan", entries);
   });
 
   it("마지막 페이지까지 렌더링 됬을때 스크롤을 끝까지 내려도 영화 리스트를 더 출력하지 않는다.", () => {
