@@ -24,7 +24,7 @@
   }
 }
 
-@media screen and (max-width: 800px) {
+  @media screen and (max-width: 800px) {
   .thumbnail-list {
     grid-template-columns: repeat(2, 200px);
   }
