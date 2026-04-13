@@ -45,9 +45,9 @@ class MovieListComponent {
     const isFirstPageEmpty = page === 1 && movies.length === 0;
     const hasMovies = movies.length > 0;
 
-      if (error) return this.showError();
-      if (isFirstPageEmpty) return this.showEmpty();
-      if (hasMovies) this.grid.appendChild(this.createMovieUl(movies));
+    if (error) return this.showError();
+    if (isFirstPageEmpty) return this.showEmpty();
+    if (hasMovies) this.grid.appendChild(this.createMovieUl(movies));
   }
 
   private createMovieUl(movies: MovieItem[]): HTMLUListElement {
@@ -62,12 +62,10 @@ class MovieListComponent {
   }
 
   private showEmpty(): void {
-    this.grid.className = "movie-list-empty";
     this.grid.appendChild(createEmpty());
   }
 
   private showError(): void {
-    this.grid.className = "movie-list-empty";
     this.grid.appendChild(createError());
   }
 

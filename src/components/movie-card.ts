@@ -1,17 +1,20 @@
 import starIconSrc from "../../templates/images/star_empty.png";
 
 interface MovieCardOptions {
+  id: number;
   title: string;
   posterSrc: string;
   rating: number;
 }
 
 export function createMovieCard({
+  id,
   title,
   posterSrc,
   rating,
 }: MovieCardOptions): HTMLLIElement {
   const li = document.createElement("li");
+  li.dataset.id = String(id);
 
   const item = document.createElement("div");
   item.className = "item";
