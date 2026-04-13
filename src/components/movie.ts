@@ -1,15 +1,18 @@
-import { Movie } from "../types/api";
+import { Movie } from "../api/api";
 import starIconSrc from "../images/star_empty.png";
 import { IMAGE_BASE_URL } from "../utils/constants";
 
-export function createMovieList(movies: Movie[]): HTMLElement {
+export function createMovieList(
+  movies: Movie[],
+  onMovieClick?: (id: number) => void,
+): HTMLElement {
   const section = document.createElement("section");
 
   const ul = document.createElement("ul");
   ul.className = "thumbnail-list";
 
   movies.forEach((movie) => {
-    const card = createMovieCard(movie);
+    const card = createMovieCard(movie, onMovieClick);
     ul.appendChild(card);
   });
 
@@ -17,11 +20,11 @@ export function createMovieList(movies: Movie[]): HTMLElement {
   return section;
 }
 
-export function createMovieCard({
-  title,
-  poster_path: posterImg,
-  vote_average: rating,
-}: Movie): HTMLLIElement {
+export function createMovieCard(
+  movie: Movie,
+  onMovieClick?: (id: number) => void,
+): HTMLLIElement {
+  const { title, poster_path: posterImg, vote_average: rating, id } = movie;
   const li = document.createElement("li");
 
   const item = document.createElement("div");
@@ -53,6 +56,11 @@ export function createMovieCard({
   itemDesc.append(rateP, titleStrong);
   item.append(thumbnail, itemDesc);
   li.appendChild(item);
+
+  if (onMovieClick) {
+    li.style.cursor = "pointer";
+    li.addEventListener("click", () => onMovieClick(id));
+  }
 
   return li;
 }
