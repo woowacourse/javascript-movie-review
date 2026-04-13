@@ -5,7 +5,7 @@ interface FetcherArgs<T> {
   onLoading?: () => void;
 }
 
-export async function fetcher<T>(arg: FetcherArgs<T>): Promise<T> {
+export async function fetcher<T>(arg: FetcherArgs<T>) {
   const { fn, onSuccess, onError, onLoading } = arg;
   onLoading && onLoading();
   try {
@@ -16,6 +16,5 @@ export async function fetcher<T>(arg: FetcherArgs<T>): Promise<T> {
     console.error(error);
     onError &&
       onError(error instanceof Error ? error : new Error(String(error)));
-    throw error;
   }
 }

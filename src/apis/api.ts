@@ -16,9 +16,9 @@ const API_PATH = {
 
 export async function getPopularMovies(arg: {
   pageNum: number;
-  onSuccess?: (data: MoviesResponse) => void;
+  onSuccess: (data: MoviesResponse) => void;
   onError: (error: Error) => void;
-  onLoading?: () => void;
+  onLoading: () => void;
 }) {
   const { pageNum, onSuccess, onError, onLoading } = arg;
   return fetcher<MoviesResponse>({
@@ -50,7 +50,7 @@ export async function getPopularMovies(arg: {
 export async function getSearchMovies(arg: {
   query: string;
   pageNum: number;
-  onSuccess?: (data: MoviesResponse) => void;
+  onSuccess: (data: MoviesResponse) => void;
   onError: (error: Error) => void;
   onLoading: () => void;
 }) {
@@ -83,7 +83,7 @@ export async function getSearchMovies(arg: {
 
 export async function getMovieDetails(arg: {
   movieId: string;
-  onSuccess?: (data: MovieDetail) => void;
+  onSuccess: (data: MovieDetail) => void;
   onError: (error: Error) => void;
   onLoading: () => void;
 }) {

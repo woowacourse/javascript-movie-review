@@ -24,6 +24,24 @@ const createMoviesResponse = (count: number, page: number = 1) => ({
   total_results: 10000,
 });
 
+const createMockMovieDetail = (id: number) => ({
+  id,
+  title: `어벤져스 ${id}`,
+  poster_path: `/avengers${id}.jpg`,
+  vote_average: 7.5,
+  backdrop_path: `/backdrop${id}.jpg`,
+  genres: [{ id: 28, name: "액션" }],
+  original_language: "ko",
+  original_title: `어벤져스 ${id}`,
+  overview: "타노스를 조심해",
+  popularity: 22.4343,
+  release_date: "2026-04-01",
+  tagline: "어벤져스 어셈블",
+  video: false,
+  vote_count: 1000,
+  adult: false,
+});
+
 describe("영화 리뷰 앱", () => {
   beforeEach(() => {
     cy.intercept("GET", "**/movie/popular*", createMoviesResponse(20)).as(
@@ -59,64 +77,6 @@ describe("영화 리뷰 앱", () => {
       cy.get(".thumbnail-list li.skeleton").should("exist");
       cy.wait("@getPopularMoviesDelayed");
       cy.get(".thumbnail-list li.skeleton").should("not.exist");
-    });
-  });
-
-  describe("더 보기", () => {
-    it("더 보기 클릭 시 영화가 20개 추가 렌더링된다", () => {
-      cy.wait("@getPopularMovies");
-
-      cy.intercept("GET", "**/movie/popular*", createMoviesResponse(20, 2)).as(
-        "getMoreMovies",
-      );
-
-      cy.get(".load-more-button").click();
-      cy.wait("@getMoreMovies");
-
-      cy.get(".thumbnail-list li").should("have.length", 40);
-    });
-
-    it("더 보기 API 실패 시 에러 메시지가 렌더링된다", () => {
-      cy.wait("@getPopularMovies");
-
-      cy.intercept("GET", "**/movie/popular*", { statusCode: 500 }).as(
-        "getMoreMoviesError",
-      );
-
-      cy.get(".load-more-button").click();
-      cy.wait("@getMoreMoviesError");
-
-      cy.get(".notice-text").should(
-        "contain.text",
-        "영화 정보를 불러오는 데 실패했습니다.",
-      );
-    });
-
-    it("마지막 페이지 도달 시 더 보기 버튼이 숨겨진다", () => {
-      cy.wait("@getPopularMovies");
-
-      cy.intercept("GET", "**/movie/popular*", createMoviesResponse(7, 2)).as(
-        "getLastPageMovies",
-      );
-
-      cy.get(".load-more-button").click();
-      cy.wait("@getLastPageMovies");
-
-      cy.get(".load-more-button").should("not.be.visible");
-    });
-
-    it("더 보기 로딩 중에는 더 보기 버튼이 숨겨진다", () => {
-      cy.wait("@getPopularMovies");
-
-      cy.intercept("GET", "**/movie/popular*", (req) => {
-        req.reply({ delay: 500, body: createMoviesResponse(20, 2) });
-      }).as("getMoreMoviesDelayed");
-
-      cy.get(".load-more-button").click();
-      cy.get(".load-more-button").should("not.be.visible");
-
-      cy.wait("@getMoreMoviesDelayed");
-      cy.get(".load-more-button").should("be.visible");
     });
   });
 
@@ -314,6 +274,123 @@ describe("영화 리뷰 앱", () => {
         "contain.text",
         "영화 정보를 불러오는 데 실패했습니다.",
       );
+    });
+  });
+
+  describe("영화 상세 정보 모달", () => {
+    it("영화 포스터 또는 제목 클릭 시 영화 상세 정보 모달이 렌더링된다", () => {
+      cy.wait("@getPopularMovies");
+
+      cy.intercept("GET", /\/movie\/\d+/, createMockMovieDetail(1)).as(
+        "getMovieDetails",
+      );
+
+      cy.get(".thumbnail-list li:first-child").click();
+      cy.wait("@getMovieDetails");
+
+      cy.get(".modal-background").should("be.visible");
+      cy.get(".modal h2").should("have.text", "어벤져스 1");
+    });
+
+    it("영화 상세 정보 조회 API 실패 시 에러 메시지가 렌더링된다", () => {
+      cy.wait("@getPopularMovies");
+
+      cy.intercept("GET", /\/movie\/\d+/, { statusCode: 500 }).as(
+        "getMovieDetailsError",
+      );
+
+      cy.get(".thumbnail-list li:first-child").click();
+      cy.wait("@getMovieDetailsError");
+
+      cy.get(".notice-text").should(
+        "contain.text",
+        "영화 정보를 불러오는 데 실패했습니다.",
+      );
+    });
+  });
+
+  describe("영화 상세 정보 모달 닫기", () => {
+    beforeEach(() => {
+      cy.wait("@getPopularMovies");
+
+      cy.intercept("GET", /\/movie\/\d+/, createMockMovieDetail(1)).as(
+        "getMovieDetails",
+      );
+
+      cy.get(".thumbnail-list li:first-child").click();
+      cy.wait("@getMovieDetails");
+      cy.get(".modal-background").should("be.visible");
+    });
+
+    it("ESC 키 입력 시 모달이 닫힌다", () => {
+      cy.get("body").type("{esc}");
+      cy.get(".modal-background").should("not.exist");
+    });
+
+    it("모달 외부(dimmed) 클릭 시 모달이 닫힌다", () => {
+      cy.get(".modal-background").click({ force: true });
+      cy.get(".modal-background").should("not.exist");
+    });
+
+    it("X 버튼 클릭 시 모달이 닫힌다", () => {
+      cy.get(".close-modal").click();
+      cy.get(".modal-background").should("not.exist");
+    });
+  });
+
+  describe("별점", () => {
+    beforeEach(() => {
+      cy.clearLocalStorage();
+      cy.wait("@getPopularMovies");
+
+      cy.intercept("GET", /\/movie\/\d+/, createMockMovieDetail(1)).as(
+        "getMovieDetails",
+      );
+
+      cy.get(".thumbnail-list li:first-child").click();
+      cy.wait("@getMovieDetails");
+    });
+
+    it("모달 오픈 시 별점이 초기값(0/10)으로 표시된다", () => {
+      cy.get(".my-rating__point").should("have.text", "(0/10)");
+    });
+
+    it("별점 클릭 시 해당 별점으로 변경된다", () => {
+      cy.get('.my-rating__content img[data-rating-value="8"]').click();
+
+      cy.get(".my-rating__point").should("have.text", "(8/10)");
+      cy.get(".my-rating__content img")
+        .eq(0)
+        .should("have.attr", "src")
+        .and("include", "star_filled");
+      cy.get(".my-rating__content img")
+        .eq(3)
+        .should("have.attr", "src")
+        .and("include", "star_filled");
+      cy.get(".my-rating__content img")
+        .eq(4)
+        .should("have.attr", "src")
+        .and("include", "star_empty");
+    });
+
+    it("새로고침 후에도 매긴 별점이 유지된다", () => {
+      cy.get('.my-rating__content img[data-rating-value="6"]').click();
+      cy.get(".my-rating__point").should("have.text", "(6/10)");
+
+      cy.get(".close-modal").click();
+      cy.get(".modal-background").should("not.exist");
+
+      cy.reload();
+      cy.wait("@getPopularMovies");
+
+      cy.intercept("GET", /\/movie\/\d+/, createMockMovieDetail(1)).as(
+        "getMovieDetailsAgain",
+      );
+
+      cy.get(".thumbnail-list li:first-child").click();
+      cy.wait("@getMovieDetailsAgain");
+
+      cy.get(".my-rating__point").should("have.text", "(6/10)");
     });
   });
 });

@@ -29,6 +29,7 @@ import {
   paintResetList,
 } from "./ui/business/painter.ts";
 import {
+  disconnectLoadMoreScrollObserver,
   replaceLoadMoreScrollObserver,
   setupHeaderScrollObserver,
 } from "./ui/business/scrollObserver.ts";
@@ -37,25 +38,30 @@ const ONCE_MOVIE_LIMIT = 20;
 const INITIAL_PAGE_NUM = 1;
 
 export async function loadInitialMovie() {
-  const { movies, page } = await getPopularMovies({
+  await getPopularMovies({
     pageNum: INITIAL_PAGE_NUM,
     onLoading: () => paintInitialLoading(ONCE_MOVIE_LIMIT),
     onError: () => {
       paintError();
       paintClearBanner();
     },
+    onSuccess: ({ movies, page, totalPages }) => {
+      MovieState.setNextPageNum(page + 1);
+      MovieState.setRequestMovieCount(movies.length);
+
+      paintHomeSectionHeading();
+      if (movies.length > 0) {
+        paintMovieBanner(movies[0]);
+        setupHeaderScrollObserver();
+        paintMovieList(movies);
+        paintInView();
+      }
+
+      if (page >= totalPages) {
+        disconnectLoadMoreScrollObserver();
+      }
+    },
   });
-
-  MovieState.setNextPageNum(page + 1);
-  MovieState.setRequestMovieCount(movies.length);
-
-  paintHomeSectionHeading();
-  if (movies.length > 0) {
-    paintMovieBanner(movies[0]);
-    setupHeaderScrollObserver();
-    paintMovieList(movies);
-    paintInView();
-  }
 
   setupInteractions();
 }
@@ -93,45 +99,62 @@ export async function loadMovieDetails(movieId: string) {
 }
 
 export async function loadMoreMovies() {
-  const { page, movies } = await getPopularMovies({
+  await getPopularMovies({
     pageNum: MovieState.getNextPageNum(),
     onError: () => {
       paintError();
       paintClearBanner();
     },
     onLoading: () => paintInitialLoading(MovieState.getRequestMovieCount()),
-  });
+    onSuccess: ({ page, movies, totalPages }) => {
+      MovieState.setNextPageNum(page + 1);
+      paintMovieList(movies);
 
-  MovieState.setNextPageNum(page + 1);
-  paintMovieList(movies);
+      if (page >= totalPages) {
+        disconnectLoadMoreScrollObserver();
+      }
+    },
+  });
 }
 
 export async function loadSearchMovies(query: string) {
-  replaceLoadMoreScrollObserver(() => loadMoreSearchMovies(query));
+  disconnectLoadMoreScrollObserver();
 
-  const { page, movies } = await getSearchMovies({
+  await getSearchMovies({
     query,
     pageNum: INITIAL_PAGE_NUM,
     onError: () => paintError(),
     onLoading: () =>
       paintPrepareSearch(query, MovieState.getRequestMovieCount()),
+    onSuccess: ({ page, movies, totalPages }) => {
+      MovieState.setNextSearchPageNum(page + 1);
+      paintResetList();
+
+      if (movies.length === 0) {
+        paintEmptyResult();
+      } else {
+        paintMovieList(movies);
+        if (page < totalPages) {
+          replaceLoadMoreScrollObserver(() => loadMoreSearchMovies(query));
+        }
+      }
+    },
   });
-
-  MovieState.setNextSearchPageNum(page + 1);
-  paintResetList();
-
-  if (movies.length === 0) paintEmptyResult();
-  else paintMovieList(movies);
 }
 
 export async function loadMoreSearchMovies(query: string) {
-  const { page, movies } = await getSearchMovies({
+  await getSearchMovies({
     query,
     pageNum: MovieState.getNextSearchPageNum(),
     onError: () => paintError(),
     onLoading: () => paintInitialLoading(MovieState.getRequestMovieCount()),
-  });
+    onSuccess: ({ page, movies, totalPages }) => {
+      MovieState.setNextSearchPageNum(page + 1);
+      paintMovieList(movies);
 
-  MovieState.setNextSearchPageNum(page + 1);
-  paintMovieList(movies);
+      if (page >= totalPages) {
+        disconnectLoadMoreScrollObserver();
+      }
+    },
+  });
 }
