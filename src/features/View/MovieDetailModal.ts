@@ -2,6 +2,9 @@
 // MovieDetailModal.render(data);
 import { MovieDetail } from "../../../types/types";
 import { THUMB_NAIL_URL } from "../../constants/constant";
+import closeImg from "../../images/modal_button_close.png";
+import starFilledImg from "../../images/star_filled.png";
+import starEmptyImg from "../../images/star_empty.png";
 
 const star_score: Record<number, string> = {
   2: "최악이예요",
@@ -36,13 +39,13 @@ export default class MovieDetailModal {
             <img class="modal-image" src="${THUMB_NAIL_URL}${data.poster_path}" alt="${data.title}">
             <div class="modal-description">
                 <button class="close-modal">
-                    <img src="./src/images/modal_button_close.png" alt="닫기">
+                    <img src="${closeImg}" alt="닫기">
                 </button>
                 <h2 class="modal-title">${data.title}</h2>
                 <p class="modal-release-date-and-genres">${data.release_date.slice(0, 4)} · ${data.genres.map((genre) => genre.name).join(", ")}</p>
                 <div class="average">
                     <p class="modal-rating-text">평균</p>
-                    <img class="average-star" src="./src/images/star_filled.png">
+                    <img class="average-star" src="${starFilledImg}">
                     <p class="modal-rating">${data.vote_average.toFixed(1)}</p>
                 </div>
                 <hr>
@@ -50,7 +53,7 @@ export default class MovieDetailModal {
                   <p class="modal-user-rating-text">내 별점</p>
                   <div class="star-rating">
                     <div class="stars-row">
-                      ${[1, 2, 3, 4, 5].map((i) => `<img class="modal-star" data-index="${i}" src="./src/images/star_empty.png">`).join("")}
+                      ${[1, 2, 3, 4, 5].map((i) => `<img class="modal-star" data-index="${i}" src="${starEmptyImg}">`).join("")}
                     </div>
                     <div class="rating-text">
                       <span class="rating-label"></span>
@@ -99,9 +102,9 @@ export default class MovieDetailModal {
   ) {
     stars.forEach((star, i) => {
       if (i < index) {
-        star.src = "./src/images/star_filled.png";
+        star.src = starFilledImg;
       } else {
-        star.src = "./src/images/star_empty.png";
+        star.src = starEmptyImg;
       }
     });
     const score = index * 2;
