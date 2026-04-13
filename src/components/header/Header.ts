@@ -13,7 +13,9 @@ export default class Header {
   #$overlay: HTMLElement;
   #$topRate: HTMLElement | null = null;
 
-  constructor(onSubmit: (query: string) => void) {
+  #onDetail: (movie_id: number) => Promise<void>;
+
+  constructor(onSubmit: (query: string) => void, onDetail: (movie_id: number) => Promise<void>) {
     this.#$element = document.createElement('header');
     this.#$element.innerHTML = `
       <div class="background-container">
@@ -30,6 +32,8 @@ export default class Header {
     const $justLayout = document.createElement('div');
     this.#$banner.append(Logo(), SearchForm(onSubmit), $justLayout);
     this.#$banner.classList.add('hidden');
+
+    this.#onDetail = onDetail;
   }
 
   get $element() {
@@ -41,7 +45,7 @@ export default class Header {
     this.#$background.classList.add('top-header-container');
 
     if (this.#$topRate) this.#$topRate.remove();
-    this.#$topRate = TopRate(data);
+    this.#$topRate = TopRate(data, this.#onDetail);
     this.#$background.append(this.#$topRate);
 
     this.#$overlay.classList.remove('hidden');

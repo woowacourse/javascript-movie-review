@@ -32,7 +32,7 @@ export default class MoviePage {
     this.#option = option;
 
     this.#$div = document.createElement('div');
-    this.#$header = new Header(option.onSubmit.bind(this));
+    this.#$header = new Header(option.onSubmit.bind(this), this.#onDetail.bind(this));
     const title = option.type === 'home' ? '지금 인기있는 영화' : `"${option.query}" 검색 결과`;
     this.#$main = new Main(title, this.#onDetail.bind(this));
     this.#$modal = new Modal(new LocalStorage(), this.#$div);

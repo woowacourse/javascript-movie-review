@@ -2,7 +2,7 @@ import { MovieData } from '../../api/types.ts';
 import { $ } from '../../utils/dom.ts';
 import { Star } from '../common/Star.ts';
 
-export const TopRate = (data: MovieData): HTMLElement => {
+export const TopRate = (data: MovieData, onDetail: (movie_id: number) => Promise<void>): HTMLElement => {
   const $container = document.createElement('div');
   $container.className = 'top-rated-movie';
 
@@ -16,6 +16,10 @@ export const TopRate = (data: MovieData): HTMLElement => {
 
   $($container, '.rate').prepend(Star());
   $($container, '.title').textContent = data.title;
+
+  $($container, 'button').addEventListener('click', () => {
+    onDetail(data.id);
+  });
 
   return $container;
 };

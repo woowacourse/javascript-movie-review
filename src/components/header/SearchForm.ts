@@ -23,7 +23,7 @@ export const SearchForm = (onSubmit: (query: string) => void) => {
     const $input = $<HTMLInputElement>($form, '#search-input');
     const query = $input.value;
     onSubmit(query);
-    $input.value = '';
+    $input.value = query;
   });
   return $form;
 };
