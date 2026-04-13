@@ -115,6 +115,13 @@ export const MovieDetailRenderer = {
 };
 
 export const Renderer = {
+  renderMovies(parent: Element, movies: Movie[]) {
+    const movieListComponent = movies
+      .map((movie) => Component.movie(movie))
+      .join("");
+    parent.insertAdjacentHTML("beforeend", movieListComponent);
+  },
+
   clearMovies() {
     const movieList = document.querySelector(".thumbnail-list");
     if (movieList) movieList.innerHTML = "";
@@ -157,11 +164,8 @@ export const Renderer = {
     }
   },
 
-  renderMovies(parent: Element, movies: Movie[]) {
-    const movieListComponent = movies
-      .map((movie) => Component.movie(movie))
-      .join("");
-    parent.insertAdjacentHTML("beforeend", movieListComponent);
+  clearSkeleton(parent: Element) {
+    parent.querySelectorAll(".skeleton").forEach((el) => el.remove());
   },
 
   renderLoadMoreMovies(movies: Movie[]) {
@@ -170,10 +174,6 @@ export const Renderer = {
       Renderer.clearSkeleton(movieList);
       Renderer.renderMovies(movieList, movies);
     }
-  },
-
-  clearSkeleton(parent: Element) {
-    parent.querySelectorAll(".skeleton").forEach((el) => el.remove());
   },
 
   renderError(err: unknown) {
