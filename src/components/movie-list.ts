@@ -2,15 +2,15 @@ import { createMovieCard } from "./movie-card";
 import { createSkeletonList } from "./skeleton-card";
 import { createEmpty } from "./empty";
 import { createError } from "./error";
-import { MovieList } from "../domains/movie/MovieList";
-import { MovieItem } from "../domains/movie/MovieList";
+import { MovieListService } from "../services/movie/MovieListService";
+import { MovieItem } from "../services/movie/MovieListService";
 
 class MovieListComponent {
   private section: HTMLElement;
   private grid: HTMLElement;
   private pendingUl: HTMLUListElement | null = null;
 
-  constructor(title: string, movieList: MovieList) {
+  constructor(title: string, movieList: MovieListService) {
     this.section = document.createElement("section");
 
     const h2 = document.createElement("h2");
@@ -23,7 +23,7 @@ class MovieListComponent {
     this.bindMovieList(movieList);
   }
 
-  private bindMovieList(movieList: MovieList): void {
+  private bindMovieList(movieList: MovieListService): void {
     movieList.subscribe(({ movies, isPending, page, error }) =>
       this.update(movies, isPending, page, error),
     );
@@ -90,7 +90,7 @@ export function createMovieList({
   movieList,
 }: {
   title: string;
-  movieList: MovieList;
+  movieList: MovieListService;
 }): HTMLElement {
   return new MovieListComponent(title, movieList).getElement();
 }

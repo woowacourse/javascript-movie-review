@@ -1,9 +1,9 @@
 import { createDetailButton } from "./detail-button";
-import { MovieList } from "../domains/movie/MovieList";
+import { MovieListService } from "../services/movie/MovieListService";
 import starIconSrc from "../../templates/images/star_empty.png";
 
 interface HeroOptions {
-  movieList: MovieList;
+  movieList: MovieListService;
 }
 
 export function createHero({ movieList }: HeroOptions): HTMLElement {

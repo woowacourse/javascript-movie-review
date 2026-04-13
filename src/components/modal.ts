@@ -2,8 +2,8 @@ import closeIconSrc from "../../templates/images/modal_button_close.png";
 import starFilledSrc from "../../templates/images/star_filled.png";
 import starEmptySrc from "../../templates/images/star_empty.png";
 import { MovieDetail } from "../api/types";
-import { MovieService } from "../domains/movie/MovieService";
-import { RatingService } from "../domains/rating/RatingService";
+import { MovieService } from "../services/movie/MovieService";
+import { RatingService } from "../services/rating/RatingService";
 
 const RATING_LABELS: Record<number, string> = {
   2: "최악이에요",

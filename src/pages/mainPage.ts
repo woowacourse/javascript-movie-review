@@ -4,11 +4,11 @@ import { createMovieList } from "../components/movie-list";
 import { createInfiniteScroll } from "../components/infinite-scroll";
 import { createFooter } from "../components/footer";
 import { Modal } from "../components/modal";
-import { MovieList } from "../domains/movie/MovieList";
+import { MovieListService } from "../services/movie/MovieListService";
 import { Router } from "../route/router";
 
 export class MainPage {
-  private movieList = new MovieList();
+  private movieList = new MovieListService();
   private modal = new Modal();
 
   constructor(

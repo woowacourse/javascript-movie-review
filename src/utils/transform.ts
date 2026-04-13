@@ -1,6 +1,6 @@
 import { TMDBMovie, TMDBMovieDetail, MovieDetail } from "../api/types";
 import { TMDB_IMAGE_BASE_URL } from "../api/constants";
-import { MovieItem } from "../domains/movie/MovieList";
+import { MovieItem } from "../services/movie/MovieListService";
 
 const TMDB_IMAGE_SIZE = "w500";
 

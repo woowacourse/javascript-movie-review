@@ -19,7 +19,7 @@ export interface MoviePageEvent {
 
 type Subscriber = (event: MoviePageEvent) => void;
 
-export class MovieList {
+export class MovieListService {
   private isPending: boolean = false;
   private error: boolean = false;
   private subscribers: Set<Subscriber> = new Set();
