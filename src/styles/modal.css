@@ -86,3 +86,40 @@ body.modal-open {
   max-height: 430px;
   overflow-y: auto;
 }
+
+/* 내 평점 섹션 */
+.my-rating {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.my-rating-label {
+  font-size: 0.9rem;
+  white-space: nowrap;
+  color: var(--color-white, #fff);
+}
+
+.rating-stars {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.rating-star {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+.rating-star:hover {
+  transform: scale(1.15);
+}
+
+.rating-text {
+  margin-left: 8px;
+  font-size: 0.85rem;
+  color: var(--color-white, #fff);
+  min-width: 60px;
+}
