@@ -4,17 +4,19 @@ import Modal from '../components/modal/Modal.ts';
 
 import { MovieDetail, ResponseMovie } from '../api/types.ts';
 import LocalStorage from '../storage/LocalStorage.ts';
+import Header from '../components/header/Header.ts';
 
 type PageOption = {
+  type: 'home' | 'search';
   fetchMovie: (page: number) => Promise<ResponseMovie>;
   fetchDetail: (movie_id: number) => Promise<MovieDetail>;
-  $header: Element;
-  title: string;
-  onInitHeader?: (res: ResponseMovie) => void;
+  onSubmit: (query: string) => void;
+  query?: string;
 };
 
 export default class MoviePage {
   #$div: HTMLElement;
+  #$header: Header;
   #$main: Main;
   #$modal: Modal;
 
@@ -30,11 +32,13 @@ export default class MoviePage {
     this.#option = option;
 
     this.#$div = document.createElement('div');
-    this.#$main = new Main(this.#option.title, this.#onDetail.bind(this));
+    this.#$header = new Header(option.onSubmit.bind(this));
+    const title = option.type === 'home' ? '지금 인기있는 영화' : `"${option.query}" 검색 결과`;
+    this.#$main = new Main(title, this.#onDetail.bind(this));
     this.#$modal = new Modal(new LocalStorage(), this.#$div);
 
     const footer = new Footer();
-    this.#$div.append(this.#option.$header, this.#$main.$element, footer.$element, this.#$modal.$element);
+    this.#$div.append(this.#$header.$element, this.#$main.$element, footer.$element, this.#$modal.$element);
 
     this.#observer = new IntersectionObserver(
       (entries) => {
@@ -65,8 +69,7 @@ export default class MoviePage {
       const response = await this.#fetchMovie();
       if (!response) return;
 
-      const { onInitHeader } = this.#option;
-      if (onInitHeader) onInitHeader(response);
+      if (this.#option.type === 'home') this.#$header.showBanner(response.results[0]);
 
       const lastElement = this.#appendMovies(response);
       if (lastElement) this.#observer.observe(lastElement);

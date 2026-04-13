@@ -1,4 +1,4 @@
-import { createHomePage, createSearchPage } from './createPage.ts';
+import { createHomePage, createSearchPage } from './pages/createPage.ts';
 
 export const router = () => {
   const $app = document.querySelector('#app');
