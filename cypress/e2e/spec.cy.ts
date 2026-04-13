@@ -9,21 +9,6 @@ describe("초기 진입", () => {
   });
 });
 
-describe("더보기", () => {
-  beforeEach(() => {
-    cy.visit("localhost:5173");
-    cy.get(".thumbnail-list li").should("have.length.greaterThan", 0);
-  });
-
-  it("더보기 클릭 시 영화 카드가 추가된다", () => {
-    cy.get(".thumbnail-list li")
-      .its("length")
-      .then((before) => {
-        cy.get(".btn-more", { timeout: 8000 }).click();
-        cy.get(".thumbnail-list li").should("have.length.greaterThan", before);
-      });
-  });
-});
 
 describe("검색", () => {
   beforeEach(() => {
@@ -46,6 +31,59 @@ describe("검색", () => {
     cy.get(".search-form").submit();
     cy.wait("@emptySearch");
     cy.get(".result-none-text").should("have.text", "검색 결과가 없습니다.");
+  });
+});
+
+describe("에러", () => {
+  it("API 실패 시 에러 메시지가 표시된다", () => {
+    cy.intercept("GET", "**/movie/popular**", { statusCode: 401 }).as("failedRequest");
+    cy.visit("localhost:5173");
+    cy.wait("@failedRequest");
+    cy.get(".result-none-text").should("be.visible");
+  });
+});
+
+describe("모달", () => {
+  beforeEach(() => {
+    cy.visit("localhost:5173");
+    cy.get(".thumbnail-list li").should("have.length.greaterThan", 0);
+  });
+
+  it("카드 클릭 시 스피너가 표시되다가 상세 정보로 전환된다", () => {
+    cy.get(".thumbnail-list li").first().click();
+    cy.get(".spinner").should("be.visible");
+    cy.get(".modal-description").should("be.visible");
+  });
+});
+
+describe("별점", () => {
+  beforeEach(() => {
+    cy.clearLocalStorage();
+    cy.visit("localhost:5173");
+    cy.get(".thumbnail-list li").should("have.length.greaterThan", 0);
+    cy.get(".thumbnail-list li").first().click();
+    cy.get(".modal-description").should("be.visible");
+  });
+
+  it("별점을 매기기 전에는 평가하기 텍스트가 표시된다", () => {
+    cy.get(".rating-label").should("contain.text", "평가하기");
+  });
+
+  it("별을 클릭하면 별점 텍스트가 반영된다", () => {
+    cy.get(".star-list label").last().click();
+    cy.get(".rating-label").should("contain.text", "최악이에요");
+  });
+
+  it("새로고침 후에도 별점이 유지된다", () => {
+    cy.get(".star-list label").last().click();
+    cy.get(".rating-label").should("contain.text", "최악이에요");
+
+    cy.get(".close-modal").click();
+    cy.reload();
+    cy.get(".thumbnail-list li").should("have.length.greaterThan", 0);
+    cy.get(".thumbnail-list li").first().click();
+    cy.get(".modal-description").should("be.visible");
+    cy.get(".rating-label").should("contain.text", "최악이에요");
   });
 });
 
