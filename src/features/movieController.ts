@@ -59,11 +59,14 @@ export async function renderMoreMovies(
   searchQuery: string,
 ): Promise<void> {
   movieState.isLoading = true;
+  movieList.appendSkeletons(20);
   try {
     const data = await getMoreMovies(page, searchQuery);
+    movieList.removeSkeletons();
     movieList.renderMovieList(data);
     movieState.hasMore = page < data.total_pages;
   } catch (error) {
+    movieList.removeSkeletons();
     if (error instanceof Error) movieList.renderError(error.message);
   } finally {
     movieState.isLoading = false;

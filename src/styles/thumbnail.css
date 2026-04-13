@@ -87,3 +87,56 @@ p.rate > span {
   height: 18px;
   top: 1px;
 }
+
+/* Skeleton */
+@keyframes skeleton-shimmer {
+  0% {
+    background-position: -400px 0;
+  }
+  100% {
+    background-position: 400px 0;
+  }
+}
+
+.movie-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.movie-skeleton__poster,
+.movie-skeleton__title,
+.movie-skeleton__info {
+  background: linear-gradient(
+    90deg,
+    var(--color-bluegray-80) 25%,
+    var(--color-bluegray-90) 50%,
+    var(--color-bluegray-80) 75%
+  );
+  background-size: 800px 100%;
+  animation: skeleton-shimmer 1.4s infinite linear;
+  border-radius: 4px;
+}
+
+.movie-skeleton__poster {
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  border-radius: 8px;
+}
+
+.movie-skeleton__details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.movie-skeleton__title {
+  height: 20px;
+  width: 80%;
+}
+
+.movie-skeleton__info {
+  height: 16px;
+  width: 50%;
+}

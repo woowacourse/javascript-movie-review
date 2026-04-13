@@ -38,6 +38,20 @@ export default class MovieList {
     }
   }
 
+  appendSkeletons(count: number = 20) {
+    for (let i = 0; i < count; i++) {
+      const skeleton = new MovieSkeleton().render();
+      skeleton.classList.add("skeleton-item");
+      this.movieList?.append(skeleton);
+    }
+  }
+
+  removeSkeletons() {
+    this.movieList
+      ?.querySelectorAll(".skeleton-item")
+      .forEach((el) => el.remove());
+  }
+
   renderMovieList(movies: { results: Movie[] }) {
     movies.results.forEach((movie: Movie) => {
       this.movieList?.append(new MovieCard(movie).render());
