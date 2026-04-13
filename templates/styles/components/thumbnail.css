@@ -8,9 +8,10 @@
 /* Thumbnail */
 .movie-list {
   display: grid;
-  grid-template-columns: repeat(5, 200px);
-  gap: 70px;
-  margin: 0 auto 56px;
+  grid-template-columns: repeat(auto-fill, 200px);
+  gap: clamp(16px, 4vw, 70px);
+  justify-content: center;
+  margin-bottom: 56px;
 }
 
 .thumbnail-list {
