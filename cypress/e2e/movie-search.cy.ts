@@ -1,5 +1,7 @@
 import { searchFixture } from "../../test/fixtures";
 
+import { entries } from "../../src/constants/policy";
+
 describe("영화 검색 기능 테스트", () => {
   beforeEach(() => {
     cy.intercept(
@@ -64,15 +66,11 @@ describe("영화 검색 기능 테스트", () => {
     cy.get("#search-button").click();
     cy.wait("@getSearchPage1");
 
-    cy.get("#movie-list li").then((eleBefore) => {
-      const prevLength = eleBefore.length;
+    cy.scrollTo('bottom', { duration: 500 });
 
-      cy.scrollTo('bottom', { duration: 500 });
+    cy.wait("@getSearchPage2");
 
-      cy.wait("@getSearchPage2");
-
-      cy.get("#movie-list li").should("have.length.greaterThan", prevLength);
-    });
+    cy.get("#movie-list li").should("have.length.greaterThan", entries);
   });
 
   it("필터링 된 영화 목록이 마지막 페이지면 스크롤을 끝까지 내려도 필터링된 영화 리스트를 더 출력하지 않는다.", () => {

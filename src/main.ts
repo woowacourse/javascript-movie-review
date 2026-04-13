@@ -22,6 +22,10 @@ import { renderSkeleton, removeSkeleton } from "./renders/skeleton";
 
 import { renderDetailModal, removeDetailModal, } from "./renders/detailModal";
 
+import { displayErrorMessage } from "./feedback/displayErrorMessage";
+
+import { errorMessages } from "./constants/errorMessage";
+
 import PageState from "./states/PageState";
 
 import MovieListState from "./states/MovieListState";
@@ -41,10 +45,10 @@ const loadInit = () => {
         async () => await getTopRatedMovie(),
         (e: RequestFetchResponse) => {
           if (e.data.status_code == 22) {
-            alert("잘못된 요청입니다.");
+            displayErrorMessage(errorMessages.INVALID_REQUEST);
             return;
           }
-          alert("영화 정보를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.");
+          displayErrorMessage(errorMessages.UNKNOWN);
         }
       );
 
@@ -60,10 +64,10 @@ const loadInit = () => {
         async () => await getMoviePopular({ page }),
         async (e: RequestFetchResponse) => {
           if (e.data.status_code == 22) {
-            alert("잘못된 페이지 요청입니다.");
+            displayErrorMessage(errorMessages.INVALID_PAGE);
             return;
           }
-          alert("영화 정보를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.");
+          displayErrorMessage(errorMessages.UNKNOWN);;
         },
       );
 
@@ -72,6 +76,7 @@ const loadInit = () => {
 
         renderMovieList(movies);
       }
+
       removeSkeleton(Date.now());
     })();
   } else {
@@ -90,10 +95,10 @@ const runSearch = () => {
         query: search || "",
       }), (e: RequestFetchResponse) => {
         if(e.data.status_code === 22){
-          alert("잘못된 검색 요청입니다.");
+         displayErrorMessage(errorMessages.INVALID_SEARCH);
             return;
         }
-        alert("영화 정보를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.");
+         displayErrorMessage(errorMessages.UNKNOWN);;
       }
     );
 
