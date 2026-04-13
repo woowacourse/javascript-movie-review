@@ -1,6 +1,5 @@
 import template from "../templates/index.html?raw";
 import "../public/styles/index.css";
-import { renderMovies } from "./movieRenderer.ts";
 import AppState from "./AppState.ts";
 import MovieBrowseHandler from "./MovieBrowseHandler.ts";
 import ModalHandler from "./ModalHandler.ts";
@@ -14,12 +13,11 @@ class App {
       /\/images\//g,
       `${base}images/`,
     );
-    renderMovies(this.state.moviePageCount);
-    this.addEventListeners();
+    this.init();
   }
 
-  addEventListeners() {
-    new MovieBrowseHandler(this.state).init();
+  private async init() {
+    await new MovieBrowseHandler(this.state).init();
     new ModalHandler().init();
   }
 }

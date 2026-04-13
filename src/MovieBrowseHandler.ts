@@ -24,7 +24,9 @@ class MovieBrowseHandler {
     }
   };
 
-  init() {
+  async init() {
+    await renderMovies(this.state.moviePageCount);
+
     document.addEventListener("click", this.handleSearchButtonClick);
     document.addEventListener("keydown", this.handleSearchKeydown);
 
