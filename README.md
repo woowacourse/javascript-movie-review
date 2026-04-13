@@ -63,8 +63,8 @@ FE 레벨1 영화 리뷰 미션 (step-2)
 
 ### 별점 hover — CSS only
 
-`star_empty.png`와 `star_filled.png`를 하나의 스프라이트 이미지(`stars_sprite.png`)로 합쳐,
-`background-position`만으로 빈 별 / 채운 별 상태를 전환한다. JavaScript로 inline style을 건드리지 않는다.
+`star_empty.png`와 `star_filled.png`를 하나의 이미지(`stars_sprite.png`)로 합쳐서,
+`background-position`만으로 빈 별 / 채운 별 상태를 전환하도록 설계했다.
 
 ```
 stars_sprite.png: [ 빈 별 | 채운 별 ]
@@ -87,13 +87,10 @@ DOM 순서는 별 5→1 (역순)이고 `flex-direction: row-reverse`로 화면�
 ### 별점 저장소 — 의존성 주입
 
 `IRatingRepository` 인터페이스를 정의하고 `Modal`이 구현체를 주입받는 구조로 설계했다.
-현재는 `LocalStorageRatingRepository`를 사용하지만, 서버 API 구현체로 교체해도 `StarRating`과 `Modal` 코드는 변경이 없다.
+현재는 `LocalStorageRatingRepository`를 사용하지만, 서버 API 구현체로 교체해도 `StarRating`과 `Modal` 코드는 변경이 없도록 설계했다.
 
-```
-IRatingRepository (interface)
-  └── LocalStorageRatingRepository (현재 구현체)
-  └── ServerRatingRepository       (교체 가능)
-```
+`localStorage`는 동기 API라 `async`일 이유가 없지만, 나중에 서버 API로 교체할 때 호출부를 바꾸지 않아도 되도록
+인터페이스의 `save` / `load`를 `Promise`를 반환하는 형태로 미리 맞춰두었다.
 
 ### 무한스크롤 — observer 생명주기
 
