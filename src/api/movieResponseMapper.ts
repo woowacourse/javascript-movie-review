@@ -1,8 +1,13 @@
 import type { MovieListResponse } from "./apiTypes";
 
 import type { Movie, MovieDetail } from "../../types/movie";
+import { ApiParseError } from "../errors/DomainErrors";
 
 export const mapMovieListResponse = (data: any): MovieListResponse => {
+  if (!Array.isArray(data.results)) {
+    throw new ApiParseError("영화 목록 응답 스킴이 올바르지 않습니다");
+  }
+
   const movies: Movie[] = data.results.map((movie: any): Movie => {
     return {
       id: movie.id,
@@ -32,4 +37,3 @@ export const mapMovieDetailResponse = (data: any): MovieDetail => {
     overview: data.overview ?? "",
   };
 };
-
