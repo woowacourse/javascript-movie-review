@@ -1,36 +1,42 @@
-import Header from '../components/header/TopRateHeader.ts';
 import Main from '../components/main/Main.ts';
 import Footer from '../components/footer/Footer.ts';
-
-import { fetchMovieDetails, fetchPopularMovies } from '../api/fetchApi.ts';
-import { ResponseMovie } from '../api/types.ts';
 import Modal from '../components/modal/Modal.ts';
 
-export default class HomePage {
-  #page: number;
-  #totalPage: number;
+import { MovieDetail, ResponseMovie } from '../api/types.ts';
+import LocalStorage from '../storage/LocalStorage.ts';
 
+type PageOption = {
+  fetchMovie: (page: number) => Promise<ResponseMovie>;
+  fetchDetail: (movie_id: number) => Promise<MovieDetail>;
+  $header: Element;
+  title: string;
+  onInitHeader?: (res: ResponseMovie) => void;
+};
+
+export default class MoviePage {
   #$div: HTMLElement;
-  #header: Header;
+
   #main: Main;
-  #footer: Footer;
   #$modal: Modal;
+
+  #totalPage: number;
+  #page: number;
+  #option: PageOption;
 
   #observer: IntersectionObserver;
 
-  constructor(modal: Modal) {
-    this.#$modal = modal;
-    this.#totalPage = 1;
+  constructor(option: PageOption) {
     this.#page = 1;
+    this.#totalPage = 1;
+    this.#option = option;
 
     this.#$div = document.createElement('div');
-    this.#$div.id = 'homepage';
+    this.#$modal = new Modal(new LocalStorage(), this.#$div);
 
-    this.#header = new Header(this.#onSubmit);
-    this.#main = new Main('지금 인기있는 영화', this.#onDetail);
-    this.#footer = new Footer();
+    this.#main = new Main(this.#option.title, this.#onDetail);
 
-    this.#$div.append(this.#header.$element, this.#main.$element, this.#footer.$element);
+    const footer = new Footer();
+    this.#$div.append(this.#option.$header, this.#main.$element, footer.$element);
 
     this.#observer = new IntersectionObserver(
       (entries) => {
@@ -40,7 +46,6 @@ export default class HomePage {
       },
       { threshold: 0.1 },
     );
-
     this.#initialFetch();
   }
 
@@ -48,9 +53,9 @@ export default class HomePage {
     return this.#$div;
   }
 
-  async #fetchPopularMovies(): Promise<ResponseMovie | void> {
+  async #fetchMovie(): Promise<ResponseMovie | void> {
     if (this.#page > this.#totalPage) return;
-    const response = await fetchPopularMovies(this.#page);
+    const response = await this.#option.fetchMovie(this.#page);
     this.#page += 1;
     this.#totalPage = response.total_pages;
     return response;
@@ -59,10 +64,12 @@ export default class HomePage {
   async #initialFetch(): Promise<void> {
     try {
       this.#main.renderSkeletons();
-      const response = await this.#fetchPopularMovies();
+      const response = await this.#fetchMovie();
       if (!response) return;
 
-      this.#header.render(response.results[0]);
+      const { onInitHeader } = this.#option;
+      if (onInitHeader) onInitHeader(response);
+
       const lastElement = this.#appendMovies(response);
       if (lastElement) this.#observer.observe(lastElement);
     } catch (error) {
@@ -74,9 +81,9 @@ export default class HomePage {
 
   async #loadMore(): Promise<void> {
     this.#observer.disconnect();
-    this.#main.renderSkeletons();
     try {
-      const response = await this.#fetchPopularMovies();
+      this.#main.renderSkeletons();
+      const response = await this.#fetchMovie();
       if (!response) return;
 
       const lastElement = this.#appendMovies(response);
@@ -94,20 +101,14 @@ export default class HomePage {
 
   #handleError(error: unknown) {
     if (error instanceof Error) {
+      console.error(error);
       this.#main.handleError(error);
     }
   }
 
-  #onSubmit = (query: string): void => {
-    if (query.trim()) {
-      location.hash = `/search?query=${encodeURIComponent(query)}`;
-    }
-  };
-
   #onDetail = async (movie_id: number) => {
     try {
-      this.#$modal.renderSkeleton();
-      const movie = await fetchMovieDetails(movie_id);
+      const movie = await this.#option.fetchDetail(movie_id);
       this.#$modal.open(movie);
     } catch (error) {
       this.#handleError(error as Error);
