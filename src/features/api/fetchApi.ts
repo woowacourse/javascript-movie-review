@@ -1,5 +1,6 @@
 import { MovieDetail, MovieResponse } from "../../../types/types";
 import { API_KEY, BASE_URL } from "../../constants/api";
+import { MOVIE_DETAIL_PATH } from "../../constants/path";
 import { ApiError, NotFoundError, UnauthorizedError } from "../../errors";
 
 async function request<T>(url: string): Promise<T> {
@@ -29,5 +30,5 @@ export async function fetchMovieDetailApi(movieId: number): Promise<MovieDetail>
     language: "ko-KR",
   });
 
-  return request<MovieDetail>(`${BASE_URL}/movie/${movieId}?${params}`);
+  return request<MovieDetail>(`${BASE_URL}/${MOVIE_DETAIL_PATH}/${movieId}?${params}`);
 }
