@@ -135,22 +135,31 @@ const createPlotHTML = (overview: string) => /* html */ `
 
 // 별점 UI 업데이트
 export const updateStarsUI = (score: number) => {
-  const $stars = document.querySelectorAll('.rate-star-img');
-  const $description = document.querySelector('#ratingDescription');
+    updateStarImages(score);
+    updateRatingText(score);
+};
 
+// 별점 이미지 칠해주는 함수
+const updateStarImages = (score: number) => {
+  const $stars = document.querySelectorAll('.rate-star-img');
+  
   $stars.forEach(($star) => {
     const starScore = Number(($star as HTMLElement).dataset.score);
     const imgElement = $star as HTMLImageElement;
-
     // 점수에 따라 빈 별 / 채워진 별 이미지 경로 교체
     imgElement.src = starScore <= score ? './images/star_filled.png' : './images/star_empty.png';
   });
+};
 
-  if ($description) {
-    if (score > 0) {
-      $description.innerHTML = `${RATING_MESSAGES[score]} <span class="score-number">(${score}/10)</span>`;
-    } else {
-      $description.innerHTML = '평가해주세요';
-    }
+// 별점 텍스트 바꿔주는 함수
+const updateRatingText = (score: number) => {
+  const $description = document.querySelector('#ratingDescription');
+
+  if (!$description) return;
+
+  if (score > 0) {
+    $description.innerHTML = `${RATING_MESSAGES[score]} <span class="score-number">(${score}/10)</span>`;
+  } else {
+    $description.innerHTML = '평가해주세요';
   }
 };
