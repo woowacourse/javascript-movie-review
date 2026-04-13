@@ -6,7 +6,7 @@ import {
 import AppState from "./AppState.ts";
 import { createScrollObserver } from "./utils/scrollObserver.ts";
 
-class SearchHandler {
+class MovieBrowseHandler {
   constructor(private state: AppState) {}
 
   handleSearchButtonClick = (e: MouseEvent) => {
@@ -85,4 +85,4 @@ class SearchHandler {
   };
 }
 
-export default SearchHandler;
+export default MovieBrowseHandler;

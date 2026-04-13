@@ -2,7 +2,7 @@ import template from "../templates/index.html?raw";
 import "../public/styles/index.css";
 import { renderMovies } from "./movieRenderer.ts";
 import AppState from "./AppState.ts";
-import SearchHandler from "./SearchHandler.ts";
+import MovieBrowseHandler from "./MovieBrowseHandler.ts";
 import ModalHandler from "./ModalHandler.ts";
 
 class App {
@@ -19,7 +19,7 @@ class App {
   }
 
   addEventListeners() {
-    new SearchHandler(this.state).init();
+    new MovieBrowseHandler(this.state).init();
     new ModalHandler().init();
   }
 }
