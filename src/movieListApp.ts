@@ -69,25 +69,15 @@ export const initMovieList = (query?: string) => {
     await loadMovies();
     isFetching = false;
 
+    $heroDetailBtn?.addEventListener('click', handleHeroClick);
+    $thumbnailList.addEventListener('click', handleMovieItemClick);
+
     // 초기 렌더링이 끝난 뒤, 더보기 버튼 관찰 시작
     observer.observe($button);
   };
 
   // 실행
   start();
-
-  // herobanner 자세히 보기 버튼 클릭 이벤트
-  if ($heroDetailBtn) {
-    $heroDetailBtn.addEventListener('click', (event) => {
-      const target = event.currentTarget as HTMLButtonElement;
-      const movieId = Number(target.dataset.id);
-
-      if (movieId) {
-        openModal(movieId);
-      }
-    });
-  }
-
   // 더보기 버튼 클릭 시 렌더링
   $button?.addEventListener('click', async () => {
     isError = false; // 버튼 클릭 시 에러 상태 초기화
@@ -99,16 +89,23 @@ export const initMovieList = (query?: string) => {
       isFetching = false;
     }
   });
+};
 
-  $thumbnailList.addEventListener('click', (event) => {
-    const target = event.target as HTMLElement;
-    const $movieItem = target.closest('.movie-item') as HTMLElement | null;
+// herobanner 자세히 보기 버튼 클릭 이벤트
+const handleHeroClick = (event: Event) => {
+  const target = event.currentTarget as HTMLButtonElement;
+  const movieId = Number(target.dataset.id);
+  if (movieId) openModal(movieId);
+};
 
-    if ($movieItem) {
-      const movieId = Number($movieItem.dataset.id);
-      if (movieId) {
-        openModal(movieId);
-      }
+const handleMovieItemClick = (event: Event) => {
+  const target = event.target as HTMLElement;
+  const $movieItem = target.closest('.movie-item') as HTMLElement | null;
+
+  if ($movieItem) {
+    const movieId = Number($movieItem.dataset.id);
+    if (movieId) {
+      openModal(movieId);
     }
-  });
+  }
 };
