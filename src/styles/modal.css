@@ -58,8 +58,6 @@ body.modal-open {
 }
 
 .modal-image img {
-  /* 모달 너비의 38% → 최대 380px (1000px * 38% = 380px) */
-  width: min(380px, 38%);
   border-radius: 16px;
 }
 
