@@ -55,6 +55,7 @@ const loadInit = () => {
     (async () => {
       renderSkeleton();
       const page = pageState.getPage();
+      isFetching = true;
       const movies = await errorTryCatch(
         async () => await getMoviePopular({ page }),
         async (e: ApiError) => {
@@ -65,6 +66,8 @@ const loadInit = () => {
           alert("영화 정보를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.");
         },
       );
+
+      isFetching = false;
 
       if (movies) {
         movieListState.setTotalPages(movies.total_pages);
@@ -136,6 +139,8 @@ export const handleDetail = (id: number) => {
   })();
 }
 
+let isFetching = false;
+
 const handleMoreMovie = () => {
   const totalPages = movieListState.getTotalPages();
   const page = pageState.getPage();
@@ -152,6 +157,9 @@ const handleMoreMovie = () => {
   (async () => {
     const page = pageState.getPage();
 
+    if ( isFetching ) return;
+    isFetching = true;
+
     const movies = await errorTryCatch(
       async () => await getMoviePopular({ page }),
       async (e: ApiError) => {
@@ -162,6 +170,8 @@ const handleMoreMovie = () => {
         alert("영화 정보를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.");
       },
     );
+
+    isFetching = false;
 
     if (movies) {
       movieListState.setTotalPages(movies.total_pages);
