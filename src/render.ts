@@ -1,4 +1,4 @@
-import { fetchPopularMovies, fetchSearchMovies, PreviewData, resultData } from './api.ts';
+import { fetchPopularMovies, fetchSearchMovies, PreviewData, ResultData } from './api.ts';
 
 export const renderFetchMovieItem = async (
   $target: HTMLElement | Element,
@@ -90,7 +90,7 @@ export const hideMoreButton = () => {
   document.querySelector('#more-page-button')?.classList.add('hidden');
 };
 
-export function renderMovieItem(data: resultData): string {
+export function renderMovieItem(data: ResultData): string {
   return /* html */ `
       <li class="movie-item" data-id="${data.id}">
         <div class="item">
@@ -124,7 +124,7 @@ export const removeSkeleton = ($target: Element) => {
   });
 };
 
-const updateHeroBanner = (movie: resultData) => {
+const updateHeroBanner = (movie: ResultData) => {
   const $bg = document.querySelector<HTMLElement>('.background-container');
   if ($bg && movie.backdrop_path) {
     $bg.style.backgroundImage = `url(https://image.tmdb.org/t/p/original${movie.backdrop_path})`;

@@ -1,4 +1,4 @@
-import { resultData } from './api.ts';
+import { ResultData } from './api.ts';
 
 const createSkeletonHTML = (): string => {
   return  `<li class="skeleton-item">
@@ -30,7 +30,7 @@ export const removeSkeleton = () => {
 
 const IMAGE_BASE_URL = "https://media.themoviedb.org/t/p/w440_and_h660_face";
 
-const createMovieHTML = (movie: resultData) => {
+const createMovieHTML = (movie: ResultData) => {
   return `
   <li>
                 <div class="item">
@@ -52,7 +52,7 @@ const createMovieHTML = (movie: resultData) => {
               `;
 };
 
-export const renderMovies = (movies: resultData[]) => {
+export const renderMovies = (movies: ResultData[]) => {
   const container = document.querySelector('.thumbnail-list');
 
   const movieItems = movies.map((movie) => createMovieHTML(movie)).join("");

@@ -12,7 +12,7 @@ const options = {
   },
 };
 
-export interface resultData {
+export interface ResultData {
   id: number;
   title: string;
   poster_path: string;
@@ -23,20 +23,20 @@ export interface resultData {
 
 export interface PreviewData {
   page: number;
-  results: resultData[];
+  results: ResultData[];
   total_pages: number;
 }
 
-export interface Params {
+export interface QueryParams {
   page: number;
   query?: string | undefined;
   language?: string;
   region?: string;
 }
 
-export interface Request {
+export interface ApiRequest {
   path: string;
-  params: Params;
+  params: QueryParams;
 }
 
 export interface MovieDetailData {
@@ -51,7 +51,7 @@ export interface MovieDetailData {
 
 const BASE_URL = 'https://api.themoviedb.org/3';
 
-const fetchAPI = async (req: Request): Promise<PreviewData> => {
+const fetchAPI = async (req: ApiRequest): Promise<PreviewData> => {
   const url = new URL(BASE_URL + req.path);
 
   if (req.params.query) {
