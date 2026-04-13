@@ -58,6 +58,10 @@ export default class MoviePage {
   async #fetchMovie(): Promise<ResponseMovie | void> {
     if (this.#page > this.#totalPage) return;
     const response = await this.#option.fetchMovie(this.#page);
+    if (response.results.length === 0) {
+      this.#$main.renderNothing();
+      return;
+    }
     this.#page += 1;
     this.#totalPage = response.total_pages;
     return response;
@@ -112,6 +116,8 @@ export default class MoviePage {
       const movie = await this.#option.fetchDetail(movie_id);
       this.#$modal.open(movie);
     } catch (error) {
+      console.error(error);
+      alert('모달 에러입니다.');
       this.#handleError(error as Error);
     }
   }

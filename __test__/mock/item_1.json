@@ -1,0 +1,87 @@
+{
+  "adult": false,
+  "backdrop_path": "/1x9e0qWonw634NhIsRdvnneeqvN.jpg",
+  "belongs_to_collection": null,
+  "budget": 0,
+  "genres": [
+    {
+      "id": 10749,
+      "name": "로맨스"
+    },
+    {
+      "id": 18,
+      "name": "드라마"
+    }
+  ],
+  "homepage": "",
+  "id": 1523145,
+  "imdb_id": "tt38190257",
+  "origin_country": [
+    "RU"
+  ],
+  "original_language": "ru",
+  "original_title": "Твоё сердце будет разбито",
+  "overview": "",
+  "popularity": 821.6874,
+  "poster_path": "/iGpMm603GUKH2SiXB2S5m4sZ17t.jpg",
+  "production_companies": [
+    {
+      "id": 71928,
+      "logo_path": "/7M6z2jX570P3HzNQULCTjlZcXkB.png",
+      "name": "All Media A Start Company",
+      "origin_country": "RU"
+    },
+    {
+      "id": 114676,
+      "logo_path": "/aVsos0RDN9Ib7H8nW5Vv5kHKykz.png",
+      "name": "START Studio",
+      "origin_country": "RU"
+    },
+    {
+      "id": 13850,
+      "logo_path": "/6KsdcnTIpQ47NHad4EtxOCkB94K.png",
+      "name": "Sverdlovsk Film Studio",
+      "origin_country": "RU"
+    },
+    {
+      "id": 76049,
+      "logo_path": "/tam9pIV4QK1ZPwdxBgtVkK1WTYC.png",
+      "name": "Cinema Foundation of Russia",
+      "origin_country": "RU"
+    },
+    {
+      "id": 42877,
+      "logo_path": "/15THT1W3NROsbDXPbrcmWFVkrSv.png",
+      "name": "Yellow, Black & White",
+      "origin_country": "RU"
+    },
+    {
+      "id": 119813,
+      "logo_path": "/iyGJzcnWXZoNxYLzZu4jKzxIoFw.png",
+      "name": "Premier Studios",
+      "origin_country": "RU"
+    }
+  ],
+  "production_countries": [
+    {
+      "iso_3166_1": "RU",
+      "name": "Russia"
+    }
+  ],
+  "release_date": "2026-03-26",
+  "revenue": 0,
+  "runtime": 134,
+  "spoken_languages": [
+    {
+      "english_name": "Spanish",
+      "iso_639_1": "es",
+      "name": "Español"
+    }
+  ],
+  "status": "Released",
+  "tagline": "",
+  "title": "Твоё сердце будет разбито",
+  "video": false,
+  "vote_average": 7.045,
+  "vote_count": 56
+}

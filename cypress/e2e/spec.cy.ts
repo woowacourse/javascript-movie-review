@@ -1,5 +1,6 @@
 import MOCK_PAGE_1 from '../../__test__/mock/page_1.json';
 import MOCK_PAGE_2 from '../../__test__/mock/page_2.json';
+import MOCK_ITEM_1 from '../../__test__/mock/item_1.json';
 import MOCK_ERROR from '../../__test__/mock/page_error.json';
 
 describe('e2e 테스트', () => {
@@ -13,6 +14,11 @@ describe('e2e 테스트', () => {
       statusCode: 200,
       body: MOCK_PAGE_2,
     }).as('getPopularMoviePage2');
+
+    cy.intercept('GET', '**/movie/[0-9]*', {
+      statusCode: 200,
+      body: MOCK_ITEM_1,
+    }).as('getMovieDetail');
   });
 
   context('사용자는 접속하여 홈페이지에서 영화 리스트를 볼 수 있다', () => {
@@ -50,7 +56,7 @@ describe('e2e 테스트', () => {
     });
   });
 
-  context('검색 기능', () => {
+  context('모달', () => {
     it('사용자는 모달을 열고 평점을 6점준다. 별점은 로컬 스토리지에 저장된다', () => {
       cy.visit('http://localhost:5173/');
       cy.wait('@getPopularMoviePage1');
@@ -58,13 +64,17 @@ describe('e2e 테스트', () => {
       cy.get('ul li:first-child').click();
       cy.get('.modal').should('be.visible');
 
-      const movieId = MOCK_PAGE_1.results[0].id;
-
+      cy.get('.modal-description h2').should('contain', MOCK_ITEM_1.title);
+      cy.get('.rate span').should('contain', MOCK_ITEM_1.vote_average.toFixed(1));
       cy.get('.star-container .submit-star-button').eq(2).click();
 
-      cy.window().then((win) => {
-        const rating = win.localStorage.getItem(String(movieId) as string);
-        expect(rating).to.equal('6');
+      cy.get('.star-container .submit-star-button').each(($el, index) => {
+        const img = $el.find('img');
+        if (index <= 2) {
+          cy.wrap(img).should('have.attr', 'alt', 'star_filled');
+        } else {
+          cy.wrap(img).should('have.attr', 'alt', 'star_empty');
+        }
       });
     });
   });

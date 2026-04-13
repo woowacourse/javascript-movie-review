@@ -59,6 +59,8 @@ export default class Modal {
   }
 
   #update(movie: MovieDetail) {
+    this.#$modalImg.src = './images/empty.png';
+
     const { title, release_date, overview, poster_path, genres, vote_average } = movie;
 
     this.#$modalImg.src = getOriginalImageUrl(poster_path);
