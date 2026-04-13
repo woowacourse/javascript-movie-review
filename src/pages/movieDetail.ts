@@ -3,7 +3,7 @@ import { MovieDetailRenderer } from "../render.ts";
 import State from "../state.ts";
 
 export const MovieDetail = {
-  setUpInitEventListeners() {
+  setUpEventListeners() {
     this.setUpDialogCloser();
     this.setUpMyRatingToMovie();
   },

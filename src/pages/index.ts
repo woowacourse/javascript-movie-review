@@ -18,7 +18,7 @@ export const Index = {
   setUpEventListeners() {
     this.setUpLoadMoreMovies();
     this.setUpSearchForm();
-    MovieDetail.setUpInitEventListeners();
+    MovieDetail.setUpEventListeners();
   },
 
   setUpLoadMoreMovies() {
