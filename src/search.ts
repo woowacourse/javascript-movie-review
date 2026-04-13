@@ -1,4 +1,4 @@
-import { initMovieList } from './movieController.ts';
+import { initMovieList } from './movieListApp.ts';
 
 addEventListener('load', () => {
   const app = document.querySelector('#app');
