@@ -7,6 +7,8 @@ export const ENDPOINTS = {
   MOVIE_DETAIL: (id: number) => `${TMDB_BASE_URL}/movie/${id}`,
 } as const;
 
+export const TMDB_MAX_PAGE = 500;
+
 export const DEFAULT_PARAMS = {
   language: "ko-KR",
   include_adult: false,
