@@ -173,7 +173,7 @@ describe("메인 화면", () => {
     ).forEach((page) => mockPopularMoviePage(page));
   });
 
-  it("초기 로드 후 더보기 버튼으로 영화 목록을 3번 더 불러온다", () => {
+  it("초기 로드 후 스크롤로 영화 목록을 3번 더 불러온다", () => {
     cy.visit(APP_URL);
     expectSkeletonUi();
     cy.wait("@getPopularMoviesPage1");
