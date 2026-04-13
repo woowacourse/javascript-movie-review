@@ -1,6 +1,9 @@
 import { IRatingRepository } from "../rating/IRatingRepository";
 import starSpriteImg from "../../images/stars_sprite.png";
 
+const STAR_COUNT = 5;
+const SCORE_PER_STAR = 2;
+
 const RATING_LABELS: Record<number, string> = {
   2: "최악이에요",
   4: "별로예요",
@@ -27,8 +30,8 @@ export class StarRating {
 
   private buildHTML(): string {
     // DOM 순서: 10→2 (flex-direction: row-reverse로 1→5 표시)
-    const stars = Array.from({ length: 5 }, (_, i) => {
-      const value = (5 - i) * 2;
+    const stars = Array.from({ length: STAR_COUNT }, (_, i) => {
+      const value = (STAR_COUNT - i) * SCORE_PER_STAR;
       const checked = value === this.currentRating ? "checked" : "";
       return `
         <input type="radio" name="rating-${this.movieId}" id="star-${this.movieId}-${value}" value="${value}" ${checked} />
