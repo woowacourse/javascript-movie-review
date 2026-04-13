@@ -97,7 +97,7 @@ export const Index = {
       } = await getPopularMovies(State.nextPageNum);
       State.nextPageNum = page + 1;
       State.totalPages = total_pages;
-      IndexRenderer.renderLoadMoreMovies(movies);
+      Renderer.renderLoadMoreMovies(movies);
       MovieDetail.setUpMovieDetail(movies);
     } catch (err) {
       Renderer.renderError(err);

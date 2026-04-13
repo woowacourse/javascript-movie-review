@@ -20,14 +20,6 @@ export const IndexRenderer = {
     this.renderSectionHeading();
   },
 
-  renderLoadMoreMovies(movies: Movie[]) {
-    const movieList = document.querySelector(".thumbnail-list");
-    if (movieList) {
-      Renderer.clearSkeleton(movieList);
-      Renderer.renderMovies(movieList, movies);
-    }
-  },
-
   renderSectionHeading() {
     const heading = document.querySelector("section > h2");
     if (heading instanceof HTMLElement) {
@@ -45,14 +37,6 @@ export const SearchRenderer = {
     this.renderSearchSectionHeading(query);
     if (movies.length === 0) Renderer.renderEmptyResult();
     else if (movieList) Renderer.renderMovies(movieList, movies);
-  },
-
-  renderLoadMoreSearchMovies(movies: Movie[]) {
-    const movieList = document.querySelector(".thumbnail-list");
-    if (movieList) {
-      Renderer.clearSkeleton(movieList);
-      Renderer.renderMovies(movieList, movies);
-    }
   },
 
   renderSearchSectionHeading(title: string) {
@@ -178,6 +162,14 @@ export const Renderer = {
       .map((movie) => Component.movie(movie))
       .join("");
     parent.insertAdjacentHTML("beforeend", movieListComponent);
+  },
+
+  renderLoadMoreMovies(movies: Movie[]) {
+    const movieList = document.querySelector(".thumbnail-list");
+    if (movieList) {
+      Renderer.clearSkeleton(movieList);
+      Renderer.renderMovies(movieList, movies);
+    }
   },
 
   clearSkeleton(parent: Element) {
