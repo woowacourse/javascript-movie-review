@@ -7,9 +7,9 @@ import {
     Movie,
     removeMovieSkeletonUIList,
     showBackgroundMovieInfo,
+    updateMyStarRate,
 } from '../view/movieListView.ts';
-import star_empty from '../../templates/images/star_empty.png';
-import star_filled from '../../templates/images/star_filled.png';
+import { starRatingStorage } from '../storage/StarRatingStorage.ts';
 
 export const callMovieList = async (pageNum: number, searchBarText: string): Promise<Movie[]> => {
     try {
@@ -140,27 +140,6 @@ export const movieViewFlow = async (state: State, movieDisplay: HTMLUListElement
     addMovieList(movieDisplay, movieList);
 };
 
-const updateMyStarRate = (value: string) => {
-    const emptyStars = document.querySelectorAll<HTMLImageElement>('.star-icon');
-    emptyStars.forEach((star) => {
-        if (Number(star.dataset.value) <= Number(value)) {
-            star.src = star_filled;
-        } else {
-            star.src = star_empty;
-        }
-    });
-    const rateText: Record<number, string> = {
-        2: '최악이에요',
-        4: '별로예요',
-        6: '보통이에요',
-        8: '재미있어요',
-        10: '명작이에요',
-    };
-
-    const text = rateText[Number(value)];
-    getElement('.my-rate-text').textContent = text ? `${text} (${value}/10)` : '';
-};
-
 // 포스터 클릭 이벤트
 export const bindClickPosterEvent = () => {
     const thumbnailBox = getElement('.thumbnail-list');
@@ -172,7 +151,7 @@ export const bindClickPosterEvent = () => {
     emptyStars.forEach((star: HTMLElement) => {
         star.addEventListener('click', () => {
             const starValue = star.dataset.value;
-            localStorage.setItem(`rating_${currentMovieId}`, starValue ?? '');
+            starRatingStorage.set(currentMovieId, starValue ?? '');
             updateMyStarRate(starValue ?? '');
         });
     });
@@ -194,7 +173,7 @@ export const bindClickPosterEvent = () => {
         getElement('#modalRate').textContent = String(movie.vote_average.toFixed(1));
         getElement('#modalDetail').textContent = movie.overview;
 
-        const savedRate = localStorage.getItem(`rating_${movie.id}`);
+        const savedRate = starRatingStorage.get(movie.id);
         updateMyStarRate(savedRate ?? '0');
 
         modalBackground.classList.add('active');
