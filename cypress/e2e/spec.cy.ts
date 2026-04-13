@@ -10,7 +10,7 @@ describe("인기영화 렌더링 테스트", () => {
     cy.visit("localhost:5173");
   });
 
-  it("웹에 접근을 하면 인기 영화 20개를 랜더링 한다", () => {
+  it("웹에 접근을 하면 인기 영화 20개가 보인다", () => {
     cy.wait("@getMovies");
     cy.get(".thumbnail-list li").should("have.length", 20);
   });
@@ -141,6 +141,23 @@ describe("검색영화 렌더링 테스트", () => {
     cy.get('#rate-evaluate').should('have.text', '명작이에요');
     cy.get('#rate-score').should('have.text', '(10/10)');
   });
+
+  it("연결이 되어 있지 않았을때 에러 표시를 한다", () => {                           
+    cy.intercept("GET", "**/search/movie*", { forceNetworkError: true                
+  }).as("searchError");                                                              
+                                                                                     
+    const alertStub = cy.stub();                                                     
+    cy.on('window:alert', alertStub);
+                                                                                     
+    cy.wait("@getMovies");
+    cy.get(".search-input").type("Harry Potter");
+    cy.get(".search-button").click();                                                
+   
+    cy.wait("@searchError").then(() => {                                             
+      expect(alertStub).to.have.been.called;
+    });                                                                              
+  });
+      
 });
 
 describe("Skeleton UI 테스트", () => {
