@@ -83,6 +83,12 @@ export async function renderModal(movieId: number) {
 
     await renderMyRatingSelector(".modal-movie-my-rating-body", movieId);
 
+    dialogElement.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        dialogElement.close();
+      }
+    });
+
     dialogElement.showModal();
   } finally {
     removeSpinnerElement();
