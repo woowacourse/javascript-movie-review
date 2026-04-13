@@ -1,4 +1,4 @@
 export interface MovieStore {
-  get(key: string): Promise<string | null>;
-  save(key: string, value: string): Promise<void>;
+  get(key: number): Promise<string | null>;
+  save(key: number, value: number): Promise<void>;
 }

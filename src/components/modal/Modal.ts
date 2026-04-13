@@ -88,10 +88,10 @@ export default class Modal {
     this.#update(movie);
 
     const { id } = movie;
-    const movieRate = Number(await this.#movieStore.get(`${id}`)) || 0;
+    const movieRate = Number(await this.#movieStore.get(id)) || 0;
 
     const $submitRate = new SubmitRate(movieRate, async (rate) => {
-      await this.#movieStore.save(`${id}`, String(rate));
+      await this.#movieStore.save(id, rate);
     }).$element;
 
     const $container = $(this.#$modal, '.modal-submit-star');

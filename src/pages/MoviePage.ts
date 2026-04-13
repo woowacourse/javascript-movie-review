@@ -5,6 +5,7 @@ import Modal from '../components/modal/Modal.ts';
 import { MovieDetail, ResponseMovie } from '../api/types.ts';
 import LocalStorage from '../storage/LocalStorage.ts';
 import Header from '../components/header/Header.ts';
+import { MovieStore } from '../storage/types.ts';
 
 type PageOption = {
   type: 'home' | 'search';
@@ -12,6 +13,7 @@ type PageOption = {
   fetchDetail: (movie_id: number) => Promise<MovieDetail>;
   onSubmit: (query: string) => void;
   query?: string;
+  movieDB: MovieStore;
 };
 
 export default class MoviePage {
@@ -35,7 +37,7 @@ export default class MoviePage {
     this.#$header = new Header(option.onSubmit.bind(this), this.#onDetail.bind(this));
     const title = option.type === 'home' ? '지금 인기있는 영화' : `"${option.query}" 검색 결과`;
     this.#$main = new Main(title, this.#onDetail.bind(this));
-    this.#$modal = new Modal(new LocalStorage(), this.#$div);
+    this.#$modal = new Modal(option.movieDB, this.#$div);
 
     const footer = new Footer();
     this.#$div.append(this.#$header.$element, this.#$main.$element, footer.$element, this.#$modal.$element);

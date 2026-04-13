@@ -6,11 +6,11 @@ export default class LocalStorage implements MovieStore {
     this.#myStorage = window.localStorage;
   }
 
-  async save(key: string, value: string): Promise<void> {
-    this.#myStorage.setItem(key, value);
+  async save(key: number, value: number): Promise<void> {
+    this.#myStorage.setItem(String(key), String(value));
   }
 
-  async get(key: string): Promise<string | null> {
-    return this.#myStorage.getItem(key);
+  async get(key: number): Promise<string | null> {
+    return this.#myStorage.getItem(String(key));
   }
 }

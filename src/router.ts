@@ -1,6 +1,7 @@
 import { createHomePage, createSearchPage } from './pages/createPage.ts';
+import { MovieStore } from './storage/types.ts';
 
-export const router = () => {
+export const router = (movieDB: MovieStore) => {
   const $app = document.querySelector('#app');
   if (!$app) return;
 
@@ -10,6 +11,6 @@ export const router = () => {
 
   $app.innerHTML = '';
 
-  const newPage = path === '/search' ? createSearchPage(query) : createHomePage();
+  const newPage = path === '/search' ? createSearchPage(query, movieDB) : createHomePage(movieDB);
   $app.append(newPage.$element);
 };
