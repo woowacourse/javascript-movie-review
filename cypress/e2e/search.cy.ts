@@ -14,14 +14,14 @@ describe("검색", () => {
 
   it("검색 결과가 없을 때 empty 상태를 표시한다", () => {
     cy.visit("/search?query=zzzzzzzzzzzzzzzzzzz");
-    cy.get(".empty").should("exist");
+    cy.get(".movie-list-message-content").should("exist");
     cy.contains("검색 결과가 없습니다.").should("be.visible");
   });
 
-  it("검색 결과가 없을 때 그리드 레이아웃이 적용되지 않는다", () => {
+  it("검색 결과가 없을 때 아이템 없이 안내 메시지만 표시한다", () => {
     cy.visit("/search?query=zzzzzzzzzzzzzzzzzzz");
-    cy.get(".movie-list-empty").should("exist");
-    cy.get(".movie-list").should("not.exist");
+    cy.get(".item").should("not.exist");
+    cy.get(".movie-list-message-content").should("exist");
   });
 
   it("포스터가 없는 영화는 fallback을 표시한다", () => {

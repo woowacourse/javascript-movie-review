@@ -21,11 +21,44 @@ describe("메인 페이지", () => {
   });
 
   it("데이터를 불러오지 못했을 때 에러 메시지를 표시한다", () => {
-    cy.intercept("GET", "**/movie/popular**", { forceNetworkError: true }).as("networkError");
+    cy.intercept("GET", "**/movie/popular**", { forceNetworkError: true }).as(
+      "networkError",
+    );
 
     cy.visit("/");
     cy.wait("@networkError");
     cy.contains("데이터를 불러오지 못했습니다.").should("be.visible");
+  });
+
+  it("두 번째 페칭 실패 시 스켈레톤 없이 에러 컴포넌트가 전체 row를 차지한다", () => {
+    let callCount = 0;
+    cy.intercept("GET", "**/movie/popular**", (req) => {
+      callCount++;
+      if (callCount === 1) {
+        req.reply({
+          results: Array.from({ length: 20 }, (_, i) => ({
+            id: i,
+            title: `영화 ${i}`,
+            poster_path: null,
+            vote_average: 7.0,
+          })),
+          page: 1,
+          total_pages: 5,
+        });
+      } else {
+        req.destroy();
+      }
+    }).as("movieFetch");
+
+    cy.visit("/");
+    cy.wait("@movieFetch");
+    cy.get(".item").should("have.length", 20);
+    cy.contains("button", "더 보기").click();
+    cy.get(".skeleton-box").should("not.exist");
+    cy.get(".item").should("have.length", 20);
+    cy.get(".movie-list-message-content")
+      .should("be.visible")
+      .should("have.css", "grid-column", "1 / -1");
   });
 
   it("더보기 버튼이 마지막 페이지에서 숨겨진다", () => {
