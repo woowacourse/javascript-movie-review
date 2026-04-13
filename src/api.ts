@@ -1,23 +1,25 @@
 import { FETCH_OPTION, RATING_OPTIONS } from "./constants";
-import { APIError } from "./error";
+import { APIError, ParseError, StorageError, TimeoutError } from "./error";
 import { MovieDetail, MovieListResponse, TMDBAPIEndpoint } from "./type";
 
-function delay(ms: number) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 function fetcher<T>(url: string, { timeoutMs, ...options }: RequestInit & { timeoutMs?: number }) {
-  const response = fetch(url, options).then(res => {
+  const response = fetch(url, options).then(async res => {
     if (!res.ok) {
-      throw new APIError(`API 응답 에러: ${res.status}`, res)
+      throw new APIError(res);
     }
 
-    return res.json() as Promise<T>
+    const text = await res.text();
+
+    try {
+      return JSON.parse(text) as T;
+    } catch (cause) {
+      throw new ParseError({ type: "json", sourceName: "API 응답", raw: text }, cause);
+    }
   })
 
   const timeoutPromise = new Promise<never>((_, reject) => {
     setTimeout(() => {
-      reject(new APIError(`API 응답 시간 초과: ${timeoutMs}ms 초과`));
+      reject(new TimeoutError(url, timeoutMs!));
     }, timeoutMs);
   })
 
@@ -40,41 +42,47 @@ export async function fetchMovies(endpoint: TMDBAPIEndpoint, params: Record<stri
     ...params
   });
 
-  const response = await fetcher<MovieListResponse>(`${import.meta.env.VITE_API_BASE_URL}${endpoint}?${queryParams}`, FETCH_OPTION);
-
-  return response;
-}
-
-
-export async function fetchMoviesByPageRange(endpoint: "/movie/popular", startPage: number, endPage: number): Promise<MovieListResponse[]>
-export async function fetchMoviesByPageRange(endpoint: "/search/movie", startPage: number, endPage: number, query: string): Promise<MovieListResponse[]>
-export async function fetchMoviesByPageRange(endpoint: TMDBAPIEndpoint, startPage: number, endPage: number, query?: string): Promise<MovieListResponse[]> {
-  const promises = Array.from({ length: endPage - startPage }).map(
-    async (_, index) => {
-      if (index !== 0) await delay(index * 200);
-
-      if (endpoint === '/search/movie') {
-        return fetchMovies(endpoint, { page: startPage + index + 1, query: query! });
-      }
-
-      return fetchMovies(endpoint, { page: startPage + index + 1 });
-    },
-  );
-
-  return Promise.all(promises);
+  return fetcher<MovieListResponse>(`${import.meta.env.VITE_API_BASE_URL}${endpoint}?${queryParams}`, FETCH_OPTION);
 }
 
 export function fetchMyRating(movieId: number) {
-  const myRatingsJSON = localStorage.getItem("my-ratings");
-  const myRatingsObj = JSON.parse(myRatingsJSON ?? "{}");
-  const myRating = Number(myRatingsObj[movieId]);
-  return RATING_OPTIONS.includes(myRating) ? myRating : undefined;
+  let raw: string | null;
+  try {
+    raw = localStorage.getItem("my-ratings");
+  } catch (cause) {
+    throw new StorageError({ key: "my-ratings", action: "read" }, cause);
+  }
+
+  try {
+    const parsed = JSON.parse(raw ?? "{}");
+    const myRating = Number(parsed[movieId]);
+    return RATING_OPTIONS.includes(myRating) ? myRating : undefined;
+  } catch (cause) {
+    throw new ParseError({ type: "json", sourceName: "평점 데이터", raw: raw }, cause);
+  }
 }
 
 export function updateMyRating(movieId: number, rating: number) {
-  const myRatingsJSON = localStorage.getItem("my-ratings");
-  const myRatingsObj = JSON.parse(myRatingsJSON ?? "{}");
-  // TODO: 객체 구조 유효성 검증
-  if (RATING_OPTIONS.includes(rating)) myRatingsObj[movieId] = rating
-  localStorage.setItem("my-ratings", JSON.stringify(myRatingsObj));
+  let raw: string | null;
+
+  try {
+    raw = localStorage.getItem("my-ratings");
+  } catch (cause) {
+    throw new StorageError({ key: "my-ratings", action: "read" }, cause);
+  }
+
+  let parsed: Record<string, unknown>;
+
+  try {
+    parsed = JSON.parse(raw ?? "{}");
+  } catch (cause) {
+    throw new ParseError({ type: "json", sourceName: "평점 데이터", raw: raw }, cause);
+  }
+
+  try {
+    if (RATING_OPTIONS.includes(rating)) parsed[movieId] = rating;
+    localStorage.setItem("my-ratings", JSON.stringify(parsed));
+  } catch (cause) {
+    throw new StorageError({ key: "my-ratings", action: "write" }, cause);
+  }
 }

@@ -1,5 +1,5 @@
 import { updateMyRating } from "../api";
-import { handleError } from "../error";
+import { AppError, handleError } from "../error";
 
 export default function bindSelectRatingEvent(element: HTMLElement) {
   element.addEventListener("click", async (event) => {
@@ -10,8 +10,8 @@ export default function bindSelectRatingEvent(element: HTMLElement) {
       const movieIdStr = dialogElement.dataset.movieId;
       const ratingStr = event.target.dataset.rating;
 
-      if (!movieIdStr) throw new Error("영화 ID를 찾을 수 없습니다.");
-      if (!ratingStr) throw new Error("평점을 찾을 수 없습니다.");
+      if (!movieIdStr) throw new AppError("영화 ID를 찾을 수 없습니다.");
+      if (!ratingStr) throw new AppError("평점을 찾을 수 없습니다.");
 
       const movieId = Number(movieIdStr);
       const rating = Number(ratingStr);
