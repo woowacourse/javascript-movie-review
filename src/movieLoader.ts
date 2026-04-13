@@ -102,6 +102,10 @@ export const loadMovieList = () => {
 };
 
 export const loadMovieDetail = async (movieId: string) => {
-  const movieDetail = await getMovieDetail(movieId);
-  renderMovieDetail(movieDetail);
+  try {
+    const movieDetail = await getMovieDetail(movieId);
+    renderMovieDetail(movieDetail);
+  } catch (e) {
+    showError(e);
+  }
 };
