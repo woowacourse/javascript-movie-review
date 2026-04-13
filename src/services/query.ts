@@ -8,11 +8,12 @@ export const queryMoviePopular = () => {
 
     isFetching = true;
 
-    const movies = await getMoviePopular({ page });
-
-    isFetching = false;
-
-    return movies;
+    try {
+      const movies = await getMoviePopular({ page });
+      return movies
+    } finally{
+      isFetching = false;
+    }
   }
 
   return { refetch };
