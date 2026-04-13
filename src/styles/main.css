@@ -37,6 +37,8 @@ button.primary {
   font-weight: bold;
   background-color: var(--color-lightblue-90);
   border-radius: 4px;
+  width: 80px;
+  padding: 10px 0;
 }
 
 #wrap {
@@ -162,6 +164,9 @@ span.rate-value {
 
 .top-rated-movie > .container {
   padding-block: 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .title {
