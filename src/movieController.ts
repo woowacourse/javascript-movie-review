@@ -1,4 +1,5 @@
-import { renderFetchMovieItem, hideMoreButton } from './render.ts';
+import { fetchPopularMovies, fetchSearchMovies } from './api.ts';
+import * as view from './view.ts';
 import { openModal } from './modal.ts';
 
 export const initMovieList = (query?: string) => {
@@ -12,13 +13,31 @@ export const initMovieList = (query?: string) => {
 
   const loadMovies = async () => {
     try {
-      await renderFetchMovieItem($thumbnailList, currentPage, query);
-      
+      view.renderSkeleton($thumbnailList);
+
+      const data = query ? await fetchSearchMovies(query, currentPage) : await fetchPopularMovies(currentPage);
+
+      view.removeSkeleton($thumbnailList);
+
+      if (query && data.results.length === 0) {
+        view.renderEmptyState($thumbnailList, query);
+        return;
+      }
+
+      if (currentPage === 1 && !query && data.results.length > 0) {
+        view.updateHeroBanner(data.results[0]);
+      }
+
+      view.renderMovieList($thumbnailList, data.results);
+      view.toggleButton(data.total_pages, currentPage);
+
       // 에러 없이 렌더링 성공시에만 페이지 번호 증가
-      currentPage++; 
+      currentPage++;
     } catch (error) {
+      view.removeSkeleton($thumbnailList);
+      view.showMoreButton();
       if (error instanceof Error) {
-        alert(error.message);
+        alert('영화 목록을 불러오지 못했습니다! 새로고침을 누르거나 더보기 버튼을 한번 더 눌러주세요!');
       }
     }
   };
@@ -39,7 +58,7 @@ export const initMovieList = (query?: string) => {
     threshold: 0,
   };
 
-    const observer = new IntersectionObserver(handleIntersect, observerOptions);
+  const observer = new IntersectionObserver(handleIntersect, observerOptions);
 
   const start = async () => {
     // 초기 렌더링
@@ -49,7 +68,7 @@ export const initMovieList = (query?: string) => {
 
     // 초기 렌더링이 끝난 뒤, 더보기 버튼 관찰 시작
     observer.observe($button);
-  }
+  };
 
   // 실행
   start();
@@ -59,7 +78,7 @@ export const initMovieList = (query?: string) => {
     $heroDetailBtn.addEventListener('click', (event) => {
       const target = event.currentTarget as HTMLButtonElement;
       const movieId = Number(target.dataset.id);
-      
+
       if (movieId) {
         openModal(movieId);
       }
@@ -68,7 +87,7 @@ export const initMovieList = (query?: string) => {
 
   // 더보기 버튼 클릭 시 렌더링
   $button?.addEventListener('click', async () => {
-    hideMoreButton();
+    view.hideMoreButton();
     loadMovies();
   });
 
@@ -82,5 +101,5 @@ export const initMovieList = (query?: string) => {
         openModal(movieId);
       }
     }
-  })
+  });
 };
