@@ -48,7 +48,7 @@ button.primary {
 }
 
 #wrap {
-  min-width: 1440px;
+  /* min-width: 1440px; */
   background-color: var(--color-bluegray-100);
   margin: 0 auto;
   padding: 0 80px;
@@ -61,7 +61,7 @@ button.primary {
 }
 
 .container {
-  max-width: 1280px;
+  /* max-width: 1280px; */
   margin: 0 auto;
 }
 

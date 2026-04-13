@@ -1,10 +1,12 @@
 import { navigate, getSearchParams, hasSearchParams } from "./utils/router";
 
+import { RequestFetchResponse } from "./services/http";
+
 import {
-  ApiError,
   getMoviePopular,
   getTopRatedMovie,
   getSearchMovie,
+  getMovieMovieId,
 } from "./services/api";
 
 import {
@@ -17,9 +19,18 @@ import {
   removeMovieList,
 } from "./renders/movieList";
 import { renderSkeleton, removeSkeleton } from "./renders/skeleton";
+
+import { renderDetailModal, removeDetailModal, } from "./renders/detailModal";
+
 import PageState from "./states/PageState";
 
+import MovieListState from "./states/MovieListState";
+
+// 사용자 상태값
 const pageState = new PageState();
+
+// 서버 응답값
+const movieListState = new MovieListState();
 
 const loadInit = () => {
   const search = getSearchParams("search") as string;
@@ -28,8 +39,8 @@ const loadInit = () => {
     (async () => {
       const topRatedMovies = await errorTryCatch(
         async () => await getTopRatedMovie(),
-        (e: ApiError) => {
-          if (e.status_code == 22) {
+        (e: RequestFetchResponse) => {
+          if (e.data.status_code == 22) {
             alert("잘못된 요청입니다.");
             return;
           }
@@ -47,8 +58,8 @@ const loadInit = () => {
       const page = pageState.getPage();
       const movies = await errorTryCatch(
         async () => await getMoviePopular({ page }),
-        async (e: ApiError) => {
-          if (e.status_code == 22) {
+        async (e: RequestFetchResponse) => {
+          if (e.data.status_code == 22) {
             alert("잘못된 페이지 요청입니다.");
             return;
           }
@@ -56,7 +67,11 @@ const loadInit = () => {
         },
       );
 
-      if (movies) renderMovieList(movies);
+      if (movies) {
+        movieListState.setTotalPages(movies.total_pages);
+
+        renderMovieList(movies);
+      }
       removeSkeleton(Date.now());
     })();
   } else {
@@ -73,14 +88,16 @@ const runSearch = () => {
       async () => await getSearchMovie({
         page,
         query: search || "",
-      }), (e: ApiError) => {
-        if(e.status_code === 22){
+      }), (e: RequestFetchResponse) => {
+        if(e.data.status_code === 22){
           alert("잘못된 검색 요청입니다.");
             return;
         }
         alert("영화 정보를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.");
       }
     );
+
+    movieListState.setTotalPages(movies.total_pages);
 
     removeTopRatedMovie();
 
@@ -113,6 +130,48 @@ const handleSearch = () => {
   runSearch();
 };
 
+export const handleDetail = (id: number) => {
+  (async () => {
+    const movieInfo = await getMovieMovieId({id});
+    renderDetailModal(movieInfo);
+  })();
+}
+
+const handleMoreMovie = () => {
+  const totalPages = movieListState.getTotalPages();
+  const page = pageState.getPage();
+
+  if(totalPages === page) return;
+
+  pageState.increamentPage();
+  const isSearchParams = hasSearchParams("search");
+
+  if (isSearchParams) {
+    runSearch();
+    return;
+  }
+  (async () => {
+    const page = pageState.getPage();
+
+    const movies = await errorTryCatch(
+      async () => await getMoviePopular({ page }),
+      async (e: RequestFetchResponse) => {
+        if (e.data.status_code == 22) {
+          alert("잘못된 페이지 요청입니다.");
+          return;
+        }
+        alert("영화 정보를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.");
+      },
+    );
+
+    if (movies) {
+      movieListState.setTotalPages(movies.total_pages);
+
+      renderMovieList(movies);
+    }
+  })(); 
+}
+
 const errorTryCatch = async (api: Function, errorCallback: Function) => {
   try {
     return await api();
@@ -126,30 +185,30 @@ addEventListener("load", async () => {
   loadInit();
 
   const moreButton = document.querySelector("#more-button");
-  moreButton?.addEventListener("click", () => {
-    pageState.increamentPage();
-    const isSearchParams = hasSearchParams("search");
+  moreButton?.addEventListener("click", handleMoreMovie);
 
-    if (isSearchParams) {
-      runSearch();
-      return;
+  document.addEventListener('scroll', () => {
+
+    const getIsBottom = () => {
+      const movieList = document.querySelector<HTMLUListElement>("#movie-list");
+      if(!movieList) return;
+
+      const { scrollY } = window;
+
+      const { top, height } = movieList.getBoundingClientRect();
+      const { pageYOffset } = window;
+      const offsetBottom = pageYOffset + top +  height;
+
+      const windowInnerHeight = window.innerHeight;
+
+      const isBottom = scrollY + windowInnerHeight >= offsetBottom;
+
+      return isBottom;
     }
-    (async () => {
-      const page = pageState.getPage();
 
-      const movies = await errorTryCatch(
-        async () => await getMoviePopular({ page }),
-        async (e: ApiError) => {
-          if (e.status_code == 22) {
-            alert("잘못된 페이지 요청입니다.");
-            return;
-          }
-          alert("영화 정보를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.");
-        },
-      );
-
-      if (movies) renderMovieList(movies);
-    })();
+    if(getIsBottom()){
+      handleMoreMovie();
+    }
   });
 
   const searchButton = document.querySelector("#search-button");
@@ -162,6 +221,12 @@ addEventListener("load", async () => {
   searchInput?.addEventListener("keyup", (e: KeyboardEvent) => {
     if (e.key === "Enter") {
       handleSearch();
+    }
+  });
+
+  document.addEventListener('keyup', (e) => {
+    if (e.key === "Escape") {
+      removeDetailModal();
     }
   });
 });

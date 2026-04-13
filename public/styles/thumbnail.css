@@ -3,8 +3,13 @@
 .thumbnail-list {
   margin: 0 auto 56px;
   display: grid;
-  grid-template-columns: repeat(5, 200px);
-  gap: 70px;
+  grid-template-columns: repeat(5, minmax(200px, 1fr));
+  gap: 16px;
+  justify-content: space-between;
+}
+
+.thumbnail-list li {
+  text-align: center;
 }
 
 .thumbnail {
@@ -14,8 +19,14 @@
 }
 
 .item {
+  display: inline-block;
   user-select: none;
   cursor: pointer;
+  margin: 0 auto;
+}
+
+.item-desc {
+  text-align: left;
 }
 
 .item-desc > *:not(:last-child) {
@@ -37,4 +48,33 @@ p.rate > span {
 .item .star {
   width: 16px;
   top: 1px;
+}
+
+/* 반응형 디자인 처리 */
+.container section .thumbnail-list {
+  width: 100%;
+}
+
+@media (max-width: 1280px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(4, minmax(200px, 1fr));
+  }  
+}
+
+@media (max-width: 1024px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(3, minmax(200px, 1fr));
+  }  
+}
+
+@media (max-width: 800px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(2, minmax(200px, 1fr));
+  }  
+}
+
+@media (max-width: 640px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(1, minmax(200px, 1fr));
+  }  
 }

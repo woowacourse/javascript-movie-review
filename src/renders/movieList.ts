@@ -1,4 +1,7 @@
 import { Movie, Movies } from "../services/dto";
+
+import { handleDetail } from "../main";
+
 import { removeMoreButton, renderMoreButton } from "./moreButton";
 
 const createMovieNode = (movie: Movie): DocumentFragment | null => {
@@ -25,6 +28,10 @@ const createMovieNode = (movie: Movie): DocumentFragment | null => {
     thumbnail.src = FALLBACK;
   }
   thumbnail.alt = movie.title;
+
+  thumbnail.addEventListener('click', () => {
+    handleDetail(movie.id);
+  });
 
   const itemDesc = movieFragment.querySelector(".item-desc");
 
