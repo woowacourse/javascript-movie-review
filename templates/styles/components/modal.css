@@ -108,6 +108,7 @@ dialog.modal::backdrop {
 .my-rating-star .star-filled {
   clip-path: inset(0 100% 0 0);
   transition: clip-path 0.1s;
+  will-change: clip-path;
 }
 
 .my-rating-star.filled .star-filled {
