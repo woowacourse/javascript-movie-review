@@ -36,9 +36,36 @@ main {
   margin-bottom: 3.125rem;
 }
 
-@media screen and (max-width: 1297px) {
+
+@media screen and (max-width: 1120px) {
+  .background-container {
+    height: 400px;
+    padding-left: 3rem;
+  }
+
+  .title {
+    font-size: 2.5rem;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .background-container {
+    height: 300px;
+    padding-left: 1.5rem;
+  }
+
+  .title {
+    font-size: 1.75rem;
+  }
+
+
   .main-title {
-    padding: 3rem;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .container {
+    padding: 0 1.5rem;
   }
 }
 
@@ -60,7 +87,7 @@ button.primary {
 }
 
 #wrap {
-  min-width: 1440px;
+  min-width: 320px;
   background-color: var(--color-bluegray-100);
 }
 
@@ -77,8 +104,10 @@ button.primary {
 
 .search-container {
   display: flex;
-  justify-content: center;
-  margin-top: 3rem;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 40px;
+  gap: 24px;
 }
 
 .search-form {
@@ -94,13 +123,6 @@ button.primary {
   opacity: 1;
 }
 
-@media screen and (max-width: 800px) {
-  .search-container {
-    flex-direction: column;
-    margin-top: 5.625rem;
-    margin-left: 4.6875rem;
-  }
-}
 
 .search-input {
   flex: 1;
@@ -109,15 +131,22 @@ button.primary {
   background: transparent;
   font-family: "DM Sans", sans-serif;
   font-weight: 400;
-  font-size: 1rem;
+  font-size: 0.875rem;
   line-height: 1.5rem;
   letter-spacing: 0;
   color: var(--color-white);
 }
 
-@media screen and (max-width: 1080px) {
+
+@media screen and (max-width: 800px) {
   .search-form {
     width: 325px;
+  }
+}
+
+@media screen and (max-width: 390px) {
+  .search-form {
+    width: 100%;
   }
 }
 
@@ -130,6 +159,7 @@ button.primary {
 
 .search-input::placeholder {
   color: var(--color-white);
+  opacity: 0.6;
 }
 
 .btn-submit {
@@ -173,11 +203,12 @@ button.primary {
 }
 
 h1.logo {
-  font-size: 2rem;
-  position: absolute;
-  top: 3rem;
-  left: 5.25rem;
   cursor: pointer;
+}
+
+h1.logo img {
+  width: 123px;
+  height: 20px;
 }
 
 .rate {
@@ -199,7 +230,7 @@ span.rate-value {
 
 .title {
   font-family: Poppins, sans-serif;
-  font-size: 4rem;
+  font-size: 3.5rem;
   font-weight: 600;
   line-height: 100%;
   letter-spacing: 0%;
