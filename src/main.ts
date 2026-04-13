@@ -18,16 +18,20 @@ addEventListener("load", async () => {
 
   // 카드 클릭 이벤트 핸들러
   const onMovieClick = async (id: number) => {
-    const detail = await fetchMovieDetail(id);
-    modal.open({
-      id: detail.id,
-      title: detail.title,
-      posterPath: detail.poster_path,
-      releaseYear: detail.release_date.slice(0, 4),
-      genres: detail.genres.map((g) => g.name),
-      rating: detail.vote_average,
-      overview: detail.overview,
-    });
+    try {
+      const detail = await fetchMovieDetail(id);
+      modal.open({
+        id: detail.id,
+        title: detail.title,
+        posterPath: detail.poster_path,
+        releaseYear: detail.release_date.slice(0, 4),
+        genres: detail.genres.map((g) => g.name),
+        rating: detail.vote_average,
+        overview: detail.overview,
+      });
+    } catch (error) {
+      alert(`영화 상세 정보를 불러오는 데 실패했습니다. ${error}`);
+    }
   };
 
   // 히어로 배너 렌더링
