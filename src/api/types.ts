@@ -10,6 +10,21 @@ export interface SearchMoviesParams {
   page: number;
 }
 
+type AppendToResponse =
+  | "videos"
+  | "images"
+  | "credits"
+  | "keywords"
+  | "recommendations"
+  | "similar"
+  | "reviews"
+  | "release_dates";
+
+export interface MovieDetailParams {
+  language: string;
+  append_to_response?: AppendToResponse;
+}
+
 export interface TMDBMovie {
   adult: boolean;
   backdrop_path: string;
@@ -47,6 +62,18 @@ export interface TMDBMovieDetail {
   release_date: string;
   vote_average: number;
   genres: TMDBGenre[];
+  runtime: number;
+  tagline: string;
+}
+
+export interface MovieDetail {
+  id: number;
+  title: string;
+  overview: string;
+  posterSrc: string;
+  releaseYear: string;
+  rating: number;
+  genres: string;
   runtime: number;
   tagline: string;
 }
