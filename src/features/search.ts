@@ -1,5 +1,5 @@
-import { apiRequest } from "../utils/api";
-import { MovieResponse } from "../types/api";
+import { fetchSearchMovies } from "../api/movieApi";
+import { Movie } from "../api/api";
 import { createMovieList } from "../components/movie";
 import { hideLoadMoreButton, handleLoadMoreButton } from "./movieRenderer";
 
@@ -9,6 +9,7 @@ export const handleSearch = (
   mainEl: Element,
   titleEl: Element,
   skeletonEls: HTMLElement,
+  onMovieClick: (id: number) => void,
 ) => {
   return async (event: Event) => {
     event.preventDefault();
@@ -19,38 +20,36 @@ export const handleSearch = (
 
     updateSearchUrl(query);
 
-    const data = await apiRequest<MovieResponse>({
-      url: `/search/movie?language=ko-KR&query=${query}&page=${page}`,
-      method: "GET",
-    });
+    const data = await fetchSearchMovies(query, page);
 
     renderSearchResult(
-      data,
+      data.results,
+      data.total_pages,
       mainEl,
       titleEl,
       query,
       loadMoreBtnEl,
       skeletonEls,
+      onMovieClick,
     );
   };
 };
 
-// 검색어를 URL에 반영하는 함수
 const updateSearchUrl = (query: string) => {
   const params = new URLSearchParams();
-
   params.set("query", query);
   history.pushState({}, "", `/search?${params.toString()}`);
 };
 
-// 검색 결과를 렌더링하는 함수
 const renderSearchResult = (
-  data: MovieResponse,
+  results: Movie[],
+  totalPages: number,
   mainEl: Element,
   titleEl: Element,
   query: string,
   loadMoreBtnEl: HTMLButtonElement,
   skeletonEls: HTMLElement,
+  onMovieClick: (id: number) => void,
 ) => {
   let page = 1;
 
@@ -58,10 +57,9 @@ const renderSearchResult = (
   mainEl.innerHTML = "";
   mainEl.appendChild(titleEl);
 
-  // 더 이상 불러올 페이지가 없는 경우
-  if (data.total_pages === page) hideLoadMoreButton(loadMoreBtnEl);
+  if (totalPages === page) hideLoadMoreButton(loadMoreBtnEl);
 
-  if (data.results.length === 0) {
+  if (results.length === 0) {
     const noSearchResultEl = document.createElement("p");
     noSearchResultEl.textContent = "검색 결과가 없습니다.";
     noSearchResultEl.className = "no-search-result";
@@ -69,18 +67,18 @@ const renderSearchResult = (
     return;
   }
 
-  if (data.results.length > 0) {
-    const searchResult = createMovieList(data.results);
-    mainEl.append(searchResult, loadMoreBtnEl);
-  }
+  const searchResult = createMovieList(results, onMovieClick);
+  mainEl.append(searchResult, loadMoreBtnEl);
 
   loadMoreBtnEl.onclick = () => {
     page++;
     handleLoadMoreButton(
-      `/search/movie?language=ko-KR&query=${query}&page=${page}`,
+      page,
       loadMoreBtnEl,
       mainEl,
       skeletonEls,
+      onMovieClick,
+      query,
     );
   };
 };
