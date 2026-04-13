@@ -2,6 +2,18 @@
   width: 525px;
 }
 
+@media (min-width: 390px) and (max-width: 799px) {
+  .search-form-wrapper {
+    width: 525px;
+  }
+}
+
+@media (max-width: 389px) {
+  .search-form-wrapper {
+    width: 300px;
+  }
+}
+
 .search-form {
   display: flex;
   align-items: center;
