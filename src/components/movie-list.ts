@@ -2,7 +2,7 @@ import { createMovieCard } from "./movie-card";
 import { createSkeletonList } from "./skeleton-card";
 import { createEmpty } from "./empty";
 import { createError } from "./error";
-import { MovieList } from "../domains/movie";
+import { MovieList } from "../domains/movie/MovieList";
 import { MovieItem } from "../domains/movie/MovieList";
 
 class MovieListComponent {

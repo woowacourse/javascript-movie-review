@@ -1,5 +1,5 @@
 import { createDetailButton } from "./detail-button";
-import { MovieList } from "../domains/movie";
+import { MovieList } from "../domains/movie/MovieList";
 import starIconSrc from "../../templates/images/star_empty.png";
 
 interface HeroOptions {
