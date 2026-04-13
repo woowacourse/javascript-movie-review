@@ -15,8 +15,7 @@ type PageOption = {
 
 export default class MoviePage {
   #$div: HTMLElement;
-
-  #main: Main;
+  #$main: Main;
   #$modal: Modal;
 
   #totalPage: number;
@@ -31,12 +30,11 @@ export default class MoviePage {
     this.#option = option;
 
     this.#$div = document.createElement('div');
+    this.#$main = new Main(this.#option.title, this.#onDetail.bind(this));
     this.#$modal = new Modal(new LocalStorage(), this.#$div);
 
-    this.#main = new Main(this.#option.title, this.#onDetail);
-
     const footer = new Footer();
-    this.#$div.append(this.#option.$header, this.#main.$element, footer.$element);
+    this.#$div.append(this.#option.$header, this.#$main.$element, footer.$element, this.#$modal.$element);
 
     this.#observer = new IntersectionObserver(
       (entries) => {
@@ -63,7 +61,7 @@ export default class MoviePage {
 
   async #initialFetch(): Promise<void> {
     try {
-      this.#main.renderSkeletons();
+      this.#$main.renderSkeletons();
       const response = await this.#fetchMovie();
       if (!response) return;
 
@@ -75,14 +73,14 @@ export default class MoviePage {
     } catch (error) {
       this.#handleError(error);
     } finally {
-      this.#main.removeSkeletons();
+      this.#$main.removeSkeletons();
     }
   }
 
   async #loadMore(): Promise<void> {
     this.#observer.disconnect();
     try {
-      this.#main.renderSkeletons();
+      this.#$main.renderSkeletons();
       const response = await this.#fetchMovie();
       if (!response) return;
 
@@ -91,27 +89,27 @@ export default class MoviePage {
     } catch (error) {
       this.#handleError(error);
     } finally {
-      this.#main.removeSkeletons();
+      this.#$main.removeSkeletons();
     }
   }
 
   #appendMovies(response: ResponseMovie): Element | null {
-    return this.#main.renderMovies(response.results);
+    return this.#$main.renderMovies(response.results);
   }
 
   #handleError(error: unknown) {
     if (error instanceof Error) {
       console.error(error);
-      this.#main.handleError(error);
+      this.#$main.handleError(error);
     }
   }
 
-  #onDetail = async (movie_id: number) => {
+  async #onDetail(movie_id: number) {
     try {
       const movie = await this.#option.fetchDetail(movie_id);
       this.#$modal.open(movie);
     } catch (error) {
       this.#handleError(error as Error);
     }
-  };
+  }
 }
