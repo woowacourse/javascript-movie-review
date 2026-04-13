@@ -45,6 +45,11 @@ main#main {
   }
 }
 
+main#main > section,
+main#main > ul {
+  width: 100%;
+}
+
 .hidden {
   display: none;
 }
@@ -94,7 +99,7 @@ button.full-width {
   background-position: center center;
   background-size: cover;
   width: 100%;
-  height: 500px;
+  height: 815px;
   padding: 48px;
 }
 
