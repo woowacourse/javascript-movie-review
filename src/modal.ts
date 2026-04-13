@@ -36,7 +36,9 @@ const handleStarHover = (e: Event) => {
 
 const handleStarLeave = (e: Event) => {
   const target = e.target as HTMLElement;
-  if (target.closest('.star-rating') && !(e as MouseEvent).relatedTarget?.closest?.('.star-rating')) {
+  const relatedTarget = (e as MouseEvent).relatedTarget as HTMLElement | null;
+
+  if (target.closest('.star-rating') && !relatedTarget?.closest('.star-rating')) {
     modalView.updateStarsUI(modalState.savedRating); // 마우스를 빼면 기존 점수로 복구
   }
 };
