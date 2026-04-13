@@ -4,21 +4,22 @@ import starIconSrc from "../../templates/images/star_empty.png";
 
 interface HeroOptions {
   movieList: MovieList;
-  onDetailClick: () => void;
 }
 
-export function createHero({
-  movieList,
-  onDetailClick,
-}: HeroOptions): HTMLElement {
+export function createHero({ movieList }: HeroOptions): HTMLElement {
   const bgImage = createBgImage();
-  const topRatedContainer = createTopRatedContainer(onDetailClick);
+  const detailButton = createDetailButton();
+  const topRatedContainer = createTopRatedContainer(detailButton);
   const backgroundContainer = createBackgroundContainer(
     bgImage,
     topRatedContainer,
   );
 
-  bindMovieList(movieList, bgImage, topRatedContainer);
+  movieList.subscribe(({ movies, isPending, page }) => {
+    if (isPending || movies.length === 0 || page !== 1) return;
+    detailButton.dataset.id = String(movies[0].id);
+    updateHero(bgImage, topRatedContainer, movies[0]);
+  });
 
   return backgroundContainer;
 }
@@ -38,17 +39,6 @@ function createBackgroundContainer(
   return container;
 }
 
-function bindMovieList(
-  movieList: MovieList,
-  bgImage: HTMLImageElement,
-  topRatedContainer: HTMLElement,
-): void {
-  movieList.subscribe(({ movies, isPending, page }) => {
-    if (isPending || movies.length === 0 || page !== 1) return;
-    updateHero(bgImage, topRatedContainer, movies[0]);
-  });
-}
-
 function updateHero(
   bgImage: HTMLImageElement,
   topRatedContainer: HTMLElement,
@@ -56,10 +46,12 @@ function updateHero(
 ): void {
   bgImage.src = movie.posterSrc;
   bgImage.alt = `${movie.title}의 포스터`;
-  topRatedContainer.querySelector<HTMLElement>(".title")!.textContent =
-    movie.title;
-  topRatedContainer.querySelector<HTMLElement>(".rate-value")!.textContent =
-    String(movie.rating);
+
+  const titleEl = topRatedContainer.querySelector<HTMLElement>(".title");
+  const rateEl = topRatedContainer.querySelector<HTMLElement>(".rate-value");
+
+  if (titleEl) titleEl.textContent = movie.title;
+  if (rateEl) rateEl.textContent = String(movie.rating);
 }
 
 function createBgImage(): HTMLImageElement {
@@ -69,7 +61,7 @@ function createBgImage(): HTMLImageElement {
   return img;
 }
 
-function createTopRatedContainer(onDetailClick: () => void): HTMLElement {
+function createTopRatedContainer(detailButton: HTMLButtonElement): HTMLElement {
   const container = document.createElement("div");
   container.className = "top-rated-container";
 
@@ -90,8 +82,6 @@ function createTopRatedContainer(onDetailClick: () => void): HTMLElement {
 
   const titleDiv = document.createElement("div");
   titleDiv.className = "title";
-
-  const detailButton = createDetailButton(onDetailClick);
 
   topRatedMovie.append(rateDiv, titleDiv, detailButton);
   container.appendChild(topRatedMovie);
