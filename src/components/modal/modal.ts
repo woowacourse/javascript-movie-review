@@ -1,7 +1,6 @@
 import starFilledSrc from "../../images/star_filled.png";
-import starEmptySrc from "../../images/star_empty.png";
 import closeButtonSrc from "../../images/modal_button_close.png";
-import { IMAGE_BASE_URL } from "../../utils/constants";
+import { IMAGE_BASE_URL } from "../../utils/constants.ts";
 
 export interface ModalMovieData {
   id: number;
@@ -12,14 +11,6 @@ export interface ModalMovieData {
   rating: number;
   overview: string;
 }
-
-const RATING_LABELS: Record<number, string> = {
-  2: "최악이에요",
-  4: "별로예요",
-  6: "보통이에요",
-  8: "재미있어요",
-  10: "명작이에요",
-};
 
 export class Modal {
   private background: HTMLElement;
@@ -74,7 +65,7 @@ export class Modal {
   }
 
   open(data: ModalMovieData): void {
-    this.updateContent(data);
+    this.renderContent(data);
     this.background.classList.add("active");
     document.body.classList.add("modal-open");
   }
@@ -84,108 +75,46 @@ export class Modal {
     document.body.classList.remove("modal-open");
   }
 
-  private updateContent(data: ModalMovieData): void {
+  private renderContent(data: ModalMovieData): void {
     const poster =
       this.background.querySelector<HTMLImageElement>("#modal-poster")!;
     poster.src = `${IMAGE_BASE_URL}/w500${data.posterPath}`;
     poster.alt = data.title;
 
-    const desc =
-      this.background.querySelector<HTMLElement>("#modal-desc")!;
+    const desc = this.background.querySelector<HTMLElement>("#modal-desc")!;
     desc.innerHTML = "";
 
+    // 제목
     const title = document.createElement("h2");
     title.textContent = data.title;
 
+    // 개봉연도 · 장르
     const category = document.createElement("p");
     category.className = "category";
     category.textContent = `${data.releaseYear} · ${data.genres.join(", ")}`;
 
+    // 평균 평점
     const rateP = document.createElement("p");
     rateP.className = "rate";
+    const rateLabel = document.createElement("span");
+    rateLabel.textContent = "평점 ";
     const starImg = document.createElement("img");
     starImg.src = starFilledSrc;
     starImg.className = "star";
     const rateSpan = document.createElement("span");
     rateSpan.textContent = data.rating.toFixed(1);
-    rateP.append(starImg, rateSpan);
+    rateP.append(rateLabel, starImg, rateSpan);
 
     const hr = document.createElement("hr");
 
-    const myRating = this.createUserRatingSection(data.id);
+    // 줄거리
+    const overviewTitle = document.createElement("strong");
+    overviewTitle.textContent = "줄거리";
 
     const detailP = document.createElement("p");
     detailP.className = "detail";
     detailP.textContent = data.overview || "줄거리 정보가 없습니다.";
 
-    desc.append(title, category, rateP, hr, myRating, detailP);
-  }
-
-  private createUserRatingSection(movieId: number): HTMLElement {
-    const savedRating = this.getSavedRating(movieId);
-
-    const section = document.createElement("div");
-    section.className = "my-rating";
-
-    const label = document.createElement("span");
-    label.className = "my-rating-label";
-    label.textContent = "내 평점";
-
-    const starsWrapper = document.createElement("div");
-    starsWrapper.className = "rating-stars";
-
-    const ratingText = document.createElement("span");
-    ratingText.className = "rating-text";
-    ratingText.textContent = savedRating ? RATING_LABELS[savedRating] : "";
-
-    const stars: HTMLImageElement[] = [];
-
-    for (let i = 1; i <= 5; i++) {
-      const star = document.createElement("img");
-      star.className = "star rating-star";
-      star.alt = `${i * 2}점`;
-      star.src =
-        savedRating && i * 2 <= savedRating ? starFilledSrc : starEmptySrc;
-
-      star.addEventListener("mouseenter", () => {
-        this.highlightStars(stars, i);
-        ratingText.textContent = RATING_LABELS[i * 2];
-      });
-
-      star.addEventListener("mouseleave", () => {
-        const current = this.getSavedRating(movieId);
-        this.highlightStars(stars, current ? current / 2 : 0);
-        ratingText.textContent = current ? RATING_LABELS[current] : "";
-      });
-
-      star.addEventListener("click", () => {
-        const value = i * 2;
-        this.saveRating(movieId, value);
-        this.highlightStars(stars, i);
-        ratingText.textContent = RATING_LABELS[value];
-      });
-
-      stars.push(star);
-      starsWrapper.appendChild(star);
-    }
-
-    starsWrapper.appendChild(ratingText);
-    section.append(label, starsWrapper);
-    return section;
-  }
-
-  private highlightStars(stars: HTMLImageElement[], count: number): void {
-    stars.forEach((star, idx) => {
-      star.src = idx < count ? starFilledSrc : starEmptySrc;
-    });
-  }
-
-  private getSavedRating(movieId: number): number | null {
-    const saved = localStorage.getItem(`rating-${movieId}`);
-    return saved ? Number(saved) : null;
-  }
-
-  private saveRating(movieId: number, rating: number): void {
-    localStorage.setItem(`rating-${movieId}`, String(rating));
+    desc.append(title, category, rateP, hr, overviewTitle, detailP);
   }
 }

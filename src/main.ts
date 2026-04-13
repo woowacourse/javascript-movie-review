@@ -2,8 +2,10 @@ import { createSearchForm } from "./components/search-form";
 import { createHero } from "./components/hero";
 import { createButton } from "./components/button";
 import { createSkeleton } from "./components/skeleton";
+import { Modal } from "./components/modal/modal";
 import { renderPopularMovieList } from "./features/popular";
 import { handleSearch } from "./features/search";
+import { fetchMovieDetail } from "./api/movieApi";
 import { IMAGE_BASE_URL } from "./utils/constants";
 
 addEventListener("load", async () => {
@@ -11,6 +13,22 @@ addEventListener("load", async () => {
   const heroEl = document.querySelector("#hero")!;
   const mainEl = document.querySelector("#main")!;
   const titleEl = document.querySelector(".main-title")!;
+
+  const modal = new Modal();
+
+  // 카드 클릭 이벤트 핸들러
+  const onMovieClick = async (id: number) => {
+    const detail = await fetchMovieDetail(id);
+    modal.open({
+      id: detail.id,
+      title: detail.title,
+      posterPath: detail.poster_path,
+      releaseYear: detail.release_date.slice(0, 4),
+      genres: detail.genres.map((g) => g.name),
+      rating: detail.vote_average,
+      overview: detail.overview,
+    });
+  };
 
   // 히어로 배너 렌더링
   const hero = createHero({
@@ -27,12 +45,18 @@ addEventListener("load", async () => {
   const loadMoreBtnEl = createButton("more", "더 보기");
   const skeletonEls = createSkeleton();
 
-  mainEl.appendChild(skeletonEls); // 초기 로딩 시 스켈레톤 렌더링
-  renderPopularMovieList(loadMoreBtnEl, mainEl, skeletonEls); // 인기 영화 목록 렌더링
+  mainEl.appendChild(skeletonEls);
+  renderPopularMovieList(loadMoreBtnEl, mainEl, skeletonEls, onMovieClick);
 
-  // 검색 폼 제출 이벤트 핸들러 등록
   form.addEventListener(
     "submit",
-    handleSearch(input, loadMoreBtnEl, mainEl, titleEl, skeletonEls),
+    handleSearch(
+      input,
+      loadMoreBtnEl,
+      mainEl,
+      titleEl,
+      skeletonEls,
+      onMovieClick,
+    ),
   );
 });
