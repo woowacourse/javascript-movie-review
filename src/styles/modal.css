@@ -45,7 +45,7 @@ body:has(dialog[open]) {
   font-weight: 400;
 }
 
-.modal-movie-content>div {
+.modal-movie-content > div {
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -53,7 +53,7 @@ body:has(dialog[open]) {
   padding: 16px 0;
 }
 
-.modal-movie-content>div:first-child {
+.modal-movie-content > div:first-child {
   border: 0;
 }
 
@@ -63,9 +63,9 @@ body:has(dialog[open]) {
   gap: 16px;
 }
 
-.modal-movie-header>p,
-.modal-movie-header>p>span,
-.modal-movie-header>p>span>span {
+.modal-movie-header > p,
+.modal-movie-header > p > span,
+.modal-movie-header > p > span > span {
   display: flex;
   align-items: flex-end;
 }
@@ -80,7 +80,7 @@ body:has(dialog[open]) {
   gap: 8px;
 }
 
-.modal-movie-rate>span {
+.modal-movie-rate > span {
   display: flex;
   gap: 4px;
 }
@@ -112,45 +112,45 @@ body:has(dialog[open]) {
   align-items: center;
 }
 
-.modal-movie-my-rating-selector>button {
+.modal-movie-my-rating-selector > button {
   width: 32px;
   height: 32px;
   margin: 0;
   padding: 0;
   background: 0;
-  background-image: url('/images/star_sprites.png');
+  background-image: url("/images/star_sprites.png");
   background-size: cover;
   background-position: 0px 0px;
 }
 
-.modal-movie-my-rating-selector[data-rating="2"]>button:nth-of-type(1) {
+.modal-movie-my-rating-selector[data-rating="2"] > button:nth-of-type(1) {
   background-position: 31.5px 0px;
 }
 
-.modal-movie-my-rating-selector[data-rating="4"]>button:nth-of-type(1),
-.modal-movie-my-rating-selector[data-rating="4"]>button:nth-of-type(2) {
+.modal-movie-my-rating-selector[data-rating="4"] > button:nth-of-type(1),
+.modal-movie-my-rating-selector[data-rating="4"] > button:nth-of-type(2) {
   background-position: 31.5px 0px;
 }
 
-.modal-movie-my-rating-selector[data-rating="6"]>button:nth-of-type(1),
-.modal-movie-my-rating-selector[data-rating="6"]>button:nth-of-type(2),
-.modal-movie-my-rating-selector[data-rating="6"]>button:nth-of-type(3) {
+.modal-movie-my-rating-selector[data-rating="6"] > button:nth-of-type(1),
+.modal-movie-my-rating-selector[data-rating="6"] > button:nth-of-type(2),
+.modal-movie-my-rating-selector[data-rating="6"] > button:nth-of-type(3) {
   background-position: 31.5px 0px;
 }
 
-.modal-movie-my-rating-selector[data-rating="8"]>button:nth-of-type(1),
-.modal-movie-my-rating-selector[data-rating="8"]>button:nth-of-type(2),
-.modal-movie-my-rating-selector[data-rating="8"]>button:nth-of-type(3),
-.modal-movie-my-rating-selector[data-rating="8"]>button:nth-of-type(4) {
+.modal-movie-my-rating-selector[data-rating="8"] > button:nth-of-type(1),
+.modal-movie-my-rating-selector[data-rating="8"] > button:nth-of-type(2),
+.modal-movie-my-rating-selector[data-rating="8"] > button:nth-of-type(3),
+.modal-movie-my-rating-selector[data-rating="8"] > button:nth-of-type(4) {
   background-position: 31.5px 0px;
 }
 
-.modal-movie-my-rating-selector[data-rating="10"]>button:nth-of-type(1),
-.modal-movie-my-rating-selector[data-rating="10"]>button:nth-of-type(1),
-.modal-movie-my-rating-selector[data-rating="10"]>button:nth-of-type(2),
-.modal-movie-my-rating-selector[data-rating="10"]>button:nth-of-type(3),
-.modal-movie-my-rating-selector[data-rating="10"]>button:nth-of-type(4),
-.modal-movie-my-rating-selector[data-rating="10"]>button:nth-of-type(5) {
+.modal-movie-my-rating-selector[data-rating="10"] > button:nth-of-type(1),
+.modal-movie-my-rating-selector[data-rating="10"] > button:nth-of-type(1),
+.modal-movie-my-rating-selector[data-rating="10"] > button:nth-of-type(2),
+.modal-movie-my-rating-selector[data-rating="10"] > button:nth-of-type(3),
+.modal-movie-my-rating-selector[data-rating="10"] > button:nth-of-type(4),
+.modal-movie-my-rating-selector[data-rating="10"] > button:nth-of-type(5) {
   background-position: 31.5px 0px;
 }
 
@@ -158,23 +158,33 @@ body:has(dialog[open]) {
   display: none;
 }
 
-.modal-movie-my-rating-selector[data-rating="2"]+.modal-movie-my-rating-messages>.modal-movie-my-rating-message[data-rating="2"] {
+.modal-movie-my-rating-selector[data-rating="2"]
+  + .modal-movie-my-rating-messages
+  > .modal-movie-my-rating-message[data-rating="2"] {
   display: block;
 }
 
-.modal-movie-my-rating-selector[data-rating="4"]+.modal-movie-my-rating-messages>.modal-movie-my-rating-message[data-rating="4"] {
+.modal-movie-my-rating-selector[data-rating="4"]
+  + .modal-movie-my-rating-messages
+  > .modal-movie-my-rating-message[data-rating="4"] {
   display: block;
 }
 
-.modal-movie-my-rating-selector[data-rating="6"]+.modal-movie-my-rating-messages>.modal-movie-my-rating-message[data-rating="6"] {
+.modal-movie-my-rating-selector[data-rating="6"]
+  + .modal-movie-my-rating-messages
+  > .modal-movie-my-rating-message[data-rating="6"] {
   display: block;
 }
 
-.modal-movie-my-rating-selector[data-rating="8"]+.modal-movie-my-rating-messages>.modal-movie-my-rating-message[data-rating="8"] {
+.modal-movie-my-rating-selector[data-rating="8"]
+  + .modal-movie-my-rating-messages
+  > .modal-movie-my-rating-message[data-rating="8"] {
   display: block;
 }
 
-.modal-movie-my-rating-selector[data-rating="10"]+.modal-movie-my-rating-messages>.modal-movie-my-rating-message[data-rating="10"] {
+.modal-movie-my-rating-selector[data-rating="10"]
+  + .modal-movie-my-rating-messages
+  > .modal-movie-my-rating-message[data-rating="10"] {
   display: block;
 }
 
@@ -183,7 +193,7 @@ body:has(dialog[open]) {
 }
 
 .modal-movie-my-rating-message-score {
-  color: var(--color-bluegray-30)
+  color: var(--color-bluegray-30);
 }
 
 .modal-movie-plot-body {

@@ -145,7 +145,7 @@ input::placeholder {
   margin-top: 64px;
 }
 
-.top-rated-movie>*:not(:last-child) {
+.top-rated-movie > *:not(:last-child) {
   margin-bottom: 8px;
 }
 

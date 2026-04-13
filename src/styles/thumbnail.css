@@ -38,7 +38,7 @@
   }
 }
 
-.thumbnail-list:has(li)+.empty-list-alert {
+.thumbnail-list:has(li) + .empty-list-alert {
   display: none;
 }
 
@@ -80,7 +80,7 @@
   gap: 4px;
 }
 
-.item-desc>*:not(:last-child) {
+.item-desc > *:not(:last-child) {
   position: relative;
   margin-bottom: 4px;
   line-height: 1.2rem;
@@ -93,12 +93,12 @@
   font-weight: 600;
 }
 
-.rate>img {
+.rate > img {
   position: relative;
   top: 2px;
 }
 
-.rate>span {
+.rate > span {
   margin-left: 4px;
 }
 
