@@ -93,7 +93,7 @@ export interface MovieDetail {
   posterPath: string;
   genres: string[];
   releaseYear: string;
-  tagline: string;
+  overview: string;
 }
 
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/original";
@@ -133,7 +133,7 @@ export class MovieDetailDTO {
       voteAverage: data.vote_average,
       genres: data.genres.map((g) => g.name),
       releaseYear: data.release_date.slice(0, 4),
-      tagline: data.tagline,
+      overview: data.overview,
     };
   }
 }

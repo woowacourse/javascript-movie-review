@@ -133,7 +133,7 @@ const Component = {
   },
 
   movieModal(movie: MovieDetail, rating: number = 0) {
-    const { title, posterPath, voteAverage, genres, releaseYear, tagline } =
+    const { title, posterPath, voteAverage, genres, releaseYear, overview } =
       movie;
     return `
     <div class="modal-background active">
@@ -181,7 +181,7 @@ const Component = {
             <section>
               <h3>줄거리</h3>
               <p class="detail">
-                ${tagline}
+                ${overview}
               </p>
             </section>
           </div>
