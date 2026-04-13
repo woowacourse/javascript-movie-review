@@ -43,6 +43,11 @@ export const Header = {
     backgroundContainer.style.background = `url(${BACKDROP_IMAGE_URL}${movie.backdrop_path}) no-repeat center center / cover`;
     backgroundContainer.style.removeProperty("height");
     attachLogoListener();
+
+    const detailButton = backgroundContainer.querySelector(".detail") as HTMLElement | null;
+    detailButton?.addEventListener("click", () => {
+      eventBus.publish(APP_EVENTS.MOVIE_SELECTED, movie.id);
+    });
   },
 
   renderSearch(): void {
