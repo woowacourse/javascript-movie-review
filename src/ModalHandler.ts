@@ -3,6 +3,13 @@ import { renderMovieDetail } from "./movieDetailRenderer";
 class ModalHandler {
   modalArea = document.querySelector("#modalBackground");
 
+  init() {
+    document.addEventListener("click", this.handleMovieClick);
+    document.addEventListener("click", this.handleModalCloseButtonClick);
+    document.addEventListener("click", this.handleModalCloseBackdrop);
+    document.addEventListener("keydown", this.handleModalCloseButtonKeyDown);
+  }
+
   // 모달 닫는 핸들러
   handleModalCloseButtonClick = (e: MouseEvent) => {
     if ((e.target as HTMLElement).closest("#closeModal")) {

@@ -4,6 +4,7 @@ import {
   replaceBanner,
 } from "./movieRenderer.ts";
 import AppState from "./AppState.ts";
+import { createScrollObserver } from "./utils/scrollObserver.ts";
 
 class SearchHandler {
   constructor(private state: AppState) {}
@@ -22,6 +23,20 @@ class SearchHandler {
       this.handleSearchSubmit();
     }
   };
+
+  init() {
+    document.addEventListener("click", this.handleSearchButtonClick);
+    document.addEventListener("keydown", this.handleSearchKeydown);
+
+    const sentinel = document.querySelector<HTMLElement>("#scroll-sentinel");
+    if (sentinel) {
+      let cleanup: () => void;
+      cleanup = createScrollObserver(sentinel, async () => {
+        const isLastPage = await this.handleLoadMoreScroll();
+        if (isLastPage) cleanup();
+      });
+    }
+  }
 
   handleLoadMoreScroll = async () => {
     if (!this.state.isSearched) {
