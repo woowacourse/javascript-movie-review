@@ -49,9 +49,13 @@ export default class MovieDetailModal {
                 <div class="modal-user-rating">
                   <p class="modal-user-rating-text">내 별점</p>
                   <div class="star-rating">
-                    ${[1, 2, 3, 4, 5].map((i) => `<img class="modal-star" data-index="${i}" src="./src/images/star_empty.png">`).join("")}
-                    <span class="rating-label"></span>
-                    <span class="rating-score"></span>
+                    <div class="stars-row">
+                      ${[1, 2, 3, 4, 5].map((i) => `<img class="modal-star" data-index="${i}" src="./src/images/star_empty.png">`).join("")}
+                    </div>
+                    <div class="rating-text">
+                      <span class="rating-label"></span>
+                      <span class="rating-score"></span>
+                    </div>
                   </div>
                 </div>
                 <hr>

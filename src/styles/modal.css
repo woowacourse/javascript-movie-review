@@ -91,6 +91,18 @@ hr {
 .star-rating {
   display: flex;
   align-items: center;
+  gap: 8px;
+}
+
+.stars-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.rating-text {
+  display: flex;
+  align-items: center;
   gap: 4px;
 }
 
@@ -254,104 +266,216 @@ hr {
 }
 
 /* 태블릿 */
-@media screen and (max-width: 1024px) {
-  .modal-image {
-    width: 280px;
-    height: auto;
+@media screen and (min-width: 390px) and (max-width: 1024px) {
+  .modal-background {
+    align-items: flex-end;
   }
 
-  .modal-image img {
-    width: 260px;
-  }
-
-  .modal-overview {
-    font-size: 18px;
-  }
-
-  .modal-overview-title,
-  .modal-user-rating-text,
-  .rating-label,
-  .rating-score,
-  .modal-rating-text,
-  .modal-rating {
-    font-size: 18px;
-  }
-}
-
-/* 모바일 */
-@media screen and (max-width: 800px) {
   .modal {
-    height: 956.75px;
-    max-height: 956.75px;
+    width: 100vw;
+    max-height: 140vh;
+    border-radius: 16px 16px 0 0;
+    padding: 16px 24px;
+    overflow-y: hidden;
   }
 
   .modal-container {
     flex-direction: column;
-    padding: 16px;
-    gap: 16px;
+    align-items: center;
+    padding: 12px 0;
+    gap: 20px;
   }
 
+  /* 포스터: 중앙 정렬, 작게 */
   .modal-image {
-    width: 100%;
+    width: 150px;
     height: auto;
+    flex-shrink: 0;
   }
 
   .modal-image img {
-    width: 100%;
-    max-height: 360px;
+    width: 110px;
+    height: auto;
+    border-radius: 8px;
     object-fit: cover;
   }
 
+  /* 설명 영역 전체 */
   .modal-description {
+    width: 100%;
     margin-left: 0;
     padding: 0;
-    gap: 12px;
+    gap: 6px;
+    align-items: center;
   }
 
-  .modal-description > *:not(:last-child) {
-    margin-bottom: 0;
-  }
-
+  /* 제목/장르/평균 별점: 중앙 */
   .modal-title {
-    font-size: 22px;
+    font-size: 28px;
+    text-align: center;
   }
 
   .modal-release-date-and-genres {
-    font-size: 15px;
+    font-size: 16px;
+    text-align: center;
   }
 
-  .modal-overview {
-    font-size: 15px;
-    max-height: none;
+  .average {
+    justify-content: center;
   }
 
-  .modal-overview-title,
-  .modal-user-rating-text,
-  .rating-label,
-  .rating-score,
-  .modal-rating-text,
   .modal-rating {
     font-size: 16px;
   }
 
-  .modal-star {
-    width: 24px;
-    height: 24px;
-  }
-
   .average-star {
-    width: 18px;
-    height: 18px;
+    width: 14px;
+    height: 14px;
   }
 
-  .detail {
-    max-height: none;
+  /* 내 별점 + 줄거리: 왼쪽 정렬 */
+  .modal-user-rating {
+    width: 100%;
+    text-align: left;
+  }
+
+  .modal-user-rating-text {
+    font-size: 20px;
+    margin-bottom: 10px;
+    margin-left: 2px;
+  }
+
+  .modal-rating-text {
+    font-size: 16px;
+  }
+
+  .rating-label,
+  .rating-score {
+    font-size: 20px;
+    margin-bottom: 2px;
+  }
+
+  .modal-star {
+    width: 20px;
+    height: 20px;
+  }
+
+  .modal-overview-title {
+    width: 100%;
+    font-size: 20px;
+    text-align: left;
+  }
+
+  .modal-overview {
+    width: 100%;
+    font-size: 20px;
+    max-height: 80px;
+    overflow-y: auto;
+    text-align: left;
   }
 }
 
+/* 모바일 */
 @media screen and (max-width: 390px) {
+  .modal-background {
+    align-items: flex-end;
+  }
+
   .modal {
-    height: 749px;
-    max-height: 749px;
+    width: 100vw;
+    border-radius: 16px 16px 0 0;
+    padding: 24px;
+    overflow-y: hidden;
+  }
+
+  .modal-container {
+    flex-direction: column;
+    align-items: center;
+    padding: 12px 0;
+    gap: 12px;
+  }
+
+  /* 이미지 숨김 */
+  .modal-image {
+    display: none;
+  }
+
+  .modal-description {
+    width: 100%;
+    margin-left: 0;
+    padding: 0;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .modal-title {
+    font-size: 20px;
+    text-align: center;
+    padding: 0 36px;
+  }
+
+  .modal-release-date-and-genres {
+    font-size: 16px;
+    text-align: center;
+  }
+
+  .average {
+    justify-content: center;
+  }
+
+  /* 내 별점: 중앙 정렬 */
+  .modal-user-rating {
+    width: 100%;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+  }
+
+  .modal-user-rating-text {
+    font-size: 18px;
+    margin-bottom: 8px;
+  }
+
+  .star-rating {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .modal-star {
+    width: 28px;
+    height: 28px;
+  }
+
+  .rating-label,
+  .rating-score {
+    font-size: 18px;
+  }
+
+  .modal-rating {
+    font-size: 20px;
+  }
+
+  .modal-rating-text {
+    font-size: 16px;
+  }
+
+  .average-star {
+    width: 16px;
+    height: 16px;
+  }
+
+  /* 줄거리 제목: 중앙, 본문: 왼쪽 */
+  .modal-overview-title {
+    width: 100%;
+    font-size: 18px;
+    text-align: center;
+  }
+
+  .modal-overview {
+    width: 100%;
+    font-size: 18px;
+    max-height: none;
+    text-align: left;
   }
 }
