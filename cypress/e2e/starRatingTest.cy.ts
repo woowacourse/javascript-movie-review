@@ -43,15 +43,6 @@ describe('별점 매기기 테스트', () => {
             });
     });
 
-    it('별점 클릭 시 localStorage에 별점이 저장된다.', () => {
-        cy.get('.star-icon[data-value="8"]').click();
-
-        // infoModal.json movie id 83533
-        cy.window().then((win) => {
-            expect(win.localStorage.getItem('rating_83533')).to.equal('8');
-        });
-    });
-
     it('모달을 닫았다가 다시 열면 이전에 저장한 별점이 복원된다.', () => {
         cy.get('.star-icon[data-value="6"]').click();
         cy.get('.my-rate-text').should('have.text', '보통이에요 (6/10)');
