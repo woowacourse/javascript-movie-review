@@ -1,84 +1,56 @@
 import { fetchSearchMovies } from "../api/movieApi";
-import { Movie } from "../api/api";
 import { createMovieList } from "../components/movie";
-import { hideLoadMoreButton, handleLoadMoreButton } from "./movieRenderer";
+import { createSkeleton } from "../components/skeleton";
+import { setupInfiniteScroll } from "./infiniteScroll";
 
-export const handleSearch = (
-  input: HTMLInputElement,
-  loadMoreBtnEl: HTMLButtonElement,
+export const handleSearch = async (
+  query: string,
   mainEl: Element,
   titleEl: Element,
-  skeletonEls: HTMLElement,
   onMovieClick: (id: number) => void,
-) => {
-  return async (event: Event) => {
-    event.preventDefault();
-    let page = 1;
+): Promise<() => void> => {
+  updateSearchUrl(query);
 
-    const query = input.value.trim();
-    if (!query) return;
+  titleEl.textContent = `"${query}" 검색 결과`;
+  mainEl.innerHTML = "";
+  mainEl.appendChild(titleEl);
 
-    updateSearchUrl(query);
+  const skeleton = createSkeleton();
+  mainEl.appendChild(skeleton);
 
-    const data = await fetchSearchMovies(query, page);
+  let page = 1;
+  const data = await fetchSearchMovies(query, page);
+  skeleton.remove();
 
-    renderSearchResult(
-      data.results,
-      data.total_pages,
-      mainEl,
-      titleEl,
-      query,
-      loadMoreBtnEl,
-      skeletonEls,
-      onMovieClick,
-    );
-  };
+  if (data.results.length === 0) {
+    const noResultEl = document.createElement("p");
+    noResultEl.className = "no-search-result";
+    noResultEl.textContent = "검색 결과가 없습니다.";
+    mainEl.appendChild(noResultEl);
+    return () => {};
+  }
+
+  mainEl.appendChild(createMovieList(data.results, onMovieClick));
+
+  if (data.total_pages <= page) return () => {};
+
+  let stop = () => {};
+  stop = setupInfiniteScroll(mainEl, async () => {
+    page++;
+    const moreSkeleton = createSkeleton();
+    mainEl.appendChild(moreSkeleton);
+
+    const nextData = await fetchSearchMovies(query, page);
+    moreSkeleton.replaceWith(createMovieList(nextData.results, onMovieClick));
+
+    if (nextData.total_pages <= page) stop();
+  });
+
+  return stop;
 };
 
 const updateSearchUrl = (query: string) => {
   const params = new URLSearchParams();
   params.set("query", query);
   history.pushState({}, "", `/search?${params.toString()}`);
-};
-
-const renderSearchResult = (
-  results: Movie[],
-  totalPages: number,
-  mainEl: Element,
-  titleEl: Element,
-  query: string,
-  loadMoreBtnEl: HTMLButtonElement,
-  skeletonEls: HTMLElement,
-  onMovieClick: (id: number) => void,
-) => {
-  let page = 1;
-
-  titleEl.textContent = `"${query}" 검색 결과`;
-  mainEl.innerHTML = "";
-  mainEl.appendChild(titleEl);
-
-  if (totalPages === page) hideLoadMoreButton(loadMoreBtnEl);
-
-  if (results.length === 0) {
-    const noSearchResultEl = document.createElement("p");
-    noSearchResultEl.textContent = "검색 결과가 없습니다.";
-    noSearchResultEl.className = "no-search-result";
-    mainEl.appendChild(noSearchResultEl);
-    return;
-  }
-
-  const searchResult = createMovieList(results, onMovieClick);
-  mainEl.append(searchResult, loadMoreBtnEl);
-
-  loadMoreBtnEl.onclick = () => {
-    page++;
-    handleLoadMoreButton(
-      page,
-      loadMoreBtnEl,
-      mainEl,
-      skeletonEls,
-      onMovieClick,
-      query,
-    );
-  };
 };

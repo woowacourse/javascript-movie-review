@@ -1,30 +1,31 @@
 import { fetchPopularMovies } from "../api/movieApi";
 import { createMovieList } from "../components/movie";
-import { hideLoadMoreButton, handleLoadMoreButton } from "./movieRenderer";
+import { createSkeleton } from "../components/skeleton";
+import { setupInfiniteScroll } from "./infiniteScroll";
 
 export const renderPopularMovieList = async (
-  loadMoreBtnEl: HTMLButtonElement,
   mainEl: Element,
   skeletonEls: HTMLElement,
   onMovieClick: (id: number) => void,
-) => {
+): Promise<() => void> => {
   let page = 1;
 
   const data = await fetchPopularMovies(page);
-  const movieList = createMovieList(data.results, onMovieClick);
-  skeletonEls.replaceWith(movieList, loadMoreBtnEl);
+  skeletonEls.replaceWith(createMovieList(data.results, onMovieClick));
 
-  if (data.total_pages === page) hideLoadMoreButton(loadMoreBtnEl);
+  if (data.total_pages <= page) return () => {};
 
-  loadMoreBtnEl.onclick = () => {
+  let stop = () => {};
+  stop = setupInfiniteScroll(mainEl, async () => {
     page++;
-    handleLoadMoreButton(
-      page,
-      loadMoreBtnEl,
-      mainEl,
-      skeletonEls,
-      onMovieClick,
-      undefined,
-    );
-  };
+    const skeleton = createSkeleton();
+    mainEl.appendChild(skeleton);
+
+    const nextData = await fetchPopularMovies(page);
+    skeleton.replaceWith(createMovieList(nextData.results, onMovieClick));
+
+    if (nextData.total_pages <= page) stop();
+  });
+
+  return stop;
 };

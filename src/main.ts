@@ -1,6 +1,5 @@
 import { createSearchForm } from "./components/search-form";
 import { createHero } from "./components/hero";
-import { createButton } from "./components/button";
 import { createSkeleton } from "./components/skeleton";
 import { Modal } from "./components/modal/modal";
 import { renderPopularMovieList } from "./features/popular";
@@ -42,25 +41,20 @@ addEventListener("load", async () => {
   });
   heroEl.appendChild(hero);
 
-  // 검색 폼 렌더링
   const { formWrapper, form, input } = createSearchForm();
   headerEl.appendChild(formWrapper);
 
-  const loadMoreBtnEl = createButton("more", "더 보기");
   const skeletonEls = createSkeleton();
-
   mainEl.appendChild(skeletonEls);
-  renderPopularMovieList(loadMoreBtnEl, mainEl, skeletonEls, onMovieClick);
 
-  form.addEventListener(
-    "submit",
-    handleSearch(
-      input,
-      loadMoreBtnEl,
-      mainEl,
-      titleEl,
-      skeletonEls,
-      onMovieClick,
-    ),
-  );
+  let stopInfiniteScroll = await renderPopularMovieList(mainEl, skeletonEls, onMovieClick);
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const query = input.value.trim();
+    if (!query) return;
+
+    stopInfiniteScroll();
+    stopInfiniteScroll = await handleSearch(query, mainEl, titleEl, onMovieClick);
+  });
 });
