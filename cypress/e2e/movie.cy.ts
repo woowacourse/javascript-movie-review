@@ -1,6 +1,18 @@
 describe('영화 리뷰 step2 테스트', () => {
   beforeEach(() => {
-    cy.visit('/'); 
+    // 인기 영화 목록 API 가로채기
+    cy.intercept('GET', '**/movie/popular*', {
+      fixture: 'popularMovies.json', 
+    }).as('getPopularMovies');
+
+    // 영화 상세 정보 API를 가로채기
+    cy.intercept('GET', /\/movie\/\d+/, {
+      fixture: 'movieDetail.json', 
+    }).as('getMovieDetail');
+
+    cy.visit('/');
+    
+    cy.wait('@getPopularMovies'); 
   });
 
   describe('무한 스크롤 동작 테스트', () => {
@@ -12,8 +24,8 @@ describe('영화 리뷰 step2 테스트', () => {
         // 바닥으로 스크롤하여 더 보기 트리거
         cy.scrollTo('bottom');
         
-        // API 응답 및 렌더링 대기
-        cy.wait(1000); 
+        // 렌더링 대기
+        cy.wait('@getPopularMovies');
 
         // 영화 아이템 개수가 늘어났는지 검증
         cy.get('.thumbnail-list .movie-item')
@@ -27,6 +39,9 @@ describe('영화 리뷰 step2 테스트', () => {
     it('영화 클릭 시 모달이 열리고, 닫기 버튼을 누르면 모달이 닫힌다.', () => {
       // 첫 번째 영화 아이템 클릭
       cy.get('.thumbnail-list .movie-item').first().click();
+
+      // 모달 데이터 응답 대기
+      cy.wait('@getMovieDetail');
 
       // 모달이 활성화되었는지 확인 (active 클래스 및 화면노출)
       cy.get('#modalBackground').should('have.class', 'active');
@@ -83,7 +98,7 @@ describe('영화 리뷰 step2 테스트', () => {
 
       // 페이지 새로고침
       cy.reload();
-      cy.wait(1000);
+      cy.wait('@getPopularMovies');
 
       // 동일한 영화의 모달을 다시 열기
       cy.get('.thumbnail-list .movie-item').first().click();
