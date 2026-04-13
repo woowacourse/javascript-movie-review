@@ -5,6 +5,8 @@ import { openModal } from './modal.ts';
 export const initMovieList = (query?: string) => {
   let currentPage: number = 1;
   let isFetching: boolean = false;
+  let isError: boolean = false;
+
   const $thumbnailList = document.querySelector('.thumbnail-list');
   const $button = document.querySelector('#more-page-button') as HTMLElement | null;
   const $heroDetailBtn = document.querySelector('.top-rated-movie .detail') as HTMLButtonElement | null;
@@ -36,6 +38,7 @@ export const initMovieList = (query?: string) => {
     } catch (error) {
       view.removeSkeleton($thumbnailList);
       view.showMoreButton();
+      isError = true;
       if (error instanceof Error) {
         alert('영화 목록을 불러오지 못했습니다! 새로고침을 누르거나 더보기 버튼을 한번 더 눌러주세요!');
       }
@@ -45,7 +48,7 @@ export const initMovieList = (query?: string) => {
   const handleIntersect = async (entries: IntersectionObserverEntry[]): Promise<void> => {
     const entry = entries[0];
 
-    if (entry.isIntersecting && !isFetching) {
+    if (entry.isIntersecting && !isFetching && !isError) {
       isFetching = true;
       await loadMovies();
       isFetching = false;
@@ -87,8 +90,14 @@ export const initMovieList = (query?: string) => {
 
   // 더보기 버튼 클릭 시 렌더링
   $button?.addEventListener('click', async () => {
+    isError = false; // 버튼 클릭 시 에러 상태 초기화
     view.hideMoreButton();
-    loadMovies();
+
+    if (!isFetching) {
+      isFetching = true;
+      await loadMovies();
+      isFetching = false;
+    }
   });
 
   $thumbnailList.addEventListener('click', (event) => {
