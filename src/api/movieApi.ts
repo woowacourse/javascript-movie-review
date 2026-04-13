@@ -1,5 +1,5 @@
-import { apiRequest } from "../utils/api";
-import { MovieResponse, MovieDetail } from "./api";
+import { apiRequest } from "./api";
+import { MovieResponse, MovieDetail } from "../types/api";
 
 export const fetchPopularMovies = (page: number): Promise<MovieResponse> =>
   apiRequest<MovieResponse>({

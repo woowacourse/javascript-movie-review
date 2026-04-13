@@ -1,4 +1,4 @@
-import { Movie } from "../api/api";
+import { Movie } from "../types/api";
 import starIconSrc from "../images/star_empty.png";
 import { IMAGE_BASE_URL } from "../utils/constants";
 

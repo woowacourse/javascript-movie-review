@@ -1,41 +1,17 @@
-interface Movie {
-  adult: boolean;
-  backdrop_path: string;
-  genre_ids: number[];
-  id: number;
-  original_language: string;
-  original_title: string;
-  overview: string;
-  popularity: number;
-  poster_path: string;
-  release_date: string;
-  title: string;
-  video: boolean;
-  vote_average: number;
-  vote_count: number;
+interface FetchOptions {
+  url: string;
+  method?: "GET" | "POST" | "PUT" | "DELETE";
 }
 
-interface MovieResponse {
-  page: number;
-  results: Movie[];
-  total_pages: number;
-  total_results: number;
-}
-
-interface Genre {
-  id: number;
-  name: string;
-}
-
-interface MovieDetail {
-  id: number;
-  title: string;
-  poster_path: string;
-  backdrop_path: string;
-  release_date: string;
-  genres: Genre[];
-  vote_average: number;
-  overview: string;
-}
-
-export type { Movie, MovieResponse, Genre, MovieDetail };
+export const apiRequest = async <T>({
+  url,
+  method = "GET",
+}: FetchOptions): Promise<T> => {
+  return await fetch(`${import.meta.env.VITE_BASE_URL}${url}`, {
+    method,
+    headers: {
+      Authorization: `Bearer ${import.meta.env.VITE_TMDB_API_KEY}`,
+      "Content-Type": "application/json",
+    },
+  }).then((res) => res.json());
+};
