@@ -113,6 +113,7 @@ export default class MoviePage {
 
   async #onDetail(movie_id: number) {
     try {
+      this.#$modal.renderSkeleton();
       const movie = await this.#option.fetchDetail(movie_id);
       this.#$modal.open(movie);
     } catch (error) {
