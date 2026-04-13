@@ -6,6 +6,8 @@ import { renderPopularMovieList } from "./features/popular";
 import { handleSearch } from "./features/search";
 import { fetchMovieDetail } from "./api/movieApi";
 import { IMAGE_BASE_URL } from "./utils/constants";
+import { RatingRepository } from "./types/ratingRepository";
+import { LocalStorageRatingRepository } from "./repositories/localStorageRatingRepository";
 
 addEventListener("load", async () => {
   const headerEl = document.querySelector("header")!;
@@ -13,7 +15,8 @@ addEventListener("load", async () => {
   const mainEl = document.querySelector("#main")!;
   const titleEl = document.querySelector(".main-title")!;
 
-  const modal = new Modal();
+  const ratingRepo: RatingRepository = new LocalStorageRatingRepository();
+  const modal = new Modal(ratingRepo);
 
   // 카드 클릭 이벤트 핸들러
   const onMovieClick = async (id: number) => {
@@ -47,7 +50,11 @@ addEventListener("load", async () => {
   const skeletonEls = createSkeleton();
   mainEl.appendChild(skeletonEls);
 
-  let stopInfiniteScroll = await renderPopularMovieList(mainEl, skeletonEls, onMovieClick);
+  let stopInfiniteScroll = await renderPopularMovieList(
+    mainEl,
+    skeletonEls,
+    onMovieClick,
+  );
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -55,6 +62,11 @@ addEventListener("load", async () => {
     if (!query) return;
 
     stopInfiniteScroll();
-    stopInfiniteScroll = await handleSearch(query, mainEl, titleEl, onMovieClick);
+    stopInfiniteScroll = await handleSearch(
+      query,
+      mainEl,
+      titleEl,
+      onMovieClick,
+    );
   });
 });
