@@ -16,7 +16,7 @@ body.modal-open {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 10;
+  z-index: 20;
   visibility: hidden; /* 모달이 기본적으로 보이지 않도록 설정 */
   opacity: 0;
   transition:
@@ -110,4 +110,37 @@ body.modal-open {
 }
 .my-rating__point {
   color: var(--color-bluegray-20);
+}
+
+@media (max-width: 1119px) {
+  .modal-background {
+    align-items: flex-end;
+  }
+
+  .modal {
+    width: 100%;
+    border-radius: 16px 16px 0 0;
+    max-height: 85vh;
+    overflow-y: auto;
+  }
+
+  .modal-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .modal-image img {
+    width: calc((100vw - 128px) / 3);
+    max-width: unset;
+  }
+
+  .modal-description {
+    margin-left: 0;
+    margin-top: 16px;
+    text-align: center;
+  }
+
+  .my-rating__content {
+    justify-content: center;
+  }
 }
