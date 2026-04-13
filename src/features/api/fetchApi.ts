@@ -1,13 +1,15 @@
 import { MovieDetail, MovieResponse } from "../../../types/types";
 import { API_KEY, BASE_URL } from "../../constants/api";
 import { MOVIE_DETAIL_PATH } from "../../constants/path";
-import { ApiError, NotFoundError, UnauthorizedError } from "../../errors";
+import { ApiError, NotFoundError, ServiceUnavailableError, TooManyRequestsError, UnauthorizedError } from "../../errors";
 
 async function request<T>(url: string): Promise<T> {
   const response = await fetch(url);
   if (!response.ok) {
     if (response.status === 401) throw new UnauthorizedError();
     if (response.status === 404) throw new NotFoundError();
+    if (response.status === 429) throw new TooManyRequestsError();
+    if (response.status === 503) throw new ServiceUnavailableError();
     throw new ApiError(response.status, `API 요청 실패: ${response.status}`);
   }
   return response.json();
