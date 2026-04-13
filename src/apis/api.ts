@@ -88,8 +88,7 @@ export async function getMovieDetails(arg: {
   onLoading: () => void;
 }) {
   const { movieId, onSuccess, onError, onLoading } = arg;
-  return fetcher<any>({
-    //TODO: API 명세 보고 타입 정의하기
+  return fetcher<MovieDetail>({
     fn: async () => {
       const url = new URL(`${API_PATH.MOVIE_DETAIL}/${movieId}`);
       url.searchParams.set("language", "ko-KR");
