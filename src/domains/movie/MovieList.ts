@@ -1,5 +1,6 @@
 import { TMDBMovieListResponse } from "../../api/types";
 import { fetchPopularMovies, fetchSearchMovies } from "../../api/movies";
+import { TMDB_MAX_PAGE } from "../../api/constants";
 import { toMovieItem } from "../../utils/transform";
 
 export interface MovieItem {
@@ -23,7 +24,7 @@ export class MovieList {
   private error: boolean = false;
   private subscribers: Set<Subscriber> = new Set();
   private currentPage: number = 1;
-  private totalPages: number = 500;
+  private totalPages: number = TMDB_MAX_PAGE;
   private currentQuery: string | null = null;
 
   isLastPage(): boolean {
@@ -41,34 +42,22 @@ export class MovieList {
   async load(query?: string): Promise<void> {
     this.currentPage = 1;
     this.currentQuery = query ?? null;
-    this.error = false;
-    this.setIsPending(true);
-
-    try {
-      const response = query
-        ? await fetchSearchMovies(query, 1)
-        : await fetchPopularMovies(1);
-      this.isPending = false;
-      this.setMovies(response);
-    } catch {
-      this.isPending = false;
-      this.error = true;
-      this.notify([]);
-    }
+    await this.fetchMoviePage(1);
   }
 
   async loadMore(): Promise<void> {
-    if (this.isLastPage()) return;
+    if (this.isLastPage() || this.isPending) return;
+    await this.fetchMoviePage(this.currentPage + 1);
+  }
 
+  private async fetchMoviePage(page: number): Promise<void> {
     this.error = false;
     this.setIsPending(true);
 
-    const nextPage = this.currentPage + 1;
-
     try {
       const response = this.currentQuery
-        ? await fetchSearchMovies(this.currentQuery, nextPage)
-        : await fetchPopularMovies(nextPage);
+        ? await fetchSearchMovies(this.currentQuery, page)
+        : await fetchPopularMovies(page);
       this.isPending = false;
       this.setMovies(response);
     } catch {
