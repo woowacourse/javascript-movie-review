@@ -1,5 +1,6 @@
 import { RATING_SCORES, RATING_TEXTS } from "../constants/rating";
 import { MovieDetail } from "../services/dto";
+import { getLocalStorage } from "../services/storage";
 
 export const renderMovieDetail = (movieDetail: MovieDetail) => {
   const movieModal = document.querySelector<HTMLElement>(".modal");
@@ -30,7 +31,7 @@ export const renderMovieDetail = (movieDetail: MovieDetail) => {
   if (rate) rate.textContent = movieDetail.vote_average.toString();
   if (detail) detail.textContent = movieDetail.overview;
 
-  const ratingScore = window.localStorage.getItem(String(movieDetail.id));
+  const ratingScore = getLocalStorage(String(movieDetail.id));
   if (!ratingScore) return;
 
   const index = RATING_SCORES.indexOf(ratingScore);
