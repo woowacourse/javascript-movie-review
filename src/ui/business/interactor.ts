@@ -1,5 +1,6 @@
 import {
   getMovieListElement,
+  getMyRatingElements,
   getSearchFormElement,
   getSearchInputElement,
 } from "../domain/movieElement";
@@ -56,7 +57,7 @@ export const setupModalCloseInteraction = (onClose: () => void) => {
 export const setupMyRatingInteraction = (
   onRatingSelect: (rating: number) => void,
 ) => {
-  const myRatings = document.querySelectorAll(".my-rating__content img"); //TODO: 계층화 하기
+  const myRatings = getMyRatingElements();
   if (!myRatings) return;
 
   myRatings.forEach((myRating) => {

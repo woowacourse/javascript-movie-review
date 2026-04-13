@@ -1,4 +1,4 @@
-import { getElementBySelector } from "../utils/elementGetter";
+import { getElementBySelector, getElementsBySelector } from "../utils/elementGetter";
 
 export const getHeaderElement = () => getElementBySelector("header");
 
@@ -41,3 +41,6 @@ export const getModalBackgroundElement = () =>
 
 export const getModalSkeletonElement = () =>
   getElementBySelector(".modal-background.skeleton");
+
+export const getMyRatingElements = () =>
+  getElementsBySelector(".my-rating__content img");

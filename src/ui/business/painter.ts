@@ -7,9 +7,9 @@ import {
   getModalSkeletonElement,
   getMovieListElement,
   getSectionElement,
+  getSectionHeadingElement,
 } from "../domain/movieElement";
 import Renderer from "../domain/render";
-import { clearHTML, removeElement } from "../utils/inner";
 
 // 실제 비즈니스적인 문제를 해결하는 로직이 담겨있습니다.
 // 부분적인 ui를 그리는 일련의 로직을 담아서 실제로 사용자단에서 필요한 동작들로 추상화된 레벨입니다.
@@ -30,7 +30,7 @@ export const paintInitialLoading = (skeletonCount: number) => {
 export const paintClearBanner = () => {
   const banner = getBannerElement();
 
-  if (banner) clearHTML(banner);
+  if (banner) Renderer.clearElement(banner);
 };
 
 export const paintMovieBanner = (movie: Movie) => {
@@ -49,17 +49,19 @@ export const paintMovieList = (movies: Movie[]) => {
 };
 
 export const paintHomeSectionHeading = () => {
-  Renderer.renderSectionHeading();
+  const heading = getSectionHeadingElement();
+  if (heading) Renderer.renderSectionHeading(heading);
 };
 
 export const paintSearchSectionHeading = (query: string) => {
-  Renderer.renderSearchSectionHeading(query);
+  const heading = getSectionHeadingElement();
+  if (heading) Renderer.renderSearchSectionHeading(heading, query);
 };
 
 export const paintClearMovies = () => {
   const movieList = getMovieListElement();
 
-  if (movieList) clearHTML(movieList);
+  if (movieList) Renderer.clearElement(movieList);
 };
 
 export const paintEmptyResult = () => {
@@ -69,7 +71,7 @@ export const paintEmptyResult = () => {
 export const paintClearEmptyResult = () => {
   const emptyResult = getEmptyResultElement();
 
-  if (emptyResult) removeElement(emptyResult);
+  if (emptyResult) Renderer.removeElement(emptyResult);
 };
 
 export const paintResetList = () => {
@@ -77,9 +79,9 @@ export const paintResetList = () => {
   const movieList = getMovieListElement();
   const emptyResult = getEmptyResultElement();
 
-  if (banner) clearHTML(banner);
-  if (movieList) clearHTML(movieList);
-  if (emptyResult) removeElement(emptyResult);
+  if (banner) Renderer.clearElement(banner);
+  if (movieList) Renderer.clearElement(movieList);
+  if (emptyResult) Renderer.removeElement(emptyResult);
 };
 
 export const paintPrepareSearch = (query: string, skeletonCount: number) => {
@@ -102,7 +104,7 @@ export const paintMovieModalSkeleton = () => {
 export const paintRemoveModalSkeleton = () => {
   const skeleton = getModalSkeletonElement();
 
-  if (skeleton) removeElement(skeleton);
+  if (skeleton) Renderer.removeElement(skeleton);
 };
 
 export const paintMovieModal = (movie: MovieDetail, rating: number) => {
@@ -120,5 +122,5 @@ export const paintMovieModalError = () => {
 export const paintRemoveModal = () => {
   const modal = getModalBackgroundElement();
 
-  if (modal) removeElement(modal);
+  if (modal) Renderer.removeElement(modal);
 };

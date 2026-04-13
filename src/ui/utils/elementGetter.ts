@@ -3,3 +3,7 @@ export function getElementBySelector(selector: string): HTMLElement | null {
   if (element instanceof HTMLElement) return element;
   return null;
 }
+
+export function getElementsBySelector(selector: string): NodeListOf<Element> {
+  return document.querySelectorAll(selector);
+}
