@@ -36,9 +36,9 @@ main {
   margin-bottom: 50px;
 }
 
-@media screen and (max-width: 1297px) {
+@media screen and (max-width: 1310px) {
   .main-title {
-    padding: 48px;
+    font-size: 36px;
   }
 }
 
@@ -60,7 +60,6 @@ button.primary {
 }
 
 #wrap {
-  min-width: 1440px;
   background-color: var(--color-bluegray-100);
 }
 
@@ -73,6 +72,8 @@ button.primary {
 .container {
   max-width: 1280px;
   margin: 0 auto;
+  width: 100%;
+  padding: 0 24px;
 }
 
 .search-container {
@@ -94,11 +95,26 @@ button.primary {
   opacity: 1;
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 768px) {
   .search-container {
-    flex-direction: column;
     margin-top: 90px;
-    margin-left: 75px;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+  }
+
+  .search-form {
+    width: 100%;
+    max-width: 360px;
+    margin-top: 0;
+  }
+
+  .main-title {
+    font-size: 36px;
+    margin-bottom: 56px;
+    text-align: center;
+    padding: 0;
   }
 }
 
@@ -115,9 +131,10 @@ button.primary {
   color: var(--color-white);
 }
 
-@media screen and (max-width: 1080px) {
+@media screen and (min-width: 769px) and (max-width: 1080px) {
   .search-form {
     width: 325px;
+    top: 36px;
   }
 }
 
@@ -151,6 +168,22 @@ button.primary {
   gap: 4px;
 }
 
+@media screen and (max-width: 1024px) {
+  .background-container {
+    padding-left: 48px;
+    height: 420px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .background-container {
+    padding: 80px 24px 32px;
+    height: auto;
+    min-height: 320px;
+    justify-content: flex-end;
+  }
+}
+
 .overlay {
   position: absolute;
   top: 0;
@@ -166,6 +199,8 @@ button.primary {
   z-index: 2;
   max-width: 1280px;
   margin: 0 auto;
+  width: 100%;
+  padding: 0 24px;
 }
 
 .top-rated-movie > *:not(:last-child) {
@@ -178,6 +213,22 @@ h1.logo {
   top: 48px;
   left: 84px;
   cursor: pointer;
+}
+
+@media screen and (max-width: 1080px) {
+  h1.logo {
+    left: 24px;
+    top: 48px;
+    font-size: 1.5rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  h1.logo {
+    left: 24px;
+    top: 20px;
+    font-size: 1.5rem;
+  }
 }
 
 .rate {
@@ -200,6 +251,18 @@ span.rate-value {
 .title {
   font-size: 3rem;
   font-weight: bold;
+}
+
+@media screen and (max-width: 1024px) {
+  .title {
+    font-size: 2.2rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .title {
+    font-size: 1.6rem;
+  }
 }
 
 footer.footer {
