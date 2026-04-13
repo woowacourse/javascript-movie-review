@@ -3,11 +3,12 @@ import { navigate, getSearchParams, hasSearchParams } from "./utils/router";
 import { RequestFetchResponse } from "./services/http";
 
 import {
-  getMoviePopular,
   getTopRatedMovie,
   getSearchMovie,
   getMovieMovieId,
 } from "./services/api";
+
+import { queryMoviePopular } from "./services/query";
 
 import {
   renderTopRatedMovie,
@@ -29,6 +30,8 @@ import { errorMessages } from "./constants/errorMessage";
 import PageState from "./states/PageState";
 
 import MovieListState from "./states/MovieListState";
+
+const { refetch } = queryMoviePopular();
 
 // 사용자 상태값
 const pageState = new PageState();
@@ -60,9 +63,9 @@ const loadInit = () => {
     (async () => {
       renderSkeleton();
       const page = pageState.getPage();
-      isFetching = true;
+
       const movies = await errorTryCatch(
-        async () => await getMoviePopular({ page }),
+        async () => await refetch({ page }),
         async (e: RequestFetchResponse) => {
           if (e.data.status_code == 22) {
             displayErrorMessage(errorMessages.INVALID_PAGE);
@@ -71,8 +74,6 @@ const loadInit = () => {
           displayErrorMessage(errorMessages.UNKNOWN);;
         },
       );
-
-      isFetching = false;
 
       if (movies) {
         movieListState.setTotalPages(movies.total_pages);
@@ -145,8 +146,6 @@ export const handleDetail = (id: number) => {
   })();
 }
 
-let isFetching = false;
-
 const handleMoreMovie = () => {
   const totalPages = movieListState.getTotalPages();
   const page = pageState.getPage();
@@ -163,11 +162,8 @@ const handleMoreMovie = () => {
   (async () => {
     const page = pageState.getPage();
 
-    if ( isFetching ) return;
-    isFetching = true;
-
     const movies = await errorTryCatch(
-      async () => await getMoviePopular({ page }),
+      async () => await refetch({ page }),
       async (e: RequestFetchResponse) => {
         if (e.data.status_code == 22) {
           displayErrorMessage(errorMessages.INVALID_PAGE);
@@ -176,8 +172,6 @@ const handleMoreMovie = () => {
         displayErrorMessage(errorMessages.UNKNOWN);
       },
     );
-
-    isFetching = false;
 
     if (movies) {
       movieListState.setTotalPages(movies.total_pages);
