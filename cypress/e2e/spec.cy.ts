@@ -332,5 +332,12 @@ describe("영화 리뷰 앱", () => {
         }
       });
     });
+
+    it("더 가져오기 이후에 존재했던 영화를 클릭시 자세한 정보가 담긴 모달이 렌더링된다.", () => {
+      cy.get("#end-of-thumbnail-list").scrollIntoView();
+      cy.wait(500);
+      cy.get(".thumbnail-list li").first().click();
+      cy.get(".modal").should("be.visible");
+    });
   });
 });

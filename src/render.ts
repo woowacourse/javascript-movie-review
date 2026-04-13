@@ -164,9 +164,12 @@ export const Renderer = {
   renderSkeleton(selector: string, length: number) {
     const target = document.querySelector(selector);
     if (target instanceof HTMLElement) {
-      target.innerHTML += Array.from({ length: length })
-        .map(() => Component.movieSkeleton())
-        .join("");
+      target.insertAdjacentHTML(
+        "beforeend",
+        Array.from({ length: length })
+          .map(() => Component.movieSkeleton())
+          .join(""),
+      );
     }
   },
 
@@ -174,7 +177,7 @@ export const Renderer = {
     const movieListComponent = movies
       .map((movie) => Component.movie(movie))
       .join("");
-    parent.innerHTML += movieListComponent;
+    parent.insertAdjacentHTML("beforeend", movieListComponent);
   },
 
   clearSkeleton(parent: Element) {
