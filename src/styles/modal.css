@@ -5,7 +5,7 @@ body:has(dialog[open]) {
 }
 
 .modal {
-  position: relative;
+  position: fixed;
   width: 960px;
   background-color: var(--color-bluegray-90);
   border: 0;
