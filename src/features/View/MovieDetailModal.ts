@@ -49,7 +49,7 @@ export default class MovieDetailModal {
                 <div class="modal-user-rating">
                   <p class="modal-user-rating-text">내 별점</p>
                   <div class="star-rating">
-                    ${[1, 2, 3, 4, 5].map((i) => `<img class="star" data-index="${i}" src="./src/images/star_empty.png">`).join("")}
+                    ${[1, 2, 3, 4, 5].map((i) => `<img class="modal-star" data-index="${i}" src="./src/images/star_empty.png">`).join("")}
                     <span class="rating-label"></span>
                     <span class="rating-score"></span>
                   </div>
@@ -63,13 +63,15 @@ export default class MovieDetailModal {
     document.body.appendChild(this.div);
     this.div.classList.add("active");
 
-    this.div.querySelector(".close-modal")!.addEventListener("click", () => this.close());
+    this.div
+      .querySelector(".close-modal")!
+      .addEventListener("click", () => this.close());
 
     this.#initStarRating(data.id);
   }
 
   #initStarRating(movieId: number) {
-    const stars = this.div.querySelectorAll<HTMLImageElement>(".star");
+    const stars = this.div.querySelectorAll<HTMLImageElement>(".modal-star");
     const labelEl = this.div.querySelector<HTMLSpanElement>(".rating-label")!;
     const scoreEl = this.div.querySelector<HTMLSpanElement>(".rating-score")!;
 
