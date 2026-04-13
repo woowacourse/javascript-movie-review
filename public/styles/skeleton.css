@@ -1,0 +1,31 @@
+.container section {
+  min-height: 1000px;
+  position: relative;
+}
+
+.container section .thumbnail-list {
+  min-height: 800px;
+}
+.container section .skeleton-list {
+  pointer-events: none;
+  position: absolute;
+  top: 54.4px;
+  left: 0;
+}
+
+.container section .skeleton-list li .thumbnail {
+  display: none;
+}
+
+.container section .skeleton-list li .dummy-img {
+  width: 200px;
+  height: 300px;
+  background: rgba(0,0,0,.8);
+  border-radius: 8px;
+  margin-bottom: 4px;
+}
+
+.container section .skeleton-list.animation {
+  transition: opacity 1s;
+  opacity: 0;
+}
