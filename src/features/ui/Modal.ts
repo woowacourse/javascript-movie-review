@@ -18,9 +18,13 @@ export class Modal {
     });
   }
 
-  open(movie: MovieDetail) {
-    this.dialog.innerHTML = this.render(movie);
+  openWithLoading(): void {
+    this.dialog.innerHTML = this.renderLoading();
     this.dialog.showModal();
+  }
+
+  fill(movie: MovieDetail): void {
+    this.dialog.innerHTML = this.render(movie);
 
     const closeButton = this.dialog.querySelector(".close-modal") as HTMLElement;
     closeButton.focus();
@@ -28,6 +32,17 @@ export class Modal {
 
     const starRatingContainer = this.dialog.querySelector(".star-rating") as HTMLElement;
     new StarRating(starRatingContainer, movie.id, this.ratingRepository).mount();
+  }
+
+  private renderLoading(): string {
+    return `
+      <button class="close-modal">
+        <img src="${closeButtonImg}" alt="닫기" />
+      </button>
+      <div class="modal-loading">
+        <div class="spinner"></div>
+      </div>
+    `;
   }
 
   private render(movie: MovieDetail): string {
