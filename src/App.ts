@@ -9,6 +9,7 @@ import MovieListController from "./Controller/MovieListController";
 import SearchView from "./View/SearchView";
 import TopRatedController from "./Controller/TopRatedController";
 import MovieDetailModalController from "./Controller/MovieDetailModalController";
+import InfiniteScrollObserver from "./Controller/InfiniteScrollObserver";
 
 class App {
   #views;
@@ -45,10 +46,11 @@ class App {
 
     await this.#controller.movieList.loadInitialPopular();
     await this.#controller.topRated.loadBanner();
+
+    this.#bindInfiniteScroll();
   }
 
   #bindAllEvents() {
-    this.#bindScrollEvent();
     this.#views.logo.bindEvent(() => location.reload());
     this.#views.topRated.bindEvent(async (movieId: number) => {
       await this.#controller.movieDetail.showMovieInformation(movieId);
@@ -69,16 +71,15 @@ class App {
     });
   }
 
-  #bindScrollEvent = () => {
-    window.addEventListener("scroll", async () => {
-      if (
-        window.innerHeight + window.scrollY >=
-        document.body.offsetHeight - 50
-      ) {
-        await this.#controller.movieList.loadNextPage();
-      }
-    });
-  };
+  #bindInfiniteScroll() {
+    const footer = document.querySelector("footer");
+    if (!footer) return;
+
+    new InfiniteScrollObserver(
+      footer,
+      this.#controller.movieList.loadNextPage.bind(this.#controller.movieList),
+    );
+  }
 }
 
 export default App;
