@@ -1,6 +1,7 @@
 import { loadMovieDetail } from "../movieLoader";
 import { clearMovieDetail } from "../view/movieDetail";
 import { closeMovieModal, openMovieModal } from "../view/movieModal";
+import { renderMovieDetailSkeleton } from "../view/skeleton";
 
 export const handleMovieItemClick = async (e: Event) => {
   const target = e.target as HTMLElement;
@@ -10,8 +11,9 @@ export const handleMovieItemClick = async (e: Event) => {
   const movieId = movieItem.dataset.movieId;
   if (!movieId) return;
 
-  loadMovieDetail(movieId);
+  renderMovieDetailSkeleton();
   openMovieModal();
+  await loadMovieDetail(movieId);
 };
 
 export const handleModalCloseButtonClick = () => {

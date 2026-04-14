@@ -9,6 +9,7 @@ import { getLocalStorage } from "../services/storage";
 export const renderMovieDetail = (movieDetail: MovieDetail) => {
   const movieModal = document.querySelector<HTMLElement>(".modal");
   if (!movieModal) return;
+  movieModal.classList.remove("loading");
 
   movieModal.dataset.movieId = String(movieDetail.id);
 
@@ -49,8 +50,16 @@ export const clearMovieDetail = () => {
 
   const modalImage =
     movieModal.querySelector<HTMLImageElement>(".modal-image img");
+  const title = movieModal.querySelector("h2");
+  const category = movieModal.querySelector(".category");
+  const rate = movieModal.querySelector(".rate-value");
+  const detail = movieModal.querySelector(".detail");
 
   if (modalImage) modalImage.src = "";
+  if (title) title.textContent = "";
+  if (category) category.textContent = "";
+  if (rate) rate.textContent = "";
+  if (detail) detail.textContent = "";
 
   const stars = movieModal.querySelectorAll<HTMLImageElement>(".stars img");
   stars.forEach((star) => (star.src = "./images/star_empty.png"));

@@ -11,7 +11,11 @@ import {
   renderMovieList,
   renderNoResult,
 } from "./view/movieList";
-import { renderSkeleton, removeSkeleton } from "./view/skeleton";
+import {
+  renderMovieListSkeleton,
+  removeMovieListSkeleton,
+  removeMovieDetailSkeleton,
+} from "./view/skeleton";
 
 import PageState from "./states/PageState";
 import { getSearchParams, hasSearchParams } from "./utils/router";
@@ -36,7 +40,7 @@ export const loadTopRatedMovie = async () => {
 
 export const loadPopularMovies = async () => {
   try {
-    renderSkeleton();
+    renderMovieListSkeleton();
     const page = popularPageState.getPage() + 1;
     const movies = await getPopularMovies({ page });
 
@@ -48,7 +52,7 @@ export const loadPopularMovies = async () => {
   } catch (e) {
     showError(e);
   } finally {
-    removeSkeleton();
+    removeMovieListSkeleton();
   }
 };
 
@@ -61,7 +65,7 @@ export const loadSearchMovies = async ({
   }
 
   try {
-    renderSkeleton();
+    renderMovieListSkeleton();
     const search = getSearchParams("search") as string;
 
     const page = searchPageState.getPage() + 1;
@@ -86,7 +90,7 @@ export const loadSearchMovies = async ({
   } catch (e) {
     showError(e);
   } finally {
-    removeSkeleton();
+    removeMovieListSkeleton();
   }
 };
 
@@ -107,5 +111,7 @@ export const loadMovieDetail = async (movieId: string) => {
     renderMovieDetail(movieDetail);
   } catch (e) {
     showError(e);
+  } finally {
+    removeMovieDetailSkeleton();
   }
 };

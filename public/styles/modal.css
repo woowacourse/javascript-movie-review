@@ -130,6 +130,68 @@ body.modal-open {
   overflow-y: auto;
 }
 
+.modal.loading .modal-image {
+  width: 380px;
+  flex-shrink: 0;
+}
+
+.modal.loading .modal-image img,
+.modal.loading h2,
+.modal.loading .category,
+.modal.loading .rate-value,
+.modal.loading .rating-text,
+.modal.loading .detail {
+  color: transparent;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.08) 25%,
+    rgba(255, 255, 255, 0.18) 50%,
+    rgba(255, 255, 255, 0.08) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.4s ease-in-out infinite;
+  border-radius: 8px;
+}
+
+.modal.loading .modal-image img {
+  width: 100%;
+  min-height: 570px;
+  display: block;
+}
+
+.modal.loading h2 {
+  min-height: 38px;
+}
+
+.modal.loading .category {
+  width: 45%;
+  min-height: 24px;
+}
+
+.modal.loading .rate-value {
+  display: inline-block;
+  min-width: 48px;
+}
+
+.modal.loading .rating-text {
+  display: inline-block;
+  min-width: 160px;
+}
+
+.modal.loading .detail {
+  min-height: 160px;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
+}
+
 /* 테블릿 */
 @media (max-width: 1023px) {
   .modal-background {
@@ -177,6 +239,18 @@ body.modal-open {
     max-height: none;
     overflow-y: visible;
   }
+
+  .modal.loading .modal-image {
+    width: 200px;
+  }
+
+  .modal.loading .modal-image img {
+    min-height: 300px;
+  }
+
+  .modal.loading .category {
+    margin: 0 auto;
+  }
 }
 
 /* 모바일 */
@@ -207,5 +281,9 @@ body.modal-open {
 
   .detail {
     text-align: left;
+  }
+
+  .modal.loading .modal-image {
+    display: none;
   }
 }
