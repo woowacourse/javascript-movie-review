@@ -1,4 +1,4 @@
-import { MovieResponse } from "../../types/movie.ts";
+import { Movie, MovieResponse } from "../../types/movie.ts";
 
 const apiUrl = import.meta.env.VITE_API_BASE_URL;
 const accessToken = import.meta.env.VITE_ACCESS_TOKEN;
@@ -54,4 +54,25 @@ export const fetchSearchedMovies = async (
     nowPage: data.page,
     totalPages: data.total_pages,
   };
+};
+
+export const fetchTopRatedMovie = async (): Promise<Movie[]> => {
+  const response = await fetch(
+    `${apiUrl}/movie/top_rated?language=ko-KR&page=1&region=KR`,
+    {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    },
+  );
+
+  if (!response.ok) {
+    throw new Error("인기 영화를 가져오는 중 에러가 발생했습니다.");
+  }
+
+  const data = await response.json();
+
+  return data.results;
 };
