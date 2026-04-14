@@ -4,11 +4,11 @@ import LogoView from "./View/LogoView";
 import MovieListView from "./View/MovieListView";
 import TopRatedView from "./View/TopRatedView";
 import MovieDetailView from "./View/MovieDetailView";
-import { fetchMovieDetail } from "./api/fetchMovieDetail";
 import RatingView from "./View/RatingView";
 import MovieListController from "./Controller/MovieListController";
 import SearchView from "./View/SearchView";
 import TopRatedController from "./Controller/TopRatedController";
+import MovieDetailModalController from "./Controller/MovieDetailModalController";
 
 class App {
   #views;
@@ -27,6 +27,10 @@ class App {
     this.#controller = {
       movieList: new MovieListController(this.#views.movieList),
       topRated: new TopRatedController(this.#views.topRated),
+      movieDetail: new MovieDetailModalController(
+        this.#views.movieDetail,
+        this.#views.rating,
+      ),
     };
   }
 
@@ -44,24 +48,28 @@ class App {
   }
 
   #bindAllEvents() {
-    this.#bindWindowEvent();
-    this.#views.logo.bindEvent(this.#logoEventHandler);
-    this.#views.movieList.bindEvent(this.#movieDetailEventHandler);
+    this.#bindScrollEvent();
+    this.#views.logo.bindEvent(() => location.reload());
+    this.#views.topRated.bindEvent(async (movieId: number) => {
+      await this.#controller.movieDetail.showMovieInformation(movieId);
+    });
+
+    this.#views.movieList.bindEvent(async (movieId: number) => {
+      await this.#controller.movieDetail.showMovieInformation(movieId);
+    });
     this.#views.movieDetail.bindCloseEvent();
-    this.#views.topRated.bindEvent(this.#movieDetailEventHandler);
-    this.#views.rating.bindEvent(this.#ratingEventHandler);
+    this.#views.rating.bindEvent((ratingValue: number) => {
+      this.#controller.movieDetail.setRatingValue(ratingValue);
+    });
 
     this.#views.search.bindEvent(async () => {
+      this.#controller.topRated.hideBanner();
       const query = this.#views.search.getInputValue();
       await this.#controller.movieList.search(query);
     });
   }
 
-  #logoEventHandler = () => {
-    location.reload();
-  };
-
-  #bindWindowEvent = () => {
+  #bindScrollEvent = () => {
     window.addEventListener("scroll", async () => {
       if (
         window.innerHeight + window.scrollY >=
@@ -70,23 +78,6 @@ class App {
         await this.#controller.movieList.loadNextPage();
       }
     });
-  };
-
-  #movieDetailEventHandler = async (movieId: number) => {
-    const movieDetail = { ...(await fetchMovieDetail(movieId)) };
-
-    this.#views.movieDetail.show();
-    const savedRatingValue = Number(localStorage.getItem(`rating-${movieId}`));
-    this.#views.rating.renderByRatingValue(savedRatingValue);
-
-    this.#views.movieDetail.renderData(movieDetail);
-  };
-
-  #ratingEventHandler = (ratingValue: string) => {
-    this.#views.rating.setRating(ratingValue);
-    const movieId = this.#views.movieDetail.getMovieId();
-    localStorage.setItem(`rating-${movieId}`, ratingValue);
-    this.#views.rating.renderByRatingValue(Number(ratingValue));
   };
 }
 
