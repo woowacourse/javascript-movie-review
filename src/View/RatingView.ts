@@ -15,10 +15,6 @@ class RatingView {
     };
   }
 
-  setRating(ratingValue: string) {
-    this.#dom.container.dataset.ratingValue = ratingValue;
-  }
-
   renderByRatingValue(savedRatingValue: number) {
     this.#dom.stars.forEach((star) => {
       if (Number(star.getAttribute("data-score")) <= savedRatingValue) {
@@ -57,7 +53,7 @@ class RatingView {
     }
   }
 
-  bindEvent(handler: (ratingValue: string) => void) {
+  bindEvent(handler: (ratingValue: number) => void) {
     this.#dom.container.addEventListener("click", (e: MouseEvent) => {
       let star = (e.target as HTMLElement).closest(".review-star");
 
@@ -66,7 +62,7 @@ class RatingView {
       if (!ratingValue) {
         throw new Error("올바른 별점이 설정되지 않았습니다.");
       }
-      handler(ratingValue);
+      handler(Number(ratingValue));
     });
   }
 }
