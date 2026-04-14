@@ -16,10 +16,10 @@ class SearchView {
   }
 
   bindEvent(handler: () => void) {
-    this.#dom.form.addEventListener("submit", async (e) => {
+    this.#dom.form.addEventListener("submit", (e) => {
       e.preventDefault();
 
-      await handler();
+      handler();
     });
   }
 
