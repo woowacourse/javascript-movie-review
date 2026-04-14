@@ -1,6 +1,4 @@
-import { renderSearchPage } from "../../pages/search.ts";
-
-export const handleMovieSearch = async (keyword: string) => {
+export const handleMovieSearch = (keyword: string) => {
   if (keyword.trim() === "") {
     const hasKeyword = new URLSearchParams(window.location.search).has(
       "keyword",
@@ -15,10 +13,8 @@ export const handleMovieSearch = async (keyword: string) => {
   const params = url.searchParams;
 
   params.set("keyword", keyword);
-  url.search = params.toString();
-  window.location.href = url.toString();
-
   sessionStorage.setItem("page", "1");
 
-  await renderSearchPage("init");
+  url.search = params.toString();
+  window.location.href = url.toString();
 };
