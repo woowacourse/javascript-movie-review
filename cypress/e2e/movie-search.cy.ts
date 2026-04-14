@@ -1,34 +1,23 @@
 import { searchFixture } from "../../test/fixtures";
+import { mockSearchPage } from "../support/movie";
 
 describe("영화 검색 기능 테스트", () => {
   beforeEach(() => {
-    cy.intercept(
-      "GET",
-      "**/search/movie?page=1&query=%EC%8A%A4%ED%8C%8C%EC%9D%B4&language=ko-KR",
-      {
-        statusCode: 200,
-        body: {
-          page: 1,
-          results: [...searchFixture],
-          total_pages: 2,
-          total_results: 40,
-        },
-      },
-    ).as("getSearchPage1");
+    mockSearchPage({
+      query: "스파이",
+      page: 1,
+      results: searchFixture,
+      totalPages: 2,
+      totalResults: 40,
+    });
 
-    cy.intercept(
-      "GET",
-      "**/search/movie?page=2&query=%EC%8A%A4%ED%8C%8C%EC%9D%B4&language=ko-KR",
-      {
-        statusCode: 200,
-        body: {
-          page: 2,
-          results: [...searchFixture],
-          total_pages: 2,
-          total_results: 40,
-        },
-      },
-    ).as("getSearchPage2");
+    mockSearchPage({
+      query: "스파이",
+      page: 2,
+      results: searchFixture,
+      totalPages: 2,
+      totalResults: 40,
+    });
 
     cy.intercept(
       "GET",

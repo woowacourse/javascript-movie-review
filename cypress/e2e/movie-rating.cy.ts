@@ -1,31 +1,25 @@
-import { movieDetailFixture, moviesFixture } from "../../test/fixtures";
 import { RATING_SCORES, RATING_TEXTS } from "../../src/constants/rating";
+import { movieDetailFixture, moviesFixture } from "../../test/fixtures";
+import {
+  mockPopularPage,
+  mockMovieDetail,
+  openMovieModal,
+} from "../support/movie";
 
 describe("영화 별점 기능 테스트", () => {
-  const openMovieModal = () => {
-    cy.get("#movie-list li").first().click();
-    cy.wait("@getMovieDetail");
-    cy.get("#modal-background").should("have.class", "active");
-  };
-
   beforeEach(() => {
-    cy.intercept("GET", "**/movie/popular?page=1&language=ko-KR", {
-      statusCode: 200,
-      body: {
-        page: 1,
-        results: [...moviesFixture],
-        total_pages: 2,
-        total_results: 40,
-      },
-    }).as("getPopularPage1");
+    mockPopularPage({
+      page: 1,
+      results: moviesFixture,
+      totalPages: 2,
+      totalResults: 40,
+    });
 
-    cy.intercept("GET", "**/movie/640146?language=ko-KR", {
-      statusCode: 200,
-      body: movieDetailFixture,
-    }).as("getMovieDetail");
+    mockMovieDetail(moviesFixture[0].id, movieDetailFixture);
 
     cy.visit("localhost:5173");
     cy.wait("@getPopularPage1");
+
     cy.clearLocalStorage();
   });
 

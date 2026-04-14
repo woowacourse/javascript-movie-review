@@ -1,16 +1,14 @@
 import { moviesFixture } from "../../test/fixtures";
+import { mockPopularPage } from "../support/movie";
 
 describe("오류 대응 테스트", () => {
   beforeEach(() => {
-    cy.intercept("GET", "**/movie/popular?page=1&language=ko-KR", {
-      statusCode: 200,
-      body: {
-        page: 1,
-        results: [...moviesFixture],
-        total_pages: 2,
-        total_results: 40,
-      },
-    }).as("getPopularPage1");
+    mockPopularPage({
+      page: 1,
+      results: moviesFixture,
+      totalPages: 2,
+      totalResults: 40,
+    });
 
     cy.intercept("GET", "**/movie/popular?page=2&language=ko-KR", {
       statusCode: 400,
