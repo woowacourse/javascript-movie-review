@@ -28,9 +28,6 @@ class MovieDetailView {
   }
 
   bindModalCloseActions() {
-    // 여기 어떡하지 굳이 App에서 핸들러 넘겨받아야 하나?
-    // 너무 돌아가는 느낌인데
-    // 만약 close 버튼에 추가 기능이 생기면 App.ts에서 받는게 맞는데,,
     this.#dom.closeButton.addEventListener("click", () => {
       this.#dom.modal.close();
     });
