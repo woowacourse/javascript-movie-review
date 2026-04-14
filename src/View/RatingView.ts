@@ -53,7 +53,7 @@ class RatingView {
     }
   }
 
-  bindEvent(handler: (ratingValue: number) => void) {
+  bindRatingStarClick(handler: (ratingValue: number) => void) {
     this.#dom.container.addEventListener("click", (e: MouseEvent) => {
       let star = (e.target as HTMLElement).closest(".review-star");
 

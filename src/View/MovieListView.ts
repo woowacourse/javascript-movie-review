@@ -24,7 +24,7 @@ class MovieListView {
     };
   }
 
-  bindEvent(handler: (movieId: number) => void) {
+  bindMovieItemClick(handler: (movieId: number) => void) {
     this.#dom.list.addEventListener("click", (e: MouseEvent) => {
       let item = (e.target as HTMLElement).closest(".thumbnail-container");
 

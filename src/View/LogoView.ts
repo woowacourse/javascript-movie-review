@@ -13,7 +13,7 @@ class LogoView {
     };
   }
 
-  bindEvent(handler: () => void) {
+  bindLogoClick(handler: () => void) {
     this.#dom.logo.addEventListener("click", handler);
   }
 }

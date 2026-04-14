@@ -22,7 +22,7 @@ class TopRatedView {
     };
   }
 
-  bindEvent(handler: (movieId: number) => void) {
+  bindDetailButtonClick(handler: (movieId: number) => void) {
     this.#dom.button.addEventListener("click", async () => {
       const movieId = this.#dom.title.getAttribute("data-movie-id");
       if (!movieId) {

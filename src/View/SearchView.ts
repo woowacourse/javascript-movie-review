@@ -15,7 +15,7 @@ class SearchView {
     };
   }
 
-  bindEvent(handler: () => void) {
+  bindSearchSubmit(handler: () => void) {
     this.#dom.form.addEventListener("submit", (e) => {
       e.preventDefault();
 

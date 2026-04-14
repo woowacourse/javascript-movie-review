@@ -36,13 +36,13 @@ class App {
   }
 
   async init() {
-    this.#bindAllEvents();
-    this.#views.movieList.removeTopMargin();
-
     addEventListener("load", () => {
       const buttonImage = document.createElement("img");
       buttonImage.src = FilledStarIcon;
     });
+
+    this.#bindAllEvents();
+    this.#views.movieList.removeTopMargin();
 
     await this.#controller.movieList.loadInitialPopular();
     await this.#controller.topRated.loadBanner();
@@ -51,20 +51,20 @@ class App {
   }
 
   #bindAllEvents() {
-    this.#views.logo.bindEvent(() => location.reload());
-    this.#views.topRated.bindEvent(async (movieId: number) => {
+    this.#views.logo.bindLogoClick(() => location.reload());
+    this.#views.topRated.bindDetailButtonClick(async (movieId: number) => {
       await this.#controller.movieDetail.showMovieInformation(movieId);
     });
 
-    this.#views.movieList.bindEvent(async (movieId: number) => {
+    this.#views.movieList.bindMovieItemClick(async (movieId: number) => {
       await this.#controller.movieDetail.showMovieInformation(movieId);
     });
-    this.#views.movieDetail.bindCloseEvent();
-    this.#views.rating.bindEvent((ratingValue: number) => {
+    this.#views.movieDetail.bindModalCloseActions();
+    this.#views.rating.bindRatingStarClick((ratingValue: number) => {
       this.#controller.movieDetail.setRatingValue(ratingValue);
     });
 
-    this.#views.search.bindEvent(async () => {
+    this.#views.search.bindSearchSubmit(async () => {
       this.#controller.topRated.hideBanner();
       const query = this.#views.search.getInputValue();
       await this.#controller.movieList.search(query);
