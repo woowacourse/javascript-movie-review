@@ -66,7 +66,7 @@ class MovieDetailView {
     if (!movieId) {
       return undefined;
     }
-    return movieId.toString();
+    return Number(movieId);
   }
 
   renderData({
