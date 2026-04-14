@@ -59,17 +59,19 @@ export const mockSearchPage = ({
 };
 
 export const mockMovieDetail = (
-  movieId: number,
+  movieIndex: number,
   body: typeof movieDetailFixture,
 ) => {
+  const movieId = moviesFixture[movieIndex].id;
+
   cy.intercept("GET", `**/movie/${movieId}?language=ko-KR`, {
     statusCode: 200,
     body,
   }).as("getMovieDetail");
 };
 
-export const openMovieModal = () => {
-  cy.get("#movie-list li").first().click();
+export const openMovieModal = (movieIndex: number) => {
+  cy.get("#movie-list li").eq(movieIndex).click();
   cy.wait("@getMovieDetail");
   cy.get("#modal-background").should("have.class", "active");
 };

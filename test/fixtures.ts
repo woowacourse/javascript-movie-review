@@ -685,7 +685,7 @@ export const searchFixture = [
 ];
 
 export const movieDetailFixture = {
-  id: 640146,
+  id: moviesFixture[0].id,
   title: "앤트맨과 와스프: 퀀텀매니아",
   poster_path: "/ngl2FKBlU4fhbdsrtdom9LVLBXw.jpg",
   overview:
