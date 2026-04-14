@@ -1,5 +1,4 @@
 import { Movie, Movies } from "../services/dto";
-import { removeMoreButton } from "./moreButton";
 
 const createMovieNode = (movie: Movie): DocumentFragment | null => {
   const movieTemplate =
@@ -48,8 +47,6 @@ export const renderNoResult = () => {
     <span>검색 결과가 없습니다.</span>
   </p>`;
   noResult.innerHTML = empty;
-
-  removeMoreButton();
 };
 
 export const removeMovieList = () => {
