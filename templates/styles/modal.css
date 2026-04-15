@@ -11,6 +11,7 @@ body.modal-open {
   left: 0;
   width: 100%;
   height: 100%;
+  padding: 0 20px;
   background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경을 위해 설정 */
   backdrop-filter: blur(10px); /* 블러 효과 적용 */
   display: flex;
@@ -72,17 +73,46 @@ body.modal-open {
   position: relative;
   top: 5px;
 }
+.modal-description .rate > span {
+  color: white;
+}
 
 .modal-description > *:not(:last-child) {
   margin-bottom: 8px;
 }
 
 .modal-description h2 {
+  width: 80%;
+  word-break: keep-all;
+
   font-size: 2rem;
+  font-weight: 600;
+  line-height: 1.1;
   margin: 0 0 8px;
+}
+
+.modal-description hr {
+  opacity: 0.4;
+}
+
+.rate-title,
+.detail-title {
+  font-size: 1.3rem;
+  font-weight: 600;
 }
 
 .detail {
   max-height: 430px;
   overflow-y: auto;
+}
+
+.user-rate {
+  display: flex;
+
+  gap: 1rem;
+}
+
+.rate-detail > span {
+  font-size: 1.5rem;
+  font-weight: 600;
 }

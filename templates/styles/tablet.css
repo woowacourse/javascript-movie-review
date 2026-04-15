@@ -1,0 +1,47 @@
+@import "./colors.css";
+
+@media (max-width: 800px) {
+  .top-rated-movie > .title {
+    font-size: 2.5rem;
+  }
+  .search-container {
+    width: 80%;
+  }
+
+  /* 1. 그리드 변경 */
+  .thumbnail-list {
+    margin: 0 auto 56px;
+    /* grid-template-columns: repeat(3, 200px); */
+    gap: 60px;
+  }
+
+  /* 2. 모달 변경 */
+  .modal-background {
+    align-items: flex-end;
+    padding: 0 0;
+  }
+
+  .modal-container {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1.6rem;
+  }
+
+  .modal-image img {
+    width: 16rem;
+    border-radius: 16px;
+  }
+
+  .movie-detail {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    gap: 0.5rem;
+  }
+  .modal-description h2 {
+    text-align: center;
+  }
+}

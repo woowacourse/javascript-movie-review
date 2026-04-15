@@ -1,9 +1,8 @@
-import logo from "../../templates/images/logo.png";
-import starEmpty from "../../templates/images/star_empty.png";
-import posterError from "../../templates/images/poster_error.png";
-
 import { Movie } from "../types";
 import { getElement } from "./getElementView";
+
+import star_empty from "../../templates/images/star_empty.png";
+import posterError from "../../templates/images/poster_error.png";
 
 export const addMovieList = (
   movieDisplay: HTMLUListElement,
@@ -21,8 +20,8 @@ export const addMovieList = (
       />
       <div class="item-desc">
         <p class="rate">
-          <img class="star" src="${starEmpty}" />
-          <span class="vote-average">${movie.vote_average.toFixed(1)}</span>
+          <img class="star" src="${star_empty}" />
+          <span class="vote-average">${movie.vote_average ? movie.vote_average.toFixed(1) : 0}</span>
         </p>
         <strong class="title">${movie.title}</strong>
       </div>
@@ -55,22 +54,14 @@ export const removeMovieSkeletonUIList = (movieDisplay: HTMLUListElement) => {
 };
 
 export const showBackgroundMovieInfo = (movie: Movie) => {
-  const background = getElement(".background-container");
-  background.innerHTML = /*html*/ `
-          <div class="overlay" aria-hidden="true">
-           <img src="https://image.tmdb.org/t/p/w500${movie.backdrop_path}" alt="영화 이미지" />
-          </div>
-          <div class="top-rated-container">
-            <h1 class="logo">
-              <img src="${logo}" alt="MovieList" />
-            </h1>
-            <div class="top-rated-movie">
-              <div class="rate">
-                <img src="${starEmpty}" class="star" />
-                <span class="rate-value">${movie.vote_average.toFixed(1)}</span>
-              </div>
-              <div class="title">${movie.title}</div>
-            </div> 
-          </div>
-  `;
+  const voteAverage = getElement(".rate-value", HTMLElement);
+  voteAverage.textContent = movie.vote_average
+    ? movie.vote_average.toFixed(1)
+    : "0";
+
+  const title = getElement(".title", HTMLElement);
+  title.textContent = movie.title;
+
+  const img = getElement(".overlay > img", HTMLImageElement);
+  img.src = `https://image.tmdb.org/t/p/w500${movie.backdrop_path}`;
 };

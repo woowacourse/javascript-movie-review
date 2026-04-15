@@ -10,12 +10,31 @@
   <body>
     <div id="app">
       <header>
-        <div class="search-container">
-          <input class="search-bar" placeholder="검색어를 입력하세요" />
-          <button class="search-btn">🔍</button>
+        <div class="background-container">
+          <div class="overlay" aria-hidden="true">
+            <img alt="영화 이미지" />
+          </div>
+          <div class="top-rated-container">
+            <div class="top-rated-movie">
+              <div class="rate">
+                <img src="./templates/images/star_empty.png" class="star" />
+                <span class="rate-value">0</span>
+              </div>
+              <div class="title"></div>
+            </div>
+          </div>
         </div>
-        <div class="background-container"></div>
       </header>
+      <nav>
+        <div class="logo-container">
+          <img src="./templates/images/logo.png" alt="MovieList" />
+          <div class="search-container">
+            <input class="search-bar" placeholder="검색어를 입력하세요" />
+            <button class="search-btn">🔍</button>
+          </div>
+        </div>
+      </nav>
+
       <div class="container">
         <main>
           <section>
@@ -28,12 +47,8 @@
               />
               <p class="error-text"></p>
             </div>
-
             <ul class="thumbnail-list"></ul>
           </section>
-          <div class="btn-container">
-            <button type="button" class="display-more-btn">더 보기</button>
-          </div>
         </main>
       </div>
 
@@ -41,6 +56,70 @@
         <p>&copy; 우아한테크코스 All Rights Reserved.</p>
         <p><img src="./templates/images/woowacourse_logo.png" width="180" /></p>
       </footer>
+    </div>
+
+    <div class="modal-background" id="modalBackground">
+      <div class="modal">
+        <button class="close-modal" id="closeModal">
+          <img src="./templates/images/modal_button_close.png" />
+        </button>
+        <div class="modal-container">
+          <div class="modal-image">
+            <img
+              src="https://image.tmdb.org/t/p/original//pmemGuhr450DK8GiTT44mgwWCP7.jpg"
+            />
+          </div>
+          <div class="modal-description">
+            <div class="movie-detail">
+              <h2></h2>
+              <p class="category"></p>
+              <div class="rate">
+                <span>평균 &nbsp;</span>
+                <img src="./templates/images/star_filled.png" class="star" />
+                <p class="rate_average"></p>
+              </div>
+            </div>
+            <hr />
+            <p class="rate-title">내 별점</p>
+            <div class="user-rate">
+              <div class="star-container">
+                <img
+                  src="./templates/images/star_empty.png"
+                  class="star"
+                  value="1"
+                />
+                <img
+                  src="./templates/images/star_empty.png"
+                  class="star"
+                  value="2"
+                />
+                <img
+                  src="./templates/images/star_empty.png"
+                  class="star"
+                  value="3"
+                />
+                <img
+                  src="./templates/images/star_empty.png"
+                  class="star"
+                  value="4"
+                />
+                <img
+                  src="./templates/images/star_empty.png"
+                  class="star"
+                  value="5"
+                />
+              </div>
+              <div class="rate-detail">
+                <span class="rate-description"></span>
+                <span class="rate-percentage"></span>
+              </div>
+            </div>
+            <hr />
+            <p class="detail-title">줄거리</p>
+            <p class="detail"></p>
+          </div>
+        </div>
+      </div>
     </div>
   </body>
 </html>

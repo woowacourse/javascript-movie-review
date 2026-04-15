@@ -4,3 +4,6 @@
 @import "./reset.css";
 @import "./tab.css";
 @import "./thumbnail.css";
+
+@import "./tablet.css";
+@import "./mobile.css";
