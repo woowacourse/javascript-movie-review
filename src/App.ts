@@ -3,6 +3,7 @@ import "../public/styles/index.css";
 import AppState from "./AppState.ts";
 import MovieBrowseHandler from "./MovieBrowseHandler.ts";
 import ModalHandler from "./ModalHandler.ts";
+import { LocalRatingStorage } from "./storage/LocalRatingStorage.ts";
 
 class App {
   private state = new AppState();
@@ -18,7 +19,7 @@ class App {
 
   private async init() {
     await new MovieBrowseHandler(this.state).init();
-    new ModalHandler().init();
+    new ModalHandler(new LocalRatingStorage()).init();
   }
 }
 

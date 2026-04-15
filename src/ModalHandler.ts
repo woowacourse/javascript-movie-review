@@ -1,6 +1,9 @@
 import { renderMovieDetail } from "./movieDetailRenderer";
+import { RatingStorage } from "./storage/RatingStorage";
 
 class ModalHandler {
+  constructor(private storage: RatingStorage) {}
+
   modalArea = document.querySelector("#modalBackground");
 
   init() {
@@ -38,7 +41,7 @@ class ModalHandler {
         (e.target as HTMLElement).closest("[data-id]")?.getAttribute("data-id"),
       );
       document.querySelector(".modal-container")?.remove();
-      await renderMovieDetail(movieId);
+      await renderMovieDetail(movieId, this.storage);
       this.showModal();
     }
 
@@ -47,7 +50,7 @@ class ModalHandler {
         (e.target as HTMLElement).closest("[data-id]")?.getAttribute("data-id"),
       );
       document.querySelector(".modal-container")?.remove();
-      await renderMovieDetail(movieId);
+      await renderMovieDetail(movieId, this.storage);
       this.showModal();
     }
   };
