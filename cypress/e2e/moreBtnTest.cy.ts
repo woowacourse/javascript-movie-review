@@ -13,6 +13,20 @@ describe('무한스크롤 테스트', () => {
             cy.get('.thumbnail-list li').should('have.length.greaterThan', pageSize);
         });
     });
+
+    it('스크롤을 끝까지 내리면 마지막 페이지에서 멈춘다.', () => {
+        cy.fixture('popularMovies.json').then((data) => {
+            const pageSize = data.results.length;
+            cy.visit('/');
+            cy.get('.thumbnail-list li').should('have.length', pageSize);
+            cy.get('.thumbnail-list li').last().scrollIntoView();
+
+            cy.get('.thumbnail-list li').should('have.length.greaterThan', pageSize);
+
+            cy.get('.thumbnail-list li').last().scrollIntoView();
+            cy.get('.thumbnail-list li').should('have.length', pageSize * 2);
+        });
+    });
 });
 
 // describe('more btn test', () => {
