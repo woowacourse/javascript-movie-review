@@ -63,4 +63,27 @@ describe("영화 검색 결과 페이지 흐름", () => {
       .find(".title")
       .should("have.text", "스파이더맨 21");
   });
+
+  it("검색 요청이 실패하면 검색 에러 메시지를 보여준다.", () => {
+    mockPopularMovies({
+      1: createMoviePage("인기 영화", 1),
+    });
+
+    cy.intercept("GET", "**/search/movie**", {
+      statusCode: 500,
+      body: {},
+    }).as("searchMovies");
+
+    cy.visit("http://localhost:5173");
+    cy.wait("@getPopularMovies");
+
+    cy.get(".search-bar").type("스파이더맨");
+    cy.get(".search-btn").click();
+    cy.wait("@searchMovies");
+
+    cy.get(".error-text").should(
+      "contain.text",
+      "검색 결과를 불러오지 못했습니다.",
+    );
+  });
 });
