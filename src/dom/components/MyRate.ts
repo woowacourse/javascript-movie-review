@@ -8,7 +8,7 @@ const RATE_BUTTON_CONTAINER_ID = "rate-button-container";
 let myRateElement: HTMLElement | null = null;
 
 // TODO: (typeof RATES)[number]["rate"]로 타입을 엄격히 검사할 필요가 있을까?
-const createMyRateTemplate = (userRate: number) => {
+const createMyRateTemplate = (userRate: number | null) => {
   const rateConfig = RATES.find(({ rate }) => rate === userRate);
 
   return `
@@ -28,17 +28,21 @@ export const renderMyRate = async (parent: HTMLElement, movieId: number) => {
     myRateElement.remove();
   }
 
-  // TODO: 에러 핸들링 필요한가
-  const response = await getRate({ movieId });
-  const rate = response?.rate ?? 0;
+  let rate: number | null = 0;
+  try {
+    const response = await getRate({ movieId });
+    rate = response?.rate ?? 0;
+  } catch {
+    rate = null;
+  }
 
   parent.insertAdjacentHTML("beforeend", createMyRateTemplate(rate));
   myRateElement = document.getElementById(MY_RATE_ID);
 
   const rateButtonContainer = document.getElementById(RATE_BUTTON_CONTAINER_ID);
   if (rateButtonContainer) {
-    renderRateButtons(rateButtonContainer, "filled", rate);
-    renderRateButtons(rateButtonContainer, "empty", 5 - rate);
+    renderRateButtons(rateButtonContainer, "filled", rate ?? 0);
+    renderRateButtons(rateButtonContainer, "empty", 5 - (rate ?? 0));
   }
 
   // TODO: 이벤트 핸들러, 분리해야 하나?

@@ -1,5 +1,10 @@
 export const RATES = [
   {
+    rate: null,
+    comment: "별점을 불러올 수 없습니다.",
+    score: 0,
+  },
+  {
     rate: 0,
     comment: "별점을 남겨주세요",
     score: 0,

@@ -1,13 +1,14 @@
-import { CreateMovieRateParameter, GetMovieRateParameter, Rate, UpdateMovieRateParameter } from "./type.ts";
+import {
+  CreateMovieRateParameter,
+  GetMovieRateParameter,
+  Rate,
+  UpdateMovieRateParameter,
+} from "./type.ts";
 
 const RATE_KEY = "rate";
 
 const getRates = (): Record<string, number> => {
-  try {
-    return JSON.parse(localStorage.getItem(RATE_KEY) ?? "{}");
-  } catch {
-    return {};
-  }
+  return JSON.parse(localStorage.getItem(RATE_KEY) ?? "{}");
 };
 
 export const getRate = async ({
