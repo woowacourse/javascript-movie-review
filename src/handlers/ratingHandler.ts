@@ -1,13 +1,13 @@
 import { isRatingScore, RATING_SCORES } from "../constants/rating";
 import { ratingStorage } from "../services/ratingStorage";
-import { fillStars, updateRatingResult } from "../view/movieDetail";
+import { fillRatingStars, updateRatingSummary } from "../view/rating";
 
 export const handleRatingStarClick = (index: number) => {
   const ratingScore = RATING_SCORES[index];
   if (!isRatingScore(ratingScore)) return;
 
-  fillStars(index);
-  updateRatingResult(index);
+  fillRatingStars(index);
+  updateRatingSummary(index);
 
   const movieModal = document.querySelector<HTMLElement>(".modal");
   if (!movieModal) return;

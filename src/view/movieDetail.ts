@@ -1,51 +1,49 @@
-import {
-  isRatingScore,
-  RATING_SCORES,
-  RATING_TEXTS,
-} from "../constants/rating";
 import { MovieDetail } from "../services/dto";
-import { ratingStorage } from "../services/ratingStorage";
+import { resetRatingView, restoreRatingView } from "./rating";
+
+interface MovieDetailViewData {
+  imageSrc: string;
+  title: string;
+  category: string;
+  rate: string;
+  detail: string;
+}
 
 export const renderMovieDetail = (movieDetail: MovieDetail) => {
   const movieModal = document.querySelector<HTMLElement>(".modal");
   if (!movieModal) return;
   movieModal.dataset.movieId = String(movieDetail.id);
 
-  const modalImage =
-    movieModal.querySelector<HTMLImageElement>(".modal-image img");
-  const title = movieModal.querySelector("h2");
-  const category = movieModal.querySelector(".category");
-  const rate = movieModal.querySelector(".rate-value");
-  const detail = movieModal.querySelector(".detail");
+  const releaseYear = new Date(movieDetail.release_date).getFullYear();
+  const genres = movieDetail.genres.map((genre) => genre.name).join(", ");
 
-  if (modalImage) {
-    modalImage.src =
-      `https://media.themoviedb.org/t/p/w300_and_h450_face` +
-      movieDetail.poster_path;
-  }
+  updateMovieDetailContent(movieModal, {
+    imageSrc: `https://media.themoviedb.org/t/p/w300_and_h450_face${movieDetail.poster_path}`,
+    title: movieDetail.title,
+    category: `${releaseYear} · ${genres}`,
+    rate: movieDetail.vote_average.toString(),
+    detail: movieDetail.overview,
+  });
 
-  if (category) {
-    const releaseYear = new Date(movieDetail.release_date).getFullYear();
-    const genres = movieDetail.genres.map((genre) => genre.name).join(", ");
-    category.textContent = `${releaseYear} · ${genres}`;
-  }
-
-  if (title) title.textContent = movieDetail.title;
-  if (rate) rate.textContent = movieDetail.vote_average.toString();
-  if (detail) detail.textContent = movieDetail.overview;
-
-  const savedRating = ratingStorage.get(String(movieDetail.id));
-  if (!isRatingScore(savedRating)) return;
-
-  const index = RATING_SCORES.indexOf(savedRating);
-  fillStars(index);
-  updateRatingResult(index);
+  restoreRatingView(String(movieDetail.id));
 };
 
 export const clearMovieDetail = () => {
-  const movieModal = document.querySelector(".modal");
+  const movieModal = document.querySelector<HTMLElement>(".modal");
   if (!movieModal) return;
 
+  updateMovieDetailContent(movieModal, {
+    imageSrc: "",
+    title: "",
+    category: "",
+    rate: "",
+    detail: "",
+  });
+
+  resetRatingView(movieModal);
+};
+
+const getMovieDetailElements = (movieModal: HTMLElement) => {
   const modalImage =
     movieModal.querySelector<HTMLImageElement>(".modal-image img");
   const title = movieModal.querySelector("h2");
@@ -53,37 +51,19 @@ export const clearMovieDetail = () => {
   const rate = movieModal.querySelector(".rate-value");
   const detail = movieModal.querySelector(".detail");
 
-  if (modalImage) modalImage.src = "";
-  if (title) title.textContent = "";
-  if (category) category.textContent = "";
-  if (rate) rate.textContent = "";
-  if (detail) detail.textContent = "";
-
-  const stars = movieModal.querySelectorAll<HTMLImageElement>(".stars img");
-  stars.forEach((star) => (star.src = "./images/star_empty.png"));
-
-  const ratingText = movieModal.querySelector(".rating-text");
-  if (ratingText) ratingText.textContent = "평가해주세요";
-
-  const ratingValue = movieModal.querySelector("#rating-value");
-  if (ratingValue) ratingValue.textContent = "0";
+  return { modalImage, title, category, rate, detail };
 };
 
-export const fillStars = (index: number) => {
-  const stars = document.querySelectorAll<HTMLImageElement>(".stars img");
+const updateMovieDetailContent = (
+  movieModal: HTMLElement,
+  viewData: MovieDetailViewData,
+) => {
+  const { modalImage, title, category, rate, detail } =
+    getMovieDetailElements(movieModal);
 
-  stars.forEach((currentStar, currentIndex) => {
-    currentStar.src =
-      currentIndex <= index
-        ? "./images/star_filled.png"
-        : "./images/star_empty.png";
-  });
-};
-
-export const updateRatingResult = (index: number) => {
-  const ratingText = document.querySelector(".rating-text");
-  if (ratingText) ratingText.textContent = RATING_TEXTS[index];
-
-  const ratingValue = document.querySelector("#rating-value");
-  if (ratingValue) ratingValue.textContent = RATING_SCORES[index];
+  if (modalImage) modalImage.src = viewData.imageSrc;
+  if (title) title.textContent = viewData.title;
+  if (category) category.textContent = viewData.category;
+  if (rate) rate.textContent = viewData.rate;
+  if (detail) detail.textContent = viewData.detail;
 };
