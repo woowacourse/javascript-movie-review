@@ -159,18 +159,7 @@ export const bindModalOnOffEvent = (storage: StarRatingStore) => {
         if (!item?.dataset.id) return;
 
         const movie = await fetchMovieDetail(Number(item.dataset.id));
-        currentMovieId = movie.id;
-        showBackgroundMovieInfo(movie);
-        const modalPoster = getElement('#modalPoster') as HTMLImageElement;
-        modalPoster.src = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
-        getElement('#modalTitle').textContent = movie.title;
-        getElement('#modalCategory').textContent =
-            `${movie.release_date.slice(0, 4)} · ${movie.genres.map((g) => g.name).join(', ')}`;
-        getElement('#modalRate').textContent = String(movie.vote_average.toFixed(1));
-        getElement('#modalDetail').textContent = movie.overview;
-
-        const savedRate = storage.get(movie.id);
-        updateMyStarRate(savedRate ?? '0');
+        filledModalInfo(storage, movie);
 
         modalBackground.classList.add('active');
         document.body.classList.add('modal-open');
@@ -189,6 +178,21 @@ export const bindModalOnOffEvent = (storage: StarRatingStore) => {
             document.body.classList.remove('modal-open');
         }
     });
+};
+
+export const filledModalInfo = (storage: StarRatingStore, movie: Movie) => {
+    currentMovieId = movie.id;
+    const modalPoster = getElement('#modalPoster') as HTMLImageElement;
+    showBackgroundMovieInfo(movie);
+    modalPoster.src = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
+    getElement('#modalTitle').textContent = movie.title;
+    getElement('#modalCategory').textContent =
+        `${movie.release_date.slice(0, 4)} · ${movie.genres.map((g) => g.name).join(', ')}`;
+    getElement('#modalRate').textContent = String(movie.vote_average.toFixed(1));
+    getElement('#modalDetail').textContent = movie.overview;
+
+    const savedRate = storage.get(movie.id);
+    updateMyStarRate(savedRate ?? '0');
 };
 
 export const bindClickStarEvent = (storage: StarRatingStore) => {
