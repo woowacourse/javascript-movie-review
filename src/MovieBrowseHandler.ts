@@ -1,8 +1,10 @@
+import { renderMovies } from "./movieRenderer.ts";
 import {
-  renderMovies,
   renderSearchedMovies,
-  replaceBanner,
-} from "./movieRenderer.ts";
+  resetMovieList,
+  replaceHeaderWithBanner,
+  replaceSectionTitle,
+} from "./searchPageRenderer.ts";
 import AppState from "./AppState.ts";
 import { createScrollObserver } from "./utils/scrollObserver.ts";
 
@@ -66,24 +68,14 @@ class MovieBrowseHandler {
     this.state.currentKeyword =
       document.querySelector<HTMLInputElement>(".search-input")!.value;
 
-    const list = document.querySelector(".thumbnail-list");
-    if (list) list.replaceChildren();
-
-    const header = document.querySelector<HTMLElement>("#header");
-    if (header) {
-      header.replaceChildren();
-      replaceBanner(header, this.state.currentKeyword);
-    }
+    resetMovieList();
+    replaceHeaderWithBanner(this.state.currentKeyword);
+    replaceSectionTitle(this.state.currentKeyword);
 
     await renderSearchedMovies(
       this.state.currentKeyword,
       this.state.searchPageCount,
     );
-
-    const sectionTitle = document.querySelector("#section-title");
-    if (sectionTitle) {
-      sectionTitle.textContent = `"${this.state.currentKeyword}" 검색 결과`;
-    }
   };
 }
 

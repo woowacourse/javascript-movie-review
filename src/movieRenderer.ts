@@ -1,11 +1,11 @@
-import { fetchMovies, fetchSearchedMovies } from "./movieAPIResponse.ts";
+import { fetchMovies } from "./movieAPIResponse.ts";
 import type { Movie } from "../types/Movie.ts";
 import type { MovieResponse } from "../types/MovieResponse";
 
 const posterBaseURL = "https://image.tmdb.org/t/p/original/";
 const base = import.meta.env.BASE_URL;
 
-const createMovieItem = (movie: Movie): HTMLLIElement => {
+export const createMovieItem = (movie: Movie): HTMLLIElement => {
   const posterSrc = `${posterBaseURL}${movie.poster_path}`;
 
   const li = document.createElement("li");
@@ -122,39 +122,4 @@ export const replaceBanner = (header: HTMLElement, searchKeyword: string) => {
 
   const input = header.querySelector<HTMLInputElement>(".search-input");
   if (input) input.value = searchKeyword;
-};
-
-export const renderSearchedMovies = async (
-  searchKeyword: string,
-  searchPageCount: number,
-) => {
-  try {
-    const movieData: MovieResponse = await fetchSearchedMovies(
-      searchKeyword,
-      searchPageCount,
-    );
-    const movies = movieData.results;
-
-    const list = document.querySelector(".thumbnail-list");
-
-    if (list && movies.length === 0 && searchPageCount === 1) {
-      list.insertAdjacentHTML(
-        "beforeend",
-        /*html*/ `
-      <div id="no-result">
-        <img src="${base}images/planet_icon.png" alt="검색 결과 없음" class="no-result-icon" />
-        <p class="no-result-text">검색 결과가 없습니다.</p>
-      </div>`,
-      );
-    }
-
-    movies.forEach((movie: Movie) => {
-      list?.appendChild(createMovieItem(movie));
-    });
-
-    return movieData.total_pages;
-  } catch {
-    alert("영화 검색에 실패했습니다. 잠시 후 다시 시도해 주세요.");
-    return 0;
-  }
 };

@@ -36,18 +36,10 @@ class ModalHandler {
   };
 
   handleMovieClick = async (e: MouseEvent) => {
-    if ((e.target as HTMLElement).closest(".item")) {
+    const target = e.target as HTMLElement;
+    if (target.closest(".item") || target.closest(".primary.detail")) {
       const movieId: number = Number(
-        (e.target as HTMLElement).closest("[data-id]")?.getAttribute("data-id"),
-      );
-      document.querySelector(".modal-container")?.remove();
-      await renderMovieDetail(movieId, this.storage);
-      this.showModal();
-    }
-
-    if ((e.target as HTMLElement).closest(".primary.detail")) {
-      const movieId: number = Number(
-        (e.target as HTMLElement).closest("[data-id]")?.getAttribute("data-id"),
+        target.closest("[data-id]")?.getAttribute("data-id"),
       );
       document.querySelector(".modal-container")?.remove();
       await renderMovieDetail(movieId, this.storage);
