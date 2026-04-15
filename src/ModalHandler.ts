@@ -17,21 +17,21 @@ class ModalHandler {
   handleModalCloseButtonClick = (e: MouseEvent) => {
     if ((e.target as HTMLElement).closest("#closeModal")) {
       document.querySelector(".modal-container")?.remove();
-      this.modalArea?.classList.remove("active");
+      this.hideModal();
     }
   };
 
   handleModalCloseButtonKeyDown = (e: KeyboardEvent) => {
     if (e.key === "Escape") {
       document.querySelector(".modal-container")?.remove();
-      this.modalArea?.classList.remove("active");
+      this.hideModal();
     }
   };
 
   handleModalCloseBackdrop = (e: MouseEvent) => {
     if ((e.target as HTMLElement) === this.modalArea) {
       document.querySelector(".modal-container")?.remove();
-      this.modalArea?.classList.remove("active");
+      this.hideModal();
     }
   };
 
@@ -57,6 +57,11 @@ class ModalHandler {
 
   private showModal() {
     this.modalArea?.classList.add("active");
+  }
+
+  private hideModal() {
+    document.querySelector(".modal-container")?.remove();
+    this.modalArea?.classList.remove("active");
   }
 }
 
