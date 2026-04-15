@@ -7,7 +7,7 @@ describe('무한스크롤 테스트', () => {
             const pageSize = data.results.length;
             const scrollCount = 20;
 
-            cy.visit('http://localhost:5173');
+            cy.visit('/');
 
             cy.get('.thumbnail-list li').should('have.length', pageSize);
 
@@ -22,47 +22,6 @@ describe('무한스크롤 테스트', () => {
             }
         });
     });
-    // it('스크롤을 내리면 추가 영화 목록을 불러온다.', () => {
-    //     cy.visit('http://localhost:5173');
-
-    //     cy.get('.thumbnail-list li').should('have.length', 20);
-
-    //     cy.get('.thumbnail-list li').last().scrollIntoView();
-
-    //     cy.get('.thumbnail-list li').should('have.length', 40);
-
-    //     cy.get('.thumbnail-list li').last().scrollIntoView();
-
-    //     cy.get('.thumbnail-list li').should('have.length', 60);
-
-    //     cy.get('.thumbnail-list li').last().scrollIntoView();
-
-    //     cy.get('.thumbnail-list li').should('have.length', 80);
-
-    //     cy.get('.thumbnail-list li').last().scrollIntoView();
-
-    //     cy.get('.thumbnail-list li').should('have.length', 100);
-
-    //     cy.get('.thumbnail-list li').last().scrollIntoView();
-
-    //     cy.get('.thumbnail-list li').should('have.length', 120);
-
-    //     cy.get('.thumbnail-list li').last().scrollIntoView();
-
-    //     cy.get('.thumbnail-list li').should('have.length', 140);
-
-    //     cy.get('.thumbnail-list li').last().scrollIntoView();
-
-    //     cy.get('.thumbnail-list li').should('have.length', 160);
-
-    //     cy.get('.thumbnail-list li').last().scrollIntoView();
-
-    //     cy.get('.thumbnail-list li').should('have.length', 180);
-
-    //     cy.get('.thumbnail-list li').last().scrollIntoView();
-
-    //     cy.get('.thumbnail-list li').should('have.length', 200);
-    // });
 });
 
 // describe('more btn test', () => {

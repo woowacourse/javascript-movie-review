@@ -3,7 +3,7 @@ describe('별점 매기기 테스트', () => {
         cy.intercept('GET', '**/movie/*', { fixture: 'infoModal.json' });
         cy.intercept('GET', '**/movie/popular**', { fixture: 'popularMovies.json' });
         cy.clearLocalStorage();
-        cy.visit('http://localhost:5173');
+        cy.visit('/');
         cy.get('.thumbnail-list li').first().click();
         cy.get('#modalBackground').should('have.class', 'active');
     });
