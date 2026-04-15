@@ -44,9 +44,9 @@ export function showMoreMovie(data: MovieResponse): void {
   movieList.renderMovieList(data);
 }
 
-export function openModal(data: MovieDetailResponse): void {
+export function openModal(data: MovieDetailResponse, rating: number): void {
   currentModal = new Modal(data);
-  currentModal.renderModal();
+  currentModal.renderModal(rating);
 }
 
 export function closeModal(element: HTMLElement): void {

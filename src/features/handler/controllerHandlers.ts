@@ -14,6 +14,7 @@ import {
 } from "./renderHandlers";
 import { userErrorMessage } from "../../utils/userErrorMessage";
 import { setRating } from "../../utils/setRating";
+import { getRating } from "../../utils/getRating";
 
 export async function controlInitialMovies(page: number): Promise<number> {
   try {
@@ -73,7 +74,8 @@ export async function appendNextPageMovies(
 export async function controlModal(id: number): Promise<void> {
   try {
     const data = await fetchMovieDetailApi(id);
-    openModal(data);
+    const rating = getRating(id);
+    openModal(data, rating!);
   } catch (error) {
     alert(userErrorMessage(error));
   }

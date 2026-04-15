@@ -1,5 +1,4 @@
 import { MovieDetailResponse } from "../../../types/types";
-import { getRating } from "../../utils/getRating";
 import { MOVIE_RATING } from "../../constants/constant";
 import star_filled from "../../images/star_filled.png";
 import star_empty from "../../images/star_empty.png";
@@ -16,8 +15,7 @@ export default class Modal {
     this.modalElement = null;
   }
 
-  renderModal(): void {
-    const rating = getRating(this.movieInfo.id);
+  renderModal(rating: number): void {
     this.modalContainer.insertAdjacentHTML(
       "beforeend",
       /*html*/ `
