@@ -1,11 +1,8 @@
+import { Storage } from './storageInterface';
+
 const KEY_PREFIX = 'rating_';
 
-export interface StarRatingStore {
-    set(movieId: number, rating: string): void;
-    get(movieId: number): string;
-}
-
-export const starRatingStorage = {
+export const starRatingStorage: Storage<number, string> = {
     set(movieId: number, rating: string): void {
         localStorage.setItem(`${KEY_PREFIX}${movieId}`, rating);
     },

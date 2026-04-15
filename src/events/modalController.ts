@@ -1,12 +1,12 @@
 import { fetchMovieDetail } from '../service/movieApi.ts';
 import { getElement } from '../view/getElementView.ts';
 import { Movie, showBackgroundMovieInfo, updateMyStarRate } from '../view/movieListView.ts';
-import { StarRatingStore } from '../storage/StarRatingStorage.ts';
+import { Storage } from '../storage/storageInterface.ts';
 
 class ModalController {
     private currentMovieId = 0;
 
-    bindModalOnOffEvent = (storage: StarRatingStore) => {
+    bindModalOnOffEvent = (storage: Storage<number, string>) => {
         const thumbnailBox = getElement('.thumbnail-list');
         const modalBackground = getElement('#modalBackground');
 
@@ -38,7 +38,7 @@ class ModalController {
         });
     };
 
-    filledModalInfo = (storage: StarRatingStore, movie: Movie) => {
+    filledModalInfo = (storage: Storage<number, string>, movie: Movie) => {
         this.currentMovieId = movie.id;
         const modalPoster = getElement('#modalPoster') as HTMLImageElement;
         showBackgroundMovieInfo(movie);
@@ -53,7 +53,7 @@ class ModalController {
         updateMyStarRate(savedRate ?? '0');
     };
 
-    bindClickStarEvent = (storage: StarRatingStore) => {
+    bindClickStarEvent = (storage: Storage<number, string>) => {
         // 별점 클릭 - 한 번만 등록
         const emptyStars = document.querySelectorAll<HTMLElement>('.star-icon');
         emptyStars.forEach((star: HTMLElement) => {
