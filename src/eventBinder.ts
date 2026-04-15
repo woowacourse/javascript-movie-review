@@ -47,6 +47,10 @@ export const bindModalEvents = () => {
   });
 
   document.addEventListener("keydown", (event) => {
+    const modalBackground = document.querySelector("#modal-background");
+    if (!modalBackground?.classList.contains("active")) return;
+    console.log("esc");
+
     if (event.key === "Escape") {
       handleModalEscapeKeydown();
     }
