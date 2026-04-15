@@ -21,7 +21,7 @@ export default class Modal {
     this.modalContainer.insertAdjacentHTML(
       "beforeend",
       /*html*/ `
-    <div class="modal-background active" id="modalBackground">
+    <div class="modal-background active">
       <div class="modal" data-id="${this.movieInfo.id}">
         <button class="close-modal" id="closeModal">
           <img src=${modal_close} />
