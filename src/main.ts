@@ -9,7 +9,9 @@ import { getUListElement } from './view/getElementView.ts';
 
 import { starRatingStorage } from './storage/StarRatingStorage.ts';
 
-import { bindClickStarEvent, bindMoreMovieEvents, bindSearchEvents } from './events/bindMovieEvent.ts';
+import { bindMoreMovieEvents, bindSearchEvents } from './events/bindMovieEvent.ts';
+
+import ModalController from './events/modalController.ts';
 
 export type State = {
     pageNum: number;
@@ -40,5 +42,7 @@ addEventListener('load', async () => {
     bindSearchEvents(state);
     bindMoreMovieEvents(state);
 
-    bindClickStarEvent(starRatingStorage);
+    const modalController = new ModalController();
+    modalController.bindModalOnOffEvent(starRatingStorage);
+    modalController.bindClickStarEvent(starRatingStorage);
 });
