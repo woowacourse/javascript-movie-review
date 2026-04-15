@@ -1,6 +1,9 @@
 import { MovieDetailResponse } from "../../../types/types";
 import { getRating } from "../../utils/getRating";
 import { MOVIE_RATING } from "../../constants/constant";
+import star_filled from "../../images/star_filled.png";
+import star_empty from "../../images/star_empty.png";
+import modal_close from "../../images/modal_button_close.png";
 
 export default class Modal {
   movieInfo: MovieDetailResponse;
@@ -18,7 +21,7 @@ export default class Modal {
       .map(
         (score) => `
       <img
-        src="${score <= (rating ?? 0) ? "./src/images/star_filled.png" : "./src/images/star_empty.png"}"
+        src="${score <= (rating ?? 0) ? star_filled : star_empty}"
         data-id="${score}"
         class="star"
       />
@@ -31,7 +34,7 @@ export default class Modal {
     <div class="modal-background active" id="modalBackground">
       <div class="modal" data-id="${this.movieInfo.id}">
         <button class="close-modal" id="closeModal">
-          <img src="./src/images/modal_button_close.png" />
+          <img src=${modal_close} />
         </button>
         <div class="modal-container">
           <div class="modal-image">
@@ -47,7 +50,7 @@ export default class Modal {
             </p>
             <p class="rate">
               <span class="rate-label">평균&nbsp;&nbsp;</span>
-              <img src="./src/images/star_filled.png" class="star" /><span
+              <img src=${star_filled} class="star" /><span
                 >${this.movieInfo.vote_average.toFixed(1)}</span
               >
             </p>
