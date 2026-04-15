@@ -9,6 +9,7 @@ import { setRating } from "./utils/setRating";
 
 let page: number = 1;
 let searchMovie: string = "";
+let totalPage: number = 0;
 
 const backgroundContainer = document.querySelector(
   ".background-container",
@@ -20,7 +21,7 @@ const modalContainer = document.querySelector(
 
 addEventListener("load", async () => {
   // 초기 렌더링
-  await controlInitialMovies(page);
+  totalPage = await controlInitialMovies(page);
 });
 
 // 검색
@@ -35,12 +36,12 @@ backgroundContainer.addEventListener("submit", async (e: SubmitEvent) => {
 
   // 검색어가 없는 경우 초기 렌더링
   if (searchMovie === "") {
-    await controlInitialMovies(page);
+    totalPage = await controlInitialMovies(page);
     return;
   }
 
   // 검색어가 있는 경우 검색 결과 렌더링
-  await controlSearchMovies(page, searchMovie);
+  totalPage = await controlSearchMovies(page, searchMovie);
 });
 
 // 로고 클릭
@@ -54,14 +55,20 @@ backgroundContainer.addEventListener("click", async (e: MouseEvent) => {
 
   page = 1;
   searchMovie = "";
-  await controlInitialMovies(page);
+  totalPage = await controlInitialMovies(page);
 });
 
 // 무한 스크롤
 window.addEventListener("scroll", async () => {
   if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 1) {
-    page += 1;
-    await appendNextPageMovies(page, searchMovie);
+    if (page >= totalPage) {
+      return;
+    }
+    const isSuccess = await appendNextPageMovies(page + 1, searchMovie);
+
+    if (isSuccess) {
+      page += 1;
+    }
   }
 });
 

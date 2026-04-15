@@ -13,7 +13,7 @@ import {
 } from "./renderHandlers";
 import { userErrorMessage } from "../../utils/userErrorMessage";
 
-export async function controlInitialMovies(page: number): Promise<void> {
+export async function controlInitialMovies(page: number): Promise<number> {
   try {
     showMainTitle("지금 인기 있는 영화");
     showSkeleton();
@@ -21,15 +21,17 @@ export async function controlInitialMovies(page: number): Promise<void> {
     const data = await fetchMoviesApi(POPULAR_PATH, page);
     showHeader(data.results[0]);
     showMovieList(data);
+    return data.total_pages;
   } catch (error) {
     alert(userErrorMessage(error));
+    return 0;
   }
 }
 
 export async function controlSearchMovies(
   page: number,
   searchMovie: string,
-): Promise<void> {
+): Promise<number> {
   try {
     showMainTitle(`"${searchMovie}" 검색 결과`);
     showSkeleton();
@@ -42,23 +44,27 @@ export async function controlSearchMovies(
     } else {
       showMovieList(data);
     }
+    return data.total_pages;
   } catch (error) {
     alert(userErrorMessage(error));
+    return 0;
   }
 }
 
 export async function appendNextPageMovies(
   page: number,
   searchMovie: string,
-): Promise<void> {
+): Promise<boolean> {
   try {
     const data =
       searchMovie === ""
         ? await fetchMoviesApi(POPULAR_PATH, page)
         : await fetchMoviesApi(SEARCH_PATH, page, searchMovie);
     showMoreMovie(data);
+    return true;
   } catch (error) {
     alert(userErrorMessage(error));
+    return false;
   }
 }
 
