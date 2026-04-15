@@ -1,40 +1,72 @@
-@import "./colors.css";
+@import './colors.css';
 
 .thumbnail-list {
-  margin: 0 auto 56px;
-  display: grid;
-  grid-template-columns: repeat(5, 200px);
-  gap: 70px;
+    margin: 0 auto 56px;
+    display: grid;
+    grid-template-columns: repeat(5, 200px);
+    gap: 70px;
 }
 
 .thumbnail {
-  width: 200px;
-  height: 300px;
-  border-radius: 8px;
+    width: 200px;
+    height: 300px;
+    border-radius: 8px;
+}
+
+.thumbnail:hover {
+    box-shadow: 10px 10px 10px 0px rgba(25, 42, 70, 0.2);
+    /* transform: translate(0, -5px); */
+    transform: scale(1.05);
+    transition-duration: 0.3s;
+    cursor: pointer;
 }
 
 .item {
-  user-select: none;
-  cursor: pointer;
+    user-select: none;
+    cursor: pointer;
 }
 
 .item-desc > *:not(:last-child) {
-  position: relative;
-  margin-bottom: 4px;
-  line-height: 1.2rem;
+    position: relative;
+    margin-bottom: 4px;
+    line-height: 1.2rem;
 }
 
 p.rate {
-  display: flex;
-  align-items: baseline;
-  color: var(--color-yellow);
+    display: flex;
+    align-items: baseline;
+    color: var(--color-yellow);
 }
 
 p.rate > span {
-  margin-left: 4px;
+    margin-left: 4px;
 }
 
 .item .star {
-  width: 16px;
-  top: 1px;
+    width: 16px;
+    top: 1px;
+}
+
+@media only screen and (800px <= width <= 1300px) {
+    .thumbnail-list {
+        margin: 0 auto 56px;
+        display: grid;
+        grid-template-columns: repeat(3, 200px);
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    .thumbnail-list {
+        margin: 0 auto 56px;
+        display: grid;
+        grid-template-columns: repeat(3, 200px);
+    }
+}
+
+@media only screen and (480px<= width <= 800px) {
+    .thumbnail-list {
+        margin: 0 auto 56px;
+        display: grid;
+        grid-template-columns: repeat(1, 200px);
+    }
 }

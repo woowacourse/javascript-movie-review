@@ -1,61 +1,102 @@
 <!doctype html>
 <html lang="ko">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./templates/styles/index.css" />
-    <title>영화 리뷰</title>
-    <script type="module" src="/src/main.ts"></script>
-  </head>
-  <body>
-    <div id="app">
-      <header>
-        <div class="search-container">
-          <input class="search-bar" placeholder="검색어를 입력하세요" />
-          <button class="search-btn">🔍</button>
-        </div>
-        <div class="background-container">
-          <!-- <div class="overlay" aria-hidden="true">
-            <img src="" alt="" />
-          </div>
-          <div class="top-rated-container">
-            <h1 class="logo">
-              <img src="/src/templates/images/logo.png" alt="MovieList" />
-            </h1>
-            <div class="top-rated-movie">
-              <div class="rate">
-                <img src="./images/star_empty.png" class="star" />
-                <span class="rate-value">9.5</span>
-              </div>
-              <div class="title">인사이드 아웃2</div>
-              <button class="primary detail">자세히 보기</button>
-            </div>
-            <img src="./images/woowacourse_logo.png" alt="영화 이미지" />
-          </div> -->
-        </div>
-      </header>
-      <div class="container">
-        <main>
-          <section>
-            <p class="page-title">지금 인기 있는 영화</p>
-            <div class="search-error-container" hidden>
-              <img src="" alt="" />
-              <p class="search-error-text">검색 결과가 없습니다.</p>
-            </div>
-            <ul class="thumbnail-list"></ul>
-          </section>
-          <div class="btn-container">
-            <button type="button" class="display-more-btn">더 보기</button>
-          </div>
-        </main>
-      </div>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="./templates/styles/index.css" />
+        <title>영화 리뷰</title>
+        <script type="module" src="/src/main.ts"></script>
+    </head>
+    <body>
+        <div id="app">
+            <header>
+                <nav>
+                    <h1 class="logo">
+                        <img src="./templates/images/logo.png" alt="MovieList" />
+                    </h1>
+                    <div class="search-container">
+                        <input class="search-bar" placeholder="검색어를 입력하세요" />
+                        <button class="search-btn">🔍</button>
+                    </div>
+                </nav>
 
-      <footer>
-        <p>&copy; 우아한테크코스 All Rights Reserved.</p>
-        <p><img src="./templates/images/woowacourse_logo.png" width="180" /></p>
-      </footer>
-    </div>
-  </body>
+                <div class="background-container"></div>
+            </header>
+            <div class="container">
+                <main>
+                    <section>
+                        <p class="page-title">지금 인기 있는 영화</p>
+                        <div class="search-error-container" hidden>
+                            <img src="" alt="" />
+                            <p class="search-error-text">검색 결과가 없습니다.</p>
+                        </div>
+                        <ul class="thumbnail-list"></ul>
+                    </section>
+                    <!-- <div class="btn-container">
+                        <button type="button" class="display-more-btn">더 보기</button>
+                    </div> -->
+                </main>
+            </div>
+
+            <footer>
+                <p>&copy; 우아한테크코스 All Rights Reserved.</p>
+                <p><img src="./templates/images/woowacourse_logo.png" width="180" /></p>
+            </footer>
+        </div>
+
+        <div class="modal-background" id="modalBackground">
+            <div class="modal">
+                <button class="close-modal" id="closeModal" aria-label="모달 닫기">
+                    <img src="./templates/images/modal_button_close.png" />
+                </button>
+                <div class="modal-container">
+                    <div class="modal-image">
+                        <img id="modalPoster" src="" alt="" />
+                    </div>
+                    <div class="modal-description">
+                        <h2 id="modalTitle"></h2>
+                        <p class="category" id="modalCategory"></p>
+                        <div class="average-star-rate">
+                            <span>평균</span>
+                            <p class="rate">
+                                <img src="./templates/images/star_filled.png" class="star" />
+                                <span id="modalRate"></span>
+                            </p>
+                        </div>
+                        <hr />
+                        <div class="my-rate">
+                            <p>내 별점</p>
+                            <div class="stars-rate-container">
+                                <div class="stars">
+                                    <button class="star-icon" data-value="2" aria-label="2점">
+                                        <img src="./templates/images/star_empty.png" alt="" />
+                                    </button>
+                                    <button class="star-icon" data-value="4" aria-label="4점">
+                                        <img src="./templates/images/star_empty.png" alt="" />
+                                    </button>
+                                    <button class="star-icon" data-value="6" aria-label="6점">
+                                        <img src="./templates/images/star_empty.png" alt="" />
+                                    </button>
+                                    <button class="star-icon" data-value="8" aria-label="8점">
+                                        <img src="./templates/images/star_empty.png" alt="" />
+                                    </button>
+                                    <button class="star-icon" data-value="10" aria-label="10점">
+                                        <img src="./templates/images/star_empty.png" alt="" />
+                                    </button>
+                                </div>
+                                <p class="my-rate-text"></p>
+                            </div>
+                        </div>
+                        <hr />
+                        <p class="story" id="modalStory">줄거리</p>
+                        <br />
+                        <p class="detail" id="modalDetail"></p>
+                        <hr />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
 </html>
 
 <!--
