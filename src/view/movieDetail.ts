@@ -4,13 +4,11 @@ import {
   RATING_TEXTS,
 } from "../constants/rating";
 import { MovieDetail } from "../services/dto";
-import { getLocalStorage } from "../services/storage";
+import { ratingStorage } from "../services/ratingStorage";
 
 export const renderMovieDetail = (movieDetail: MovieDetail) => {
   const movieModal = document.querySelector<HTMLElement>(".modal");
   if (!movieModal) return;
-  movieModal.classList.remove("loading");
-
   movieModal.dataset.movieId = String(movieDetail.id);
 
   const modalImage =
@@ -36,7 +34,7 @@ export const renderMovieDetail = (movieDetail: MovieDetail) => {
   if (rate) rate.textContent = movieDetail.vote_average.toString();
   if (detail) detail.textContent = movieDetail.overview;
 
-  const savedRating = getLocalStorage(String(movieDetail.id));
+  const savedRating = ratingStorage.get(String(movieDetail.id));
   if (!isRatingScore(savedRating)) return;
 
   const index = RATING_SCORES.indexOf(savedRating);

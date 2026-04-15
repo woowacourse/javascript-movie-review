@@ -1,5 +1,5 @@
 import { isRatingScore, RATING_SCORES } from "../constants/rating";
-import { setLocalStorage } from "../services/storage";
+import { ratingStorage } from "../services/ratingStorage";
 import { fillStars, updateRatingResult } from "../view/movieDetail";
 
 export const handleRatingStarClick = (index: number) => {
@@ -14,5 +14,5 @@ export const handleRatingStarClick = (index: number) => {
   const movieId = movieModal.dataset.movieId;
   if (!movieId) return;
 
-  setLocalStorage(movieId, ratingScore);
+  ratingStorage.set(movieId, ratingScore);
 };
