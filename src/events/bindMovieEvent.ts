@@ -147,21 +147,10 @@ export const movieViewFlow = async (state: State, movieDisplay: HTMLUListElement
     addMovieList(movieDisplay, movieList);
 };
 
-// 포스터 클릭 이벤트
-export const bindClickPosterEvent = (storage: StarRatingStore) => {
+let currentMovieId = 0;
+export const bindModalOnOffEvent = (storage: StarRatingStore) => {
     const thumbnailBox = getElement('.thumbnail-list');
     const modalBackground = getElement('#modalBackground');
-    let currentMovieId = 0;
-
-    // 별점 클릭 - 한 번만 등록
-    const emptyStars = document.querySelectorAll<HTMLElement>('.star-icon');
-    emptyStars.forEach((star: HTMLElement) => {
-        star.addEventListener('click', () => {
-            const starValue = star.dataset.value;
-            storage.set(currentMovieId, starValue ?? '');
-            updateMyStarRate(starValue ?? '');
-        });
-    });
 
     // 모달 열기
     thumbnailBox.addEventListener('click', async (event: MouseEvent) => {
@@ -199,5 +188,17 @@ export const bindClickPosterEvent = (storage: StarRatingStore) => {
             modalBackground.classList.remove('active');
             document.body.classList.remove('modal-open');
         }
+    });
+};
+
+export const bindClickStarEvent = (storage: StarRatingStore) => {
+    // 별점 클릭 - 한 번만 등록
+    const emptyStars = document.querySelectorAll<HTMLElement>('.star-icon');
+    emptyStars.forEach((star: HTMLElement) => {
+        star.addEventListener('click', () => {
+            const starValue = star.dataset.value;
+            storage.set(currentMovieId, starValue ?? '');
+            updateMyStarRate(starValue ?? '');
+        });
     });
 };

@@ -9,7 +9,7 @@ import { getUListElement } from './view/getElementView.ts';
 
 import { starRatingStorage } from './storage/StarRatingStorage.ts';
 
-import { bindClickPosterEvent, bindMoreMovieEvents, bindSearchEvents } from './events/bindMovieEvent.ts';
+import { bindClickStarEvent, bindMoreMovieEvents, bindSearchEvents } from './events/bindMovieEvent.ts';
 
 export type State = {
     pageNum: number;
@@ -40,5 +40,5 @@ addEventListener('load', async () => {
     bindSearchEvents(state);
     bindMoreMovieEvents(state);
 
-    bindClickPosterEvent(starRatingStorage);
+    bindClickStarEvent(starRatingStorage);
 });
