@@ -9,7 +9,7 @@ import {
     showBackgroundMovieInfo,
     updateMyStarRate,
 } from '../view/movieListView.ts';
-import { starRatingStorage } from '../storage/StarRatingStorage.ts';
+import { StarRatingStore } from '../storage/StarRatingStorage.ts';
 
 export const callMovieList = async (
     pageNum: number,
@@ -148,7 +148,7 @@ export const movieViewFlow = async (state: State, movieDisplay: HTMLUListElement
 };
 
 // 포스터 클릭 이벤트
-export const bindClickPosterEvent = () => {
+export const bindClickPosterEvent = (storage: StarRatingStore) => {
     const thumbnailBox = getElement('.thumbnail-list');
     const modalBackground = getElement('#modalBackground');
     let currentMovieId = 0;
@@ -158,7 +158,7 @@ export const bindClickPosterEvent = () => {
     emptyStars.forEach((star: HTMLElement) => {
         star.addEventListener('click', () => {
             const starValue = star.dataset.value;
-            starRatingStorage.set(currentMovieId, starValue ?? '');
+            storage.set(currentMovieId, starValue ?? '');
             updateMyStarRate(starValue ?? '');
         });
     });
@@ -180,7 +180,7 @@ export const bindClickPosterEvent = () => {
         getElement('#modalRate').textContent = String(movie.vote_average.toFixed(1));
         getElement('#modalDetail').textContent = movie.overview;
 
-        const savedRate = starRatingStorage.get(movie.id);
+        const savedRate = storage.get(movie.id);
         updateMyStarRate(savedRate ?? '0');
 
         modalBackground.classList.add('active');

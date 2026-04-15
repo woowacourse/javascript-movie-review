@@ -7,6 +7,8 @@ import {
 import { callMovieList } from './events/bindMovieEvent.ts';
 import { getUListElement } from './view/getElementView.ts';
 
+import { starRatingStorage } from './storage/StarRatingStorage.ts';
+
 import { bindClickPosterEvent, bindMoreMovieEvents, bindSearchEvents } from './events/bindMovieEvent.ts';
 
 export type State = {
@@ -38,5 +40,5 @@ addEventListener('load', async () => {
     bindSearchEvents(state);
     bindMoreMovieEvents(state);
 
-    bindClickPosterEvent();
+    bindClickPosterEvent(starRatingStorage);
 });
