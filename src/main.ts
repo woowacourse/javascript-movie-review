@@ -106,11 +106,7 @@ document.addEventListener("keydown", async (e: KeyboardEvent) => {
     ".modal-background.active",
   ) as HTMLElement;
 
-  if (!modalBackground) {
-    return;
-  }
-
-  modalBackground.classList.remove("active");
+  closeModal(modalBackground);
 });
 
 // 별점 클릭
