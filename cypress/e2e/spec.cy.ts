@@ -117,14 +117,14 @@ describe("영화 리뷰 웹 E2E 테스트", () => {
     cy.get(".modal").should("contain.text", "테스트 데이터");
   });
 
-  it("ESC 입력 시 모달이 닫힌다", () => {
+  it("ESC를 누르면 모달이 닫힌다", () => {
     cy.get(".thumbnail-list .item").first().click();
     cy.wait("@getMovieDetail");
 
-    cy.document().then((doc) => {
-      doc.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape" }));
-    });
-    cy.get(".modal-background.active").should("not.exist");
+    cy.get(".modal-background").should("exist");
+    cy.get("body").type("{esc}");
+
+    cy.get(".modal-background").should("not.exist");
   });
 
   it("별점을 선택하면 localStorage에 저장되고 다시 열었을 때 유지된다", () => {
@@ -132,7 +132,6 @@ describe("영화 리뷰 웹 E2E 테스트", () => {
     cy.wait("@getMovieDetail");
 
     cy.get('.stars .star[data-id="8"]').click();
-    cy.wait("@getMovieDetail");
 
     cy.window().then((win) => {
       expect(win.localStorage.getItem("ratedMovies")).to.equal(
@@ -142,27 +141,17 @@ describe("영화 리뷰 웹 E2E 테스트", () => {
 
     cy.get(".modal").should("contain.text", "재미있어요");
     cy.get(".modal").should("contain.text", "(8/10)");
+
+    cy.get(".close-modal").click();
+    cy.get(".thumbnail-list .item").first().click();
+    cy.wait("@getMovieDetail");
+
+    cy.get(".modal").should("contain.text", "재미있어요");
+    cy.get(".modal").should("contain.text", "(8/10)");
   });
 
   it("스크롤 하단 도달 시 다음 페이지 영화 목록을 추가로 불러온다", () => {
-    cy.document().then((doc) => {
-      Object.defineProperty(doc.body, "scrollHeight", {
-        value: 1000,
-        configurable: true,
-      });
-    });
-
-    cy.window().then((win) => {
-      Object.defineProperty(win, "innerHeight", {
-        value: 1000,
-        configurable: true,
-      });
-      Object.defineProperty(win, "scrollY", {
-        value: 0,
-        configurable: true,
-      });
-      win.dispatchEvent(new Event("scroll"));
-    });
+    cy.scrollTo("bottom");
 
     cy.wait("@getPopularMoviesPage2");
     cy.get(".thumbnail-list li").should("have.length", 3);
