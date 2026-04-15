@@ -128,6 +128,10 @@ modalContainer.addEventListener("click", async (e: MouseEvent) => {
   const id = Number(modal.dataset.id);
   const rating = Number(star.dataset.id);
 
+  if (!id || !rating) {
+    return;
+  }
+
   setRating(id, rating);
   closeModal(modalBackground);
   await controlModal(id);
