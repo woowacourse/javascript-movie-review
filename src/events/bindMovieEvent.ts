@@ -11,7 +11,10 @@ import {
 } from '../view/movieListView.ts';
 import { starRatingStorage } from '../storage/StarRatingStorage.ts';
 
-export const callMovieList = async (pageNum: number, searchBarText: string): Promise<Movie[]> => {
+export const callMovieList = async (
+    pageNum: number,
+    searchBarText: string,
+): Promise<{ results: Movie[]; total_pages: number }> => {
     try {
         if (searchBarText === '') {
             return await fetchDefaultMovieList(pageNum);
@@ -21,7 +24,7 @@ export const callMovieList = async (pageNum: number, searchBarText: string): Pro
     } catch (e) {
         if (e instanceof HttpError) alert('데이터를 불러오지 못했습니다.');
         else alert('네트워크 오류가 발생하였습니다.');
-        return [];
+        return { results: [], total_pages: 0 };
     }
 };
 const renderMovieList = async (movieDisplay: HTMLUListElement, state: State): Promise<Movie[]> => {
@@ -29,7 +32,10 @@ const renderMovieList = async (movieDisplay: HTMLUListElement, state: State): Pr
     movieDisplay.replaceChildren();
     addMovieSkeletonUIList(movieDisplay);
 
-    movieList = await callMovieList(state.pageNum, state.searchBarText);
+    const { results, total_pages } = await callMovieList(state.pageNum, state.searchBarText);
+
+    movieList = results;
+    state.totalPageNum = total_pages;
 
     removeMovieSkeletonUIList(movieDisplay);
 
@@ -104,7 +110,7 @@ export const bindMoreMovieEvents = (state: State) => {
     const movieDisplay = getUListElement('.thumbnail-list');
     const observer = new IntersectionObserver(async (entries) => {
         const entry = entries[0];
-        if (entry.isIntersecting) {
+        if (entry.isIntersecting && state.totalPageNum > state.pageNum) {
             await movieViewFlow(state, movieDisplay);
             const target = document.querySelector('.thumbnail-list > li:last-child');
             observer.observe(target as HTMLElement);
@@ -134,8 +140,9 @@ export const movieViewFlow = async (state: State, movieDisplay: HTMLUListElement
     addMovieSkeletonUIList(movieDisplay);
 
     let movieList;
-    movieList = await callMovieList(state.pageNum, state.searchBarText);
-
+    const { results, total_pages } = await callMovieList(state.pageNum, state.searchBarText);
+    movieList = results;
+    state.totalPageNum = total_pages;
     removeMovieSkeletonUIList(movieDisplay);
     addMovieList(movieDisplay, movieList);
 };

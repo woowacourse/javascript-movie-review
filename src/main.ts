@@ -3,36 +3,40 @@ import {
     addMovieSkeletonUIList,
     removeMovieSkeletonUIList,
     showBackgroundMovieInfo,
-} from './view/movieListView.ts'
-import { callMovieList } from './events/bindMovieEvent.ts'
-import { getUListElement } from './view/getElementView.ts'
+} from './view/movieListView.ts';
+import { callMovieList } from './events/bindMovieEvent.ts';
+import { getUListElement } from './view/getElementView.ts';
 
-import { bindClickPosterEvent, bindMoreMovieEvents, bindSearchEvents } from './events/bindMovieEvent.ts'
+import { bindClickPosterEvent, bindMoreMovieEvents, bindSearchEvents } from './events/bindMovieEvent.ts';
 
 export type State = {
-    pageNum: number
-    searchBarText: string
-}
+    pageNum: number;
+    totalPageNum: number;
+    searchBarText: string;
+};
 
 addEventListener('load', async () => {
     const state: State = {
         pageNum: 1,
+        totalPageNum: 0,
         searchBarText: '',
-    }
+    };
 
-    const movieDisplay = getUListElement('.thumbnail-list')
+    const movieDisplay = getUListElement('.thumbnail-list');
 
-    addMovieSkeletonUIList(movieDisplay, 20)
+    addMovieSkeletonUIList(movieDisplay, 20);
 
-    const movieList = await callMovieList(state.pageNum, state.searchBarText)
+    const { results, total_pages } = await callMovieList(state.pageNum, state.searchBarText);
 
-    removeMovieSkeletonUIList(movieDisplay)
+    const movieList = results;
+    state.totalPageNum = total_pages;
+    removeMovieSkeletonUIList(movieDisplay);
 
-    addMovieList(movieDisplay, movieList)
-    showBackgroundMovieInfo(movieList[0])
+    addMovieList(movieDisplay, movieList);
+    showBackgroundMovieInfo(movieList[0]);
 
-    bindSearchEvents(state)
-    bindMoreMovieEvents(state)
+    bindSearchEvents(state);
+    bindMoreMovieEvents(state);
 
-    bindClickPosterEvent()
-})
+    bindClickPosterEvent();
+});
