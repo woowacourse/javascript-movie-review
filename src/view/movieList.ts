@@ -25,6 +25,13 @@ const createMovieNode = (movie: Movie): DocumentFragment | null => {
   return movieFragment;
 };
 
+export const renderSearchTitle = (search: string) => {
+  const movieListTitle = document.querySelector("#movie-list-title");
+  if (!movieListTitle) return null;
+
+  movieListTitle.textContent = `"${search}" 검색 결과`;
+};
+
 export const renderMovieList = (movies: Movies): void => {
   const movieList = document.querySelector<HTMLUListElement>("#movie-list");
   if (!movieList) return;

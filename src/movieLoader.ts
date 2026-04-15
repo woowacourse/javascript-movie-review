@@ -10,6 +10,7 @@ import {
   removeMovieList,
   renderMovieList,
   renderNoResult,
+  renderSearchTitle,
 } from "./view/movieList";
 import {
   renderMovieListSkeleton,
@@ -75,10 +76,7 @@ export const loadSearchMovies = async ({
     });
 
     removeTopRatedMovie();
-
-    const movieListTitle = document.querySelector("#movie-list-title");
-    if (!movieListTitle) return null;
-    movieListTitle.textContent = `"${search}" 검색 결과`;
+    renderSearchTitle(search);
 
     if (movies.results.length) {
       renderMovieList(movies);
