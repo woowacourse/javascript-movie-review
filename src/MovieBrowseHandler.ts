@@ -43,26 +43,35 @@ class MovieBrowseHandler {
   }
 
   handleLoadMoreScroll = async () => {
-    if (!this.state.isSearched) {
-      this.state.moviePageCount += 1;
-      const totalPopularPages = await renderMovies(this.state.moviePageCount);
-      if (totalPopularPages === this.state.moviePageCount) {
-        return true;
+    if (this.state.isLoading) return false;
+    this.state.isLoading = true;
+
+    try {
+      if (!this.state.isSearched) {
+        const nextPage = this.state.moviePageCount + 1;
+        const totalPages = await renderMovies(nextPage);
+
+        if (totalPages > 0) this.state.moviePageCount = nextPage;
+        if (totalPages === nextPage) return true;
+      } else {
+        const nextPage = this.state.searchPageCount + 1;
+        const totalSearchPages = await renderSearchedMovies(
+          this.state.currentKeyword,
+          nextPage,
+        );
+
+        if (totalSearchPages > 0) this.state.searchPageCount = nextPage;
+        if (nextPage === totalSearchPages) return true;
       }
-    } else {
-      this.state.searchPageCount += 1;
-      const totalSearchPages = await renderSearchedMovies(
-        this.state.currentKeyword,
-        this.state.searchPageCount,
-      );
-      if (totalSearchPages === this.state.searchPageCount) {
-        return true;
-      }
+    } finally {
+      this.state.isLoading = false;
     }
+
     return false;
   };
 
   handleSearchSubmit = async () => {
+    this.state.isLoading = true;
     this.state.isSearched = true;
     this.state.searchPageCount = 1;
     this.state.currentKeyword =
@@ -72,10 +81,14 @@ class MovieBrowseHandler {
     replaceHeaderWithBanner(this.state.currentKeyword);
     replaceSectionTitle(this.state.currentKeyword);
 
-    await renderSearchedMovies(
-      this.state.currentKeyword,
-      this.state.searchPageCount,
-    );
+    try {
+      await renderSearchedMovies(
+        this.state.currentKeyword,
+        this.state.searchPageCount,
+      );
+    } finally {
+      this.state.isLoading = false;
+    }
   };
 }
 
