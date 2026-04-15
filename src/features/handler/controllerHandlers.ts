@@ -10,8 +10,10 @@ import {
   emptyMovie,
   showMoreMovie,
   openModal,
+  updateModalRating,
 } from "./renderHandlers";
 import { userErrorMessage } from "../../utils/userErrorMessage";
+import { setRating } from "../../utils/setRating";
 
 export async function controlInitialMovies(page: number): Promise<number> {
   try {
@@ -75,4 +77,9 @@ export async function controlModal(id: number): Promise<void> {
   } catch (error) {
     alert(userErrorMessage(error));
   }
+}
+
+export function setMovieRating(id: number, rating: number): void {
+  setRating(id, rating);
+  updateModalRating(rating);
 }

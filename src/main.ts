@@ -3,9 +3,9 @@ import {
   appendNextPageMovies,
   controlSearchMovies,
   controlModal,
+  setMovieRating,
 } from "./features/handler/controllerHandlers";
 import { closeModal } from "./features/handler/renderHandlers";
-import { setRating } from "./utils/setRating";
 
 let page: number = 1;
 let searchMovie: string = "";
@@ -120,7 +120,6 @@ document.addEventListener("keydown", async (e: KeyboardEvent) => {
 modalContainer.addEventListener("click", async (e: MouseEvent) => {
   const target = e.target as HTMLElement;
   const modal = target.closest(".modal") as HTMLElement;
-  const modalBackground = target.closest(".modal-background") as HTMLElement;
 
   if (!modal) {
     return;
@@ -139,9 +138,7 @@ modalContainer.addEventListener("click", async (e: MouseEvent) => {
     return;
   }
 
-  setRating(id, rating);
-  closeModal(modalBackground);
-  await controlModal(id);
+  setMovieRating(id, rating);
 });
 
 // 자세히 보기

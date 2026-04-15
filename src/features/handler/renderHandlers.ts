@@ -11,6 +11,7 @@ import {
 const header = new Header();
 const mainTitle = new MainTitle();
 const movieList = new MovieList();
+let currentModal: Modal | null = null;
 
 export function showSearchHeader(searchMovie: string): void {
   header.clearHeader();
@@ -43,11 +44,16 @@ export function showMoreMovie(data: MovieResponse): void {
   movieList.renderMovieList(data);
 }
 
-export function openModal(data: MovieDetailResponse) {
-  const modal = new Modal(data);
-  modal.renderModal();
+export function openModal(data: MovieDetailResponse): void {
+  currentModal = new Modal(data);
+  currentModal.renderModal();
 }
 
-export function closeModal(element: HTMLElement) {
-  element.classList.remove("active");
+export function closeModal(element: HTMLElement): void {
+  element.remove();
+  currentModal = null;
+}
+
+export function updateModalRating(rating: number): void {
+  currentModal?.updateRating(rating);
 }

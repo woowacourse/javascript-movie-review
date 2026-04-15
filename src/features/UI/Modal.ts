@@ -8,26 +8,16 @@ import modal_close from "../../images/modal_button_close.png";
 export default class Modal {
   movieInfo: MovieDetailResponse;
   modalContainer: HTMLElement;
+  modalElement: HTMLElement | null;
 
   constructor(data: MovieDetailResponse) {
     this.movieInfo = data;
     this.modalContainer = document.querySelector(".container") as HTMLElement;
+    this.modalElement = null;
   }
 
-  renderModal() {
+  renderModal(): void {
     const rating = getRating(this.movieInfo.id);
-    const scores = [2, 4, 6, 8, 10];
-    const starsHtml = scores
-      .map(
-        (score) => `
-      <img
-        src="${score <= (rating ?? 0) ? star_filled : star_empty}"
-        data-id="${score}"
-        class="star"
-      />
-    `,
-      )
-      .join("");
     this.modalContainer.insertAdjacentHTML(
       "beforeend",
       /*html*/ `
@@ -60,14 +50,9 @@ export default class Modal {
               <span class="detail-label">내 별점</span>
               <div class="rating-container">
                 <div class="stars">
-                  ${starsHtml}
+                  ${this.getStarsHTML(rating ?? 0)}
                 </div>
-                ${
-                  rating
-                    ? `<span class="detail-label">${MOVIE_RATING[rating as keyof typeof MOVIE_RATING]}</span>
-                       <span class="my-rating-value">(${rating}/10)</span>`
-                    : `<span class="detail-label">별점을 선택하세요</span>`
-                }
+                ${this.getRatingText(rating!)}
               </div>
             </div>
             <hr />
@@ -80,5 +65,63 @@ export default class Modal {
       </div>
     </div>`,
     );
+
+    this.modalElement = this.modalContainer.lastElementChild?.querySelector(
+      ".modal",
+    ) as HTMLElement;
+  }
+
+  updateRating(rating: number): void {
+    if (!this.modalElement) {
+      return;
+    }
+
+    const stars = this.modalElement.querySelectorAll(
+      ".stars .star",
+    ) as NodeListOf<HTMLImageElement>;
+    const ratingText = this.modalElement.querySelector(
+      ".my-rating-text",
+    ) as HTMLElement;
+    const ratingValue = this.modalElement.querySelector(
+      ".my-rating-value",
+    ) as HTMLElement;
+
+    stars.forEach((star) => {
+      const score = Number(star.dataset.id);
+      star.src = score <= rating ? star_filled : star_empty;
+    });
+
+    ratingText.textContent = MOVIE_RATING[rating as keyof typeof MOVIE_RATING];
+    ratingValue.textContent = `(${rating}/10)`;
+  }
+
+  getStarsHTML(rating: number): string {
+    const scores = [2, 4, 6, 8, 10];
+
+    return scores
+      .map(
+        (score) => `
+      <img
+        src="${score <= (rating ?? 0) ? star_filled : star_empty}"
+        data-id="${score}"
+        class="star"
+      />
+    `,
+      )
+      .join("");
+  }
+
+  getRatingText(rating?: number): string {
+    if (!rating) {
+      return `
+        <span class="detail-label my-rating-text">별점을 선택하세요</span>
+        <span class="my-rating-value"></span>
+      `;
+    }
+
+    return `
+      <span class="detail-label my-rating-text">${MOVIE_RATING[rating as keyof typeof MOVIE_RATING]}</span>
+      <span class="my-rating-value">(${rating}/10)</span>
+    `;
   }
 }
