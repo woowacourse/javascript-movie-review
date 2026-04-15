@@ -3,7 +3,11 @@ import { CreateMovieRateParameter, GetMovieRateParameter, Rate, UpdateMovieRateP
 const RATE_KEY = "rate";
 
 const getRates = (): Record<string, number> => {
-  return JSON.parse(localStorage.getItem(RATE_KEY) ?? "{}");
+  try {
+    return JSON.parse(localStorage.getItem(RATE_KEY) ?? "{}");
+  } catch {
+    return {};
+  }
 };
 
 export const getRate = async ({
