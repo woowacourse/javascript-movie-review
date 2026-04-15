@@ -35,6 +35,7 @@ const createMovieItemSkeletonTemplate = () => `
 export const renderMovieItems = (parent: HTMLElement, movies: Movie[]) => {
   const itemsHTML = movies.map(createMovieItemTemplate).join("");
   parent.insertAdjacentHTML("beforeend", itemsHTML);
+  parent.removeEventListener("click", handleMovieItemClick);
   parent.addEventListener("click", handleMovieItemClick);
 };
 
