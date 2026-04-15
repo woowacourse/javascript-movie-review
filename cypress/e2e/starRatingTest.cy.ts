@@ -50,6 +50,8 @@ describe('별점 매기기 테스트', () => {
         cy.get('#closeModal').click();
         cy.get('#modalBackground').should('not.have.class', 'active');
 
+        cy.reload();
+
         cy.get('.thumbnail-list li').first().click();
         cy.get('#modalBackground').should('have.class', 'active');
 
