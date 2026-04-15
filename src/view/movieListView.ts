@@ -78,12 +78,13 @@ export const showBackgroundMovieInfo = (movie: Movie) => {
 };
 
 export const updateMyStarRate = (value: string) => {
-    const emptyStars = document.querySelectorAll<HTMLImageElement>('.star-icon');
+    const emptyStars = document.querySelectorAll<HTMLElement>('.star-icon');
     emptyStars.forEach((star) => {
+        const img = star.querySelector('img') as HTMLImageElement;
         if (Number(star.dataset.value) <= Number(value)) {
-            star.src = star_filled;
+            img.src = star_filled;
         } else {
-            star.src = star_empty;
+            img.src = star_empty;
         }
     });
     const rateText: Record<number, string> = {

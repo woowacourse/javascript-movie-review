@@ -91,6 +91,9 @@ body.modal-open {
 }
 .star-icon {
     cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
 }
 .average-star-rate {
     display: flex;

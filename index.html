@@ -46,7 +46,7 @@
 
         <div class="modal-background" id="modalBackground">
             <div class="modal">
-                <button class="close-modal" id="closeModal">
+                <button class="close-modal" id="closeModal" aria-label="모달 닫기">
                     <img src="./templates/images/modal_button_close.png" />
                 </button>
                 <div class="modal-container">
@@ -68,11 +68,21 @@
                             <p>내 별점</p>
                             <div class="stars-rate-container">
                                 <div class="stars">
-                                    <img class="star-icon" src="./templates/images/star_empty.png" data-value="2" />
-                                    <img class="star-icon" src="./templates/images/star_empty.png" data-value="4" />
-                                    <img class="star-icon" src="./templates/images/star_empty.png" data-value="6" />
-                                    <img class="star-icon" src="./templates/images/star_empty.png" data-value="8" />
-                                    <img class="star-icon" src="./templates/images/star_empty.png" data-value="10" />
+                                    <button class="star-icon" data-value="2" aria-label="2점">
+                                        <img src="./templates/images/star_empty.png" alt="" />
+                                    </button>
+                                    <button class="star-icon" data-value="4" aria-label="4점">
+                                        <img src="./templates/images/star_empty.png" alt="" />
+                                    </button>
+                                    <button class="star-icon" data-value="6" aria-label="6점">
+                                        <img src="./templates/images/star_empty.png" alt="" />
+                                    </button>
+                                    <button class="star-icon" data-value="8" aria-label="8점">
+                                        <img src="./templates/images/star_empty.png" alt="" />
+                                    </button>
+                                    <button class="star-icon" data-value="10" aria-label="10점">
+                                        <img src="./templates/images/star_empty.png" alt="" />
+                                    </button>
                                 </div>
                                 <p class="my-rate-text"></p>
                             </div>
