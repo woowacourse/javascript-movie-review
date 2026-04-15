@@ -5,6 +5,7 @@ import {
   bindSearchEvents,
 } from "./eventBinder";
 import { loadMovieList, loadTopRatedMovie } from "./movieLoader";
+import { initializeMovieListObserver } from "./movieObserver";
 
 addEventListener("load", () => {
   const logo = document.querySelector<HTMLButtonElement>(".logo");
@@ -21,18 +22,3 @@ addEventListener("load", () => {
 
   initializeMovieListObserver();
 });
-
-const initializeMovieListObserver = () => {
-  const movieListObserver = new IntersectionObserver(
-    (entries) => {
-      const [sentinelEntry] = entries;
-      if (!sentinelEntry.isIntersecting) return;
-
-      loadMovieList();
-    },
-    { rootMargin: "300px" },
-  );
-
-  const sentinel = document.querySelector(".scroll-sentinel");
-  if (sentinel) movieListObserver.observe(sentinel);
-};

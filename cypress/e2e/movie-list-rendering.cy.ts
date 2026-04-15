@@ -17,6 +17,13 @@ describe("영화 목록 조회 기능 테스트", () => {
       totalResults: 40,
     });
 
+    mockPopularPage({
+      page: 3,
+      results: [],
+      totalPages: 2,
+      totalResults: 40,
+    });
+
     cy.visit("localhost:5173");
     cy.wait("@getPopularPage1");
   });
@@ -37,6 +44,6 @@ describe("영화 목록 조회 기능 테스트", () => {
     cy.wait("@getPopularPage2");
 
     cy.get(".scroll-sentinel").scrollIntoView();
-    cy.get("#movie-list li").should("have.length", 40);
+    cy.get("@getPopularPage3.all").should("have.length", 0);
   });
 });

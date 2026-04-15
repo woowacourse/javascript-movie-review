@@ -1,5 +1,6 @@
 import { baseUrl } from "../constants/env";
 import { loadSearchMovies } from "../movieLoader";
+import { initializeMovieListObserver } from "../movieObserver";
 import { createSearchUrl, navigate } from "../utils/router";
 
 export const handleSearchButtonClick = () => {
@@ -14,7 +15,9 @@ export const handleSearchButtonClick = () => {
 
   const url = createSearchUrl(baseUrl, search);
   navigate(url);
+
   loadSearchMovies({ reset: true });
+  initializeMovieListObserver();
 };
 
 export const handleSearchInputEnter = handleSearchButtonClick;

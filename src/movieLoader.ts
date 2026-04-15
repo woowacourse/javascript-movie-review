@@ -39,7 +39,9 @@ export const loadTopRatedMovie = async () => {
   }
 };
 
-export const loadPopularMovies = async () => {
+export const loadPopularMovies = async (): Promise<boolean> => {
+  if (popularPageState.isLastPage()) return true;
+
   try {
     renderMovieListSkeleton();
     const page = popularPageState.getPage() + 1;
@@ -50,8 +52,10 @@ export const loadPopularMovies = async () => {
       popularPageState.incrementPage();
       popularPageState.setTotalPages(movies.total_pages);
     }
+    return popularPageState.isLastPage();
   } catch (e) {
     showError(e);
+    return true;
   } finally {
     removeMovieListSkeleton();
   }
@@ -59,11 +63,13 @@ export const loadPopularMovies = async () => {
 
 export const loadSearchMovies = async ({
   reset = false,
-}: { reset?: boolean } = {}) => {
+}: { reset?: boolean } = {}): Promise<boolean> => {
   if (reset) {
     searchPageState.resetPage();
     removeMovieList();
   }
+
+  if (!reset && searchPageState.isLastPage()) return true;
 
   try {
     renderMovieListSkeleton();
@@ -85,22 +91,22 @@ export const loadSearchMovies = async ({
     } else {
       renderNoResult();
     }
+
+    return searchPageState.isLastPage();
   } catch (e) {
     showError(e);
+    return true;
   } finally {
     removeMovieListSkeleton();
   }
 };
 
-export const loadMovieList = () => {
+export const loadMovieList = async (): Promise<boolean> => {
   const isSearchParams = hasSearchParams("search");
 
-  if (isSearchParams) {
-    loadSearchMovies();
-    return;
-  }
+  if (isSearchParams) return await loadSearchMovies();
 
-  loadPopularMovies();
+  return await loadPopularMovies();
 };
 
 export const loadMovieDetail = async (movieId: string) => {
