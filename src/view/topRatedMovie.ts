@@ -1,11 +1,12 @@
 import { Movie } from "../services/dto";
+import { getImageUrl } from "../utils/image";
 
 export const renderTopRatedMovie = (movie: Movie) => {
   const topRatedContainer = document.querySelector<HTMLDivElement>(
     ".background-container",
   );
   if (!topRatedContainer) return;
-  topRatedContainer.style.backgroundImage = `url(${`https://media.themoviedb.org/t/p/w1920_and_h800_multi_faces` + movie.backdrop_path})`;
+  topRatedContainer.style.backgroundImage = `url(${getImageUrl(movie.backdrop_path, "w1920_and_h800_multi_faces")})`;
 
   const rateValue = topRatedContainer.querySelector(".rate-value");
   if (rateValue) {

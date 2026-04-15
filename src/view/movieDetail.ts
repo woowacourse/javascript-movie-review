@@ -1,4 +1,5 @@
 import { MovieDetail } from "../services/dto";
+import { getImageUrl } from "../utils/image";
 import { resetRatingView, restoreRatingView } from "./rating";
 
 interface MovieDetailViewData {
@@ -18,7 +19,7 @@ export const renderMovieDetail = (movieDetail: MovieDetail) => {
   const genres = movieDetail.genres.map((genre) => genre.name).join(", ");
 
   updateMovieDetailContent(movieModal, {
-    imageSrc: `https://media.themoviedb.org/t/p/w300_and_h450_face${movieDetail.poster_path}`,
+    imageSrc: getImageUrl(movieDetail.poster_path, "w300_and_h450_face"),
     title: movieDetail.title,
     category: `${releaseYear} · ${genres}`,
     rate: movieDetail.vote_average.toString(),

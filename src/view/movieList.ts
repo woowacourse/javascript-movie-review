@@ -1,4 +1,5 @@
 import { Movie, Movies } from "../services/dto";
+import { getImageUrl } from "../utils/image";
 
 const createMovieNode = (movie: Movie): DocumentFragment | null => {
   const movieTemplate =
@@ -16,8 +17,7 @@ const createMovieNode = (movie: Movie): DocumentFragment | null => {
   if (!movieItem || !thumbnail || !rate || !title) return null;
 
   movieItem.dataset.movieId = String(movie.id);
-  thumbnail.src =
-    `https://media.themoviedb.org/t/p/w220_and_h330_face` + movie.poster_path;
+  thumbnail.src = getImageUrl(movie.poster_path, "w220_and_h330_face");
   thumbnail.alt = movie.title;
   rate.textContent = movie.vote_average.toString();
   title.textContent = movie.title;
