@@ -37,7 +37,6 @@ export const renderUserRate = (movieId: number, userRate: number) => {
     const value = Number(star.getAttribute("value"));
     const isActive = value <= userRate;
 
-    // star.classList.toggle("is-active", isActive);
     star.src = isActive ? star_filled : star_empty;
   });
 

@@ -9,11 +9,7 @@ type handler = {
 export const bindMovieEvents = ({ onMore, onSearch, onClick }: handler) => {
   // 핸들러를 인자로 받아 연결해주기만 하기
 
-  // 1. 더 보기 버튼
-  // const moreBtn = getElement(".display-more-btn");
-  // moreBtn.addEventListener("click", () => {
-  //   onMore();
-  // });
+  // 1. 더 보기 스크롤
   window.addEventListener("scroll", () => {
     const movieList = getElement(".thumbnail-list", HTMLUListElement);
     if (movieList.children.length === 0) return;

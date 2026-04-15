@@ -54,25 +54,6 @@ export const removeMovieSkeletonUIList = (movieDisplay: HTMLUListElement) => {
 };
 
 export const showBackgroundMovieInfo = (movie: Movie) => {
-  // const background = getElement(".background-container", HTMLElement);
-  // background.innerHTML = /*html*/ `
-  //         <div class="overlay" aria-hidden="true">
-  //          <img src="https://image.tmdb.org/t/p/w500${movie.backdrop_path}" alt="영화 이미지" />
-  //         </div>
-  //         <div class="top-rated-container">
-  //           <h1 class="logo">
-  //             <img src="${logo}" alt="MovieList" />
-  //           </h1>
-  //           <div class="top-rated-movie">
-  //             <div class="rate">
-  //               <img src="${star_empty}" class="star" />
-  //               <span class="rate-value">${movie.vote_average ? movie.vote_average.toFixed(1) : 0}</span>
-  //             </div>
-  //             <div class="title">${movie.title}</div>
-  //           </div>
-  //         </div>
-  // `;
-
   const voteAverage = getElement(".rate-value", HTMLElement);
   voteAverage.textContent = movie.vote_average
     ? movie.vote_average.toFixed(1)
