@@ -54,6 +54,11 @@ const movieDetail = {
   release_date: "2010-07-21",
 };
 
+const emptySearchMovies = {
+  results: [],
+  total_pages: 0,
+};
+
 function mockMovieApis() {
   cy.intercept("GET", "**/movie/popular?*page=1*", popularMoviesPage1).as(
     "getPopularMoviesPage1",
@@ -166,5 +171,41 @@ describe("영화 리뷰 웹 E2E 테스트", () => {
     cy.get(".logo").click();
     cy.get(".main-title").should("have.text", "지금 인기 있는 영화");
     cy.get(".thumbnail-list li").should("have.length.greaterThan", 0);
+  });
+
+  it("모달 X 버튼 클릭 시 모달이 닫힌다", () => {
+    cy.get(".thumbnail-list .item").first().click();
+    cy.wait("@getMovieDetail");
+
+    cy.get(".modal-background").should("exist");
+    cy.get(".close-modal").click();
+    cy.get(".modal-background").should("not.exist");
+  });
+
+  it("검색 결과가 없으면 빈 결과 화면을 보여준다", () => {
+    cy.intercept(
+      {
+        method: "GET",
+        pathname: /\/search\/movie/,
+        query: {
+          query: "empty-result",
+        },
+      },
+      emptySearchMovies,
+    ).as("emptySearchMovies");
+
+    cy.get(".search-input").type("empty-result");
+    cy.get(".search-form").submit();
+
+    cy.wait("@emptySearchMovies");
+    cy.get(".result-none-text").should("contain.text", "검색 결과가 없습니다.");
+  });
+
+  it("자세히 보기 버튼 클릭 시 모달이 열린다", () => {
+    cy.get(".primary").first().click();
+    cy.wait("@getMovieDetail");
+
+    cy.get(".modal-background").should("exist");
+    cy.get(".modal").should("contain.text", "test1");
   });
 });
