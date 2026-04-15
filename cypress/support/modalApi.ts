@@ -1,9 +1,9 @@
-import { MockMovieDetail } from "./types";
+import type { Movie } from "../../src/types";
 
 export const createMovieDetail = (
   id: number,
   title: string,
-): MockMovieDetail => ({
+): Movie => ({
   id,
   title,
   poster_path: "/test-poster.jpg",
@@ -14,9 +14,7 @@ export const createMovieDetail = (
   genres: [{ name: "드라마" }],
 });
 
-export const mockMovieDetails = (
-  movieDetails: Record<number, MockMovieDetail>,
-) => {
+export const mockMovieDetails = (movieDetails: Record<number, Movie>) => {
   cy.intercept("GET", /\/movie\/\d+\?/, (req) => {
     const id = Number(req.url.split("/movie/")[1].split("?")[0]);
 
