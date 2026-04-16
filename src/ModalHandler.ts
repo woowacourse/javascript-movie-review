@@ -49,11 +49,13 @@ class ModalHandler {
 
   private showModal() {
     this.modalArea?.classList.add("active");
+    document.body.style.overflow = "hidden";
   }
 
   private hideModal() {
     document.querySelector(".modal-container")?.remove();
     this.modalArea?.classList.remove("active");
+    document.body.style.overflow = "";
   }
 }
 
