@@ -1,11 +1,16 @@
 import { fetchMovieDetail } from './api.ts';
-import { reviewStorage } from './reviewStorage.ts';
+import type { ReviewStorage } from './reviewStorage.ts';
 import * as modalView from './modalView.ts';
 
 const modalState = {
   movieId: 0,
   savedRating: 0,
+  storage: null as ReviewStorage | null,
 };
+
+export const setModalStorage = (storage: ReviewStorage) => {
+  modalState.storage = storage;
+}
 
 // 모달 열기
 export const openModal = async (movieId: number) => {
@@ -22,7 +27,7 @@ export const openModal = async (movieId: number) => {
     if (modalState.movieId !== movieId) return;
 
     // 스토리지에서 내 별점 가져오기
-    modalState.savedRating = (await reviewStorage.getRating(movieId)) || 0;
+    modalState.savedRating = (await modalState.storage?.getRating(movieId)) || 0;
 
     modalView.renderModalContent(data, modalState.savedRating);
   } catch (error) {
@@ -59,7 +64,7 @@ const handleStarClick = async (e: Event) => {
     modalState.savedRating = clickedScore; // 기존 점수를 클릭한 점수로 업데이트
     modalView.updateStarsUI(clickedScore); // 클릭한 점수로 점수 변경
 
-    await reviewStorage.saveRating(modalState.movieId, clickedScore); // 변경된 점수를 저장
+    await modalState.storage?.saveRating(modalState.movieId, clickedScore); // 변경된 점수를 저장
   }
 };
 
