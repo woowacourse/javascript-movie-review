@@ -8,6 +8,7 @@ import { IMAGE_BASE_URL } from "./utils/constants";
 import { RatingRepository } from "./types/ratingRepository";
 import { LocalStorageRatingRepository } from "./repositories/localStorageRatingRepository";
 import { createOnMovieClick } from "./features/createOnMovieClick";
+import { createInfiniteScrollController } from "./utils/infiniteScroll";
 
 addEventListener("load", async () => {
   const headerEl = document.querySelector("header")!;
@@ -17,9 +18,8 @@ addEventListener("load", async () => {
 
   const ratingRepo: RatingRepository = new LocalStorageRatingRepository();
   const modal = new Modal(ratingRepo);
-
-  // 카드 클릭 이벤트 핸들러
   const onMovieClick = createOnMovieClick(modal);
+  const scrollController = createInfiniteScrollController();
 
   // 히어로 배너 렌더링
   const hero = createHero({
@@ -35,23 +35,13 @@ addEventListener("load", async () => {
   const skeletonEls = createSkeleton();
   mainEl.appendChild(skeletonEls);
 
-  let stopInfiniteScroll = await renderPopularMovieList(
-    mainEl,
-    skeletonEls,
-    onMovieClick,
-  );
+  await renderPopularMovieList(mainEl, skeletonEls, onMovieClick, scrollController);
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
     const query = input.value.trim();
     if (!query) return;
 
-    stopInfiniteScroll();
-    stopInfiniteScroll = await handleSearch(
-      query,
-      mainEl,
-      titleEl,
-      onMovieClick,
-    );
+    await handleSearch(query, mainEl, titleEl, onMovieClick, scrollController);
   });
 });

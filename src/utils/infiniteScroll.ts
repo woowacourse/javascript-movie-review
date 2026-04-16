@@ -1,4 +1,6 @@
-export function setupInfiniteScroll(
+export type InfiniteScrollController = ReturnType<typeof createInfiniteScrollController>;
+
+function setupInfiniteScroll(
   container: Element,
   onLoadMore: () => Promise<void>,
 ): () => void {
@@ -10,7 +12,6 @@ export function setupInfiniteScroll(
     if (!entry.isIntersecting || isLoading) return;
     isLoading = true;
     await onLoadMore();
-
     container.appendChild(trigger);
     isLoading = false;
   });
@@ -20,5 +21,20 @@ export function setupInfiniteScroll(
   return () => {
     observer.disconnect();
     trigger.remove();
+  };
+}
+
+export function createInfiniteScrollController() {
+  let cleanup: () => void = () => {};
+
+  return {
+    start(container: Element, onLoadMore: () => Promise<void>) {
+      this.stop();
+      cleanup = setupInfiniteScroll(container, onLoadMore);
+    },
+    stop() {
+      cleanup();
+      cleanup = () => {};
+    },
   };
 }

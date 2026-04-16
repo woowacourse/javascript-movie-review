@@ -1,14 +1,15 @@
 import { fetchSearchMovies } from "../api/movieApi";
 import { createMovieList } from "../components/movie";
 import { createSkeleton } from "../components/skeleton";
-import { setupInfiniteScroll } from "./infiniteScroll";
+import { InfiniteScrollController } from "../utils/infiniteScroll";
 
 export const handleSearch = async (
   query: string,
   mainEl: Element,
   titleEl: Element,
   onMovieClick: (id: number) => void,
-): Promise<() => void> => {
+  scrollController: InfiniteScrollController,
+): Promise<void> => {
   updateSearchUrl(query);
 
   titleEl.textContent = `"${query}" 검색 결과`;
@@ -27,15 +28,14 @@ export const handleSearch = async (
     noResultEl.className = "no-search-result";
     noResultEl.textContent = "검색 결과가 없습니다.";
     mainEl.appendChild(noResultEl);
-    return () => {};
+    return;
   }
 
   mainEl.appendChild(createMovieList(data.results, onMovieClick));
 
-  if (data.total_pages <= page) return () => {};
+  if (data.total_pages <= page) return;
 
-  let stop = () => {};
-  stop = setupInfiniteScroll(mainEl, async () => {
+  scrollController.start(mainEl, async () => {
     page++;
     const moreSkeleton = createSkeleton();
     mainEl.appendChild(moreSkeleton);
@@ -43,10 +43,8 @@ export const handleSearch = async (
     const nextData = await fetchSearchMovies(query, page);
     moreSkeleton.replaceWith(createMovieList(nextData.results, onMovieClick));
 
-    if (nextData.total_pages <= page) stop();
+    if (nextData.total_pages <= page) scrollController.stop();
   });
-
-  return stop;
 };
 
 const updateSearchUrl = (query: string) => {
