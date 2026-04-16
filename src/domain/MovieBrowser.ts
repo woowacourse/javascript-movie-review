@@ -11,7 +11,7 @@ export class MovieBrowser {
   }
 
   get canLoadMore() {
-    return !this.isLastPage;
+    return this.#totalPages > 0 && !this.isLastPage;
   }
 
   get isNewSession() {
