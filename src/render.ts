@@ -84,7 +84,7 @@ export const MovieDetailRenderer = {
     movieVoteAverage.innerHTML = vote_average.toFixed(1);
     movieOverview.innerHTML = overview;
     movieReleaseYear.innerHTML = String(releaseYear);
-    movieGenres.innerHTML = genres.join(", ");
+    movieGenres.innerHTML = genres.length > 0 ? genres.join(", ") : "카테고리 없음";
     this.renderMyRating(rating);
   },
 

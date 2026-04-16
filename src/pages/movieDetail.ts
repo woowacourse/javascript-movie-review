@@ -62,9 +62,9 @@ export const MovieDetail = {
 
   extractDetailMovieData(movie: Movie): [string[], number] {
     const genres = State.genres;
-    const movieGenres = movie.genre_ids.map(
-      (genreId) => genres.find((genre) => genre.id === genreId)!.name,
-    );
+    const movieGenres = movie.genre_ids
+      .map((genreId) => genres.find((genre) => genre.id === genreId)?.name)
+      .filter((name): name is string => name !== undefined);
     const currentRating = this.storage.getMyRating(`movie-${movie.id}-my-rating`);
     return [movieGenres, currentRating];
   },

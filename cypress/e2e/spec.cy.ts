@@ -253,7 +253,7 @@ describe("영화 리뷰 앱", () => {
     });
   });
 
-  describe("영화 정보", () => {
+  describe.only("영화 정보", () => {
     const origin = new URL(Cypress.config("baseUrl") as string).origin;
     beforeEach(() => {
       cy.wait("@getPopularMovies");
@@ -338,6 +338,20 @@ describe("영화 리뷰 앱", () => {
       cy.wait(500);
       cy.get(".thumbnail-list li").first().click();
       cy.get(".modal").should("be.visible");
+    });
+
+    it("일치하는 영화 장르가 없을 때 카테고리 없이 모달이 렌더링된다", () => {
+      cy.intercept("GET", "**/genre/movie/list*", {
+        body: { genres: [{ id: 28, name: "액션" }] },
+      }).as("getGenresMismatch");
+
+      cy.visit("/");
+      cy.wait("@getPopularMovies");
+      cy.wait("@getGenresMismatch");
+
+      cy.get(".thumbnail-list li").first().click();
+      cy.get(".modal").should("be.visible");
+      cy.get("#movie-detail-category").should("have.text", "카테고리 없음");
     });
   });
 });
