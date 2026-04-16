@@ -10,12 +10,18 @@ export default class MovieCard {
   }
 
   render(): string {
-    return `<div class="item">
-      <img
-         class="thumbnail"
-         src="${THUMB_NAIL_URL}${this.movie.poster_path}"
-         alt="${this.movie.title}"
-        />
+    return /*html*/ `
+      <div class="item" data-id=${this.movie.id}>
+        <div class="thumbnail-wrapper">
+          <div class="thumbnail-placeholder"></div>
+          <img
+            class="thumbnail"
+            src="${THUMB_NAIL_URL}${this.movie.poster_path}"
+            alt="${this.movie.title}"
+            loading="lazy"
+            onload="this.previousElementSibling?.classList.add('hidden'); this.classList.add('loaded')"
+          />
+        </div>
         <div class="item-desc">
           <p class="rate">
             <img src="${starImg}" class="star" />

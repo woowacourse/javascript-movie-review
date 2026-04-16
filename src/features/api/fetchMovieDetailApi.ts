@@ -1,17 +1,12 @@
 import { API_KEY, BASE_URL } from "../../constants/constant";
-import { MovieResponse } from "../../../types/types";
+import { MovieDetailResponse } from "../../../types/types";
 
-export async function fetchMoviesApi(
-  path: string,
-  page: number,
-  params: string = "",
-): Promise<MovieResponse> {
-  const queryUrl: string =
-    params === "" ? "" : `&query=${encodeURIComponent(params)}`;
-
+export async function fetchMovieDetailApi(
+  id: number,
+): Promise<MovieDetailResponse> {
   try {
     const response = await fetch(
-      `${BASE_URL}/${path}?api_key=${API_KEY}${queryUrl}&language=ko-KR&region=ko-KR&page=${page}`,
+      `${BASE_URL}/movie/${id}?api_key=${API_KEY}&language=ko-KR&region=ko-KR`,
     );
     if (!response.ok) {
       throw new Error(`HTTP ERROR: ${response.status}`);

@@ -1,28 +1,10 @@
 @import "./colors.css";
 
 .thumbnail-list {
-  margin: 0 auto 56px;
   display: grid;
-  grid-template-columns: repeat(5, 200px);
-  gap: 70px;
-}
-
-@media screen and (max-width: 1310px) {
-  .thumbnail-list {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-@media screen and (max-width: 1080px) {
-  .thumbnail-list {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media screen and (max-width: 800px) {
-  .thumbnail-list {
-    grid-template-columns: repeat(2, 1fr);
-  }
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 50px;
+  place-items: center;
 }
 
 .thumbnail {
@@ -48,6 +30,7 @@
   font-size: 20px;
   line-height: 100%;
   letter-spacing: 0%;
+  width: 200px;
 }
 
 .item-desc > *:not(:last-child) {
@@ -60,6 +43,7 @@ p.rate {
   display: flex;
   align-items: baseline;
   color: var(--color-yellow);
+  margin-bottom: 0px !important;
 }
 
 p.rate > span {
@@ -69,4 +53,91 @@ p.rate > span {
 .item .star {
   width: 16px;
   top: 1px;
+}
+
+.rate-label {
+  font-family: "DM Sans";
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  color: var(--color-white);
+}
+
+.movie-skeleton {
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.movie-skeleton__poster {
+  width: 200px;
+  height: 300px;
+  border-radius: 8px;
+  background: #39414d;
+}
+
+.movie-skeleton__details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.movie-skeleton__title {
+  width: 70%;
+  height: 20px;
+  border-radius: 4px;
+  background: #39414d;
+}
+
+.movie-skeleton__info {
+  width: 40%;
+  height: 16px;
+  border-radius: 4px;
+  background: #39414d;
+}
+
+.thumbnail-wrapper {
+  position: relative;
+  width: 200px;
+  height: 300px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.thumbnail {
+  width: 200px;
+  height: 300px;
+  border-radius: 8px;
+  display: block;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.thumbnail.loaded {
+  opacity: 1;
+}
+
+.thumbnail-placeholder {
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #39414d 0%, #4b5563 50%, #39414d 100%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.2s infinite ease-in-out;
+}
+
+.thumbnail-placeholder.hidden {
+  display: none;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
 }
