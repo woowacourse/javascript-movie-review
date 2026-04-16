@@ -1,4 +1,5 @@
 import { BANNER_IMAGE_URL } from "../constants/api";
+import NO_IMAGE from "../../public/images/no-image.png";
 
 class BannerView {
   #rateValue = document.querySelector(".rate-value");
@@ -14,9 +15,9 @@ class BannerView {
     this.#topRatedContainer?.classList.remove("hidden");
     this.#errorBannerContainer?.classList.add("hidden");
 
-    if (this.#rateValue) this.#rateValue.textContent = String(bannerMovie.vote_average) || "0";
-    if (this.#title) this.#title.textContent = bannerMovie.title || "제목 없음";
-    if (this.#banner) this.#banner.style.backgroundImage = `url(${BANNER_IMAGE_URL + bannerMovie.poster_path})`;
+    if (this.#rateValue) this.#rateValue.textContent = bannerMovie.vote_average ? String(bannerMovie.vote_average) : "0";
+    if (this.#title) this.#title.textContent = bannerMovie.title ?? "제목 없음";
+    if (this.#banner) this.#banner.style.backgroundImage = bannerMovie.poster_path ? `url(${BANNER_IMAGE_URL + bannerMovie.poster_path})` : `url(${NO_IMAGE})`;
   };
 
   renderErrorBanner() {
