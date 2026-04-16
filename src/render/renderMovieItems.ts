@@ -9,20 +9,35 @@ export function createMovieItemElement(page: number, movie: Movie) {
   liElement.dataset.movieId = movie.id.toString();
 
   liElement.insertAdjacentHTML('beforeend', /*html*/`
-    <img
-      class="thumbnail"
-      src="${import.meta.env.VITE_IMAGE_BASE_URL}/w300${movie.poster_path}"
-      onerror="this.src='${import.meta.env.BASE_URL}images/default_movie_image.png'"
-      alt="${movie.title}"
-    />
     <div class="item-desc">
       <p class="rate">
         <img src="${import.meta.env.BASE_URL}images/star_empty.png" alt="empty star" class="star" />
-        <span>${movie.vote_average.toFixed(1)}</span>
+        <span></span>
       </p>
-      <p class="movie-title">${movie.title}</p>
+      <p class="movie-title"></p>
     </div>
   `)
+
+  const posterElement = document.createElement("img");
+  posterElement.classList.add("thumbnail");
+  posterElement.src = `${import.meta.env.VITE_IMAGE_BASE_URL}/w300${movie.poster_path}`;
+  posterElement.onerror = () => {
+    posterElement.src = `${import.meta.env.BASE_URL}images/default_movie_image.png`;
+  };
+  posterElement.alt = movie.title;
+  liElement.insertAdjacentElement('afterbegin', posterElement);
+
+  const rateSpanElement = liElement.querySelector<HTMLSpanElement>(".rate span");
+
+  if (rateSpanElement) {
+    rateSpanElement.textContent = movie.vote_average.toFixed(1);
+  }
+
+  const titleElement = liElement.querySelector<HTMLParagraphElement>(".movie-title");
+
+  if (titleElement) {
+    titleElement.textContent = movie.title;
+  }
 
   bindClickMovieEvent(liElement);
   observeVisibleMovieItem(liElement);

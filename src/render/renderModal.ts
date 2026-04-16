@@ -15,21 +15,16 @@ function createModalElement(movieDetail: MovieDetail) {
     </form>
     <div class="modal-body">
       <div class="modal-movie-poster">
-        <img 
-          src="${import.meta.env.VITE_IMAGE_BASE_URL}/w400${movieDetail.poster_path}"
-          onerror="this.src='${import.meta.env.BASE_URL}images/default_movie_image.png'"
-          alt="${movieDetail.title}"
-        />
       </div>
       <div class="modal-movie-content">
         <div class="modal-movie-header">
-          <p class="modal-movie-title">${movieDetail.title}</p>
-          <p class="modal-movie-info">${movieDetail.release_date.split("-")[0]} · ${movieDetail.genres.map(genre => genre.name).join(", ")}</p>
+          <p class="modal-movie-title"></p>
+          <p class="modal-movie-info"></p>
           <p class="modal-movie-rate">
             <span>평균</span>
             <span>
               <img src="${import.meta.env.BASE_URL}images/star_filled.png" alt="filled star" class="star" />
-              <span class="modal-movie-rate-value">${movieDetail.vote_average.toFixed(1)}</span>
+              <span class="modal-movie-rate-value"></span>
             </span>
           </p>
         </div>
@@ -40,11 +35,36 @@ function createModalElement(movieDetail: MovieDetail) {
         </div>
         <div class="modal-movie-plot">
           <h3 class="modal-movie-content-title">줄거리</h3>
-          <div class="modal-movie-plot-body">${movieDetail.overview}</div>
+          <div class="modal-movie-plot-body"></div>
         </div>
       </div>
     </div>
   `)
+
+  const posterElement = document.createElement('img');
+  posterElement.src = `${import.meta.env.VITE_IMAGE_BASE_URL}/w400${movieDetail.poster_path}`;
+  posterElement.onerror = () => {
+    posterElement.src = `${import.meta.env.BASE_URL}images/default_movie_image.png`;
+  };
+  posterElement.alt = movieDetail.title;
+
+  dialogElement.querySelector('.modal-movie-poster')?.append(posterElement);
+
+  if (dialogElement.querySelector('.modal-movie-title')) {
+    dialogElement.querySelector('.modal-movie-title')!.textContent = movieDetail.title;
+  }
+
+  if (dialogElement.querySelector('.modal-movie-info')) {
+    dialogElement.querySelector('.modal-movie-info')!.textContent = `${movieDetail.release_date.split("-")[0]} · ${movieDetail.genres.map(genre => genre.name).join(", ")}`;
+  }
+
+  if (dialogElement.querySelector('.modal-movie-rate-value')) {
+    dialogElement.querySelector('.modal-movie-rate-value')!.textContent = movieDetail.vote_average.toFixed(1);
+  }
+
+  if (dialogElement.querySelector('.modal-movie-plot-body')) {
+    dialogElement.querySelector('.modal-movie-plot-body')!.textContent = movieDetail.overview;
+  }
 
   return dialogElement
 }
