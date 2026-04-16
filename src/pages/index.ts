@@ -43,6 +43,28 @@ export const Index = {
     }
   },
 
+  async loadInitialData() {
+    const [{ results: movies, page, total_pages }, { genres }] =
+      await Promise.all([getPopularMovies(INITIAL_PAGE_NUM), getGenres()]);
+
+    State.nextPageNum = page + 1;
+    State.totalPages = total_pages;
+    State.requestMovieCount = movies.length;
+    State.genres = genres;
+    return movies;
+  },
+
+  async loadMoreMovies() {
+    const {
+        results: movies,
+        page,
+        total_pages,
+      } = await getPopularMovies(State.nextPageNum);
+    State.nextPageNum = page + 1;
+    State.totalPages = total_pages;
+    return movies;
+  },
+
   async showPopularMovies() {
     const app = document.querySelector("#app");
     if (app) {
@@ -52,12 +74,7 @@ export const Index = {
         State.requestMovieCount || ONCE_MOVIE_LIMIT,
       );
       try {
-        const [{ results: movies, page, total_pages }, { genres }] =
-          await Promise.all([getPopularMovies(INITIAL_PAGE_NUM), getGenres()]);
-        State.nextPageNum = page + 1;
-        State.totalPages = total_pages;
-        State.requestMovieCount = movies.length;
-        State.genres = genres;
+        const movies = await this.loadInitialData();
         IndexRenderer.renderInitialMovies(movies);
         MovieDetail.setUpMovieDetail(movies);
       } catch (err) {
@@ -72,13 +89,7 @@ export const Index = {
     State.isLoading = true;
     Renderer.renderSkeleton(".thumbnail-list", State.requestMovieCount);
     try {
-      const {
-        results: movies,
-        page,
-        total_pages,
-      } = await getPopularMovies(State.nextPageNum);
-      State.nextPageNum = page + 1;
-      State.totalPages = total_pages;
+      const movies = await this.loadMoreMovies()
       Renderer.renderLoadMoreMovies(movies);
       MovieDetail.setUpMovieDetail(movies);
     } catch (err) {
