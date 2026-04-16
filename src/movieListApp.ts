@@ -1,4 +1,4 @@
-import { fetchPopularMovies, fetchSearchMovies } from './api.ts';
+import { fetchPopularMovies, fetchSearchMovies, ResultData } from './api.ts';
 import * as view from './view.ts';
 import { openModal } from './modal.ts';
 
@@ -54,7 +54,8 @@ export const initMovieList = (query?: string) => {
       }
 
       if (state.currentPage === 1 && !query && data.results.length > 0) {
-        view.updateHeroBanner(data.results[0]);
+        const heroMovie = selectHeroMovie(data.results);
+        view.updateHeroBanner(heroMovie);
       }
 
       view.renderMovieList($thumbnailList, data.results);
@@ -117,4 +118,8 @@ const handleMovieItemClick = (event: Event) => {
       openModal(movieId);
     }
   }
+};
+
+const selectHeroMovie = (movies: ResultData[]) => {
+  return movies[0];
 };
