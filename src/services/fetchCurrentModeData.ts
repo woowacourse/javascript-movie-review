@@ -1,12 +1,9 @@
-import { movieModel } from "../model/movieModel";
 import { getMovies } from "../api/getMovies";
 import { searchMovies } from "../api/searchMovies";
 
-export async function fetchCurrentModeData() {
-  const nextPage = movieModel.page + 1;
-
-  if (movieModel.isSearch) {
-    return await searchMovies(nextPage, movieModel.searchValue);
+export async function fetchCurrentModeData(nextPage: number, isSearch: boolean, searchValue: string) {
+  if (isSearch) {
+    return await searchMovies(nextPage, searchValue);
   }
   return await getMovies(nextPage);
 }

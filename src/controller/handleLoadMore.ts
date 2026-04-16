@@ -1,7 +1,6 @@
 import { SKELETON_NUMBER } from "../constants/constant";
 import { movieListView } from "../view/movieListView";
 import { movieModel } from "../model/movieModel";
-import { emptyMovieList } from "../services/emptyMovieList";
 import { fetchCurrentModeData } from "../services/fetchCurrentModeData";
 import { errorMovieList } from "../services/errorMovieList";
 import { infiniteScrollView } from "../view/infiniteScrollView";
@@ -9,8 +8,10 @@ import { infiniteScrollView } from "../view/infiniteScrollView";
 export async function handleLoadMore() {
   try {
     movieListView.renderSkeletonList(SKELETON_NUMBER);
-
-    const response: ApiResult<MovieResponse> = await fetchCurrentModeData();
+    const nextPage = movieModel.page + 1;
+    const isSearch = movieModel.isSearch;
+    const searchValue = movieModel.searchValue;
+    const response: ApiResult<MovieResponse> = await fetchCurrentModeData(nextPage, isSearch, searchValue);
 
     if (!response.success) {
       errorMovieList.handleLoadMoreError(response.error);
@@ -19,7 +20,7 @@ export async function handleLoadMore() {
     };
 
     if (response.data.results.length === 0) {
-      emptyMovieList();
+      infiniteScrollView.disconnect();
       return;
     };
     
