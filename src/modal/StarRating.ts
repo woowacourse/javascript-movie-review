@@ -1,3 +1,5 @@
+import { isValidScore, RatingScore } from "../rating/validateScore";
+
 const RATING_LABELS: Record<number, string> = {
   2: "최악이예요",
   4: "별로예요",
@@ -12,7 +14,7 @@ export class StarRating {
   constructor(
     private readonly container: HTMLDivElement,
     private readonly label: HTMLParagraphElement,
-    private readonly onRate: (score: number) => void,
+    private readonly onRate: (score: RatingScore) => void,
   ) {
     this.render();
     this.container.addEventListener("click", this.handleClick);
@@ -46,7 +48,7 @@ export class StarRating {
     if (!target.matches(".star-rating-star")) return;
 
     const score = Number(target.dataset.score);
-    if (!score) return;
+    if (!isValidScore(score)) return;
 
     this.score = score;
     this.render();
