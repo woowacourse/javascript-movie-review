@@ -2,41 +2,29 @@ import { TMDBMovieListResponse } from "../../api/types";
 import { fetchPopularMovies, fetchSearchMovies } from "../../api/movies";
 import { TMDB_MAX_PAGE } from "../../api/constants";
 import { toMovieItem } from "../../utils/transform";
+import { AsyncService, AsyncState } from "../AsyncService";
 
 export interface MovieItem {
   id: number;
   title: string;
-  posterSrc: string;
+  posterSrc: string | null;
   rating: number;
 }
 
-export interface MoviePageEvent {
-  isPending: boolean;
+export interface MoviePageData {
   movies: MovieItem[];
   page: number;
-  error: boolean;
 }
 
-type Subscriber = (event: MoviePageEvent) => void;
+export type MoviePageState = AsyncState<MoviePageData>;
 
-export class MovieListService {
-  private isPending: boolean = false;
-  private error: boolean = false;
-  private subscribers: Set<Subscriber> = new Set();
+export class MovieListService extends AsyncService<MoviePageData> {
   private currentPage: number = 1;
   private totalPages: number = TMDB_MAX_PAGE;
   private currentQuery: string | null = null;
 
   isLastPage(): boolean {
     return this.currentPage >= this.totalPages;
-  }
-
-  subscribe(subscriber: Subscriber): void {
-    this.subscribers.add(subscriber);
-  }
-
-  unsubscribe(subscriber: Subscriber): void {
-    this.subscribers.delete(subscriber);
   }
 
   async load(query?: string): Promise<void> {
@@ -52,7 +40,7 @@ export class MovieListService {
 
   private async fetchMoviePage(page: number): Promise<void> {
     this.error = false;
-    this.setIsPending(true);
+    this.setIsPending(true, { movies: [], page: this.currentPage });
 
     try {
       const response = this.currentQuery
@@ -63,29 +51,16 @@ export class MovieListService {
     } catch {
       this.isPending = false;
       this.error = true;
-      this.notify([]);
+      this.notify({ movies: [], page: this.currentPage });
     }
   }
 
   private setMovies(response: TMDBMovieListResponse): void {
     this.currentPage = response.page;
     this.totalPages = response.total_pages;
-    this.notify(response.results.map(toMovieItem));
-  }
-
-  private setIsPending(value: boolean): void {
-    this.isPending = value;
-    this.notify([]);
-  }
-
-  private notify(movies: MovieItem[]): void {
-    this.subscribers.forEach((subscriber) =>
-      subscriber({
-        movies,
-        isPending: this.isPending,
-        page: this.currentPage,
-        error: this.error,
-      }),
-    );
+    this.notify({
+      movies: response.results.map(toMovieItem),
+      page: this.currentPage,
+    });
   }
 }
