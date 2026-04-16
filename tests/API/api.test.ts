@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-import { fetchMoviePageData } from "../../src/API/api";
+import { fetchMovieDetail, fetchMoviePageData } from "../../src/API/api";
 import { API_REQUEST_TIMEOUT_MS } from "../../src/constants/constant";
 
 describe("fetchMoviePageData", () => {
@@ -71,6 +71,7 @@ describe("fetchMoviePageData", () => {
           rate: 7.4,
           thumbnail_path: "/poster-1.jpg",
           hero_path: "/backdrop-1.jpg",
+          userRating: null,
         },
       ],
     });
@@ -111,5 +112,83 @@ describe("fetchMoviePageData", () => {
     await vi.advanceTimersByTimeAsync(API_REQUEST_TIMEOUT_MS);
 
     await timeoutExpectation;
+  });
+});
+
+describe("fetchMovieDetail", () => {
+  beforeEach(() => {
+    vi.stubEnv("VITE_TMDB_API_KEY", "test-api-key");
+  });
+
+  afterEach(() => {
+    vi.unstubAllEnvs();
+    vi.unstubAllGlobals();
+    vi.restoreAllMocks();
+    vi.useRealTimers();
+  });
+
+  it("영화 상세 요청이 성공하면 매핑된 데이터를 반환한다", async () => {
+    const fetchMock = vi.fn().mockResolvedValue(
+      new Response(
+        JSON.stringify({
+          title: "해리 포터와 아즈카반의 죄수",
+          poster_path: "/detail-poster-3.jpg",
+          release_date: "2004-05-31",
+          genres: [{ name: "모험" }, { name: "판타지" }],
+          vote_average: 8.0,
+          overview: "시리우스 블랙이 탈옥하면서 벌어지는 이야기",
+        }),
+        {
+          status: 200,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      ),
+    );
+
+    vi.stubGlobal("fetch", fetchMock);
+
+    const response = await fetchMovieDetail(3);
+
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+
+    const [requestUrl, requestOptions] = fetchMock.mock.calls[0] as [URL, RequestInit];
+
+    expect(requestUrl.pathname).toBe("/3/movie/3");
+    expect(requestUrl.searchParams.get("language")).toBe("ko-KR");
+    expect(requestUrl.searchParams.has("page")).toBe(false);
+    expect(requestUrl.searchParams.has("query")).toBe(false);
+    expect(requestOptions).toMatchObject({
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        Authorization: "Bearer test-api-key",
+      },
+    });
+    expect(requestOptions.signal).toBeInstanceOf(AbortSignal);
+
+    expect(response).toEqual({
+      poster_path: "/detail-poster-3.jpg",
+      title: "해리 포터와 아즈카반의 죄수",
+      release_year: "2004",
+      genres: ["모험", "판타지"],
+      rate: 8,
+      overview: "시리우스 블랙이 탈옥하면서 벌어지는 이야기",
+      userRating: null,
+    });
+  });
+
+  it("영화 상세 응답이 실패하면 에러를 던진다", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockResolvedValue(
+        new Response(null, {
+          status: 500,
+        }),
+      ),
+    );
+
+    await expect(fetchMovieDetail(1)).rejects.toThrow("영화 정보를 불러오는데 실패했습니다: 500");
   });
 });

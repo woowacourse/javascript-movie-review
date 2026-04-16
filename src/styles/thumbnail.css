@@ -8,8 +8,10 @@
 
 .thumbnail-grid {
   display: grid;
-  grid-template-columns: repeat(5, 200px);
-  gap: 70px;
+  grid-template-columns: repeat(4, 200px);
+  justify-content: space-evenly;
+  row-gap: 70px;
+  width: 100%;
 }
 
 .thumbnail-list,
@@ -43,6 +45,25 @@
   flex-direction: column;
   user-select: none;
   cursor: pointer;
+  transform-origin: center;
+  transition: transform 0.22s ease;
+  will-change: transform;
+}
+
+.item:focus {
+  outline: none;
+}
+
+@media (hover: hover) {
+  .item:hover {
+    transform: translateY(-6px) scale(1.02);
+  }
+}
+
+.item:focus-visible {
+  outline: 3px solid var(--color-lightblue-90);
+  outline-offset: 4px;
+  transform: translateY(-6px) scale(1.02);
 }
 
 .item-desc {
@@ -112,5 +133,24 @@ p.rate > span {
 
   100% {
     background-position: -200% 0;
+  }
+}
+
+@media (max-width: 1024px) {
+  .thumbnail-grid {
+    grid-template-columns: repeat(3, 200px);
+    row-gap: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .thumbnail-grid {
+    grid-template-columns: repeat(1, 200px);
+    justify-content: center; /* 1열일 때는 분산 배치가 의미 없으므로 중앙 정렬 */
+    row-gap: 30px;
+  }
+
+  main > section {
+    padding: 24px 16px;
   }
 }

@@ -3,6 +3,7 @@ const PUBLIC_IMAGE_BASE_URL = "./images/";
 export const BASE_URL = {
   TMDB_BASE_URL: "https://api.themoviedb.org/3",
   POSTER_BASE_URL: "https://image.tmdb.org/t/p/w200",
+  DETAIL_POSTER_BASE_URL: "https://image.tmdb.org/t/p/original",
   HERO_BASE_URL: "https://image.tmdb.org/t/p/w1920_and_h800_multi_faces",
 };
 
@@ -10,9 +11,12 @@ export const DEFAULT_LANGUAGE = "ko-KR";
 export const API_REQUEST_TIMEOUT_MS = 5000;
 
 export const SKELETON_MOVIE_COUNT = 20;
+export const MOVIE_USER_RATING_STORAGE_KEY = "movie-user-ratings";
 
 export const IMAGE_URL = {
   STAR_IMAGE_URL: `${PUBLIC_IMAGE_BASE_URL}star_empty.png`,
+  FILLED_STAR_IMAGE_URL: `${PUBLIC_IMAGE_BASE_URL}star_filled.png`,
+  MODAL_CLOSE_BUTTON_IMAGE_URL: `${PUBLIC_IMAGE_BASE_URL}modal_button_close.png`,
   DEFAULT_THUMBNAIL_IMAGE_URL: `${PUBLIC_IMAGE_BASE_URL}default-thumbnail.jpeg`,
   NO_RESULT_PLANET_IMAGE_URL: `${PUBLIC_IMAGE_BASE_URL}no-result-planet.png`,
 };
@@ -20,6 +24,7 @@ export const IMAGE_URL = {
 export const API_PATH = {
   POPULAR_MOVIE: `/movie/popular`,
   SEARCH_MOVIE: `/search/movie`,
+  MOVIE_DETAIL: (movieId: number) => `/movie/${movieId}`,
 };
 
 export const PAGE_TITLE = {
