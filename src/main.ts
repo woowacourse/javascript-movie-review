@@ -39,7 +39,6 @@ const main = async () => {
     {
       listElement: elements.movieList,
       skeletonElement: elements.skeletonCard,
-      // seeMoreButton: elements.seeMoreBtn,
       sectionTitle: elements.movieSectionTitle,
       noResult: elements.noResult,
     },
@@ -78,11 +77,6 @@ const main = async () => {
       );
     },
   );
-
-  // elements.seeMoreBtn.addEventListener("click", async (event) => {
-  //   event.preventDefault();
-  //   await controller.loadMore();
-  // });
 
   const infiniteScroll = new InfiniteScroll(elements.scrollSentinel, () => {
     void controller.loadMore();

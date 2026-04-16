@@ -128,12 +128,6 @@ const expectMovieList = (page: number, titlePrefix: string) => {
   cy.get(".skeleton-card").should("be.empty");
 };
 
-// const clickSeeMoreAndVerify = (page: number, alias: string, titlePrefix: string) => {
-//   cy.get("#see-more-btn").should("be.visible").click();
-//   expectSkeletonUi();
-//   cy.wait(`@${alias}`);
-//   expectMovieList(page, titlePrefix);
-// };
 
 // 무한 스크롤
 const scrollToSentinelAndVerify = (
@@ -183,7 +177,6 @@ describe("메인 화면", () => {
     scrollToSentinelAndVerify(3, "getPopularMoviesPage3", "인기 영화");
     scrollToSentinelAndVerify(4, "getPopularMoviesPage4", "인기 영화");
 
-    // cy.get("#see-more-btn").should("not.be.visible");
     cy.get("#scroll-sentinel").scrollIntoView();
     cy.get(".thumbnail-list li").should("have.length", 4 * MOVIES_PER_PAGE);
   });
@@ -241,7 +234,6 @@ describe("검색 화면", () => {
     cy.get(".skeleton-card").should("be.empty");
     cy.get(".no-result").should("not.be.visible");
     cy.get("#hero-section").should("be.visible");
-    // cy.get("#see-more-btn").should("be.visible");
   });
 
   it("검색 버튼으로 검색 결과 목록을 끝까지 불러오고 로고로 메인 화면에 돌아간다", () => {
@@ -270,7 +262,6 @@ describe("검색 화면", () => {
       `${SEARCH_QUERY} 영화`,
     );
 
-    // cy.get("#see-more-btn").should("not.be.visible");
 
     mockPopularMoviePage(1, "reloadPopularMoviesPage1");
     cy.get(".logo").click();
@@ -315,7 +306,6 @@ describe("검색 화면", () => {
     cy.get(".skeleton-card").should("be.empty");
     expectNoResultSection();
     cy.get("#hero-section").should("not.be.visible");
-    // cy.get("#see-more-btn").should("not.be.visible");
   });
 });
 

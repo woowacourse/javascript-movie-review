@@ -15,7 +15,6 @@ export interface AppShellElements {
   heroTitle: HTMLHeadingElement;
 
   skeletonCard: HTMLUListElement;
-  // seeMoreBtn: HTMLButtonElement;
   scrollSentinel: HTMLDivElement;
 
   // 모달
@@ -45,7 +44,6 @@ export const queryAppShell = (): AppShellElements => ({
   heroTitle: $<HTMLHeadingElement>("#hero-title"),
 
   skeletonCard: $<HTMLUListElement>(".skeleton-card"),
-  // seeMoreBtn: $<HTMLButtonElement>("#see-more-btn"),
   scrollSentinel: $<HTMLDivElement>("#scroll-sentinel"),
 
   // 모달

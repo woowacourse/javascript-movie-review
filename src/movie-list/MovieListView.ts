@@ -5,7 +5,6 @@ import { createMovieListItemMarkup } from "./movieListMarkup";
 export interface MovieListViewElements {
   listElement: HTMLUListElement;
   skeletonElement: HTMLUListElement;
-  // seeMoreButton: HTMLButtonElement;
   sectionTitle: HTMLHeadingElement;
   noResult: HTMLDivElement;
 }
@@ -48,10 +47,6 @@ export class MovieListView {
   hideSkeleton(): void {
     this.el.skeletonElement.innerHTML = "";
   }
-
-  // toggleSeeMore(visible: boolean): void {
-  //   this.el.seeMoreButton.hidden = !visible;
-  // }
 
   toggleNoResult(visible: boolean): void {
     this.el.noResult.hidden = !visible;
