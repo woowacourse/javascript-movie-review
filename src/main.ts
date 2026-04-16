@@ -26,7 +26,14 @@ function init() {
   });
 
   modalView.bindMovieClick((clickedMovieId: string) => {
-    handleModal(Number(clickedMovieId));
+    const movieId = Number(clickedMovieId);
+
+    if (Number.isNaN(movieId)) {
+      console.error("movie Id를 찾을 수 없습니다.");
+      alert("영화 정보를 불러올 수 없습니다.");
+      return;
+    };
+    handleModal(movieId);
   });
 
   modalView.bindCloseModalClick();
