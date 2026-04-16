@@ -1,11 +1,13 @@
-import { RateRepository, RateLocalStorageRepository } from "../dataSources/local/RateDataSource";
+import {  RateLocalStorageDataSource } from "../dataSources/local/RateDataSource";
+
+import { RateRepository } from "./RateRepository";
 
 type RepositoryType = 'localStorage';
 export class RateRepositoryImpl implements RateRepository {
   localStorage: RateRepository;
   repository: RateRepository;
   constructor(repositoryType: RepositoryType){
-    const rateLocalStorageRepository = new RateLocalStorageRepository();
+    const rateLocalStorageRepository = new RateLocalStorageDataSource();
     this.localStorage = rateLocalStorageRepository;
     
     switch(repositoryType) {
