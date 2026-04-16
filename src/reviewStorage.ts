@@ -5,7 +5,7 @@ export interface ReviewStorage {
 }
 
 // 로컬 스토리지 구체화
-class LocalReviewStorage implements ReviewStorage {
+export class LocalReviewStorage implements ReviewStorage {
   private readonly STORAGE_KEY = 'movie_ID_stars';
 
   // movie_id, star 순의 영화리뷰 데이터 뽑아오기
@@ -26,9 +26,3 @@ class LocalReviewStorage implements ReviewStorage {
     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(reviews));
   }
 }
-
-// 의존성 주입을 통해 교체가 용이하게 만들기 
-// RevieStorage에 일단 Local 주입
-// 추후 웹 API 구체화
-
-export const reviewStorage: ReviewStorage = new LocalReviewStorage();
