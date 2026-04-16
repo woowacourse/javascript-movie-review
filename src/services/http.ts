@@ -35,38 +35,42 @@ export const requestAjax = async (
     ...headers,
   };
 
-  const res = await fetch(finalUrl, {
-    method,
-    ...(!!Object.values(customHeaders).filter(Boolean).length && {
-      headers: {
-        ...customHeaders as Record<string, string>,
-      }
-    }),
-    // credentials: 'include',
-    ...(data && {
-      body: data instanceof FormData ? data : JSON.stringify(data),
-    }),
-  });
-
-  let responseData;
   try {
-    responseData = await res.json();
-  } catch (e) {
-    console.error(e);
-    responseData = await res.text();
-  }
+    const res = await fetch(finalUrl, {
+      method,
+      ...(!!Object.values(customHeaders).filter(Boolean).length && {
+        headers: {
+          ...customHeaders as Record<string, string>,
+        }
+      }),
+      // credentials: 'include',
+      ...(data && {
+        body: data instanceof FormData ? data : JSON.stringify(data),
+      }),
+    });
 
-  const response = {
-    data: responseData,
-    status: res.status,
-    headers: customHeaders,
-    config,
-  };
+    let responseData;
+    try {
+      responseData = await res.json();
+    } catch (e) {
+      console.error(e);
+      responseData = await res.text();
+    }
 
-  if (res.ok) {
-    return response;
-  } else {
-    throw new RequestFetchError(response);
+    const response = {
+      data: responseData,
+      status: res.status,
+      headers: customHeaders,
+      config,
+    };
+
+    if (res.ok) {
+      return response;
+    } else {
+      throw new RequestFetchError(response);
+    }
+  } catch(error) {
+    console.error(error);
   }
 };
 
