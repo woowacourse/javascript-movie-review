@@ -61,4 +61,10 @@ describe("TMDB API", () => {
 
     await expect(fetchApi("movie/popular", 1)).rejects.toThrow("서버가 일시적으로 사용 불가 상태입니다.");
   });
+
+  test("처리되지 않은 HTTP 에러 상태 코드는 ApiError를 던진다", async () => {
+    vi.stubGlobal("fetch", vi.fn(async () => ({ ok: false, status: 500 })));
+
+    await expect(fetchApi("movie/popular", 1)).rejects.toThrow("API 요청 실패: 500");
+  });
 });
