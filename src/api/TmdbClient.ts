@@ -1,8 +1,16 @@
 import { MovieDetail } from "../../types/movie";
 import { API_PATH, BASE_URL, DEFAULT_LANGUAGE } from "../constants/constant";
-import { ApiError, ApiParseError, ConfigError, NetworkError } from "../errors/DomainErrors";
+import {
+  ApiError,
+  ApiParseError,
+  ConfigError,
+  NetworkError,
+} from "../errors/DomainErrors";
 import { MovieListResponse } from "./apiTypes";
-import { mapMovieDetailResponse, mapMovieListResponse } from "./movieResponseMapper";
+import {
+  mapMovieDetailResponse,
+  mapMovieListResponse,
+} from "./movieResponseMapper";
 
 type QueryValue = string | number | boolean;
 type QueryParams = Record<string, QueryValue | undefined>;
@@ -10,24 +18,32 @@ type QueryParams = Record<string, QueryValue | undefined>;
 export class TmdbClient {
   constructor(private readonly apiKey: string) {
     if (!apiKey) {
-      throw new ConfigError("VITE_TMDB_API_KEY 환경변수가 설정되지 않았습니다.");
+      throw new ConfigError(
+        "VITE_TMDB_API_KEY 환경변수가 설정되지 않았습니다.",
+      );
     }
   }
 
   fetchPopular(page: number): Promise<MovieListResponse> {
-    return this.requestJson<unknown>(API_PATH.POPULAR_MOVIE, { page }).then(mapMovieListResponse);
+    return this.requestJson(API_PATH.POPULAR_MOVIE, { page }).then(
+      mapMovieListResponse,
+    );
   }
 
   searchMovies(query: string, page: number): Promise<MovieListResponse> {
-    return this.requestJson<unknown>(API_PATH.SEARCH_MOVIE, { query, page }).then(mapMovieListResponse);
+    return this.requestJson(API_PATH.SEARCH_MOVIE, {
+      query,
+      page,
+    }).then(mapMovieListResponse);
   }
 
   fetchMovieDetail(movieId: number): Promise<MovieDetail> {
-    return this.requestJson<unknown>(API_PATH.MOVIE_DETAIL(movieId), {})
-      .then(mapMovieDetailResponse);
+    return this.requestJson(API_PATH.MOVIE_DETAIL(movieId), {}).then(
+      mapMovieDetailResponse,
+    );
   }
 
-  private async requestJson<T>(path: string, params: QueryParams): Promise<T> {
+  private async requestJson(path: string, params: QueryParams): Promise<unknown> {
     const url = this.buildUrl(path, params);
 
     let response: Response;
@@ -49,7 +65,7 @@ export class TmdbClient {
     }
 
     try {
-      return (await response.json()) as T;
+      return await response.json();
     } catch (cause) {
       throw new ApiParseError("응답 JSON 파싱 실패", cause);
     }
