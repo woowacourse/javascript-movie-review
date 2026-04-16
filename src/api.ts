@@ -12,7 +12,8 @@ const options = {
   },
 };
 
-export interface resultData {
+export interface ResultData {
+  id: number;
   title: string;
   poster_path: string;
   backdrop_path: string;
@@ -22,24 +23,35 @@ export interface resultData {
 
 export interface PreviewData {
   page: number;
-  results: resultData[];
+  results: ResultData[];
   total_pages: number;
 }
 
-export interface Params {
+export interface QueryParams {
   page: number;
   query?: string | undefined;
   language?: string;
   region?: string;
 }
 
-export interface Request {
+export interface ApiRequest {
   path: string;
-  params: Params;
+  params: QueryParams;
 }
+
+export interface MovieDetailData {
+  id: number;
+  title: string;
+  poster_path: string | null;
+  release_date: string;
+  genres: { id: number; name: string }[];
+  vote_average: number;
+  overview: string;  
+}
+
 const BASE_URL = 'https://api.themoviedb.org/3';
 
-const fetchAPI = async (req: Request): Promise<PreviewData> => {
+const fetchAPI = async (req: ApiRequest): Promise<PreviewData> => {
   const url = new URL(BASE_URL + req.path);
 
   if (req.params.query) {
@@ -71,4 +83,19 @@ export const fetchPopularMovies = (page: number = 1): Promise<PreviewData> => {
     path: '/movie/popular',
     params: { page },
   });
+};
+
+export const fetchMovieDetail = async (movieId: number): Promise<MovieDetailData> => {
+  const url = new URL(`${BASE_URL}/movie/${movieId}`);
+  url.searchParams.append('region', 'ko-KR');
+  url.searchParams.append('language', 'ko');
+
+  const response = await fetch(url.toString(), options);
+
+  if (!response.ok) {
+    throw new Error('영화 데이터를 불러오는 데 실패했습니다.');
+  }
+
+  const data = (await response.json()) as MovieDetailData;
+  return data;
 };

@@ -27,10 +27,18 @@ h2 {
   font-size: 1.4rem;
   font-weight: bold;
   margin-bottom: 32px;
+  padding-left: 30px;
+}
+
+@media (max-width: 360px) {
+  h2 {
+    padding-left: 0;
+    text-align: center;
+  }
 }
 
 main {
-  margin: 64px 0;
+  margin: 32px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -58,17 +66,26 @@ button.primary {
   display: none;
 }
 
+.header-top-wrapper {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
 .pretty-search-bar {
-display: flex;
+  display: flex;
   align-items: center;
   justify-content: space-between;
-
-  width: 480px; 
-  flex-shrink: 0;
-
+  
+  width: 90%;
+  max-width: 480px;
+  
   height: 48px;
   padding: 0 16px;
-
   border-radius: 40px;
   border: 1px solid var(--color-bluegray-30);
   background: var(--color-bluegray-90);
@@ -76,6 +93,7 @@ display: flex;
 
 .search-input {
   flex: 1;
+  min-width: 0;
   border: none;
   background: transparent;
   outline: none;
@@ -84,15 +102,19 @@ display: flex;
   font-size: 16px;
   font-weight: 700;
   padding: 0;
+  text-overflow: ellipsis;
 }
 
 .search-icon-btn {
+  flex-shrink: 0;
   border: none;
   background: transparent;
   cursor: pointer;
   padding: 0;
   margin-left: 10px;
-  display: flex; align-items: center; justify-content: center;
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
 }
 
 .empty-result {
@@ -116,7 +138,7 @@ display: flex;
   position: relative;
   background-position: center center;
   background-size: cover;
-  height: 500px;
+  max-height: 500px;
   padding: 48px;
 }
 
@@ -169,12 +191,15 @@ h1.logo {
 span.rate-value {
   margin-left: 8px;
   font-weight: bold;
-  font-size: 1.66rem;
+  font-size: 1.66rem; 
 }
 
+
 .title {
-  font-size: 3rem;
+  font-size: clamp(1rem, 6vw, 3rem); 
   font-weight: bold;
+  word-break: keep-all;
+  line-height: 1.2;
 }
 
 footer.footer {

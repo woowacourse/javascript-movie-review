@@ -1,0 +1,41 @@
+{
+  "page": 1,
+  "results": [
+    {
+      "id": 1022789,
+      "title": "인사이드 아웃 2",
+      "poster_path": "/vpnVM9B6NMmQpWeZvzRxHXlNpzT.jpg",
+      "backdrop_path": "/stKGOm8UyhuLPR9sLsGAXo0I94w.jpg",
+      "vote_average": 8.5
+    },
+    {
+      "id": 533535,
+      "title": "데드풀과 울버린",
+      "poster_path": "/8cdWjvZQUExUUTzyp4t6EDMubfO.jpg",
+      "backdrop_path": "/yDHYTfA3R0jFYba16ZBRWUP1lNl.jpg",
+      "vote_average": 7.9
+    },
+    {
+      "id": 1029528,
+      "title": "슈퍼배드 4",
+      "poster_path": "/3w84hCFJATpiCO5g8hpdWVPBcbF.jpg",
+      "backdrop_path": "/lgkPzcOSnTvjeMnuFzozRO5HHw1.jpg",
+      "vote_average": 7.4
+    },
+    {
+      "id": 653346,
+      "title": "혹성탈출: 새로운 시대",
+      "poster_path": "/fQZ5o2eY9KusVq6qO2o1EudV9Iq.jpg",
+      "backdrop_path": "/fqv8v6AycXKsivp1T5yKtLbGXce.jpg",
+      "vote_average": 6.9
+    },
+    {
+      "id": 748783,
+      "title": "가필드 더 무비",
+      "poster_path": "/a0A9YlRhaV7Z1rA0N6P4qF8w3rO.jpg",
+      "backdrop_path": "/xg27NrZaAKk4pM1r7K531Qk7u0D.jpg",
+      "vote_average": 7.1
+    }
+  ],
+  "total_pages": 100
+}

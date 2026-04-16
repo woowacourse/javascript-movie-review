@@ -1,0 +1,26 @@
+/* 스켈레톤 기본 뼈대 애니메이션 */
+.skeleton {
+  background: linear-gradient(90deg, var(--color-bluegray-80) 25%, var(--color-bluegray-90) 50%, var(--color-bluegray-80) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: 8px;
+}
+
+@keyframes skeleton-loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* 포스터(이미지) 크기의 회색 박스 */
+.skeleton-thumbnail {
+  width: 200px;
+  height: 300px;
+  margin-bottom: 8px;
+}
+
+/* 텍스트(제목, 별점) 크기의 회색 박스 */
+.skeleton-text {
+  height: 20px;
+  margin-bottom: 6px;
+  width: 100%;
+}
