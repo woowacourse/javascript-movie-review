@@ -187,6 +187,82 @@ describe("Movie App", () => {
     });
   });
 
+  context("무한 스크롤 API 실패 후 재시도 - 인기영화", () => {
+    // beforeEach의 @popularMovies 인터셉트와 우선순위 충돌을 피하기 위해
+    // cy.visit으로 새 페이지 로드 후 단일 인터셉트로 모든 요청을 처리한다.
+    it("하단 스크롤 중 API 실패 시 스크롤 트리거가 유지된다", () => {
+      cy.intercept("GET", TMDB_POPULAR_URL_PATTERN, (req) => {
+        const url = new URL(req.url);
+        const page = url.searchParams.get("page");
+        req.reply(page === "2"
+          ? { statusCode: 500 }
+          : { fixture: "popular-movies-p1.json" });
+      }).as("popularWithP2Failure");
+      cy.visit("localhost:5173");
+      cy.wait("@popularWithP2Failure");
+      cy.get(".scroll-area").scrollIntoView();
+      cy.wait("@popularWithP2Failure");
+      cy.get(".toast").should("be.visible");
+      cy.get(".scroll-area").should("exist");
+    });
+
+    it("하단 스크롤 중 API 실패 후 해당 페이지가 건너뛰어지지 않는다", () => {
+      cy.intercept("GET", TMDB_POPULAR_URL_PATTERN, (req) => {
+        const url = new URL(req.url);
+        const page = url.searchParams.get("page");
+        req.reply(page === "2"
+          ? { statusCode: 500 }
+          : { fixture: "popular-movies-p1.json" });
+      }).as("popularWithP2Failure");
+      cy.visit("localhost:5173");
+      cy.wait("@popularWithP2Failure");
+      cy.get(".item").should("have.length", 20);
+      cy.get(".scroll-area").scrollIntoView();
+      cy.wait("@popularWithP2Failure");
+      cy.get(".toast").should("be.visible");
+      // 실패 후 아이템 수가 그대로 20개여야 한다 (페이지 건너뜀이 없음)
+      cy.get(".item").should("have.length", 20);
+      cy.get(".scroll-area").should("exist");
+    });
+  });
+
+  context("무한 스크롤 API 실패 후 재시도 - 검색", () => {
+    it("하단 스크롤 중 API 실패 시 스크롤 트리거가 유지된다", () => {
+      cy.intercept("GET", TMDB_SEARCH_URL_PATTERN, (req) => {
+        const url = new URL(req.url);
+        const page = url.searchParams.get("page");
+        req.reply(page === "2"
+          ? { statusCode: 500 }
+          : { fixture: "search-results-p1.json" });
+      }).as("searchWithP2Failure");
+      cy.visit("localhost:5173/search.html?query=Inception");
+      cy.wait("@searchWithP2Failure");
+      cy.get(".scroll-area").scrollIntoView();
+      cy.wait("@searchWithP2Failure");
+      cy.get(".toast").should("be.visible");
+      cy.get(".scroll-area").should("exist");
+    });
+
+    it("하단 스크롤 중 API 실패 후 해당 페이지가 건너뛰어지지 않는다", () => {
+      cy.intercept("GET", TMDB_SEARCH_URL_PATTERN, (req) => {
+        const url = new URL(req.url);
+        const page = url.searchParams.get("page");
+        req.reply(page === "2"
+          ? { statusCode: 500 }
+          : { fixture: "search-results-p1.json" });
+      }).as("searchWithP2Failure");
+      cy.visit("localhost:5173/search.html?query=Inception");
+      cy.wait("@searchWithP2Failure");
+      cy.get(".item").should("have.length", 10);
+      cy.get(".scroll-area").scrollIntoView();
+      cy.wait("@searchWithP2Failure");
+      cy.get(".toast").should("be.visible");
+      // 실패 후 아이템 수가 그대로 10개여야 한다 (페이지 건너뜀이 없음)
+      cy.get(".item").should("have.length", 10);
+      cy.get(".scroll-area").should("exist");
+    });
+  });
+
   context("스크롤 위치 복원", () => {
     it("viewed-movie-id URL 파라미터로 접속 시 해당 영화가 뷰포트에 표시된다", () => {
       const targetMovieId = "83533";
