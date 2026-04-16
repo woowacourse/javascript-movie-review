@@ -20,17 +20,19 @@ export class StarRating {
     this.container.addEventListener("click", this.handleClick);
   }
 
-  setScore(score: number): void {
+  setScore(score: RatingScore): void {
     this.score = score;
     this.render();
   }
 
   private render(): void {
-    const stars = Array.from({length : 5}, (_, i) => {
-        const starScore = (i+1) * 2;
-        const filled = starScore <= this.score;
-        const src = filled ? "./images/star_filled.png" : "./images/star_empty.png";
-        return `<img src="${src}" class="star-rating-star" data-score="${starScore}" alt="${i + 1}점" />`;
+    const stars = Array.from({ length: 5 }, (_, i) => {
+      const starScore = (i + 1) * 2;
+      const filled = starScore <= this.score;
+      const src = filled
+        ? "./images/star_filled.png"
+        : "./images/star_empty.png";
+      return `<img src="${src}" class="star-rating-star" data-score="${starScore}" alt="${i + 1}점" />`;
     }).join("");
 
     this.container.innerHTML = stars;
@@ -54,5 +56,4 @@ export class StarRating {
     this.render();
     this.onRate(score);
   };
-
 }

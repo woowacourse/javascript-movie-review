@@ -37,7 +37,7 @@ export class MovieDetailModal {
     });
   }
 
-  open(detail: MovieDetail, currentRating: number | null): void {
+  open(detail: MovieDetail, currentRating: RatingScore | null): void {
     this.currentMovieId = detail.id;
 
     this.el.poster.src = detail.thumbnail_path

@@ -2,14 +2,11 @@ import { TmdbClient } from "../api/TmdbClient";
 import { PAGE_TITLE } from "../constants/constant";
 import { HeroSection } from "../hero/HeroSection";
 import { MovieDetailModal } from "../modal/MovieDetailModal";
+import { Notifier } from "../notify/Notifier";
 import { MovieRatingRepo } from "../rating/MovieRatingRepo";
 import { RatingScore } from "../rating/validateScore";
 import { MovieListStore } from "./MovieListStore";
 import { MovieListView } from "./MovieListView";
-
-export interface Notifier {
-  error: (e: unknown) => void;
-}
 
 export class MovieListController {
   private _detailToken = 0;
