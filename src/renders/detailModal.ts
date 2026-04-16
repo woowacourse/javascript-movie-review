@@ -1,28 +1,9 @@
 import { MovieInfo } from "../services/dto";
 
+import { RateLocalStroageRepository } from "../repositories/RateRepository";
+
 const mathRound = (value: number, numDigits:number = 1): number => {
   return Math.round(value * 10 ** numDigits) / 10 ** numDigits;
-}
-interface RateRepository {
-  getMovieRate(id: number): number;
-  setMovieRate(id: number, rate: number): void
-}
-
-class RateLocalStroageRepository implements RateRepository {
-  #getRates(){
-    const rates = localStorage.getItem('rates') || "{}";
-    return JSON.parse(rates) || {};
-  }
-  getMovieRate(id: number){
-    const rates = this.#getRates();
-
-    return rates[id];
-  }
-  setMovieRate(id: number, rate: number){
-    const prevRates = this.#getRates();
-    const rates = { ...prevRates, [id]: rate };
-    localStorage.setItem('rates', JSON.stringify(rates));
-  }
 }
 
 const rateRepository = new RateLocalStroageRepository();
