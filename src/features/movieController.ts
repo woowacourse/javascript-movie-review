@@ -50,6 +50,7 @@ export async function searchMovies(query: string): Promise<void> {
     return;
   }
 
+  state.isLoading = true;
   try {
     movieList.renderSkeleton();
     movieList.renderMainTitle(`"${query}" 검색 결과`);
@@ -67,6 +68,8 @@ export async function searchMovies(query: string): Promise<void> {
     }
   } catch (error) {
     if (error instanceof Error) movieList.renderError(error.message);
+  } finally {
+    state.isLoading = false;
   }
 }
 
