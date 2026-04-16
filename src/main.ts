@@ -1,6 +1,6 @@
 import { handleMovieSearch } from "./dom/eventHandler/handleMovieSearch";
-import { renderHomePage } from "./pages/home.ts";
-import { renderSearchPage } from "./pages/search.ts";
+import { removeHome, renderHomePage } from "./pages/home.ts";
+import { removeSearch, renderSearchPage } from "./pages/search.ts";
 
 const main = async () => {
   const url = new URL(window.location.href);
@@ -10,8 +10,10 @@ const main = async () => {
   sessionStorage.setItem("page", "1");
   addEventListener();
   if (keyword) {
+    removeHome();
     await renderSearchPage("init");
   } else {
+    removeSearch();
     await renderHomePage("init");
   }
 };

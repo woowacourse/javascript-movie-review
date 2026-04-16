@@ -1,13 +1,16 @@
 import { getPopularMovies } from "../apis/movie/api.ts";
 import { Movie } from "../apis/movie/type.ts";
 import TMDBError from "../TMDBError.ts";
-import {
-  appendPopularMovies,
-  renderHome,
-  renderHomeEmpty,
-  renderHomeError,
-  renderHomeLoading,
-} from "../dom/compositions/Home.ts";
+import { handleMainSeeMore } from "../dom/eventHandler/handleSeeMore.ts";
+import { removeEmptyContainer, renderEmptyContainer } from "../dom/components/EmptyContainer.ts";
+import { removeErrorContainer, renderErrorContainer } from "../dom/components/ErrorContainer.ts";
+import { removePopularThumbnailList, renderPopularThumbnailList, renderPopularThumbnailLoading } from "../dom/components/PopularThumbnailList.ts";
+import { removeMovieItemsLoading, renderMovieItems } from "../dom/shared/MovieItem.ts";
+import { removeBanner, renderBanner } from "../dom/components/Banner.ts";
+
+const HOME_OBSERVER_TARGET_ID = "home-observer-target";
+let homeObserver: IntersectionObserver | null = null;
+let homeObserverTarget: HTMLElement | null = null;
 
 export const renderHomePage = async (type: "init" | "append") => {
   let isError = false;
@@ -41,7 +44,7 @@ export const renderHomePage = async (type: "init" | "append") => {
       } else if (movies.length === 0) {
         renderHomeEmpty();
       } else if (type === "init") {
-        renderHome(isLastPage, movies);
+        renderHomeSuccess(isLastPage, movies);
       }
     }
 
@@ -53,4 +56,117 @@ export const renderHomePage = async (type: "init" | "append") => {
       }
     }
   }
+};
+
+const renderHomeSuccess = (isLastPage: boolean, movies: Movie[]) => {
+  removeHome();
+
+  const header = document.querySelector("header");
+  if (header) {
+    renderBanner(header, movies[0]);
+  }
+
+  const resultSection = document.getElementById("result-section");
+  if (!resultSection) return;
+
+  renderPopularThumbnailList(resultSection, movies);
+
+  if (!isLastPage) {
+    observeTarget(resultSection, () => {
+      handleMainSeeMore();
+    });
+  }
+};
+
+const renderHomeLoading = () => {
+  removeHome();
+
+  const header = document.querySelector("header");
+  if (header) {
+    renderBanner(header);
+  }
+
+  const resultSection = document.getElementById("result-section");
+  if (resultSection) {
+    renderPopularThumbnailLoading(resultSection);
+  }
+};
+
+const renderHomeError = (errorMessage?: string) => {
+  removeHome();
+
+  const resultSection = document.getElementById("result-section");
+  if (resultSection) {
+    renderErrorContainer(
+      resultSection,
+      errorMessage || "🚨문제가 발생했습니다.🚨",
+    );
+  }
+};
+
+const renderHomeEmpty = () => {
+  removeHome();
+
+  const resultSection = document.getElementById("result-section");
+  if (resultSection) {
+    renderEmptyContainer(resultSection, "검색 결과가 없습니다.");
+  }
+};
+
+export const appendPopularMovies = (isLastPage: boolean, movies: Movie[]) => {
+  const resultSection = document.getElementById("result-section");
+  const popularThumbnailList = document.getElementById(
+    "popular-thumbnail-list",
+  );
+  if (!resultSection || !popularThumbnailList) return;
+
+  removeObserverTarget();
+  removeMovieItemsLoading(popularThumbnailList as HTMLElement);
+  renderMovieItems(popularThumbnailList as HTMLElement, movies);
+
+  if (!isLastPage) {
+    observeTarget(resultSection, () => {
+      handleMainSeeMore();
+    });
+  }
+};
+
+export const removeHome = () => {
+  homeObserver?.disconnect();
+  homeObserver = null;
+  removeObserverTarget();
+  removeBanner();
+  removePopularThumbnailList();
+  removeErrorContainer();
+  removeEmptyContainer();
+};
+
+const observeTarget = (parent: HTMLElement, onIntersect: () => void) => {
+  homeObserver?.disconnect();
+
+  parent.insertAdjacentHTML(
+    "beforeend",
+    `<div id="${HOME_OBSERVER_TARGET_ID}" class="observer-target"></div>`,
+  );
+  homeObserverTarget = document.getElementById(HOME_OBSERVER_TARGET_ID);
+  if (!homeObserverTarget) return;
+
+  homeObserver = new IntersectionObserver(
+    (entries) => {
+      if (entries[0].isIntersecting) {
+        homeObserver?.disconnect();
+        onIntersect();
+      }
+    },
+    {
+      rootMargin: "400px",
+      threshold: 0.1,
+    },
+  );
+  homeObserver.observe(homeObserverTarget);
+};
+
+const removeObserverTarget = () => {
+  homeObserverTarget?.remove();
+  homeObserverTarget = null;
 };
