@@ -1,5 +1,4 @@
-import { apiRequest } from "../utils/api";
-import { MovieResponse } from "../types/api";
+import { fetchPopularMovies, fetchSearchMovies } from "../api/movieApi";
 import { createMovieList } from "../components/movie";
 
 export const hideLoadMoreButton = (loadMoreBtnEl: HTMLButtonElement) => {
@@ -7,24 +6,23 @@ export const hideLoadMoreButton = (loadMoreBtnEl: HTMLButtonElement) => {
 };
 
 export const handleLoadMoreButton = async (
-  url: string,
+  page: number,
   loadMoreBtnEl: HTMLButtonElement,
   mainEl: Element,
   skeletonEls: HTMLElement,
+  onMovieClick: (id: number) => void,
+  query?: string,
 ) => {
   loadMoreBtnEl.disabled = true;
-
   mainEl.append(skeletonEls, loadMoreBtnEl);
 
-  const data = await apiRequest<MovieResponse>({
-    url: url,
-    method: "GET",
-  });
+  const data = query
+    ? await fetchSearchMovies(query, page)
+    : await fetchPopularMovies(page);
 
   if (data) {
     loadMoreBtnEl.disabled = false;
-
-    const newMovieList = createMovieList(data.results);
-    skeletonEls.replaceWith(newMovieList); // 스켈레톤 제거 -> 새로운 영화 목록 렌더링
+    const newMovieList = createMovieList(data.results, onMovieClick);
+    skeletonEls.replaceWith(newMovieList);
   }
 };

@@ -1,33 +1,29 @@
-import { apiRequest } from "../utils/api";
-import { MovieResponse } from "../types/api";
+import { fetchPopularMovies } from "../api/movieApi";
 import { createMovieList } from "../components/movie";
-import { hideLoadMoreButton, handleLoadMoreButton } from "./movieRenderer";
+import { createSkeleton } from "../components/skeleton";
+import { InfiniteScrollController } from "../utils/infiniteScroll";
 
 export const renderPopularMovieList = async (
-  loadMoreBtnEl: HTMLButtonElement,
   mainEl: Element,
   skeletonEls: HTMLElement,
-) => {
+  onMovieClick: (id: number) => void,
+  scrollController: InfiniteScrollController,
+): Promise<void> => {
   let page = 1;
 
-  const data = await apiRequest<MovieResponse>({
-    url: `/movie/popular?language=ko-KR&page=${page}`,
-    method: "GET",
-  });
-  const movieList = createMovieList(data.results);
-  skeletonEls.replaceWith(movieList, loadMoreBtnEl); // 스켈레톤 제거 -> 영화 목록 + 더 보기 버튼 렌더링
+  const data = await fetchPopularMovies(page);
+  skeletonEls.replaceWith(createMovieList(data.results, onMovieClick));
 
-  // 더 이상 불러올 페이지가 없는 경우
-  if (data.total_pages === page) hideLoadMoreButton(loadMoreBtnEl);
+  if (data.total_pages <= page) return;
 
-  loadMoreBtnEl.onclick = () => {
+  scrollController.start(mainEl, async () => {
     page++;
+    const skeleton = createSkeleton();
+    mainEl.appendChild(skeleton);
 
-    handleLoadMoreButton(
-      `/movie/popular?language=ko-KR&page=${page}`,
-      loadMoreBtnEl,
-      mainEl,
-      skeletonEls,
-    );
-  };
+    const nextData = await fetchPopularMovies(page);
+    skeleton.replaceWith(createMovieList(nextData.results, onMovieClick));
+
+    if (nextData.total_pages <= page) scrollController.stop();
+  });
 };

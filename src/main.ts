@@ -1,16 +1,25 @@
 import { createSearchForm } from "./components/search-form";
 import { createHero } from "./components/hero";
-import { createButton } from "./components/button";
 import { createSkeleton } from "./components/skeleton";
+import { Modal } from "./components/modal/modal";
 import { renderPopularMovieList } from "./features/popular";
 import { handleSearch } from "./features/search";
 import { IMAGE_BASE_URL } from "./utils/constants";
+import { RatingRepository } from "./types/ratingRepository";
+import { LocalStorageRatingRepository } from "./repositories/localStorageRatingRepository";
+import { createOnMovieClick } from "./features/createOnMovieClick";
+import { createInfiniteScrollController } from "./utils/infiniteScroll";
 
 addEventListener("load", async () => {
   const headerEl = document.querySelector("header")!;
   const heroEl = document.querySelector("#hero")!;
   const mainEl = document.querySelector("#main")!;
   const titleEl = document.querySelector(".main-title")!;
+
+  const ratingRepo: RatingRepository = new LocalStorageRatingRepository();
+  const modal = new Modal(ratingRepo);
+  const onMovieClick = createOnMovieClick(modal);
+  const scrollController = createInfiniteScrollController();
 
   // 히어로 배너 렌더링
   const hero = createHero({
@@ -20,19 +29,19 @@ addEventListener("load", async () => {
   });
   heroEl.appendChild(hero);
 
-  // 검색 폼 렌더링
   const { formWrapper, form, input } = createSearchForm();
   headerEl.appendChild(formWrapper);
 
-  const loadMoreBtnEl = createButton("more", "더 보기");
   const skeletonEls = createSkeleton();
+  mainEl.appendChild(skeletonEls);
 
-  mainEl.appendChild(skeletonEls); // 초기 로딩 시 스켈레톤 렌더링
-  renderPopularMovieList(loadMoreBtnEl, mainEl, skeletonEls); // 인기 영화 목록 렌더링
+  await renderPopularMovieList(mainEl, skeletonEls, onMovieClick, scrollController);
 
-  // 검색 폼 제출 이벤트 핸들러 등록
-  form.addEventListener(
-    "submit",
-    handleSearch(input, loadMoreBtnEl, mainEl, titleEl, skeletonEls),
-  );
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const query = input.value.trim();
+    if (!query) return;
+
+    await handleSearch(query, mainEl, titleEl, onMovieClick, scrollController);
+  });
 });

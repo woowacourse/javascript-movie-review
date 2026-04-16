@@ -21,7 +21,6 @@ body {
   align-items: center;
 }
 
-#wrap,
 section {
   display: flex;
   flex-direction: column;
@@ -43,6 +42,11 @@ main#main {
     font-weight: 600;
     color: var(--white);
   }
+}
+
+main#main > section,
+main#main > ul {
+  width: 100%;
 }
 
 .hidden {
@@ -71,17 +75,6 @@ button.full-width {
   height: 49px;
   font-size: 1.5rem;
   font-weight: 600;
-}
-
-#wrap {
-  min-width: 1440px;
-  background-color: var(--color-bluegray-100);
-}
-
-#wrap h2 {
-  font-size: 1.4rem;
-  font-weight: bold;
-  margin-bottom: 32px;
 }
 
 .container {

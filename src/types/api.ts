@@ -22,4 +22,20 @@ interface MovieResponse {
   total_results: number;
 }
 
-export type { Movie, MovieResponse };
+interface Genre {
+  id: number;
+  name: string;
+}
+
+interface MovieDetail {
+  id: number;
+  title: string;
+  poster_path: string;
+  backdrop_path: string;
+  release_date: string;
+  genres: Genre[];
+  vote_average: number;
+  overview: string;
+}
+
+export type { Movie, MovieResponse, Genre, MovieDetail };
