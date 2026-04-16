@@ -3,11 +3,11 @@ import { RATING_MESSAGES } from "../constants";
 import bindSelectRatingEvent from "../event/bindSelectRatingEvent";
 
 function createMyRateSelectorElement(currentRating?: number) {
-  const formElement = document.createElement("div");
-  formElement.classList.add("modal-movie-my-rating-selector")
+  const selectorElement = document.createElement("div");
+  selectorElement.classList.add("modal-movie-my-rating-selector")
 
   if (currentRating !== undefined) {
-    formElement.dataset.rating = currentRating.toString()
+    selectorElement.dataset.rating = currentRating.toString()
   }
 
   const buttonElements = Array.from({ length: 5 }, (_, index) => {
@@ -18,9 +18,9 @@ function createMyRateSelectorElement(currentRating?: number) {
     return buttonElement
   })
 
-  formElement.append(...buttonElements);
+  selectorElement.append(...buttonElements);
 
-  return formElement
+  return selectorElement
 }
 
 function createMyRatingMessagesElement() {
