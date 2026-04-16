@@ -6,7 +6,10 @@ import { errorMovieList } from "../services/errorMovieList";
 import { infiniteScrollView } from "../view/infiniteScrollView";
 
 export async function handleLoadMore() {
+  if (movieModel.isLoading) return;
+
   try {
+    movieModel.isLoading = true;
     movieListView.renderSkeletonList(SKELETON_NUMBER);
     const nextPage = movieModel.page + 1;
     const isSearch = movieModel.isSearch;
@@ -29,6 +32,7 @@ export async function handleLoadMore() {
     infiniteScrollView.updateObserver(response.data);
     return;
   } finally {
+    movieModel.isLoading = false;
     movieListView.removeSkeletonList();
   }
 }

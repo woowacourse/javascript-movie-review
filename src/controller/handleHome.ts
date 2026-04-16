@@ -8,7 +8,10 @@ import { emptyMovieList } from "../services/emptyMovieList";
 import { infiniteScrollView } from "../view/infiniteScrollView";
 
 export async function handleHome() {
+  if (movieModel.isLoading) return;
+
   try {
+    movieModel.isLoading = true;
     movieListView.renderSkeletonList(SKELETON_NUMBER);
 
     const popularMovies: ApiResult<MovieResponse> = await getMovies(movieModel.page);
@@ -28,6 +31,7 @@ export async function handleHome() {
     movieListView.renderMovieList(popularMovies.data.results);
     infiniteScrollView.updateObserver(popularMovies.data);
   } finally {
+    movieModel.isLoading = false;
     movieListView.removeSkeletonList();
   }
 }

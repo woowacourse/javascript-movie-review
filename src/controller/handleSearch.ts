@@ -9,7 +9,10 @@ import { emptyMovieList } from "../services/emptyMovieList";
 import { infiniteScrollView } from "../view/infiniteScrollView";
 
 export async function handleSearch(keyword: string) {
+  if (movieModel.isLoading) return;
+  
   try {
+    movieModel.isLoading = true;
     movieModel.startSearch(1, true, keyword);
     searchView.changeToSearchMode(movieModel.searchValue);
     bannerView.hideBanner();
@@ -36,6 +39,7 @@ export async function handleSearch(keyword: string) {
     infiniteScrollView.updateObserver(searchMoviesResult.data);
     return;
   } finally {
+    movieModel.isLoading = false;
     movieListView.removeSkeletonList();
   }
 }

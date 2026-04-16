@@ -4,11 +4,20 @@ class MovieModel implements StateType {
   #page = PAGE_NUMBER;
   #isSearch = false;
   #searchValue = "";
+  #isLoading = false;
 
   startSearch(newPage: number, newIsSearch: boolean, newSearchValue: string) {
     this.page = newPage;
     this.isSearch = newIsSearch;
     this.searchValue = newSearchValue;
+  };
+
+  get isLoading() {
+    return this.#isLoading;
+  };
+
+  set isLoading(newLoading: boolean) {
+    this.#isLoading = newLoading;
   };
 
   increasePage() {
