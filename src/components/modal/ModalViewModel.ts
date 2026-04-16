@@ -50,7 +50,7 @@ export class ModalViewModel {
   setRating(score: number): void {
     if (this.currentMovieId === null) return;
     this.ratingService.set(this.currentMovieId, score);
-    this.setState({ myRating: score });
+    this.state = { ...this.state, myRating: score };
   }
 
   getSavedRating(): number | null {

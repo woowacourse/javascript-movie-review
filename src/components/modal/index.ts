@@ -13,7 +13,10 @@ export class Modal {
       onClose: () => this.close(),
       onStarHover: (score) => this.view.renderRating(score),
       onStarLeave: () => this.view.renderRating(this.viewModel.getSavedRating()),
-      onStarClick: (score) => this.viewModel.setRating(score),
+      onStarClick: (score) => {
+        this.viewModel.setRating(score);
+        this.view.renderRating(score);
+      },
     });
 
     this.element = this.view.element;
