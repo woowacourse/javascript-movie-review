@@ -3,14 +3,7 @@ import { THUMB_NAIL_URL } from "../../constants/constant";
 import closeImg from "../../images/modal_button_close.png";
 import starFilledImg from "../../images/star_filled.png";
 import starEmptyImg from "../../images/star_empty.png";
-
-const star_score: Record<number, string> = {
-  2: "최악이예요",
-  4: "별로예요",
-  6: "보통이예요",
-  8: "재미있어요",
-  10: "명작이예요",
-};
+import StarRating from "./StarRating";
 
 export default class MovieDetailModal {
   private div: HTMLElement;
@@ -19,9 +12,8 @@ export default class MovieDetailModal {
   private genresEl: HTMLElement;
   private ratingEl: HTMLElement;
   private overviewEl: HTMLElement;
-  private stars: NodeListOf<HTMLImageElement>;
-  private labelEl: HTMLSpanElement;
-  private scoreEl: HTMLSpanElement;
+  private starRating: StarRating;
+
   constructor() {
     this.div = document.createElement("div");
     this.div.className = "modal-background";
@@ -67,9 +59,7 @@ export default class MovieDetailModal {
     this.genresEl = this.div.querySelector(".modal-release-date-and-genres")!;
     this.ratingEl = this.div.querySelector(".modal-rating")!;
     this.overviewEl = this.div.querySelector(".modal-overview")!;
-    this.stars = this.div.querySelectorAll<HTMLImageElement>(".modal-star");
-    this.labelEl = this.div.querySelector<HTMLSpanElement>(".rating-label")!;
-    this.scoreEl = this.div.querySelector<HTMLSpanElement>(".rating-score")!;
+    this.starRating = new StarRating(this.div);
   }
 
   render(data: MovieDetail, savedRating: number) {
@@ -80,14 +70,14 @@ export default class MovieDetailModal {
     this.ratingEl.textContent = data.vote_average.toFixed(1);
     this.overviewEl.textContent = data.overview;
 
-    this.#resetStars();
-    if (savedRating) this.#updateStars(savedRating);
+    this.starRating.reset();
+    if (savedRating) this.starRating.rate(savedRating);
 
     this.div.classList.add("active");
   }
 
   rate(index: number) {
-    this.#updateStars(index);
+    this.starRating.rate(index);
   }
 
   renderError(message: string) {
@@ -102,20 +92,5 @@ export default class MovieDetailModal {
 
   close() {
     this.div.classList.remove("active");
-  }
-
-  #resetStars() {
-    this.stars.forEach((star) => (star.src = starEmptyImg));
-    this.labelEl.textContent = "";
-    this.scoreEl.textContent = "";
-  }
-
-  #updateStars(index: number) {
-    this.stars.forEach((star, i) => {
-      star.src = i < index ? starFilledImg : starEmptyImg;
-    });
-    const score = index * 2;
-    this.labelEl.textContent = star_score[score];
-    this.scoreEl.textContent = `(${score}/10)`;
   }
 }
