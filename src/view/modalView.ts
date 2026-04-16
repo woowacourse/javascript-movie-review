@@ -52,6 +52,10 @@ class ModalView {
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape") this.closeModal();
     });
+
+    this.#modalBackground?.addEventListener("click", (e) => {
+      if (e.target === this.#modalBackground) this.closeModal();
+    });
   };
 
   renderSpinner() {
