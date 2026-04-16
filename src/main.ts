@@ -17,6 +17,7 @@ const main = async () => {
   const tmdb = new TmdbClient(import.meta.env.VITE_TMDB_API_KEY);
   const movieListStore = new MovieListStore(tmdb);
   const ratingRepo = new LocalStorageRatingRepo();
+  let controller!: MovieListController;
 
   const modal = new MovieDetailModal(
     {
@@ -30,10 +31,10 @@ const main = async () => {
       myRatingStars: elements.myRatingStars,
       myRatingLabel: elements.myRatingLabel,
     },
-    (movieId, score) => ratingRepo.saveRating(movieId, score),
+    (movieId, score) => controller.rateMovie(movieId, score),
   );
 
-  let controller!: MovieListController;
+  
 
   const movieListView = new MovieListView(
     {

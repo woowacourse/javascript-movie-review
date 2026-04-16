@@ -50,13 +50,21 @@ export class MovieListController {
     try {
       const detail = await this.tmdb.fetchMovieDetail(movieId);
       if (token !== this._detailToken) return;
-      const currentRating = this.ratingRepo.getRating(movieId);
+      const currentRating = await this.ratingRepo.getRating(movieId);
       this.modal.open(detail, currentRating);
     } catch (error) {
       if (token !== this._detailToken) return;
       this.notifier.error(error);
     }
   }
+
+  async rateMovie(movieId: number, score: number): Promise<void> {
+  try {
+    await this.ratingRepo.saveRating(movieId, score);
+  } catch (error) {
+    this.notifier.error(error);
+  }
+}
 
   private async runWithUi(action: () => Promise<void>): Promise<void> {
     this.view.showSkeleton();
