@@ -33,7 +33,7 @@ import MovieListState from "./states/MovieListState";
 
 import { RateRepositoryImpl } from "./data/repositories/RateRepositoryImpl";
 
-const { refetch } = queryMoviePopular();
+const { refetch, getIsFetcing } = queryMoviePopular();
 
 // 사용자 상태값
 const pageState = new PageState();
@@ -66,7 +66,8 @@ const loadInit = () => {
     })();
 
     (async () => {
-      renderSkeleton();
+      if(!getIsFetcing()) renderSkeleton();
+
       const page = pageState.getPage();
 
       const movies = await errorTryCatch(
@@ -86,7 +87,7 @@ const loadInit = () => {
         renderMovieList(movies);
       }
 
-      removeSkeleton(Date.now());
+      if(!getIsFetcing()) removeSkeleton(Date.now());
     })();
   } else {
     runSearch();

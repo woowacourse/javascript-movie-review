@@ -16,5 +16,9 @@ export const queryMoviePopular = () => {
     }
   }
 
-  return { refetch };
+  const getIsFetcing = () => {
+    return isFetching;    
+  };
+
+  return { refetch, getIsFetcing };
 }
