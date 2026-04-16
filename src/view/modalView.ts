@@ -84,14 +84,16 @@ class ModalView {
     };
 
     if (this.#modalDescriptionGenre) {
-      this.#modalDescriptionGenre.textContent = data.genres
+      this.#modalDescriptionGenre.textContent = (data.genres && data.genres.length > 0)
         ? data.genres.map((item) => item.name).join(", ")
         : "알 수 없음";
     };
 
     if (this.#modalRateNumber) {
-      this.#modalRateNumber.textContent = data.vote_average ? `${data.vote_average.toFixed(1)}` : "알 수 없음";
-    }
+      this.#modalRateNumber.textContent = (data.vote_average ?? null) !== null 
+        ? `${data.vote_average.toFixed(1)}` 
+        : "알 수 없음";
+    };
 
     if (this.#modalDetailDescription) {
       this.#modalDetailDescription.textContent = data.overview ? `${data.overview}` : "알 수 없음";
