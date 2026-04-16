@@ -69,17 +69,21 @@ class SearchUI {
   }
 
   async seeMore() {
-    const searchedMovies = await getSearchedMovies({
-      query: this.keyword || "",
-      page: getPageParam() + 1,
-      language: "ko-KR",
-    });
-    incrementPageParam();
-    renderThumbnailList({
-      movies: searchedMovies.results,
-      thumbnailListElement: this.searchThumbnailList,
-    });
-    return !(searchedMovies.page === searchedMovies.total_pages);
+    try {
+      const searchedMovies = await getSearchedMovies({
+        query: this.keyword || "",
+        page: getPageParam() + 1,
+        language: "ko-KR",
+      });
+      incrementPageParam();
+      renderThumbnailList({
+        movies: searchedMovies.results,
+        thumbnailListElement: this.searchThumbnailList,
+      });
+      return !(searchedMovies.page === searchedMovies.total_pages);
+    } catch (error) {
+      this.setSearchState({ type: "error", message: getErrorMessage(error) });
+    }
   }
 
   #render() {

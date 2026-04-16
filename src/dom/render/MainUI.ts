@@ -62,13 +62,19 @@ class MainUI {
   }
 
   async seeMore() {
-    const popularMovies = await getPopularMovies({ page: getPageParam() + 1 });
-    incrementPageParam();
-    renderThumbnailList({
-      movies: popularMovies.results,
-      thumbnailListElement: this.mainThumbnailList,
-    });
-    return !(popularMovies.page === popularMovies.total_pages);
+    try {
+      const popularMovies = await getPopularMovies({
+        page: getPageParam() + 1,
+      });
+      incrementPageParam();
+      renderThumbnailList({
+        movies: popularMovies.results,
+        thumbnailListElement: this.mainThumbnailList,
+      });
+      return !(popularMovies.page === popularMovies.total_pages);
+    } catch (error) {
+      this.setMainState({ type: "error", message: getErrorMessage(error) });
+    }
   }
 
   #render() {
