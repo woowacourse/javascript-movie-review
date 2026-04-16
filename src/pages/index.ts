@@ -8,17 +8,11 @@ import State from "../state.ts";
 export const Index = {
   init() {
     this.setUpInitialContent();
-    this.setUpEventListeners();
+    this.setUpLoadMoreMovies();
   },
 
   setUpInitialContent() {
     addEventListener("load", () => this.showPopularMovies());
-  },
-
-  setUpEventListeners() {
-    this.setUpLoadMoreMovies();
-    this.setUpSearchForm();
-    MovieDetail.setUpEventListeners();
   },
 
   setUpLoadMoreMovies() {
@@ -38,18 +32,6 @@ export const Index = {
       );
       observer.observe(endOfThumbnailList);
     }
-  },
-
-  setUpSearchForm() {
-    const searchForm = document.querySelector(".search-form");
-    searchForm?.addEventListener("submit", (event) => {
-      event.preventDefault();
-      const input = searchForm.querySelector("input");
-      if (input) {
-        const searchValue = input.value;
-        Search.showSearchMovies(searchValue);
-      }
-    });
   },
 
   handleLoadMoreMovies() {
