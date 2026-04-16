@@ -1,4 +1,5 @@
 @import "./colors.css";
+@import "./thumbnail.css";
 
 /* modal.css */
 body.modal-open {
@@ -82,7 +83,162 @@ body.modal-open {
   margin: 0 0 8px;
 }
 
+.modal-sub-title {
+  margin-top: 16px;
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: 0.18px;
+  line-height: 100%;
+}
+
+.modal-rate-stars {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  height: 30px;
+}
+
+.modal-my-rate-star {
+  width: 32px;
+  height: 32px;
+}
+
+.modal-rate-stars span {
+  margin-left: 5px;
+}
+
+.modal-rate-stars span span {
+  font-weight: 600;
+  font-size: 24px;
+  letter-spacing: 0.18px;
+}
+
 .detail {
   max-height: 430px;
   overflow-y: auto;
+}
+
+.modal-skeleton {
+  animation: skeleton-loading 2s infinite;
+  border-radius: 4px;
+  display: block;
+}
+
+.modal-skeleton-image {
+  animation: skeleton-loading 2s infinite;
+  border-radius: 16px;
+  width: 380px;
+  min-height: 500px;
+}
+
+.modal-skeleton-image img {
+  visibility: hidden;
+}
+
+.modal-skeleton-title {
+  width: 60%;
+  height: 2rem;
+  margin-bottom: 8px;
+}
+
+.modal-skeleton-category {
+  width: 40%;
+  height: 1rem;
+}
+
+.modal-skeleton-rate {
+  width: 30px;
+  height: 1rem;
+  display: inline-block;
+}
+
+.modal-skeleton-detail {
+  width: 100%;
+  height: 200px;
+}
+
+/* 태블릿 */
+@media (max-width: 1024px) and (min-width: 601px) {
+  .modal-background {
+    align-items: flex-end;
+  }
+
+  .modal {
+    width: 100%;
+    border-radius: 16px 16px 0 0;
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+
+  .modal-container {
+    flex-direction: column;
+  }
+
+  .modal-image {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .modal-image img {
+    width: 200px;
+    min-height: 300px;
+  }
+
+  .modal-skeleton-image {
+    width: 200px;
+    min-height: 300px;
+  }
+
+  .modal-description {
+    margin-left: 0;
+    margin-top: 16px;
+  }
+
+  .modal-header {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+  }
+
+  .close-modal {
+    top: 16px;
+    right: 16px;
+  }
+}
+
+/* 모바일 */
+@media (max-width: 600px) {
+  .modal-background {
+    align-items: flex-end;
+  }
+
+  .modal {
+    width: 100%;
+    border-radius: 16px 16px 0 0;
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+
+  .modal-container {
+    flex-direction: column;
+  }
+
+  .modal-image {
+    display: none;
+  }
+
+  .modal-skeleton-image {
+    display: none;
+  }
+
+  .modal-description {
+    margin-left: 0;
+  }
+
+  .close-modal {
+    top: 16px;
+    right: 16px;
+  }
 }

@@ -1,0 +1,31 @@
+{
+  "id": 1,
+  "title": "영화1",
+  "poster_path": "/poster1.jpg",
+  "backdrop_path": "/back1.jpg",
+  "vote_average": 8.0,
+  "overview": "줄거리1 상세 설명입니다.",
+  "release_date": "2024-01-01",
+  "genres": [
+    { "id": 28, "name": "액션" },
+    { "id": 12, "name": "어드벤처" }
+  ],
+  "adult": false,
+  "belongs_to_collection": null,
+  "budget": 0,
+  "homepage": "",
+  "imdb_id": "tt0000001",
+  "origin_country": ["KR"],
+  "original_language": "ko",
+  "original_title": "Movie1",
+  "popularity": 100,
+  "production_companies": [],
+  "production_countries": [],
+  "revenue": 0,
+  "runtime": 120,
+  "spoken_languages": [],
+  "status": "Released",
+  "tagline": "",
+  "video": false,
+  "vote_count": 1000
+}

@@ -1,11 +1,22 @@
-import { handleMovieSearch } from "./dom/eventHandler/handleMovieSearch";
-import {
-  handleMainSeeMore,
-  handleSearchSeeMore,
-} from "./dom/eventHandler/handleSeeMore";
-import { renderInitialUI } from "./dom/render/renderInitialUI";
-import { renderMainUI } from "./dom/render/renderMainUI";
-import { renderSearchUI } from "./dom/render/renderSearchUI";
+import MainUI from "./dom/render/MainUI";
+import ModalUI from "./dom/render/ModalUI";
+import SearchUI from "./dom/render/SearchUI";
+import RatingRepository from "./repository/RatingRepository";
+import { getKeywordFromURL } from "./utils/getKeywordFromURL";
+import { setURLParams } from "./utils/setURLParams";
+
+const mainUI = new MainUI();
+const searchUI = new SearchUI();
+
+const ratingRepository = new RatingRepository();
+const modalUI = new ModalUI(ratingRepository);
+
+document.addEventListener("click", (e) => {
+  const item = (e.target as HTMLElement).closest("li[id^='movie-']");
+  if (!item) return;
+  const movieId = Number(item.id.replace("movie-", ""));
+  modalUI.load(movieId);
+});
 
 const logo = document.getElementById("logo");
 const searchInput = document.getElementById(
@@ -14,6 +25,7 @@ const searchInput = document.getElementById(
 const searchButton = document.getElementById("search-button");
 const mainSeeMoreButton = document.getElementById("main-see-more-button");
 const searchSeeMoreButton = document.getElementById("search-see-more-button");
+const sentinel = document.getElementById("sentinel");
 
 if (logo) {
   logo.addEventListener("click", () => {
@@ -21,39 +33,69 @@ if (logo) {
   });
 }
 
+const handleSearch = () => {
+  if (searchInput?.value.trim() === "") {
+    window.history.pushState({}, "", import.meta.env.BASE_URL);
+    searchUI.hide();
+    mainUI.load();
+    return;
+  }
+  setURLParams({ keyword: searchInput!.value, page: "1" });
+  mainUI.hide();
+  searchUI.load();
+};
+
 if (searchInput && searchButton) {
-  searchButton.addEventListener("click", () =>
-    handleMovieSearch(searchInput.value),
-  );
+  searchButton.addEventListener("click", handleSearch);
 
   searchInput.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") handleMovieSearch(searchInput.value);
+    if (e.key === "Enter") handleSearch();
   });
 }
 
 if (mainSeeMoreButton) {
   mainSeeMoreButton.addEventListener("click", () => {
-    handleMainSeeMore();
+    mainUI.seeMore();
   });
 }
 
 if (searchSeeMoreButton && searchInput) {
   searchSeeMoreButton.addEventListener("click", () => {
-    handleSearchSeeMore(searchInput.value);
+    searchUI.seeMore();
   });
 }
 
 const render = async () => {
-  renderInitialUI();
-
-  const url = new URL(window.location.href);
-  const params = url.searchParams;
-  const keyword = params.get("keyword");
+  const keyword = getKeywordFromURL();
   if (keyword) {
-    await renderSearchUI(keyword);
+    await searchUI.load();
   } else {
-    await renderMainUI();
+    await mainUI.load();
   }
 };
 
 await render();
+
+if (sentinel) {
+  let isLoading = false;
+
+  const observer = new IntersectionObserver(
+    async (entries, observer) => {
+      if (!entries[0].isIntersecting || isLoading) return;
+
+      isLoading = true;
+      try {
+        const keyword = getKeywordFromURL();
+        const hasMore = keyword
+          ? await searchUI.seeMore()
+          : await mainUI.seeMore();
+        if (!hasMore) observer.disconnect();
+      } finally {
+        isLoading = false;
+      }
+    },
+    { rootMargin: "200px" },
+  );
+
+  observer.observe(sentinel);
+}
