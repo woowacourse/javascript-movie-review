@@ -30,6 +30,7 @@ export const createMoviesResponse = (
 
 describe("영화 리뷰 앱", () => {
   beforeEach(() => {
+    cy.clearLocalStorage();
     cy.intercept("GET", "**/movie/popular*", createMoviesResponse(20)).as(
       "getPopularMovies",
     );
@@ -192,6 +193,14 @@ describe("영화 리뷰 앱", () => {
         "오류가 발생했습니다. 다시 시도해주세요.",
       );
     });
+
+    it("검색 API 실패 시 에러 메시지가 렌더링된다", () => {
+      cy.intercept("GET", "**/search/movie*", { statusCode: 500 }).as("searchFail");
+      cy.get(".search-form input").type("액션");
+      cy.get(".search-form").submit();
+      cy.wait("@searchFail");
+      cy.get(".notice-text").should("contain.text", "오류가 발생했습니다. 다시 시도해주세요.");
+    });
   });
 
   describe("에러 처리", () => {
@@ -338,6 +347,15 @@ describe("영화 리뷰 앱", () => {
       cy.wait(500);
       cy.get(".thumbnail-list li").first().click();
       cy.get(".modal").should("be.visible");
+    });
+
+    it("별점을 클릭한 뒤 모달을 다시 열면 기존 별점이 유지된다", () => {
+      cy.get(".thumbnail-list li").first().click();
+      cy.get(".my-rating-container button").eq(2).click();
+      cy.get("#closeModal").click();
+
+      cy.get(".thumbnail-list li").first().click();
+      cy.get("#my-rating-to-string").should("have.text", "보통이에요");
     });
   });
 });
