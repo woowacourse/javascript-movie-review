@@ -128,12 +128,12 @@ p.rate > span {
   transition: all 0.2s ease;
 }
 
-.error-thumbnail-retry-button:hover {
+.thumbnail-retry-button:hover {
   filter: brightness(0.9);
   transform: translateY(-2px);
 }
 
-.error-thumbnail-retry-button:active {
+.thumbnail-retry-button:active {
   transform: translateY(0) scale(0.96);
 }
 
