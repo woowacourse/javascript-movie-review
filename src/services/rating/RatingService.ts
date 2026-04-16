@@ -1,10 +1,16 @@
-const STORAGE_KEY = "ratings";
+import { RatingStorage, LocalStorageRatingStorage } from "./RatingStorage";
+import { AsyncService, AsyncState } from "../AsyncService";
 
-export class RatingService {
+export type RatingState = AsyncState<number | null>;
+
+export class RatingService extends AsyncService<number | null> {
+  private storage: RatingStorage;
   private ratings: Record<number, number>;
 
-  constructor() {
-    this.ratings = this.load();
+  constructor(storage: RatingStorage = new LocalStorageRatingStorage()) {
+    super();
+    this.storage = storage;
+    this.ratings = this.storage.load();
   }
 
   get(movieId: number): number | null {
@@ -13,18 +19,7 @@ export class RatingService {
 
   set(movieId: number, rating: number): void {
     this.ratings[movieId] = rating;
-    this.save();
-  }
-
-  private load(): Record<number, number> {
-    try {
-      return JSON.parse(localStorage.getItem(STORAGE_KEY) ?? "{}");
-    } catch {
-      return {};
-    }
-  }
-
-  private save(): void {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(this.ratings));
+    this.storage.save(this.ratings);
+    this.notify(rating);
   }
 }
