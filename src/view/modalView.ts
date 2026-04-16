@@ -25,7 +25,7 @@ class ModalView {
     this.#modalDescriptionYear = document.querySelector<HTMLTitleElement>("#modal-description-year");
     this.#modalDescriptionGenre = document.querySelector<HTMLTitleElement>("#modal-description-genre");
     this.#modalRateNumber = document.querySelector<HTMLTitleElement>("#modal-rate-number");
-    this.#modalDetailDescription = document.querySelector<HTMLTitleElement>("#modal-detail-description");
+    this.#modalDetailDescription = document.querySelector<HTMLParagraphElement>("#modal-detail-description");
     this.#modalContainer = document.querySelector<HTMLDivElement>(".modal-container");
     this.#modalErrorContainer = document.querySelector<HTMLDivElement>(".modal-error-container");
     this.#retryButton = document.querySelector<HTMLButtonElement>(".retry-button");
@@ -72,25 +72,25 @@ class ModalView {
     };
   
     if (this.#modalDescriptionTitle) {
-      this.#modalDescriptionTitle.innerText = data.title ? `${data.title}` : "알 수 없음";
+      this.#modalDescriptionTitle.textContent = data.title ? `${data.title}` : "알 수 없음";
     };
 
     if (this.#modalDescriptionYear) {
-      this.#modalDescriptionYear.innerText = data.release_date ? `${data.release_date.split("-")[0]}` : "알 수 없음";
+      this.#modalDescriptionYear.textContent = data.release_date ? `${data.release_date.split("-")[0]}` : "알 수 없음";
     };
 
     if (this.#modalDescriptionGenre) {
-      this.#modalDescriptionGenre.innerText = data.genres
+      this.#modalDescriptionGenre.textContent = data.genres
         ? data.genres.map((item) => item.name).join(", ")
         : "알 수 없음";
     };
 
     if (this.#modalRateNumber) {
-      this.#modalRateNumber.innerText = data.vote_average ? `${data.vote_average.toFixed(1)}` : "알 수 없음";
+      this.#modalRateNumber.textContent = data.vote_average ? `${data.vote_average.toFixed(1)}` : "알 수 없음";
     }
 
     if (this.#modalDetailDescription) {
-      this.#modalDetailDescription.innerText = data.overview ? `${data.overview}` : "알 수 없음";
+      this.#modalDetailDescription.textContent = data.overview ? `${data.overview}` : "알 수 없음";
     };
   };
 
