@@ -114,4 +114,40 @@ describe('영화 리뷰 step2 테스트', () => {
         .and('include', 'star_filled');
     });
   });
+
+  describe('예외 상황 테스트', () => {
+    it('상세 정보 API 호출이 실패하면 다시 시도 버튼을 보여준다.', () => {
+      // 500 상태 반환
+      cy.intercept('GET', /\/movie\/\d+/, {
+        statusCode: 500,
+        body: 'Internal Server Error'
+      }).as('getMovieDetailError');
+
+      // 첫 번째 영화 클릭
+      cy.get('.thumbnail-list .movie-item').first().click();
+      cy.wait('@getMovieDetailError');
+
+      // 에러 화면과 다시 시도 버튼이 잘 뜨는지 검증
+      cy.get('#modalContainer').should('contain.text', '에러');
+      cy.get('#retryModalButton').should('be.visible');
+    });
+
+    it('localStorage의 값이 깨져있을 경우 기본 상태 렌더링', () => {
+      // 로컬 스토리지에 파싱 불가능한 텍스트
+      cy.window().then((win) => {
+        win.localStorage.setItem('movie_ID_stars', '이건 절대 JSON으로 파싱할 수 없는 텍스트입니다!');
+      });
+
+      // API는 정상적으로 동작
+      cy.intercept('GET', /\/movie\/\d+/, { fixture: 'movieDetail.json' }).as('getMovieDetail');
+
+      // 첫 번째 영화 클릭
+      cy.get('.thumbnail-list .movie-item').first().click();
+      cy.wait('@getMovieDetail');
+
+      // 기본 상태인 평가해주세요가 뜨는지 검증
+      cy.get('#modalBackground').should('have.class', 'active');
+      cy.get('#ratingDescription').should('contain.text', '평가해주세요');
+    });
+  });
 });
