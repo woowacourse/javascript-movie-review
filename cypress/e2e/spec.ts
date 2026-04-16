@@ -1,5 +1,6 @@
 const POPULAR_API = "**/movie/popular**";
 const SEARCH_API = "**/search/movie**";
+const MOVIE_DETAIL_API = /\/movie\/\d+/;
 
 export const interceptPopularPage1 = () => {
   cy.intercept("GET", POPULAR_API, { fixture: "popularMoviesPage1.json" }).as(
@@ -25,10 +26,34 @@ export const interceptSearchPage2 = () => {
   );
 };
 
+export const interceptPopularLastPage = () => {
+  cy.intercept("GET", POPULAR_API, { fixture: "popularMoviesLastPage.json" }).as(
+    "getPopularLastPage",
+  );
+};
+
+export const interceptSearchLastPage = () => {
+  cy.intercept("GET", SEARCH_API, { fixture: "searchMoviesLastPage.json" }).as(
+    "getSearchLastPage",
+  );
+};
+
 export const interceptPopularError = () => {
   cy.intercept("GET", POPULAR_API, { statusCode: 500 }).as("getPopularError");
 };
 
 export const interceptSearchError = () => {
   cy.intercept("GET", SEARCH_API, { statusCode: 500 }).as("getSearchError");
+};
+
+export const interceptMovieDetail = () => {
+  cy.intercept("GET", MOVIE_DETAIL_API, { fixture: "movieDetail.json" }).as(
+    "getMovieDetail",
+  );
+};
+
+export const interceptMovieDetailError = () => {
+  cy.intercept("GET", MOVIE_DETAIL_API, { statusCode: 500 }).as(
+    "getMovieDetailError",
+  );
 };

@@ -1,10 +1,11 @@
 @import "./colors.css";
 
 .thumbnail-list {
-  margin: 0 auto 56px;
   display: grid;
-  grid-template-columns: repeat(5, 200px);
+  grid-template-columns: repeat(auto-fill, 200px);
+  justify-content: center;
   gap: 70px;
+  width: 100%;
 }
 
 .thumbnail {
@@ -19,6 +20,10 @@
 .item {
   user-select: none;
   cursor: pointer;
+}
+
+.item-desc strong {
+  line-height: 142%;
 }
 
 .item-desc > *:not(:last-child) {
@@ -39,7 +44,7 @@ p.rate > span {
 
 .item .star {
   width: 16px;
-  top: 1px;
+  margin-top: 4px;
 }
 
 .skeleton .thumbnail {

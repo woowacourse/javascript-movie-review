@@ -1,27 +1,11 @@
 import { getSearchParamsFromObject } from "../../utils/getSearchParamsFromObject";
 import { tmdbFetcher, TmdbPagination } from "../../utils/tmdbFetcher";
-
-export interface Movie {
-  adult: boolean;
-  backdrop_path: string;
-  genre_ids: number[];
-  id: number;
-  original_language: string;
-  original_title: string;
-  overview: string;
-  popularity: number;
-  poster_path: string;
-  release_date: string;
-  title: string;
-  video: boolean;
-  vote_average: number;
-  vote_count: number;
-}
-
-export interface PopularMoviesParameter {
-  language: string;
-  page: number;
-}
+import {
+  Movie,
+  MovieDetail,
+  MovieDetailParameter,
+  PopularMoviesParameter,
+} from "./type.ts";
 
 export const getPopularMovies = async (
   params: Partial<PopularMoviesParameter> = {},
@@ -29,5 +13,15 @@ export const getPopularMovies = async (
   const searchParams = getSearchParamsFromObject(params);
   return await tmdbFetcher<TmdbPagination<Movie[]>>(
     `/movie/popular?${searchParams.toString()}`,
+  );
+};
+
+export const getMovieDetail = async ({
+  movieId,
+  ...params
+}: MovieDetailParameter) => {
+  const searchParams = getSearchParamsFromObject(params);
+  return await tmdbFetcher<MovieDetail>(
+    `/movie/${movieId}?${searchParams.toString()}`,
   );
 };

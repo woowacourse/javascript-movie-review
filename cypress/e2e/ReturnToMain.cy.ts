@@ -23,8 +23,8 @@ describe("검색 작업 후 로고를 클릭했을 때 메인으로 복귀 동�
     cy.get("#background-container").should("be.visible");
   });
 
-  it("main-thumbnail-list가 렌더링된다", () => {
-    cy.get("#main-thumbnail-list").should("be.visible");
+  it("popular-thumbnail-list가 렌더링된다", () => {
+    cy.get("#popular-thumbnail-list").should("be.visible");
   });
 });
 
@@ -52,7 +52,7 @@ describe("검색 작업 후 빈 문자열을 입력했을 때 메인으로 복�
     cy.get("#background-container").should("be.visible");
   });
 
-  it("main-thumbnail-list가 렌더링된다", () => {
-    cy.get("#main-thumbnail-list").should("be.visible");
+  it("popular-thumbnail-list가 렌더링된다", () => {
+    cy.get("#popular-thumbnail-list").should("be.visible");
   });
 });

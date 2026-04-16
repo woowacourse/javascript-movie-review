@@ -1,6 +1,4 @@
-import { renderSearchUI } from "../render/renderSearchUI";
-
-export const handleMovieSearch = async (keyword: string) => {
+export const handleMovieSearch = (keyword: string) => {
   if (keyword.trim() === "") {
     const hasKeyword = new URLSearchParams(window.location.search).has(
       "keyword",
@@ -11,18 +9,12 @@ export const handleMovieSearch = async (keyword: string) => {
     return;
   }
 
-  const thumbnailListElement = document.getElementById(
-    "search-thumbnail-list",
-  ) as HTMLUListElement;
-
   const url = new URL(window.location.href);
   const params = url.searchParams;
 
   params.set("keyword", keyword);
-  params.set("page", String(1));
-  url.search = params.toString();
-  window.history.pushState({}, "", url.toString());
+  sessionStorage.setItem("page", "1");
 
-  thumbnailListElement.innerHTML = "";
-  await renderSearchUI(keyword);
+  url.search = params.toString();
+  window.location.href = url.toString();
 };

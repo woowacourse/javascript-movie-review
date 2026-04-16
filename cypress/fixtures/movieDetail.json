@@ -1,0 +1,31 @@
+{
+  "id": 1,
+  "title": "영화1",
+  "poster_path": "/poster1.jpg",
+  "backdrop_path": "/back1.jpg",
+  "vote_average": 8.0,
+  "overview": "영화1의 줄거리입니다.",
+  "release_date": "2024-01-01",
+  "adult": false,
+  "original_language": "ko",
+  "original_title": "Movie1",
+  "popularity": 100,
+  "video": false,
+  "vote_count": 1000,
+  "genres": [
+    { "id": 28, "name": "액션" },
+    { "id": 12, "name": "모험" }
+  ],
+  "belongs_to_collection": null,
+  "budget": 100000000,
+  "homepage": "",
+  "imdb_id": "tt0000001",
+  "origin_country": ["KR"],
+  "production_companies": [],
+  "production_countries": [],
+  "revenue": 200000000,
+  "runtime": 120,
+  "spoken_languages": [],
+  "status": "Released",
+  "tagline": ""
+}

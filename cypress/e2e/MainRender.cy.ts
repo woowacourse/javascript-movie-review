@@ -1,4 +1,4 @@
-import { interceptPopularPage1, interceptPopularError } from "./spec";
+import { interceptPopularError, interceptPopularPage1 } from "./spec";
 
 describe("처음 앱에 도달했을 때 메인 구성 요소가 렌더링 되는지 테스트", () => {
   beforeEach(() => {
@@ -7,8 +7,8 @@ describe("처음 앱에 도달했을 때 메인 구성 요소가 렌더링 되�
     cy.wait("@getPopularPage1");
   });
 
-  it("main-thumbnail-list가 렌더링된다", () => {
-    cy.get("#main-thumbnail-list").should("be.visible");
+  it("popular-thumbnail-list가 렌더링된다", () => {
+    cy.get("#popular-thumbnail-list").should("be.visible");
   });
 
   it("banner가 렌더링된다", () => {

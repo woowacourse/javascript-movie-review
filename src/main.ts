@@ -1,59 +1,46 @@
 import { handleMovieSearch } from "./dom/eventHandler/handleMovieSearch";
-import {
-  handleMainSeeMore,
-  handleSearchSeeMore,
-} from "./dom/eventHandler/handleSeeMore";
-import { renderLoadingUI } from "./dom/render/renderLoadingUI.ts";
-import { renderMainUI } from "./dom/render/renderMainUI";
-import { renderSearchUI } from "./dom/render/renderSearchUI";
+import { removeHome, renderHomePage } from "./pages/home.ts";
+import { removeSearch, renderSearchPage } from "./pages/search.ts";
 
-const logo = document.getElementById("logo");
-const searchInput = document.getElementById(
-  "search-input",
-) as HTMLInputElement | null;
-const searchButton = document.getElementById("search-button");
-const mainSeeMoreButton = document.getElementById("main-see-more-button");
-const searchSeeMoreButton = document.getElementById("search-see-more-button");
-
-if (logo) {
-  logo.addEventListener("click", () => {
-    window.location.href = import.meta.env.BASE_URL;
-  });
-}
-
-if (searchInput && searchButton) {
-  searchButton.addEventListener("click", () =>
-    handleMovieSearch(searchInput.value),
-  );
-
-  searchInput.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") handleMovieSearch(searchInput.value);
-  });
-}
-
-if (mainSeeMoreButton) {
-  mainSeeMoreButton.addEventListener("click", () => {
-    handleMainSeeMore();
-  });
-}
-
-if (searchSeeMoreButton && searchInput) {
-  searchSeeMoreButton.addEventListener("click", () => {
-    handleSearchSeeMore(searchInput.value);
-  });
-}
-
-const render = async () => {
-  renderLoadingUI();
-
+const main = async () => {
   const url = new URL(window.location.href);
   const params = url.searchParams;
   const keyword = params.get("keyword");
+
+  sessionStorage.setItem("page", "1");
+  addEventListener();
   if (keyword) {
-    await renderSearchUI(keyword);
+    removeHome();
+    await renderSearchPage("init");
   } else {
-    await renderMainUI();
+    removeSearch();
+    await renderHomePage("init");
   }
 };
 
-await render();
+const addEventListener = () => {
+  // TODO: 헤더 컴포넌트를 분리, 이벤트 리스너를 컴포넌트 책임으로 변경
+  const logo = document.getElementById("logo");
+  const searchInput = document.getElementById(
+    "search-input",
+  ) as HTMLInputElement | null;
+  const searchButton = document.getElementById("search-button");
+
+  if (logo) {
+    logo.addEventListener("click", () => {
+      window.location.href = import.meta.env.BASE_URL;
+    });
+  }
+
+  if (searchInput && searchButton) {
+    searchButton.addEventListener("click", () =>
+      handleMovieSearch(searchInput.value),
+    );
+
+    searchInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") handleMovieSearch(searchInput.value);
+    });
+  }
+};
+
+await main();
