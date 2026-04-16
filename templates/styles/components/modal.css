@@ -6,6 +6,7 @@ dialog.modal {
   border: none;
   color: white;
   padding: 0;
+  margin: auto;
 }
 
 dialog.modal::backdrop {
@@ -203,6 +204,7 @@ dialog.modal::backdrop {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    margin: 0;
     padding: 0;
   }
 
@@ -254,13 +256,15 @@ dialog.modal::backdrop {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 24px 24px 32px;
+    padding: 40px 24px;
+    gap: 16px;
   }
 
   .modal-image {
     width: 140px;
     height: 210px;
     border-radius: 8px;
+    margin-bottom: 24px;
   }
 
   .modal-description {
@@ -268,12 +272,26 @@ dialog.modal::backdrop {
     text-align: center;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 16px;
+  }
+
+  .modal-description h3 {
+    text-align: left;
   }
 
   .modal-description .rate,
   .my-rating {
     justify-content: center;
+  }
+
+  .my-rating {
+    gap: 16px;
+  }
+
+  .overview-section {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
   }
 
   .overview {

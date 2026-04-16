@@ -6,6 +6,12 @@
   align-items: center;
 }
 
+@media (max-width: 799px) {
+  .background-container {
+    margin-top: -124px;
+  }
+}
+
 .background-image {
   position: absolute;
   top: 0;
