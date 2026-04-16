@@ -1,14 +1,14 @@
 import { MovieInfo } from "../services/dto";
 
-import { RateLocalStroageRepository } from "../repositories/RateRepository";
+import { Rate } from "../repositories/RateRepository";
+
+import { rateRepository } from "../main";
 
 const mathRound = (value: number, numDigits:number = 1): number => {
   return Math.round(value * 10 ** numDigits) / 10 ** numDigits;
 }
 
-const rateRepository = new RateLocalStroageRepository();
-
-export const renderDetailModal = (movieInfo: MovieInfo) => {
+export const renderDetailModal = (movieInfo: MovieInfo, rate: Rate['rate']) => {
   const modal = document.querySelector("#modal");
   if(!modal) return;
 
@@ -46,8 +46,7 @@ export const renderDetailModal = (movieInfo: MovieInfo) => {
   const detailModalRate = cloneNode.querySelector('#detail-modal-rate');
   if(!detailModalRate) return;
   detailModalRate.textContent = mathRound(movieInfo.vote_average).toString();
-
-  const rate = rateRepository.getMovieRate(movieInfo.id);
+ 
   renderRateStart(rate, rootNode);
 
   const detailModalDetail = cloneNode.querySelector('#detail-modal-detail');

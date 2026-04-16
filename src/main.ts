@@ -31,6 +31,8 @@ import PageState from "./states/PageState";
 
 import MovieListState from "./states/MovieListState";
 
+import { RateLocalStroageRepository } from "./repositories/RateRepository";
+
 const { refetch } = queryMoviePopular();
 
 // 사용자 상태값
@@ -38,6 +40,9 @@ const pageState = new PageState();
 
 // 서버 응답값
 const movieListState = new MovieListState();
+
+// respository 값 
+export const rateRepository = new RateLocalStroageRepository();
 
 const loadInit = () => {
   const search = getSearchParams("search") as string;
@@ -142,7 +147,9 @@ const handleSearch = () => {
 export const handleDetail = (id: number) => {
   (async () => {
     const movieInfo = await getMovieById({id});
-    renderDetailModal(movieInfo);
+    const rate = rateRepository.getMovieRate(id);
+
+    renderDetailModal(movieInfo, rate);
   })();
 }
 
