@@ -1,5 +1,8 @@
 import { MovieDetail } from "../../apis/dtos";
 import planetAndStarImg from "../../images/planet_and_star.png";
+import modalButtonCloseImg from "../../images/modal_button_close.svg";
+import starFilledImg from "../../images/star_filled.png";
+import starEmptyImg from "../../images/star_empty.png";
 
 const ModalComponent = {
   movieModalSkeleton() {
@@ -7,7 +10,7 @@ const ModalComponent = {
     <div class="modal-background active skeleton">
       <div class="modal">
         <button class="close-modal" id="closeModal">
-          <img src="src/images/modal_button_close.svg" />
+          <img src="${modalButtonCloseImg}" />
         </button>
         <div class="modal-container">
           <div class="modal-image">
@@ -35,7 +38,7 @@ const ModalComponent = {
     <div class="modal-background active">
       <div class="modal">
         <button class="close-modal" id="closeModal">
-          <img src="src/images/modal_button_close.svg" />
+          <img src="${modalButtonCloseImg}" />
         </button>
         <div class="modal-container" style="justify-content:center;align-items:center;">
           <div class="notice-box">
@@ -55,7 +58,7 @@ const ModalComponent = {
     <div class="modal-background active">
     <div class="modal">
         <button class="close-modal" id="closeModal">
-          <img src="src/images/modal_button_close.svg" />
+          <img src="${modalButtonCloseImg}" />
         </button>
         <div class="modal-container">
           <div class="modal-image">
@@ -71,7 +74,7 @@ const ModalComponent = {
                 ${releaseYear} · ${genres.join(", ")}
               </p>
               <p class="rate">
-                <img src="src/images/star_filled.png" class="star" />
+                <img src="${starFilledImg}" class="star" />
                 <span>${voteAverage.toFixed(1)}</span>
               </p>
             </section>
@@ -83,9 +86,8 @@ const ModalComponent = {
           ${Array.from({ length: 5 })
             .map((_, index) => {
               const ratingValue = (index + 1) * 2;
-              const starType =
-                ratingValue <= rating ? "star_filled.png" : "star_empty.png";
-              return `<img src="src/images/${starType}" class="star" data-rating-value="${ratingValue}" />`;
+              const starImg = ratingValue <= rating ? starFilledImg : starEmptyImg;
+              return `<img src="${starImg}" class="star" data-rating-value="${ratingValue}" />`;
             })
             .join("")}
           </div>
