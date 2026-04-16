@@ -81,7 +81,7 @@ const main = async () => {
   const infiniteScroll = new InfiniteScroll(
     elements.scrollSentinel,
     async () => {
-      await void controller.loadMore();
+      await controller.loadMore();
 
       if (!movieListStore.hasMore) {
         infiniteScroll.disconnect();
