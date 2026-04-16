@@ -11,7 +11,7 @@ export class LocalStorageRatingRepo implements MovieRatingRepo {
     return typeof stored === "number" && isValidScore(stored) ? stored : null;
   }
 
-  async saveRating(movieId: number, score: number): Promise<void> {
+  async saveRating(movieId: number, score: RatingScore): Promise<void> {
     const ratings = this.loadAll();
     ratings[movieId] = score;
     try {
