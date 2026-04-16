@@ -1,5 +1,5 @@
 export interface MovieRatingRepo {
-  getRating(movieId: number): number | null;
+  getRating(movieId: number): Promise<number | null>;
 
-  saveRating(movieId: number, score: number): void;
+  saveRating(movieId: number, score: number): Promise<void>;
 }
