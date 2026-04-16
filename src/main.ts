@@ -31,7 +31,7 @@ import PageState from "./states/PageState";
 
 import MovieListState from "./states/MovieListState";
 
-import { RateLocalStroageRepository } from "./repositories/RateRepository";
+import { RateRepositoryImpl } from "./data/repositories/RateRepositoryImpl";
 
 const { refetch } = queryMoviePopular();
 
@@ -42,7 +42,7 @@ const pageState = new PageState();
 const movieListState = new MovieListState();
 
 // respository 값 
-export const rateRepository = new RateLocalStroageRepository();
+export const rateRepository = new RateRepositoryImpl();
 
 const loadInit = () => {
   const search = getSearchParams("search") as string;

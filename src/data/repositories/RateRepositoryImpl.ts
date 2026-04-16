@@ -8,7 +8,7 @@ interface RateRepository {
   setMovieRate(id: number, rate: number): void
 }
 
-export class RateLocalStroageRepository implements RateRepository {
+export class RateRepositoryImpl implements RateRepository {
   #getRates(){
     const rates = localStorage.getItem('rates') || "{}";
     return JSON.parse(rates) || {};
