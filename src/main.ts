@@ -34,8 +34,6 @@ const main = async () => {
     (movieId, score) => controller.rateMovie(movieId, score),
   );
 
-  
-
   const movieListView = new MovieListView(
     {
       listElement: elements.movieList,
