@@ -41,9 +41,9 @@ class InfiniteScrollView {
 
   updateObserver(data: MovieResponse) {
     if (isLastPage(data)) {
-      infiniteScrollView.disconnect();
+      this.disconnect();
     } else {
-      infiniteScrollView.observe();
+      this.observe();
     };
   };
 };
