@@ -1,9 +1,10 @@
 import starIconSrc from "../../templates/images/star_empty.png";
+import { createPoster } from "./poster";
 
 interface MovieCardOptions {
   id: number;
   title: string;
-  posterSrc: string;
+  posterSrc: string | null;
   rating: number;
 }
 
@@ -19,26 +20,12 @@ export function createMovieCard({
   const item = document.createElement("div");
   item.className = "item";
 
-  item.append(createThumbnail(title, posterSrc), createItemDesc(title, rating));
+  item.append(createPoster(posterSrc, title), createItemDesc(title, rating));
   li.appendChild(item);
 
   return li;
 }
 
-function createThumbnail(title: string, posterSrc: string): HTMLImageElement {
-  const thumbnail = document.createElement("img");
-  thumbnail.className = "thumbnail";
-  thumbnail.src = posterSrc;
-  thumbnail.alt = title;
-  thumbnail.onerror = () => {
-    thumbnail.style.display = "none";
-    const fallback = document.createElement("div");
-    fallback.className = "thumbnail thumbnail-fallback";
-    fallback.textContent = title;
-    thumbnail.parentElement?.insertBefore(fallback, thumbnail);
-  };
-  return thumbnail;
-}
 
 function createItemDesc(title: string, rating: number): HTMLDivElement {
   const itemDesc = document.createElement("div");
