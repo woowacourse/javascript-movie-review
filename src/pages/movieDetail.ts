@@ -1,7 +1,6 @@
-import { Movie } from "../api.ts";
+import { getMovieDetail } from "../api.ts";
 import { MovieDetailRenderer } from "../render.ts";
 import { StorageInterface } from "../storage.ts";
-import State from "../state.ts";
 
 export const MovieDetail = {
   storage: null as unknown as StorageInterface,
@@ -20,24 +19,29 @@ export const MovieDetail = {
     });
   },
 
-  setUpMovieDetail(moviesData: Movie[]) {
-    // 이미 렌더링된 영화는 제외한다.
+  async loadMovieDetail(movieId: number) {
+    const dialog = document.querySelector("dialog");
+    dialog?.showModal();
+    const movieData = await getMovieDetail(movieId);
+    const rating = this.storage.getMyRating(`movie-${movieId}-my-rating`);
+    MovieDetailRenderer.renderMovieDetail(
+      movieData,
+      new Date(movieData.release_date).getFullYear(),
+      movieData.genres.map((genre) => genre.name),
+      rating,
+    );
+  },
+
+  setUpMovieDetail() {
     const movieList = [
       ...document.querySelectorAll(".thumbnail-list li"),
-    ].slice(-moviesData.length);
-    movieList.forEach((movie, idx) => {
+    ].filter((el) => !el.classList.contains("skeleton"));
+    movieList.forEach((movie) => {
       movie.addEventListener("click", (e) => {
         e.preventDefault();
-        const dialog = document.querySelector("dialog");
-        const movieData = moviesData[idx];
-        const [movieGenres, rating] = this.extractDetailMovieData(movieData);
-        MovieDetailRenderer.renderMovieDetail(
-          movieData,
-          new Date(movieData.release_date).getFullYear(),
-          movieGenres,
-          rating,
-        );
-        dialog?.showModal();
+        const movieId = (movie as HTMLElement).dataset.movieId;
+        if (!movieId) return;
+        this.loadMovieDetail(Number(movieId));
       });
     });
   },
@@ -58,14 +62,5 @@ export const MovieDetail = {
         MovieDetailRenderer.renderMyRating(myRating ? Number(myRating) : 0);
       });
     });
-  },
-
-  extractDetailMovieData(movie: Movie): [string[], number] {
-    const genres = State.genres;
-    const movieGenres = movie.genre_ids
-      .map((genreId) => genres.find((genre) => genre.id === genreId)?.name)
-      .filter((name): name is string => name !== undefined);
-    const currentRating = this.storage.getMyRating(`movie-${movie.id}-my-rating`);
-    return [movieGenres, currentRating];
   },
 };

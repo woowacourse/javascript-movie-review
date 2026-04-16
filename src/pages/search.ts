@@ -51,7 +51,7 @@ export const Search = {
     try {
       const movies = await this.loadSearchMovies(query);
       SearchRenderer.renderSearchResult(movies, query);
-      MovieDetail.setUpMovieDetail(movies);
+      MovieDetail.setUpMovieDetail();
     } catch (err) {
       Renderer.renderError(err);
     } finally {
@@ -65,7 +65,7 @@ export const Search = {
     try {
       const movies = await this.loadSearchMoreMovies(query);
       Renderer.renderLoadMoreMovies(movies);
-      MovieDetail.setUpMovieDetail(movies);
+      MovieDetail.setUpMovieDetail();
     } catch (err) {
       Renderer.renderError(err);
     } finally {

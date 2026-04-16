@@ -1,4 +1,4 @@
-import { getPopularMovies, getGenres } from "../api.ts";
+import { getPopularMovies } from "../api.ts";
 import { IndexRenderer, Renderer } from "../render.ts";
 import { ONCE_MOVIE_LIMIT, INITIAL_PAGE_NUM } from "../constants/movie.ts";
 import { Search } from "./search.ts";
@@ -44,13 +44,11 @@ export const Index = {
   },
 
   async loadInitialData() {
-    const [{ results: movies, page, total_pages }, { genres }] =
-      await Promise.all([getPopularMovies(INITIAL_PAGE_NUM), getGenres()]);
+    const { results: movies, page, total_pages } = await getPopularMovies(INITIAL_PAGE_NUM);
 
     State.nextPageNum = page + 1;
     State.totalPages = total_pages;
     State.requestMovieCount = movies.length;
-    State.genres = genres;
     return movies;
   },
 
@@ -76,7 +74,7 @@ export const Index = {
       try {
         const movies = await this.loadInitialData();
         IndexRenderer.renderInitialMovies(movies);
-        MovieDetail.setUpMovieDetail(movies);
+        MovieDetail.setUpMovieDetail();
       } catch (err) {
         Renderer.renderError(err);
       } finally {
@@ -91,7 +89,7 @@ export const Index = {
     try {
       const movies = await this.loadMoreMovies()
       Renderer.renderLoadMoreMovies(movies);
-      MovieDetail.setUpMovieDetail(movies);
+      MovieDetail.setUpMovieDetail();
     } catch (err) {
       Renderer.renderError(err);
       Renderer.clearBanner();

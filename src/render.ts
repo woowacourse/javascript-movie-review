@@ -1,4 +1,4 @@
-import type { Movie } from "./api.ts";
+import type { Movie, MovieDetail } from "./api.ts";
 import Component from "./component.ts";
 import { observeHeaderScroll } from "./observer.ts";
 import { IMAGE_PATH, RATING_STRING } from "./constants/movie.ts";
@@ -50,7 +50,7 @@ export const SearchRenderer = {
 
 export const MovieDetailRenderer = {
   renderMovieDetail(
-    movieData: Movie,
+    movieData: MovieDetail,
     releaseYear: number,
     genres: string[],
     rating: number,

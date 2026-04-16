@@ -33,9 +33,6 @@ describe("영화 리뷰 앱", () => {
     cy.intercept("GET", "**/movie/popular*", createMoviesResponse(20)).as(
       "getPopularMovies",
     );
-    cy.intercept("GET", "**/genre/movie/list*", {
-      fixture: "genres.json",
-    }).as("getGenres");
     cy.visit("/");
   });
 
@@ -253,11 +250,13 @@ describe("영화 리뷰 앱", () => {
     });
   });
 
-  describe.only("영화 정보", () => {
+  describe("영화 정보", () => {
     const origin = new URL(Cypress.config("baseUrl") as string).origin;
     beforeEach(() => {
       cy.wait("@getPopularMovies");
-      cy.wait("@getGenres");
+      cy.intercept("GET", "**/movie/1*", {
+        fixture: "movieDetail.json",
+      }).as("getMovieDetail");
     });
     it("영화를 클릭하면 영화에 대한 자세한 정보가 담긴 모달이 렌더링된다", () => {
       cy.get(".thumbnail-list li").first().click();
@@ -266,8 +265,8 @@ describe("영화 리뷰 앱", () => {
 
     it("영화 카테고리 아이디는 이름으로 변환되어 렌더링된다.", () => {
       cy.get(".thumbnail-list li").first().click();
-      cy.get("#movie-detail-category").should("have.text", "모험, 다큐멘터리");
-      cy.get("#movie-detail-release-year").should("have.text", "2026");
+      cy.get("#movie-detail-category").should("have.text", "액션, 모험, SF");
+      cy.get("#movie-detail-release-year").should("have.text", "2023");
     });
 
     it("모달 닫기 버튼을 클릭하면 영화 정보 모달이 제거된다.", () => {
@@ -293,17 +292,17 @@ describe("영화 리뷰 앱", () => {
           });
         });
       }
-      cy.get(".thumbnail-list li").eq(4).click();
+      cy.get(".thumbnail-list li").first().click();
       cy.get(".my-rating-container button").eq(0).click();
-      assertLocalStorageValue("movie-5-my-rating", "2");
+      assertLocalStorageValue("movie-1-my-rating", "2");
       cy.get(".my-rating-container button").eq(1).click();
-      assertLocalStorageValue("movie-5-my-rating", "4");
+      assertLocalStorageValue("movie-1-my-rating", "4");
       cy.get(".my-rating-container button").eq(2).click();
-      assertLocalStorageValue("movie-5-my-rating", "6");
+      assertLocalStorageValue("movie-1-my-rating", "6");
       cy.get(".my-rating-container button").eq(3).click();
-      assertLocalStorageValue("movie-5-my-rating", "8");
+      assertLocalStorageValue("movie-1-my-rating", "8");
       cy.get(".my-rating-container button").eq(4).click();
-      assertLocalStorageValue("movie-5-my-rating", "10");
+      assertLocalStorageValue("movie-1-my-rating", "10");
     });
 
     it("별점을 클릭하면 별점에 따라 내 평점 렌더링이 변화된다.", () => {
@@ -338,20 +337,6 @@ describe("영화 리뷰 앱", () => {
       cy.wait(500);
       cy.get(".thumbnail-list li").first().click();
       cy.get(".modal").should("be.visible");
-    });
-
-    it("일치하는 영화 장르가 없을 때 카테고리 없이 모달이 렌더링된다", () => {
-      cy.intercept("GET", "**/genre/movie/list*", {
-        body: { genres: [{ id: 28, name: "액션" }] },
-      }).as("getGenresMismatch");
-
-      cy.visit("/");
-      cy.wait("@getPopularMovies");
-      cy.wait("@getGenresMismatch");
-
-      cy.get(".thumbnail-list li").first().click();
-      cy.get(".modal").should("be.visible");
-      cy.get("#movie-detail-category").should("have.text", "카테고리 없음");
     });
   });
 });

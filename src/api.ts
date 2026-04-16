@@ -30,7 +30,6 @@ export interface Movie {
   adult: boolean;
   backdrop_path: string;
   genre_ids: number[];
-  genres: string[];
   id: number;
   original_language: "en-US";
   original_title: string;
@@ -44,8 +43,13 @@ export interface Movie {
   vote_count: number;
 }
 
+export interface MovieDetail extends Omit<Movie, "genre_ids"> {
+  genres: Genre[];
+}
+
 const API_PATH = {
   POPULAR_MOVIE: "https://api.themoviedb.org/3/movie/popular",
+  DETAIL_MOVIE: "https://api.themoviedb.org/3/movie",
   SEARCH_MOVIE: "https://api.themoviedb.org/3/search/movie",
   GENRE: "https://api.themoviedb.org/3/genre/movie/list",
 };
@@ -67,18 +71,20 @@ export async function getPopularMovies(
   return response.json();
 }
 
-export async function getSearchMovies(
-  query: string,
-  pageNum: number,
-): Promise<MoviesResponse> {
-  const url = `${API_PATH.SEARCH_MOVIE}?query=${query}&page=${pageNum}&language=ko-KR`;
+export async function getMovieDetail(
+  movieId: number,
+): Promise<MovieDetail> {
+  const url = `${API_PATH.DETAIL_MOVIE}/${movieId}?language=ko-KR`;
   const response = await fetch(url, defaultOptions);
   handleResponseError(response);
   return response.json();
 }
 
-export async function getGenres(): Promise<{ genres: Genre[] }> {
-  const url = `${API_PATH.GENRE}?language=ko-KR`;
+export async function getSearchMovies(
+  query: string,
+  pageNum: number,
+): Promise<MoviesResponse> {
+  const url = `${API_PATH.SEARCH_MOVIE}?query=${query}&page=${pageNum}&language=ko-KR`;
   const response = await fetch(url, defaultOptions);
   handleResponseError(response);
   return response.json();
