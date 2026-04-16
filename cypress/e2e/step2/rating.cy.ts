@@ -32,9 +32,13 @@ describe("별점", () => {
 
   it("별점이 localStorage에 저장된다", () => {
     cy.get(".my-rating-star").eq(4).click();
-    cy.window().then((win) => {
-      const stored = win.localStorage.getItem("ratings");
-      expect(stored).to.include("10");
+    cy.get(".item").first().then(($el) => {
+      const movieId = Number($el.attr("data-id"));
+      cy.window().then((win) => {
+        const stored = win.localStorage.getItem("ratings");
+        const ratings = JSON.parse(stored ?? "{}");
+        expect(ratings[movieId]).to.equal(10);
+      });
     });
   });
 
