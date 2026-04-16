@@ -59,12 +59,12 @@ export class MovieListController {
   }
 
   async rateMovie(movieId: number, score: number): Promise<void> {
-  try {
-    await this.ratingRepo.saveRating(movieId, score);
-  } catch (error) {
-    this.notifier.error(error);
+    try {
+      await this.ratingRepo.saveRating(movieId, score);
+    } catch (error) {
+      this.notifier.error(error);
+    }
   }
-}
 
   private async runWithUi(action: () => Promise<void>): Promise<void> {
     this.view.showSkeleton();
