@@ -1,0 +1,31 @@
+{
+  "id": 1523145,
+  "title": "Твоё сердце будет разбито",
+  "original_title": "Твоё сердце будет разбито",
+  "overview": "테스트용 줄거리입니다. 이 영화에 대한 상세 설명이 여기에 표시됩니다.",
+  "release_date": "2026-03-26",
+  "genres": [
+    { "id": 10749, "name": "로맨스" },
+    { "id": 18, "name": "드라마" }
+  ],
+  "popularity": 1037.0135,
+  "vote_average": 6.6,
+  "vote_count": 27,
+  "poster_path": "/iGpMm603GUKH2SiXB2S5m4sZ17t.jpg",
+  "backdrop_path": "/1x9e0qWonw634NhIsRdvnneeqvN.jpg",
+  "adult": false,
+  "video": false,
+  "original_language": "ru",
+  "belongs_to_collection": null,
+  "budget": 0,
+  "homepage": "",
+  "imdb_id": "",
+  "origin_country": ["RU"],
+  "production_companies": [],
+  "production_countries": [],
+  "revenue": 0,
+  "runtime": 90,
+  "spoken_languages": [],
+  "status": "Released",
+  "tagline": ""
+}

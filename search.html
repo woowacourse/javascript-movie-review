@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="./src/styles/thumbnail.css" />
   <link rel="stylesheet" href="./src/styles/skeleton.css" />
   <link rel="stylesheet" href="./src/styles/toast.css" />
+  <link rel="stylesheet" href="./src/styles/modal.css" />
   <title>영화 리뷰</title>
 </head>
 
@@ -18,12 +19,12 @@
     <div class="header-container container">
       <header class="header">
         <a href="%BASE_URL%">
-          <img class="logo" src="/images/logo.png" alt="MovieList" />
+          <img class="logo" src="%BASE_URL%images/logo.png" alt="MovieList" />
         </a>
         <form method="get" action="%BASE_URL%search" class="search-form">
           <input type="text" name="query" class="search-input" placeholder="검색어를 입력하세요" required />
           <button type="submit" class="search-submit">
-            <img src="/svg/search.svg" alt="search" />
+            <img src="%BASE_URL%svg/search.svg" alt="search" />
           </button>
         </form>
         <div class="header-dummy-item"></div>
@@ -31,7 +32,7 @@
     </div>
     <div class="container">
       <main>
-        <section>
+        <section class="movie-list-section">
           <h2 class="list-title">
             <div class="skeleton skeleton-list-title"></div>
           </h2>
@@ -42,10 +43,10 @@
 
     <footer class="footer">
       <p>&copy; 우아한테크코스 All Rights Reserved.</p>
-      <p><img src="./images/woowacourse_logo.png" alt="woowacourse" width="180" /></p>
+      <p><img src="%BASE_URL%images/woowacourse_logo.png" alt="woowacourse" width="180" /></p>
     </footer>
   </div>
-  <script type="module" src="/src/search.ts"></script>
+  <script type="module" src="./src/page/search.ts"></script>
 </body>
 
 </html>

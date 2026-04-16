@@ -1,5 +1,5 @@
 function createSearchListrEmptyAlertTemplate() {
-  return `
+  return /*html*/`
     <div class="empty-list-alert">
       <img src="${import.meta.env.BASE_URL}svg/planet.svg" alt="행성이" />
       <p class="empty-list-message">검색 결과가 없습니다.</p>
@@ -7,7 +7,7 @@ function createSearchListrEmptyAlertTemplate() {
   `
 }
 
-export default function renderSearchListrEmptyAlert() {
+export default function renderSearchListEmptyAlert() {
   const listEl = document.querySelector(".thumbnail-list");
 
   if (!listEl) return;

@@ -1,14 +1,20 @@
+import bindClickMovieEvent from "../event/bindClickMovieEvent";
 import { Movie } from "../type";
 
 export default function renderTopRatedMovie(movie: Movie) {
-  const rateEl = document.querySelector(".top-rated-movie .rate-value");
-  const titleEl = document.querySelector(".top-rated-movie .title");
+  const containerEl = document.querySelector<HTMLDivElement>('.top-rated-movie');
+  const rateEl = document.querySelector<HTMLDivElement>(".top-rated-movie .rate-value");
+  const titleEl = document.querySelector<HTMLDivElement>(".top-rated-movie .title");
   const detailButtonEl = document.querySelector<HTMLButtonElement>(
     ".top-rated-movie .detail",
   );
   const backgroundContainerEl = document.querySelector<HTMLDivElement>(
     ".background-container",
   );
+
+  if (containerEl) {
+    containerEl.dataset.movieId = movie.id.toString();
+  }
 
   if (titleEl) {
     titleEl.textContent = movie.title;
@@ -21,6 +27,11 @@ export default function renderTopRatedMovie(movie: Movie) {
 
   if (detailButtonEl) {
     detailButtonEl.disabled = false;
+
+    if (detailButtonEl.dataset.isBound !== "true") {
+      bindClickMovieEvent(detailButtonEl);
+      detailButtonEl.dataset.isBound = "true";
+    }
   }
 
   if (backgroundContainerEl) {
