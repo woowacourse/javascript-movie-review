@@ -3,17 +3,14 @@ import starEmptyImg from "./images/star_empty.png";
 import noImagePlanetImg from "./images/no_image_planet.png";
 import screamingPlanetImg from "./images/screaming_planet.svg";
 import planetAndStarImg from "./images/planet_and_star.png";
-
-const IMAGE_PATH = "https://image.tmdb.org/t/p/original";
+import { IMAGE_PATH } from "./constants/movie";
 
 const Component = {
-  movie(movieData: Pick<Movie, "poster_path" | "title" | "vote_average">) {
-    const { poster_path, title, vote_average } = movieData;
-    const src = poster_path
-      ? `${IMAGE_PATH}/${poster_path}`
-      : noImagePlanetImg;
+  movie(movieData: Pick<Movie, "id" | "poster_path" | "title" | "vote_average">) {
+    const { id, poster_path, title, vote_average } = movieData;
+    const src = poster_path ? `${IMAGE_PATH}/${poster_path}` : noImagePlanetImg;
     return `
-    <li>
+    <li data-movie-id="${id}">
       <div class="item">
       <img
       class="thumbnail"

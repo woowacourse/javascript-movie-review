@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="src/styles/main.css" />
     <link rel="stylesheet" href="src/styles/tab.css" />
     <link rel="stylesheet" href="src/styles/thumbnail.css" />
+    <link rel="stylesheet" href="src/styles/modal.css" />
+    <link rel="stylesheet" href="src/styles/responsive.css">
     <title>영화 리뷰</title>
   </head>
 
@@ -42,7 +44,7 @@
               <h2 class="home-section-heading"></h2>
               <ul class="thumbnail-list"></ul>
             </section>
-            <button class="primary load-more-button">더 보기</button>
+            <div id="end-of-thumbnail-list"></div>
           </div>
         </main>
       </div>
@@ -52,6 +54,61 @@
         <p><img src="src/images/woowacourse_logo.png" width="180" /></p>
       </footer>
     </div>
+    <dialog class="modal-background" id="modalBackground">
+      <div class="modal">
+        <button class="close-modal" id="closeModal" autofocus>
+          <img src="src/images/modal_button_close.png" alt="close modal"/>
+        </button>
+        <div class="modal-container">
+          <div class="modal-image">
+            <img
+              id="movie-detail-poster"
+              src=""
+              alt="movie poster"
+            />
+          </div>
+          <div id="movie-detail-container" class="modal-description" data-movie-id="">
+            <h2 id="movie-detail-title"></h2>
+            <dl>
+              <dt></dt>
+              <dd class="category">
+                <span id="movie-detail-release-year"></span> · <span id="movie-detail-category"></span>
+              </dd>
+              <div class="average-container">
+                <dt>평균</dt>
+                <dd class="rate">
+                  <img src="src/images/star_filled.png" class="star" alt="vote average"/><span id="movie-detail-vote-average"></span>
+                </dd>
+              </div>
+              <hr/>
+              <div class="my-rating-container">
+                <dt>내 별점</dt>
+                <dd>
+                  <div id="my-rating">
+                    <button type="button" data-rating="2">
+                      <img src="src/images/star_empty.png"/>
+                    </button>
+                    <button type="button" data-rating="4"><img src="src/images/star_empty.png"/></button>
+                    <button type="button" data-rating="6"><img src="src/images/star_empty.png"/></button>
+                    <button type="button" data-rating="8"><img src="src/images/star_empty.png"/></button>
+                    <button type="button" data-rating="10"><img src="src/images/star_empty.png"/></button>
+                  </div>
+                  <div>
+                    <span id="my-rating-to-string"></span>
+                    <span class="rating-ratio" id="my-rating-ratio"></span>
+                  </div>
+                </dd>
+              </div>
+              <hr/>
+              <div class="detail-container">
+                <dt>줄거리</dt>
+                <dd id="movie-detail-overview" class="detail"></dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </dialog>
     <script src="src/main.ts" type="module"></script>
   </body>
 </html>

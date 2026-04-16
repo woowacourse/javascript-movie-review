@@ -1,0 +1,72 @@
+{
+  "adult": false,
+  "backdrop_path": "/m8JTwHFwX7I7JY5fPe4SjqejWag.jpg",
+  "belongs_to_collection": {
+    "id": 422834,
+    "name": "앤트맨 시리즈",
+    "poster_path": "/9llE4J9sVv8qsvfVGkpugiPTxUV.jpg",
+    "backdrop_path": "/2KjtWUBiksmN8LsUouaZnxocu5N.jpg"
+  },
+  "budget": 200000000,
+  "genres": [
+    {
+      "id": 28,
+      "name": "액션"
+    },
+    {
+      "id": 12,
+      "name": "모험"
+    },
+    {
+      "id": 878,
+      "name": "SF"
+    }
+  ],
+  "homepage": "",
+  "id": 1,
+  "imdb_id": "tt10954600",
+  "origin_country": [
+    "US"
+  ],
+  "original_language": "en",
+  "original_title": "Ant-Man and the Wasp: Quantumania",
+  "overview": "슈퍼히어로 파트너인 스캇 랭과 호프 반 다인, 호프의 부모 재닛 반 다인과 행크 핌, 그리고 스캇의 딸 캐시 랭까지 미지의 양자 영역 세계 속에 빠져버린 앤트맨 패밀리. 그 곳에서 새로운 존재들과 무한한 우주를 다스리는 정복자 캉을 만나며, 그 누구도 예상 못 한 모든 것의 한계를 뛰어넘는 모험을 시작하게 되는데…",
+  "popularity": 6.3683,
+  "poster_path": "/sz6mTIDDQmR3DYgJudiTmoW2gR5.jpg",
+  "production_companies": [
+    {
+      "id": 420,
+      "logo_path": "/hUzeosd33nzE5MCNsZxCGEKTXaQ.png",
+      "name": "Marvel Studios",
+      "origin_country": "US"
+    },
+    {
+      "id": 176762,
+      "logo_path": null,
+      "name": "Kevin Feige Productions",
+      "origin_country": "US"
+    }
+  ],
+  "production_countries": [
+    {
+      "iso_3166_1": "US",
+      "name": "United States of America"
+    }
+  ],
+  "release_date": "2023-02-15",
+  "revenue": 476071180,
+  "runtime": 124,
+  "spoken_languages": [
+    {
+      "english_name": "English",
+      "iso_639_1": "en",
+      "name": "English"
+    }
+  ],
+  "status": "Released",
+  "tagline": "모든 것을 지배할 정복자가 온다",
+  "title": "앤트맨과 와스프: 퀀텀매니아",
+  "video": false,
+  "vote_average": 6.2,
+  "vote_count": 5745
+}

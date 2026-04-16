@@ -1,0 +1,76 @@
+@media (max-width: 1024px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(4, 200px);
+  }
+
+  .header-container {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  h1.logo {
+    position: static;
+  }
+}
+
+@media (max-width: 768px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(3, 200px);
+  }
+
+  .modal-background[open] {
+    align-items: flex-end;
+    padding: 0;
+  }
+
+  .modal {
+    border-radius: 0;
+  }
+
+  .modal-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  #movie-detail-poster {
+    width: 200px;
+  }
+
+  #movie-detail-title,
+  .modal .category {
+    text-align: center;
+  }
+
+  .modal .average-container {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 640px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(1, 200px);
+  }
+
+  .top-rated-movie .container {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  #movie-detail-poster {
+    display: none;
+  }
+
+  .modal .my-rating-container,
+  .modal .detail-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal .my-rating-container dd {
+    display: flex;
+    flex-direction: column;
+  }
+}
