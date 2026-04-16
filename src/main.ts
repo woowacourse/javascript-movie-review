@@ -48,15 +48,13 @@ function init() {
   });
 
   movieListView.bindThumbnailRetryClick(() => {
+    if (movieModel.page === 1 && movieModel.isSearch) {
+      return handleSearch(movieModel.searchValue);
+    };
     if (movieModel.page === 1) {
-      if (movieModel.isSearch) {
-        handleSearch(movieModel.searchValue);
-      } else {
-        handleHome();
-      }
-    } else {
-      handleLoadMore();
-    }
+      return handleHome();
+    };
+    handleLoadMore();
   });
 }
 
