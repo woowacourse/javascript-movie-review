@@ -7,7 +7,7 @@ class MyStarRatingView {
   #myStarScore;
   #evaluation: Record<number, string> = {
     0: "나의 별점을 눌러보세요.",
-    2: "최악이예요",
+    2: "최악이에요",
     4: "별로예요",
     6: "보통이에요",
     8: "재미있어요",
