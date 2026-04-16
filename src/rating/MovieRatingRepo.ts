@@ -1,5 +1,7 @@
-export interface MovieRatingRepo {
-  getRating(movieId: number): Promise<number | null>;
+import { RatingScore } from "./validateScore";
 
-  saveRating(movieId: number, score: number): Promise<void>;
+export interface MovieRatingRepo {
+  getRating(movieId: number): Promise<RatingScore | null>;
+
+  saveRating(movieId: number, score: RatingScore): Promise<void>;
 }

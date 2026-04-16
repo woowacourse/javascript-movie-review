@@ -3,6 +3,7 @@ import { PAGE_TITLE } from "../constants/constant";
 import { HeroSection } from "../hero/HeroSection";
 import { MovieDetailModal } from "../modal/MovieDetailModal";
 import { MovieRatingRepo } from "../rating/MovieRatingRepo";
+import { RatingScore } from "../rating/validateScore";
 import { MovieListStore } from "./MovieListStore";
 import { MovieListView } from "./MovieListView";
 
@@ -58,7 +59,7 @@ export class MovieListController {
     }
   }
 
-  async rateMovie(movieId: number, score: number): Promise<void> {
+  async rateMovie(movieId: number, score: RatingScore): Promise<void> {
     try {
       await this.ratingRepo.saveRating(movieId, score);
     } catch (error) {

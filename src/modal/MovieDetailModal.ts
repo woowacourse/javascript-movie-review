@@ -1,5 +1,6 @@
 import { MovieDetail } from "../../types/movie";
 import { BASE_URL, IMAGE_URL } from "../constants/constant";
+import { RatingScore } from "../rating/validateScore";
 import { StarRating } from "./StarRating";
 export interface MovieDetailModalElements {
   background: HTMLDivElement;
@@ -19,7 +20,7 @@ export class MovieDetailModal {
 
   constructor(
     private readonly el: MovieDetailModalElements,
-    private readonly onRate: (movieId: number, score: number) => void,
+    private readonly onRate: (movieId: number, score: RatingScore) => void,
   ) {
     this.starRating = new StarRating(
       el.myRatingStars,
