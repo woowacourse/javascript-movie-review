@@ -1,4 +1,4 @@
-# javascript-movie-review step1
+# javascript-movie-review step2
 
 ## 기능 요구사항 분석
 
