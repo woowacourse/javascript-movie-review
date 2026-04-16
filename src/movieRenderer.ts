@@ -105,7 +105,7 @@ export const replaceBanner = (header: HTMLElement, searchKeyword: string) => {
     <div class="top-rated-container">
       <div class="header-top">
         <h1 class="logo">
-          <a href="/"><img src="${base}images/logo.png" alt="MovieList" /></a>
+          <a href="#" onclick="location.reload()"><img src="${base}images/logo.png" alt="MovieList" /></a>
         </h1>
         <div class="search-bar">
           <input type="text" class="search-input" placeholder="검색어를 입력하세요" />
