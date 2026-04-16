@@ -1,21 +1,30 @@
 const TOAST_DURATION_MS = 5000;
 
 function createToast({ title, message }: { title?: string, message?: string }): HTMLElement {
-  const toast = document.createElement("div");
-  toast.className = "toast";
+  const toastElement = document.createElement("div");
+  toastElement.className = "toast";
 
-  toast.innerHTML = /*html*/`
-    <div>
-      <p class="toast-title">${title}</p>
-      <p class="toast-message">${message}</p>
-    </div>
-    <button class="toast-close" aria-label="닫기">✕</button>
-  `;
+  const toastContentElement = document.createElement("div");
 
-  const closeBtn = toast.querySelector<HTMLButtonElement>(".toast-close")!;
-  closeBtn.addEventListener("click", () => removeToast(toast));
+  const toastTitleElement = document.createElement("p");
+  toastTitleElement.classList.add('toast-title');
+  if (title) toastTitleElement.textContent = title;
+  toastContentElement.appendChild(toastTitleElement);
 
-  return toast;
+  const toastMessageElement = document.createElement("p");
+  toastMessageElement.classList.add('toast-message');
+  if (message) toastMessageElement.textContent = message;
+  toastContentElement.appendChild(toastMessageElement);
+
+  const toastCloseElement = document.createElement("button");
+  toastCloseElement.classList.add('toast-close');
+  toastCloseElement.ariaLabel = "닫기";
+  toastCloseElement.textContent = "✕";
+  toastCloseElement.addEventListener("click", () => removeToast(toastElement));
+
+  toastElement.append(toastContentElement, toastCloseElement);
+
+  return toastElement;
 }
 
 function removeToast(toast: HTMLElement): void {
