@@ -22,8 +22,6 @@ export default class MovieDetailModal {
   private stars: NodeListOf<HTMLImageElement>;
   private labelEl: HTMLSpanElement;
   private scoreEl: HTMLSpanElement;
-  private currentMovieId: number = 0;
-
   constructor() {
     this.div = document.createElement("div");
     this.div.className = "modal-background";
@@ -74,7 +72,7 @@ export default class MovieDetailModal {
     this.scoreEl = this.div.querySelector<HTMLSpanElement>(".rating-score")!;
   }
 
-  render(data: MovieDetail) {
+  render(data: MovieDetail, savedRating: number) {
     this.imgEl.src = `${THUMB_NAIL_URL}${data.poster_path}`;
     this.imgEl.alt = data.title;
     this.titleEl.textContent = data.title;
@@ -82,18 +80,14 @@ export default class MovieDetailModal {
     this.ratingEl.textContent = data.vote_average.toFixed(1);
     this.overviewEl.textContent = data.overview;
 
-    this.currentMovieId = data.id;
     this.#resetStars();
-
-    const saved = localStorage.getItem(`rating-${data.id}`);
-    if (saved) this.#updateStars(Number(saved));
+    if (savedRating) this.#updateStars(savedRating);
 
     this.div.classList.add("active");
   }
 
   rate(index: number) {
     this.#updateStars(index);
-    localStorage.setItem(`rating-${this.currentMovieId}`, String(index));
   }
 
   renderError(message: string) {

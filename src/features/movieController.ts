@@ -2,6 +2,7 @@ import { Header } from "./View/Header";
 import MovieList from "./View/MovieList";
 import MovieDetailModal from "./View/MovieDetailModal.ts";
 import { getMovies, getMovieDetail } from "./movieModel";
+import { saveRating, getRating } from "./ratingModel";
 
 const movieList = new MovieList();
 const movieDetailModal = new MovieDetailModal();
@@ -11,6 +12,7 @@ const state = {
   searchQuery: "",
   isLoading: false,
   hasMore: true,
+  currentMovieId: 0,
   reset() {
     this.page = 1;
     this.searchQuery = "";
@@ -88,9 +90,11 @@ export async function loadMore(): Promise<void> {
 }
 
 export async function renderMovieDetailModal(id: number) {
+  state.currentMovieId = id;
   try {
     const data = await getMovieDetail(id);
-    movieDetailModal.render(data);
+    const savedRating = getRating(id);
+    movieDetailModal.render(data, savedRating);
   } catch (error) {
     if (error instanceof Error) movieDetailModal.renderError(error.message);
   }
@@ -101,5 +105,6 @@ export function closeMovieDetailModal() {
 }
 
 export function rateMovie(index: number) {
+  saveRating(state.currentMovieId, index);
   movieDetailModal.rate(index);
 }
