@@ -14,7 +14,7 @@ export async function resetToPopular(): Promise<void> {
   await loadPopular(state.page);
 }
 
-export async function loadPopular(page: number): Promise<void> {
+async function loadPopular(page: number): Promise<void> {
   eventBus.publish(APP_EVENTS.LOAD_START, undefined);
   try {
     const data: MovieResponse = await getPopularMovies(page);
@@ -34,7 +34,7 @@ export async function handleSearch(query: string): Promise<void> {
   await loadSearch(state.page, query);
 }
 
-export async function loadSearch(page: number, query: string): Promise<void> {
+async function loadSearch(page: number, query: string): Promise<void> {
   eventBus.publish(APP_EVENTS.LOAD_START, undefined);
   try {
     const data: MovieResponse = await getSearchMovies(page, query);
@@ -49,7 +49,7 @@ export async function handleMore(): Promise<void> {
   await loadMore(state.page, state.searchQuery);
 }
 
-export async function loadMore(page: number, query: string): Promise<void> {
+async function loadMore(page: number, query: string): Promise<void> {
   try {
     const data: MovieResponse = await getMoreMovies(page, query);
     eventBus.publish(APP_EVENTS.MORE_LOADED, data);
