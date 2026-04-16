@@ -73,7 +73,7 @@ describe("인기영화 렌더링 테스트", () => {
   });
 
   it("무한 스크롤로 페이지를 순차적으로 불러온다", () => {
-    cy.wait("@getMovies");
+    waitPopularLoaded();
     cy.get(".thumbnail-list li").should("have.length", 20);
 
     cy.scrollTo("bottom");
