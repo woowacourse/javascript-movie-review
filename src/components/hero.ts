@@ -15,7 +15,7 @@ export function createHero({ movieList }: HeroOptions): HTMLElement {
     topRatedContainer,
   );
 
-  movieList.subscribe(({ movies, isPending, page }) => {
+  movieList.subscribe(({ data: { movies, page }, isPending }) => {
     if (isPending || movies.length === 0 || page !== 1) return;
     detailButton.dataset.id = String(movies[0].id);
     updateHero(bgImage, topRatedContainer, movies[0]);
@@ -42,10 +42,10 @@ function createBackgroundContainer(
 function updateHero(
   bgImage: HTMLImageElement,
   topRatedContainer: HTMLElement,
-  movie: { posterSrc: string; title: string; rating: number },
+  movie: { posterSrc: string | null; title: string; rating: number },
 ): void {
-  bgImage.src = movie.posterSrc;
-  bgImage.alt = `${movie.title}의 포스터`;
+  bgImage.src = movie.posterSrc ?? "";
+  bgImage.alt = `poster of ${movie.title}`;
 
   const titleEl = topRatedContainer.querySelector<HTMLElement>(".title");
   const rateEl = topRatedContainer.querySelector<HTMLElement>(".rate-value");

@@ -24,7 +24,7 @@ class MovieListComponent {
   }
 
   private bindMovieList(movieList: MovieListService): void {
-    movieList.subscribe(({ movies, isPending, page, error }) =>
+    movieList.subscribe(({ data: { movies, page }, isPending, error }) =>
       this.update(movies, isPending, page, error),
     );
   }
