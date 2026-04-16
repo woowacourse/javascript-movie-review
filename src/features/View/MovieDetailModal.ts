@@ -96,6 +96,16 @@ export default class MovieDetailModal {
     localStorage.setItem(`rating-${this.currentMovieId}`, String(index));
   }
 
+  renderError(message: string) {
+    this.titleEl.textContent = "오류가 발생했습니다";
+    this.overviewEl.textContent = message;
+    this.imgEl.src = "";
+    this.imgEl.alt = "";
+    this.genresEl.textContent = "";
+    this.ratingEl.textContent = "";
+    this.div.classList.add("active");
+  }
+
   close() {
     this.div.classList.remove("active");
   }

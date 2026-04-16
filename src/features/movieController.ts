@@ -97,7 +97,7 @@ export async function renderMovieDetailModal(id: number) {
     const data = await getMovieDetail(id);
     movieDetailModal.render(data);
   } catch (error) {
-    if (error instanceof Error) movieList.renderError(error.message);
+    if (error instanceof Error) movieDetailModal.renderError(error.message);
   }
 }
 
