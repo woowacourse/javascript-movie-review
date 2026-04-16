@@ -1,10 +1,13 @@
-export const getCustomRate = (movieId: number) => {   
-  const rate = localStorage.getItem(String(movieId))
-  if(rate) return Number(rate)
-  return null
-};
+import { RatingStorage } from '../../types/RatingStorage.ts';
 
-export const saveCustomRate = (movieId: number, rating: number): void => {   
-  localStorage.setItem(String(movieId), String(rating))
-};
+export class CustomRatingRepository {
+  constructor(private storage: RatingStorage) {}
 
+  getCustomRate(movieId: number): number | null {
+    return this.storage.get(movieId);
+  }
+
+  saveCustomRate(movieId: number, rating: number): void {
+    this.storage.save(movieId, rating);
+  }
+}

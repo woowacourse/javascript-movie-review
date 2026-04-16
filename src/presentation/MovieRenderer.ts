@@ -63,32 +63,6 @@ const hideBanner = () => {
   if (bg) bg.hidden = true;
 };
 
-// const showLoadButton = () => {
-//   const loadButton = document.querySelector<HTMLButtonElement>('#load-movie-button');
-//   if (loadButton) loadButton.style.display = '';
-// };
-
-// const hideLoadButton = () => {
-//   const loadButton = document.querySelector<HTMLButtonElement>('#load-movie-button');
-//   if (loadButton) loadButton.style.display = 'none';
-// };
-
-// export const startLoading = () => {
-//   const loadButton = document.querySelector<HTMLButtonElement>('#load-movie-button');
-//   if (loadButton) loadButton.disabled = true;
-// };
-
-// export const stopLoading = () => {
-//   const loadButton = document.querySelector<HTMLButtonElement>('#load-movie-button');
-//   if (loadButton) loadButton.disabled = false;
-// };
-
-// const setSectionTitle = (title: string) => {
-//   const sectionTitle = document.querySelector<HTMLElement>('#section-title');
-//   if (!sectionTitle) return;
-//   sectionTitle.textContent = title;
-// };
-
 export const render = (state: MovieBrowser, movies: Movie[]) => {
   if (state.isNewSession) {
     clearMovieList();
@@ -105,10 +79,6 @@ export const render = (state: MovieBrowser, movies: Movie[]) => {
   } else {
     renderMovieList(movies);
   }
-
-  // setSectionTitle(state.sectionTitle);
-  // if (state.canLoadMore) 
-    // showLoadButton(); else hideLoadButton();
 };
 
 export const showError = (error: unknown) => {

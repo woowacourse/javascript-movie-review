@@ -12,7 +12,7 @@ const hideModal = () => {
   document.body.classList.remove('modal-open');
 };
 
-export const renderModal = (state: MovieSelection, customRateNum : number | null) => {
+export const renderModal = (state: MovieSelection) => {
   if (!state.isOpen) {
     hideModal();
     return;

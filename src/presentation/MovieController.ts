@@ -18,7 +18,6 @@ const handleSuccess = (data: MoviePage, onSuccess?: () => void) => {
   onSuccess?.();
   browser.setTotalPages(data.totalPages);
   render(browser, data.results);
-  // stopLoading(isLoading);
 };
 
 const handleError = (error: unknown) => {
@@ -28,13 +27,11 @@ const handleError = (error: unknown) => {
 
 const load = async (page: number, onSuccess?: () => void) => {
   const signal = createNewRequest();
-  // startLoading(isLoading);
   isLoading = true;
   try {
     const data = await strategy(page, signal);
     handleSuccess(data, onSuccess);
   } catch (error) {
-    // stopLoading(isLoading);
     handleError(error);
   } finally {
     isLoading = false;
