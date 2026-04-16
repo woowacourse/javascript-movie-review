@@ -26,7 +26,10 @@ export const openModal = async (movieId: number) => {
 
     modalView.renderModalContent(data, modalState.savedRating);
   } catch (error) {
-    modalView.showError();
+    // 에러가 났을 때도 movieId가 유지되는지 확인
+    if (modalState.movieId === movieId) {
+      modalView.showError(movieId);
+    }
   }
 };
 
@@ -52,7 +55,7 @@ const handleStarClick = async (e: Event) => {
   const target = e.target as HTMLElement;
   if (target.classList.contains('rate-star-img')) {
     const clickedScore = Number(target.dataset.score);
-    
+
     modalState.savedRating = clickedScore; // 기존 점수를 클릭한 점수로 업데이트
     modalView.updateStarsUI(clickedScore); // 클릭한 점수로 점수 변경
 
@@ -75,6 +78,9 @@ const initModalEvents = () => {
   $modalContainer?.addEventListener('mouseover', handleStarHover);
   $modalContainer?.addEventListener('mouseout', handleStarLeave);
   $modalContainer?.addEventListener('click', handleStarClick);
+
+  // 모달 다시시도 이벤트
+  $modalContainer?.addEventListener('click', handleRetryButton);
 };
 
 // 닫기 버튼 클릭할 때
@@ -94,5 +100,17 @@ const handleEscapeKey = (e: KeyboardEvent) => {
     modalView.closeModalUI();
   }
 };
+
+// 오류상황에 모달 다시시도 버튼 눌렀을 때
+const handleRetryButton = (e: Event) => {
+  const target = e.target as HTMLElement;
+  const retryButton = target.closest('#retryModalButton') as HTMLElement | null;
+  if (retryButton) {
+    const movieId = Number(retryButton.dataset.id);
+    if (movieId) {
+      openModal(movieId);
+    }
+  }
+}
 
 initModalEvents();

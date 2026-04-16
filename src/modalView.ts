@@ -34,11 +34,12 @@ export const showModalSkeleton = () => {
 };
 
 // 모달 에러 메시지
-export const showError = () => {
+export const showError = (movieId: number) => {
   if ($modalContainer) {
     $modalContainer.innerHTML = `
       <div class="modal-description">
-        <h2>에러가 발생했습니다! 모달창을 닫고 다시 켜주세요!</h2>
+        <h2>에러가 발생했습니다! 다시시도 버튼을 눌러주세요!</h2>
+        <button id="retryModalButton" class="retry-btn" data-id="${movieId}">다시 시도하기</button>
       </div>
     `;
   }
