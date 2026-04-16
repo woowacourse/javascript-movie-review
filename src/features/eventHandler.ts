@@ -4,6 +4,7 @@ import {
   loadMore,
   renderMovieDetailModal,
   closeMovieDetailModal,
+  rateMovie,
 } from "./movieController";
 import { Header } from "./View/Header";
 
@@ -72,6 +73,13 @@ function loadMovieDetailInfo() {
       target.classList.contains("modal-background")
     ) {
       closeMovieDetailModal();
+    }
+  });
+
+  document.body.addEventListener("click", (e) => {
+    const star = (e.target as HTMLElement).closest(".modal-star") as HTMLElement;
+    if (star) {
+      rateMovie(Number(star.dataset.index));
     }
   });
 

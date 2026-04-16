@@ -1,5 +1,3 @@
-// 영화 포스터 , 영화 제목, 영화 장르, 별점, 줄거리 정보를 담은 영화 상세 정보 모달을 렌더링
-// MovieDetailModal.render(data);
 import { MovieDetail } from "../../../types/types";
 import { THUMB_NAIL_URL } from "../../constants/constant";
 import closeImg from "../../images/modal_button_close.png";
@@ -15,104 +13,105 @@ const star_score: Record<number, string> = {
 };
 
 export default class MovieDetailModal {
-  div = document.createElement("div");
+  private div: HTMLElement;
+  private imgEl: HTMLImageElement;
+  private titleEl: HTMLElement;
+  private genresEl: HTMLElement;
+  private ratingEl: HTMLElement;
+  private overviewEl: HTMLElement;
+  private stars: NodeListOf<HTMLImageElement>;
+  private labelEl: HTMLSpanElement;
+  private scoreEl: HTMLSpanElement;
+  private currentMovieId: number = 0;
 
-  reset() {
-    this.div.innerHTML = "";
-    this.div.classList.remove("active");
+  constructor() {
+    this.div = document.createElement("div");
+    this.div.className = "modal-background";
+    this.div.innerHTML = /*html*/ `
+      <div class="modal">
+        <div class="modal-container">
+          <img class="modal-image" src="" alt="">
+          <div class="modal-description">
+            <button class="close-modal">
+              <img src="${closeImg}" alt="닫기">
+            </button>
+            <h2 class="modal-title"></h2>
+            <p class="modal-release-date-and-genres"></p>
+            <div class="average">
+              <p class="modal-rating-text">평균</p>
+              <img class="average-star" src="${starFilledImg}">
+              <p class="modal-rating"></p>
+            </div>
+            <hr>
+            <div class="modal-user-rating">
+              <p class="modal-user-rating-text">내 별점</p>
+              <div class="star-rating">
+                <div class="stars-row">
+                  ${[1, 2, 3, 4, 5].map((i) => `<img class="modal-star" data-index="${i}" src="${starEmptyImg}">`).join("")}
+                </div>
+                <div class="rating-text">
+                  <span class="rating-label"></span>
+                  <span class="rating-score"></span>
+                </div>
+              </div>
+            </div>
+            <hr>
+            <p class="modal-overview-title">줄거리</p>
+            <p class="modal-overview"></p>
+          </div>
+        </div>
+      </div>`;
+
+    document.body.appendChild(this.div);
+
+    this.imgEl = this.div.querySelector<HTMLImageElement>(".modal-image")!;
+    this.titleEl = this.div.querySelector(".modal-title")!;
+    this.genresEl = this.div.querySelector(".modal-release-date-and-genres")!;
+    this.ratingEl = this.div.querySelector(".modal-rating")!;
+    this.overviewEl = this.div.querySelector(".modal-overview")!;
+    this.stars = this.div.querySelectorAll<HTMLImageElement>(".modal-star");
+    this.labelEl = this.div.querySelector<HTMLSpanElement>(".rating-label")!;
+    this.scoreEl = this.div.querySelector<HTMLSpanElement>(".rating-score")!;
   }
 
   render(data: MovieDetail) {
-    // 포스터
-    // 내용
-    // - 제목
-    // - 영화 제목
-    // - 장르
-    // - 평균 별점
-    // - 내 별점
-    // - 줄거리
+    this.imgEl.src = `${THUMB_NAIL_URL}${data.poster_path}`;
+    this.imgEl.alt = data.title;
+    this.titleEl.textContent = data.title;
+    this.genresEl.textContent = `${data.release_date.slice(0, 4)} · ${data.genres.map((genre) => genre.name).join(", ")}`;
+    this.ratingEl.textContent = data.vote_average.toFixed(1);
+    this.overviewEl.textContent = data.overview;
 
-    this.div.className = "modal-background";
-    this.div.innerHTML = /*html*/ `
-    <div class="modal">
-        <div class="modal-container">
-            <img class="modal-image" src="${THUMB_NAIL_URL}${data.poster_path}" alt="${data.title}">
-            <div class="modal-description">
-                <button class="close-modal">
-                    <img src="${closeImg}" alt="닫기">
-                </button>
-                <h2 class="modal-title">${data.title}</h2>
-                <p class="modal-release-date-and-genres">${data.release_date.slice(0, 4)} · ${data.genres.map((genre) => genre.name).join(", ")}</p>
-                <div class="average">
-                    <p class="modal-rating-text">평균</p>
-                    <img class="average-star" src="${starFilledImg}">
-                    <p class="modal-rating">${data.vote_average.toFixed(1)}</p>
-                </div>
-                <hr>
-                <div class="modal-user-rating">
-                  <p class="modal-user-rating-text">내 별점</p>
-                  <div class="star-rating">
-                    <div class="stars-row">
-                      ${[1, 2, 3, 4, 5].map((i) => `<img class="modal-star" data-index="${i}" src="${starEmptyImg}">`).join("")}
-                    </div>
-                    <div class="rating-text">
-                      <span class="rating-label"></span>
-                      <span class="rating-score"></span>
-                    </div>
-                  </div>
-                </div>
-                <hr>
-                <p class="modal-overview-title">줄거리</p>
-                <p class="modal-overview">${data.overview}</p>
-            </div>
-        </div>
-    </div>`;
-    document.body.appendChild(this.div);
+    this.currentMovieId = data.id;
+    this.#resetStars();
+
+    const saved = localStorage.getItem(`rating-${data.id}`);
+    if (saved) this.#updateStars(Number(saved));
+
     this.div.classList.add("active");
-
-    this.div
-      .querySelector(".close-modal")!
-      .addEventListener("click", () => this.close());
-
-    this.#initStarRating(data.id);
   }
 
-  #initStarRating(movieId: number) {
-    const stars = this.div.querySelectorAll<HTMLImageElement>(".modal-star");
-    const labelEl = this.div.querySelector<HTMLSpanElement>(".rating-label")!;
-    const scoreEl = this.div.querySelector<HTMLSpanElement>(".rating-score")!;
-
-    const saved = localStorage.getItem(`rating-${movieId}`);
-    if (saved) this.#updateStars(stars, labelEl, scoreEl, Number(saved));
-
-    stars.forEach((star) => {
-      star.addEventListener("click", () => {
-        const index = Number(star.dataset.index);
-        this.#updateStars(stars, labelEl, scoreEl, index);
-        localStorage.setItem(`rating-${movieId}`, String(index));
-      });
-    });
-  }
-
-  #updateStars(
-    stars: NodeListOf<HTMLImageElement>,
-    labelEl: HTMLSpanElement,
-    scoreEl: HTMLSpanElement,
-    index: number,
-  ) {
-    stars.forEach((star, i) => {
-      if (i < index) {
-        star.src = starFilledImg;
-      } else {
-        star.src = starEmptyImg;
-      }
-    });
-    const score = index * 2;
-    labelEl.textContent = star_score[score];
-    scoreEl.textContent = `(${score}/10)`;
+  rate(index: number) {
+    this.#updateStars(index);
+    localStorage.setItem(`rating-${this.currentMovieId}`, String(index));
   }
 
   close() {
     this.div.classList.remove("active");
+  }
+
+  #resetStars() {
+    this.stars.forEach((star) => (star.src = starEmptyImg));
+    this.labelEl.textContent = "";
+    this.scoreEl.textContent = "";
+  }
+
+  #updateStars(index: number) {
+    this.stars.forEach((star, i) => {
+      star.src = i < index ? starFilledImg : starEmptyImg;
+    });
+    const score = index * 2;
+    this.labelEl.textContent = star_score[score];
+    this.scoreEl.textContent = `(${score}/10)`;
   }
 }

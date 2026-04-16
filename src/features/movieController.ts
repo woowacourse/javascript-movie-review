@@ -91,7 +91,6 @@ export async function loadMore(): Promise<void> {
 
 export async function renderMovieDetailModal(id: number) {
   try {
-    movieDetailModal.reset();
     const data = await getMovieDetail(id);
     movieDetailModal.render(data);
   } catch (error) {
@@ -101,4 +100,8 @@ export async function renderMovieDetailModal(id: number) {
 
 export function closeMovieDetailModal() {
   movieDetailModal.close();
+}
+
+export function rateMovie(index: number) {
+  movieDetailModal.rate(index);
 }
