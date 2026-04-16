@@ -61,26 +61,34 @@ describe("영화 검색 기능 테스트", () => {
     cy.get("#movie-list li").should("have.length.greaterThan", 0);
   });
 
-  it("검색 후 더보기 버튼을 클릭하면 필터링 된 영화 목록이 추가로 출력된다.", () => {
+  it("검색 후 스크롤을 끝까지 내리면 필터링 된 영화 목록이 추가로 출력된다.", () => {
     cy.get("#search-input").type("스파이");
     cy.get("#search-button").click();
     cy.wait("@getSearchPage1");
 
-    cy.get("#more-button").click();
+    cy.scrollTo('bottom', { duration: 500 });
+
     cy.wait("@getSearchPage2");
 
     cy.get("#movie-list li").should("have.length.greaterThan", entries);
   });
 
-  it("필터링 된 영화 목록이 마지막 페이지면 더보기 버튼을 출력하지 않는다.", () => {
+  it("필터링 된 영화 목록이 마지막 페이지면 스크롤을 끝까지 내려도 필터링된 영화 리스트를 더 출력하지 않는다.", () => {
     cy.get("#search-input").type("스파이");
     cy.get("#search-button").click();
     cy.wait("@getSearchPage1");
 
-    cy.get("#more-button").click();
+    cy.scrollTo('bottom', { duration: 500 });
+
     cy.wait("@getSearchPage2");
 
-    cy.get("#more-button").should("not.be.visible");
+    cy.get("#movie-list li").then((eleBefore) => {
+      const prevLength = eleBefore.length;
+
+      cy.scrollTo('bottom', { duration: 500 });
+
+      cy.get("#movie-list li").should("have.length", prevLength);
+    });
   });
 
   it("검색 결과가 없을 때는 안내메시지를 출력한다.", () => {

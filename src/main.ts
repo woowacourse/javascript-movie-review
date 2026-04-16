@@ -1,11 +1,14 @@
 import { navigate, getSearchParams, hasSearchParams } from "./utils/router";
 
+import { RequestFetchResponse } from "./services/http";
+
 import {
-  ApiError,
-  getMoviePopular,
   getTopRatedMovie,
   getSearchMovie,
+  getMovieById,
 } from "./services/api";
+
+import { queryMoviePopular } from "./services/query";
 
 import {
   renderTopRatedMovie,
@@ -18,13 +21,28 @@ import {
 } from "./renders/movieList";
 import { renderSkeleton, removeSkeleton } from "./renders/skeleton";
 
+import { renderDetailModal, removeDetailModal, } from "./renders/detailModal";
+
 import { displayErrorMessage } from "./feedback/displayErrorMessage";
 
 import { errorMessages } from "./constants/errorMessage";
 
 import PageState from "./states/PageState";
 
+import MovieListState from "./states/MovieListState";
+
+import { RateRepositoryImpl } from "./data/repositories/RateRepositoryImpl";
+
+const { refetch, getIsFetcing } = queryMoviePopular();
+
+// 사용자 상태값
 const pageState = new PageState();
+
+// 서버 응답값
+const movieListState = new MovieListState();
+
+// respository 값 
+export const rateRepository = new RateRepositoryImpl('localStorage');
 
 const loadInit = () => {
   const search = getSearchParams("search") as string;
@@ -33,8 +51,8 @@ const loadInit = () => {
     (async () => {
       const topRatedMovies = await errorTryCatch(
         async () => await getTopRatedMovie(),
-        (e: ApiError) => {
-          if (e.status_code == 22) {
+        (e: RequestFetchResponse) => {
+          if (e.data.status_code == 22) {
             displayErrorMessage(errorMessages.INVALID_REQUEST);
             return;
           }
@@ -48,12 +66,14 @@ const loadInit = () => {
     })();
 
     (async () => {
-      renderSkeleton();
+      if(!getIsFetcing()) renderSkeleton();
+
       const page = pageState.getPage();
+
       const movies = await errorTryCatch(
-        async () => await getMoviePopular({ page }),
-        async (e: ApiError) => {
-          if (e.status_code == 22) {
+        async () => await refetch({ page }),
+        async (e: RequestFetchResponse) => {
+          if (e.data.status_code == 22) {
             displayErrorMessage(errorMessages.INVALID_PAGE);
             return;
           }
@@ -61,8 +81,13 @@ const loadInit = () => {
         },
       );
 
-      if (movies) renderMovieList(movies);
-      removeSkeleton(Date.now());
+      if (movies) {
+        movieListState.setTotalPages(movies.total_pages);
+
+        renderMovieList(movies);
+      }
+
+      if(!getIsFetcing()) removeSkeleton(Date.now());
     })();
   } else {
     runSearch();
@@ -78,14 +103,16 @@ const runSearch = () => {
       async () => await getSearchMovie({
         page,
         query: search || "",
-      }), (e: ApiError) => {
-        if(e.status_code === 22){
-          displayErrorMessage(errorMessages.INVALID_SEARCH);
+      }), (e: RequestFetchResponse) => {
+        if(e.data.status_code === 22){
+         displayErrorMessage(errorMessages.INVALID_SEARCH);
             return;
         }
-        displayErrorMessage(errorMessages.UNKNOWN);;
+         displayErrorMessage(errorMessages.UNKNOWN);;
       }
     );
+
+    movieListState.setTotalPages(movies.total_pages);
 
     removeTopRatedMovie();
 
@@ -118,6 +145,50 @@ const handleSearch = () => {
   runSearch();
 };
 
+export const handleDetail = (id: number) => {
+  (async () => {
+    const movieInfo = await getMovieById({id});
+    const rate = rateRepository.getMovieRate(id);
+
+    renderDetailModal(movieInfo, rate);
+  })();
+}
+
+const handleMoreMovie = () => {
+  const totalPages = movieListState.getTotalPages();
+  const page = pageState.getPage();
+
+  if(totalPages === page) return;
+
+  pageState.increamentPage();
+  const isSearchParams = hasSearchParams("search");
+
+  if (isSearchParams) {
+    runSearch();
+    return;
+  }
+  (async () => {
+    const page = pageState.getPage();
+
+    const movies = await errorTryCatch(
+      async () => await refetch({ page }),
+      async (e: RequestFetchResponse) => {
+        if (e.data.status_code == 22) {
+          displayErrorMessage(errorMessages.INVALID_PAGE);
+          return;
+        }
+        displayErrorMessage(errorMessages.UNKNOWN);
+      },
+    );
+
+    if (movies) {
+      movieListState.setTotalPages(movies.total_pages);
+
+      renderMovieList(movies);
+    }
+  })(); 
+}
+
 const errorTryCatch = async (api: Function, errorCallback: Function) => {
   try {
     return await api();
@@ -130,31 +201,28 @@ addEventListener("load", async () => {
 
   loadInit();
 
-  const moreButton = document.querySelector("#more-button");
-  moreButton?.addEventListener("click", () => {
-    pageState.increamentPage();
-    const isSearchParams = hasSearchParams("search");
+  document.addEventListener('scroll', () => {
 
-    if (isSearchParams) {
-      runSearch();
-      return;
+    const getIsBottom = () => {
+      const movieList = document.querySelector<HTMLUListElement>("#movie-list");
+      if(!movieList) return;
+
+      const { scrollY } = window;
+
+      const { top, height } = movieList.getBoundingClientRect();
+      const { pageYOffset } = window;
+      const offsetBottom = pageYOffset + top +  height;
+
+      const windowInnerHeight = window.innerHeight;
+
+      const isBottom = scrollY + windowInnerHeight >= offsetBottom;
+
+      return isBottom;
     }
-    (async () => {
-      const page = pageState.getPage();
 
-      const movies = await errorTryCatch(
-        async () => await getMoviePopular({ page }),
-        async (e: ApiError) => {
-          if (e.status_code == 22) {
-            displayErrorMessage(errorMessages.INVALID_PAGE);
-            return;
-          }
-          displayErrorMessage(errorMessages.UNKNOWN);
-        },
-      );
-
-      if (movies) renderMovieList(movies);
-    })();
+    if(getIsBottom()){
+      handleMoreMovie();
+    }
   });
 
   const searchButton = document.querySelector("#search-button");
@@ -167,6 +235,12 @@ addEventListener("load", async () => {
   searchInput?.addEventListener("keyup", (e: KeyboardEvent) => {
     if (e.key === "Enter") {
       handleSearch();
+    }
+  });
+
+  document.addEventListener('keyup', (e) => {
+    if (e.key === "Escape") {
+      removeDetailModal();
     }
   });
 });

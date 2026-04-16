@@ -32,17 +32,22 @@ describe("영화 목록 조회 기능 테스트", () => {
     cy.get("#movie-list li").should("have.length.greaterThan", 0);
   });
 
-  it("더보기 버튼을 누르면 영화 목록이 추가로 생성되어 렌더링 된다.", () => {
-    cy.get("#more-button").click();
-    cy.wait("@getPopularPage2");
-
+  it("스크롤을 끝까지 내리면 영화 목록이 추가로 생성되어 렌더링 된다.", () => {
+    cy.scrollTo('bottom', { duration: 500 });
     cy.get("#movie-list li").should("have.length.greaterThan", entries);
   });
 
-  it("마지막 페이지까지 렌더링 됬을때 더보기 버튼을 출력하지 않는다.", () => {
-    cy.get("#more-button").click();
+  it("마지막 페이지까지 렌더링 됬을때 스크롤을 끝까지 내려도 영화 리스트를 더 출력하지 않는다.", () => {
+    cy.scrollTo('bottom', { duration: 500 });
+
     cy.wait("@getPopularPage2");
 
-    cy.get("#more-button").should("not.be.visible");
+    cy.get("#movie-list li").then((eleBefore) => {
+      const prevLength = eleBefore.length;
+
+      cy.scrollTo('bottom', { duration: 500 });
+
+      cy.get("#movie-list li").should("have.length", prevLength);
+    });
   });
 });

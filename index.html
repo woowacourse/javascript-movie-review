@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="/styles/skeleton.css" />
     <link rel="stylesheet" href="/styles/search.css" />
     <link rel="stylesheet" href="/styles/message-box.css" />
+    <link rel="stylesheet" href="/styles/modal.css" />
     <title>영화 리뷰</title>
   </head>
   <body>
@@ -65,16 +66,64 @@
             </template>
             <ul class="thumbnail-list skeleton-list" id="skeleton"></ul>
             <ul class="thumbnail-list" id="movie-list"></ul>
-            <button class="primary" id="more-button">더보기</button>
           </section>
         </main>
       </div>
 
       <footer class="footer">
         <p>&copy; 우아한테크코스 All Rights Reserved.</p>
-        <p><img src="./images/woowacourse_logo.png" width="180" /></p>
+        <p><img src="/images/woowacourse_logo.png" width="180" /></p>
       </footer>
     </div>
+
+    <div id="modal"></div>
+    <template id="detail-modal-template">
+      <div class="modal-background active" id="modalBackground">
+        <div class="modal">
+          <button class="close-modal" id="closeModal">
+            <img src="./images/modal_button_close.png" />
+          </button>
+          <div class="modal-container">
+            <div class="modal-image">
+              <img src="" alt="" id="detail-modal-img" />
+            </div>
+            <div class="modal-description">
+              <h2 id="detail-modal-title"></h2>
+              <p class="category" id="detail-modal-category"></p>
+              <p class="rate">
+                <img src="./images/star_filled.png" class="star" />
+                <span id="detail-modal-rate"></span>
+              </p>
+              <hr />
+              <h3>내 별점</h3>
+              <div class="rate-star">
+                <div class="star-box" id="detail-modal-star-box">
+                  <span class="star"></span>
+                  <span class="star"></span>
+                  <span class="star"></span>
+                  <span class="star"></span>
+                  <span class="star"></span>
+                </div>
+                <p class="star-message-box">
+                  <span
+                    class="star-message"
+                    id="detail-modal-star-message"
+                  ></span>
+                  <span
+                    class="star-number"
+                    id="detail-modal-star-number"
+                  ></span>
+                </p>
+              </div>
+
+              <hr />
+              <h3>줄거리</h3>
+              <p class="detail" id="detail-modal-detail"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </template>
     <script type="module" src="./src/main.ts"></script>
   </body>
 </html>
