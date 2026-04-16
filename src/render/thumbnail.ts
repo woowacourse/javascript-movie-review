@@ -7,6 +7,7 @@ export const createMovieThumbnail = (movie: ThumbnailInfo) => {
 
   const item = document.createElement("div");
   item.className = "item";
+  item.dataset.movieId = String(movie.id);
 
   const thumbnail = document.createElement("img");
   thumbnail.className = "thumbnail";

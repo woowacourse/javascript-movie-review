@@ -1,12 +1,14 @@
+import { requireElement } from "../utils/dom";
+
 class Logo {
-  #logo;
+  #logo: Element;
 
   constructor(private onReset: () => void) {
-    this.#logo = document.querySelector(".logo");
+    this.#logo = requireElement(".logo");
   }
 
   bindEvent() {
-    this.#logo?.addEventListener("click", this.onReset);
+    this.#logo.addEventListener("click", this.onReset);
   }
 }
 

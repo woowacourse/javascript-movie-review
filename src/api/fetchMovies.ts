@@ -1,4 +1,5 @@
-import { MovieResponse } from "../../types/movie";
+import { MovieResponse, MovieDetail } from "../../types/movie";
+import { API_LANGUAGE, API_REGION, INCLUDE_ADULT } from "../constants/api";
 
 const apiUrl = import.meta.env.VITE_API_BASE_URL;
 const accessToken = import.meta.env.VITE_ACCESS_TOKEN;
@@ -21,6 +22,7 @@ const parseMovieResponse = async (
 
   try {
     const data = await response.json();
+    console.log(data);
 
     return {
       movies: data.results,
@@ -44,7 +46,7 @@ export const fetchPopularMovies = async (
   page: number,
 ): Promise<MovieResponse> => {
   return requestMovieResponse(
-    `${apiUrl}/movie/popular?language=Ko&region=ko-KR&page=${page}`,
+    `${apiUrl}/movie/popular?language=${API_LANGUAGE}&region=${API_REGION}&page=${page}`,
     "영화 목록을 불러오는 중 에러가 발생했습니다.",
   );
 };
@@ -54,7 +56,27 @@ export const fetchSearchedMovies = async (
   searchTitle: string,
 ): Promise<MovieResponse> => {
   return requestMovieResponse(
-    `${apiUrl}/search/movie?query=${encodeURIComponent(searchTitle)}&include_adult=false&language=ko-KR&page=${page}`,
+    `${apiUrl}/search/movie?query=${encodeURIComponent(searchTitle)}&include_adult=${INCLUDE_ADULT}&language=${API_LANGUAGE}&page=${page}`,
     "영화 검색 중 에러가 발생했습니다.",
   );
+};
+
+export const fetchMoviesDetail = async (id: number): Promise<MovieDetail> => {
+  const response = await fetch(
+    `${apiUrl}/movie/${id}?language=${API_LANGUAGE}`,
+    REQUEST_OPTIONS,
+  );
+
+  if (!response.ok) {
+    throw new Error("영화 정보를 불러오는 중 에러가 발생했습니다.");
+  }
+
+  try {
+    const data = await response.json();
+    console.log(data);
+
+    return data;
+  } catch {
+    throw new Error("서버 응답을 처리할 수 없습니다.");
+  }
 };

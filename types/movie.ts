@@ -23,5 +23,17 @@ export interface MovieResponse {
 
 export type ThumbnailInfo = Pick<
   Movie,
-  "title" | "poster_path" | "vote_average"
+  "title" | "poster_path" | "vote_average" | "id"
 >;
+
+export type MovieDetail = {
+  title: string;
+  overview: string;
+  poster_path: string;
+  release_date: string;
+  vote_average: number;
+  genres: {
+    id: number;
+    name: string;
+  }[];
+};

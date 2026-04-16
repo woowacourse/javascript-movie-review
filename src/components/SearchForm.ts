@@ -3,7 +3,7 @@ import { renderMoviesList } from "../render/movieList";
 import { fetchSearchedMovies } from "../api/fetchMovies";
 import { createNotFoundElement } from "../render/createNotFoundElement";
 import PageStore from "../store";
-import MoreButton from "./moreButton";
+import { requireElement } from "../utils/dom";
 
 class SearchForm {
   #search: {
@@ -18,35 +18,18 @@ class SearchForm {
     thumbnailList: HTMLElement;
   };
 
-  constructor(private moreButton: MoreButton) {
-    const form = document.querySelector<HTMLFormElement>(".search");
-    const input = document.querySelector<HTMLInputElement>(".search-input");
-    const backgroundContainer = document.querySelector<HTMLDivElement>(
-      ".background-container",
-    );
-    const sectionContainer =
-      document.querySelector<HTMLElement>(".section-container");
-    const sectionTitle = document.querySelector<HTMLElement>(".section-title");
-    const thumbnailList =
-      document.querySelector<HTMLElement>(".thumbnail-list");
-
-    if (
-      !form ||
-      !input ||
-      !backgroundContainer ||
-      !sectionContainer ||
-      !sectionTitle ||
-      !thumbnailList
-    ) {
-      throw new Error("필수 UI 요소를 찾을 수 없습니다.");
-    }
-
-    this.#search = { form, input };
+  constructor() {
+    this.#search = {
+      form: requireElement<HTMLFormElement>(".search"),
+      input: requireElement<HTMLInputElement>(".search-input"),
+    };
     this.#view = {
-      backgroundContainer,
-      sectionContainer,
-      sectionTitle,
-      thumbnailList,
+      backgroundContainer: requireElement<HTMLDivElement>(
+        ".background-container",
+      ),
+      sectionContainer: requireElement<HTMLElement>(".section-container"),
+      sectionTitle: requireElement<HTMLElement>(".section-title"),
+      thumbnailList: requireElement<HTMLElement>(".thumbnail-list"),
     };
   }
 
@@ -69,26 +52,44 @@ class SearchForm {
 
     try {
       renderSkeleton();
-
-      const { movies, nowPage, totalPages } = await fetchSearchedMovies(
-        1,
-        searchValue,
-      );
-
-      PageStore.setPagination(nowPage, totalPages);
-
+      const movies = await this.lodeList(1);
       if (movies.length === 0) {
         this.renderEmptyResult();
         return;
       }
 
-      renderMoviesList(movies, { append: false });
-      this.moreButton.syncVisibility();
+      const loadMore = async () => {
+        if (PageStore.page >= PageStore.totalPages) return;
+        try {
+          renderSkeleton();
+          const movies = await this.lodeList(PageStore.page + 1);
+          removeSkeleton();
+          if (!movies.length) return;
+          renderMoviesList(movies, { append: true }, loadMore);
+        } catch (error) {
+          alert("검색 중 문제가 발생했습니다. 잠시 후 다시 시도해주세요.");
+        } finally {
+          removeSkeleton();
+        }
+      };
+
+      renderMoviesList(movies, { append: false }, loadMore);
     } catch (error) {
       this.handleSearchError(error);
     } finally {
       removeSkeleton();
     }
+  }
+
+  private async lodeList(page: number) {
+    const { movies, nowPage, totalPages } = await fetchSearchedMovies(
+      page,
+      PageStore.query,
+    );
+
+    PageStore.setPagination(nowPage, totalPages);
+
+    return movies;
   }
 
   private prepareSearchView(searchValue: string) {
@@ -101,7 +102,6 @@ class SearchForm {
   private renderEmptyResult() {
     const empty = createNotFoundElement();
     this.#view.sectionContainer.appendChild(empty);
-    this.moreButton.hide();
   }
 
   private removeNotFoundContainer() {
@@ -114,7 +114,6 @@ class SearchForm {
   private handleSearchError(error: unknown) {
     console.error("검색 중 에러:", error);
     alert("검색 중 문제가 발생했어요");
-    this.moreButton.hide();
   }
 }
 

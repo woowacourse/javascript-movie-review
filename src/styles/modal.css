@@ -31,7 +31,7 @@ body.modal-open {
 
 .modal {
   background-color: var(--color-bluegray-90);
-  padding: 20px;
+  padding: 40px 24px;
   border-radius: 16px;
   color: white;
   z-index: 2;
@@ -68,21 +68,142 @@ body.modal-open {
   line-height: 1.6rem;
 }
 
+.modal-description .rate {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  line-height: 1;
+}
+
 .modal-description .rate > img {
-  position: relative;
-  top: 5px;
+  position: static;
 }
 
-.modal-description > *:not(:last-child) {
-  margin-bottom: 8px;
+.modal-description .rate > span {
+  font-size: 24px;
+  font-weight: 600;
 }
 
-.modal-description h2 {
+.modal-header {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-bottom: 16px;
+}
+
+.modal-header > h2 {
   font-size: 2rem;
-  margin: 0 0 8px;
+  font-weight: 700;
 }
 
 .detail {
   max-height: 430px;
   overflow-y: auto;
+  font-size: 24px;
+  font-weight: 400;
+}
+
+.category {
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.rate-avg {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.plot {
+  display: flex;
+  flex-direction: column;
+}
+
+.plot-tag {
+  padding: 16px 0;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.rating-star {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: url("/templates/images/star_empty.png") no-repeat center / contain;
+  cursor: pointer;
+}
+
+.rating-star.filled {
+  background-image: url("/templates/images/star_filled.png");
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.rating-text {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.rating-score {
+  color: var(--color-bluegray-10);
+}
+
+.rating-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding-block: 24px;
+}
+
+.rating-container > h2 {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+@media (max-width: 1120px) {
+  .modal-background {
+    align-items: flex-end;
+  }
+  .modal-header {
+    align-items: center;
+  }
+  .modal {
+    width: 100%;
+    border-radius: 16px 16px 0 0;
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+
+  .modal-container {
+    flex-direction: column;
+  }
+  .modal-image {
+    display: flex;
+    margin: 0 auto;
+  }
+
+  .modal-image img {
+    width: 200px;
+  }
+
+  .modal-description {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 800px) {
+  .modal {
+    width: 100%;
+
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+
+  .modal-image {
+    display: none;
+  }
 }
