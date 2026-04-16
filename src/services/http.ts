@@ -70,7 +70,12 @@ export const requestAjax = async (
       throw new RequestFetchError(response);
     }
   } catch(error) {
-    console.error(error);
+    const response = {
+      data: error,
+      headers: customHeaders,
+      config,
+    }
+    throw new RequestNetworkError(response)
   }
 };
 
@@ -90,6 +95,19 @@ export class RequestFetchError extends Error {
     super('RequestFetchError');
     this.data = error.data;
     this.status = error.status;
+    this.headers = error.headers;
+    this.config = error.config;
+  }
+}
+
+export class RequestNetworkError extends Error {
+  // status: number; // network error 의 경우 status code 없음
+  data?: unknown;
+  headers?: unknown;
+  config?: unknown;
+  constructor(error: { data: unknown; headers: unknown; config: unknown }) {
+    super('RequestNetworkError');
+    this.data = error.data;
     this.headers = error.headers;
     this.config = error.config;
   }
