@@ -5,7 +5,7 @@ import { RequestFetchResponse } from "./services/http";
 import {
   getTopRatedMovie,
   getSearchMovie,
-  getMovieMovieId,
+  getMovieById,
 } from "./services/api";
 
 import { queryMoviePopular } from "./services/query";
@@ -141,7 +141,7 @@ const handleSearch = () => {
 
 export const handleDetail = (id: number) => {
   (async () => {
-    const movieInfo = await getMovieMovieId({id});
+    const movieInfo = await getMovieById({id});
     renderDetailModal(movieInfo);
   })();
 }

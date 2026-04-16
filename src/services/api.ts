@@ -45,7 +45,7 @@ export const getSearchMovie = async ({
   }
 };
 
-export const getMovieMovieId = async ({ id, }: { id: number }): Promise<MovieInfo> => {
+export const getMovieById = async ({ id, }: { id: number }): Promise<MovieInfo> => {
   const url = `/movie/${id}`;
   const { data } = await requestAjax(url);
 
