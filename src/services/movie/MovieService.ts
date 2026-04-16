@@ -1,32 +1,15 @@
 import { MovieDetail } from "../../api/types";
 import { fetchMovieDetail } from "../../api/movies";
+import { AsyncService, AsyncState } from "../AsyncService";
 
-export interface MovieDetailEvent {
-  isPending: boolean;
-  detail: MovieDetail | null;
-  error: boolean;
-}
+export type MovieDetailState = AsyncState<MovieDetail | null>;
 
-type Subscriber = (event: MovieDetailEvent) => void;
-
-export class MovieService {
-  private isPending = false;
-  private error = false;
-  private subscribers: Set<Subscriber> = new Set();
-
-  subscribe(subscriber: Subscriber): void {
-    this.subscribers.add(subscriber);
-  }
-
-  unsubscribe(subscriber: Subscriber): void {
-    this.subscribers.delete(subscriber);
-  }
-
+export class MovieService extends AsyncService<MovieDetail | null> {
   async load(id: number): Promise<void> {
     if (this.isPending) return;
 
     this.error = false;
-    this.setIsPending(true);
+    this.setIsPending(true, null);
 
     try {
       const detail = await fetchMovieDetail(id);
@@ -37,20 +20,5 @@ export class MovieService {
       this.error = true;
       this.notify(null);
     }
-  }
-
-  private setIsPending(value: boolean): void {
-    this.isPending = value;
-    this.notify(null);
-  }
-
-  private notify(detail: MovieDetail | null): void {
-    this.subscribers.forEach((subscriber) =>
-      subscriber({
-        isPending: this.isPending,
-        detail,
-        error: this.error,
-      }),
-    );
   }
 }
