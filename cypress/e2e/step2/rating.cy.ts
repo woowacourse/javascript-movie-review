@@ -32,8 +32,8 @@ describe("별점", () => {
 
   it("별점이 localStorage에 저장된다", () => {
     cy.get(".my-rating-star").eq(4).click();
-    cy.get(".item").first().then(($el) => {
-      const movieId = Number($el.attr("data-id"));
+    cy.get("li[data-id]").first().then(($el) => {
+      const movieId = $el.attr("data-id") as string;
       cy.window().then((win) => {
         const stored = win.localStorage.getItem("ratings");
         const ratings = JSON.parse(stored ?? "{}");
