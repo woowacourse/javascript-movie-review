@@ -9,6 +9,9 @@ export const mapMovieListResponse = (data: any): MovieListResponse => {
   }
 
   const movies: Movie[] = data.results.map((movie: any): Movie => {
+    if (typeof movie.vote_average !== "number") {
+      throw new ApiParseError("영화 목록 응답 스킴이 올바르지 않습니다");
+    }
     return {
       id: movie.id,
       title: movie.title,
@@ -26,14 +29,22 @@ export const mapMovieListResponse = (data: any): MovieListResponse => {
 };
 
 export const mapMovieDetailResponse = (data: any): MovieDetail => {
+  if (typeof data.vote_average !== "number") {
+    throw new ApiParseError("영화 상세 응답 스킴이 올바르지 않습니다");
+  }
+
   return {
     id: data.id,
     title: data.title,
     rate: data.vote_average,
     thumbnail_path: data.poster_path,
     hero_path: data.backdrop_path,
-    genres: (data.genres ?? []).map((g: any) => g.name),
-    releaseYear: (data.release_date ?? "").slice(0, 4),
+    genres: Array.isArray(data.genres)
+      ? data.genres.map((g: any) => g.name)
+      : [],
+    releaseYear: typeof data.release_date === "string"
+        ? data.release_date.slice(0, 4)
+        : "",
     overview: data.overview ?? "",
   };
 };
