@@ -1,9 +1,13 @@
 import { Movie } from "../api.ts";
 import { MovieDetailRenderer } from "../render.ts";
+import { StorageInterface } from "../storage.ts";
 import State from "../state.ts";
 
 export const MovieDetail = {
-  init() {
+  storage: null as unknown as StorageInterface,
+
+  init(storage: StorageInterface) {
+    this.storage = storage;
     this.setUpDialogCloser();
     this.setUpMyRatingToMovie();
   },
@@ -50,7 +54,7 @@ export const MovieDetail = {
           "#movie-detail-container",
         );
         const movieId = (movieContainer as HTMLElement).dataset.movieId;
-        this.setMyRating(`movie-${movieId}-my-rating`, String(myRating));
+        this.storage.setMyRating(`movie-${movieId}-my-rating`, String(myRating));
         MovieDetailRenderer.renderMyRating(myRating ? Number(myRating) : 0);
       });
     });
@@ -61,15 +65,7 @@ export const MovieDetail = {
     const movieGenres = movie.genre_ids.map(
       (genreId) => genres.find((genre) => genre.id === genreId)!.name,
     );
-    const currentRating = this.getMyRating(`movie-${movie.id}-my-rating`);
+    const currentRating = this.storage.getMyRating(`movie-${movie.id}-my-rating`);
     return [movieGenres, currentRating];
-  },
-
-  getMyRating(key: string) {
-    return Number(localStorage.getItem(key));
-  },
-
-  setMyRating(key: string, rating: string) {
-    localStorage.setItem(key, rating);
   },
 };
