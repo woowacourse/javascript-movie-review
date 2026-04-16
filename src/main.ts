@@ -6,9 +6,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const app = document.querySelector<HTMLElement>("#app");
   if (!app) return;
 
-  const router = new Router({
-    main: () => new MainPage(app, router).render(),
-    search: () => new SearchPage(app, router).render(),
+  const router: Router = new Router({
+    main: () => new MainPage(app, router),
+    search: () => new SearchPage(app, router),
   });
 
   router.init();

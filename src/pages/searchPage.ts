@@ -15,10 +15,11 @@ export class SearchPage {
     private app: HTMLElement,
     private router: Router,
   ) {
-    this.app.addEventListener("click", (e) => {
-      const card = (e.target as HTMLElement).closest<HTMLElement>("[data-id]");
-      if (card?.dataset.id) this.modal.open(Number(card.dataset.id));
-    });
+    this.app.addEventListener("click", this.handleClick);
+  }
+
+  destroy(): void {
+    this.app.removeEventListener("click", this.handleClick);
   }
 
   render(): void {
@@ -32,6 +33,11 @@ export class SearchPage {
 
     this.movieList.load(this.query);
   }
+
+  private handleClick = (e: MouseEvent): void => {
+    const card = (e.target as HTMLElement).closest<HTMLElement>("[data-id]");
+    if (card?.dataset.id) this.modal.open(Number(card.dataset.id));
+  };
 
   private createInfiniteScroll(): HTMLElement {
     const { element, disconnect } = createInfiniteScroll(() =>
