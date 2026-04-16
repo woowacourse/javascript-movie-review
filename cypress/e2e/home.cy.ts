@@ -1,104 +1,95 @@
 describe("홈 화면 테스트", () => {
   beforeEach(() => {
-    cy.intercept("GET", "**/movie/popular?language=ko-KR&region=KR&page=1").as(
-      "getMovies",
-    );
+    cy.intercept("GET", "**/movie/popular?language=ko-KR&region=KR&page=1", {
+      statusCode: 200,
+      body: {
+        page: 1,
+        results: Array.from({ length: 20 }, (_, index) => ({
+          id: index + 1,
+          title: `영화 ${index + 1}`,
+          poster_path: `/poster-${index + 1}.jpg`,
+          vote_average: 7.5,
+        })),
+        total_pages: 2,
+        total_results: 40,
+      },
+    }).as("page1");
+
     cy.visit("http://localhost:5173");
   });
 
-  it("API 호출 확인", () => {
-    cy.wait("@getMovies").its("response.body.results").should("be.an", "array");
+  it("초기 진입 시 영화 목록이 렌더된다.", () => {
+    cy.wait("@page1");
+    cy.get(".thumbnail-item").should("have.length", 20);
   });
 
-  it("배너 안의 요소를 확인", () => {
-    cy.wait("@getMovies")
-      .its("response.body.results")
-      .then((results) => {
-        cy.get(".title").should("contain", results[0].title);
-        cy.get(".rate-value").should("contain", results[0].vote_average);
-        cy.get(".background-container")
-          .invoke("css", "background-image")
-          .should("include", results[0].poster_path);
-      });
+  it("초기 진입 시 베너가 렌더된다.", () => {
+    cy.wait("@page1");
+
+    cy.get(".top-rated-movie").should("be.visible");
+    cy.get(".title").should("contain", "영화 1");
+    cy.get(".rate-value").should("contain", "7.5");
   });
 
-  it("리스트 안의 요소를 확인", () => {
-    cy.wait("@getMovies")
-      .its("response.body.results")
-      .then((results) => {
-        cy.get(".thumbnail").each(($el, index) => {
-          cy.wrap($el)
-            .should("have.attr", "src")
-            .and("include", results[index].poster_path);
-        });
+  it("배너의 자세히 보기 버튼 클릭 시 모달이 열린다.", () => {
+    cy.wait("@page1");
 
-        cy.get(".item-rate").each(($el, index) => {
-          cy.wrap($el).should("contain", results[index].vote_average);
-        });
-
-        cy.get(".item-title").each(($el, index) => {
-          cy.wrap($el).should("contain", results[index].title);
-        });
-      });
-  });
-
-  it("더보기 버튼이 있는지 확인", () => {
-    cy.get(".thumbnail-add-button").should("exist");
+    cy.get(".top-rated-movie .detail").click();
+    cy.get(".modal-background").should("have.class", "active");
+    cy.get(".modal").should("be.visible");
   });
 });
 
-describe("더보기 버튼 테스트", () => {
+describe("영화 리스트 기능 테스트", () => {
   beforeEach(() => {
-    cy.intercept("GET", "**/movie/popular?language=ko-KR&region=KR&page=1").as(
-      "page1",
-    );
-    cy.intercept("GET", "**/movie/popular?language=ko-KR&region=KR&page=2").as(
-      "page2",
-    );
+    cy.intercept("GET", "**/movie/popular?language=ko-KR&region=KR&page=1", {
+      statusCode: 200,
+      body: {
+        page: 1,
+        results: Array.from({ length: 20 }, (_, index) => ({
+          id: index + 1,
+          title: `영화 ${index + 1}`,
+          poster_path: `/poster-${index + 1}.jpg`,
+          vote_average: 7.5,
+        })),
+        total_pages: 2,
+        total_results: 40,
+      },
+    }).as("page1");
+
+    cy.intercept("GET", "**/movie/popular?language=ko-KR&region=KR&page=2", {
+      statusCode: 200,
+      body: {
+        page: 2,
+        results: Array.from({ length: 20 }, (_, index) => ({
+          id: index + 21,
+          title: `영화 ${index + 21}`,
+          poster_path: `/poster-${index + 21}.jpg`,
+          vote_average: 8.1,
+        })),
+        total_pages: 2,
+        total_results: 40,
+      },
+    }).as("page2");
 
     cy.visit("http://localhost:5173");
   });
 
-  it("버튼 클릭 시 API 호출 확인", () => {
-    cy.get(".thumbnail-add-button").click();
+  it("영화 카드 클릭 시 모달이 열린다.", () => {
+    cy.wait("@page1");
 
-    cy.wait("@page2").its("response.body.results").should("be.an", "array");
+    cy.get(".item").first().click();
+    cy.get(".modal-background").should("have.class", "active");
+    cy.get(".modal").should("be.visible");
   });
 
-  it("리스트 안의 요소를 확인", () => {
-    let page1Results: Movies[];
+  it("무한 스크롤 시 다음 페이지가 붙는다.", () => {
+    cy.wait("@page1");
+    cy.get(".thumbnail-item").should("have.length", 20);
 
-    cy.wait("@page1")
-      .its("response.body.results")
-      .then((results1) => {
-        page1Results = results1;
-      });
+    cy.get("#sentinel").scrollIntoView();
+    cy.wait("@page2");
 
-    cy.get(".thumbnail-add-button").click();
-
-    cy.wait("@page2")
-      .its("response.body.results")
-      .then((results2) => {
-        const allResults = [...page1Results, ...results2];
-
-        cy.get(".thumbnail").should("have.length", allResults.length);
-
-        cy.get(".thumbnail").each(($el, index) => {
-          cy.wrap($el)
-            .should("have.attr", "src")
-            .and("include", allResults[index].poster_path);
-        });
-
-        cy.get(".item-title").each(($el, index) => {
-          cy.wrap($el).should("contain", allResults[index].title);
-        });
-
-        cy.get(".item-rate").each(($el, index) => {
-          cy.wrap($el).should(
-            "contain",
-            String(allResults[index].vote_average),
-          );
-        });
-      });
+    cy.get(".thumbnail-item").should("have.length", 40);
   });
 });

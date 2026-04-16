@@ -1,12 +1,14 @@
 export class AppState {
-  #page;
-  #isSearch;
-  #searchValue;
+  #page: number;
+  #isSearch: boolean;
+  #searchValue: string;
+  #currentMovie: string;
 
   constructor() {
     this.#page = 1;
     this.#isSearch = false;
     this.#searchValue = "";
+    this.#currentMovie = "";
   }
 
   reset() {
@@ -37,6 +39,10 @@ export class AppState {
     return this.#isSearch;
   }
 
+  getCurrentMovie() {
+    return this.#currentMovie;
+  }
+
   increasePage() {
     this.#page++;
   }
@@ -47,5 +53,9 @@ export class AppState {
 
   setIsSearch(nextIsSearch: boolean) {
     this.#isSearch = nextIsSearch;
+  }
+
+  setCurrentMovie(movieId: string) {
+    this.#currentMovie = movieId;
   }
 }

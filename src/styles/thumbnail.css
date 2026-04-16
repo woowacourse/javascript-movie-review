@@ -78,3 +78,31 @@ p.rate > span {
   font-size: 36px;
   font-weight: 600;
 }
+
+@media (max-width: 1279px) {
+  .thumbnail-container {
+    max-width: 800px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 32px;
+  }
+
+  .thumbnail-list {
+    width: 100%;
+    grid-template-columns: repeat(3, 200px);
+    justify-content: space-between;
+    gap: 70px 0;
+  }
+}
+
+@media (max-width: 670px) {
+  .thumbnail-container {
+    width: 100%;
+    align-items: center;
+  }
+
+  .thumbnail-list {
+    width: auto;
+    grid-template-columns: repeat(1, 200px);
+  }
+}

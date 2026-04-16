@@ -5,7 +5,9 @@ interface AppStateType {
   getNextPage(): number;
   getSearchValue(): string;
   getIsSearch(): boolean;
+  getCurrentMovie(): string;
   increasePage(): void;
   setValue(string): void;
   setIsSearch(boolean): void;
+  setCurrentMovie(string): void;
 }

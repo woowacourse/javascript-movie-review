@@ -11,6 +11,7 @@ body.modal-open {
   left: 0;
   width: 100%;
   height: 100%;
+  overflow: hidden;
   background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경을 위해 설정 */
   backdrop-filter: blur(10px); /* 블러 효과 적용 */
   display: flex;
@@ -37,6 +38,7 @@ body.modal-open {
   z-index: 2;
   position: relative;
   width: 1000px;
+  height: 588px;
 }
 
 .close-modal {
@@ -50,14 +52,17 @@ body.modal-open {
   color: white;
   font-size: 20px;
   cursor: pointer;
+  display: flex;
 }
 
 .modal-container {
+  height: 100%;
   display: flex;
 }
 
 .modal-image img {
   width: 380px;
+  height: 545px;
   border-radius: 16px;
 }
 
@@ -66,23 +71,188 @@ body.modal-open {
   padding: 8px;
   margin-left: 16px;
   line-height: 1.6rem;
-}
 
-.modal-description .rate > img {
-  position: relative;
-  top: 5px;
-}
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 
-.modal-description > *:not(:last-child) {
-  margin-bottom: 8px;
+  height: 545px;
 }
 
 .modal-description h2 {
-  font-size: 2rem;
+  font-size: 32px;
+  font-weight: 700;
   margin: 0 0 8px;
+}
+
+.modal-description h3 {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.modal-title-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.rate-section {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.rate {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.rate img {
+  height: 100%;
+}
+
+.rate p {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--color-yellow);
 }
 
 .detail {
   max-height: 430px;
   overflow-y: auto;
+}
+
+.modal-myrate-section {
+  padding: 24px 0;
+  border-top: 1px solid var(--color-bluegray-30);
+  border-bottom: 1px solid var(--color-bluegray-30);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.myrate-section {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.myrate-stars {
+  width: 170px;
+  box-sizing: content-box;
+  display: flex;
+  gap: 2;
+}
+
+.myrate-stars img {
+  width: 32px;
+  height: 32px;
+  position: relative;
+  top: -2px;
+  cursor: pointer;
+}
+
+.myrate-score {
+  color: var(--color-bluegray-10);
+}
+
+.modal-detail-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow: hidden;
+}
+
+.modal-detail-section .detail {
+  flex: 1;
+  overflow-y: scroll;
+}
+
+.modal-error {
+  width: 100%;
+  height: 545px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-error p {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+@media (max-width: 1279px) {
+  .modal-background {
+    align-items: end;
+  }
+
+  .modal {
+    position: relative;
+    width: 100%;
+    height: 85%;
+    border-radius: 0;
+    padding: 40px 20px;
+    overflow: hidden;
+  }
+
+  .close-modal {
+    position: fixed;
+    top: auto;
+  }
+
+  .modal-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+
+  .modal-image img {
+    width: 200px;
+    height: 300px;
+    border-radius: 16px;
+  }
+
+  .modal-title-section {
+    align-items: center;
+    gap: 8px;
+  }
+
+  .modal-detail-section {
+    overflow: auto;
+  }
+
+  .modal-detail-section .detail {
+    flex: 1;
+    overflow-y: auto;
+  }
+}
+
+@media (max-width: 670px) {
+  .modal {
+    width: 100%;
+    height: 70%;
+    border-radius: 0;
+    padding: 40px 20px;
+  }
+
+  .modal-myrate-section {
+    align-items: center;
+  }
+
+  .myrate-section {
+    flex-direction: column;
+  }
+
+  .modal-image {
+    display: none;
+  }
 }
