@@ -114,4 +114,30 @@ describe("mapMovieDetailResponse", () => {
 
     expect(result.releaseYear).toBe("");
   });
+
+  it("상세 응답에 vote_average가 없으면 ApiParseError를 throw한다", () => {
+    expect(() =>
+      mapMovieDetailResponse({
+        id: 1,
+        title: "테스트",
+        release_date: "2024-01-01",
+        genres: [],
+        poster_path: null,
+        backdrop_path: null,
+        overview: "",
+      }),
+    ).toThrow(ApiParseError);
+  });
+
+  it("목록 응답의 movie에 vote_average가 없으면 ApiParseError를 throw한다", () => {
+    expect(() =>
+      mapMovieListResponse({
+        page: 1,
+        total_pages: 1,
+        results: [
+          { id: 1, title: "테스트", poster_path: null, backdrop_path: null },
+        ],
+      }),
+    ).toThrow(ApiParseError);
+  });
 });
