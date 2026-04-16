@@ -182,6 +182,17 @@ body.modal-open {
   overflow-y: auto;
 }
 
+.retry-btn {
+  border: 0;
+  padding: 10px 20px;
+  cursor: pointer;
+  color: var(--color-white);
+  font-weight: bold;
+  background-color: var(--color-lightblue-90);
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
 @media (max-width: 1024px) {
   .modal-background {
     align-items: flex-end;
