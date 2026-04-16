@@ -64,7 +64,7 @@ const main = async () => {
     ratingRepo,
   );
 
-  const searchForm = new SearchForm(
+  new SearchForm(
     elements.searchForm,
     elements.searchInput,
     async (query) => {
