@@ -32,3 +32,6 @@ export class EmptyQueryError extends DomainError {
 
 /** 환경설정 문제 (API key 누락 등) — 개발자 문제. 사용자에게는 일반 메시지. */
 export class ConfigError extends DomainError {}
+
+/** 로컬/원격 저장소 쓰기 실패 */
+export class StorageError extends DomainError {}

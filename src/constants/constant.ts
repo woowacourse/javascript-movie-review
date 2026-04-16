@@ -4,6 +4,7 @@ export const BASE_URL = {
   TMDB_BASE_URL: "https://api.themoviedb.org/3",
   POSTER_BASE_URL: "https://image.tmdb.org/t/p/w200",
   HERO_BASE_URL: "https://image.tmdb.org/t/p/w1920_and_h800_multi_faces",
+  MODAL_POSTER_BASE_URL: "https://image.tmdb.org/t/p/w500",
 };
 
 export const DEFAULT_LANGUAGE = "ko-KR";
@@ -19,6 +20,7 @@ export const IMAGE_URL = {
 export const API_PATH = {
   POPULAR_MOVIE: `/movie/popular`,
   SEARCH_MOVIE: `/search/movie`,
+  MOVIE_DETAIL: (movieId: number) => `/movie/${movieId}`,
 };
 
 export const PAGE_TITLE = {

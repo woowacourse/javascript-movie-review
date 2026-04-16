@@ -14,7 +14,7 @@ body.modal-open {
   backdrop-filter: blur(10px);
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-end;
   z-index: 10;
   visibility: hidden;
   opacity: 0;
@@ -30,12 +30,14 @@ body.modal-open {
 
 .modal {
   background-color: var(--color-bluegray-90);
-  padding: 20px;
-  border-radius: 16px;
+  padding: 40px 24px 20px;
+  border-radius: 16px 16px 0 0;
   color: white;
   z-index: 2;
   position: relative;
-  width: 1000px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
 .close-modal {
@@ -53,23 +55,38 @@ body.modal-open {
 
 .modal-container {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.modal-image {
+  display: none;
 }
 
 .modal-image img {
-  width: 380px;
+  width: 200px;
   border-radius: 16px;
 }
 
 .modal-description {
   width: 100%;
   padding: 8px;
-  margin-left: 16px;
   line-height: 1.6rem;
+  text-align: center;
+}
+
+.modal-description .rate {
+  justify-content: center;
 }
 
 .modal-description .rate > img {
   position: relative;
   top: 5px;
+}
+
+.rate-label {
+  color: var(--color-white);
+  margin-right: 16px;
 }
 
 .modal-description > *:not(:last-child) {
@@ -84,4 +101,80 @@ body.modal-open {
 .detail {
   max-height: 430px;
   overflow-y: auto;
+}
+
+.my-rating-title {
+  font-weight: bold;
+}
+
+.my-rating-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.my-rating-stars {
+  display: flex;
+  gap: 2px;
+}
+
+.star-rating-star {
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+}
+
+.my-rating-label {
+  color: var(--color-bluegray-10);
+  font-size: 0.9rem;
+}
+
+@media (min-width: 800px) {
+  .modal-image {
+    display: block;
+  }
+
+  .modal-description .my-rating,
+  .modal-description .detail {
+    text-align: left;
+  }
+
+  .my-rating-row {
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+  }
+}
+
+@media (min-width: 1120px) {
+  .modal-background {
+    align-items: center;
+  }
+
+  .modal {
+    width: 960px;
+    padding: 20px;
+    border-radius: 16px;
+    max-height: none;
+    overflow-y: visible;
+  }
+
+  .modal-container {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .modal-image img {
+    width: 500px;
+  }
+
+  .modal-description {
+    text-align: left;
+    margin-left: 16px;
+  }
+
+  .modal-description .rate {
+    justify-content: flex-start;
+  }
 }

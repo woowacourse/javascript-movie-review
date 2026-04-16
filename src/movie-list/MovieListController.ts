@@ -1,18 +1,24 @@
+import { TmdbClient } from "../api/TmdbClient";
 import { PAGE_TITLE } from "../constants/constant";
 import { HeroSection } from "../hero/HeroSection";
+import { MovieDetailModal } from "../modal/MovieDetailModal";
+import { Notifier } from "../notify/Notifier";
+import { MovieRatingRepo } from "../rating/MovieRatingRepo";
+import { RatingScore } from "../rating/validateScore";
 import { MovieListStore } from "./MovieListStore";
 import { MovieListView } from "./MovieListView";
 
-export interface Notifier {
-  error: (e: unknown) => void;
-}
-
 export class MovieListController {
+  private _detailToken = 0;
+
   constructor(
     private readonly store: MovieListStore,
     private readonly view: MovieListView,
     private readonly hero: HeroSection,
     private readonly notifier: Notifier,
+    private readonly tmdb: TmdbClient,
+    private readonly modal: MovieDetailModal,
+    private readonly ratingRepo: MovieRatingRepo,
   ) {}
 
   async showPopular(): Promise<void> {
@@ -37,6 +43,27 @@ export class MovieListController {
     await this.runWithUi(() => this.store.loadNextPage());
   }
 
+  async openDetail(movieId: number): Promise<void> {
+    const token = ++this._detailToken;
+    try {
+      const detail = await this.tmdb.fetchMovieDetail(movieId);
+      if (token !== this._detailToken) return;
+      const currentRating = await this.ratingRepo.getRating(movieId);
+      this.modal.open(detail, currentRating);
+    } catch (error) {
+      if (token !== this._detailToken) return;
+      this.notifier.error(error);
+    }
+  }
+
+  async rateMovie(movieId: number, score: RatingScore): Promise<void> {
+    try {
+      await this.ratingRepo.saveRating(movieId, score);
+    } catch (error) {
+      this.notifier.error(error);
+    }
+  }
+
   private async runWithUi(action: () => Promise<void>): Promise<void> {
     this.view.showSkeleton();
 
@@ -44,8 +71,9 @@ export class MovieListController {
       await action();
 
       this.view.renderMovies(this.store.movies);
-      this.view.toggleSeeMore(this.store.hasMore);
-      this.view.toggleNoResult(this.store.query !== "" && this.store.movies.length === 0);
+      this.view.toggleNoResult(
+        this.store.query !== "" && this.store.movies.length === 0,
+      );
     } catch (error) {
       this.notifier.error(error);
     } finally {
