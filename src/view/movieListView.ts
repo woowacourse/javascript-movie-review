@@ -32,10 +32,14 @@ class MovieListView {
     skeletonList.forEach((element) => element.remove());
   };
 
+  #showListMode(mode: 'list' | 'error' | 'empty') {
+    this.#thumbnailContainer?.classList.toggle("hidden", mode !== 'list');
+    this.#errorThumbnailContainer?.classList.toggle("hidden", mode !== 'error');
+    this.#emptyMessageContainer?.classList.toggle("hidden", mode !== 'empty');
+  }; 
+
   renderMovieList(movies: Movies[]) {
-    this.#thumbnailContainer?.classList.remove("hidden");
-    this.#errorThumbnailContainer?.classList.add("hidden");
-    this.#emptyMessageContainer?.classList.add("hidden");
+    this.#showListMode('list');
     
     if (!this.#thumbnailList) return;
 
@@ -50,7 +54,7 @@ class MovieListView {
   };
 
   renderErrorList() {
-    this.#errorThumbnailContainer?.classList.remove("hidden");
+    this.#showListMode('error');
   };
 
   bindThumbnailRetryClick(handler: () => void) {
@@ -60,7 +64,7 @@ class MovieListView {
   };
 
   renderEmptyList() {
-    this.#emptyMessageContainer?.classList.remove("hidden");
+    this.#showListMode('empty');
   };
 }
 
