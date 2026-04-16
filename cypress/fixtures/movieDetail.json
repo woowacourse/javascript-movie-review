@@ -1,0 +1,78 @@
+{
+  "adult": false,
+  "backdrop_path": "/iN41Ccw4DctL8npfmYg1j5Tr1eb.jpg",
+  "belongs_to_collection": {
+    "id": 87096,
+    "name": "아바타 시리즈",
+    "poster_path": "/3C5brXxnBxfkeKWwA1Fh4xvy4wr.jpg",
+    "backdrop_path": "/6qkJLRCZp9Y3ovXti5tSuhH0DpO.jpg"
+  },
+  "budget": 350000000,
+  "genres": [
+    {
+      "id": 878,
+      "name": "SF"
+    },
+    {
+      "id": 12,
+      "name": "모험"
+    },
+    {
+      "id": 14,
+      "name": "판타지"
+    }
+  ],
+  "homepage": "",
+  "id": 83533,
+  "imdb_id": "tt1757678",
+  "origin_country": [
+    "US"
+  ],
+  "original_language": "en",
+  "original_title": "Avatar: Fire and Ash",
+  "overview": "인간들과의 전쟁으로 첫째 아들 ‘네테이얌’을 잃은 후, ‘제이크’와 ‘네이티리’는 깊은 슬픔에 빠진다. 상실에 빠진 이들 앞에 '바랑'이 이끄는 재의 부족이 등장하면서, 판도라는 더욱 큰 위험에 빠지게 되고, ‘설리’ 가족은 선택의 기로에 서게 되는데…",
+  "popularity": 363.2076,
+  "poster_path": "/l18o0AK18KS118tWeROOKYkF0ng.jpg",
+  "production_companies": [
+    {
+      "id": 127928,
+      "logo_path": "/h0rjX5vjW5r8yEnUBStFarjcLT4.png",
+      "name": "20th Century Studios",
+      "origin_country": "US"
+    },
+    {
+      "id": 574,
+      "logo_path": "/8wdmrfGcDx3TJxYiiDksLzAW4pB.png",
+      "name": "Lightstorm Entertainment",
+      "origin_country": "US"
+    },
+    {
+      "id": 22213,
+      "logo_path": "/qx9K6bFWJupwde0xQDwOvXkOaL8.png",
+      "name": "TSG Entertainment",
+      "origin_country": "US"
+    }
+  ],
+  "production_countries": [
+    {
+      "iso_3166_1": "US",
+      "name": "United States of America"
+    }
+  ],
+  "release_date": "2025-12-17",
+  "revenue": 1485966646,
+  "runtime": 195,
+  "spoken_languages": [
+    {
+      "english_name": "English",
+      "iso_639_1": "en",
+      "name": "English"
+    }
+  ],
+  "status": "Released",
+  "tagline": "",
+  "title": "아바타: 불과 재",
+  "video": false,
+  "vote_average": 7.368,
+  "vote_count": 2499
+}

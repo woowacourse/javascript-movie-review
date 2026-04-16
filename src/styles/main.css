@@ -45,7 +45,7 @@ button.primary {
 }
 
 #wrap {
-  min-width: 1440px;
+  min-width: auto;
   background-color: var(--color-bluegray-100);
 }
 
@@ -63,10 +63,11 @@ button.primary {
 .header-bar {
   position: absolute;
   z-index: 10;
-  width: 1280px;
+  width: 100%;
+  max-width: 1280px;
   justify-self: center;
-  padding: 40px 0;
-
+  padding: 20px;
+  box-sizing: border-box;
   display: grid;
   align-items: center;
   grid-template-columns: 123px 1fr 123px;
@@ -117,7 +118,7 @@ button.primary {
   background-position: center center;
   background-size: cover;
   height: 500px;
-  padding: 48px;
+  padding: 48px 20px;
 
   display: flex;
   align-items: center;
@@ -140,6 +141,8 @@ button.primary {
   max-width: 1280px;
   width: 100%;
   margin: 0 auto;
+  padding: 0 20px;
+  box-sizing: border-box;
 }
 
 .top-rated-movie {
@@ -187,4 +190,89 @@ footer.footer {
 
 footer.footer p:not(:last-child) {
   margin-bottom: 8px;
+}
+
+.error-banner-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  z-index: 2; 
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  justify-content: center; 
+  text-align: center;
+}
+
+.error-banner-container p {
+  margin: 0 0 8px 0;
+  color: #ccc;
+  font-size: 1.1rem;
+}
+
+.error-banner-container p:first-child {
+  color: var(--color-white);
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+.error-banner-container button {
+  margin-top: 16px;
+  padding: 12px 32px;
+  background-color: rgb(37, 58, 163); /* 영화 앱의 포인트 컬러 */
+  color: #e2e2e2; /* 배경이 밝은 노란색이므로 글자는 어둡게 */
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.error-banner-container button:hover {
+  filter: brightness(0.9); /* 살짝 어두워지는 효과 */
+  transform: translateY(-2px); /* 살짝 떠오르는 느낌 */
+}
+
+.error-banner-container button:active {
+  transform: translateY(0) scale(0.96); /* 꾹 눌리는 타격감 */
+}
+
+.hidden {
+  display: none !important;
+}
+
+@media screen and (max-width: 768px) {
+  .header-bar {
+    grid-template-columns: 1fr; 
+    gap: 16px;
+    justify-items: center;
+  }
+
+  .header-spacer {
+    display: none;
+  }
+
+  span.rate-value {
+    font-size: 1.4rem;
+  }
+
+  .title {
+    font-size: 2.2rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  span.rate-value {
+    font-size: 1.1rem;
+    margin-left: 4px;
+  }
+
+  .title {
+    font-size: 1.6rem;
+  }
 }

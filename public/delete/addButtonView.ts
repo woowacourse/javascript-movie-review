@@ -1,6 +1,8 @@
 class AddButtonView {
-  get #addButton() {
-    return document.querySelector<HTMLButtonElement>("#add-button");
+  #addButton;
+
+  constructor() {
+    this.#addButton =  document.querySelector<HTMLButtonElement>("#add-button");
   };
 
   bindAddButtonClick(handler: () => void) {

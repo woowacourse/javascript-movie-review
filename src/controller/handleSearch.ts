@@ -4,14 +4,18 @@ import { movieModel } from "../model/movieModel";
 import { searchView } from "../view/searchView";
 import { movieListView } from "../view/movieListView";
 import { bannerView } from "../view/bannerView";
-import { addButtonView } from "../view/addButtonView";
+import { errorMovieList } from "../services/errorMovieList";
+import { emptyMovieList } from "../services/emptyMovieList";
+import { infiniteScrollView } from "../view/infiniteScrollView";
 
 export async function handleSearch(keyword: string) {
+  if (movieModel.isLoading) return;
+  
   try {
+    movieModel.isLoading = true;
     movieModel.startSearch(1, true, keyword);
     searchView.changeToSearchMode(movieModel.searchValue);
     bannerView.hideBanner();
-    addButtonView.showAddButton();
     movieListView.resetMovieList();
     movieListView.renderSkeletonList(SKELETON_NUMBER);
 
@@ -21,23 +25,21 @@ export async function handleSearch(keyword: string) {
     );
 
     if (!searchMoviesResult.success) {
-      console.log("에러 원인:", searchMoviesResult.error);
-      movieListView.renderErrorList();
+      errorMovieList.handleSearchError(searchMoviesResult.error);
+      infiniteScrollView.disconnect();
       return;
     };
 
     if (searchMoviesResult.data.total_results === 0) {
-      movieListView.renderEmptyList();
-      addButtonView.hideAddButton();
+      emptyMovieList();
       return;
-    };
-    if (searchMoviesResult.data.page === searchMoviesResult.data.total_pages) {
-      addButtonView.hideAddButton();
     };
 
     movieListView.renderMovieList(searchMoviesResult.data.results);
+    infiniteScrollView.updateObserver(searchMoviesResult.data);
     return;
   } finally {
+    movieModel.isLoading = false;
     movieListView.removeSkeletonList();
   }
 }

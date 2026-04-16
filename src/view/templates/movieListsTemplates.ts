@@ -18,7 +18,7 @@ export const movieListTemplate = {
   `,
   movieList: (item: Movies) => 
     /*html*/ `
-      <li id="${escapeHTML(item.id)}">
+      <li class="movie" id="${escapeHTML(item.id)}" data-movie-id="${item.id}">
         <div class="item">
           <img
             class="thumbnail"
@@ -39,16 +39,4 @@ export const movieListTemplate = {
       </li>
     `
   ,
-  errorList: /*html*/ `
-    <li class="thumbnail-empty">
-      <img src="./images/empty_icon.png" alt="empty list" class="empty-icon" />
-      <p class="empty-message">영화 정보를 불러오지 못했습니다. 다시 시도해주세요.</p>
-    </li>
-  `,
-  emptyList: /*html*/ `
-    <li class="thumbnail-empty">
-      <img src="./images/empty_icon.png" alt="empty list" class="empty-icon" />
-      <p class="empty-message">검색 결과가 없습니다.</p>
-    </li>
-  `,
 }

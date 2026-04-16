@@ -2,19 +2,19 @@ import { SEARCH_QUERIES } from "../constants/searchConstants";
 
 describe("검색 데이터 있을 때 테스트", () => {
   beforeEach("검색어를 입력하고 검색 버튼을 클릭한다.", () => {
-    cy.mockSearchMovies(SEARCH_QUERIES.valid, 'searchResults.json');
+    cy.mockSearchMovies(SEARCH_QUERIES.valid, 1, 'searchResults.json');
     cy.visit("/");
     cy.performSearch(SEARCH_QUERIES.valid);
   });
 
   it("검색 버튼을 클릭하면 API가 호출된다", () => {
-    cy.wait("@searchMovies")
+    cy.wait("@searchMovies1")
       .its("response.body.results")
       .should("be.an", "array");
   });
 
   it("리스트 안의 요소를 확인한다.", () => {
-    cy.wait("@searchMovies")
+    cy.wait("@searchMovies1")
       .its("response.body.results")
       .then((results) => {
         cy.verifyMovieItems(results);
@@ -24,7 +24,7 @@ describe("검색 데이터 있을 때 테스트", () => {
 
 describe("검색 데이터 없을 때 테스트", () => {
   beforeEach("검색어를 입력하고 검색 버튼을 클릭한다.", () => {
-    cy.mockSearchMovies(SEARCH_QUERIES.invalid, 'nonSearchResults.json');
+    cy.mockSearchMovies(SEARCH_QUERIES.invalid,1, 'nonSearchResults.json');
     cy.visit("/");
     cy.performSearch(SEARCH_QUERIES.invalid);
   });
@@ -34,20 +34,53 @@ describe("검색 데이터 없을 때 테스트", () => {
       .should("exist")
       .and("contain", "검색 결과가 없습니다.");
   });
+});
 
-  it("검색 데이터가 마지막 데이터면 더보기 버튼이 사라진다.", () => {
-    cy.disappearMoreButton();
+describe("무한 스크롤 테스트", () => {
+  beforeEach("검색어를 입력하고 검색 버튼을 클릭한다.", () => {
+    cy.mockSearchMovies("바보", 1, 'multipleSearchResults1.json');
+    cy.mockSearchMovies("바보", 2, 'multipleSearchResults2.json');
+    cy.visit("/");
+    cy.performSearch("바보");
+  });
+
+  it("검색 버튼을 클릭하면 API가 호출된다", () => {
+    cy.wait("@searchMovies1")
+      .its("response.body.results")
+      .should("be.an", "array");
+  });
+
+  it("스크롤 시 추가 api를 받아오는지 확인한다.", () => {
+    cy.wait("@searchMovies1");
+    cy.get(".thumbnail-list li:last-child").scrollIntoView();
+    cy.get("@searchMovies2").its("response.body.results").should("be.an", "array");
   });
 });
 
-describe("검색 데이터가 전부 출력되었을 때 더보기 버튼 사라지는 테스트", () => {
-  beforeEach("검색어를 입력하고 검색 버튼을 클릭한다.", () => {
-    cy.mockSearchMovies(SEARCH_QUERIES.valid, 'searchResults.json');
+describe("데이터 로딩 시 에러 화면을 띄우고, 다시 시도하기 버튼으로 복구", () => {
+  beforeEach(() => {
+    cy.mockPopularMovies(1);
+    cy.getSearchNetworkError();
     cy.visit("/");
+    cy.wait("@getPopularMoviesPage1");
     cy.performSearch(SEARCH_QUERIES.valid);
+    cy.wait("@getSearchNetworkError");
   });
 
-  it("검색 데이터가 마지막 데이터면 더보기 버튼이 사라진다.", () => {
-    cy.disappearMoreButton();
+  it("검색 실패 시 에러 화면을 확인하고, 다시 시도하기 버튼으로 복구한다", () => {
+    cy.get(".error-thumbnail-container").should("not.have.class", "hidden");
+    cy.get(".thumbnail-retry-button").should("be.visible");
+
+    cy.mockSearchMovies(SEARCH_QUERIES.valid, 1, 'searchResults.json');
+
+    cy.get(".thumbnail-retry-button").click();
+
+    cy.wait("@searchMovies1") 
+      .its("response.body.results")
+      .then((results) => {
+        cy.verifyMovieItems(results);
+      });
+
+    cy.get(".error-thumbnail-container").should("have.class", "hidden");
   });
 });

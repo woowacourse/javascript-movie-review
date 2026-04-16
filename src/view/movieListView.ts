@@ -2,6 +2,10 @@ import { movieListTemplate } from "./templates/movieListsTemplates";
 
 class MovieListView {
   #thumbnailList = document.querySelector<HTMLElement>(".thumbnail-list");
+  #thumbnailContainer = document.querySelector<HTMLDivElement>(".thumbnail-container");
+  #errorThumbnailContainer = document.querySelector<HTMLDivElement>(".error-thumbnail-container");
+  #thumbnailRetryButton = document.querySelector<HTMLButtonElement>(".thumbnail-retry-button");
+  #emptyMessageContainer = document.querySelector<HTMLElement>(".empty-message-container");
 
   constructor() {
     this.#thumbnailList?.addEventListener('error', (event) => {
@@ -11,7 +15,7 @@ class MovieListView {
         target.src = './images/no-image.png';
       }
     }, true);
-  }
+  };
 
   renderSkeletonList(count: number) {
     if (!this.#thumbnailList) return;
@@ -28,7 +32,15 @@ class MovieListView {
     skeletonList.forEach((element) => element.remove());
   };
 
+  #showListMode(mode: 'list' | 'error' | 'empty') {
+    this.#thumbnailContainer?.classList.toggle("hidden", mode !== 'list');
+    this.#errorThumbnailContainer?.classList.toggle("hidden", mode !== 'error');
+    this.#emptyMessageContainer?.classList.toggle("hidden", mode !== 'empty');
+  }; 
+
   renderMovieList(movies: Movies[]) {
+    this.#showListMode('list');
+    
     if (!this.#thumbnailList) return;
 
     const movieListHTML = movies
@@ -42,13 +54,17 @@ class MovieListView {
   };
 
   renderErrorList() {
-    const errorList = movieListTemplate.errorList;
-    if (this.#thumbnailList) this.#thumbnailList.innerHTML = errorList;
+    this.#showListMode('error');
+  };
+
+  bindThumbnailRetryClick(handler: () => void) {
+    this.#thumbnailRetryButton?.addEventListener("click", () => {
+      handler();
+    });
   };
 
   renderEmptyList() {
-    const emptyList = movieListTemplate.emptyList;
-    if (this.#thumbnailList) this.#thumbnailList.innerHTML = emptyList;
+    this.#showListMode('empty');
   };
 }
 

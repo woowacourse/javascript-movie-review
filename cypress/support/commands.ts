@@ -12,18 +12,18 @@ Cypress.Commands.add('mockPopularMovies', (page: number) => {
   ).as(`getPopularMoviesPage${page}`);
 });
 
-Cypress.Commands.add("mockSearchMovies", (searchQuery: string, jsonFile: string) => {
+Cypress.Commands.add("mockSearchMovies", (searchQuery: string, page: number, jsonFile: string) => {
   cy.intercept(
     {
       method: "GET", 
       url: "**/search/movie*",
       query: {
         query: searchQuery,
-        page: String(1)
+        page: String(page)
       }
     }, {
     fixture: jsonFile
-  }).as("searchMovies");
+  }).as(`searchMovies${page}`);
 });
 
 Cypress.Commands.add("performSearch", (searchQuery: string) => {
@@ -48,7 +48,7 @@ Cypress.Commands.add("verifyMovieItems", (allResults: Movies[]) => {
       String(allResults[index].vote_average),
     );
   });
-})
+});
 
 Cypress.Commands.add("disappearMoreButton", () => {
   cy.wait("@searchMovies")
@@ -57,4 +57,35 @@ Cypress.Commands.add("disappearMoreButton", () => {
       expect(data.page).to.equal(data.total_pages)
       cy.get(".thumbnail-add-button").should("not.be.visible");
   })
-})
+});
+
+Cypress.Commands.add("getMovieDetail", (id: number) => {
+  cy.intercept(
+    {
+      method: "GET", 
+      url: `**/movie/${id}*`,
+      query: {
+        language: "ko-KR",
+      }
+    }, {
+    fixture: `movieDetail.json`
+  }).as(`getMovieDetail${id}`);
+});
+
+Cypress.Commands.add("getPopularNetworkError", () => {
+  cy.intercept("GET", "**/movie/popular*", {
+    forceNetworkError: true,
+  }).as("getPopularNetworkError");
+});
+
+Cypress.Commands.add("getMovieDetailNetworkError", (id: number) => {
+  cy.intercept("GET", `**/movie/${id}*`, {
+    forceNetworkError: true,
+  }).as(`getMovieDetailNetworkError`);
+});
+
+Cypress.Commands.add("getSearchNetworkError", () => {
+  cy.intercept("GET", "**/search/movie*", {
+    forceNetworkError: true,
+  }).as("getSearchNetworkError");
+});

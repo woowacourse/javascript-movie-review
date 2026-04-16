@@ -1,36 +1,38 @@
-import { getMovies } from "../api/getMovies";
-import { searchMovies } from "../api/searchMovies";
-import { isLastPage } from "../api/isLastPage";
 import { SKELETON_NUMBER } from "../constants/constant";
 import { movieListView } from "../view/movieListView";
 import { movieModel } from "../model/movieModel";
-import { addButtonView } from "../view/addButtonView";
-
-async function fetchCurrentModeData(nextPage: number) {
-  if (movieModel.isSearch) {
-    return await searchMovies(nextPage, movieModel.searchValue);
-  }
-  return await getMovies(nextPage);
-}
+import { fetchCurrentModeData } from "../services/fetchCurrentModeData";
+import { errorMovieList } from "../services/errorMovieList";
+import { infiniteScrollView } from "../view/infiniteScrollView";
 
 export async function handleLoadMore() {
-  const nextPage = movieModel.page + 1;
+  if (movieModel.isLoading) return;
 
   try {
+    movieModel.isLoading = true;
     movieListView.renderSkeletonList(SKELETON_NUMBER);
-
-    const response: ApiResult<MovieResponse> = await fetchCurrentModeData(nextPage);
+    const nextPage = movieModel.page + 1;
+    const isSearch = movieModel.isSearch;
+    const searchValue = movieModel.searchValue;
+    const response: ApiResult<MovieResponse> = await fetchCurrentModeData(nextPage, isSearch, searchValue);
 
     if (!response.success) {
-      console.log("에러 원인:", response.error);
+      errorMovieList.handleLoadMoreError(response.error);
+      infiniteScrollView.disconnect();
       return;
     };
 
+    if (response.data.results.length === 0) {
+      infiniteScrollView.disconnect();
+      return;
+    };
+    
     movieModel.increasePage();
-    if(isLastPage(response.data)) addButtonView.hideAddButton();
     movieListView.renderMovieList(response.data.results);
+    infiniteScrollView.updateObserver(response.data);
     return;
   } finally {
+    movieModel.isLoading = false;
     movieListView.removeSkeletonList();
   }
 }

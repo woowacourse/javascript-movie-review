@@ -42,6 +42,12 @@
               <button class="primary detail">자세히 보기</button>
             </div>
           </div>
+
+          <div class="error-banner-container hidden">
+            <p>배너를 불러오는 중 에러가 발생했습니다.</p>
+            <p>다시 시도해주세요.</p>
+            <button class="banner-retry-button">다시 시도하기</button>
+          </div>
         </div>
       </header>
 
@@ -51,7 +57,17 @@
             지금 인기 있는 영화
           </h2>
           <ul class="thumbnail-list"></ul>
-          <button class="thumbnail-add-button" id="add-button">더 보기</button>
+        </section>
+
+        <section class="error-thumbnail-container hidden">
+          <p class="error-thumbnail-message">영화 정보를 불러오지 못했습니다.</p>
+          <p>다시 시도해주세요.</p>
+          <button class="thumbnail-retry-button">다시 시도하기</button>
+        </section>
+
+        <section class="empty-message-container hidden">
+          <img src="./images/empty_icon.png" alt="empty list" class="empty-icon" />
+          <p class="empty-message">검색 결과가 없습니다.</p>
         </section>
       </main>
 
@@ -60,6 +76,58 @@
         <p><img src="./images/woowacourse_logo.png" width="180" /></p>
       </footer>
     </div>
+
+    <div class="modal-background">
+      <div class="spinner"></div>
+      <div class="modal">
+        <button class="close-modal" id="closeModal">
+          <img src="./images/modal_button_close.png" />
+        </button>
+        <div class="modal-container">
+          <div class="modal-image">
+            <img
+              id="modal-image"
+            />
+          </div>
+          <div class="modal-description">
+            <h2 class="modal-description-title"></h2>
+            <p class="category">
+              <span id="modal-description-year"></span>
+              <span>·</span>
+              <span id="modal-description-genre"></span>
+            </p>
+            <p class="rate">
+              <span>평균</span>
+              <img src="./images/star_filled.png" class="star" id="modal-rate-star" />
+              <span id="modal-rate-number"></span>
+            </p>
+            <hr />
+            <div class="my-star-container">
+              <h3 class="my-star-rate-title">내 별점</h3>
+              <div class="my-star-description">
+                <img src="./public/images/star_empty.png" class="my-star-image" id="my-star-image-1" data-score="2" />
+                <img src="./public/images/star_empty.png" class="my-star-image" id="my-star-image-2" data-score="4"/>
+                <img src="./public/images/star_empty.png" class="my-star-image" id="my-star-image-3" data-score="6"/>
+                <img src="./public/images/star_empty.png" class="my-star-image" id="my-star-image-4" data-score="8"/>
+                <img src="./public/images/star_empty.png" class="my-star-image" id="my-star-image-5" data-score="10"/>
+                <span id="my-star-evaluation">나의 별점을 눌러보세요.</span>
+                <span id="my-star-score">0/10</span>
+              </div>
+            </div>
+            <hr />
+            <h3 class="modal-detail-description-title">줄거리</h3>
+            <p class="detail" id="modal-detail-description">
+            </p>
+          </div>
+        </div>
+        <div class="modal-error-container">
+          <p>영화 상세 정보를 불러오지 못했습니다.</p>
+          <p>다시 시도해 주세요.</p>
+          <button class="retry-button">다시 시도하기</button>
+        </div>
+      </div>
+    </div>
+
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

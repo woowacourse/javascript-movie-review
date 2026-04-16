@@ -12,6 +12,21 @@ interface Movies {
   vote_average: number;
 }
 
+interface MovieModalData {
+  id: number;
+  title: string;
+  release_date: string;
+  genres: Genre[];
+  vote_average: number;
+  poster_path: string;
+  overview: string;
+};
+
+interface Genre {
+  id: number;
+  name: string;
+};
+
 type ApiResult<T> = 
   | { success: true, data: T }
   | { success: false, error: string };
