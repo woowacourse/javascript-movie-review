@@ -34,7 +34,7 @@ export interface TMDBMovie {
   original_title: string;
   overview: string;
   popularity: number;
-  poster_path: string;
+  poster_path: string | null;
   release_date: string;
   title: string;
   video: boolean;
@@ -58,7 +58,7 @@ export interface TMDBMovieDetail {
   id: number;
   title: string;
   overview: string;
-  poster_path: string;
+  poster_path: string | null;
   release_date: string;
   vote_average: number;
   genres: TMDBGenre[];
@@ -70,7 +70,7 @@ export interface MovieDetail {
   id: number;
   title: string;
   overview: string;
-  posterSrc: string;
+  posterSrc: string | null;
   releaseYear: string;
   rating: number;
   genres: string;
