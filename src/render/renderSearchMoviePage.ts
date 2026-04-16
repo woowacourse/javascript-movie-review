@@ -13,6 +13,10 @@ let lastLoadedPage: number | null = null;
 let totalPages = 0;
 
 export async function renderSearchMoviePage(page: number, query: string, direction: 'append' | 'prepend' = 'append') {
+  renderSkeletonItems(20, direction);
+
+  const response = await fetchMovies("/search/movie", { query, page });
+
   if (firstLoadedPage === null || lastLoadedPage === null) {
     firstLoadedPage = page;
     lastLoadedPage = page;
@@ -20,10 +24,6 @@ export async function renderSearchMoviePage(page: number, query: string, directi
     firstLoadedPage = Math.min(firstLoadedPage, page);
     lastLoadedPage = Math.max(lastLoadedPage, page);
   }
-
-  renderSkeletonItems(20, direction);
-
-  const response = await fetchMovies("/search/movie", { query, page });
 
   totalPages = response.total_pages;
 

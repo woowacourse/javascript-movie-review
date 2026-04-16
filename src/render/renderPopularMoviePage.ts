@@ -12,6 +12,10 @@ let lastLoadedPage: number | null = null;
 let totalPages = 0;
 
 export async function renderPopularMoviePage(page: number, direction: 'append' | 'prepend' = 'append') {
+  renderSkeletonItemsToList(20, direction);
+
+  const response = await fetchMovies("/movie/popular", { page: page });
+
   if (firstLoadedPage === null || lastLoadedPage === null) {
     firstLoadedPage = page;
     lastLoadedPage = page;
@@ -19,10 +23,6 @@ export async function renderPopularMoviePage(page: number, direction: 'append' |
     firstLoadedPage = Math.min(firstLoadedPage, page);
     lastLoadedPage = Math.max(lastLoadedPage, page);
   }
-
-  renderSkeletonItemsToList(20, direction);
-
-  const response = await fetchMovies("/movie/popular", { page: page });
 
   totalPages = response.total_pages;
 
