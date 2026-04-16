@@ -27,8 +27,6 @@ class SearchUI {
     "search-thumbnail-list",
   ) as HTMLUListElement;
 
-  keyword = getKeywordFromURL();
-
   constructor() {
     this.#render();
   }
@@ -71,7 +69,7 @@ class SearchUI {
   async seeMore() {
     try {
       const searchedMovies = await getSearchedMovies({
-        query: this.keyword || "",
+        query: getKeywordFromURL() || "",
         page: getPageParam() + 1,
         language: "ko-KR",
       });
