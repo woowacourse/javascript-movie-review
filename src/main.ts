@@ -68,6 +68,7 @@ const main = async () => {
     elements.searchInput,
     async (query) => {
       await controller.search(query);
+      infiniteScroll.observe();
     },
     () => {
       notifier.warn(
@@ -77,9 +78,16 @@ const main = async () => {
     },
   );
 
-  const infiniteScroll = new InfiniteScroll(elements.scrollSentinel, () => {
-    void controller.loadMore();
-  });
+  const infiniteScroll = new InfiniteScroll(
+    elements.scrollSentinel,
+    async () => {
+      await void controller.loadMore();
+
+      if (!movieListStore.hasMore) {
+        infiniteScroll.disconnect();
+      }
+    },
+  );
 
   // 초기 로드
   await controller.showPopular();
