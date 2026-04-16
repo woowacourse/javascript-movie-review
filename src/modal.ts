@@ -12,11 +12,16 @@ export const openModal = async (movieId: number) => {
   modalView.openModalUI();
   modalView.showModalSkeleton();
 
+  // 영화 ID 기록을 fetch 전으로 옮김
+  modalState.movieId = movieId;
+
   try {
     const data = await fetchMovieDetail(movieId);
-    // 스토리지에서 내 별점 가져오기
 
-    modalState.movieId = movieId;
+    // movieId가 바뀌었는지 체크해서, 다른 Id면 return
+    if (modalState.movieId !== movieId) return;
+
+    // 스토리지에서 내 별점 가져오기
     modalState.savedRating = (await reviewStorage.getRating(movieId)) || 0;
 
     modalView.renderModalContent(data, modalState.savedRating);
