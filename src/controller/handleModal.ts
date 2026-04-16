@@ -17,7 +17,6 @@ export async function handleModal(clickedMovieId: number) {
     };
 
     modalView.renderMovieDetail(movieDetailsData.data);
-    currentMovieModel.currentMovieId = movieDetailsData.data.id;
     
     const myStarRating: number | undefined = await currentMovieModel.getRating();
     myStarRatingView.renderRating(myStarRating || 0);
