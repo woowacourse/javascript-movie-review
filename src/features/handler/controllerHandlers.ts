@@ -11,30 +11,37 @@ import {
   showMoreMovie,
   openModal,
   updateModalRating,
+  closeModal,
 } from "./renderHandlers";
 import { userErrorMessage } from "../../utils/userErrorMessage";
 import { setRating } from "../../utils/setRating";
 import { getRating } from "../../utils/getRating";
 
-export async function controlInitialMovies(page: number): Promise<number> {
+let page: number = 1;
+let searchMovie: string = "";
+let totalPage: number = 0;
+
+export async function controlInitialMovies(): Promise<void> {
   try {
+    page = 1;
+    searchMovie = "";
     showMainTitle("지금 인기 있는 영화");
     showSkeleton();
 
     const data = await fetchMoviesApi(POPULAR_PATH, page);
     showHeader(data.results[0]);
     showMovieList(data);
-    return data.total_pages;
+    totalPage = data.total_pages;
   } catch (error) {
     alert(userErrorMessage(error));
-    return 0;
+    totalPage = 0;
   }
 }
 
 export async function controlSearchMovies(
   page: number,
   searchMovie: string,
-): Promise<number> {
+): Promise<void> {
   try {
     showMainTitle(`"${searchMovie}" 검색 결과`);
     showSkeleton();
@@ -47,10 +54,10 @@ export async function controlSearchMovies(
     } else {
       showMovieList(data);
     }
-    return data.total_pages;
+    totalPage = data.total_pages;
   } catch (error) {
     alert(userErrorMessage(error));
-    return 0;
+    totalPage = 0;
   }
 }
 
@@ -72,6 +79,10 @@ export async function appendNextPageMovies(
 }
 
 export async function controlModal(id: number): Promise<void> {
+  if (!id) {
+    return;
+  }
+
   try {
     const data = await fetchMovieDetailApi(id);
     const rating = getRating(id);
@@ -82,6 +93,50 @@ export async function controlModal(id: number): Promise<void> {
 }
 
 export function setMovieRating(id: number, rating: number): void {
+  if (!id || !rating) {
+    return;
+  }
+
   setRating(id, rating);
   updateModalRating(rating);
+}
+
+export async function controlSearchSubmit(keyword: string): Promise<void> {
+  page = 1;
+  searchMovie = keyword;
+
+  if (searchMovie === "") {
+    await controlInitialMovies();
+    return;
+  }
+
+  await controlSearchMovies(page, searchMovie);
+}
+
+export async function controlScroll(
+  innerHeight: number,
+  scrollY: number,
+  scrollHeight: number,
+): Promise<void> {
+  if (innerHeight + scrollY < scrollHeight - 1) {
+    return;
+  }
+
+  if (page >= totalPage) {
+    return;
+  }
+
+  const isSuccess = await appendNextPageMovies(page + 1, searchMovie);
+
+  if (isSuccess) {
+    page += 1;
+  }
+}
+
+export function controlModalClose(modalBackground: HTMLElement | null): void {
+  if (!modalBackground) {
+    return;
+  }
+
+  closeModal(modalBackground);
 }

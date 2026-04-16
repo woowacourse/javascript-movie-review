@@ -1,15 +1,11 @@
 import {
   controlInitialMovies,
-  appendNextPageMovies,
-  controlSearchMovies,
+  controlSearchSubmit,
+  controlScroll,
   controlModal,
+  controlModalClose,
   setMovieRating,
 } from "./features/handler/controllerHandlers";
-import { closeModal } from "./features/handler/renderHandlers";
-
-let page: number = 1;
-let searchMovie: string = "";
-let totalPage: number = 0;
 
 const backgroundContainer = document.querySelector(
   ".background-container",
@@ -20,28 +16,17 @@ const modalContainer = document.querySelector(
 ) as HTMLButtonElement;
 
 addEventListener("load", async () => {
-  // 초기 렌더링
-  totalPage = await controlInitialMovies(page);
+  await controlInitialMovies();
 });
 
 // 검색
 backgroundContainer.addEventListener("submit", async (e: SubmitEvent) => {
   e.preventDefault();
-  page = 1;
 
   const searchInput = document.querySelector(
     ".search-input",
   ) as HTMLInputElement;
-  searchMovie = searchInput.value.trim();
-
-  // 검색어가 없는 경우 초기 렌더링
-  if (searchMovie === "") {
-    totalPage = await controlInitialMovies(page);
-    return;
-  }
-
-  // 검색어가 있는 경우 검색 결과 렌더링
-  totalPage = await controlSearchMovies(page, searchMovie);
+  await controlSearchSubmit(searchInput.value.trim());
 });
 
 // 로고 클릭
@@ -53,23 +38,16 @@ backgroundContainer.addEventListener("click", async (e: MouseEvent) => {
     return;
   }
 
-  page = 1;
-  searchMovie = "";
-  totalPage = await controlInitialMovies(page);
+  await controlInitialMovies();
 });
 
 // 무한 스크롤
 window.addEventListener("scroll", async () => {
-  if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 1) {
-    if (page >= totalPage) {
-      return;
-    }
-    const isSuccess = await appendNextPageMovies(page + 1, searchMovie);
-
-    if (isSuccess) {
-      page += 1;
-    }
-  }
+  await controlScroll(
+    window.innerHeight,
+    window.scrollY,
+    document.body.scrollHeight,
+  );
 });
 
 // 영화 클릭
@@ -81,13 +59,7 @@ movieCard.addEventListener("click", async (e: MouseEvent) => {
     return;
   }
 
-  const movieId = Number(card.dataset.id);
-
-  if (!movieId) {
-    return;
-  }
-
-  await controlModal(movieId);
+  await controlModal(Number(card.dataset.id));
 });
 
 // 모달 닫기
@@ -100,7 +72,7 @@ modalContainer.addEventListener("click", async (e: MouseEvent) => {
     return;
   }
 
-  closeModal(modalBackground);
+  controlModalClose(modalBackground);
 });
 
 // ESC
@@ -113,7 +85,7 @@ document.addEventListener("keydown", async (e: KeyboardEvent) => {
     ".modal-background.active",
   ) as HTMLElement;
 
-  closeModal(modalBackground);
+  controlModalClose(modalBackground);
 });
 
 // 별점 클릭
@@ -131,14 +103,7 @@ modalContainer.addEventListener("click", async (e: MouseEvent) => {
     return;
   }
 
-  const id = Number(modal.dataset.id);
-  const rating = Number(star.dataset.id);
-
-  if (!id || !rating) {
-    return;
-  }
-
-  setMovieRating(id, rating);
+  setMovieRating(Number(modal.dataset.id), Number(star.dataset.id));
 });
 
 // 자세히 보기
@@ -150,7 +115,5 @@ backgroundContainer.addEventListener("click", async (e: MouseEvent) => {
     return;
   }
 
-  const movieId = Number(detailButton.dataset.id);
-
-  await controlModal(movieId);
+  await controlModal(Number(detailButton.dataset.id));
 });
