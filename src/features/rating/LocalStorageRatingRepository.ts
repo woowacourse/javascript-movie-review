@@ -1,8 +1,8 @@
-import { IRatingRepository } from "./IRatingRepository";
+import { RatingRepository } from "./RatingRepository";
 
 const RATING_KEY_PREFIX = "rating_";
 
-export class LocalStorageRatingRepository implements IRatingRepository {
+export class LocalStorageRatingRepository implements RatingRepository {
   async save(movieId: number, rating: number): Promise<void> {
     localStorage.setItem(`${RATING_KEY_PREFIX}${movieId}`, String(rating));
   }

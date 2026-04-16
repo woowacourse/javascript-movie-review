@@ -5,13 +5,13 @@ import starImg from "../../images/star_filled.png";
 import { eventBus } from "../../pubsub/EventBus";
 import { APP_EVENTS } from "../../pubsub/AppEvents";
 import { StarRating } from "./StarRating";
-import { IRatingRepository } from "../rating/IRatingRepository";
+import { RatingRepository } from "../rating/RatingRepository";
 import { LocalStorageRatingRepository } from "../rating/LocalStorageRatingRepository";
 
 export class Modal {
   private dialog: HTMLDialogElement;
 
-  constructor(private ratingRepository: IRatingRepository) {
+  constructor(private ratingRepository: RatingRepository) {
     this.dialog = document.querySelector(".modal") as HTMLDialogElement;
     this.dialog.addEventListener("close", () => {
       eventBus.publish(APP_EVENTS.MODAL_CLOSED, undefined);
@@ -46,8 +46,8 @@ export class Modal {
   }
 
   private render(movie: MovieDetail): string {
-    const year = movie.release_date.slice(0, 4);
-    const genres = movie.genres.map((g) => g.name).join(", ");
+    const year = movie.release_date ? movie.release_date.slice(0, 4) : "미정";
+    const genres = movie.genres.length > 0 ? movie.genres.map((g) => g.name).join(", ") : "장르 정보 없음";
     const poster = movie.poster_path ? `${POSTER_URL}${movie.poster_path}` : "";
 
     return `
@@ -73,7 +73,7 @@ export class Modal {
           <div class="star-rating"></div>
           <hr class="modal-divider" />
           <p class="section-label">줄거리</p>
-          <p class="detail">${movie.overview}</p>
+          <p class="detail">${movie.overview ?? "줄거리 정보가 없습니다."}</p>
         </div>
       </div>
     `;

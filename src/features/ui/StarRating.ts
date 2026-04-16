@@ -1,4 +1,4 @@
-import { IRatingRepository } from "../rating/IRatingRepository";
+import { RatingRepository } from "../rating/RatingRepository";
 import starSpriteImg from "../../images/stars_sprite.png";
 
 const STAR_COUNT = 5;
@@ -18,7 +18,7 @@ export class StarRating {
   constructor(
     private container: HTMLElement,
     private movieId: number,
-    private repository: IRatingRepository
+    private repository: RatingRepository
   ) {}
 
   async mount(): Promise<void> {
