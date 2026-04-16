@@ -18,6 +18,16 @@
   cursor: pointer;
 }
 
+.item-desc {
+  margin: 5px 0;
+  font-weight: 500;
+}
+
+.item-desc strong {
+  margin: 5px 0;
+  font-size: 1.1rem;
+}
+
 .item-desc > *:not(:last-child) {
   position: relative;
   margin-bottom: 4px;
@@ -37,4 +47,18 @@ p.rate > span {
 .item .star {
   width: 16px;
   top: 1px;
+}
+
+/* 테블릿 */
+@media (max-width: 1023px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(3, 200px);
+  }
+}
+
+/* 모바일 */
+@media (max-width: 767px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(1, 200px);
+  }
 }

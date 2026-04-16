@@ -1,5 +1,5 @@
 import { apiUrl, apiKey } from "../constants/env";
-import { Movies } from "./dto";
+import { MovieDetail, Movies } from "./dto";
 
 export class ApiError extends Error {
   status_code: number;
@@ -11,13 +11,8 @@ export class ApiError extends Error {
   }
 }
 
-export const getPopularMovies = async ({
-  page,
-}: {
-  page: number;
-}): Promise<Movies> => {
-  const url = `${apiUrl}/movie/popular?page=${page}`;
-  const res = await fetch(url, {
+const requestGet = async <T>(path: string): Promise<T> => {
+  const res = await fetch(`${apiUrl}${path}`, {
     method: "get",
     headers: {
       Authorization: `Bearer ${apiKey}`,
@@ -30,19 +25,16 @@ export const getPopularMovies = async ({
   throw new ApiError(errorBody.status_message, errorBody.status_code);
 };
 
+export const getPopularMovies = async ({
+  page,
+}: {
+  page: number;
+}): Promise<Movies> => {
+  return requestGet<Movies>(`/movie/popular?page=${page}&language=ko-KR`);
+};
+
 export const getTopRatedMovies = async () => {
-  const url = `${apiUrl}/movie/top_rated`;
-  const res = await fetch(url, {
-    method: "get",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-    },
-  });
-
-  if (res.ok) return await res.json();
-
-  const errorBody = await res.json();
-  throw new ApiError(errorBody.status_message, errorBody.status_code);
+  return requestGet<Movies>(`/movie/top_rated?language=ko-KR`);
 };
 
 export const getSearchMovies = async ({
@@ -52,16 +44,11 @@ export const getSearchMovies = async ({
   page: number;
   query: string;
 }): Promise<Movies> => {
-  const url = `${apiUrl}/search/movie?page=${page}&query=${query}`;
-  const res = await fetch(url, {
-    method: "get",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-    },
-  });
+  return requestGet<Movies>(
+    `/search/movie?page=${page}&query=${query}&language=ko-KR`,
+  );
+};
 
-  if (res.ok) return await res.json();
-
-  const errorBody = await res.json();
-  throw new ApiError(errorBody.status_message, errorBody.status_code);
+export const getMovieDetail = async (movieId: string): Promise<MovieDetail> => {
+  return requestGet<MovieDetail>(`/movie/${movieId}?language=ko-KR`);
 };

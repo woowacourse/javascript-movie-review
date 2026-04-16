@@ -1,5 +1,5 @@
 import { Movie, Movies } from "../services/dto";
-import { removeMoreButton } from "./moreButton";
+import { getImageUrl } from "../utils/image";
 
 const createMovieNode = (movie: Movie): DocumentFragment | null => {
   const movieTemplate =
@@ -9,28 +9,27 @@ const createMovieNode = (movie: Movie): DocumentFragment | null => {
   const movieFragment = movieTemplate.content.cloneNode(
     true,
   ) as DocumentFragment;
-
   const movieItem = movieFragment.querySelector("li");
-  if (!movieItem) return null;
-  movieItem.dataset.movieId = String(movie.id);
-
   const thumbnail = movieFragment.querySelector<HTMLImageElement>(".thumbnail");
-  if (!thumbnail) return null;
-  thumbnail.src =
-    `https://media.themoviedb.org/t/p/w220_and_h330_face` + movie.poster_path;
+  const rate = movieFragment.querySelector(".item-desc span");
+  const title = movieFragment.querySelector(".item-desc strong");
+
+  if (!movieItem || !thumbnail || !rate || !title) return null;
+
+  movieItem.dataset.movieId = String(movie.id);
+  thumbnail.src = getImageUrl(movie.poster_path, "w220_and_h330_face");
   thumbnail.alt = movie.title;
-
-  const itemDesc = movieFragment.querySelector(".item-desc");
-
-  const rate = itemDesc?.querySelector("span");
-  if (!rate) return null;
   rate.textContent = movie.vote_average.toString();
-
-  const title = itemDesc?.querySelector("strong");
-  if (!title) return null;
   title.textContent = movie.title;
 
   return movieFragment;
+};
+
+export const renderSearchTitle = (search: string) => {
+  const movieListTitle = document.querySelector("#movie-list-title");
+  if (!movieListTitle) return null;
+
+  movieListTitle.textContent = `"${search}" 검색 결과`;
 };
 
 export const renderMovieList = (movies: Movies): void => {
@@ -41,7 +40,7 @@ export const renderMovieList = (movies: Movies): void => {
   movies.results.forEach((movie: Movie) => {
     const movieNode = createMovieNode(movie);
     if (movieNode) {
-      movieList?.appendChild(movieNode);
+      movieList.appendChild(movieNode);
     }
   });
 };
@@ -55,17 +54,17 @@ export const renderNoResult = () => {
     <span>검색 결과가 없습니다.</span>
   </p>`;
   noResult.innerHTML = empty;
-
-  removeMoreButton();
 };
 
 export const removeMovieList = () => {
   const noResult = document.querySelector("#no-result");
-  noResult?.replaceChildren();
+  if (noResult) {
+    noResult.replaceChildren();
+  }
 
   const movieList = document.querySelector<HTMLUListElement>("#movie-list");
-  movieList?.replaceChildren();
   if (movieList) {
+    movieList.replaceChildren();
     movieList.hidden = true;
   }
 };

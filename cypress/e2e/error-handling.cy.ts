@@ -1,18 +1,16 @@
 import { moviesFixture } from "../../test/fixtures";
+import { mockPopularPage } from "../support/movie";
 
 describe("오류 대응 테스트", () => {
   beforeEach(() => {
-    cy.intercept("GET", "**/movie/popular?page=1", {
-      statusCode: 200,
-      body: {
-        page: 1,
-        results: [...moviesFixture],
-        total_pages: 2,
-        total_results: 40,
-      },
-    }).as("getPopularPage1");
+    mockPopularPage({
+      page: 1,
+      results: moviesFixture,
+      totalPages: 2,
+      totalResults: 40,
+    });
 
-    cy.intercept("GET", "**/movie/popular?page=2", {
+    cy.intercept("GET", "**/movie/popular?page=2&language=ko-KR", {
       statusCode: 400,
       body: {
         success: false,
@@ -36,7 +34,8 @@ describe("오류 대응 테스트", () => {
     const alertSpy = cy.stub();
     cy.on("window:alert", alertSpy);
 
-    cy.get("#more-button").click();
+    cy.get(".scroll-sentinel").scrollIntoView();
+    cy.wait("@getInvalidPopularPage");
     cy.wrap(alertSpy).should("have.been.called");
   });
 });

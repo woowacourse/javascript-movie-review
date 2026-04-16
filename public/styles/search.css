@@ -1,11 +1,11 @@
 .header-bar {
   position: relative;
   max-width: 1280px;
-  width: 1280px;
   margin: 0 auto;
   text-align: center;
   z-index: 10;
 }
+
 .header-bar .logo {
   position: absolute;
   top: 0;
@@ -50,4 +50,41 @@
   width: 32px;
   height: 32px;
   background: url("../images/search.png") center center no-repeat;
+}
+
+/* 테블릿 */
+@media (max-width: 1023px) {
+  .header-bar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .header-bar .logo {
+    position: static;
+  }
+
+  .search-box {
+    width: 100%;
+    max-width: 525px;
+  }
+}
+
+/* 모바일 */
+@media (max-width: 767px) {
+  .search-box {
+    width: 100%;
+    max-width: 280px;
+    position: relative;
+  }
+
+  #search-input {
+    width: 100%;
+    padding-right: 44px;
+  }
+
+  .search-box button {
+    right: 8px;
+  }
 }

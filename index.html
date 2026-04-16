@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="./styles/skeleton.css" />
     <link rel="stylesheet" href="./styles/search.css" />
     <link rel="stylesheet" href="./styles/message-box.css" />
+    <link rel="stylesheet" href="./styles/modal.css" />
     <title>영화 리뷰</title>
   </head>
   <body>
@@ -61,7 +62,7 @@
               </li>
             </template>
             <ul class="thumbnail-list" id="movie-list" hidden></ul>
-            <ul class="thumbnail-list skeleton-list" id="skeleton" hidden>
+            <ul class="thumbnail-list skeleton-list" id="skeleton-list" hidden>
               <li>
                 <div class="item">
                   <div class="dummy-img"></div>
@@ -243,8 +244,7 @@
                 </div>
               </li>
             </ul>
-
-            <button class="primary" id="more-button">더보기</button>
+            <div class="scroll-sentinel"></div>
           </section>
         </main>
       </div>
@@ -254,6 +254,49 @@
         <p><img src="./images/woowacourse_logo.png" width="180" /></p>
       </footer>
     </div>
+
+    <div class="modal-background" id="modal-background">
+      <div class="modal">
+        <button class="close-modal" id="close-modal">
+          <img src="./images/modal_button_close.png" />
+        </button>
+        <div class="modal-container">
+          <div class="modal-image">
+            <img src="" />
+          </div>
+          <div class="modal-description">
+            <h2></h2>
+            <p class="category"></p>
+            <p class="rate">
+              <span class="rate-label">평균</span>
+              <img src="./images/star_filled.png" class="star" /><span
+                class="rate-value"
+              ></span>
+            </p>
+            <hr />
+            <h3>내 별점</h3>
+            <div class="movie-rating">
+              <span class="stars"
+                ><img src="./images/star_empty.png" alt="star" />
+                <img src="./images/star_empty.png" alt="star" />
+                <img src="./images/star_empty.png" alt="star" />
+                <img src="./images/star_empty.png" alt="star" />
+                <img src="./images/star_empty.png" alt="star" />
+              </span>
+              <span class="rating-text">평가해주세요</span>
+              <span class="rating-score"
+                >(<span id="rating-value">0</span>/10)</span
+              >
+            </div>
+
+            <hr />
+            <h3>줄거리</h3>
+            <p class="detail"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <script type="module" src="./src/main.ts"></script>
   </body>
 </html>

@@ -1,44 +1,37 @@
 import { searchFixture } from "../../test/fixtures";
+import { mockSearchPage } from "../support/movie";
 
 describe("영화 검색 기능 테스트", () => {
   beforeEach(() => {
+    mockSearchPage({
+      query: "스파이",
+      page: 1,
+      results: searchFixture,
+      totalPages: 2,
+      totalResults: 40,
+    });
+
+    mockSearchPage({
+      query: "스파이",
+      page: 2,
+      results: searchFixture,
+      totalPages: 2,
+      totalResults: 40,
+    });
+
     cy.intercept(
       "GET",
-      "**/search/movie?page=1&query=%EC%8A%A4%ED%8C%8C%EC%9D%B4",
+      "**/search/movie?page=1&query=%EB%B7%80&language=ko-KR",
       {
         statusCode: 200,
         body: {
           page: 1,
-          results: [...searchFixture],
-          total_pages: 2,
-          total_results: 40,
+          results: [],
+          total_pages: 1,
+          total_results: 0,
         },
       },
-    ).as("getSearchPage1");
-
-    cy.intercept(
-      "GET",
-      "**/search/movie?page=2&query=%EC%8A%A4%ED%8C%8C%EC%9D%B4",
-      {
-        statusCode: 200,
-        body: {
-          page: 2,
-          results: [...searchFixture],
-          total_pages: 2,
-          total_results: 40,
-        },
-      },
-    ).as("getSearchPage2");
-
-    cy.intercept("GET", "**/search/movie?page=1&query=%EB%B7%80", {
-      statusCode: 200,
-      body: {
-        page: 1,
-        results: [],
-        total_pages: 1,
-        total_results: 0,
-      },
-    }).as("getSearchNoResult");
+    ).as("getSearchNoResult");
 
     cy.visit("localhost:5173");
   });
@@ -59,26 +52,27 @@ describe("영화 검색 기능 테스트", () => {
     cy.get("#movie-list li").should("have.length.greaterThan", 0);
   });
 
-  it("검색 후 더보기 버튼을 클릭하면 필터링 된 영화 목록이 추가로 출력된다.", () => {
+  it("검색 후 스크롤을 내려 sentinel 요소가 보이면 필터링 된 영화 목록이 추가로 출력된다.", () => {
     cy.get("#search-input").type("스파이");
     cy.get("#search-button").click();
     cy.wait("@getSearchPage1");
 
-    cy.get("#more-button").click();
+    cy.get(".scroll-sentinel").scrollIntoView();
     cy.wait("@getSearchPage2");
 
-    cy.get("#movie-list li").should("have.length.greaterThan", 20);
+    cy.get("#movie-list li").should("have.length", 40);
   });
 
-  it("필터링 된 영화 목록이 마지막 페이지면 더보기 버튼을 출력하지 않는다.", () => {
+  it("필터링 된 영화 목록이 마지막 페이지면 sentinel 요소가 보여도 추가로 요청하지 않는다.", () => {
     cy.get("#search-input").type("스파이");
     cy.get("#search-button").click();
     cy.wait("@getSearchPage1");
 
-    cy.get("#more-button").click();
+    cy.get(".scroll-sentinel").scrollIntoView();
     cy.wait("@getSearchPage2");
 
-    cy.get("#more-button").should("not.be.visible");
+    cy.get(".scroll-sentinel").scrollIntoView();
+    cy.get("#movie-list li").should("have.length", 40);
   });
 
   it("검색 결과가 없을 때는 안내메시지를 출력한다.", () => {

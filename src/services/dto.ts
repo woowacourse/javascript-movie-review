@@ -21,3 +21,16 @@ export interface Movies {
   total_pages: number;
   total_results: number;
 }
+
+export interface MovieDetail {
+  id: number;
+  title: string;
+  poster_path: string;
+  overview: string;
+  release_date: string;
+  vote_average: number;
+  genres: {
+    id: number;
+    name: string;
+  }[];
+}

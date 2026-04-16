@@ -61,7 +61,6 @@ button.primary {
 }
 
 .container {
-  max-width: 1280px;
   margin: 0 auto;
 }
 
@@ -70,6 +69,7 @@ button.primary {
   background-position: center center;
   background-size: cover;
   height: 500px;
+  min-width: 1440px;
   padding: 48px;
 }
 
@@ -124,6 +124,10 @@ span.rate-value {
   font-weight: bold;
 }
 
+.scroll-sentinel {
+  height: 10px;
+}
+
 footer.footer {
   min-height: 180px;
   background-color: var(--color-bluegray-80);
@@ -136,4 +140,54 @@ footer.footer {
 
 footer.footer p:not(:last-child) {
   margin-bottom: 8px;
+}
+
+/* 테블릿 */
+@media (max-width: 1023px) {
+  .background-container {
+    min-width: 800px;
+  }
+
+  #wrap {
+    min-width: 800px;
+    padding: 0 16px;
+  }
+
+  #wrap,
+  section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+
+/* 테블릿 */
+@media (max-width: 1023px) {
+  .background-container,
+  #wrap {
+    min-width: 0;
+  }
+
+  #wrap {
+    padding: 0 16px;
+  }
+
+  .background-container {
+    height: 420px;
+    padding: 32px 16px;
+  }
+}
+
+/* 모바일 */
+@media (max-width: 767px) {
+  header,
+  .background-container,
+  #wrap {
+    min-width: 310px;
+  }
+
+  .background-container {
+    height: 320px;
+    padding: 24px 16px;
+  }
 }
