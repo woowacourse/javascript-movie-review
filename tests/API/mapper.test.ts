@@ -140,4 +140,20 @@ describe("mapMovieDetailResponse", () => {
       }),
     ).toThrow(ApiParseError);
   });
+
+  it("응답 자체가 객체가 아니면 ApiParseError를 throw한다", () => {
+    expect(() => mapMovieDetailResponse(null)).toThrow(ApiParseError);
+    expect(() => mapMovieDetailResponse("string")).toThrow(ApiParseError);
+    expect(() => mapMovieDetailResponse(42)).toThrow(ApiParseError);
+  });
+
+  it("목록 응답의 movie 항목이 객체가 아니면 ApiParseError를 throw한다", () => {
+    expect(() =>
+      mapMovieListResponse({
+        page: 1,
+        total_pages: 1,
+        results: [null, "not-an-object"],
+      }),
+    ).toThrow(ApiParseError);
+  });
 });
