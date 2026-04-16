@@ -40,7 +40,7 @@ button.primary {
 }
 
 #wrap {
-  min-width: 1440px;
+  min-width: 390px;
   background-color: var(--color-bluegray-100);
 }
 
@@ -48,6 +48,10 @@ button.primary {
   font-size: 1.4rem;
   font-weight: bold;
   margin-bottom: 32px;
+}
+
+#wrap h2.search-mode {
+  margin-top: 12rem;
 }
 
 .container {
@@ -61,7 +65,7 @@ button.primary {
   background-position: center center;
   background-size: cover;
   padding: 48px;
-  z-index: 100;
+  z-index: 10;
   transition: background-color 0.3s ease;
 }
 
@@ -234,4 +238,31 @@ footer.footer p:not(:last-child) {
   width: 140px;
   height: 16px;
   margin-top: 4px;
+}
+
+@media (max-width: 1120px) {
+  .container,
+  .top-rated-container {
+    padding-inline: 24px;
+  }
+
+  .header-container {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  h1.logo {
+    position: static;
+  }
+}
+
+@media (max-width: 800px) {
+  .container,
+  .top-rated-container {
+    padding-inline: 16px;
+  }
+
+  .header-container .search {
+    width: 300px;
+  }
 }

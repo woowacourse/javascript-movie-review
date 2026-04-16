@@ -3,14 +3,32 @@
 .thumbnail-list {
   margin: 3.5rem auto 56px;
   display: grid;
-  grid-template-columns: repeat(5, 200px);
+  grid-template-columns: repeat(4, 1fr);
   gap: 70px;
 }
 
 .thumbnail {
-  width: 200px;
+  width: 100%;
   height: 300px;
   border-radius: 8px;
+}
+
+@media (max-width: 1120px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+  }
+
+  p.rate {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 800px) {
+  .thumbnail-list {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
 }
 
 .item {
