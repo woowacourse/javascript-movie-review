@@ -3,10 +3,13 @@ import { $ } from '../../utils/dom.ts';
 import { Star } from '../common/Star.ts';
 import { MovieData } from '../../api/types.ts';
 
-export const MovieItem = (data: MovieData) => {
-  const { title, poster_path, vote_average } = data;
+type MovieItemProps = Pick<MovieData, 'id' | 'title' | 'poster_path' | 'vote_average'>;
+
+export const MovieItem = (data: MovieItemProps) => {
+  const { id, title, poster_path, vote_average } = data;
 
   const $li = document.createElement('li');
+  $li.dataset.id = String(id);
 
   $li.innerHTML = `
     <div class="item">

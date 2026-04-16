@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { fetchPopularMovies, fetchSearchMovies } from '../src/api/fetchApi.ts';
 import MOCK_DATA from './mock/page_1.json';
+import MOCK_ERROR from './mock/page_error.json';
 
 vi.stubGlobal('fetch', vi.fn());
 

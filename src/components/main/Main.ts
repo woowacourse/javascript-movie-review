@@ -1,7 +1,6 @@
 import { MovieData } from '../../api/types.ts';
 import { $ } from '../../utils/dom.ts';
-import { Error } from './Error.ts';
-import { MoreButton } from './MoreButton.ts';
+import { ErrorComponent } from '../common/ErrorComponent.ts';
 import { MovieItem } from './MovieItem.ts';
 import { MovieItemSkeleton } from './MovieItemSkeleton.ts';
 import { NothingResult } from './NothingResult.ts';
@@ -9,10 +8,9 @@ import { NothingResult } from './NothingResult.ts';
 export default class Main {
   #$element: HTMLElement;
   #$list: HTMLElement;
-  #$skeletons: HTMLElement[] = [];
-  #$moreButton: HTMLElement | null;
+  #$skeletons: HTMLElement[] | undefined;
 
-  constructor(title: string) {
+  constructor(title: string, onDetail: (movie_id: number) => void) {
     this.#$element = document.createElement('div');
     this.#$element.className = 'container';
     this.#$element.innerHTML = `
@@ -24,7 +22,13 @@ export default class Main {
       </main>
     `;
     this.#$list = $<HTMLElement>(this.#$element, '.thumbnail-list');
-    this.#$moreButton = null;
+
+    const $ul = $(this.#$element, 'ul');
+    $ul.addEventListener('click', (e) => {
+      const $li = (e.target as Element).closest('li');
+      const id = $li?.dataset.id;
+      onDetail(Number(id));
+    });
   }
 
   get $element() {
@@ -36,32 +40,23 @@ export default class Main {
     const $fragment = new DocumentFragment();
     movies.forEach((movie) => $fragment.append(MovieItem(movie)));
     this.#$list.append($fragment);
+    return this.#$list.lastElementChild;
   }
 
   renderSkeletons(length: number = 20) {
-    this.#$skeletons = Array.from({ length }, () => MovieItemSkeleton());
-    this.#$skeletons.forEach(($skeleton) => this.#$list.append($skeleton));
+    const $newSkeletons = Array.from({ length }, () => MovieItemSkeleton());
+    this.#$skeletons = $newSkeletons;
+    $newSkeletons.forEach(($skeleton) => this.#$list.append($skeleton));
   }
 
   removeSkeletons() {
-    this.#$skeletons.forEach(($skeleton) => $skeleton.remove());
-    this.#$skeletons = [];
+    this.#$skeletons?.forEach(($skeleton) => $skeleton.remove());
   }
 
-  renderMoreButton(onClick: () => void) {
-    this.#$moreButton = MoreButton(onClick);
-    $<HTMLElement>(this.#$element, 'section').append(this.#$moreButton);
-  }
-
-  removeMoreButton() {
-    this.#$moreButton?.remove();
-    this.#$moreButton = null;
-  }
-
-  renderError(messsage: string) {
+  handleError(error: Error) {
     const $element = $<HTMLElement>(this.#$element, 'section');
     $element.innerHTML = '';
-    $element.append(Error(messsage));
+    $element.append(ErrorComponent(error));
   }
 
   renderNothing() {

@@ -1,38 +1,15 @@
-import HomePage from './pages/HomePage.ts';
-import SearchPage from './pages/SearchPage.ts';
-import { ROUTE_CHANGE_EVENT } from './utils/event.ts';
+import { router } from './router.ts';
+import LocalStorage from './storage/LocalStorage.ts';
 
-const routes = [
-  { path: '/', view: HomePage },
-  { path: '/search', view: SearchPage },
-];
+window.addEventListener('load', () => {
+  const $body = document.querySelector('body');
+  if (!$body) return;
 
-const router = () => {
-  const $app = document.querySelector('#app');
-  if (!$app) return;
+  const movieDB = new LocalStorage();
 
-  $app.innerHTML = '';
+  $body.append();
 
-  const fullHash = location.hash.replace('#', '') || '/';
-  const [path, queryString] = fullHash.split('?');
-  const match = routes.find((route) => route.path === path);
+  window.addEventListener('hashchange', () => router(movieDB));
 
-  const View = match ? match.view : HomePage;
-  const page = new View();
-  $app.replaceChildren(page.$element);
-};
-
-const navigateTo = (url: string) => {
-  location.hash = url;
-};
-
-window.addEventListener(ROUTE_CHANGE_EVENT, (e: Event) => {
-  const customEvent = e as CustomEvent<{ url: string }>;
-  const { url } = customEvent.detail;
-  navigateTo(url);
-});
-
-addEventListener('load', () => {
-  window.addEventListener('hashchange', router);
-  router();
+  router(movieDB);
 });

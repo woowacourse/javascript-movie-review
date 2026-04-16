@@ -19,8 +19,11 @@ export const SearchForm = (onSubmit: (query: string) => void) => {
 
   $form.addEventListener('submit', (e) => {
     e.preventDefault();
-    const query = $<HTMLInputElement>($form, '#search-input').value;
+
+    const $input = $<HTMLInputElement>($form, '#search-input');
+    const query = $input.value;
     onSubmit(query);
+    $input.value = query;
   });
   return $form;
 };
