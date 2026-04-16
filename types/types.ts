@@ -15,7 +15,7 @@ export interface Movie extends BaseMovie {
 }
 
 export interface MovieDetail extends BaseMovie {
-  overview: string;
+  overview: string | null;
   genres: Genre[];
   release_date: string;
 }

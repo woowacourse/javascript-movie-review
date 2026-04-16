@@ -10,11 +10,13 @@ export default class MovieCard {
   }
 
   render(): string {
+    const src = this.movie.poster_path ? `${THUMB_NAIL_URL}${this.movie.poster_path}` : "";
     return `<div class="item" data-id="${this.movie.id}">
       <img
          class="thumbnail"
-         src="${THUMB_NAIL_URL}${this.movie.poster_path}"
+         src="${src}"
          alt="${this.movie.title}"
+         loading="lazy"
         />
         <div class="item-desc">
           <p class="rate">

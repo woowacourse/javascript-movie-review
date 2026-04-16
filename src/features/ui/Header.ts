@@ -40,7 +40,9 @@ export const Header = {
             ${this.renderImage()}
       `;
 
-    backgroundContainer.style.background = `url(${BACKDROP_IMAGE_URL}${movie.backdrop_path}) no-repeat center center / cover`;
+    if (movie.backdrop_path) {
+      backgroundContainer.style.background = `url(${BACKDROP_IMAGE_URL}${movie.backdrop_path}) no-repeat center center / cover`;
+    }
     backgroundContainer.style.removeProperty("height");
     attachLogoListener();
 
