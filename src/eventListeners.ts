@@ -1,5 +1,5 @@
 const getKeyword = () =>
-  document.querySelector<HTMLInputElement>('.search-input')?.value ?? '';
+  document.querySelector<HTMLInputElement>('.search-input')?.value.trim() ?? '';
 
 export const initSearchSubmit = (onSubmit: (keyword: string) => void) => {
   document.addEventListener('click', (e: MouseEvent) => {
@@ -28,9 +28,12 @@ export const initDetailClick = (onClick: (movieId: number) => void) => {
 };
 
 export const initLoadMore = (onLoadMore: () => void) => {
-  window.addEventListener('scroll', () => {                                          
-    if(window.scrollY + window.innerHeight === document.documentElement.scrollHeight)onLoadMore()                                                      
-  }); 
+  const THRESHOLD = 100;
+  window.addEventListener('scroll', () => {
+    if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - THRESHOLD) {
+      onLoadMore();
+    }
+  });
 };
 
 export const initMovieClick = (onSelect: (id: number) => void) => {
