@@ -1,12 +1,7 @@
 import { Header } from "./View/Header";
 import MovieList from "./View/MovieList";
 import MovieDetailModal from "./View/MovieDetailModal.ts";
-import {
-  getMoreMovies,
-  getPopularMovies,
-  getSearchMovies,
-  getMovieDetail,
-} from "./movieModel";
+import { getMovies, getMovieDetail } from "./movieModel";
 
 const movieList = new MovieList();
 const movieDetailModal = new MovieDetailModal();
@@ -30,7 +25,7 @@ export async function initialRender(): Promise<void> {
     Header.clearSearchInput();
     movieList.renderMainTitle("지금 인기 있는 영화");
     movieList.renderSkeleton();
-    const data = await getPopularMovies(state.page);
+    const data = await getMovies(state.page);
     Header.clearHeader();
     Header.render(data.results[0]);
     movieList.clearList();
@@ -54,7 +49,7 @@ export async function searchMovies(query: string): Promise<void> {
   try {
     movieList.renderSkeleton();
     movieList.renderMainTitle(`"${query}" 검색 결과`);
-    const data = await getSearchMovies(state.page, state.searchQuery);
+    const data = await getMovies(state.page, state.searchQuery);
     Header.clearHeader();
     Header.renderSearch();
 
@@ -80,7 +75,7 @@ export async function loadMore(): Promise<void> {
   state.page += 1;
   movieList.appendSkeletons(20);
   try {
-    const data = await getMoreMovies(state.page, state.searchQuery);
+    const data = await getMovies(state.page, state.searchQuery);
     movieList.removeSkeletons();
     movieList.renderMovieList(data);
     state.hasMore = state.page < data.total_pages;
