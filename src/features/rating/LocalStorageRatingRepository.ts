@@ -9,6 +9,8 @@ export class LocalStorageRatingRepository implements RatingRepository {
 
   async load(movieId: number): Promise<number | null> {
     const value = localStorage.getItem(`${RATING_KEY_PREFIX}${movieId}`);
-    return value !== null ? Number(value) : null;
+    if (value === null) return null;
+    const parsed = Number(value);
+    return Number.isFinite(parsed) ? parsed : null;
   }
 }
