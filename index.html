@@ -14,9 +14,17 @@
             <img src="./images/logo.png" alt="MovieList Icon" />
           </a>
           <form id="search-form" role="search">
-            <label class="visually-hidden" for="search-input"> 영화 검색어 입력 </label>
+            <label class="visually-hidden" for="search-input">
+              영화 검색어 입력
+            </label>
             <div id="search-input-container">
-              <input type="text" name="query" placeholder="검색어를 입력하세요" id="search-input" autocomplete="off" />
+              <input
+                type="text"
+                name="query"
+                placeholder="검색어를 입력하세요"
+                id="search-input"
+                autocomplete="off"
+              />
               <button type="submit" id="search-button" aria-label="영화 검색">
                 <img src="./images/search-icon.png" alt="" aria-hidden="true" />
               </button>
@@ -25,17 +33,28 @@
         </div>
       </header>
 
-      <section class="hero-section" id="hero-section" aria-label="대표 인기 영화">
+      <section
+        class="hero-section"
+        id="hero-section"
+        aria-label="대표 인기 영화"
+      >
         <div class="hero-backdrop" id="hero-backdrop">
           <div class="hero-overlay" aria-hidden="true"></div>
           <div class="hero-shell">
             <div class="hero-content">
               <div class="hero-rate" id="hero-rate">
-                <img src="./images/star_empty.png" class="star" alt="star-rate" aria-hidden="true" />
+                <img
+                  src="./images/star_empty.png"
+                  class="star"
+                  alt="star-rate"
+                  aria-hidden="true"
+                />
                 <span id="hero-rate-value"></span>
               </div>
               <h1 class="hero-title" id="hero-title"></h1>
-              <button class="primary hero-detail-button" type="button">자세히 보기</button>
+              <button class="primary hero-detail-button" type="button">
+                자세히 보기
+              </button>
             </div>
           </div>
         </div>
@@ -51,7 +70,12 @@
             </div>
             <div class="no-result" hidden>
               <div class="no-result-content">
-                <img class="no-result-image" src="./images/no-result-planet.png" alt="" aria-hidden="true" />
+                <img
+                  class="no-result-image"
+                  src="./images/no-result-planet.png"
+                  alt=""
+                  aria-hidden="true"
+                />
                 <p class="no-result-text">검색 결과가 없습니다.</p>
               </div>
             </div>
@@ -66,9 +90,18 @@
       </footer>
     </div>
     <div class="modal-background" id="modalBackground">
-      <div class="modal">
+      <div
+        class="modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modal-title"
+      >
         <button class="close-modal" id="closeModal">
-          <img src="./images/modal_button_close.png" alt="" aria-hidden="true" />
+          <img
+            src="./images/modal_button_close.png"
+            alt=""
+            aria-hidden="true"
+          />
         </button>
         <div class="modal-container">
           <div class="modal-image">
@@ -79,7 +112,12 @@
             <p class="category" id="modal-category"></p>
             <p class="rate">
               <span class="rate-label">평균</span>
-              <img src="./images/star_filled.png" class="star" alt="" aria-hidden="true" />
+              <img
+                src="./images/star_filled.png"
+                class="star"
+                alt=""
+                aria-hidden="true"
+              />
               <span id="modal-rate-value"></span>
             </p>
             <hr />
