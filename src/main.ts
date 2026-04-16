@@ -4,10 +4,10 @@ import { createSkeleton } from "./components/skeleton";
 import { Modal } from "./components/modal/modal";
 import { renderPopularMovieList } from "./features/popular";
 import { handleSearch } from "./features/search";
-import { fetchMovieDetail } from "./api/movieApi";
 import { IMAGE_BASE_URL } from "./utils/constants";
 import { RatingRepository } from "./types/ratingRepository";
 import { LocalStorageRatingRepository } from "./repositories/localStorageRatingRepository";
+import { createOnMovieClick } from "./features/createOnMovieClick";
 
 addEventListener("load", async () => {
   const headerEl = document.querySelector("header")!;
@@ -19,22 +19,7 @@ addEventListener("load", async () => {
   const modal = new Modal(ratingRepo);
 
   // 카드 클릭 이벤트 핸들러
-  const onMovieClick = async (id: number) => {
-    try {
-      const detail = await fetchMovieDetail(id);
-      modal.open({
-        id: detail.id,
-        title: detail.title,
-        posterPath: detail.poster_path,
-        releaseYear: detail.release_date.slice(0, 4),
-        genres: detail.genres.map((g) => g.name),
-        rating: detail.vote_average,
-        overview: detail.overview,
-      });
-    } catch (error) {
-      alert(`영화 상세 정보를 불러오는 데 실패했습니다. ${error}`);
-    }
-  };
+  const onMovieClick = createOnMovieClick(modal);
 
   // 히어로 배너 렌더링
   const hero = createHero({
