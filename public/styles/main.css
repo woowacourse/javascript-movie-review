@@ -44,19 +44,8 @@ button.primary {
   border-radius: 4px;
 }
 
-#load-movie-button {
-  display: block;
-  width: 1280px;
-  height: 49px;
-  margin: 0 auto 4rem;
-  background-color: #0DA9FD;
-  color: white;
-  border-radius: 4px;
-  font-size: 16px;
-}
-
 #wrap {
-  min-width: 1440px;
+  min-width: 320px;
   min-height: 100vh;
   background-color: #242A32;
   display: flex;
@@ -249,4 +238,66 @@ footer.footer p:not(:last-child) {
   line-height: 1 !important;
   letter-spacing: 0 !important;
   margin-top: 1rem;
+}
+
+/* =====================
+   태블릿 (768px ~ 1023px)
+   ===================== */
+@media (max-width: 1023px) {
+  .background-container {
+    height: auto;
+    padding: 24px 24px 32px;
+  }
+
+  /* 로고를 서치바 위로 */
+  .header-top {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .header-top .search-bar {
+    position: static;
+    transform: none;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .top-rated-movie {
+    margin-top: 32px;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .container {
+    padding: 0 24px;
+  }
+}
+
+/* =====================
+   모바일 (~ 767px)
+   ===================== */
+@media (max-width: 767px) {
+  .background-container {
+    padding: 16px 16px 24px;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  #section-title {
+    font-size: 24px;
+    margin-bottom: 2rem;
+  }
+
+  .container {
+    padding: 0 16px;
+  }
+
+  main {
+    margin: 40px 0;
+  }
 }

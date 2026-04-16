@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>영화 리뷰</title>
+  <title>영화 리뷰</title>
 </head>
 
 <body>
@@ -15,7 +15,7 @@
         <div class="top-rated-container">
           <div class="header-top">
             <h1 class="logo">
-              <a href="/"><img src="/images/logo.png" alt="MovieList" /></a>
+              <a href="#" onclick="location.reload()"><img src="/images/logo.png" alt="MovieList" /></a>
             </h1>
             <div class="search-bar">
               <input type="text" class="search-input" placeholder="검색어를 입력하세요" />
@@ -30,50 +30,29 @@
       </div>
     </header>
     <div class="container">
-      <!-- <ul class="tab">
-        <li>
-          <a href="#">
-            <div class="tab-item selected">
-              <h3>상영 중</h3>
-            </div>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <div class="tab-item">
-              <h3>인기순</h3>
-            </div>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <div class="tab-item">
-              <h3>평점순</h3>
-            </div>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <div class="tab-item">
-              <h3>상영 예정</h3>
-            </div>
-          </a>
-        </li>
-      </ul> -->
       <main>
         <section>
           <h2 id="section-title">지금 인기 있는 영화</h2>
           <ul class="thumbnail-list">
           </ul>
+          <div id="scroll-sentinel"></div>
         </section>
       </main>
-      <button id="load-movie-button">더 보기</button>
     </div>
 
     <footer class="footer">
       <p><img src="/images/woowacourse_logo.png" width="180" /></p>
       <p>&copy; 우아한테크코스 All Rights Reserved.</p>
     </footer>
+  </div>
+
+  <div class="modal-background" id="modalBackground">
+    <div class="modal">
+      <button class="close-modal" id="closeModal">
+        <img src="/images/modal_button_close.png" />
+      </button>
+      <div class="modal-container"></div>
+    </div>
   </div>
 </body>
 

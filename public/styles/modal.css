@@ -65,24 +65,174 @@ body.modal-open {
   width: 100%;
   padding: 8px;
   margin-left: 16px;
-  line-height: 1.6rem;
-}
-
-.modal-description .rate > img {
-  position: relative;
-  top: 5px;
-}
-
-.modal-description > *:not(:last-child) {
-  margin-bottom: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .modal-description h2 {
   font-size: 2rem;
-  margin: 0 0 8px;
+  font-weight: bold;
+  color: var(--color-white);
+  margin: 0;
 }
 
+/* 구분선 */
+.modal-description hr {
+  border: none;
+  border-top: 1px solid #4a5568;
+  margin: 1rem 0;
+}
+
+/* 출시년도, 장르 */
+.modal-description .category {
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--color-white);
+}
+
+/* 평균 */
+.modal-description .rate {
+  display: flex;
+  align-items: center !important;
+  gap: 6px;
+}
+
+.modal-description .rate > img {
+  position: static;
+  top: 0;
+}
+
+.modal-description .rate .rate-label {
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--color-white);
+}
+
+.modal-description .rate .rate-avg-value {
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--color-white);
+}
+
+/* 내 별점 타이틀 / 줄거리 타이틀 */
+.my-rate-title,
+.detail-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--color-white);
+}
+
+/* 내 별점 */
+.my-rate {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.my-rate-stars {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.my-rate-stars .my-star {
+  display: block;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+}
+
+.my-score {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.my-score-label {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--color-white);
+  margin-right: 4px;
+}
+
+.my-rate-value {
+  font-size: 24px;
+  font-weight: 600;
+  color: #95a1b2;
+}
+
+/* 줄거리 */
 .detail {
-  max-height: 430px;
+  font-size: 24px;
+  font-weight: 400;
+  max-height: 300px;
   overflow-y: auto;
+}
+
+.modal-description .rate .rate-label,
+.modal-description .rate .rate-avg-value,
+.my-score-label,
+.my-rate-value {
+  position: relative;
+  top: 2.5px;
+}
+
+/* =====================
+   태블릿 (768px ~ 1023px)
+   ===================== */
+@media (max-width: 1023px) {
+  /* 모달 하단 고정 */
+  .modal-background {
+    align-items: flex-end;
+  }
+
+  .modal {
+    width: 100%;
+    border-radius: 16px 16px 0 0;
+    max-height: 85vh;
+    overflow-y: auto;
+  }
+
+  /* 포스터 사진, 제목, 출시년도/장르, 평균 세로 정렬 + 가운데 정렬 */
+  .modal-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .modal-image img {
+    width: 160px;
+    border-radius: 12px;
+  }
+
+  .modal-description {
+    margin-left: 0;
+    margin-top: 16px;
+    width: 100%;
+  }
+
+  /* hr 위: 포스터, 제목, 출시년도/장르, 평균만 가운데 정렬 */
+  .modal-description h2,
+  .modal-description .category,
+  .modal-description .rate {
+    text-align: center;
+    justify-content: center;
+  }
+
+  .modal-description h2 {
+    font-size: 1.5rem;
+  }
+}
+
+/* =====================
+   모바일 (~ 767px)
+   ===================== */
+@media (max-width: 767px) {
+  .modal-image {
+    display: none;
+  }
+
+  .modal-description {
+    margin-top: 0;
+  }
 }

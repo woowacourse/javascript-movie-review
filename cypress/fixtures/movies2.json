@@ -2,12 +2,6 @@
   "page": 2,
   "results": [
     {
-      "title": "영화 20",
-      "vote_average": 10.0,
-      "poster_path": "/test19.jpg",
-      "backdrop_path": "/backdrop19.jpg"
-    },
-    {
       "title": "영화 21",
       "vote_average": 1.0,
       "poster_path": "/test20.jpg",

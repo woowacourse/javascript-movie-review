@@ -1,11 +1,11 @@
-import { fetchMovies, fetchSearchedMovies } from "./movieAPIResponse.ts";
+import { fetchMovies } from "./movieAPIResponse.ts";
 import type { Movie } from "../types/Movie.ts";
 import type { MovieResponse } from "../types/MovieResponse";
 
 const posterBaseURL = "https://image.tmdb.org/t/p/original/";
 const base = import.meta.env.BASE_URL;
 
-const createMovieItem = (movie: Movie): HTMLLIElement => {
+export const createMovieItem = (movie: Movie): HTMLLIElement => {
   const posterSrc = `${posterBaseURL}${movie.poster_path}`;
 
   const li = document.createElement("li");
@@ -13,7 +13,7 @@ const createMovieItem = (movie: Movie): HTMLLIElement => {
   li.insertAdjacentHTML(
     "beforeend",
     /*html*/ `
-    <li>
+    <div id="movie-item" data-id = "${movie.id}">
       <div class="item skeleton">
         <div class="skeleton-poster"></div>
         <img class="thumbnail" src="${posterSrc}" alt="영화 포스터 사진" />
@@ -26,7 +26,7 @@ const createMovieItem = (movie: Movie): HTMLLIElement => {
           <strong>${movie.title}</strong>
         </div>
       </div>
-    </li>`,
+    </div>`,
   );
 
   const img = li.querySelector<HTMLImageElement>(".thumbnail")!;
@@ -92,7 +92,7 @@ export const renderBanner = async (fristMovieData: Movie) => {
       <span class="rate-value">${mostPopularMovie.vote_average}</span>
     </div>
     <div class="title">${mostPopularMovie.title}</div>
-    <button class="primary detail">자세히 보기</button>
+    <button class="primary detail" data-id = "${fristMovieData.id}">자세히 보기</button>
     `;
 
   banner?.insertAdjacentHTML("beforeend", mostPopularMovieBanner);
@@ -105,7 +105,7 @@ export const replaceBanner = (header: HTMLElement, searchKeyword: string) => {
     <div class="top-rated-container">
       <div class="header-top">
         <h1 class="logo">
-          <a href="/"><img src="${base}images/logo.png" alt="MovieList" /></a>
+          <a href="#" onclick="location.reload()"><img src="${base}images/logo.png" alt="MovieList" /></a>
         </h1>
         <div class="search-bar">
           <input type="text" class="search-input" placeholder="검색어를 입력하세요" />
@@ -122,39 +122,4 @@ export const replaceBanner = (header: HTMLElement, searchKeyword: string) => {
 
   const input = header.querySelector<HTMLInputElement>(".search-input");
   if (input) input.value = searchKeyword;
-};
-
-export const renderSearchedMovies = async (
-  searchKeyword: string,
-  searchPageCount: number,
-) => {
-  try {
-    const movieData: MovieResponse = await fetchSearchedMovies(
-      searchKeyword,
-      searchPageCount,
-    );
-    const movies = movieData.results;
-
-    const list = document.querySelector(".thumbnail-list");
-
-    if (list && movies.length === 0 && searchPageCount === 1) {
-      list.insertAdjacentHTML(
-        "beforeend",
-        /*html*/ `
-      <div id="no-result">
-        <img src="${base}images/planet_icon.png" alt="검색 결과 없음" class="no-result-icon" />
-        <p class="no-result-text">검색 결과가 없습니다.</p>
-      </div>`,
-      );
-    }
-
-    movies.forEach((movie: Movie) => {
-      list?.appendChild(createMovieItem(movie));
-    });
-
-    return movieData.total_pages;
-  } catch {
-    alert("영화 검색에 실패했습니다. 잠시 후 다시 시도해 주세요.");
-    return 0;
-  }
 };

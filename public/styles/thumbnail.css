@@ -81,3 +81,35 @@ p.rate > span {
   0% { background-position: 200% 0; }
   100% { background-position: -200% 0; }
 }
+
+/* =====================
+   태블릿 (768px ~ 1023px)
+   ===================== */
+@media (max-width: 1023px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+
+  .thumbnail {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 2 / 3;
+  }
+
+  .skeleton-poster {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 2 / 3;
+  }
+}
+
+/* =====================
+   모바일 (~ 767px)
+   ===================== */
+@media (max-width: 767px) {
+  .thumbnail-list {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+}
