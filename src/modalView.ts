@@ -3,6 +3,9 @@ import { MovieDetailData } from './api.ts';
 const $modalBackground = document.querySelector('#modalBackground') as HTMLElement | null;
 const $modalContainer = document.querySelector('#modalContainer') as HTMLElement | null;
 
+// 별점 배열 상수화
+const RATING_SCORES = [2, 4, 6, 8, 10]
+
 const RATING_MESSAGES: Record<number, string> = {
   2: '최악이에요',
   4: '별로에요',
@@ -81,7 +84,7 @@ const getRatingText = (rating: number) => (rating > 0 ? RATING_MESSAGES[rating] 
 
 // 별점 이미지 HTML 생성
 const generateStarsHTML = (myRating: number) => {
-  return [2, 4, 6, 8, 10]
+  return RATING_SCORES
     .map((score) => {
       const imgSrc = score <= myRating ? './images/star_filled.png' : './images/star_empty.png';
 
