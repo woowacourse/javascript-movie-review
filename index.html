@@ -22,19 +22,19 @@
         <div class="top-rated-container container">
           <header class="header">
             <a href="%BASE_URL%">
-              <img class="logo" src="/images/logo.png" alt="MovieList" />
+              <img class="logo" src="%BASE_URL%images/logo.png" alt="MovieList" />
             </a>
             <form method="get" action="%BASE_URL%search" class="search-form">
               <input type="text" name="query" class="search-input" placeholder="검색어를 입력하세요" required />
               <button type="submit" class="search-submit">
-                <img src="/svg/search.svg" alt="search" />
+                <img src="%BASE_URL%svg/search.svg" alt="search" />
               </button>
             </form>
             <div class="header-dummy-item"></div>
           </header>
           <div class="top-rated-movie">
             <div class="rate">
-              <img src="./images/star_empty.png" alt="empty star" class="star" />
+              <img src="%BASE_URL%images/star_empty.png" alt="empty star" class="star" />
               <span class="rate-value">
                 <span class="skeleton skeleton-top-rated-movie-rate"></span>
               </span>
@@ -58,7 +58,7 @@
 
     <footer class="footer">
       <p>&copy; 우아한테크코스 All Rights Reserved.</p>
-      <p><img src="./images/woowacourse_logo.png" alt="woowacourse" width="180" /></p>
+      <p><img src="%BASE_URL%images/woowacourse_logo.png" alt="woowacourse" width="180" /></p>
     </footer>
   </div>
   <script type="module" src="/src/page/popular.ts"></script>
