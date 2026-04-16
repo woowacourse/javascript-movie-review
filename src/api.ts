@@ -17,13 +17,15 @@ function fetcher<T>(url: string, { timeoutMs, ...options }: RequestInit & { time
     }
   })
 
+  if (!timeoutMs) return response;
+
   const timeoutPromise = new Promise<never>((_, reject) => {
     setTimeout(() => {
       reject(new TimeoutError(url, timeoutMs!));
     }, timeoutMs);
   })
 
-  return timeoutMs ? Promise.race([response, timeoutPromise]) : response
+  return Promise.race([response, timeoutPromise])
 }
 
 export async function fetchMovieDetail(movieId: number) {
