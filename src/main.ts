@@ -42,7 +42,7 @@ const pageState = new PageState();
 const movieListState = new MovieListState();
 
 // respository 값 
-export const rateRepository = new RateRepositoryImpl();
+export const rateRepository = new RateRepositoryImpl('localStorage');
 
 const loadInit = () => {
   const search = getSearchParams("search") as string;

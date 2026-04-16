@@ -1,26 +1,25 @@
-export interface Rate {
-  id: number;
-  rate: number;
-}
+import { RateRepository, RateLocalStorageRepository } from "../dataSources/local/RateDataSource";
 
-interface RateRepository {
-  getMovieRate(id: number): number;
-  setMovieRate(id: number, rate: number): void
-}
-
+type RepositoryType = 'localStorage';
 export class RateRepositoryImpl implements RateRepository {
-  #getRates(){
-    const rates = localStorage.getItem('rates') || "{}";
-    return JSON.parse(rates) || {};
+  localStorage: RateRepository;
+  repository: RateRepository;
+  constructor(repositoryType: RepositoryType){
+    const rateLocalStorageRepository = new RateLocalStorageRepository();
+    this.localStorage = rateLocalStorageRepository;
+    
+    switch(repositoryType) {
+      case "localStorage":
+        this.repository = this.localStorage;
+        break;
+      default: 
+        throw new Error("");
+    }
   }
   getMovieRate(id: number){
-    const rates = this.#getRates();
-
-    return rates[id];
+    return this.repository.getMovieRate(id);
   }
   setMovieRate(id: number, rate: number){
-    const prevRates = this.#getRates();
-    const rates = { ...prevRates, [id]: rate };
-    localStorage.setItem('rates', JSON.stringify(rates));
+    return this.repository.setMovieRate(id, rate);
   }
 }

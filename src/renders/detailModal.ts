@@ -1,6 +1,6 @@
 import { MovieInfo } from "../services/dto";
 
-import { Rate } from "../data/repositories/RateRepositoryImpl";
+import { Rate } from "../data/repositories/RateRepository";
 
 import { rateRepository } from "../main";
 
