@@ -13,6 +13,13 @@ a {
 body {
   font-size: 16px;
   color: var(--color-white);
+  background-color: #000;
+}
+
+#app {
+  max-width: 1120px;
+  width: 100%;
+  margin: 0 auto;
   background-color: #242A32;
 }
 
@@ -56,7 +63,6 @@ button.primary {
 }
 
 #wrap {
-  min-width: 1440px;
   min-height: 100vh;
   background-color: #242A32;
   display: flex;
@@ -80,8 +86,10 @@ button.primary {
 }
 
 .container {
-  max-width: 1280px;
+  max-width: 1120px;
+  width: 100%;
   margin: 0 auto;
+  padding: 0 55px;
   flex: 1;
 }
 
@@ -105,7 +113,7 @@ button.primary {
 }
 
 .top-rated-movie {
-  margin-top: 64px;
+  margin-top: 160px;
 }
 
 .top-rated-movie > *:not(:last-child) {
@@ -127,17 +135,18 @@ h1.logo {
   position: relative;
   z-index: 3;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  padding: 48px;
+  justify-content: center;
+  padding: 32px 48px;
   align-self: start;
+  width: 100%;
+  gap: 16px;
 }
 
 .header-top .search-bar {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
   max-width: 700px;
-  width: 50%;
+  width: 60%;
 }
 
 .background-container {
@@ -251,4 +260,26 @@ footer.footer p:not(:last-child) {
   line-height: 1 !important;
   letter-spacing: 0 !important;
   margin-top: 1rem;
+}
+
+@media (max-width: 480px) {
+  .background-container {
+    padding: 24px;
+  }
+
+  .header-top {
+    padding: 24px;
+  }
+
+  .header-top .search-bar {
+    width: 100%;
+  }
+
+  .top-rated-container {
+    max-width: 100%;
+  }
+
+  .container {
+    padding: 0 24px;
+  }
 }

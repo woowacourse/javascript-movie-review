@@ -1,86 +1,192 @@
+const visitHome = () => {
+  cy.visit("localhost:5173");
+};
+
+const waitPopularLoaded = () => {
+  cy.wait("@getMovies");
+};
+
+const searchMovie = (keyword: string, alias = "@searchMovies") => {
+  waitPopularLoaded();
+  cy.get(".search-input").clear().type(keyword);
+  cy.get(".search-button").click();
+  cy.wait(alias);
+};
+
+const searchMovieByEnter = (keyword: string, alias = "@searchMovies") => {
+  waitPopularLoaded();
+  cy.get(".search-input").clear().type(`${keyword}{enter}`);
+  cy.wait(alias);
+};
+
+const openFirstMovie = () => {
+  cy.get(".thumbnail-list li").first().click();
+};
+
+const openFirstPopularMovie = () => {
+  waitPopularLoaded();
+  openFirstMovie();
+};
+
+const openFirstSearchedMovie = (keyword = "Harry Potter") => {
+  searchMovie(keyword);
+  openFirstMovie();
+};
+
+const closeModalByButton = () => {
+  cy.get("#closeModal").click();
+};
+
+const closeModalByEsc = () => {
+  cy.get("body").type("{esc}");
+};
+
+const ratePerfect = () => {
+  cy.get("#rate-stars img").last().click();
+};
+
 describe("인기영화 렌더링 테스트", () => {
   beforeEach(() => {
-    cy.intercept("GET", "**/movie/popular*").as("getMovies");
-    cy.visit("localhost:5173");
+    cy.intercept("GET", "**/movie/popular*",
+      { fixture: "movies.json" },
+    ).as("getMovies");
+    cy.intercept("GET", "**/movie/popular*page=2*",
+      { fixture: "movies2.json"}
+    ).as("getMoviesPage2");
+    cy.intercept("GET", "**/movie/popular*page=3*" , 
+      {fixture : "movies3.json"}
+    ).as("getMoviesPage3")
+    cy.intercept("GET", "**/movie/1*", { fixture: "movieDetail.json" }).as("getDetail");
+    visitHome();
   });
 
-  it("웹에 접근을 하면 인기 영화 20개를 랜더링 한다", () => {
-    cy.wait("@getMovies");
+  it("웹에 접근을 하면 인기 영화 20개가 보인다", () => {
+    waitPopularLoaded();
     cy.get(".thumbnail-list li").should("have.length", 20);
   });
 
-  it("더보기 버튼을 누르면 20개를 추가로 렌더링 한다", () => {
-    cy.wait("@getMovies"); 
-    cy.get("#load-movie-button").click();
-    cy.wait("@getMovies");
+  it("스크롤을 끝까지 내렸을때 추가로 랜더링 한다", () => {
+    waitPopularLoaded();
+    cy.scrollTo("bottom");
+    cy.wait("@getMoviesPage2");
     cy.get(".thumbnail-list li").should("have.length", 40);
   });
-});
 
-describe("인기 영화 더보기 버튼이 숨겨지는지 테스트", () => {
-  beforeEach(() => {
-    cy.intercept(
-      "GET",
-      "https://api.themoviedb.org/3/movie/popular?language=en-US&page=1",
-      { fixture: "movies.json" },
-    ).as("getMovies");
+  it("무한 스크롤로 페이지를 순차적으로 불러온다", () => {
+    waitPopularLoaded();
+    cy.get(".thumbnail-list li").should("have.length", 20);
 
-    cy.intercept(
-      "GET",
-      "https://api.themoviedb.org/3/movie/popular?language=en-US&page=2",
-      { fixture: "movies2.json" },
-    ).as("getMoviesPage2");
+    cy.scrollTo("bottom");
+    cy.wait("@getMoviesPage2");
+    cy.get(".thumbnail-list li").should("have.length", 40);
 
-    cy.visit("http://localhost:5173");
+    cy.scrollTo("bottom");
+    cy.wait("@getMoviesPage3");
+    cy.get(".thumbnail-list li").should("have.length", 60);
   });
 
-  it("마지막 페이지 도달 시 더보기 버튼이 사라진다", () => {
-    cy.wait("@getMovies");
-    cy.get("#load-movie-button").click();
-    cy.wait("@getMoviesPage2");
-    cy.get("#load-movie-button").should("have.css", "display", "none");
+  it("영화 클릭시 모달창 열림", () =>{
+    openFirstPopularMovie();
+    cy.get(".modal-background").should("have.class", "active");
+  });
+
+  it("ESC를 누를시 모달창 닫힘",() =>{
+    openFirstPopularMovie();
+    cy.get(".modal-background").should("have.class", "active");
+    closeModalByEsc();
+    cy.get(".modal-background").should("not.have.class", "active");
+  });
+
+  it("닫기 버튼 클릭시 모달창 닫힘", () => {
+    openFirstPopularMovie();
+    cy.get(".modal-background").should("have.class", "active");
+    closeModalByButton();
+    cy.get(".modal-background").should("not.have.class", "active");
+  });
+
+  it("별점 클릭시 랜더링 하기", () =>{
+    openFirstPopularMovie();
+    ratePerfect();
+    cy.get("#rate-evaluate").should("have.text", "명작이에요");
+    cy.get("#rate-score").should("have.text", "(10/10)");
+  });
+
+  it("별점이 모달을 닫고 다시 열어도 유지된다", () => {
+    openFirstPopularMovie();
+    ratePerfect();
+    closeModalByButton();
+    openFirstMovie();
+    cy.get("#rate-evaluate").should("have.text", "명작이에요");
+    cy.get("#rate-score").should("have.text", "(10/10)");
   });
 });
 
 describe("검색영화 렌더링 테스트", () => {
   beforeEach(() => {
-    cy.visit("localhost:5173");
+    cy.intercept("GET", "**/search/movie*", { fixture: "movies.json" }).as("searchMovies");
+    cy.intercept("GET", "**/movie/popular*", { fixture: "movies.json" }).as("getMovies");
+    cy.intercept("GET", "**/movie/1*", { fixture: "movieDetail.json" }).as("getDetail");
+    visitHome();
   });
 
   it("Harry Potter를 검색 하면 검색에 따른 영화를 랜더링 한다.", () => {
-    cy.get(".search-input").type("Harry Potter");
-    cy.get(".search-button").click();
-    cy.get(".thumbnail-list li").should("have.length.at.least", 1);
+    searchMovie("Harry Potter");
+    cy.get(".thumbnail-list li").should("have.length", 20);
   });
 
   it("뷁뷁뷁을 검색 하면 검색 결과가 없어야 한다.", () => {
-    cy.get(".search-input").type("뷁뷁뷁");
-    cy.get(".search-input").type("{enter}");
+    cy.intercept("GET", "**/search/movie*", { body: { results: [], total_pages: 1 } }).as("searchEmpty");
+    searchMovieByEnter("뷁뷁뷁", "@searchEmpty");
     cy.get(".thumbnail-list li").should("have.length", 0);
     cy.get("#no-result").contains("검색 결과가 없습니다.").should("exist");
   });
-});
 
-describe("검색 영화 더보기 버튼이 숨겨지는지 테스트", () => {
-  beforeEach(() => {
-    cy.intercept("GET", "**/search/movie*page=1*", {
-      fixture: "movies.json",
-    }).as("getMovies");
-
-    cy.intercept("GET", "**/search/movie*page=2*", {
-      fixture: "movies2.json",
-    }).as("getMoviesPage2");
-
-    cy.visit("http://localhost:5173");
+  it("영화 클릭시 모달창 열림", () => {
+    openFirstSearchedMovie();
+    cy.get(".modal-background").should("have.class", "active");
   });
 
-  it("마지막 페이지 도달 시 더보기 버튼이 사라진다", () => {
-    cy.get(".search-input").type("영화");
-    cy.get(".search-input").type("{enter}");
-    cy.wait("@getMovies");
-    cy.get("#load-movie-button").click();
-    cy.wait("@getMoviesPage2");
-    cy.get("#load-movie-button").should("have.css", "display", "none");
+  it("닫기 버튼 클릭시 모달창 닫힘", () => {
+    openFirstSearchedMovie();
+    closeModalByButton();
+    cy.get(".modal-background").should("not.have.class", "active");
+  });
+
+  it("ESC를 누를시 모달창 닫힘", () => {
+    openFirstSearchedMovie();
+    closeModalByEsc();
+    cy.get(".modal-background").should("not.have.class", "active");
+  });
+
+  it("별점 클릭시 랜더링 하기", () => {
+    openFirstSearchedMovie();
+    ratePerfect();
+    cy.get("#rate-evaluate").should("have.text", "명작이에요");
+    cy.get("#rate-score").should("have.text", "(10/10)");
+  });
+
+  it("별점이 모달을 닫고 다시 열어도 유지된다", () => {
+    openFirstSearchedMovie();
+    ratePerfect();
+    closeModalByButton();
+    openFirstMovie();
+    cy.get("#rate-evaluate").should("have.text", "명작이에요");
+    cy.get("#rate-score").should("have.text", "(10/10)");
+  });
+
+  it("연결이 되어 있지 않았을때 에러 표시를 한다", () => {
+    cy.intercept("GET", "**/search/movie*", { forceNetworkError: true }).as("searchError");
+
+    const alertStub = cy.stub();
+    cy.on("window:alert", alertStub);
+
+    waitPopularLoaded();
+    cy.get(".search-input").clear().type("Harry Potter");
+    cy.get(".search-button").click();
+
+    cy.wait("@searchError").then(() => {
+      expect(alertStub).to.have.been.called;
+    });
   });
 });
 

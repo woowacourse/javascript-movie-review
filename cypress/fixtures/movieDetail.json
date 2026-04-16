@@ -1,0 +1,13 @@
+{
+  "id": 1,
+  "title": "인사이드 아웃 2",
+  "poster_path": "/test0.jpg",
+  "vote_average": 7.8,
+  "overview": "라이리의 성장과 새로운 감정들의 이야기.",
+  "release_date": "2024-06-14",
+  "genres": [
+    { "id": 16, "name": "애니메이션" },
+    { "id": 35, "name": "코미디" },
+    { "id": 18, "name": "드라마" }
+  ]
+}

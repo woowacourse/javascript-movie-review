@@ -86,3 +86,14 @@ body.modal-open {
   max-height: 430px;
   overflow-y: auto;
 }
+
+#customRate {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#rate-stars img {
+  width: 24px;
+  height: 24px;
+}
