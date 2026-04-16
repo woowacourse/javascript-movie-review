@@ -11,7 +11,14 @@ export class LocalReviewStorage implements ReviewStorage {
   // movie_id, star 순의 영화리뷰 데이터 뽑아오기
   private getReviews(): Record<number, number> {
     const data = localStorage.getItem(this.STORAGE_KEY);
-    return data ? JSON.parse(data) : {};
+    if (!data) return {};
+
+    try {
+      return JSON.parse(data);
+    } catch (error) {
+      alert("로컬 스토리지 데이터가 깨져 기본값으로 출력됩니다!");
+      return {};
+    }
   }
 
   async getRating(movieId: number): Promise<number | null> {
