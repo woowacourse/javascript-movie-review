@@ -1,6 +1,5 @@
 import { Movie } from "../../apis/movie/type";
 import { renderMovieModal } from "./MovieModal.ts";
-import { getMovieDetail } from "../../apis/movie/api.ts";
 
 const BANNER_ID = "background-container";
 
@@ -38,21 +37,13 @@ export const renderBanner = (
   }
 
   const button = bannerElement?.querySelector("button");
-  button?.addEventListener("click", async () => {
+  button?.addEventListener("click", () => {
     if (movie?.id == null) {
       window.alert("영화 정보를 불러올 수 없습니다.");
       return;
     }
 
-    try {
-      const movieDetail = await getMovieDetail({
-        movieId: movie.id,
-        language: "ko-KR",
-      });
-      renderMovieModal(document.body, movieDetail);
-    } catch {
-      window.alert("영화 정보를 불러올 수 없습니다.");
-    }
+    renderMovieModal(document.body, movie.id);
   });
 };
 

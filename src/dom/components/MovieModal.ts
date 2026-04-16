@@ -1,3 +1,4 @@
+import { getMovieDetail } from "../../apis/movie/api.ts";
 import { MovieDetail } from "../../apis/movie/type";
 import { renderMyRate } from "./MyRate.ts";
 
@@ -43,14 +44,20 @@ const createMovieModalTemplate = (movie: MovieDetail | null) => `
   </dialog>
 `;
 
-// TODO: renderMovieModalLoading?
-export const renderMovieModal = (
+export const renderMovieModal = async (
   parent: HTMLElement,
-  movie: MovieDetail | null = null,
+  movieId: number,
 ) => {
   if (modalElement) {
-    // TODO: 매번 remove하지 않으려면 상태 기반으로 데이터가 변경되도록?
     modalElement.remove();
+  }
+
+  let movie: MovieDetail | null = null;
+  try {
+    movie = await getMovieDetail({ movieId, language: "ko-KR" });
+  } catch {
+    alert("영화 정보를 불러올 수 없습니다.");
+    return;
   }
 
   parent.insertAdjacentHTML("beforeend", createMovieModalTemplate(movie));
@@ -58,7 +65,7 @@ export const renderMovieModal = (
 
   const myRateContainer = document.getElementById(MY_RATE_CONTAINER_ID);
   if (myRateContainer) {
-    renderMyRate(myRateContainer, movie?.id ?? -1);
+    renderMyRate(myRateContainer, movieId);
   }
 
   modalElement?.showModal();
