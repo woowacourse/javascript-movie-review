@@ -3,6 +3,7 @@ import {
   fetchPopularMovies,
   fetchSearchedMovies,
 } from "../src/api/fetchMovies.ts";
+import { fetchMovieDetail } from "../src/api/fetchMovieDetail.ts";
 
 describe("영화 목록 테스트", () => {
   beforeEach(() => {
@@ -107,5 +108,54 @@ describe("영화 목록 API 에러 테스트", () => {
 
     // when & then
     await expect(fetchPopularMovies(1)).rejects.toThrow("Network Error");
+  });
+});
+
+describe("영화 상세정보 테스트", () => {
+  beforeEach(() => {
+    vi.stubGlobal("fetch", vi.fn());
+  });
+
+  it("영화 상세정보를 가져온다.", async () => {
+    // given
+    const mockDetailData = {
+      id: 1,
+      poster_path: "/detail.jpg",
+      title: "인사이드 아웃 2",
+      release_date: "2024-06-12",
+      genres: [
+        { id: 16, name: "애니메이션" },
+        { id: 35, name: "코미디" },
+      ],
+      vote_average: 8.3,
+      overview: "새로운 감정들과 함께하는 이야기",
+    };
+
+    vi.mocked(fetch).mockResolvedValue({
+      ok: true,
+      json: async () => mockDetailData,
+    } as Response);
+
+    // when
+    const result = await fetchMovieDetail(1);
+
+    // then
+    expect(result.id).toBe(1);
+    expect(result.title).toBe("인사이드 아웃 2");
+    expect(result.genres).toHaveLength(2);
+    expect(result.overview).toBe("새로운 감정들과 함께하는 이야기");
+  });
+
+  it("영화 상세정보 요청 실패 시 정의된 에러 메시지를 던진다.", async () => {
+    // given
+    vi.mocked(fetch).mockResolvedValue({
+      ok: false,
+      status: 404,
+    } as Response);
+
+    // when & then
+    await expect(fetchMovieDetail(1)).rejects.toThrow(
+      "영화 상세 정보를 불러오는 데 실패했습니다.",
+    );
   });
 });

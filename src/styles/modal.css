@@ -5,38 +5,39 @@ body.modal-open {
   overflow: hidden;
 }
 
-.modal-background {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경을 위해 설정 */
-  backdrop-filter: blur(10px); /* 블러 효과 적용 */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 10;
-  visibility: hidden; /* 모달이 기본적으로 보이지 않도록 설정 */
-  opacity: 0;
-  transition:
-    opacity 0.3s ease,
-    visibility 0.3s ease;
-}
-
 .modal-background.active {
   visibility: visible;
   opacity: 1;
 }
 
 .modal {
+  margin: 0;
+  width: 1000px;
+  max-width: 100%;
+  min-width: 300px;
   background-color: var(--color-bluegray-90);
   padding: 20px;
   border-radius: 16px;
   color: white;
   z-index: 2;
-  position: relative;
-  width: 1000px;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border: none;
+}
+
+.modal::backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+}
+
+.review-container {
+  margin-top: 16px;
+}
+
+.overview-container {
+  margin: 16px 0;
 }
 
 .close-modal {
@@ -82,7 +83,151 @@ body.modal-open {
   margin: 0 0 8px;
 }
 
-.detail {
+.modal h3 {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.review-star-container {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.review-text {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.review-score {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--color-bluegray-10);
+}
+
+.review-star {
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+}
+
+.overview {
   max-height: 430px;
   overflow-y: auto;
+}
+
+hr {
+  width: 100%;
+}
+
+/* 모바일 */
+@media (max-width: 768px) {
+  .modal {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+
+    top: auto;
+    left: 0;
+    transform: none;
+
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    overflow: auto;
+  }
+
+  .modal-image {
+    display: none;
+  }
+
+  .modal-description {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0px;
+  }
+
+  .modal-movie-title {
+    padding-right: 28px;
+    text-align: center;
+    line-height: 2rem;
+  }
+
+  .review-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .review-star-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .overview-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+  }
+}
+
+/* 태블릿 */
+@media screen and (max-width: 1024px) {
+  .modal {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+
+    top: auto;
+    left: 0;
+    transform: none;
+
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+
+  .modal-container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .modal-image {
+    text-align: center;
+  }
+
+  .modal-image img {
+    max-width: 200px;
+    height: 300px;
+    border-radius: 16px;
+  }
+
+  .modal-description {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0px;
+  }
+
+  .review-container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+  }
+
+  .overview-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+  }
 }

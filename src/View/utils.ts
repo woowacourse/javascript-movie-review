@@ -7,3 +7,8 @@ export const getElementOrThrow = <T extends Element>(selector: string): T => {
 
   return element as T;
 };
+
+export const getYearFromDate = (dateString: string): number => {
+  const date = new Date(dateString);
+  return date.getFullYear();
+};

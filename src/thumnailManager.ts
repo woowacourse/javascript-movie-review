@@ -5,6 +5,7 @@ import NotFoundPoster from "./assets/notFoundImage.png";
 export const extractThumbnailInfo = (movies: Movie[]) => {
   return movies.map((movie) => {
     const thumbnailInfo: ThumbnailInfo = {
+      id: movie.id,
       title: movie.title,
       poster_path: movie.poster_path,
       vote_average: movie.vote_average,
@@ -17,8 +18,10 @@ export const extractThumbnailInfo = (movies: Movie[]) => {
 export const makeMovieThumbnail = (movie: ThumbnailInfo) => {
   const fragment = document.createDocumentFragment();
   const list = document.createElement("li");
+  list.className = "thumbnail-container";
+  list.dataset.movieId = movie.id.toString();
 
-  const item = document.createElement("div");
+  const item = document.createElement("button");
   item.className = "item";
 
   const thumbnail = document.createElement("img");
@@ -40,9 +43,10 @@ export const makeMovieThumbnail = (movie: ThumbnailInfo) => {
   starImg.src = EmptyStarIcon;
 
   const voteAverage = document.createElement("span");
-  voteAverage.textContent = movie.vote_average.toString();
+  voteAverage.textContent = movie.vote_average.toFixed(1).toString();
 
   const title = document.createElement("strong");
+  title.className = "thumbnail-title";
   title.textContent = movie.title;
 
   rate.appendChild(starImg);

@@ -4,23 +4,21 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>영화 리뷰</title>
-    <link rel="stylesheet" href="./src/styles/reset.css" />
-    <link rel="stylesheet" href="./src/styles/main.css" />
-    <link rel="stylesheet" href="./src/styles/tab.css" />
-    <link rel="stylesheet" href="./src/styles/thumbnail.css" />
+    <link rel="stylesheet" href="./src/styles/index.css" />
   <body>
     <div id="app">
       <header>
         <div class="top-header-conatiner">
-          <h1 class="logo">
+          <button tabindex="0" class="logo">
             <img src="./src/assets/logo.png" alt="MovieList" />
-          </h1>
+          </button>
           <form class="search">
             <input
               class="search-input"
               type="text"
               aria-label="검색"
               placeholder="검색어를 입력하세요"
+              required
             />
             <button class="search-button">
               <img src="./src/assets/serchIcon.png" alt="검색버튼" />
@@ -87,7 +85,6 @@
               <h2 class="not-search-found-text">검색 결과가 없습니다.</h2>
             </div>
           </section>
-          <button type="button" class="more-button">더 보기</button>
         </main>
       </div>
 
@@ -97,6 +94,50 @@
       </footer>
     </div>
   </body>
+        <dialog class="modal">
+        <button class="close-modal" id="closeModal">
+          <img src="./src/assets/modal_button_close.png" />
+        </button>
+        <div class="modal-container">
+          <div class="modal-image">
+            <img
+            class="modal-poster-image"
+            />
+          </div>
+          <div class="modal-description">
+            <h2 class="modal-movie-title">-</h2>
+            <p class="category">
+              -
+            </p>
+            <p class="rate">
+              <img src="./src/assets/star_filled.png" class="star" />
+              <span class="detail-rate-value">7.7</span
+              >
+            </p>
+            <hr />
+            <div class="review-container">
+            <h3 class="review-title">내 별점</h3>
+            <div class="review-star-container">
+              <span>
+              <img class="review-star star-first" data-score="2" src="./src/assets/star_empty.png"/>
+              <img class="review-star star-second" data-score="4" src="./src/assets/star_empty.png"/>
+              <img class="review-star star-third" data-score="6" src="./src/assets/star_empty.png"/>
+              <img class="review-star star-fourth" data-score="8" src="./src/assets/star_empty.png"/>
+              <img class="review-star star-fifth " data-score="10" src="./src/assets/star_empty.png"/>
+              </span>
+              <span class="review-text">별점 없음</span><span class="review-score">(0/10)</span>
+              
+            </div>
+            </div>
+            <hr />
+            <div class="overview-container">
+            <h3>줄거리</h3>
+            <p class="overview">
+            </p>
+            </div>
+          </div>
+        </div>
+      </dialog>
 </html>
 
 <script type="module" src="./src/main.ts"></script>

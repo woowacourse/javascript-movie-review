@@ -1,5 +1,4 @@
 describe("메인 화면 최초 진입 시나리오 테스트", () => {
-  // TMDB API 응답 형식을 생성하는 헬퍼 함수
   const mockMovies = (
     count: number,
     titlePrefix: string,
@@ -7,73 +6,82 @@ describe("메인 화면 최초 진입 시나리오 테스트", () => {
     totalPages: number,
   ) => ({
     results: Array.from({ length: count }, (_, i) => ({
-      id: i + (page - 1) * 20,
-      title: `${titlePrefix} ${i + 1}`,
+      id: 1000 + i + (page - 1) * 20,
+      title: `${titlePrefix} ${i + 1 + (page - 1) * 20}`,
       poster_path: "/63In39uCc7769Y0667vCInth6Uv.jpg",
       vote_average: 8.5,
     })),
-    page: page,
+    page,
     total_pages: totalPages,
   });
 
-  beforeEach(() => {
-    // 1페이지 호출 모킹 (20개 응답, 총 2페이지가 있다고 가정)
-    cy.intercept(
-      "GET",
-      "**/movie/popular?*page=1*",
-      mockMovies(20, "인기 영화", 1, 2),
-    ).as("getPopularP1");
+  const visitMainPage = () => {
+    cy.visit("http://localhost:5173/");
+  };
 
-    // 2페이지 호출 모킹 (마지막 페이지)
+  const scrollToBottom = () => {
+    cy.scrollTo("bottom");
+    cy.wait(300);
+  };
+
+  beforeEach(() => {
+    cy.intercept("GET", "**/movie/popular?*page=1*", (req) => {
+      req.reply({
+        delay: 300,
+        body: mockMovies(20, "인기 영화", 1, 2),
+      });
+    }).as("getPopularP1");
+
     cy.intercept(
       "GET",
       "**/movie/popular?*page=2*",
       mockMovies(20, "인기 영화", 2, 2),
     ).as("getPopularP2");
-
-    cy.visit("http://localhost:5173/");
   });
 
   it("1. 배너에 첫 번째 인기 영화의 정보가 표시된다.", () => {
+    visitMainPage();
     cy.wait("@getPopularP1");
 
-    // 리스트의 첫 번째 영화 제목을 가져와서 배너(.title)와 비교
-    cy.get(".thumbnail-list li:first-child", { timeout: 10000 })
+    cy.get(".thumbnail-list li:first-child")
       .find("strong")
       .invoke("text")
       .then((firstMovieTitle) => {
-        cy.get(".title").invoke("text").should("eq", firstMovieTitle);
+        cy.get(".title").should("have.text", firstMovieTitle);
       });
   });
 
   it("2. 최초 진입 시 인기 영화 최대 20개가 표시된다.", () => {
-    cy.wait("@getPopularP1");
+    visitMainPage();
 
-    // 리스트 아이템 개수 확인
+    cy.get(".movie-skeleton").should("have.length.at.least", 1);
+    cy.wait("@getPopularP1");
+    cy.get(".movie-skeleton").should("not.exist");
     cy.get(".thumbnail-list li").should("have.length", 20);
   });
 
-  it("3. 더 보기 버튼을 누르면 최대 20개가 추가된다.", () => {
+  it("3. 스크롤을 내리면 무한 스크롤 방식으로 영화가 최대 20개씩 추가된다.", () => {
+    visitMainPage();
     cy.wait("@getPopularP1");
-
-    // 초기 20개 확인 후 버튼 클릭
     cy.get(".thumbnail-list li").should("have.length", 20);
-    cy.get(".more-button").click();
 
+    scrollToBottom();
     cy.wait("@getPopularP2");
 
-    // 추가되어 총 40개가 되었는지 확인
     cy.get(".thumbnail-list li").should("have.length", 40);
   });
 
-  it("4. 더 이상 보여줄 영화가 없으면 더 보기 버튼이 사라진다.", () => {
+  it("4. 더 이상 보여 줄 영화가 없으면 영화를 가져오지 않는다.", () => {
+    visitMainPage();
     cy.wait("@getPopularP1");
 
-    // 마지막 페이지(2페이지)를 불러오도록 버튼 클릭
-    cy.get(".more-button").click();
+    scrollToBottom();
     cy.wait("@getPopularP2");
+    cy.get(".thumbnail-list li").should("have.length", 40);
 
-    // 소스 코드 로직(nowPage === totalPages)에 따라 버튼이 숨겨져야 함
-    cy.get(".more-button").should("not.be.visible");
+    scrollToBottom();
+
+    cy.get("@getPopularP2.all").should("have.length", 1);
+    cy.get(".thumbnail-list li").should("have.length", 40);
   });
 });

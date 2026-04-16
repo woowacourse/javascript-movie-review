@@ -1,10 +1,16 @@
 @import "./colors.css";
 
 .thumbnail-list {
-  margin: 0 auto 56px;
   display: grid;
-  grid-template-columns: repeat(5, 200px);
+  justify-content: center;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 70px;
+  place-items: center;
+  width: 100%;
+}
+
+.thumbnail-container {
+  width: 200px;
 }
 
 .thumbnail {
@@ -16,6 +22,16 @@
 .item {
   user-select: none;
   cursor: pointer;
+  background: none;
+}
+
+.item:focus {
+  scale: 105%;
+  outline: none;
+}
+
+.item-desc {
+  max-width: 200px;
 }
 
 .item-desc > *:not(:last-child) {
@@ -28,6 +44,8 @@ p.rate {
   display: flex;
   align-items: baseline;
   color: var(--color-yellow);
+  font-size: 16px;
+  font-weight: 600;
 }
 
 p.rate > span {
@@ -37,4 +55,15 @@ p.rate > span {
 .item .star {
   width: 16px;
   top: 1px;
+}
+
+.thumbnail-title {
+  color: white;
+  display: block;
+  text-align: start;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 20px;
+  font-weight: 700;
 }

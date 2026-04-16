@@ -24,6 +24,21 @@ class MovieListView {
     };
   }
 
+  bindMovieItemClick(handler: (movieId: number) => void) {
+    this.#dom.list.addEventListener("click", (e: MouseEvent) => {
+      let item = (e.target as HTMLElement).closest(".thumbnail-container");
+
+      if (!item) return;
+
+      const movieId = item.getAttribute("data-movie-id");
+      if (!movieId) {
+        throw new Error("영화 id를 찾을 수 없습니다.");
+      }
+
+      handler(Number(movieId));
+    });
+  }
+
   addMovies(movieList: ThumbnailInfo[]) {
     const fragment = new DocumentFragment();
 
@@ -60,6 +75,14 @@ class MovieListView {
 
   renderTitle(title: string) {
     this.#dom.title.textContent = title;
+  }
+
+  addTopMargin() {
+    this.#dom.container.classList.add("search-mode");
+  }
+
+  removeTopMargin() {
+    this.#dom.container.classList.remove("search-mode");
   }
 
   showNotFound() {
