@@ -1,4 +1,5 @@
-import Component from "../src/component.ts";
+import MovieCardComponent from "../src/ui/components/movieCard.ts";
+import MovieBannerComponent from "../src/ui/components/movieBanner.ts";
 import { expect, test, describe } from "vitest";
 
 describe("컴포넌트 테스트", () => {
@@ -8,7 +9,7 @@ describe("컴포넌트 테스트", () => {
       title: "겨울왕국",
       vote_average: 8.9,
     };
-    const movieComponent = Component.movie(movieData);
+    const movieComponent = MovieCardComponent.movie(movieData);
 
     expect(movieComponent).contain(
       'src="https://image.tmdb.org/t/p/original/엘사.png"',
@@ -19,7 +20,7 @@ describe("컴포넌트 테스트", () => {
   });
 
   test("movie 스캘레톤", () => {
-    const movieSkeletonComponent = Component.movieSkeleton();
+    const movieSkeletonComponent = MovieCardComponent.movieSkeleton();
 
     expect(movieSkeletonComponent).contain('<li class="skeleton">');
   });
@@ -30,7 +31,7 @@ describe("컴포넌트 테스트", () => {
       title: "겨울왕국2",
       vote_average: 8.5,
     };
-    const movieBannerComponent = Component.movieBanner(movieData);
+    const movieBannerComponent = MovieBannerComponent.movieBanner(movieData);
 
     expect(movieBannerComponent).contain(
       `<div class="top-rated-movie" style="background-image: url('https://image.tmdb.org/t/p/original/안나.png')">`,

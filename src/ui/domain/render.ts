@@ -1,5 +1,8 @@
 import { Movie, MovieDetail } from "../../apis/dtos.ts";
-import Component from "../component.ts";
+import MovieCardComponent from "../components/movieCard.ts";
+import MovieBannerComponent from "../components/movieBanner.ts";
+import NoticeComponent from "../components/notice.ts";
+import ModalComponent from "../components/modal.ts";
 import {
   appendHTML,
   clearHTML,
@@ -20,7 +23,7 @@ const Renderer = {
   },
 
   renderBanner(parent: Element, { title, voteAverage, posterPath }: Movie) {
-    parent.innerHTML = Component.movieBanner({
+    parent.innerHTML = MovieBannerComponent.movieBanner({
       title,
       voteAverage,
       posterPath,
@@ -30,26 +33,26 @@ const Renderer = {
   renderEmptyResult() {
     const section = getSectionElement();
     const node = document.createElement("div");
-    node.innerHTML = Component.emptyResult();
+    node.innerHTML = NoticeComponent.emptyResult();
     section?.appendChild(node);
   },
 
   renderError(parent: Element, message: string) {
-    parent.innerHTML = Component.error(message);
+    parent.innerHTML = NoticeComponent.error(message);
   },
 
   renderSkeleton(parent: Element, length: number) {
     appendHTML(
       parent,
       Array.from({ length: length })
-        .map(() => Component.movieSkeleton())
+        .map(() => MovieCardComponent.movieSkeleton())
         .join(""),
     );
   },
 
   renderMovies(parent: Element, movies: Movie[]) {
     const movieListComponent = movies
-      .map((movie) => Component.movie(movie))
+      .map((movie) => MovieCardComponent.movie(movie))
       .join("");
     appendHTML(parent, movieListComponent);
   },
@@ -60,19 +63,19 @@ const Renderer = {
   },
 
   renderInView(parent: Element) {
-    appendHTML(parent, Component.inView());
+    appendHTML(parent, NoticeComponent.inView());
   },
 
   renderMovieModalSkeleton(parent: Element) {
-    appendHTML(parent, Component.movieModalSkeleton());
+    appendHTML(parent, ModalComponent.movieModalSkeleton());
   },
 
   renderMovieModal(parent: Element, movie: MovieDetail, rating?: number) {
-    appendHTML(parent, Component.movieModal(movie, rating || 0));
+    appendHTML(parent, ModalComponent.movieModal(movie, rating || 0));
   },
 
   renderMovieModalError(parent: Element) {
-    appendHTML(parent, Component.movieModalError());
+    appendHTML(parent, ModalComponent.movieModalError());
   },
 
   clearElement(parent: Element) {
