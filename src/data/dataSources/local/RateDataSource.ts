@@ -2,8 +2,14 @@ import { RateRepository } from "../../repositories/RateRepository";
 
 export class RateLocalStorageDataSource implements RateRepository {
   #getRates(){
-    const rates = localStorage.getItem('rates') || "{}";
-    return JSON.parse(rates) || {};
+    try {
+      const rates = localStorage.getItem('rates');
+      if(!rates) return {};
+      return JSON.parse(rates);
+    } catch (error) {
+      console.error(error);
+      return {};
+    }
   }
   getMovieRate(id: number){
     const rates = this.#getRates();
