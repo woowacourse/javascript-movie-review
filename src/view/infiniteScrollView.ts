@@ -1,4 +1,4 @@
-import { isLastPage } from "../api/isLastPage";
+import { isLastPage } from "../utils/isLastPage";
 
 class InfiniteScrollView {
   #options: IntersectionObserverInit;
@@ -28,7 +28,7 @@ class InfiniteScrollView {
   };
 
   observe() {
-    const lastMovieList  = document.querySelector<HTMLLIElement>(".thumbnail-list li:last-child");;
+    const lastMovieList  = document.querySelector<HTMLLIElement>(".thumbnail-list li:last-child");
 
     if (lastMovieList) {
       this.#observer.observe(lastMovieList);
