@@ -180,7 +180,11 @@ footer.footer p:not(:last-child) {
 
   .top-rated-container {
     max-width: 100%;
-    padding: 32px;
+    padding: 48px 32px;
+  }
+
+  .header-container {
+    padding: 40px 32px;
   }
 
   .background-container {
@@ -223,7 +227,7 @@ footer.footer p:not(:last-child) {
   }
 
   .header-container {
-    padding: 24px 0;
+    padding: 24px 16px;
   }
 
   .header {
@@ -243,7 +247,9 @@ footer.footer p:not(:last-child) {
 
   .search-form {
     order: 3;
+    width: calc(100% - 16px);
     max-width: 100%;
+    margin: 0 8px;
     height: 32px;
   }
 
