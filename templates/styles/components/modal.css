@@ -1,88 +1,378 @@
 @import "../colors.css";
 
-/* modal.css */
-body.modal-open {
-  overflow: hidden;
-}
-
-.modal-background {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경을 위해 설정 */
-  backdrop-filter: blur(10px); /* 블러 효과 적용 */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 10;
-  visibility: hidden; /* 모달이 기본적으로 보이지 않도록 설정 */
-  opacity: 0;
-  transition:
-    opacity 0.3s ease,
-    visibility 0.3s ease;
-}
-
-.modal-background.active {
-  visibility: visible;
-  opacity: 1;
-}
-
-.modal {
+/* 공통 */
+dialog.modal {
   background-color: var(--color-bluegray-90);
-  padding: 20px;
-  border-radius: 16px;
+  border: none;
   color: white;
-  z-index: 2;
-  position: relative;
-  width: 1000px;
+  padding: 0;
+  margin: auto;
+}
+
+dialog.modal::backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
 }
 
 .close-modal {
   position: absolute;
   margin: 0;
   padding: 0;
-  top: 24px;
-  right: 24px;
+  top: 16px;
+  right: 16px;
   background: none;
   border: none;
   color: white;
-  font-size: 20px;
   cursor: pointer;
-}
-
-.modal-container {
-  display: flex;
-}
-
-.modal-image img {
-  width: 380px;
-  border-radius: 16px;
-}
-
-.modal-description {
-  width: 100%;
-  padding: 8px;
-  margin-left: 16px;
-  line-height: 1.6rem;
-}
-
-.modal-description .rate > img {
-  position: relative;
-  top: 5px;
-}
-
-.modal-description > *:not(:last-child) {
-  margin-bottom: 8px;
+  z-index: 1;
 }
 
 .modal-description h2 {
-  font-size: 2rem;
-  margin: 0 0 8px;
+  font-size: 32px;
+  font-weight: bold;
+  margin: 0;
 }
 
-.detail {
-  max-height: 430px;
+.modal-description .category {
+  font-size: 20px;
+}
+
+/* 평균 별점 */
+.modal-description p.rate {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 20px;
+  color: white;
+}
+
+.modal-description .rate-label {
+  font-size: 20px;
+  color: white;
+}
+
+.modal-description .rate-star {
+  width: 24px;
+  height: 24px;
+  display: block;
+  position: static;
+}
+
+.modal-description .rate-value {
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--color-yellow);
+}
+
+/* 내 별점 */
+.my-rating {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 24px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.my-rating-label {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.my-rating-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.my-rating-stars {
+  display: flex;
+  gap: 2px;
+}
+
+.my-rating-star {
+  position: relative;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+}
+
+.my-rating-star .star-empty,
+.my-rating-star .star-filled {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.my-rating-star .star-filled {
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 0.1s;
+  will-change: clip-path;
+}
+
+.my-rating-star.filled .star-filled {
+  clip-path: inset(0 0% 0 0);
+}
+
+.my-rating-desc {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 36px;
+}
+
+.my-rating-text {
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+}
+
+.my-rating-score {
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--color-bluegray-10);
+}
+
+/* 줄거리 */
+.overview-label {
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+  margin: 0;
+}
+
+.overview {
   overflow-y: auto;
+  line-height: 147.1%;
+  font-size: 24px;
+  font-weight: 300;
+  letter-spacing: 0.18px;
+  margin: 0;
+}
+
+/* 스켈레톤 */
+.modal-description h2.skeleton-box {
+  width: 200px;
+  height: 36px;
+  color: transparent;
+}
+
+.modal-description .category.skeleton-box {
+  width: 160px;
+  height: 24px;
+  color: transparent;
+}
+
+.modal-description .rate-value.skeleton-box {
+  width: 40px;
+  height: 28px;
+  color: transparent;
+}
+
+.overview.skeleton-box {
+  width: 100%;
+  height: 80px;
+  color: transparent;
+}
+
+.modal-image {
+  position: relative;
+  width: 360px;
+  height: 540px;
+  flex-shrink: 0;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.modal-image img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 16px;
+}
+
+/* 데스크탑: 가로 레이아웃, 화면 중앙 */
+@media (min-width: 800px) {
+  dialog.modal {
+    border-radius: 16px;
+    width: 960px;
+    /* height: 960px; */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    padding: 0;
+  }
+
+  .modal-container {
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+    padding: 40px 24px;
+  }
+
+  .modal-image img {
+    object-fit: cover;
+  }
+
+  .modal-description {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    overflow: hidden;
+    min-width: 0;
+  }
+
+  .overview {
+    max-height: 230px;
+  }
+
+  .overview-label {
+    margin-bottom: 16px;
+  }
+}
+
+/* 태블릿: 바텀시트, 세로 레이아웃 */
+@media (min-width: 390px) and (max-width: 799px) {
+  dialog.modal {
+    border-radius: 16px;
+    width: 100%;
+    max-width: 100%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: auto;
+    margin: 0;
+    max-height: 90vh;
+    overflow-y: auto;
+    animation: slide-up 0.3s ease;
+  }
+
+  .modal-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 24px;
+    gap: 16px;
+  }
+
+  .modal-image {
+    width: 140px;
+    height: 210px;
+    border-radius: 8px;
+    margin-bottom: 24px;
+  }
+
+  .modal-description {
+    width: 100%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .modal-description h3 {
+    text-align: left;
+  }
+
+  .modal-description .rate,
+  .my-rating {
+    justify-content: center;
+  }
+
+  .my-rating {
+    gap: 16px;
+  }
+
+  .overview-section {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .overview {
+    max-height: 200px;
+    text-align: left;
+  }
+}
+
+/* 모바일: 바텀시트, 포스터 없음 */
+@media (max-width: 389px) {
+  dialog.modal {
+    border-radius: 16px;
+    width: 100%;
+    max-width: 100%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: auto;
+    margin: 0;
+    max-height: 90vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    animation: slide-up 0.3s ease;
+  }
+
+  .modal-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 77px 24px;
+    box-sizing: border-box;
+    width: 100%;
+  }
+
+  .modal-image {
+    display: none;
+  }
+
+  .modal-description {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    text-align: center;
+  }
+
+  .modal-description .category {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .modal-description .rate,
+  .my-rating {
+    justify-content: center;
+  }
+
+  .my-rating {
+    gap: 24px;
+    width: 100%;
+  }
+
+  .my-rating-row {
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .overview {
+    max-height: 200px;
+    text-align: center;
+  }
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
 }

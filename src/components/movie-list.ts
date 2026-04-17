@@ -2,15 +2,15 @@ import { createMovieCard } from "./movie-card";
 import { createSkeletonList } from "./skeleton-card";
 import { createEmpty } from "./empty";
 import { createError } from "./error";
-import { MovieList } from "../domains/movie";
-import { MovieItem } from "../domains/movie/MovieList";
+import { MovieListService } from "../services/movie/MovieListService";
+import { MovieItem } from "../services/movie/MovieListService";
 
 class MovieListComponent {
   private section: HTMLElement;
   private grid: HTMLElement;
   private pendingUl: HTMLUListElement | null = null;
 
-  constructor(title: string, movieList: MovieList) {
+  constructor(title: string, movieList: MovieListService) {
     this.section = document.createElement("section");
 
     const h2 = document.createElement("h2");
@@ -23,8 +23,8 @@ class MovieListComponent {
     this.bindMovieList(movieList);
   }
 
-  private bindMovieList(movieList: MovieList): void {
-    movieList.subscribe(({ movies, isPending, page, error }) =>
+  private bindMovieList(movieList: MovieListService): void {
+    movieList.subscribe(({ data: { movies, page }, isPending, error }) =>
       this.update(movies, isPending, page, error),
     );
   }
@@ -45,9 +45,9 @@ class MovieListComponent {
     const isFirstPageEmpty = page === 1 && movies.length === 0;
     const hasMovies = movies.length > 0;
 
-      if (error) return this.showError();
-      if (isFirstPageEmpty) return this.showEmpty();
-      if (hasMovies) this.grid.appendChild(this.createMovieUl(movies));
+    if (error) return this.showError();
+    if (isFirstPageEmpty) return this.showEmpty();
+    if (hasMovies) this.grid.appendChild(this.createMovieUl(movies));
   }
 
   private createMovieUl(movies: MovieItem[]): HTMLUListElement {
@@ -62,12 +62,10 @@ class MovieListComponent {
   }
 
   private showEmpty(): void {
-    this.grid.className = "movie-list-empty";
     this.grid.appendChild(createEmpty());
   }
 
   private showError(): void {
-    this.grid.className = "movie-list-empty";
     this.grid.appendChild(createError());
   }
 
@@ -92,7 +90,7 @@ export function createMovieList({
   movieList,
 }: {
   title: string;
-  movieList: MovieList;
+  movieList: MovieListService;
 }): HTMLElement {
   return new MovieListComponent(title, movieList).getElement();
 }

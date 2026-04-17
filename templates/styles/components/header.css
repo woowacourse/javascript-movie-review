@@ -12,3 +12,18 @@ header {
 .header-blank {
   flex-grow: 1;
 }
+
+@media (max-width: 799px) {
+  header {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    padding: 16px;
+    gap: 24px;
+  }
+
+  .header-blank {
+    display: none;
+  }
+}

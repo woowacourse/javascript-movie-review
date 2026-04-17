@@ -1,45 +1,54 @@
 import { createHeader } from "../components/header";
 import { createHero } from "../components/hero";
 import { createMovieList } from "../components/movie-list";
-import { createMoreButton } from "../components/more-button";
+import { createInfiniteScroll } from "../components/infinite-scroll";
 import { createFooter } from "../components/footer";
-import { createModal } from "../components/modal";
-import { MovieList } from "../domains/movie";
+import { Modal } from "../components/modal";
+import { MovieListService } from "../services/movie/MovieListService";
 import { Router } from "../route/router";
 
 export class MainPage {
-  private movieList = new MovieList();
-  // private modal = createModal();
+  private movieList = new MovieListService();
+  private modal = new Modal();
 
   constructor(
     private app: HTMLElement,
     private router: Router,
-  ) {}
+  ) {
+    this.app.addEventListener("click", this.handleClick);
+  }
+
+  destroy(): void {
+    this.app.removeEventListener("click", this.handleClick);
+  }
 
   render(): void {
     this.app.innerHTML = "";
 
     const header = createHeader(this.router);
-    const hero = createHero({
-      movieList: this.movieList,
-      onDetailClick: () => this.openModal(),
-    });
+    const hero = createHero({ movieList: this.movieList });
     const main = this.createMain();
     const footer = createFooter();
-    this.app.append(header, hero, main, footer);
+    this.app.append(header, hero, main, footer, this.modal.element);
 
     this.movieList.load();
   }
 
-  private createMoreButton(): HTMLButtonElement {
-    const moreButton = createMoreButton(() => this.movieList.loadMore());
+  private handleClick = (e: MouseEvent): void => {
+    const card = (e.target as HTMLElement).closest<HTMLElement>("[data-id]");
+    if (card?.dataset.id) this.modal.open(Number(card.dataset.id));
+  };
 
-    this.movieList.subscribe(({ isPending, error }) => {
-      moreButton.hidden = this.movieList.isLastPage() || error;
-      moreButton.disabled = isPending;
+  private createInfiniteScroll(): HTMLElement {
+    const { element, disconnect } = createInfiniteScroll(() =>
+      this.movieList.loadMore(),
+    );
+
+    this.movieList.subscribe(({ error }) => {
+      if (this.movieList.isLastPage() || error) disconnect();
     });
 
-    return moreButton;
+    return element;
   }
 
   private createMain(): HTMLElement {
@@ -48,17 +57,8 @@ export class MainPage {
       title: "지금 인기 있는 영화",
       movieList: this.movieList,
     });
-    main.append(movieListEl, this.createMoreButton());
+    const infiniteScroll = this.createInfiniteScroll();
+    main.append(movieListEl, infiniteScroll);
     return main;
-  }
-
-  openModal(): void {
-    // this.modal.open();
-    console.log("open modal");
-  }
-
-  closeModal(): void {
-    // this.modal.close();
-    console.log("close modal");
   }
 }

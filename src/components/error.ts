@@ -2,7 +2,7 @@ import planetSrc from "../../templates/images/으아아행성이.png";
 
 export function createError(): HTMLElement {
   const div = document.createElement("div");
-  div.className = "empty";
+  div.className = "movie-list-message-content";
 
   const img = document.createElement("img");
   img.src = planetSrc;

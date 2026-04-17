@@ -1,5 +1,11 @@
 .search-form-wrapper {
-  width: 525px;
+  width: min(100%, 525px);
+}
+
+@media (max-width: 389px) {
+  .search-form-wrapper {
+    width: min(100%, 300px);
+  }
 }
 
 .search-form {

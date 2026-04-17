@@ -1,28 +1,51 @@
 import { ENDPOINTS, DEFAULT_PARAMS } from "./constants";
-import { TMDBMovieListResponse } from "./types";
+import {
+  TMDBMovieListResponse,
+  TMDBMovieDetail,
+  MovieDetail,
+  MovieDetailParams,
+  PopularMoviesParams,
+  SearchMoviesParams,
+} from "./types";
 import { getData } from "../utils/fetch";
+import { toURLSearchParams } from "../utils/searchParams";
+import { toMovieDetail } from "../utils/transform";
 
 export const fetchPopularMovies = (
   page: number = 1,
 ): Promise<TMDBMovieListResponse> => {
-  const params = new URLSearchParams({
+  const params: PopularMoviesParams = {
     language: DEFAULT_PARAMS.language,
-    page: String(page),
-  });
+    page,
+  };
 
-  return getData<TMDBMovieListResponse>(`${ENDPOINTS.POPULAR}?${params}`);
+  return getData<TMDBMovieListResponse>(
+    `${ENDPOINTS.POPULAR}?${toURLSearchParams(params)}`,
+  );
 };
 
 export const fetchSearchMovies = (
   query: string,
   page: number = 1,
 ): Promise<TMDBMovieListResponse> => {
-  const params = new URLSearchParams({
+  const params: SearchMoviesParams = {
     query,
-    include_adult: String(DEFAULT_PARAMS.include_adult),
+    include_adult: DEFAULT_PARAMS.include_adult,
     language: DEFAULT_PARAMS.language,
-    page: String(page),
-  });
+    page,
+  };
 
-  return getData<TMDBMovieListResponse>(`${ENDPOINTS.SEARCH}?${params}`);
+  return getData<TMDBMovieListResponse>(
+    `${ENDPOINTS.SEARCH}?${toURLSearchParams(params)}`,
+  );
+};
+
+export const fetchMovieDetail = async (id: number): Promise<MovieDetail> => {
+  const params: MovieDetailParams = {
+    language: DEFAULT_PARAMS.language,
+  };
+  const data = await getData<TMDBMovieDetail>(
+    `${ENDPOINTS.MOVIE_DETAIL(id)}?${toURLSearchParams(params)}`,
+  );
+  return toMovieDetail(data);
 };

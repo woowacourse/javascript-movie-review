@@ -1,6 +1,11 @@
 import { ROUTES } from "./constants";
 
-type PageLoader = () => void;
+interface Page {
+  render(): void;
+  destroy(): void;
+}
+
+type PageLoader = () => Page;
 
 interface Routes {
   main: PageLoader;
@@ -9,6 +14,7 @@ interface Routes {
 
 export class Router {
   private routes: Routes;
+  private currentPage: Page | null = null;
 
   constructor(routes: Routes) {
     this.routes = routes;
@@ -19,10 +25,10 @@ export class Router {
 
     switch (pathname) {
       case ROUTES.SEARCH:
-        this.routes.search();
+        this.loadPage(this.routes.search);
         break;
       case ROUTES.MAIN:
-        this.routes.main();
+        this.loadPage(this.routes.main);
         break;
       default:
         this.navigate(ROUTES.MAIN);
@@ -32,5 +38,11 @@ export class Router {
   navigate(path: string): void {
     history.pushState(null, "", path);
     this.init();
+  }
+
+  private loadPage(loader: PageLoader): void {
+    this.currentPage?.destroy();
+    this.currentPage = loader();
+    this.currentPage.render();
   }
 }
