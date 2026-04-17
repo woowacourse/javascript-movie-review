@@ -1,51 +1,24 @@
-import { MovieResponse } from "../../../types/types";
-import { readMoreMovies, readPopularMovies, readSearchMovies } from "./dataHandlers";
+import { MovieDetail, MovieResponse } from "../../../types/types";
+import { getMoreMovies, getMovieDetail, getPopularMovies, getSearchMovies } from "./dataHandlers";
 import { eventBus } from "../../pubsub/EventBus";
 import { APP_EVENTS } from "../../pubsub/AppEvents";
 import { state } from "../../state";
 
-export async function handleInitial(): Promise<void> {
+export async function loadInitial(): Promise<void> {
   await loadPopular(state.page);
 }
 
-export async function handleLogo(): Promise<void> {
+export async function resetToPopular(): Promise<void> {
   state.page = 1;
   state.searchQuery = "";
   await loadPopular(state.page);
 }
 
-export async function loadPopular(page: number): Promise<void> {
-  eventBus.publish(APP_EVENTS.TITLE_CHANGED, "지금 인기 있는 영화");
+async function loadPopular(page: number): Promise<void> {
   eventBus.publish(APP_EVENTS.LOAD_START, undefined);
   try {
-    const data: MovieResponse = await readPopularMovies(page);
+    const data: MovieResponse = await getPopularMovies(page);
     eventBus.publish(APP_EVENTS.MOVIES_LOADED, data);
-  } catch (error) {
-    eventBus.publish(APP_EVENTS.ERROR, (error as Error).message);
-  }
-}
-
-export async function loadSearch(
-  page: number,
-  searchMovie: string,
-): Promise<void> {
-  eventBus.publish(APP_EVENTS.TITLE_CHANGED, `"${searchMovie}" 검색 결과`);
-  eventBus.publish(APP_EVENTS.LOAD_START, undefined);
-  try {
-    const data: MovieResponse = await readSearchMovies(page, searchMovie);
-    eventBus.publish(APP_EVENTS.SEARCH_LOADED, data);
-  } catch (error) {
-    eventBus.publish(APP_EVENTS.ERROR, (error as Error).message);
-  }
-}
-
-export async function loadMore(
-  page: number,
-  searchMovie: string,
-): Promise<void> {
-  try {
-    const data: MovieResponse = await readMoreMovies(page, searchMovie);
-    eventBus.publish(APP_EVENTS.MORE_LOADED, data);
   } catch (error) {
     eventBus.publish(APP_EVENTS.ERROR, (error as Error).message);
   }
@@ -61,7 +34,38 @@ export async function handleSearch(query: string): Promise<void> {
   await loadSearch(state.page, query);
 }
 
+async function loadSearch(page: number, query: string): Promise<void> {
+  eventBus.publish(APP_EVENTS.LOAD_START, undefined);
+  try {
+    const data: MovieResponse = await getSearchMovies(page, query);
+    eventBus.publish(APP_EVENTS.SEARCH_LOADED, data);
+  } catch (error) {
+    eventBus.publish(APP_EVENTS.ERROR, (error as Error).message);
+  }
+}
+
 export async function handleMore(): Promise<void> {
   state.page += 1;
   await loadMore(state.page, state.searchQuery);
+}
+
+async function loadMore(page: number, query: string): Promise<void> {
+  try {
+    const data: MovieResponse = await getMoreMovies(page, query);
+    eventBus.publish(APP_EVENTS.MORE_LOADED, data);
+    if (page >= data.total_pages) {
+      eventBus.publish(APP_EVENTS.LAST_PAGE_REACHED, undefined);
+    }
+  } catch (error) {
+    eventBus.publish(APP_EVENTS.ERROR, (error as Error).message);
+  }
+}
+
+export async function loadMovieDetail(movieId: number): Promise<void> {
+  try {
+    const data: MovieDetail = await getMovieDetail(movieId);
+    eventBus.publish(APP_EVENTS.MOVIE_DETAIL_LOADED, data);
+  } catch (error) {
+    eventBus.publish(APP_EVENTS.ERROR, (error as Error).message);
+  }
 }

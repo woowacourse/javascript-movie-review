@@ -2,6 +2,8 @@ import MovieCard from "./MovieCard.ts";
 import MovieSkeleton from "./MovieSkeleton.ts";
 import { Movie, MovieResponse } from "../../../types/types";
 import noSearchImg from "../../images/Nosearch.png";
+import { eventBus } from "../../pubsub/EventBus";
+import { APP_EVENTS } from "../../pubsub/AppEvents";
 
 export default class MovieList {
   movieList: Element | null;
@@ -10,6 +12,15 @@ export default class MovieList {
   constructor() {
     this.movieList = document.querySelector(".thumbnail-list");
     this.movieContainer = document.querySelector(".main-result");
+    this.attachClickListener();
+  }
+
+  private attachClickListener() {
+    this.movieList?.addEventListener("click", (e) => {
+      const card = (e.target as HTMLElement).closest("[data-id]") as HTMLElement | null;
+      if (!card) return;
+      eventBus.publish(APP_EVENTS.MOVIE_SELECTED, Number(card.dataset.id));
+    });
   }
 
   showEmpty() {
