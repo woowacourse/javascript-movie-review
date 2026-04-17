@@ -75,11 +75,17 @@ export function createSkeletonItemTemplate(): HTMLElement {
   const itemDesc = document.createElement("div");
   itemDesc.className = "item-desc";
 
-  const rate = document.createElement("div");
-  rate.className = "skeleton skeleton-rate";
+  const rate = document.createElement("p");
+  rate.className = "rate";
+  const rateBar = document.createElement("span");
+  rateBar.className = "skeleton skeleton-rate";
+  rate.appendChild(rateBar);
 
-  const title = document.createElement("div");
-  title.className = "skeleton skeleton-title";
+  const title = document.createElement("p");
+  title.className = "movie-title";
+  const titleBar = document.createElement("span");
+  titleBar.className = "skeleton skeleton-title";
+  title.appendChild(titleBar);
 
   itemDesc.appendChild(rate);
   itemDesc.appendChild(title);
@@ -90,7 +96,13 @@ export function createSkeletonItemTemplate(): HTMLElement {
   return li;
 }
 
-export function renderSkeletonItems(length: number) {
+function getResponsiveSkeletonCount(): number {
+  if (window.matchMedia("(max-width: 767px)").matches) return 8;
+  if (window.matchMedia("(max-width: 1023px)").matches) return 12;
+  return 20;
+}
+
+export function renderSkeletonItems(length: number = getResponsiveSkeletonCount()) {
   const list = document.querySelector(".thumbnail-list");
   if (!list) return;
   Array.from({ length }).forEach(() => list.appendChild(createSkeletonItemTemplate()));
@@ -219,7 +231,7 @@ export async function renderMoviePage({
   try {
     setPage(page);
     beforeFetch?.();
-    renderSkeletonItems(20);
+    renderSkeletonItems();
 
     const responseList = await fetchFn(prevResponseList.length, page);
     prevResponseList.push(...responseList);
@@ -366,7 +378,7 @@ export function openMovieModal(movieDetail: MovieDetail) {
   document.body.classList.add("modal-open");
 }
 
-async function handleMovieClick(movieId: number) {
+const handleMovieClick = throttle(async (movieId: number) => {
   showModalLoading();
   try {
     const movieDetail = await fetchMovieDetail(movieId);
@@ -377,7 +389,7 @@ async function handleMovieClick(movieId: number) {
       showErrorToast({ title: error.name, message: error.message });
     }
   }
-}
+});
 
 export function initModal() {
   document.querySelector("#closeModal")?.addEventListener("click", closeMovieModal);
