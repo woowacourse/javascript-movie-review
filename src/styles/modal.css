@@ -16,7 +16,7 @@ body.modal-open {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 10;
+  z-index: 1000;
   visibility: hidden; /* 모달이 기본적으로 보이지 않도록 설정 */
   opacity: 0;
   transition:
@@ -29,6 +29,11 @@ body.modal-open {
   opacity: 1;
 }
 
+hr {
+  border: 1px solid #67788e;
+  width: 100%;
+}
+
 .modal {
   background-color: var(--color-bluegray-90);
   padding: 20px;
@@ -36,7 +41,161 @@ body.modal-open {
   color: white;
   z-index: 2;
   position: relative;
-  width: 1000px;
+  width: min(1000px, calc(100vw - 32px));
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-container {
+  width: 100%;
+  opacity: 1;
+  padding-top: 40px;
+  padding-right: 24px;
+  padding-bottom: 40px;
+  padding-left: 24px;
+  gap: 24px;
+  border-radius: 16px;
+}
+
+.modal-title {
+  font-family: DM Sans;
+  font-weight: 700;
+  font-style: Bold;
+  font-size: 32px;
+  line-height: 100%;
+  letter-spacing: 0%;
+}
+
+.modal-release-date-and-genres {
+  font-family: DM Sans;
+  font-weight: 400;
+  font-style: Regular;
+  font-size: 20px;
+  line-height: 100%;
+  letter-spacing: 0%;
+}
+
+.modal-rating-text {
+  font-size: 20px;
+  margin: 0;
+  margin-right: 16px;
+  font-family: DM Sans;
+  font-weight: 400;
+  font-style: Regular;
+  font-size: 20px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  padding-top: 2px;
+}
+
+.star-rating {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.stars-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.rating-text {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.modal-star {
+  width: 32px;
+  height: 32px;
+}
+
+.rating-label {
+  font-family: Montserrat;
+  font-weight: 600;
+  font-style: SemiBold;
+  font-size: 24px;
+  line-height: 100%;
+  letter-spacing: 0.18px;
+  margin-left: 10px;
+  margin-top: 5px;
+}
+
+.rating-score {
+  font-family: Montserrat;
+  font-weight: 600;
+  font-style: SemiBold;
+  font-size: 24px;
+  line-height: 100%;
+  letter-spacing: 0.18px;
+  color: #95a1b2;
+  margin-top: 5px;
+}
+
+.modal-user-rating-text {
+  font-family: Montserrat;
+  font-weight: 600;
+  font-style: SemiBold;
+  font-size: 24px;
+  line-height: 100%;
+  letter-spacing: 0.18px;
+  margin-bottom: 24px;
+}
+
+.modal-overview-title {
+  font-family: Montserrat;
+  font-weight: 600;
+  font-style: SemiBold;
+  font-size: 24px;
+  line-height: 100%;
+  letter-spacing: 0.18px;
+}
+
+.modal-overview {
+  font-family: Montserrat;
+  font-weight: 300;
+  font-style: Light;
+  font-style: Bold;
+  font-size: 24px;
+  line-height: 147%;
+  letter-spacing: 0.18px;
+  max-height: 218px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.modal-overview::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modal-overview::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.modal-overview::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+}
+
+.modal-rating {
+  margin: 0;
+  margin-left: 2px;
+  color: #ffc700;
+  font-family: Montserrat;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: 0.18px;
+  padding-top: 1.5px;
+  font-style: SemiBold;
+  line-height: 100%;
+}
+
+.average-star {
+  width: 24px;
+  height: 24px;
+  margin-right: 2.5px;
 }
 
 .close-modal {
@@ -50,6 +209,8 @@ body.modal-open {
   color: white;
   font-size: 20px;
   cursor: pointer;
+  width: 25px;
+  height: 25px;
 }
 
 .modal-container {
@@ -61,11 +222,28 @@ body.modal-open {
   border-radius: 16px;
 }
 
+.modal-image {
+  width: 400px;
+  height: 600px;
+  flex-shrink: 0;
+  opacity: 1;
+  border-radius: 16px;
+}
+
+.average {
+  display: flex;
+  align-items: center;
+  line-height: 1;
+}
+
 .modal-description {
+  display: flex;
+  flex-direction: column;
   width: 100%;
   padding: 8px;
   margin-left: 16px;
   line-height: 1.6rem;
+  gap: 16px;
 }
 
 .modal-description .rate > img {
@@ -85,4 +263,219 @@ body.modal-open {
 .detail {
   max-height: 430px;
   overflow-y: auto;
+}
+
+/* 태블릿 */
+@media screen and (min-width: 390px) and (max-width: 1024px) {
+  .modal-background {
+    align-items: flex-end;
+  }
+
+  .modal {
+    width: 100vw;
+    max-height: 140vh;
+    border-radius: 16px 16px 0 0;
+    padding: 16px 24px;
+    overflow-y: hidden;
+  }
+
+  .modal-container {
+    flex-direction: column;
+    align-items: center;
+    padding: 12px 0;
+    gap: 20px;
+  }
+
+  /* 포스터: 중앙 정렬, 작게 */
+  .modal-image {
+    width: 150px;
+    height: auto;
+    flex-shrink: 0;
+  }
+
+  .modal-image img {
+    width: 110px;
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover;
+  }
+
+  /* 설명 영역 전체 */
+  .modal-description {
+    width: 100%;
+    margin-left: 0;
+    padding: 0;
+    gap: 6px;
+    align-items: center;
+  }
+
+  /* 제목/장르/평균 별점: 중앙 */
+  .modal-title {
+    font-size: 28px;
+    text-align: center;
+  }
+
+  .modal-release-date-and-genres {
+    font-size: 16px;
+    text-align: center;
+  }
+
+  .average {
+    justify-content: center;
+  }
+
+  .modal-rating {
+    font-size: 16px;
+  }
+
+  .average-star {
+    width: 14px;
+    height: 14px;
+  }
+
+  /* 내 별점 + 줄거리: 왼쪽 정렬 */
+  .modal-user-rating {
+    width: 100%;
+    text-align: left;
+  }
+
+  .modal-user-rating-text {
+    font-size: 20px;
+    margin-bottom: 10px;
+    margin-left: 2px;
+  }
+
+  .modal-rating-text {
+    font-size: 16px;
+  }
+
+  .rating-label,
+  .rating-score {
+    font-size: 20px;
+    margin-bottom: 2px;
+  }
+
+  .modal-star {
+    width: 20px;
+    height: 20px;
+  }
+
+  .modal-overview-title {
+    width: 100%;
+    font-size: 20px;
+    text-align: left;
+  }
+
+  .modal-overview {
+    width: 100%;
+    font-size: 20px;
+    max-height: 80px;
+    overflow-y: auto;
+    text-align: left;
+  }
+}
+
+/* 모바일 */
+@media screen and (max-width: 390px) {
+  .modal-background {
+    align-items: flex-end;
+  }
+
+  .modal {
+    width: 100vw;
+    border-radius: 16px 16px 0 0;
+    padding: 24px;
+    overflow-y: hidden;
+  }
+
+  .modal-container {
+    flex-direction: column;
+    align-items: center;
+    padding: 12px 0;
+    gap: 12px;
+  }
+
+  /* 이미지 숨김 */
+  .modal-image {
+    display: none;
+  }
+
+  .modal-description {
+    width: 100%;
+    margin-left: 0;
+    padding: 0;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .modal-title {
+    font-size: 20px;
+    text-align: center;
+    padding: 0 36px;
+  }
+
+  .modal-release-date-and-genres {
+    font-size: 16px;
+    text-align: center;
+  }
+
+  .average {
+    justify-content: center;
+  }
+
+  /* 내 별점: 중앙 정렬 */
+  .modal-user-rating {
+    width: 100%;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+  }
+
+  .modal-user-rating-text {
+    font-size: 18px;
+    margin-bottom: 8px;
+  }
+
+  .star-rating {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .modal-star {
+    width: 28px;
+    height: 28px;
+  }
+
+  .rating-label,
+  .rating-score {
+    font-size: 18px;
+  }
+
+  .modal-rating {
+    font-size: 20px;
+  }
+
+  .modal-rating-text {
+    font-size: 16px;
+  }
+
+  .average-star {
+    width: 16px;
+    height: 16px;
+  }
+
+  /* 줄거리 제목: 중앙, 본문: 왼쪽 */
+  .modal-overview-title {
+    width: 100%;
+    font-size: 18px;
+    text-align: center;
+  }
+
+  .modal-overview {
+    width: 100%;
+    font-size: 18px;
+    max-height: none;
+    text-align: left;
+  }
 }

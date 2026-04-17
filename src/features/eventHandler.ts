@@ -1,39 +1,91 @@
-import { movieState } from "./movieState";
-import { initialRender, renderMoreMovies, renderSearchResults } from "./movieController";
+import {
+  initialRender,
+  searchMovies,
+  loadMore,
+  renderMovieDetailModal,
+  closeMovieDetailModal,
+  rateMovie,
+} from "./movieController";
 import { Header } from "./View/Header";
 
 export function initEvents() {
+  loadHeader();
+  loadSearch();
+  loadInfiniteScroll();
+  loadMovieDetailInfo();
+}
+
+function loadHeader() {
   const header = document.querySelector(".header") as HTMLElement;
 
   header.addEventListener("click", async (e) => {
     const target = e.target as HTMLElement;
     if (target.closest(".logo")) {
-      movieState.reset();
-      await initialRender(movieState.page);
+      await initialRender();
     }
   });
+}
 
-  // 검색
-  const submitContainer = document.querySelector(".background-container") as HTMLFormElement;
+function loadSearch() {
+  const submitContainer = document.querySelector(
+    ".background-container",
+  ) as HTMLFormElement;
   submitContainer.addEventListener("submit", async (e: SubmitEvent) => {
     e.preventDefault();
-    movieState.page = 1;
-    movieState.searchQuery = Header.getSearchInputValue();
-
-    if (movieState.searchQuery === "") {
-      await initialRender(movieState.page);
-      return;
-    }
-
-    await renderSearchResults(movieState.page, movieState.searchQuery);
+    const query = Header.getSearchInputValue();
+    await searchMovies(query);
   });
+}
 
-  // 더보기 버튼
-  const moreButton = document.querySelector(".btn-more") as HTMLButtonElement;
-  if (moreButton) {
-    moreButton.addEventListener("click", async () => {
-      movieState.page += 1;
-      await renderMoreMovies(movieState.page, movieState.searchQuery);
+function loadInfiniteScroll() {
+  const sentinel = document.querySelector(".scroll-sentinel") as HTMLElement;
+  if (!sentinel) return;
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      if (entries[0].isIntersecting) {
+        loadMore();
+      }
+    },
+    { rootMargin: "200px" },
+  );
+
+  observer.observe(sentinel);
+}
+
+function loadMovieDetailInfo() {
+  const movieList = document.querySelector(".thumbnail-list") as HTMLElement;
+  if (movieList) {
+    movieList.addEventListener("click", async (e) => {
+      const target = e.target as HTMLElement;
+      const card = target.closest(".movie-card") as HTMLElement;
+      if (card) {
+        const id = card.dataset.id;
+        if (id) await renderMovieDetailModal(Number(id));
+      }
     });
   }
+
+  document.body.addEventListener("click", (e) => {
+    const target = e.target as HTMLElement;
+    if (
+      target.closest(".close-modal") ||
+      target.classList.contains("modal-background")
+    ) {
+      closeMovieDetailModal();
+    }
+  });
+
+  document.body.addEventListener("click", (e) => {
+    const star = (e.target as HTMLElement).closest(".modal-star") as HTMLElement;
+    if (star) {
+      rateMovie(Number(star.dataset.index));
+    }
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      closeMovieDetailModal();
+    }
+  });
 }

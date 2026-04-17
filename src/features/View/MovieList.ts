@@ -17,12 +17,6 @@ export default class MovieList {
     if (mainTitle) mainTitle.textContent = title;
   }
 
-  updateMoreButton(totalPages: number, currentPage: number): void {
-    const moreButton = document.querySelector(".btn-more") as HTMLButtonElement;
-    if (!moreButton) return;
-    moreButton.style.display = totalPages === currentPage ? "none" : "block";
-  }
-
   showEmpty() {
     this.movieContainer!.innerHTML = `
       <div class="result-none">
@@ -42,6 +36,20 @@ export default class MovieList {
     for (let i = 0; i < 20; i++) {
       this.movieList?.append(new MovieSkeleton().render());
     }
+  }
+
+  appendSkeletons(count: number = 20) {
+    for (let i = 0; i < count; i++) {
+      const skeleton = new MovieSkeleton().render();
+      skeleton.classList.add("skeleton-item");
+      this.movieList?.append(skeleton);
+    }
+  }
+
+  removeSkeletons() {
+    this.movieList
+      ?.querySelectorAll(".skeleton-item")
+      .forEach((el) => el.remove());
   }
 
   renderMovieList(movies: { results: Movie[] }) {
