@@ -245,9 +245,9 @@ export async function renderMoviePage({
 
     setupInfiniteScroll(prevResponseList, page, showMoreCallback);
   } catch (error) {
-    if (error instanceof Error) {
-      showErrorToast({ title: error.name, message: error.message });
-    }
+    const title = error instanceof Error ? error.name : "Error";
+    const message = error instanceof Error ? error.message : String(error);
+    showErrorToast({ title, message });
   } finally {
     removeSkeletonItem();
     extraFinally?.();
@@ -255,7 +255,9 @@ export async function renderMoviePage({
 }
 
 function closeMovieModal() {
-  document.querySelector("#modalBackground")?.classList.remove("active");
+  const modalBg = document.querySelector("#modalBackground");
+  modalBg?.classList.remove("active");
+  modalBg?.setAttribute("aria-hidden", "true");
   document.body.classList.remove("modal-open");
 }
 
@@ -265,7 +267,9 @@ function showModalLoading() {
     modalContainer.classList.add("is-loading");
     modalContainer.innerHTML = '<div class="modal-spinner"></div>';
   }
-  document.querySelector("#modalBackground")?.classList.add("active");
+  const modalBg = document.querySelector("#modalBackground");
+  modalBg?.classList.add("active");
+  modalBg?.setAttribute("aria-hidden", "false");
   document.body.classList.add("modal-open");
 }
 
@@ -332,7 +336,7 @@ export function openMovieModal(movieDetail: MovieDetail) {
       <img alt="" />
     </div>
     <div class="modal-description">
-      <h2></h2>
+      <h2 id="modalTitle"></h2>
       <p class="category"></p>
       <div class="rate-row">
         <span class="rate-label">평균</span>
@@ -374,7 +378,9 @@ export function openMovieModal(movieDetail: MovieDetail) {
 
   initStarRating(modalContainer, movieDetail.id);
 
-  document.querySelector("#modalBackground")?.classList.add("active");
+  const modalBg = document.querySelector("#modalBackground");
+  modalBg?.classList.add("active");
+  modalBg?.setAttribute("aria-hidden", "false");
   document.body.classList.add("modal-open");
 }
 
@@ -385,9 +391,9 @@ const handleMovieClick = throttle(async (movieId: number) => {
     openMovieModal(movieDetail);
   } catch (error) {
     closeMovieModal();
-    if (error instanceof Error) {
-      showErrorToast({ title: error.name, message: error.message });
-    }
+    const title = error instanceof Error ? error.name : "Error";
+    const message = error instanceof Error ? error.message : String(error);
+    showErrorToast({ title, message });
   }
 });
 
