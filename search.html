@@ -48,10 +48,14 @@
   </div>
   <script type="module" src="/src/search.ts"></script>
 
-  <div class="modal-background" id="modalBackground">
+  <div class="modal-background" id="modalBackground"
+       role="dialog"
+       aria-modal="true"
+       aria-labelledby="modalTitle"
+       aria-hidden="true">
     <div class="modal">
-      <button class="close-modal" id="closeModal">
-        <img src="./images/modal_button_close.png" alt="닫기" />
+      <button class="close-modal" id="closeModal" aria-label="닫기">
+        <img src="./images/modal_button_close.png" alt="" />
       </button>
       <div class="modal-container"></div>
     </div>
