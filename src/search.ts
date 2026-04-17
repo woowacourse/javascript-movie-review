@@ -1,9 +1,10 @@
 import { MovieListResponse } from "./type";
 import { fetchSearchMoviesByPageRange } from "./api";
 import { getPage, getQuery, setQuery } from "./url";
-import { renderListTitle, renderMoviePage, renderTopRatedMovie, updateEmptyListAlert } from "./render";
+import { initModal, renderListTitle, renderMoviePage, renderTopRatedMovie, updateEmptyListAlert } from "./render";
 
 addEventListener("load", async () => {
+  initModal();
   let prevResponseList: MovieListResponse[] = [];
 
   async function renderSearchMoviePage(page: number, query: string) {

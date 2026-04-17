@@ -1,6 +1,17 @@
 
 export type TMDBAPIEndpoint = "/movie/popular" | "/search/movie"
 
+export interface Genre {
+  id: number;
+  name: string;
+}
+
+export interface MovieDetail extends Omit<Movie, "genre_ids"> {
+  genres: Genre[];
+  runtime: number;
+  tagline: string;
+}
+
 export interface Movie {
   id: number;
   title: string;

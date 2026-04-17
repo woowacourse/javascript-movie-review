@@ -30,3 +30,32 @@
 .tab li:not(:last-child) {
   margin-right: 8px;
 }
+
+/* Tablet: 768px ~ 1023px */
+@media (max-width: 1023px) {
+  .tab {
+    margin: 24px 0;
+  }
+
+  .tab-item {
+    width: 104px;
+    height: 36px;
+    font-size: 14px;
+  }
+}
+
+/* Mobile: ~ 767px */
+@media (max-width: 767px) {
+  .tab {
+    margin: 16px 0;
+    flex-wrap: wrap;
+  }
+
+  .tab-item {
+    width: auto;
+    min-width: 88px;
+    padding: 0 12px;
+    height: 32px;
+    font-size: 13px;
+  }
+}

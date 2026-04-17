@@ -12,6 +12,7 @@
 
 .skeleton-top-rated-movie-title {
   width: 480px;
+  max-width: 100%;
   height: 48px;
 }
 
@@ -24,14 +25,20 @@
   display: block;
 }
 
+.skeleton-rate,
+.skeleton-title {
+  display: inline-block;
+  vertical-align: middle;
+}
+
 .skeleton-rate {
   width: 60px;
-  height: 14px;
+  height: 1.2rem;
 }
 
 .skeleton-title {
   width: 120px;
-  height: 16px;
+  height: 1em;
 }
 
 @keyframes shimmer {
@@ -41,5 +48,41 @@
 
   100% {
     background-position: -200% 0;
+  }
+}
+
+/* Tablet: 768px ~ 1023px */
+@media (max-width: 1023px) {
+  .skeleton-top-rated-movie-title {
+    width: 380px;
+    height: 38px;
+  }
+
+  .skeleton-top-rated-movie-rate {
+    width: 28px;
+    height: 22px;
+  }
+
+  .skeleton-list-title {
+    width: 200px;
+    height: 28px;
+  }
+}
+
+/* Mobile: ~ 767px */
+@media (max-width: 767px) {
+  .skeleton-top-rated-movie-title {
+    width: 260px;
+    height: 26px;
+  }
+
+  .skeleton-top-rated-movie-rate {
+    width: 24px;
+    height: 19px;
+  }
+
+  .skeleton-list-title {
+    width: 140px;
+    height: 20px;
   }
 }

@@ -1,9 +1,10 @@
 import { MovieListResponse } from "./type";
 import { fetchPopularMoviesByPageRange } from "./api";
 import { getPage } from "./url";
-import { removeTopRatedMovieSkeleton, renderMoviePage, renderTopRatedMovie } from "./render";
+import { initModal, removeTopRatedMovieSkeleton, renderMoviePage, renderTopRatedMovie } from "./render";
 
 addEventListener("load", async () => {
+  initModal();
   let prevResponseList: MovieListResponse[] = [];
 
   async function renderPopularMoviePage(page: number) {
