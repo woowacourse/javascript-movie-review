@@ -72,3 +72,23 @@
     transform: translateY(16px);
   }
 }
+
+/* Mobile: ~ 767px */
+@media (max-width: 767px) {
+  #toast-container {
+    bottom: 16px;
+    left: 16px;
+    right: 16px;
+    transform: none;
+  }
+
+  .toast {
+    min-width: 0;
+    width: 100%;
+    padding: 10px 12px;
+  }
+
+  .toast-message {
+    font-size: 13px;
+  }
+}
